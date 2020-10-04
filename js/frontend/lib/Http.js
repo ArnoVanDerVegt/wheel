@@ -6,7 +6,7 @@ exports.Http = class {
     constructor(opts) {
         this._xmlHttpRequest = new XMLHttpRequest();
         this._xmlHttpRequest.addEventListener('load', this.onLoad.bind(this));
-        this._onLoad = opts ? opts.onLoad : function() {};
+        this._onLoad = (opts && (typeof opts.onLoad === 'function')) ? opts.onLoad : function() {};
     }
 
     get(url, params) {

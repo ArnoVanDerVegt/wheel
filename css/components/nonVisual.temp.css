@@ -1,0 +1,49 @@
+.non-visual {
+    display:                        none;
+}
+.non-visual.design {
+    display:                        block;
+    position:                       absolute;
+    width:                          48px;
+    height:                         48px;
+    z-index:                        1000;
+    background-color:               rgba(255, 255, 255, 0.2);
+    background-repeat:              no-repeat;
+    background-size:                48px 48px;
+    background-position:            0 0;
+}
+.non-visual.design:before {
+    position:                       absolute;
+    z-index:                        -1;
+    left:                           0;
+    top:                            0;
+    width:                          calc(100% - 2px);
+    height:                         calc(100% - 2px);
+    background:                     var(--design-background);
+    border:                         var(--design-border);
+    content:                        ' ';
+}
+.non-visual.component-timer {
+    background-image:               url('images/buttons/timerBlack.svg');
+}
+body.ide.dark .non-visual.component-timer {
+    background-image:               url('images/buttons/timerWhite.svg');
+}
+.non-visual.component-clock {
+    background-image:               url('images/buttons/clockBlack.svg');
+}
+body.ide.dark .non-visual.component-clock {
+    background-image:               url('images/buttons/clockWhite.svg');
+}
+.non-visual.component-alert-dialog {
+    background-image:               url('images/buttons/alertDialogBlack.svg');
+}
+body.ide.dark .non-visual.component-alert-dialog {
+    background-image:               url('images/buttons/alertDialogWhite.svg');
+}
+.non-visual.component-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogBlack.svg');
+}
+body.ide.dark .non-visual.component-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogWhite.svg');
+}

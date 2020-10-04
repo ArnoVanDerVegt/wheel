@@ -8,10 +8,10 @@ const LocalMathModule   = require('../../../js/frontend/vm/modules/local/MathMod
 
 describe(
     'Test math',
-    function() {
+    () => {
         describe(
             'Test single operator',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Multiplies a global number with a constant',
@@ -101,7 +101,7 @@ describe(
         );
         describe(
             'Test two operators',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Multiplies a global number with a constant and adds a constant',
@@ -145,7 +145,7 @@ describe(
         );
         describe(
             'Test parenthesis',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Adds two constants and multiplies with a constant',
@@ -182,7 +182,7 @@ describe(
         );
         describe(
             'Test math expression as index',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Multiplies two constant numbers as index',
@@ -243,7 +243,7 @@ describe(
         );
         describe(
             'Test sine list',
-            function() {
+            () => {
                 let logs = [];
                 for (let n = 0; n < 32; n++) {
                     let angle1 = n * Math.PI / 32;

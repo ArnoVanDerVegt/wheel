@@ -1,0 +1,35 @@
+.wizard-steps {
+    float:                          left;
+    width:                          calc(100% - 64px);
+    height:                         48px;
+    background-color:               blue;
+    margin:                         0 32px 0 32px;
+    background-color:               var(--wizard-step-in-active);
+}
+.wizard-steps.count2 .step {
+    width:                          50%;
+}
+.wizard-steps.count3 .step {
+    width:                          33.33333333%;
+}
+.wizard-steps.count4 .step {
+    width:                          25%;
+}
+.wizard-steps.count5 .step {
+    width:                          20%;
+}
+.wizard-steps.count6 .step {
+    width:                          16.666666666666668%;
+}
+.wizard-steps .step {
+    float:                          left;
+    height:                         48px;
+    padding:                        0 0 0 12px;
+    line-height:                    48px;
+    font-size:                      24px;
+    color:                          var(--wizard-step-active);
+}
+.wizard-steps .step.active {
+    background-color:               var(--wizard-step-active);
+    color:                          var(--wizard-step-active-color);
+}

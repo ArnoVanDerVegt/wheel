@@ -1,0 +1,46 @@
+; @module Component/Form
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.form
+
+; @const The form component module.
+#define MODULE_COMPONENT_FORM    64
+
+; @const Module calls for form component functions.
+#define FORM_COMPONENT_SHOW       0
+#define FORM_COMPONENT_HIDE       1
+#define FORM_COMPONENT_SET_TITLE  2
+
+; @property name   string The component name.
+; @property width  number The dialog width.
+; @property height number The dialog height.
+; @property title  string The title.
+
+; @event onShow              Called when the form is shown.
+; @param windowHandle number The handle of the window which is shown.
+
+; @event onHide              Called when the form is hidden.
+; @param windowHandle number The handle of the window which is hidden.
+
+; @proc             Show a form.
+; @param filename   The filename of the form file.
+; @return           The form handle.
+proc show(string filename)
+    addr filename
+    mod  MODULE_COMPONENT_FORM, FORM_COMPONENT_SHOW
+end
+
+; @proc             Hide a form.
+; @param handle     The handle of the form to hide.
+proc hide(number handle)
+    addr handle
+    mod  MODULE_COMPONENT_FORM, FORM_COMPONENT_HIDE
+end
+
+; @proc             Set the title of a form.
+; @param title      The title.
+proc setTitle(string title)
+    addr title
+    mod  MODULE_COMPONENT_FORM, FORM_COMPONENT_SET_TITLE
+end

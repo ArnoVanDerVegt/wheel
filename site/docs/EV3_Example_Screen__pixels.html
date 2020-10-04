@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - EV3_Example:Screen, pixels</title>
+    <meta name="description" content="EV3_Example:Screen, pixels"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Screen, pixels</h2>
+            <a id="Pixelsexample"></a>
+            <h4 class="">Pixels example</h4>
+            <p>
+                This example shows how draw black and white pixels.
+            </p>
+            <a id="Code"></a>
+            <h4 class="">Code</h4>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Screen pixel example"</span>
+
+<span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/device.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+
+<span class="meta">#display</span> <span class="string">"EV3"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="comment">; Select the EV3 device in the simulator...</span>
+    <span class="variable">selectDevice</span><span class="operator">(</span><span class="variable">DEVICE_EV3</span><span class="operator">)</span>
+
+    <span class="comment">; Fill half the screen black...</span>
+    <span class="proc">setFill</span><span class="operator">(</span><span class="define">TRUE</span><span class="operator">)</span>
+    <span class="proc">setFillColor</span><span class="operator">(</span><span class="define">BLACK</span><span class="operator">)</span>
+    <span class="proc">drawRect</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">89</span><span class="operator">,</span> <span class="number">128</span><span class="operator">)</span>
+
+    <span class="type">number</span> <span class="variable">s</span>
+    <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">0</span>
+
+    <span class="proc">setFillColor</span><span class="operator">(</span><span class="define">WHITE</span><span class="operator">)</span>
+
+    <span class="variable">s</span> <span class="operator">=</span> <span class="number">1</span>
+    <span class="keyword">while</span> <span class="variable">y</span> <span class="variable"><</span> <span class="number">128</span>
+        <span class="comment">; Draw a line with white pixels...</span>
+        <span class="proc">setFillColor</span><span class="operator">(</span><span class="define">WHITE</span><span class="operator">)</span>
+        <span class="keyword">for</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">0</span> <span class="keyword">to</span> <span class="number">89</span> <span class="keyword">step</span> <span class="number">2</span>
+            <span class="proc">drawPixel</span><span class="operator">(</span><span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span><span class="operator">)</span>
+        <span class="keyword">end</span>
+        <span class="comment">; Draw a line with black pixels...</span>
+        <span class="proc">setFillColor</span><span class="operator">(</span><span class="define">BLACK</span><span class="operator">)</span>
+        <span class="keyword">for</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">90</span> <span class="keyword">to</span> <span class="number">178</span> <span class="keyword">step</span> <span class="number">2</span>
+            <span class="proc">drawPixel</span><span class="operator">(</span><span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span><span class="operator">)</span>
+        <span class="keyword">end</span>
+        <span class="variable">y</span> <span class="operator">+</span><span class="operator">=</span> <span class="variable">s</span>
+        <span class="variable">s</span> <span class="operator">+</span><span class="operator">=</span> <span class="number">1</span>
+    <span class="keyword">end</span>
+
+    <span class="variable">updateScreen</span><span class="operator">(</span><span class="operator">)</span>
+
+    <span class="comment">; Wait...</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Screenshot"></a>
+            <h4 class="">Screenshot</h4>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACAAQMAAACV9qGNAAAABlBMVEWAgIAAAADnaKu+AAAAQ0lEQVRIx2MIRQCtVXDQgFP8PwI0MCAAqeqpZc6gM3+w2TtU3DPU3Tlc3T/S/DXq39FwGA2f0XAb6uKj4TkazkSIAwDO5LLMEl7JwQAAAABJRU5ErkJggg==" class=""/>
+            <div class="link-box">
+                <a href="https://github.com/ArnoVanDerVegt/wheel/tree/develop/assets/template/examples/ev3/screen/pixel.whlp"            target="_wheelLink" class="start">View on Github »</a>
+            </div>
+            <div class="see-also-block">
+                <span class="see-also-label">See also: </span>
+                <a href="Programming_Modules.html" class="see-also">Modules</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

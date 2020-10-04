@@ -6,7 +6,6 @@ const tokenUtils = require('../../compiler/tokenizer/tokenUtils');
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../lib/dom').DOMNode;
 const path       = require('../../lib/path');
-const utils      = require('../../lib/utils');
 
 class LogMessage extends DOMNode {
     constructor(opts) {
@@ -18,7 +17,9 @@ class LogMessage extends DOMNode {
         this._parentMessageId = opts.parentMessageId;
         this._messageId       = opts.messageId;
         this._message         = opts.message;
+        this._type            = opts.type;
         this._className       = opts.className || '';
+        this._count           = 1;
         this.initDOM(opts.parentNode);
     }
 
@@ -26,13 +27,18 @@ class LogMessage extends DOMNode {
         this.create(
             parentNode,
             {
-                type:      'span',
                 id:        this.setElement.bind(this),
                 className: this.getClassName(),
                 innerHTML: this._message,
                 style: {
                     display: this._parentMessageId ? 'none' : 'block'
-                }
+                },
+                children: [
+                    {
+                        ref:  this.setRef('count'),
+                        type: 'span'
+                    }
+                ]
             }
         );
     }
@@ -41,8 +47,16 @@ class LogMessage extends DOMNode {
         return this._parentMessageId;
     }
 
+    getMessage() {
+        return this._message;
+    }
+
     getMessageId() {
         return this._messageId;
+    }
+
+    getType() {
+        return this._type;
     }
 
     getClassName() {
@@ -65,6 +79,13 @@ class LogMessage extends DOMNode {
         this._element.style.display = visible ? 'block' : 'none';
     }
 
+    addCount() {
+        this._count++;
+        let count = this._refs.count;
+        count.className = 'count';
+        count.innerHTML = this._count;
+    }
+
     onClickLineInfo() {
         let lineInfo = this._lineInfo;
         dispatcher.dispatch('Dialog.File.Open', lineInfo.filename, lineInfo);
@@ -76,7 +97,7 @@ class LogMessage extends DOMNode {
         let messageId = this._messageId;
         let messages  = this._log.getMessages();
         this._element.className = this.getClassName();
-        messages.forEach(function(message) {
+        messages.forEach((message) => {
             if (message.getParentMessageId() === messageId) {
                 message.setVisible(open);
             }
@@ -93,6 +114,8 @@ exports.getMessageId = function() {
 exports.Log = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._settings     = opts.settings;
+        this._lastMessage  = null;
         this._messages     = [];
         this._preProcessor = null;
         dispatcher
@@ -117,7 +140,7 @@ exports.Log = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'console-lines'
+                className: 'flt max-w max-h vscroll console-lines'
             }
         );
     }
@@ -128,24 +151,34 @@ exports.Log = class extends DOMNode {
             element.scrollTop = 0;
             element.innerHTML = '';
         }
+        this._lastMessage     = null;
         this._messages.length = 0;
     }
 
     onLog(opts) {
-        if (!this._element) {
+        let element = this._element;
+        if (!element) {
             return;
         }
-        this._messages.push(
-            new LogMessage({
-                parentNode:      this._element,
+        if (this._lastMessage && (this._lastMessage.getMessage() === opts.message) && (this._lastMessage.getType() === opts.type)) {
+            this._lastMessage.addCount();
+        } else {
+            let maxMessageCount = this._settings.getConsoleMessageCount();
+            while (element.childNodes.length && (element.childNodes.length > maxMessageCount)) {
+                element.removeChild(element.childNodes[0]);
+            }
+            this._lastMessage = new LogMessage({
+                parentNode:      element,
                 log:             this,
                 message:         opts.message,
                 messageId:       opts.messageId,
                 parentMessageId: opts.parentMessageId,
                 lineInfo:        opts.lineInfo,
-                className:       'console-line ' + (opts.className || '')
-            })
-        );
+                type:            opts.type,
+                className:       'flt rel max-w console-line type-' + (opts.type || '').toLowerCase()
+            });
+            this._messages.push(this._lastMessage);
+        }
         this.scrollToLast();
     }
 

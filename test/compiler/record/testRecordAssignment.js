@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test record assignments',
-    function() {
+    () => {
         describe(
             'Test record copy assignments',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should copy a global record',

@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test Sound module',
-    function() {
+    () => {
         testModuleCall(
             it,
             'Should play tone',
@@ -29,6 +29,25 @@ describe(
                 frequency: 440,
                 duration:  500,
                 volume:    75
+            }
+        );
+        testModuleCall(
+            it,
+            'Should play sample',
+            [
+                'proc playSample(string filename, number volume)',
+                '    addr filename',
+                '    mod  5, 1',
+                'end',
+                'proc main()',
+                '    playSample("sound.rsf", 55)',
+                'end'
+            ],
+            5, // Module id
+            'Sound.PlaySample',
+            {
+                filename: 'sound.rsf',
+                volume:   55
             }
         );
     }

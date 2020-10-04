@@ -8,48 +8,46 @@ const Dialog     = require('../../../lib/components/Dialog').Dialog;
 exports.DirectoryNewDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
-        this.createWindow(
-            'new-directory-dialog',
-            'New directory',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.DirectoryNew.Show',
+            width:      440,
+            height:     176,
+            className:  'new-directory-dialog',
+            title:      'New directory'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'abs dialog-lt dialog-cw new-directory-text',
+                children: [
+                    this.initTextInputRow({
+                        className:      'flt max-w input-row filename file-new-row',
+                        labelClassName: 'flt input-label',
+                        label:          'Directory',
+                        ref:            this.setRef('directory'),
+                        tabIndex:       1,
+                        onKeyUp:        this.onDirectoryKeyUp.bind(this),
+                        placeholder:    'Enter directory name'
+                    })
+                ]
+            },
+            this.initButtons([
                 {
-                    className: 'new-directory-text',
-                    children: [
-                        {
-                            className: 'new-directory-row',
-                            children: [
-                                {
-                                    innerHTML: 'Directory'
-                                },
-                                this.addTextInput({
-                                    ref:      this.setRef('directory'),
-                                    tabIndex: 1,
-                                    onKeyUp:  this.onDirectoryKeyUp.bind(this)
-                                })
-                            ]
-                        }
-                    ]
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.DirectoryNew.Show', this, this.onShow);
+            ])
+        ];
     }
 
     onShow(opts) {

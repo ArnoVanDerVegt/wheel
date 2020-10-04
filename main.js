@@ -20,10 +20,10 @@ const moveToApplicationsFolder = function() {
             conflictHandler: function(conflictType) {
                 if (conflictType === 'exists') {
                     return dialog.showMessageBoxSync({
-                        type: 'question',
-                        buttons: ['Halt Move', 'Continue Move'],
+                        type:      'question',
+                        buttons:   ['Halt Move', 'Continue Move'],
                         defaultId: 0,
-                        message: 'An app of this name already exists'
+                        message:   'An app of this name already exists'
                     }) === 1;
                 }
                 return true;
@@ -106,7 +106,7 @@ const createWindow = function() {
                 switch (arg.command) {
                     case 'documentPath': // The document path is requested from the preload file!
                         let homedir = (process.platform === 'darwin') ? app.getPath('documents') : os.homedir();
-                        event.reply('postMessage', JSON.stringify({message: 'documentPath', data: homedir}));
+                        event.reply('postMessage', JSON.stringify({message: 'documentPath', data: homedir, isPackaged: app.isPackaged}));
                         break;
                     case 'quit':
                         app.quit();
@@ -124,6 +124,7 @@ const createWindow = function() {
                             JSON.stringify({
                                 message:                'settings',
                                 version:                app.getVersion(),
+                                isPackaged:             app.isPackaged,
                                 isInApplicationsFolder: (process.platform === 'darwin') ? app.isInApplicationsFolder() : true
                             })
                         );

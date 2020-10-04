@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-exports.MODULE_SENSOR               = 7;
+exports.MODULE_SENSOR               =  7;
 
 exports.SENSOR_SET_TYPE             =  0;
 exports.SENSOR_GET_TYPE             =  1;
@@ -21,6 +21,7 @@ exports.SENSOR_TYPE_COLOR           = 29;
 exports.SENSOR_TYPE_ULTRASONIC      = 30;
 exports.SENSOR_TYPE_GYRO            = 32;
 exports.SENSOR_TYPE_INFRARED        = 33;
+exports.SENSOR_TYPE_MULTIPLEXER     = 64;
 
 exports.COLOR_REFLECTED             =  0;
 exports.COLOR_AMBIENT               =  1;
@@ -49,3 +50,12 @@ exports.IR_REMOTE                   =  2;
 exports.IR_REMOTE_ADVANCED          =  3;
 exports.IR_NOT_UTILIZED             =  4;
 exports.IR_CALIBRATION              =  5;
+
+exports.COLOR_NONE                  =  0;
+exports.COLOR_BLACK                 =  1;
+exports.COLOR_BLUE                  =  2;
+exports.COLOR_GREEN                 =  3;
+exports.COLOR_YELLOW                =  4;
+exports.COLOR_RED                   =  5;
+exports.COLOR_WHITE                 =  6;
+exports.COLOR_BROWN                 =  7;

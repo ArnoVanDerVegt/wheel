@@ -8,10 +8,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test single dimensional record arrays assignments',
-    function() {
+    () => {
         describe(
             'Test record array copy assignments',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign array value to record, index 0',
@@ -338,7 +338,7 @@ describe(
         );
         describe(
             'Test record array field - array copy assignments',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should assign array value to record array field',

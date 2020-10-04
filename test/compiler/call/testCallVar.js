@@ -9,10 +9,10 @@ const errors            = require('../../../js/frontend/compiler/errors').errors
 
 describe(
     'Test call var',
-    function() {
+    () => {
         describe(
             'Test proc variable',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Sould call proc variable',
@@ -189,7 +189,7 @@ describe(
         );
         describe(
             'Test proc type errors',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw PARAM_COUNT_MISMATCH',

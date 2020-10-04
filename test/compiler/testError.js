@@ -7,10 +7,10 @@ const errors    = require('../../js/frontend/compiler/errors').errors;
 
 describe(
     'Test error',
-    function() {
+    () => {
         describe(
             'Syntax error',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw SYNTAX_ERROR_MAIN_PROC_PARAMS',
@@ -24,7 +24,7 @@ describe(
         );
         describe(
             'Undefined identifier',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw UNDEFINED_IDENTIFIER',
@@ -61,7 +61,7 @@ describe(
         );
         describe(
             'Parameter error',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw UNDEFINED_IDENTIFIER',
@@ -250,7 +250,7 @@ describe(
         );
         describe(
             'Var declaration',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw NUMBER_CONSTANT_EXPECTED',
@@ -277,7 +277,7 @@ describe(
         );
         describe(
             'Var expression',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw RECORD_TYPE_EXPECTED',
@@ -516,7 +516,7 @@ describe(
         );
         describe(
             'Record declaration',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw UNDEFINED_IDENTIFIER',
@@ -571,11 +571,41 @@ describe(
                     ],
                     'Error: #' + errors.SYNTAX_ERROR_STRING_CONSTANT_EXPECTED + ' String constant expected, got "1".'
                 );
+                testError(
+                    it,
+                    'Should throw UNION_SIZE_MISMATCH',
+                    [
+                        'record Rec',
+                        '    number a, b',
+                        'union',
+                        '    number x',
+                        'union',
+                        '    number q, r',
+                        'end',
+                        'proc main()',
+                        'end'
+                    ],
+                    'Error: #' + errors.UNION_SIZE_MISMATCH + ' Union size mismatch.'
+                );
+                testError(
+                    it,
+                    'Should throw UNION_SIZE_MISMATCH',
+                    [
+                        'record Rec',
+                        '    number a, b',
+                        'union',
+                        '    number x',
+                        'end',
+                        'proc main()',
+                        'end'
+                    ],
+                    'Error: #' + errors.UNION_SIZE_MISMATCH + ' Union size mismatch.'
+                );
             }
         );
         describe(
             'Module call',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw PARAM_TYPE_MISMATCH',
@@ -613,7 +643,7 @@ describe(
         );
         describe(
             'Break',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw BREAK_WITHOUT_LOOP',
@@ -628,7 +658,7 @@ describe(
         );
         describe(
             'Main proc',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw MISSING_MAIN_PROC',
@@ -653,7 +683,7 @@ describe(
         );
         describe(
             'Proc',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw NO_LOCAL_PROC_SUPPORTED',
@@ -706,7 +736,7 @@ describe(
         );
         describe(
             'Array constant',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw SYNTAX_ERROR_BRACKET_OPEN_EXPECTED',
@@ -761,7 +791,7 @@ describe(
         );
         describe(
             'Number constant',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw INVALID_CONSTANT',
@@ -809,7 +839,7 @@ describe(
         );
         describe(
             'Select',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw NUMBER_TYPE_EXPECTED',
@@ -858,7 +888,7 @@ describe(
         );
         describe(
             'Scope',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw INVALID_STATEMENT_IN_SCOPE',
@@ -887,7 +917,7 @@ describe(
         );
         describe(
             'Meta',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw UNDEFINED_META_COMMAND',

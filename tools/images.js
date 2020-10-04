@@ -2,6 +2,15 @@ let fs         = require('fs');
 let filelist   = [];
 let fileByName = {};
 
+const removeWhitespace = (s) => {
+        let lines  = s.split('\n');
+        let result = '';
+        for (let i = 0; i < lines.length; i++) {
+            result += lines[i].trim();
+        }
+        return result;
+    };
+
 // List all files in a directory in Node.js recursively in a synchronous fashion
 let getFileList = function(dir) {
         let files = fs.readdirSync(dir);
@@ -14,7 +23,13 @@ let getFileList = function(dir) {
                     let s = dir + '/' + file;
                     let data;
                     if (extension === 'svg') {
-                        data = 'data:image/svg+xml,' + fs.readFileSync(s).toString().split('\n').join('');
+                        data = fs.readFileSync(s).toString();
+                        if ((data.indexOf('&') !== -1) || (data.indexOf('#') !== -1)) {
+                           data = 'data:image/svg+xml;base64,' + Buffer.from(removeWhitespace(data)).toString('base64');
+                           console.log(data);
+                        } else {
+                            data = 'data:image/svg+xml,' + removeWhitespace(data);
+                        }
                     } else {
                         data = 'data:image/' + extension + ';base64,' + fs.readFileSync(s).toString('base64');
                     }
@@ -43,12 +58,36 @@ output += 'exports.getImage = function(src) { return files[src.toLowerCase()] ||
 
 fs.writeFileSync('../js/frontend/ide/data/images.js', output);
 
-let css = fs.readFileSync('../css/components/button.css').toString();
-for (let file in fileByName) {
-    let i = css.indexOf(file);
-    console.log('Check:', file);
-    if (i !== -1) {
-        css = css.substr(0, i - 1) + '\'' + fileByName[file].data + '\'' + css.substr(i + 1 + file.length - css.length);
-    }
-}
-fs.writeFileSync('../css/components/button.css', css);
+const updateCssImages = (inputFilename, outputFilename) => {
+        console.log('============= Process images =============');
+        console.log('Input:  ', inputFilename);
+        console.log('output: ', outputFilename);
+        console.log('Images:');
+        let css = fs.readFileSync(inputFilename).toString();
+        for (let file in fileByName) {
+            console.log('    >', file);
+            let i = css.indexOf(file);
+            while (i !== -1) {
+                css = css.substr(0, i - 1) + '\'' + fileByName[file].data + '\'' + css.substr(i + 1 + file.length - css.length);
+                i   = css.indexOf(file);
+            }
+        }
+        fs.writeFileSync(outputFilename, css);
+    };
+updateCssImages(
+    '../css/components/button.temp.css',
+    '../css/components/button.css'
+);
+updateCssImages(
+    '../css/components/nonVisual.temp.css',
+    '../css/components/nonVisual.css'
+);
+updateCssImages(
+    '../css/ide/components.temp.css',
+    '../css/ide/components.css'
+);
+updateCssImages(
+    '../css/ide/icon.temp.css',
+    '../css/ide/icon.css'
+);
+

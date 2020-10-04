@@ -8,7 +8,7 @@ const path    = require('../../path');
 const getIcon = function(getImage, file) {
     if (file.directory) {
         return {
-            className: 'folder-icon',
+            className: 'no-select folder-icon',
             type:      'img',
             src:       getImage('images/files/folder.svg')
         };
@@ -19,6 +19,8 @@ const getIcon = function(getImage, file) {
         case '.help': image = 'images/files/help.svg'; break;
         case '.jpg':  image = 'images/files/jpg.svg';  break;
         case '.jpeg': image = 'images/files/jpg.svg';  break;
+        case '.bmp':  image = 'images/files/bmp.svg';  break;
+        case '.svg':  image = 'images/files/svg.svg';  break;
         case '.mp3':  image = 'images/files/mp3.svg';  break;
         case '.ogg':  image = 'images/files/ogg.svg';  break;
         case '.png':  image = 'images/files/png.svg';  break;
@@ -31,9 +33,10 @@ const getIcon = function(getImage, file) {
         case '.whlp': image = 'images/files/whlp.svg'; break;
         case '.woc':  image = 'images/files/woc.svg';  break;
         case '.lms':  image = 'images/files/lms.svg';  break;
+        case '.wfrm': image = 'images/files/form.svg'; break;
     }
     return {
-        className: 'file-icon',
+        className: 'no-select file-icon',
         type:      'img',
         src:       getImage(image)
     };
@@ -66,7 +69,7 @@ exports.File = class extends DOMNode {
                         id:        this.setLinkElement.bind(this),
                         type:      'a',
                         href:      '#',
-                        className: 'name',
+                        className: 'no-select name',
                         innerHTML: this._file.name
                     }
                 ]

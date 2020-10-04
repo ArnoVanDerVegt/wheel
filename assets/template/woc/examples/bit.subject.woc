@@ -1,0 +1,48 @@
+@subject Example:Bit
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Bit example
+This example demonstrates how to read the bits from a decimal number.
+
+This example gets a `random` number greater or equal then 0 and less than 256
+and converts the number using the `bitAnd` function.
+
+@section Code
+@example
+#project "Bit demo"
+
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/bit.whl"
+
+proc main()
+    number n = random(0, 255)
+
+    clearConsole()
+
+    ; Print the decimal number in the console:
+    printS("Decimal:")
+    printN(n)
+
+    string s   = ""
+    number bit = 1
+    number b
+    for b = 1 to 8
+        number bAnd = bitAnd(n, bit)
+        if bAnd == bit
+            s = s + "1"
+        else
+            s = s + "0"
+        end
+        bit *= 2
+    end
+
+    ; Print the binary string in the console:
+    printS("Binary:")
+    printS(s)
+end
+@end
+
+@load Open bit example|examples/bit/bit.whlp
+
+@see bit,standard,Modules

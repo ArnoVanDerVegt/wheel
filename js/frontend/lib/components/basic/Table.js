@@ -31,7 +31,7 @@ exports.Table = class extends DOMNode {
                         }
                     ]
                 };
-            this._head.forEach(function(h) {
+            this._head.forEach((h) => {
                 head.children[0].children.push({
                     type:      'th',
                     innerHTML: h
@@ -44,7 +44,7 @@ exports.Table = class extends DOMNode {
                     type:     'tbody',
                     children: []
                 };
-            this._body.forEach(function(b) {
+            this._body.forEach((b) => {
                 if (cols === 0) {
                     cols = b.length;
                 }
@@ -52,7 +52,7 @@ exports.Table = class extends DOMNode {
                         type:     'tr',
                         children: []
                     };
-                b.forEach(function(c) {
+                b.forEach((c) => {
                     c = c.trim();
                     if (c.substr(0, 1) === ':') {
                         row.children.push({

@@ -3,24 +3,26 @@
 #project "String charCode example"
 
 #include "lib/standard.whl"
-#include "lib/screen.whl"
 #include "lib/string.whl"
 
 proc main()
+    clearConsole();
+
+    ; Declare a string and print it in the console:
     string s = "ABCDE"
-    drawText(10, 10, s)
+    printS(s)
 
     number n
     number ch
     for n = 0 to 4
-        ch = getCharCodeAt(s, n)        ; Get the char code at index n
-        drawNumber(10 + n * 30, 30, ch)
+        ; Get the char code at index n and print it in the console:
+        ch = getCharCodeAt(s, n)
+        printN(ch)
+        ; Change the char code...
         ch += 5
-        setCharCodeAt(s, n, ch)         ; Change the char code
+        setCharCodeAt(s, n, ch)
     end
 
-    drawText(10, 50, s)                 ; Draw the updated string
-
-    halt()
+    ; Print the updated string:
+    printS(s)
 end
-

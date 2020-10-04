@@ -1,0 +1,37 @@
+[
+    {
+        "type": "form",
+        "uid": "0x843532C2",
+        "name": "label",
+        "title": "Label example",
+        "width": "280",
+        "height": "70",
+        "id": 1
+    },
+    {
+        "x": 40,
+        "y": 20,
+        "parentId": 1,
+        "id": 2,
+        "uid": "0x3B44B2E3",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "label",
+        "name": "Label",
+        "text": "Count:"
+    },
+    {
+        "x": 110,
+        "y": 20,
+        "parentId": 1,
+        "id": 3,
+        "uid": "0x5EF685C3",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "label",
+        "name": "Count",
+        "text": "0"
+    }
+]

@@ -2,9 +2,10 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const t = require('../tokenizer/tokenizer');
-const errors           = require('../errors');
-const err              = require('../errors').errors;
+const path   = require('../../lib/path');
+const t      = require('../tokenizer/tokenizer');
+const errors = require('../errors');
+const err    = require('../errors').errors;
 
 const removePadding = function(s) {
         return s.substr(1, s.length - 2);
@@ -26,7 +27,7 @@ exports.MetaCompiler = class {
 
     compileDefine(iterator, token, tokenFilename) {
         token.done      = true;
-        token           = iterator.skipWhiteSpace().next(true);
+        token           = iterator.skipWhiteSpace().next();
         if (token.cls !== t.TOKEN_IDENTIFIER) {
             token.filename = tokenFilename;
             throw errors.createError(err.IDENTIFIER_EXPECTED, token, 'Identifier expected.');
@@ -34,7 +35,7 @@ exports.MetaCompiler = class {
         this._linter && this._linter.addDefine(token);
         token.done      = true;
         let defineKey   = token.lexeme;
-        token           = iterator.skipWhiteSpace().next(true);
+        token           = iterator.skipWhiteSpace().next();
         token.done      = true;
         if ([t.TOKEN_NUMBER, t.TOKEN_STRING].indexOf(token.cls) === -1) {
             token.filename = tokenFilename;
@@ -50,7 +51,7 @@ exports.MetaCompiler = class {
 
     compileImage(iterator, token, tokenFilename) {
         token.done = true;
-        token      = iterator.skipWhiteSpace().next(true);
+        token      = iterator.skipWhiteSpace().next();
         token.done = true;
         if (token.cls !== t.TOKEN_STRING) {
             token.filename = tokenFilename;
@@ -105,7 +106,7 @@ exports.MetaCompiler = class {
 
     compileText(iterator, token, tokenFilename) {
         token.done = true;
-        token      = iterator.skipWhiteSpace().next(true);
+        token      = iterator.skipWhiteSpace().next();
         token.done = true;
         if (token.cls !== t.TOKEN_STRING) {
             token.filename = tokenFilename;
@@ -140,14 +141,14 @@ exports.MetaCompiler = class {
 
     compileResource(iterator, token, tokenFilename) {
         token.done = true;
-        token      = iterator.skipWhiteSpace().next(true);
+        token      = iterator.skipWhiteSpace().next();
         token.done = true;
         if (token.cls !== t.TOKEN_STRING) {
             token.filename = tokenFilename;
             throw errors.createError(err.FILENAME_EXPECTED, token, 'Filename expected.');
         }
         let filename = removePadding(token.lexeme);
-        if (['.rgf', '.rsf', '.rtf', '.rbf'].indexOf(filename.substr(-4)) === -1) {
+        if (['.rgf', '.rsf', '.rtf', '.rbf', '.wfrm'].indexOf(path.getExtension(filename)) === -1) {
             token.filename = tokenFilename;
             throw errors.createError(err.INVALID_RESOURCE, token, 'Invalid resource.');
         }

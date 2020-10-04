@@ -8,55 +8,61 @@ const ImageDialog = require('./ImageDialog').ImageDialog;
 
 exports.ImageNewDialog = class extends ImageDialog {
     constructor(opts) {
+        opts.applyTitle = opts.applyTitle || 'Create new EV3 image';
         super(opts);
-        this.createWindow(
-            'image-dialog new-image',
-            'New image',
-            [
+        this._expectedExtensions = ['', '.rgf'];
+        this.initWindow({
+            showSignal: opts.showSignal || 'Dialog.Image.New.Show',
+            width:      400,
+            height:     256,
+            className:  'image-dialog new-image',
+            title:      opts.title || 'New image'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'abs dialog-cw dialog-lt image-dialog-text',
+                children: [
+                    {
+                        className: 'flt max-w input-row image-dialog-row',
+                        children: [
+                            {
+                                className: 'flt input-label',
+                                innerHTML: 'Filename'
+                            },
+                            this.addTextInput({
+                                ref:         this.setRef('filename'),
+                                tabIndex:    1,
+                                onKeyUp:     this.onFilenameKeyUp.bind(this),
+                                placeholder: 'Enter filename'
+                            })
+                        ]
+                    },
+                    this.getWidthRow(),
+                    this.getHeightRow()
+                ]
+            },
+            this.initButtons([
                 {
-                    className: 'image-dialog-text',
-                    children: [
-                        {
-                            className: 'image-dialog-row',
-                            children: [
-                                {
-                                    innerHTML: 'Filename'
-                                },
-                                this.addTextInput({
-                                    ref:      this.setRef('filename'),
-                                    tabIndex: 1,
-                                    onKeyUp:  this.onFilenameKeyUp.bind(this)
-                                })
-                            ]
-                        },
-                        this.getWidthRow(),
-                        this.getHeightRow()
-                    ]
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    opts.applyTitle || 'Ok',
+                    onClick:  this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.Image.New.Show', this, this.onShow);
+            ])
+        ];
     }
 
     onShow(activeDirectory, documentPath) {
-        super.show();
+        this.show();
         this._activeDirectory         = activeDirectory || documentPath;
         this._refs.filename.className = '';
         this._refs.filename.value     = '';
@@ -78,23 +84,15 @@ exports.ImageNewDialog = class extends ImageDialog {
             this._filename += '.rgf';
         }
         let filename = path.join(this._activeDirectory, this._filename);
-        dispatcher.dispatch('Create.Image', filename, this._width, this._height);
+        dispatcher.dispatch(
+            'Create.Image',
+            {
+                filename: filename,
+                width:    this._width,
+                height:   this._height
+            }
+        );
         this.hide();
-    }
-
-    validateFilename() {
-        let result = true;
-        let refs   = this._refs;
-        this._filename = refs.filename.getValue().trim();
-        let extension = path.getExtension(this._filename);
-        if ((this._filename === '') || (['', '.rgf'].indexOf(extension) === -1)) {
-            refs.filename.focus();
-            refs.filename.setClassName('invalid');
-            result = false;
-        } else {
-            refs.filename.setClassName('');
-        }
-        return result;
     }
 
     validate() {

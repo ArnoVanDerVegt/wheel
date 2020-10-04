@@ -23,6 +23,7 @@
             </h2>
             <a href="ide/ide.html" class="start">Online demo &raquo;</a>
             <ul>
+                <li><a href="docs/index.html">Documentation</a></li>
                 <li><a href="source.html">Source</a></li>
                 <li><a href="screenshots.html">Screenshots</a></li>
                 <li><a href="install.html">Install</a></li>
@@ -33,23 +34,37 @@
         <div class="content">
             <h1>Installing the Wheel source code</h1>
             <p>
-                To run a local version you need the have <a href="https://nodejs.org/en/">nodejs</a> installed.
+                To run a local version you need the have <a href="https://nodejs.org/">NodeJS</a> installed.
             </p>
             <a href="https://github.com/ArnoVanDerVegt/wheel" class="start">Download the source code &raquo;</a>
-            <h3>Mac</h3>
+            <h3>Nodejs</h3>
+            <p>
+                The easiest way to run Wheel is by starting a local NodeJS server and use a browser.<br/>
+                If you run Wheel with NodeJS then only PoweredUp is supported.<br/>
+                <br/>
+                First, you have to install all dependencies by running:
+            </p>
+            <pre>
+$ npm install</pre>
+            <p>
+                Then you can start the server with:
+            </p>
+            <pre>
+$ node server.js</pre>
+            <h3>Electron - Mac</h3>
             <pre>
 $ npm install --global electron
 $ npm install --global electron-rebuild
 $ npm install
 $ npm run electron-rebuild</pre>
-            <h3>Windows</h3>
+            <h3>Electron - Windows</h3>
             <pre>
 $ npm install --global windows-build-tools
 $ npm install --global electron
 $ npm install --global electron-rebuild
 $ npm install
 $ npm run electron-rebuild</pre>
-            <h3>Starting Wheel</h3>
+            <h3>Starting the Wheel Electron application</h3>
             <p>
                 After the installation you can start Wheel with the following command:
             </p>
@@ -57,6 +72,7 @@ $ npm run electron-rebuild</pre>
 $ npm start</pre>
         </div>
         <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
             <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
         </div>
     </div>

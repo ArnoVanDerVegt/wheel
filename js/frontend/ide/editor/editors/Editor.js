@@ -10,6 +10,8 @@ const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDat
 exports.Editor = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._ev3            = opts.ev3;
+        this._poweredUp      = opts.poweredUp;
         this._ui             = opts.ui;
         this._settings       = opts.settings;
         this._editors        = opts.editors;
@@ -97,6 +99,10 @@ exports.Editor = class extends DOMNode {
         return false;
     }
 
+    getEditor() {
+        return null;
+    }
+
     clearAllBreakpoints() {
     }
 
@@ -127,22 +133,55 @@ exports.Editor = class extends DOMNode {
     }
 
     pathAndFilenameEqual(p, filename) {
+        if (p === null) {
+            return (path.removeSlashes(this._filename) === path.removeSlashes(filename));
+        }
         return (path.removeSlashes(this._filename) === path.removeSlashes(filename)) &&
             (path.removeSlashes(this._path) === path.removeSlashes(p));
     }
 
+    showSaveError(message) {
+        let documentPath = this._settings.getDocumentPath();
+        if (documentPath.substr(-1) !== '/') {
+            documentPath += '/';
+        }
+        let i = message.indexOf(documentPath);
+        if (i !== -1) {
+            let j = documentPath.length;
+            message = message.substr(0, i) + message.substr(i + j, message.length - i - j);
+        }
+        dispatcher.dispatch(
+            'Dialog.Alert.Show',
+            {
+                title: 'Error: Failed to save file',
+                lines: [message]
+            }
+        );
+    }
+
     save(callback) {
+        let documentPath = this._settings.getDocumentPath();
+        let filename     = path.removePath(documentPath, path.join(this._path, this._filename));
         getDataProvider().getData(
             'post',
             'ide/file-save',
             {
-                filename: path.join(this._path, this._filename),
+                filename: path.join(documentPath, filename),
                 data:     this.getValue()
             },
-            (function() {
-                this.onFileSaved(this._filename);
+            (data) => {
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    data = {success: false, error: 'Invalid data.'};
+                }
+                if (data.success) {
+                    this.onFileSaved(this._filename);
+                } else {
+                    this.showSaveError(data.error || 'Unknown error.');
+                }
                 callback && callback();
-            }).bind(this)
+            }
         );
     }
 
@@ -151,7 +190,7 @@ exports.Editor = class extends DOMNode {
         let pathAndFilename    = path.getPathAndFilename(filename);
         this._path     = pathAndFilename.path;
         this._filename = pathAndFilename.filename;
-        this.save(function() {
+        this.save(() => {
             dispatcher.dispatch('Editor.Renamed', oldPathAndFilename, pathAndFilename);
         });
     }
@@ -169,9 +208,11 @@ exports.Editor = class extends DOMNode {
 
     onFileSaved(filename) {
         this._onFileSaved && clearTimeout(this._onFileSaved);
-        this._fileSavedElement.className     = 'bottom-options';
-        this._filenameSavedElement.innerHTML = 'Saved: <i>' + filename + '</i>';
-        this._onFileSaved                    = setTimeout(this.onFileSavedHide.bind(this), 1000);
-        this._changed                        = false;
+        if (this._fileSavedElement && this._filenameSavedElement) {
+            this._fileSavedElement.className     = 'bottom-options';
+            this._filenameSavedElement.innerHTML = 'Saved: <i>' + filename + '</i>';
+            this._onFileSaved                    = setTimeout(this.onFileSavedHide.bind(this), 1000);
+        }
+        this._changed = false;
     }
 };

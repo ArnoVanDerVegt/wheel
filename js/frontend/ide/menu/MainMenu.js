@@ -2,35 +2,47 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform    = require('../../lib/platform');
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const MainMenu    = require('../../lib/components/MainMenu').MainMenu;
+const MainMenu    = require('../../lib/components/mainmenu/MainMenu').MainMenu;
 const ProgressBar = require('../../lib/components/ProgressBar').ProgressBar;
+const Button      = require('../../lib/components/Button').Button;
 const tabIndex    = require('../tabIndex');
 const HelpOption  = require('./HelpOption').HelpOption;
 
 exports.MainMenu = class extends MainMenu {
     constructor(opts) {
         super(opts);
-        let brick    = opts.brick;
-        let settings = opts.settings;
-        this._ui       = opts.ui;
-        this._brick    = brick;
-        this._settings = settings;
+        let ev3       = opts.ev3;
+        let poweredUp = opts.poweredUp;
+        let settings  = opts.settings;
+        this._ui        = opts.ui;
+        this._ev3       = ev3;
+        this._poweredUp = poweredUp;
+        this._settings  = settings;
         this
             .initMenu()
+            .initQuickMenu()
             .initHelp()
             .initStorage();
         // Settings events...
         settings
-            .addEventListener('Settings.View',    this, this.onUpdateViewMenu)
-            .addEventListener('Settings.EV3',     this, this.onUpdateEV3Menu)
-            .addEventListener('Settings.Compile', this, this.onUpdateCompileMenu);
-        // Brick events...
-        brick
-            .addEventListener('Brick.Connecting',   this, this.onBrickConnecting)
-            .addEventListener('Brick.Connected',    this, this.onUpdateEV3Menu)
-            .addEventListener('Brick.Disconnect',   this, this.onUpdateEV3Menu)
-            .addEventListener('Brick.Disconnected', this, this.onUpdateEV3Menu);
+            .addEventListener('Settings.View',        this, this.onUpdateViewMenu)
+            .addEventListener('Settings.EV3',         this, this.onUpdateEV3Menu)
+            .addEventListener('Settings.PoweredUp',   this, this.onUpdatePoweredUpMenu)
+            .addEventListener('Settings.Compile',     this, this.onUpdateCompileMenu)
+            .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu)
+            .addEventListener('Settings.Simulator',   this, this.onUpdateSimulatorMenu);
+        // EV3 events...
+        ev3
+            .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
+            .addEventListener('EV3.Connected',        this, this.onUpdateEV3Menu)
+            .addEventListener('EV3.Disconnect',       this, this.onUpdateEV3Menu)
+            .addEventListener('EV3.Disconnected',     this, this.onUpdateEV3Menu);
+        poweredUp
+            .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
+            .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu)
+            .addEventListener('PoweredUp.Disconnect', this, this.onUpdatePoweredUpMenu);
         dispatcher
             .on('VM',                         this, this.onVM)
             .on('VM.Run',                     this, this.onVM)
@@ -57,7 +69,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initStorage() {
-        if ('electron' in window) {
+        if (platform.isElectron() || platform.isNode()) {
             return this;
         }
         this.create(
@@ -73,6 +85,62 @@ exports.MainMenu = class extends MainMenu {
                         type:  ProgressBar,
                         event: 'LocalStorage.Size',
                         ui:    this._ui
+                    }
+                ]
+            }
+        );
+        return this;
+    }
+
+    initQuickMenu() {
+        this.create(
+            this._mainMenuElement,
+            {
+                className: 'flt resource-options main-menu',
+                children: [
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      1,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-folder',
+                        hint:      {text: 'Toggle folder panel'},
+                        dispatch:  'Settings.Toggle.ShowFileTree'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      1,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 1,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-error',
+                        hint:      {text: 'Toggle console panel'},
+                        dispatch:  'Settings.Toggle.ShowConsole'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      1,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 2,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-tag',
+                        hint:      {text: 'Toggle component and properties panel'},
+                        dispatch:  'Settings.Toggle.ShowProperties'
+                    },
+                    {
+                        type:      Button,
+                        ui:        this._ui,
+                        uiId:      1,
+                        tabIndex:  tabIndex.QUICK_VIEW_MENU + 3,
+                        className: 'toolbar-button',
+                        color:     ' ',
+                        icon:      'flt icon-simulator',
+                        hint:      {text: 'Toggle simulator panel'},
+                        dispatch:  'Settings.Toggle.ShowSimulator'
                     }
                 ]
             }
@@ -98,39 +166,45 @@ exports.MainMenu = class extends MainMenu {
             .initEditMenu()
             .initFindMenu()
             .initEV3Menu()
+            .initPoweredUpMenu()
             .initCompileMenu()
             .initViewMenu()
+            .initSimulatorMenu()
+            .initToolsMenu()
             .initAboutMenu()
             .onUpdateViewMenu()
+            .onUpdateSimulatorMenu()
             .onUpdateCompileMenu()
             .onVM()
             .onUpdateEV3Menu()
+            .onUpdatePoweredUpMenu()
             .onUpdateFileMenu();
     }
 
     initFileMenu() {
         this._fileMenu = this.addMenu({
             title: '^File',
-            width: '200px',
+            width: '272px',
             items: [
-                {title: 'New file',                     hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
-                {title: 'New project file',             hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
-                {title: 'New image',                    hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
+                {title: 'New file...',                  hotkey: ['command', 'N'], dispatch: 'Menu.File.NewFile'},
+                {title: 'New project file...',          hotkey: ['command', 'P'], dispatch: 'Menu.File.NewProjectFile'},
+                {title: 'New Powered Up project...',                              dispatch: 'Dialog.File.PoweredUpProject'},
+                {title: 'New image...',                 hotkey: ['command', 'I'], dispatch: 'Menu.File.NewImageFile'},
+                {title: 'New form...',                                            dispatch: 'Menu.File.NewFormFile'},
                 {title: '-'},
                 {title: 'Open...',                      hotkey: ['command', 'O'], dispatch: 'Menu.File.Open'},
                 {title: 'Save',                         hotkey: ['command', 'S'], dispatch: 'Editor.Save'},
-                {title: 'Save as..',                                              dispatch: 'Menu.File.SaveAs'},
+                {title: 'Save as...',                                             dispatch: 'Menu.File.SaveAs'},
                 {title: '-'},
                 {title: 'Close',                        hotkey: ['command', 'X'], dispatch: 'Editor.CloseFile'},
                 {title: '-'},
-                {title: 'Setup',                                                  dispatch: 'Menu.File.Setup'},
+                {title: 'Settings...',                                            dispatch: 'Dialog.Settings.Show'},
                 {title: '-'},
                 {title: 'Exit Wheel',                   hotkey: ['command', 'Q'], dispatch: 'Menu.File.Exit'}
             ]
         });
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[7].setEnabled('electron' in window); // Setup
-        menuOptions[8].setEnabled('electron' in window); // Exit Wheel
+        menuOptions[10].setEnabled(platform.isElectron()); // Exit Wheel
         return this;
     }
 
@@ -165,6 +239,8 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Find...',                      hotkey: ['command', 'F'], dispatch: 'Menu.Find.Find'},
                 {title: 'Find next',                    hotkey: ['command', 'G'], dispatch: 'Menu.Find.FindNext'},
                 {title: '-'},
+                {title: 'Find in files...',                                       dispatch: 'Dialog.FindInFiles.Show'},
+                {title: '-'},
                 {title: 'Replace...',                                             dispatch: 'Menu.Find.Replace'},
                 {title: 'Replace next',                                           dispatch: 'Menu.Find.ReplaceNext'},
                 {title: 'Replace all...',                                         dispatch: 'Dialog.Replace.Show'}
@@ -173,9 +249,9 @@ exports.MainMenu = class extends MainMenu {
         let menuOptions = this._findMenu.getMenu().getMenuOptions();
         menuOptions[0].setEnabled(false); // Find
         menuOptions[1].setEnabled(false); // Find next
-        menuOptions[2].setEnabled(false); // Replace
-        menuOptions[3].setEnabled(false); // Replace next
-        menuOptions[4].setEnabled(false); // Replace all
+        menuOptions[3].setEnabled(false); // Replace
+        menuOptions[4].setEnabled(false); // Replace next
+        menuOptions[5].setEnabled(false); // Replace all
         return this;
     }
 
@@ -188,7 +264,7 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Connect',                                                dispatch: 'Menu.EV3.Connect'},
                 {title: 'Disconnect',                                             dispatch: 'Menu.EV3.Disconnect'},
-                {title: 'Autoconnect',                                            dispatch: 'Settings.Toggle.AutoConnect'},
+                {title: 'Autoconnect',                                            dispatch: 'Settings.Toggle.EV3AutoConnect'},
                 {title: '-'},
                 {title: 'Daisy chain mode',                                       dispatch: 'Menu.EV3.DaisyChainMode'},
                 {title: '-'},
@@ -201,10 +277,36 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled('electron' in window); // Connect
-        menuOptions[1].setEnabled(false);                // Disconnect
-        menuOptions[2].setEnabled('electron' in window); // Autoconnect
-        menuOptions[7].setEnabled(false);                // Install compiled files
+        menuOptions[0].setEnabled(platform.isElectron()); // Connect
+        menuOptions[1].setEnabled(false);                 // Disconnect
+        menuOptions[2].setEnabled(platform.isElectron()); // Autoconnect
+        menuOptions[7].setEnabled(false);                 // Install compiled files
+        return this;
+    }
+
+    initPoweredUpMenu() {
+        this._poweredUpMenu = this.addMenu({
+            title:     '^PoweredUp',
+            width:     '256px',
+            className: 'ev3-menu',
+            withCheck: true,
+            items: [
+                {title: 'Connect',                                                dispatch: 'Menu.PoweredUp.Connect'},
+                {title: 'Disconnect',                                             dispatch: 'Menu.PoweredUp.Disconnect'},
+                {title: 'Autoconnect',                                            dispatch: 'Menu.PoweredUp.AutoConnect'},
+                {title: '-'},
+                {title: 'Device count',                                           dispatch: 'Menu.PoweredUp.DeviceCount'},
+                {title: '-'},
+                {title: 'Direct control',                                         dispatch: 'Menu.PoweredUp.DirectControl'},
+                {title: 'Stop all motors',                                        dispatch: 'Menu.PoweredUp.StopAllMotors'}
+            ]
+        });
+        let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
+        let available   = platform.isElectron() || platform.isNode() || window.PoweredUP.isWebBluetooth;
+        menuOptions[0].setEnabled(available);                                   // Connect
+        menuOptions[1].setEnabled(false);                                       // Disconnect
+        menuOptions[2].setEnabled(platform.isElectron() || platform.isNode());  // Autoconnect, not in browser!
+        menuOptions[4].setEnabled(false);                                       // Direct control
         return this;
     }
 
@@ -224,6 +326,8 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'},
                 {title: 'Linter',                                                 dispatch: 'Settings.Toggle.Linter'},
                 {title: '-'},
+                {title: 'Statistics',                                             dispatch: 'Menu.Compile.Statistics'},
+                {title: '-'},
                 {title: 'Clear all breakpoints',                                  dispatch: 'Menu.Compile.ClearAllBreakpoints'},
                 {title: '-'},
                 {title: 'Create VM text output',                                  dispatch: 'Settings.Toggle.CreateVMTextOutput'}
@@ -240,14 +344,54 @@ exports.MainMenu = class extends MainMenu {
             items: [
                 {title: 'Show files',                   hotkey: ['command', 'D'], dispatch: 'Settings.Toggle.ShowFileTree'},
                 {title: 'Show console',                 hotkey: ['command', 'B'], dispatch: 'Settings.Toggle.ShowConsole'},
+                {title: 'Show properties',                                        dispatch: 'Settings.Toggle.ShowProperties'},
+                {title: 'Show simulator',                                         dispatch: 'Settings.Toggle.ShowSimulator'},
                 {title: '-'},
-                {title: 'Show simulator motors',                                  dispatch: 'Settings.Toggle.ShowSimulatorMotors'},
-                {title: 'Show simulator EV3',                                     dispatch: 'Settings.Toggle.ShowSimulatorEV3'},
-                {title: 'Show simulator sensors',                                 dispatch: 'Settings.Toggle.ShowSimulatorSensors'},
+                {title: 'Show quick view menu',                                   dispatch: 'Settings.Toggle.ShowQuickViewMenu'},
                 {title: '-'},
                 {title: 'Show simulator on run',                                  dispatch: 'Settings.Toggle.ShowSimulatorOnRun'},
                 {title: '-'},
                 {title: 'Dark mode',                                              dispatch: 'Settings.Toggle.DarkMode'}
+            ]
+        });
+        return this;
+    }
+
+    initSimulatorMenu() {
+        let lastGroup = null;
+        let items     = [
+                {title: 'Auto reset sensor value', dispatch: 'Settings.Toggle.SensorAutoReset'},
+                {title: '-'}
+            ];
+        this._settings.getPlugins().getSortedPlugins().forEach((plugin) => {
+            if (lastGroup === null) {
+                lastGroup = plugin.group;
+            } else if (lastGroup !== plugin.group) {
+                lastGroup = plugin.group;
+                items.push({title: '-'});
+            }
+            items.push({
+                title:   plugin.name,
+                onClick: function() {
+                    dispatcher.dispatch('Settings.Toggle.PluginByUuid', plugin.uuid);
+                }
+            });
+        });
+        this._simulatorMenu = this.addMenu({
+            title:     '^Simulator',
+            width:     '256px',
+            withCheck: true,
+            items:     items
+        });
+        return this;
+    }
+
+    initToolsMenu() {
+        this._toolsMenu = this.addMenu({
+            title: '^Tools',
+            width: '192px',
+            items: [
+                {title: 'Gear ratio calculator',                                  dispatch: 'Dialog.GearRatioCalculator.Show'}
             ]
         });
         return this;
@@ -272,9 +416,9 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateFileMenu(info) {
         let menuOptions = this._fileMenu.getMenu().getMenuOptions();
-        menuOptions[4].setEnabled(info ? info.canSave         : false);     // Save
-        menuOptions[5].setEnabled(info ? info.canSave         : false);     // Save as...
-        menuOptions[6].setEnabled(info ? (info.openFiles > 0) : false);     // Close
+        menuOptions[ 6].setEnabled(info ? info.canSave         : false);     // Save
+        menuOptions[ 7].setEnabled(info ? info.canSave         : false);     // Save as...
+        menuOptions[10].setEnabled(info ? (info.openFiles > 0) : false);     // Close
         return this;
     }
 
@@ -287,17 +431,30 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdateEV3Menu() {
-        let connected   = this._brick.getConnected();
+        let connected   = this._ev3.getConnected();
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         let settings    = this._settings;
         menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
         menuOptions[1].setEnabled(connected);                               // Disconnect
-        menuOptions[2].setChecked(settings.getAutoConnect());
+        menuOptions[2].setChecked(settings.getEV3AutoConnect());
         menuOptions[3].setChecked(settings.getDaisyChainMode());
         menuOptions[4].setEnabled(connected);                               // EV3 File viewer
         menuOptions[5].setEnabled(connected);                               // EV3 Direct control
         menuOptions[6].setEnabled(connected);                               // Stop all motors
-        menuOptions[8].setChecked(settings.getAutoInstall());
+        menuOptions[8].setEnabled(platform.isElectron());
+        menuOptions[8].setChecked(platform.isElectron() && settings.getAutoInstall());
+        return this;
+    }
+
+    onUpdatePoweredUpMenu() {
+        let connected   = this._poweredUp.getConnected();
+        let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
+        let settings    = this._settings;
+        menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
+        menuOptions[1].setEnabled(connected);                               // Disconnect
+        menuOptions[2].setEnabled(connected);                               // Autoconnect
+        menuOptions[4].setEnabled(connected);                               // PoweredUp Direct control
+        menuOptions[5].setEnabled(connected);                               // Stop all motors
         return this;
     }
 
@@ -312,8 +469,8 @@ exports.MainMenu = class extends MainMenu {
             menuOptions[2].setEnabled(false);                               // Compile & run
         }
         menuOptions[6].setChecked(settings.getLinter());                    // Linter
-        menuOptions[5].setEnabled(this._brick.getConnected());              //
-        menuOptions[8].setChecked(settings.getCreateVMTextOutput());        // Create text output
+        menuOptions[5].setEnabled(this._ev3.getConnected());                //
+        menuOptions[9].setChecked(settings.getCreateVMTextOutput());        // Create text output
         return this;
     }
 
@@ -322,7 +479,7 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[1].setEnabled(vm && !vm.running());                     // Run
         menuOptions[3].setEnabled(vm && vm.getBreakpoint());                // Continue
         menuOptions[4].setEnabled(vm && vm.running());                      // Stop
-        let connected = this._brick.getConnected();
+        let connected = this._ev3.getConnected();
         menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         menuOptions[7].setEnabled(vm && connected);                         // Install compiled files
         return this;
@@ -333,17 +490,30 @@ exports.MainMenu = class extends MainMenu {
         let settings    = this._settings;
         menuOptions[0].setChecked(settings.getShowFileTree());
         menuOptions[1].setChecked(settings.getShowConsole());
-        menuOptions[2].setChecked(settings.getShowSimulatorMotors());
-        menuOptions[3].setChecked(settings.getShowSimulatorEV3());
-        menuOptions[4].setChecked(settings.getShowSimulatorSensors());
+        menuOptions[2].setChecked(settings.getShowProperties());
+        menuOptions[3].setChecked(settings.getShowSimulator());
+        menuOptions[4].setChecked(settings.getShowQuickViewMenu());
         menuOptions[5].setChecked(settings.getShowSimulatorOnRun());
         menuOptions[6].setChecked(settings.getDarkMode());
         return this;
     }
 
-    onBrickConnecting() {
+    onUpdateSimulatorMenu(info) {
+        let menuOptions = this._simulatorMenu.getMenu().getMenuOptions();
+        menuOptions[0].setChecked(this._settings.getSensorAutoReset());
+        this._settings.getPlugins().getSortedPlugins().forEach((plugin, index) => {
+            menuOptions[1 + index].setChecked(plugin.visible);
+        });
+        return this;
+    }
+
+    onEV3Connecting() {
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         menuOptions[0].setTitle('Connecting...');
+    }
+
+    onPoweredUpConnecting() {
+
     }
 
     onUpdateCropDisable() {
@@ -362,9 +532,9 @@ exports.MainMenu = class extends MainMenu {
         let findMenuOptions       = this._findMenu.getMenu().getMenuOptions();
         let menuOptionFind        = findMenuOptions[0];
         let menuOptionFindNext    = findMenuOptions[1];
-        let menuOptionReplace     = findMenuOptions[2];
-        let menuOptionReplaceNext = findMenuOptions[3];
-        let menuOptionReplaceAll  = findMenuOptions[4];
+        let menuOptionReplace     = findMenuOptions[3];
+        let menuOptionReplaceNext = findMenuOptions[4];
+        let menuOptionReplaceAll  = findMenuOptions[5];
         if (info.activeEditor) {
             if (info.activeEditor.canCrop && info.activeEditor.canCrop()) {
                 menuOptionCrop.setEnabled(info.activeEditor.canCrop());

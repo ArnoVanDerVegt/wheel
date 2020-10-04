@@ -8,9 +8,10 @@ body.ide div.console-wrapper {
     padding:                        0;
     z-index:                        1;
     background-color:               var(--ui-background1);
+    overflow:                       hidden;
 }
-/* No simulator */
-body.ide.no-simulator div.console-wrapper {
+/* No simulator & No properties */
+body.ide.no-right-panel div.console-wrapper {
     right:                          0;
 }
 /* No console */
@@ -34,33 +35,24 @@ body.ide .console-content {
     left:                           0;
     right:                          0;
     bottom:                         0;
-}
-.console-content .console-lines,
-.console-content .vars,
-.console-content .registers,
-.console-content .terminal {
-    float:                          left;
-    width:                          100%;
-    height:                         100%;
     overflow:                       hidden;
-    overflow-y:                     scroll;
 }
 .console-content .console-lines,
+.console-content .find-results,
 .console-content .vars,
 .console-content .registers {
     -webkit-user-select:            none;
 }
+.console-content .find-results,
 .console-content .vars,
 .console-content .registers,
 .console-content .terminal {
     display:                        none;
 }
-.console-content .console-lines .console-line {
-    float:                          left;
-    position:                       relative;
+.console-content .console-lines .console-line,
+.console-content .find-results .find-result {
     font-family:                    monospace;
     font-size:                      13px;
-    width:                          100%;
     height:                         24px;
     line-height:                    24px;
     padding:                        0 8px 0 8px;
@@ -70,6 +62,48 @@ body.ide .console-content {
     overflow:                       hidden;
     text-overflow:                  ellipsis;
     cursor:                         default;
+}
+.console-content .find-results .find-result.found {
+    padding-left:                   32px;
+}
+.console-content .find-results .find-result span {
+    border-radius:                  1px;
+    border:                         1px solid var(--color-green);
+    color:                          var(--color-green);
+}
+.console-content .find-results .find-result .found-line {
+    width:                          calc(100% - 84px);
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    cursor:                         pointer;
+}
+.console-content .find-results .find-result .found-pos {
+    text-align:                     right;
+    width:                          80px;
+}
+.console-content .find-results .find-result .found-line,
+.console-content .find-results .find-result .found-pos {
+    font-family:                    monospace;
+    font-size:                      13px;
+}
+.console-content .find-results .find-result .found-line span {
+    border-radius:                  1px;
+    border:                         1px solid var(--color-green);
+    color:                          var(--color-green);
+}
+.console-content .console-lines .console-line span {
+    float:                          left;
+}
+.console-content .console-lines .console-line span.count {
+    height:                         14px;
+    line-height:                    14px;
+    border-radius:                  10px;
+    background:                     var(--color-blue);
+    color:                          #FFFFFF;
+    padding:                        0 6px 0 6px;
+    font-size:                      11px;
+    margin:                         4.5px 4px 0 0;
 }
 .console-content .console-lines .console-line.closed,
 .console-content .console-lines .console-line.open {
@@ -98,21 +132,29 @@ body.ide .console-content {
 .console-content .console-lines .console-line.with-info {
     cursor:                         pointer;
 }
-.console-content .console-lines .console-line.error {
-    color:                          var(--console-error);
+/* Hint */
+.console-content .console-lines .console-line.type-hint {
+    color:                          var(--console-hint);
 }
-.console-content .console-lines .console-line.ok {
-    color:                          var(--console-success);
+/* Warning */
+.console-content .console-lines .console-line.type-warning {
+    color:                          var(--console-warning);
 }
-.console-content .console-lines .console-line.vm {
-    color:                          var(--console-vm);
+.console-content .console-lines .console-line.type-warning span.count {
+    background-color:               var(--console-warning);
 }
+/* Error */
+.console-content .console-lines .console-line.type-error,
 .console-content .console-lines .console-line i.error {
     color:                          var(--console-error);
+}
+.console-content .console-lines .console-line.type-error span.count {
+    background-color:               var(--console-error);
 }
 .console-content .console-lines .console-line i.error b {
     text-decoration:                underline;
 }
+/* Table */
 .console-content table {
     border:                         var(--console-table-border);
     border-width:                   1px 0 0 1px;
@@ -142,7 +184,6 @@ body.ide .console-content {
     font-family:                    monospace;
 }
 .console-content tr td .node-line {
-    float:                          left;
     clear:                          both;
 }
 .console-content tr td div span {
@@ -177,7 +218,6 @@ body.ide .console-content {
     line-height:                    20px;
     font-family:                    monospace;
     font-size:                      13px;
-    overflow:                       hidden;
     text-overflow:                  ellipsis;
 }
 .console-content .terminal input[type="text"].input {
@@ -195,20 +235,11 @@ body.ide .console-content {
     color:                          var(--color-red);
 }
 /* New version */
-.console-content .new-version {
-    float:                          left;
-    width:                          100%;
-    height:                         100%;
-    overflow:                       hidden;
-    overflow-y:                     scroll;
-}
 .console-content .new-version .new-version-logo {
-    float:                          left;
     width:                          152px;
     margin:                         8px 0 0 16px;
 }
 .console-content .new-version .new-version-content {
-    float:                          left;
     width:                          calc(100% - 168px);
     padding:                        16px 8px 16px 0;
 }

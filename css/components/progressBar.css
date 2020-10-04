@@ -1,3 +1,14 @@
+.progress-bar.design:before {
+    position:                       absolute;
+    z-index:                        -1;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         100%;
+    background:                     var(--design-background);
+    border:                         var(--design-border);
+    content:                        ' ';
+}
 .progress-bar {
     float:                          left;
     width:                          64px;

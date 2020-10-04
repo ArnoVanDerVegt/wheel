@@ -1,9 +1,7 @@
 /* Menu */
 body.ide .main-menu {
-    position:                       absolute;
     left:                           0;
     top:                            0;
-    width:                          100%;
     height:                         40px;
     background-color:               var(--main-menu-background);
     padding:                        0 0 0 4px;
@@ -17,7 +15,6 @@ body.ide .main-menu img {
     margin:                         6px 8px 0 8px;
 }
 body.ide .main-menu .main-menu-item {
-    float:                          left;
     height:                         32px;
     line-height:                    28px;
     font-size:                      15px;
@@ -101,9 +98,7 @@ body.ide .main-menu div.main-menu-item.visible a {
     background-color:               var(--ui-background5);
 }
 .menu .menu-option-separator {
-    float:                          left;
     background-color:               var(--ui-background1);
-    width:                          100%;
     height:                         13px;
     margin:                         0;
 }
@@ -123,10 +118,13 @@ body.ide .main-menu div.main-menu-item.visible a {
 
 /* Help */
 .main-menu .help {
-    position:                       relative;
-    float:                          right;
     height:                         40px;
     font-size:                      15px;
+}
+@media only screen and (max-width: 760px) {
+    .main-menu .help {
+        display:                    none;
+    }
 }
 .main-menu .help span.label {
     float:                          left;
@@ -148,7 +146,6 @@ body.ide .main-menu div.main-menu-item.visible a {
     border-radius:                  16px;
 }
 .main-menu .help .help-menu {
-    position:                       absolute;
     min-width:                      200px;
     top:                            36px;
     right:                          8px;
@@ -162,8 +159,6 @@ body.ide .main-menu div.main-menu-item.visible a {
     overflow-y:                     scroll;
 }
 .main-menu .help .help-category {
-    float:                          left;
-    width:                          100%;
     height:                         32px;
     line-height:                    32px;
     padding:                        0 0 0 8px;
@@ -172,9 +167,6 @@ body.ide .main-menu div.main-menu-item.visible a {
     font-weight:                    bold;
 }
 .main-menu .help .help-menu-item {
-    float:                          left;
-    position:                       relative;
-    width:                          100%;
     height:                         28px;
     line-height:                    28px;
     color:                          var(--ui-text1);

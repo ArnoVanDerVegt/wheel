@@ -1,9 +1,13 @@
 ; @module Sensor
+; @device E,P
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains procedures to read input from `EV3` and `Powered Up` sensors.
+
 ; @const The sensor module.
-#define MODULE_SENSOR                 7
+#define MODULE_SENSOR                 7     ; `image:images/ev3/touch64.png`
 
 ; @const Module calls for reading sensors.
 #define SENSOR_SET_TYPE               0
@@ -13,17 +17,17 @@
 #define SENSOR_READ                   4
 
 ; @const The different sensor types.
-#define SENSOR_TYPE_NXT_TOUCH         1
-#define SENSOR_TYPE_NXT_LIGHT         2
-#define SENSOR_TYPE_NXT_SOUND         3
-#define SENSOR_TYPE_NXT_COLOR         4
-#define SENSOR_TYPE_NXT_ULTRASONIC    5
+#define SENSOR_TYPE_NXT_TOUCH         1     ; `image:images/ev3/nxtTouch64.png`
+#define SENSOR_TYPE_NXT_LIGHT         2     ; `image:images/ev3/nxtLight64.png`
+#define SENSOR_TYPE_NXT_SOUND         3     ; `image:images/ev3/nxtSound64.png`
+#define SENSOR_TYPE_NXT_COLOR         4     ; `image:images/ev3/nxtColor64.png`
+#define SENSOR_TYPE_NXT_ULTRASONIC    5     ; `image:images/ev3/nxtUltrasonic64.png`
+#define SENSOR_TYPE_TOUCH            16     ; `image:images/ev3/touch64.png`
+#define SENSOR_TYPE_COLOR            29     ; `image:images/ev3/color64.png`
+#define SENSOR_TYPE_ULTRASONIC       30     ; `image:images/ev3/ultrasonic64.png`
+#define SENSOR_TYPE_GYRO             32     ; `image:images/ev3/gyro64.png`
+#define SENSOR_TYPE_INFRARED         33     ; `image:images/ev3/infrared64.png`
 #define SENSOR_TYPE_NXT_TEMPERATURE   6
-#define SENSOR_TYPE_TOUCH            16
-#define SENSOR_TYPE_COLOR            29
-#define SENSOR_TYPE_ULTRASONIC       30
-#define SENSOR_TYPE_GYRO             32
-#define SENSOR_TYPE_INFRARED         33
 
 ; @const The sensor read value is invalid.
 #define SENSOR_VALUE_INVALID         -1
@@ -91,15 +95,18 @@
 #define IR_CALIBRATION                5
 
 ; @proc             Set the sensor type.
+; @device           E
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
-; @param type       The type of sensor: `SENSOR_TYPE_TOUCH`, `SENSOR_TYPE_COLOR`, `SENSOR_TYPE_INFRARED`, `SENSOR_TYPE_ULTRASONIC`, `SENSOR_TYPE_GYRO` or `SENSOR_TYPE_SOUND`.
+; @param type       The type of sensor: `SENSOR_TYPE_TOUCH`, `SENSOR_TYPE_COLOR`, `SENSOR_TYPE_INFRARED`,
+;                   `SENSOR_TYPE_ULTRASONIC`, `SENSOR_TYPE_GYRO` or `SENSOR_TYPE_SOUND`.
 proc sensorLayerSetType(number layer, number port, number type)
     addr layer
     mod  MODULE_SENSOR, SENSOR_SET_TYPE
 end
 
 ; @proc             get the sensor type.
+; @device           E,P
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
 ; @return           The type of connected sensor.
@@ -108,7 +115,9 @@ proc sensorLayerGetType(number layer, number port)
     mod  MODULE_SENSOR, SENSOR_GET_TYPE
 end
 
-; @proc             Some sensors like the color or infrared sensor can have different modes. With this function you can select the mode.
+; @proc             Some sensors like the color or infrared sensor can have different modes. With this function
+;                   you can select the mode.
+; @device           E,P
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
 ; @param type       The sensor mode.
@@ -118,6 +127,7 @@ proc sensorLayerSetMode(number layer, number port, number mode)
 end
 
 ; @proc             Reset the sensor, this function can only be used for the qyro sensor.
+; @device           E
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
 proc sensorLayerReset(number layer, number port)
@@ -126,6 +136,7 @@ proc sensorLayerReset(number layer, number port)
 end
 
 ; @proc             Read the sensor value.
+; @device           E,P
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
 ; @return           The sensor value.
@@ -135,33 +146,40 @@ proc sensorLayerRead(number layer, number port)
 end
 
 ; @proc             Set the sensor type.
+; @device           E
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
-; @param type       The type of sensor: `SENSOR_TYPE_TOUCH`, `SENSOR_TYPE_COLOR`, `SENSOR_TYPE_INFRARED`, `SENSOR_TYPE_ULTRASONIC`, `SENSOR_TYPE_GYRO` or `SENSOR_TYPE_SOUND`.
+; @param type       The type of sensor: `SENSOR_TYPE_TOUCH`, `SENSOR_TYPE_COLOR`, `SENSOR_TYPE_INFRARED`,
+;                   `SENSOR_TYPE_ULTRASONIC`, `SENSOR_TYPE_GYRO` or `SENSOR_TYPE_SOUND`.
 proc sensorSetType(number port, number type)
     sensorLayerSetType(0, port, type)
 end
 
 ; @proc             Get the sensor type from the primary device.
+; @device           E,P
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
 ; @return           The type of connected sensor.
 proc sensorGetType(number port)
     ret sensorLayerGetType(0, port)
 end
 
-; @proc             Some sensors line the color or infrared sensor can have different modes. With this function you can select the mode.
+; @proc             Some sensors line the color or infrared sensor can have different modes. With this function you
+;                   can select the mode.
+; @device           E,P
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
-; @param type       The sensor mode.
+; @param mode       The sensor mode.
 proc sensorSetMode(number port, number mode)
     sensorLayerSetMode(0, port, mode)
 end
 
 ; @proc             Reset the sensor, this function can only be used for the qyro sensor.
+; @device           E
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
 proc sensorReset(number port)
     sensorLayerReset(0, port)
 end
 
 ; @proc             Read the sensor value.
+; @device           E,P
 ; @param port       The input port, the first output is 0. Constants: `INPUT_1`, `INPUT_2`, `INPUT_3`, `INPUT_4`.
 ; @return           The sensor value.
 proc sensorRead(number port)

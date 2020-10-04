@@ -9,10 +9,10 @@ const assert              = require('assert');
 
 describe(
     'Test runtime errors',
-    function() {
+    () => {
         describe(
             'Test number array range check',
-            function() {
+            () => {
                 testRangeCheckError(
                     it,
                     'Should check range of a numeric array',
@@ -77,7 +77,7 @@ describe(
         );
         describe(
             'Test record array range check',
-            function() {
+            () => {
                 testRangeCheckError(
                     it,
                     'Should check range of a record array',
@@ -142,10 +142,10 @@ describe(
         );
         describe(
             'Test division by zero',
-            function() {
+            () => {
                 it(
                     'Should detect division by zero with constant',
-                    function() {
+                    () => {
                         let called = false;
                         let info   = testCompile([
                                 'proc main()',
@@ -157,7 +157,7 @@ describe(
                         dispatcher.on(
                             'VM.Error.DivisionByZero',
                             this,
-                            function() {
+                            () => {
                                 called = true;
                             }
                         );
@@ -167,7 +167,7 @@ describe(
                 );
                 it(
                     'Should detect division by zero with variable',
-                    function() {
+                    () => {
                         let called = false;
                         let info   = testCompile([
                                 'proc main()',
@@ -180,7 +180,7 @@ describe(
                         dispatcher.on(
                             'VM.Error.DivisionByZero',
                             this,
-                            function() {
+                            () => {
                                 called = true;
                             }
                         );
@@ -192,10 +192,10 @@ describe(
         );
         describe(
             'Test heap overflow',
-            function() {
+            () => {
                 it(
                     'Should detect heap overflow',
-                    function() {
+                    () => {
                         let called = false;
                         let info   = testCompile([
                                 '#heap 20',
@@ -208,7 +208,7 @@ describe(
                         dispatcher.on(
                             'VM.Error.HeapOverflow',
                             this,
-                            function() {
+                            () => {
                                 called = true;
                             }
                         );

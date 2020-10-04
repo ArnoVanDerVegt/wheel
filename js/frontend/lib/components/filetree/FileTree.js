@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const getDataProvider = require('../../dataprovider/dataProvider').getDataProvider;
-const utils           = require('../../utils');
 const dispatcher      = require('../../dispatcher').dispatcher;
+const platform        = require('../../platform');
 const DOMNode         = require('../../dom').DOMNode;
 const path            = require('../../path');
 const CloseButton     = require('../CloseButton').CloseButton;
@@ -31,8 +31,8 @@ exports.FileTree = class extends DOMNode {
         this._changeTimeout  = null;
         this._style          = null;
         this
-            .initDOM(document.body)
-            .initContextMenu();
+            .initDOM(opts.parentNode)
+            .initContextMenu(opts.parentNode);
         this._ui
             .addEventListener('Global.UIId',         this, this.onGlobalUIId)
             .addEventListener('Global.Window.Focus', this, this.onGlobalWindowFocus);
@@ -48,7 +48,7 @@ exports.FileTree = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'file-tree-wrapper',
+                className: 'abs file-tree-wrapper',
                 children: [
                     {
                         className: 'toolbar',
@@ -63,7 +63,7 @@ exports.FileTree = class extends DOMNode {
                     },
                     {
                         id:        this.setFilesElement.bind(this),
-                        className: 'files'
+                        className: 'abs max-w files'
                     },
                     {
                         ref:       this.setRef('resizer'),
@@ -82,10 +82,10 @@ exports.FileTree = class extends DOMNode {
         return this;
     }
 
-    initContextMenu() {
+    initContextMenu(parentNode) {
         this._fileContextMenu = new ContextMenu({
             ui:         this._ui,
-            parentNode: document.body,
+            parentNode: parentNode,
             options: [
                 {title: 'Rename',           onClick: this.onContextMenuRename.bind(this)},
                 {title: 'Delete',           onClick: this.onContextMenuDelete.bind(this)},
@@ -97,7 +97,7 @@ exports.FileTree = class extends DOMNode {
         });
         this._directoryContextMenu = new ContextMenu({
             ui:         this._ui,
-            parentNode: document.body,
+            parentNode: parentNode,
             options: [
                 {title: 'New file',         onClick: this.onContextMenuNewFile.bind(this)},
                 {title: 'New image',        onClick: this.onContextMenuNewImageFile.bind(this)},
@@ -113,6 +113,30 @@ exports.FileTree = class extends DOMNode {
                 {title: 'Reveal in finder', onClick: this.onContextMenuRevealInFinder.bind(this)}
             ]
         });
+        return this;
+    }
+
+    initRecentPaths() {
+        let index = 0;
+        const settings     = this._settings;
+        const recentPaths  = [].concat(settings.getRecentPaths());
+        const documentPath = settings.getDocumentPath();
+        const loadPath     = () => {
+                if (index >= recentPaths.length) {
+                    if (this._selected) {
+                        this._selected.setSelected(false);
+                        this._selected = null;
+                    }
+                    return;
+                }
+                let p = path.join(documentPath, recentPaths[index++]);
+                if (p in this._fullPathItem) {
+                    this.onSelectDirectory(this._fullPathItem[p], loadPath);
+                } else {
+                    loadPath();
+                }
+            };
+        loadPath();
     }
 
     clear() {
@@ -129,11 +153,11 @@ exports.FileTree = class extends DOMNode {
         if (!settings.getShowFileTree()) {
             width = 0;
         }
-        let simulatorVisible = settings.getShowSimulatorMotors() || settings.getShowSimulatorEV3() || settings.getShowSimulatorSensors();
-        let minWidth         = simulatorVisible ? 900 : 600;
-        let css              = '@media screen and (min-width: calc(' + minWidth + 'px + ' + width + 'px)) { .home-screen-content { width:600px; }}';
-        let head             = document.head || document.getElementsByTagName('head')[0];
-        let style            = document.createElement('style');
+        let rightVisible = settings.getShowSimulator() || settings.getShowProperties();
+        let minWidth     = rightVisible ? 920 : 620;
+        let css          = '@media screen and (min-width: calc(' + minWidth + 'px + ' + width + 'px)) { .home-screen-content { width:600px; }}';
+        let head         = document.head || document.getElementsByTagName('head')[0];
+        let style        = document.createElement('style');
         if (this._style) {
             head.removeChild(this._style);
         }
@@ -198,16 +222,26 @@ exports.FileTree = class extends DOMNode {
                         oldName: oldName,
                         newName: newName
                     },
-                    function() {
-                    }
+                    () => {}
                 );
             }
         );
     }
 
     onContextMenuRevealInFinder(item) {
-        let shell = require('electron').shell;
-        shell.showItemInFolder(item.getPath() + '/' + item.getName());
+        if (platform.isElectron()) {
+            const shell = require('electron').shell;
+            shell.showItemInFolder(item.getPath() + '/' + item.getName());
+        } else {
+            getDataProvider().getData(
+                'get',
+                'ide/reveal-in-finder',
+                {
+                    path: item.getPath() + '/' + item.getName()
+                },
+                () => {}
+            );
+        }
     }
 
     onChangeDirectory(data) {
@@ -221,11 +255,11 @@ exports.FileTree = class extends DOMNode {
             clearTimeout(this._changeTimeout);
         }
         this._changeTimeout = setTimeout(
-            (function() {
+            () => {
                 this._changeTimeout = null;
                 this.onChangePath(this._changePath, function() {});
                 this._changePath = '';
-            }).bind(this),
+            },
             100
         );
     }
@@ -260,14 +294,27 @@ exports.FileTree = class extends DOMNode {
         this.onChangeDirectory([{path: outputFilename}]);
     }
 
+    /**
+     * Update all files and open directories in the given path...
+    **/
     onChangePath(p, callback) {
         let foundPath   = this.findLoadedPath(p);
         let directory   = this.findDirectoryItemFromPath(foundPath);
         let nodeToGet   = [foundPath];
         let filesInPath = [];
-        utils.forEachKey(this._fullPathOpen, utils.addNewItem.bind(utils, nodeToGet));
+        let forEachKey  = function(object, callback) {
+                for (let key in object) {
+                    callback(key);
+                }
+            };
+        let addNewItem = function(array, item) {
+                if (array.indexOf(item) === -1) {
+                    array.push(item);
+                }
+            };
+        forEachKey(this._fullPathOpen, addNewItem.bind(nodeToGet, nodeToGet));
         // Add all files found in directory...
-        let pathListCallback = (function(parentNode, p, fileList) {
+        let pathListCallback = (parentNode, p, fileList) => {
                 if ((p === foundPath) || this._fullPathLoaded[p]) {
                     filesInPath.push({path: p, fileList: fileList, toString: function() { return this.path; }});
                     fileList.forEach(
@@ -275,7 +322,7 @@ exports.FileTree = class extends DOMNode {
                             if (file.directory && (file.name !== '..')) {
                                 let s = path.join(p, file.name);
                                 if (this._fullPathLoaded[s]) {
-                                    utils.addNewItem(nodeToGet, s);
+                                    addNewItem(nodeToGet, s);
                                 }
                             }
                         },
@@ -283,10 +330,10 @@ exports.FileTree = class extends DOMNode {
                     );
                 }
                 getNode(); // Next directory...
-            }).bind(this);
+            };
         // Load all files in directory...
         let nodeIndex = 0;
-        let getNode   = (function() {
+        let getNode   = () => {
                 if (nodeIndex < nodeToGet.length) {
                     this.getFiles(null, nodeToGet[nodeIndex], pathListCallback);
                     nodeIndex++;
@@ -297,7 +344,7 @@ exports.FileTree = class extends DOMNode {
                     }
                     callback();
                 }
-            }).bind(this);
+            };
         getNode();
     }
 
@@ -332,13 +379,15 @@ exports.FileTree = class extends DOMNode {
         };
         dispatcher.dispatch(
             'Dialog.Confirm.Show',
-            'Confirm delete',
-            [
-                p,
-                'Are you sure you want to delete this ' + (type || 'file') + '?'
-            ],
-            'Dialog.Confirm.DeleteFileConfirmed',
-            'cancel'
+            {
+                dispatchApply: 'Dialog.Confirm.DeleteFileConfirmed',
+                focus:         'cancel',
+                title:         'Confirm delete',
+                lines: [
+                    p,
+                    'Are you sure you want to delete this ' + (type || 'file') + '?'
+                ]
+            }
         );
     }
 
@@ -346,7 +395,7 @@ exports.FileTree = class extends DOMNode {
         let path         = this._deleteInfo.path;
         let fullPathItem = this._fullPathItem;
         let selected     = this._selected;
-        let callback     = (function(data) {
+        let callback     = (data) => {
                 try {
                     data = (typeof data === 'string') ? JSON.parse(data) : data;
                 } catch (error) {
@@ -370,7 +419,7 @@ exports.FileTree = class extends DOMNode {
                         }
                     );
                 }
-            }).bind(this);
+            };
         if (selected instanceof Directory) {
             getDataProvider().getData(
                 'post',
@@ -398,9 +447,10 @@ exports.FileTree = class extends DOMNode {
 
     onGetFiles(parentNode, p, files) {
         parentNode.style.paddingLeft = (p.split('/').length * 4) + 'px';
+        let fullPathOpen = this._fullPathOpen;
         files.forEach(
             function(file) {
-                if (file.name[0] === '.') {
+                if ((file.name[0] === '.') || ((p in fullPathOpen) && !fullPathOpen[p])) {
                     return;
                 }
                 let childNodes = parentNode.childNodes;
@@ -454,21 +504,28 @@ exports.FileTree = class extends DOMNode {
         this._selected.focus();
     }
 
-    onSelectDirectory(directory) {
-        if (this._selected === directory) {
-            this._selected.setSelected(true);
-        } else {
-            if (this._selected) {
-                this._selected.setSelected(false);
-            }
-            this._selected = directory;
-            this._selected.setSelected(true);
+    onSelectDirectory(directory, callback) {
+        if (this._selected && (this._selected !== directory)) {
+            this._selected.setSelected(false);
         }
+        this._selected = directory;
+        if (typeof callback !== 'function') {
+            directory.setSelected(true);
+        }
+        directory.setOpen(!directory.getOpen());
+        this.setFullPathOpen(directory.getFullPath(), directory.getOpen());
         let path = directory.getPath() + '/' + directory.getName();
         this._activeDirectory = path;
         if (directory.getOpen() && !(path in this._fullPathLoaded)) {
             this._fullPathLoaded[path] = true;
-            this.getFiles(this._selected.getChildElement(), path, this.onGetFiles.bind(this));
+            this.getFiles(
+                this._selected.getChildElement(),
+                path,
+                (parentNode, p, files) => {
+                    this.onGetFiles(parentNode, p, files);
+                    (typeof callback === 'function') && callback();
+                }
+            );
         }
     }
 
@@ -502,6 +559,13 @@ exports.FileTree = class extends DOMNode {
 
     setFullPathOpen(path, open) {
         this._fullPathOpen[path] = open;
+        let openPaths = [];
+        for (let p in this._fullPathOpen) {
+            if (this._fullPathOpen[p]) {
+                openPaths.push(p);
+            }
+        }
+        dispatcher.dispatch('Settings.Set.RecentPaths', openPaths);
     }
 
     setTabIndex(tabIndex) {
@@ -524,7 +588,14 @@ exports.FileTree = class extends DOMNode {
 
     setFilesElement(element) {
         this._filesElement = element;
-        this.getFiles(element, false, this.onGetFiles.bind(this));
+        this.getFiles(
+            element,
+            false,
+            (parentNode, p, files) => {
+                this.onGetFiles(parentNode, p, files);
+                this.initRecentPaths();
+            }
+        );
     }
 
     getFiles(parentNode, path, callback) {
@@ -549,8 +620,11 @@ exports.FileTree = class extends DOMNode {
 
     showOpenDirectories() {
         let fullPathItem = this._fullPathItem;
+        let fullPathOpen = this._fullPathOpen;
         for (let fullPath in this._fullPathOpen) {
-            if (fullPathItem[fullPath]) {
+            if ((fullPath in fullPathOpen) && !fullPathOpen[fullPath]) {
+                continue;
+            } else if (fullPathItem[fullPath]) {
                 fullPathItem[fullPath].setOpen(true);
             }
         }
@@ -568,6 +642,18 @@ exports.FileTree = class extends DOMNode {
         this.showOpenDirectories();
     }
 
+    removeEmptyStrings(array) {
+        let i = 0;
+        while (i < array.length) {
+            if (array[i] === '') {
+                array.splice(i, 1);
+            } else {
+                i++;
+            }
+        }
+        return array;
+    }
+
     findDirectoryItemFromPath(p) {
         let directory = this._fullPathItem[p];
         if (directory) {
@@ -583,7 +669,7 @@ exports.FileTree = class extends DOMNode {
         let documentPath = this._settings.getDocumentPath();
         let foundPath    = documentPath;
         let findPath     = path.getPath(p);
-        let parts        = utils.removeEmptyStrings(findPath.split('/'));
+        let parts        = this.removeEmptyStrings(findPath.split('/'));
         let s            = '';
         let index        = 0;
         // Find the last path part which was loaded to reload...

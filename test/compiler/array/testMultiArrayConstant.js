@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test multi dimensional constant record arrays',
-    function() {
+    () => {
         describe(
             'Test constant array declaration',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare local array of numbers with one number',
@@ -134,7 +134,7 @@ describe(
         );
         describe(
             'Test constant record array declaration, one record',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare local array of record with one field',
@@ -177,7 +177,7 @@ describe(
         );
         describe(
             'Test constant record array declaration, multiple records',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare local array of array of record with two fields',
@@ -268,7 +268,7 @@ describe(
         );
         describe(
             'Test constant record array as paramer',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should use constant array with record with single field as parameter',

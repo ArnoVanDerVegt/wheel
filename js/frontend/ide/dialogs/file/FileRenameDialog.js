@@ -5,59 +5,56 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../../lib/dom').DOMNode;
 const path       = require('../../../lib/path');
-const Dialog     = require('../../../lib/components/Dialog').Dialog;
+const FileDialog = require('./FileDialog').FileDialog;
 
-exports.FileRenameDialog = class extends Dialog {
+exports.FileRenameDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
-        this._ui = opts.ui;
-        this.createWindow(
-            'file-rename-dialog',
-            'Rename',
-            [
+        this.initWindow({
+            showSignal: 'Dialog.File.Rename.Show',
+            width:      480,
+            height:     208,
+            className:  'file-rename-dialog',
+            title:      'Rename'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            {
+                className: 'abs dialog-cw dialog-lt file-rename-text',
+                children: [
+                    {
+                        ref:       this.setRef('name'),
+                        className: 'flt text-row max-w',
+                        innerHTML: ''
+                    },
+                    this.initTextInputRow({
+                        className:      'flt max-w input-row filename file-new-row',
+                        labelClassName: 'flt input-label',
+                        label:          'New name',
+                        ref:            this.setRef('filename'),
+                        tabIndex:       1,
+                        onKeyUp:        this.onFilenameKeyUp.bind(this),
+                        placeholder:    'Enter filename'
+                    })
+                ]
+            },
+            this.initButtons([
                 {
-                    className: 'file-rename-text',
-                    children: [
-                        {
-                            ref:       this.setRef('name'),
-                            className: 'file-rename-row name',
-                            innerHTML: 'Hello'
-                        },
-                        {
-                            className: 'file-rename-row',
-                            children: [
-                                {
-                                    innerHTML: 'New name'
-                                },
-                                this.addTextInput({
-                                    ref:      this.setRef('filename'),
-                                    tabIndex: 1,
-                                    onKeyUp:  this.onFilenameKeyUp.bind(this)
-                                })
-                            ]
-                        }
-                    ]
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 128,
+                    value:    'Ok',
+                    onClick:  this.onApply.bind(this)
                 },
                 {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 128,
-                            value:    'Ok',
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            tabIndex: 129,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    tabIndex: 129,
+                    value:    'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        dispatcher.on('Dialog.File.Rename.Show', this, this.onShow);
+            ])
+        ];
     }
 
     onShow(title, documentPath, filename, onApply) {

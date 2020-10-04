@@ -11,17 +11,32 @@ class HelpLink extends DOMNode {
         this._dialog = opts.dialog;
         this._title  = opts.title;
         this._index  = opts.index;
+        this._device = opts.device;
         this.initDOM(opts.parentNode);
     }
 
     initDOM(parentNode) {
+        let deviceChildren = [];
+        if (this._device) {
+            this._device.split(',').forEach((device) => {
+                if (!device) {
+                    return;
+                }
+                deviceChildren.push({type: 'span', className: 'no-select device ' + device.toLowerCase(), innerHTML: device});
+            });
+        }
         this.create(
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                type:      'span',
                 className: 'link',
-                innerHTML: this._title
+                children: [
+                    {
+                        type:      'span',
+                        className: 'no-select',
+                        innerHTML: this._title
+                    }
+                ].concat(deviceChildren)
             }
         );
     }
@@ -29,9 +44,9 @@ class HelpLink extends DOMNode {
     setElement(element) {
         element.addEventListener(
             'click',
-            (function() {
+            () => {
                 this._dialog.onShowFileIndex(this._index);
-            }).bind(this)
+            }
         );
     }
 }
@@ -48,11 +63,12 @@ exports.IndexList = class extends DOMNode {
 
     initDOM(parentNode) {
         let node = {
-                className: 'quarter',
+                className: 'flt third',
                 children: [
                     {
                         type:      H,
                         size:      '3',
+                        className: 'no-select',
                         innerHTML: this._title
                     },
                     {
@@ -70,7 +86,8 @@ exports.IndexList = class extends DOMNode {
                             type:   HelpLink,
                             dialog: this._dialog,
                             title:  helpFile.name,
-                            index:  helpFile.index
+                            index:  helpFile.index,
+                            device: helpFile.device
                         }
                     ]
                 });

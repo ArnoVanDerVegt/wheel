@@ -4,19 +4,20 @@
 
 #include "lib/standard.whl"
 #include "lib/math.whl"
-#include "lib/screen.whl"
 
 proc main()
+    clearConsole()
+
+    ; Get a random floating point value greater or equal than 0 and less than 10:
     number n = random(1, 99) / 10
-    drawText(10, 10, "Number:")
-    drawNumber(100, 10, n)
+    printS("Number:")
+    printN(n)
 
-    drawText(10, 30, "Floor:")
-    drawNumber(100, 30, floor(n))
+    ; Print the rounded down value in the console:
+    printS("Floor:")
+    printN(floor(n))
 
-    drawText(10, 50, "Ceil:")
-    drawNumber(100, 50, ceil(n))
-
-    ; Wait...
-    halt()
+    ; Print the rounded up value in the console:
+    printS("Ceil:")
+    printN(ceil(n))
 end

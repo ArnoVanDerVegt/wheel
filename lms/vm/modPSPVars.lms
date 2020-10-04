@@ -1,0 +1,7 @@
+HANDLE gPSPData1_H
+HANDLE gPSPData2_H
+HANDLE gPSPData3_H
+
+DATA8  gPSPThreadStarted_8
+DATA32 gPSPWriteOffset_32
+DATAF  gPSPPort_F

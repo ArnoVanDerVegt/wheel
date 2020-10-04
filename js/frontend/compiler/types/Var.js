@@ -13,6 +13,7 @@ exports.Var = class {
         this._pointer              = opts.pointer;
         this._assignedProc         = null;
         this._stringConstantOffset = null;
+        this._isParam              = false;
     }
 
     getToken() {
@@ -79,6 +80,14 @@ exports.Var = class {
 
     setStringConstantOffset(stringConstantOffset) {
         this._stringConstantOffset = stringConstantOffset;
+    }
+
+    getIsParam() {
+        return this._isParam;
+    }
+
+    setIsParam(isParam) {
+        this._isParam = isParam;
     }
 };
 

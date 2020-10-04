@@ -30,7 +30,7 @@ exports.Vars = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'vars'
+                className: 'flt max-w max-h vscroll vars'
             }
         );
     }

@@ -11,10 +11,7 @@ body.ide .context-menu.invisible {
     visibility:                     hidden;
 }
 body.ide .context-menu .context-menu-item {
-    float:                          left;
-    position:                       relative;
     clear:                          both;
-    width:                          100%;
     height:                         32px;
     line-height:                    32px;
     font-size:                      15px;
@@ -45,16 +42,13 @@ body.ide .context-menu .context-menu-item:hover {
     background-color:               var(--ui-background5);
 }
 body.ide .context-menu .context-menu-item-separator {
-    float:                          left;
     background-color:               var(--ui-background1);
-    width:                          100%;
     height:                         13px;
     margin:                         0;
 }
 body.ide .context-menu .context-menu-item-separator .line {
     margin:                         6px 0 0 0;
     background-color:               var(--ui-background5);
-    width:                          100%;
     height:                         1px;
     pointer-events:                 none;
 }

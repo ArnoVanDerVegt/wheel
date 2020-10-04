@@ -1,10 +1,4 @@
 /* Source */
-.editor .source-wrapper,
-.editor .source-wrapper .code-mirror-wrapper,
-.editor .source-wrapper .text-wrapper {
-    width:                          100%;
-    height:                         100%;
-}
 .editor .source-wrapper .code-mirror-wrapper .CodeMirror,
 .editor .source-wrapper .code-mirror-wrapper textarea {
     height:                         calc(100% - 40px);
@@ -25,18 +19,19 @@
     height:                         calc(100% - 80px);
 }
 .editor .source-wrapper .resource-wrapper {
-    width:                          100%;
     height:                         calc(100% + 1px);
 }
 .editor .source-wrapper .resource-wrapper .resource-options,
 .editor .code-mirror-wrapper .resource-options {
-    float:                          left;
-    width:                          100%;
     height:                         40px;
     border:                         var(--ui-border1);
     border-width:                   0;
     background-color:               var(--ui-background1);
     overflow:                       hidden;
+}
+.editor .source-wrapper .resource-wrapper .resource-options.top,
+.editor .code-mirror-wrapper .resource-options.top {
+    height:                         48px;
 }
 .editor .source-wrapper .code-mirror-wrapper.with-replace .resource-options.bottom {
     height:                         80px;
@@ -47,11 +42,15 @@
 .editor .source-wrapper .resource-wrapper .resource-options.top .top-options.right,
 .editor .source-wrapper .resource-wrapper .resource-options.bottom .bottom-options.right {
     float:                          right;
+    position:                       relative;
     margin-right:                   8px;
 }
 .editor .source-wrapper .resource-wrapper .resource-options.bottom,
 .editor .source-wrapper .code-mirror-wrapper .resource-options.bottom {
     border-width:                   1px 0 0 0;
+}
+.resource-options .tool-options.view-output input[type="button"].button {
+    width:                          60px;
 }
 .editor .source-wrapper .resource-wrapper .resource-options.top .top-options.hidden,
 .editor .source-wrapper .resource-wrapper .resource-options.bottom .bottom-options.hidden,
@@ -64,6 +63,13 @@
     bottom:                         0;
     height:                         40px;
 }
+.editor .source-wrapper .code-mirror-wrapper .resource-options.bottom .bottom-options.connection-state {
+    float:                          left;
+    width:                          calc(100% - 156px);
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options.bottom .bottom-options.connection-state .bluetooth-state {
+    min-width:                      40px;
+}
 .editor .source-wrapper .code-mirror-wrapper .resource-options.bottom .find-button {
     width:                          72px;
     margin:                         8px 0 0 0;
@@ -75,6 +81,18 @@
     height:                         42px;
     line-height:                    42px;
     font-size:                      13px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .bottom-options .label,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bottom-options .label {
+    line-height:                    38px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options.top .label {
+    height:                         48px;
+    line-height:                    48px;
+    max-width:                      calc(100% - 32px);
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
 }
 .editor .source-wrapper .code-mirror-wrapper .resource-options .label.find {
     width:                          56px;
@@ -93,9 +111,12 @@
     float:                          left;
     margin:                         9px 0 0 2px;
 }
+
+/* Toolbar state */
 .editor .source-wrapper .resource-wrapper .resource-options .file-saved,
 .editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved,
-.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved {
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state {
     float:                          left;
     position:                       relative;
     height:                         24px;
@@ -110,9 +131,20 @@
     font-size:                      12px;
     text-align:                     right;
 }
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state {
+    display:                        none;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state {
+    padding:                        0 8px 0 28px;
+    max-width:                      100%;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state.visible {
+    display:                        block;
+}
 .editor .source-wrapper .resource-wrapper .resource-options .file-saved .saved-icon,
 .editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon,
-.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon {
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state .bluetooth-icon {
     float:                          left;
     position:                       relative;
     left:                           1px;
@@ -125,26 +157,49 @@
     border:                         var(--success-border);
     background-color:               var(--success-icon-background);
 }
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state .bluetooth-icon {
+    position:                       absolute;
+    left:                           1px;
+    top:                            1px;
+}
 .editor .source-wrapper .resource-wrapper .resource-options .file-saved .saved-icon::after,
 .editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon::after,
-.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon::after {
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon::after,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state .bluetooth-icon::after {
     position:                       absolute;
     left:                           0;
     top:                            0;
-    content:                        "\2713";
     color:                          var(--success-icon-color);
-    width:                          100%;
-    height:                         100%;
+    width:                          18px;
+    height:                         18px;
+}
+.editor .source-wrapper .resource-wrapper .resource-options .file-saved .saved-icon::after,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon::after,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved .saved-icon::after {
+    content:                        "\2713";
     text-align:                     center;
     font-size:                      12px;
 }
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state .bluetooth-icon::after {
+    background-image:               url('data:image/svg+xml,<svg version="1.1" baseProfile="full" width="16" height="16" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1,-1) translate(0, -1000)"><path fill="rgba(0,0,0,0.75)" stroke="rgba(0,0,0,0.5)" d="M634 242.667l-80 82v-162zM554 690.667v-162l80 82zM756 610.667l-184-184 184-184-244-242h-42v324l-196-196-60 60 238 238-238 238 60 60 196-196v324h42z" /></g></svg>');
+    background-position:            1px 0;
+    content:                        " ";
+}
 .editor .source-wrapper .resource-wrapper .resource-options .file-saved span,
 .editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved span,
-.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved span {
+.editor .source-wrapper .code-mirror-wrapper .resource-options .file-saved span,
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state span {
     float:                          left;
     font-family:                    monospace;
     font-size:                      12px;
     margin:                         0 10px 0 8px;
+}
+.editor .source-wrapper .code-mirror-wrapper .resource-options .bluetooth-state span {
+    margin:                         0;
+    white-space:                    nowrap;
+    width:                          100%;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
 }
 .editor .source-wrapper .resource-wrapper .resource-options .cursor-info,
 .editor .source-wrapper .code-mirror-wrapper .resource-options .cursor-info,
@@ -203,14 +258,14 @@
     margin:                         8px 8px 0 4px;
     height:                         24px;
     line-height:                    24px;
-    padding:                        1px 0 0 2px;
+    padding:                        0 0 0 2px;
     font-size:                      13px;
 }
 .editor .source-wrapper .resource-wrapper .resource-content {
     float:                          left;
     position:                       relative;
     width:                          100%;
-    height:                         calc(100% - 81px);
+    height:                         calc(100% - 89px);
     overflow:                       scroll;
 }
 .editor .source-wrapper .resource-wrapper .resource-content.hidden {
@@ -233,7 +288,16 @@
     min-width:                      100%;
     min-height:                     100%;
 }
-.editor .source-wrapper .resource-wrapper .resource-content canvas.resource {
+.editor .source-wrapper .resource-wrapper .resource-content .resource-content-wrapper input[type="text"] {
+    height:                         32px;
+    font-size:                      16px;
+    line-height:                    32px;
+    outline:                        none;
+    padding:                        0 0 0 8px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource,
+.editor .source-wrapper .resource-wrapper .resource-content img.resource,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource {
     position:                       absolute;
     left:                           50%;
     top:                            50%;
@@ -244,8 +308,13 @@
 .editor .source-wrapper .resource-wrapper .resource-content canvas.resource.sound {
     background-color:               var(--ui-background1);
 }
-.editor .source-wrapper .resource-wrapper .resource-content canvas.resource.with-shadow {
+.editor .source-wrapper .resource-wrapper .resource-content canvas.resource.with-shadow,
+.editor .source-wrapper .resource-wrapper .resource-content img.resource.with-shadow,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.with-shadow {
     box-shadow:                     1px 1px 2px rgb(0, 0, 0, 0.2), 4px 4px 5px rgb(0, 0, 0, 0.4);
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.error.with-shadow {
+    padding:                        16px;
 }
 .editor .source-wrapper .resource-wrapper .resource-content .resource-overlay {
     position:                       absolute;
@@ -312,10 +381,35 @@ input[type="button"].button.clear,
     display:                        none;
 }
 /* Show the extra run button if there are no simulator items visible... */
-body.no-motors.no-ev3.no-sensors .editor-wrapper input[type="button"].button.run,
-body.no-motors.no-ev3.no-sensors .editor-wrapper input[type="button"].button.continue,
-body.no-motors.no-ev3.no-sensors .editor-wrapper .continue-button-wrapper {
+body.no-right-panel .editor-wrapper input[type="button"].button.run,
+body.no-right-panel .editor-wrapper input[type="button"].button.continue,
+body.no-right-panel .editor-wrapper .continue-button-wrapper {
     display:                        block;
+}
+
+/* Quick view menu options */
+body.no-quick-view-menu .resource-options.main-menu {
+    display:                        none;
+}
+@media only screen and (max-width: 920px) {
+    .resource-options.main-menu {
+        display:                    none;
+    }
+}
+.resource-options.main-menu {
+    margin:                         0 0 0 16px;
+}
+.resource-options.main-menu .icon-button.icon-error,
+.resource-options.main-menu .icon-button.icon-tag,
+.resource-options.main-menu .icon-button.icon-folder,
+.resource-options.main-menu .icon-button.icon-simulator {
+    margin:                         4px 0 0 2px;
+}
+.resource-options.main-menu .icon-button.icon-error:focus,
+.resource-options.main-menu .icon-button.icon-tag:focus,
+.resource-options.main-menu .icon-button.icon-folder:focus,
+.resource-options.main-menu .icon-button.icon-simulator:focus {
+    background-color:               rgba(255, 255, 255, 0.2);
 }
 
 .icon-button.icon-copy,
@@ -323,10 +417,11 @@ body.no-motors.no-ev3.no-sensors .editor-wrapper .continue-button-wrapper {
 .icon-button.icon-play {
     margin-left:                    6px;
 }
-.icon-button.icon-left {
-    margin:                         8px 2px 0 8px;
+.resource-options .icon-button.icon-undo {
+    margin:                         8px 2px 0 16px;
 }
 .icon-button.icon-delete,
+.icon-button.icon-delete-default,
 .icon-button.icon-volume,
 .icon-button.icon-fade-in,
 .icon-button.icon-fade-out,
@@ -338,16 +433,54 @@ body.no-motors.no-ev3.no-sensors .editor-wrapper .continue-button-wrapper {
 .icon-button.icon-binary {
     margin:                         8px 2px 0 0;
 }
-.resource-options .tool-options {
+.resource-options .tool-options,
+.resource-options .tool-options-toolbar {
     margin:                         8px 2px 0 2px;
 }
-.resource-options.bottom.viewer .tool-options {
-    margin:                         8px 2px 0 8px;
+.resource-options .bottom-options .tool-options,
+.resource-options .bottom-options .tool-options-toolbar {
+    margin:                         4px 2px 0 8px;
 }
 .resource-options.bottom.viewer .select-and-copy {
     margin:                         8px 2px 0 8px;
 }
 .simulator .tool-options {
     float:                          right;
-    margin:                         8px 8px 0 0;
+    margin:                         8px 4px 0 0;
+}
+
+/* Form editor */
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form {
+    overflow:                       hidden;
+    cursor:                         default;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid10 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            5px 5px;
+    background-size:                10px 10px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid12 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            6px 6px;
+    background-size:                12px 12px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid16 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            8px 8px;
+    background-size:                16px 16px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form.grid20 {
+    background-image:               radial-gradient(rgba(0, 0, 0, 0.5) 10%, var(--ui-background1) 10%);
+    background-position:            10px 10px;
+    background-size:                20px 20px;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .button,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .label,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .checkbox-and-label,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .checkbox-and-label .checkbox,
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .tab-panels {
+    cursor:                         move;
+}
+.editor .source-wrapper .resource-wrapper .resource-content div.resource.form .tab-panels .tab-panel {
+    cursor:                         default;
 }

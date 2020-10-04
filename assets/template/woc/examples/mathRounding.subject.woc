@@ -1,0 +1,35 @@
+@subject Example:Math, rounding
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Math abs, neg example
+This gets a random value between greater or equan than 0 and less than 10 and prints
+the value, the rounded down and rounderd up value in the console.
+
+@section Code
+@example
+#project "Math rounding example"
+
+#include "lib/standard.whl"
+#include "lib/math.whl"
+
+proc main()
+    clearConsole()
+
+    ; Get a random floating point value greater or equal than 0 and less than 10:
+    number n = random(1, 99) / 10
+    printS("Number:")
+    printN(n)
+
+    ; Print the rounded down value in the console:
+    printS("Floor:")
+    printN(floor(n))
+
+    ; Print the rounded up value in the console:
+    printS("Ceil:")
+    printN(ceil(n))
+end
+@end
+
+@load Open file read example|examples/math/rounding.whlp
+
+@see math,abs,neg,Modules

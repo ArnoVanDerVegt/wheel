@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Component_Example:Label</title>
+    <meta name="description" content="Component_Example:Label"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Label</h2>
+            <a id="Labelexample"></a>
+            <h4 class="">Label example</h4>
+            <p>
+                This example shows how to use the label component.
+            </p>
+            <a id="Code"></a>
+            <h4 class="">Code</h4>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Label example"</span>
+
+<span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/component.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/form.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/label.whl"</span>
+
+<span class="meta">#define</span> <span class="define">LABEL_COUNT</span> <span class="number">0x5EF685C3</span>
+<span class="meta">#define</span> <span class="define">LABEL_LABEL</span> <span class="number">0x3B44B2E3</span>
+
+<span class="meta">#resource</span> <span class="string">"label.wfrm"</span>
+
+<span class="type">number</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>
+<span class="type">number</span> <span class="variable">windowHandle</span>
+
+<span class="comment">; @proc                   Show the form.</span>
+<span class="comment">; @ret                    The handle to the form.</span>
+<span class="keyword">proc</span> <span class="variable">showLabelForm</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="keyword">ret</span> <span class="variable">components.form.show</span><span class="operator">(</span><span class="string">"label.wfrm"</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">windowHandle</span> <span class="operator">=</span> <span class="variable">showLabelForm</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="keyword">repeat</span>
+        <span class="variable">count</span><span class="operator">+</span><span class="operator">+</span>
+        <span class="variable">components.label.setNumber</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">LABEL_COUNT</span><span class="operator">,</span> <span class="variable">count</span><span class="operator">)</span>
+        <span class="proc">sleep</span><span class="operator">(</span><span class="number">500</span><span class="operator">)</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Screenshot"></a>
+            <h4 class="">Screenshot</h4>
+            <img src="data:image/png;base64,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" class="shadow"/>
+            <div class="link-box">
+                <a href="https://github.com/ArnoVanDerVegt/wheel/tree/develop/assets/template/examples/components/label/label.whlp"            target="_wheelLink" class="start">View on Github »</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

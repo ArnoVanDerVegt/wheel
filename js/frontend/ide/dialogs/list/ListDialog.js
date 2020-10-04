@@ -5,7 +5,7 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../../lib/dom').DOMNode;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
-const ListItem   = require('./components/ListItem').ListItem;
+const List       = require('../../../lib/components/list/List').List;
 
 exports.ListDialog = class extends Dialog {
     constructor(opts) {
@@ -13,46 +13,58 @@ exports.ListDialog = class extends Dialog {
         opts || (opts = {});
         this._list          = [];
         this._dispatchApply = null;
-        this.createWindow(
-            'list-dialog' + (opts.comment ? ' with-comment' : ''),
-            opts.title || 'Title',
-            [
-                opts.comment ?
+        this.initWindow({
+            help:       opts.help,
+            showSignal: opts.showSignal,
+            width:      500,
+            height:     400,
+            className:  'list-dialog' + (opts.comment ? ' with-comment' : ''),
+            title:      opts.title || 'Title'
+        });
+    }
+
+    initWindowContent(opts) {
+        return [
+            opts.comment ?
+                {
+                    innerHTML: opts.comment,
+                    className: 'dialog-cw dialog-lt list-comment'
+                } :
+                null,
+            {
+                type:      List,
+                ListItem:  opts.ListItem,
+                settings:  this._settings,
+                ref:       this.setRef('list'),
+                ui:        this._ui,
+                tabIndex:  1,
+                className: 'abs ui1-box vscroll dialog-cw dialog-lt item-list',
+                onChange:  this.onChangeItem.bind(this),
+                onSelect:  this.onSelectItem.bind(this)
+            },
+            this.initButtons([
+                (opts.applyTitle === null) ?
+                    null :
                     {
-                        innerHTML: opts.comment,
-                        className: 'list-comment'
-                    } :
-                    null,
+                        ref:      this.setRef('buttonApply'),
+                        tabIndex: 256,
+                        value:    opts.applyTitle || 'Ok',
+                        disabled: true,
+                        onClick:  this.onApply.bind(this)
+                    },
                 {
-                    ref:       this.setRef('text'),
-                    uiId:      this._uiId,
-                    tabIndex:  1,
-                    className: 'item-list'
-                },
-                {
-                    className: 'buttons',
-                    children: [
-                        this.addButton({
-                            ref:      this.setRef('buttonApply'),
-                            tabIndex: 256,
-                            value:    'Ok',
-                            disabled: true,
-                            onClick:  this.onApply.bind(this)
-                        }),
-                        this.addButton({
-                            ref:      this.setRef('buttonCancel'),
-                            tabIndex: 257,
-                            value:    'Cancel',
-                            color:    'dark-green',
-                            onClick:  this.hide.bind(this)
-                        })
-                    ]
+                    ref:      this.setRef('buttonCancel'),
+                    tabIndex: 257,
+                    value:    opts.cancelTitle || 'Cancel',
+                    color:    'dark-green',
+                    onClick:  this.hide.bind(this)
                 }
-            ]
-        );
-        if (!opts || !opts.subClass) {
-            dispatcher.on('Dialog.List.Show', this, this.onShow);
-        }
+            ].concat(this.getExtraButtons()))
+        ];
+    }
+
+    getExtraButtons() {
+        return [];
     }
 
     getList() {
@@ -69,19 +81,13 @@ exports.ListDialog = class extends Dialog {
         return this;
     }
 
-    onClickItem(listItem) {
-        if (this._selected) {
-            this._selected.setSelected(false);
-        }
-        if (this._selected === listItem) {
-            this.onApply();
-            return;
-        }
-        this._selected = listItem;
-        this._selected.setSelected(true);
+    onChangeItem() {
         this._refs.buttonApply.setDisabled(false);
-        event.preventDefault();
-        event.stopPropagation();
+    }
+
+    onSelectItem(index) {
+        this.hide();
+        this._dispatchApply && dispatcher.dispatch(this._dispatchApply, index);
     }
 
     hide() {
@@ -92,9 +98,10 @@ exports.ListDialog = class extends Dialog {
     }
 
     onApply() {
-        if (this._selected) {
+        let index = this._refs.list.getSelectedIndex();
+        if (index >= 0) {
             this.hide();
-            this._dispatchApply && dispatcher.dispatch(this._dispatchApply, this._selected.getIndex());
+            this._dispatchApply && dispatcher.dispatch(this._dispatchApply, index);
         }
     }
 
@@ -104,36 +111,18 @@ exports.ListDialog = class extends Dialog {
         refs.buttonApply.innerHTML = opts.applyTitle;
         refs.buttonApply.className = 'button disabled';
         this._list                 = opts.list;
-        this._selected             = null;
         this._dispatchApply        = opts.dispatchApply;
         this._dispatchCancel       = opts.dispatchCancel;
         this.showList(opts.list);
         super.show();
-        if (this._listItems && this._listItems.length) {
-            this._listItems[0].focus();
+        if (this._list.length) {
+            refs.list.focus();
         } else {
             refs.buttonCancel.focus();
         }
     }
 
     showList(list) {
-        let refs = this._refs;
-        while (refs.text.childNodes.length) {
-            refs.text.removeChild(this._refs.text.childNodes[0]);
-        }
-        this._listItems = [];
-        list.forEach(
-            function(item, index) {
-                this._listItems.push(new ListItem({
-                    parentNode: refs.text,
-                    index:      index,
-                    tabIndex:   index + 1,
-                    item:       item,
-                    dialog:     this
-                }));
-            },
-            this
-        );
-        return this;
+        this._refs.list.setItems(list);
     }
 };

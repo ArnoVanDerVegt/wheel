@@ -1,0 +1,64 @@
+@subject PoweredUp_Example:Remote control
+@device  P
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Powered Up Remote control example
+This example shows how to read the Powered Up remote buttons.
+
+
+This example expects the remote to be connected as the first layer `INPUT_1`.
+
+@section Code
+@example
+#project "Powered Up Remote control example"
+
+#include "lib/standard.whl"
+#include "lib/sensor.whl"
+#include "lib/device.whl"
+#include "lib/bit.whl"
+#include "lib/button.whl"
+
+#display "Hub"
+
+proc printButton(number button)
+    clearConsole()
+    if bitAnd(button, BUTTON_PU_LEFT_MIN) == BUTTON_PU_LEFT_MIN
+        printS("Left min button")
+    end
+    if bitAnd(button, BUTTON_PU_LEFT_CENTER) == BUTTON_PU_LEFT_CENTER
+        printS("Left center button")
+    end
+    if bitAnd(button, BUTTON_PU_LEFT_RIGHT) == BUTTON_PU_LEFT_RIGHT
+        printS("Left plus button")
+    end
+    if bitAnd(button, BUTTON_PU_RIGHT_MIN) == BUTTON_PU_RIGHT_MIN
+        printS("Right min button")
+    end
+    if bitAnd(button, BUTTON_PU_RIGHT_CENTER) == BUTTON_PU_RIGHT_CENTER
+        printS("Right center button")
+    end
+    if bitAnd(button, BUTTON_PU_RIGHT_RIGHT) == BUTTON_PU_RIGHT_RIGHT
+        printS("Right plus button")
+    end
+end
+
+proc main()
+    ; Select the Powered Up device in the IDE...
+    selectDevice(DEVICE_POWERED_UP)
+
+    number lastButton = 0
+    repeat
+        number b = buttonLayer(INPUT_1)
+
+        ; Check if the button value is changed:
+        if b != lastButton
+            lastButton = b
+            printButton(lastButton)
+        end
+    end
+end
+@end
+
+@load Open the remote control example|examples/poweredup/remote/remote.whlp
+
+@see poweredup,button,Modules

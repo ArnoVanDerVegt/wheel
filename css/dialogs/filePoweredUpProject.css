@@ -1,0 +1,186 @@
+.dialog-background.file-new-powered-up-project .step-content {
+    top:                            120px;
+}
+.dialog-background.file-new-powered-up-project .step-content.hidden {
+    display:                        none;
+}
+/* Device */
+.dialog-background.file-new-powered-up-project .step-content .device-item,
+.dialog-background.file-new-powered-up-project .step-content .port-item {
+    background-color:               rgb(208, 212, 216);
+    width:                          80px;
+    height:                         80px;
+    margin:                         7px 8px 0 7px;
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+}
+.dialog-background.file-new-powered-up-project .step-content .port-item {
+    width:                          64px;
+    height:                         64px;
+    margin:                         7px 4px 0 0;
+}
+.dialog-background.file-new-powered-up-project .step-content .port-item.last {
+    margin-right:                   7px;
+}
+.dialog-background.file-new-powered-up-project .step-content .device-item img {
+    left:                           8px;
+    top:                            8px;
+    width:                          64px;
+    height:                         64px;
+}
+.dialog-background.file-new-powered-up-project .step-content .port-item img {
+    left:                           4px;
+    top:                            4px;
+    width:                          56px;
+    height:                         56px;
+}
+.dialog-background.file-new-powered-up-project .step-content .device-item .value,
+.dialog-background.file-new-powered-up-project .step-content .port-item .value {
+    right:                          4px;
+    bottom:                         4px;
+    width:                          22px;
+    height:                         22px;
+    border-radius:                  12px;
+    border:                         var(--ui-border1);
+    background-color:               var(--ui-background1);
+    color:                          var(--ui-text1);
+    line-height:                    20px;
+    text-align:                     center;
+    font-size:                      12px;
+}
+.dialog-background.file-new-powered-up-project .step-content .device-info {
+    width:                          256px;
+}
+.dialog-background.file-new-powered-up-project .step-content .device-info .device-title {
+    line-height:                    28px;
+    font-family:                    latolight;
+    font-size:                      17px;
+    color:                          inherited;
+    margin-top:                     2px;
+}
+.dialog-background.file-new-powered-up-project .step-content .device-info .device-description {
+    opacity:                        0.65;
+    font-size:                      15px;
+}
+/* List */
+.dialog-background.file-new-powered-up-project .step-content .list {
+    padding:                        8px;
+}
+.dialog-background.file-new-powered-up-project .step-content .list .vertical-list-item {
+    width:                          100%;
+    height:                         96px;
+    margin-bottom:                  8px;
+    border:                         1px solid transparent;
+}
+.dialog-background.file-new-powered-up-project .step-content .list .vertical-list-item a {
+    left:                           -1px;
+    top:                            -1px;
+    right:                          -1px;
+    bottom:                         -1px;
+    border:                         1px solid transparent;
+    border-radius:                  2px;
+    z-index:                        50;
+    outline:                        none;
+}
+.dialog-background.file-new-powered-up-project .step-content .list .vertical-list-item a:focus {
+    border:                         var(--focus-border-dotted);
+}
+.dialog-background.file-new-powered-up-project .step-content .list .vertical-list-item .close-button {
+    position:                       absolute;
+    right:                          8px;
+    top:                            8px;
+    z-index:                        100;
+}
+/* Step1: Start */
+.dialog-background.file-new-powered-up-project .step-content.step1 .text,
+.dialog-background.file-new-powered-up-project .step-content.step1 img {
+    top:                            32px;
+}
+.dialog-background.file-new-powered-up-project .step-content.step1 img {
+    top:                            32px;
+    width:                          256px;
+    height:                         256px;
+}
+.dialog-background.file-new-powered-up-project .step-content.step1 .text {
+    width:                          384px;
+    height:                         256px;
+    font-size:                      14px;
+}
+.dialog-background.file-new-powered-up-project .step-content.step1 .text ul {
+    margin:                         0;
+    padding:                        20px;
+}
+/* Step2: Device */
+.dialog-background.file-new-powered-up-project .list,
+.dialog-background.file-new-powered-up-project .device-options {
+    left:                           0;
+    right:                          0;
+    z-index:                        200;
+}
+.dialog-background.file-new-powered-up-project .list {
+    top:                            0;
+    height:                         376px;
+}
+.dialog-background.file-new-powered-up-project .device-options {
+    bottom:                         0px;
+    height:                         48px;
+}
+.dialog-background.file-new-powered-up-project .device-options .button {
+    float:                          right;
+    width:                          102px;
+    height:                         48px;
+    margin:                         0 0 0 8px;
+}
+.dialog-background.file-new-powered-up-project .step-content.step2 .device-options .dropdown {
+    float:                          right;
+    width:                          194px;
+}
+.dialog-background.file-new-powered-up-project .step-content.step3 .device-options .dropdown {
+    float:                          left;
+    width:                          181px;
+    margin-left:                    4px;
+}
+.dialog-background.file-new-powered-up-project .step-content.step3 .device-options .dropdown:first-child {
+    margin:                         0;
+}
+/* Step4: Include files */
+.dialog-background.file-new-powered-up-project .step-content.step4 .include-files {
+    top:                            0px;
+    left:                           0px;
+    width:                          100%;
+    height:                         100%;
+}
+/* Step5/Step6 */
+.dialog-background.file-new-dialog.file-new-powered-up-project .file-new-row:last-child {
+    display:                        block;
+}
+.dialog-background.file-new-powered-up-project .step-content.step6 .text {
+    margin-top:                     64px;
+    width:                          540px;
+    font-size:                      14px;
+}
+.dialog-background.file-new-powered-up-project .step-content.step6 h2 {
+    font-family:                    latolight;
+    font-size:                      17px;
+    color:                          var(--ui-text1);
+}
+/* Buttons */
+.dialog-background.file-new-powered-up-project .buttons .button.green.left {
+    float:                          left;
+    margin:                         0;
+    width:                          112px;
+}
+.dialog-background.file-new-powered-up-project .buttons .button.green.left.previous {
+    margin:                         0 4px 0 0;
+}
+.dialog-background.file-new-powered-up-project .image-options .image-option .button.green {
+    float:                          left;
+    width:                          120px;
+}
+.dialog-background.file-new-powered-up-project .image-options .image-option .button.green input[type="button"] {
+    width:                          100%;
+}
+.dialog-background.file-new-powered-up-project .buttons input[type="button"].button.dark-green {
+    float:                          right;
+    margin-right:                   0;
+}

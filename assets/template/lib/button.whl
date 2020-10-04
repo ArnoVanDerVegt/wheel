@@ -2,25 +2,49 @@
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
+; @description
+; This file contains a procedures to read `EV3` or `Powered Up` buttons.
+
 ; @const The button module.
-#define MODULE_BUTTON  			4
+#define MODULE_BUTTON            4
 
 ; @const Module call to read a button.
-#define BUTTON_READ    			0
-#define BUTTON_WAIT_FOR_PRESS 	1
+#define BUTTON_READ              0
+#define BUTTON_WAIT_FOR_PRESS    1
 
-; @const The possible button values.
-#define BUTTON_NONE    			0
-#define BUTTON_UP      			1
-#define BUTTON_CENTER  			2
-#define BUTTON_DOWN    			3
-#define BUTTON_RIGHT   			4
-#define BUTTON_LEFT    			5
+; @const The possible EV3 button values.
+#define BUTTON_NONE              0
+#define BUTTON_UP                1
+#define BUTTON_CENTER            2
+#define BUTTON_DOWN              3
+#define BUTTON_RIGHT             4
+#define BUTTON_LEFT              5
+
+; @const The Powered Up button bits.
+#define BUTTON_PU_LEFT_MIN       1
+#define BUTTON_PU_LEFT_CENTER    2
+#define BUTTON_PU_LEFT_RIGHT     4
+#define BUTTON_PU_RIGHT_MIN      8
+#define BUTTON_PU_RIGHT_CENTER  16
+#define BUTTON_PU_RIGHT_RIGHT   32
+
+; @proc             Read a button value from a given layer, the layer only applies to Powered Up devices.
+; @return           In case of EV3 then button pressed value -if any-: `BUTTON_NONE`, `BUTTON_LEFT`, `BUTTON_CENTER`, `BUTTON_RIGHT`,
+;                   `BUTTON_UP` or `BUTTON_DOWN`. In case of Powered Up then the value can contain one or more bits:
+;                   `BUTTON_PU_LEFT_MIN`, `BUTTON_PU_LEFT_CENTER`, `BUTTON_PU_LEFT_RIGHT`, `BUTTON_PU_LEFT_MIN`,
+;                   `BUTTON_PU_LEFT_CENTER` or `BUTTON_PU_LEFT_RIGHT`
+proc buttonLayer(number layer)
+    addr layer
+    mod  MODULE_BUTTON, BUTTON_READ
+end
 
 ; @proc             Read a button value.
-; @return           The button presses -if any-: `BUTTON_NONE`, `BUTTON_LEFT`, `BUTTON_CENTER`, `BUTTON_RIGHT`, `BUTTON_UP` or `BUTTON_DOWN`.
+; @return           In case of EV3 then button pressed value -if any-: `BUTTON_NONE`, `BUTTON_LEFT`, `BUTTON_CENTER`, `BUTTON_RIGHT`,
+;                   `BUTTON_UP` or `BUTTON_DOWN`. In case of Powered Up then the value can contain one or more bits:
+;                   `BUTTON_PU_LEFT_MIN`, `BUTTON_PU_LEFT_CENTER`, `BUTTON_PU_LEFT_RIGHT`, `BUTTON_PU_LEFT_MIN`,
+;                   `BUTTON_PU_LEFT_CENTER` or `BUTTON_PU_LEFT_RIGHT`
 proc button()
-    mod MODULE_BUTTON, BUTTON_READ
+    ret buttonLayer(0)
 end
 
 ; @proc             Wait until a button is pressed.

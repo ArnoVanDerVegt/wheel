@@ -1,0 +1,34 @@
+@subject EV3_Example:Sound, tone
+@device  E
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Sound tone example
+This example shows how to play tones.
+
+@section Code
+@example
+#project "Sound tone example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/sound.whl"
+
+#display "EV3"
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    number tones[10] = [TONE_C4, TONE_D4, TONE_E4, TONE_F4, TONE_G4, TONE_A4, TONE_B4, TONE_C5, TONE_D5, TONE_E5]
+    number n
+
+    for n = 0 to 9
+        ; Play the tone with the given frequency, duration and volume...
+        playTone(tones[n], 50, 30)
+    end
+end
+@end
+
+@load Open the sound tone example|examples/ev3/sound/tone.whlp
+
+@see playTone,sound,Modules

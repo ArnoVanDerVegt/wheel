@@ -8,22 +8,21 @@
 //=================================================================================================//
 subcall run {
     DATA32 lRegCode_32
+
+    CALL(readMem32, 4, 0, lRegCode_32)                                  // Read code register from heap offset 4
 loop:
-    CALL(readCommand)
+    MUL32(lRegCode_32, 3, gCommandListffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListffset_32, gCommandInfo_32)
+    READ8(gCommandInfo_32, 0, gCommand_8)
+    ADD32(gCommandListffset_32, 1, gCommandListffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListffset_32, gParam1_F)
+    ADD32(gCommandListffset_32, 1, gCommandListffset_32)
+    ARRAY_READ(gCommandList_H, gCommandListffset_32, gParam2_F)
+
     CALL(runCommand)
     CALL(readMem32, 4, 0, lRegCode_32)
     ADD32(lRegCode_32, 1, lRegCode_32)
     CALL(writeMem32, 4, 0, lRegCode_32)
-
-    JR_EQ8(gModScreenUpdated_8, 0, screen_not_updated)                  // Check if the screen needs an update
-    DATA32 lTime_32
-    TIMER_READ(lTime_32)
-    JR_LT32(lTime_32, gModScreenUpdateTime_32, screen_not_updated)
-    UI_DRAW(UPDATE)                                                     // Update screen every 100ms
-    MOVE32_32(lTime_32, gModScreenUpdateTime_32)
-    ADD32(gModScreenUpdateTime_32, 100, gModScreenUpdateTime_32)
-    MOVE8_8(0, gModScreenUpdated_8)
-screen_not_updated:
 
     JR_LT32(lRegCode_32, gCommandCount_32, loop)
 }
@@ -38,6 +37,115 @@ subcall runCommand {
     DATA32 lRegStackNew_32
     DATA32 lParam1Offset_32
     DATA32 lParam2Offset_32
+    DATA8  lMod_8                                                       // The module to call
+    DATA8  lModCall_8                                                   // The procedure within the module
+    DATA16 lIndex_16
+    DATA16 lCount_16
+    DATAF  lValue_F
+    DATA8  lFlag_8
+    DATA32 lStackAlloc_32
+
+    JR_LT8(gCommand_8, 32, un_optimized_command)
+
+    JR_EQ8(gCommand_8, 32, optimized_set_local_constant)
+    JR_EQ8(gCommand_8, 33, optimized_set_global_constant)
+    JR_EQ8(gCommand_8, 34, optimized_call_constant_constant)
+    JR_EQ8(gCommand_8, 35, optimized_mod_constant_constant)
+    JR_EQ8(gCommand_8, 36, optimized_ret_constant_constant)
+    JR_EQ8(gCommand_8, 37, optimized_add_global_global)
+    JR_EQ8(gCommand_8, 38, optimized_set_local_local)
+    JR_EQ8(gCommand_8, 39, optimized_add_local_local)
+    JR_EQ8(gCommand_8, 40, optimized_sub_local_local)
+    RETURN()
+
+optimized_set_local_constant:
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, gParam2_F)
+    RETURN()
+
+optimized_set_global_constant:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, gParam2_F)
+    RETURN()
+
+optimized_call_constant_constant:
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    CALL(readMem32, 4, 0, lRegCode_32)                                  // Read code register from heap offset 4
+    MOVEF_32(gParam2_F, lStackAlloc_32)                                 // Convert the needed stack size to int32
+    ADD32(lRegStack_32, lStackAlloc_32, lRegStackNew_32)
+    CALL(writeMem32, lRegStackNew_32, -1, lRegCode_32)                  // Save the code register on the stack
+    CALL(writeMem32, lRegStackNew_32, -2, lRegStack_32)                 // Save the stack register on the stack
+    CALL(writeMem32, 0, 0, lRegStackNew_32)                             // Update the stack register
+    CALL(writeMemF, 4, 0, gParam1_F)                                    // Write the code register to heap offset 4
+    RETURN()
+
+optimized_mod_constant_constant:
+    MOVEF_8(gParam1_F, lMod_8)
+    MOVEF_8(gParam2_F, lModCall_8)
+    CALL(cmdMod, lMod_8, lModCall_8)
+    RETURN()
+
+optimized_ret_constant_constant:
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    CALL(readMem32, lRegStack_32, -2, lRegStackNew_32)
+    CALL(readMem32, lRegStack_32, -1, lRegCode_32)
+    CALL(writeMem32, 0, 0, lRegStackNew_32)                             // Set the return stack register value
+    CALL(writeMem32, 4, 0, lRegCode_32)                                 // Set the return code register value
+    JR_EQ8(gKeepRet_8, 1, optimized_ret_constant_constant_ret_keep)
+    CALL(writeMemF, 5, 0, gParam1_F)                                    // Set the return register
+    RETURN()
+optimized_ret_constant_constant_ret_keep:
+    MOVE8_8(0, gKeepRet_8)
+    RETURN()
+
+optimized_add_global_global:
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, gParam2Value_F)
+    ADDF(gParam1Value_F, gParam2Value_F, gParam1Value_F)
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, gParam1Value_F)
+    RETURN()
+
+optimized_set_local_local:
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    ADD32(lParam2Offset_32, lRegStack_32, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, lValue_F)
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, lValue_F)
+    RETURN()
+
+optimized_add_local_local:
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    ADD32(lParam2Offset_32, lRegStack_32, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, gParam2Value_F)
+    ADDF(gParam1Value_F, gParam2Value_F, gParam1Value_F)
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, gParam1Value_F)
+    RETURN()
+
+optimized_sub_local_local:
+    CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
+    MOVEF_32(gParam1_F, lParam1Offset_32)
+    ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
+    MOVEF_32(gParam2_F, lParam2Offset_32)
+    ADD32(lParam2Offset_32, lRegStack_32, lParam2Offset_32)
+    ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)
+    ARRAY_READ(gHeap_H, lParam2Offset_32, gParam2Value_F)
+    SUBF(gParam1Value_F, gParam2Value_F, gParam1Value_F)
+    ARRAY_WRITE(gHeap_H, lParam1Offset_32, gParam1Value_F)
+    RETURN()
+
+un_optimized_command:
+    READ8(gCommandInfo_32, 1, gType1_8)                                 // Get parameter type info...
+    READ8(gCommandInfo_32, 2, gType2_8)
 
     CALL(readMem32, 0, 0, lRegStack_32)                                 // Read stack register from heap offset 0
 
@@ -70,9 +178,6 @@ param2_fetched:
     RETURN()
 
 cmd_copy:
-    DATA16 lIndex_16
-    DATA16 lCount_16
-    DATAF  lValue_F
     CALL(readMem32, 1, 0, lRegSrc_32)
     CALL(readMem32, 2, 0, lRegDest_32)
     MOVEF_16(gParam2Value_F, lCount_16)
@@ -87,17 +192,12 @@ cmd_copy_loop:
     RETURN()
 
 cmd_mod:
-    DATA8  lMod_8                                                       // The module to call
-    DATA8  lModCall_8                                                   // The procedure within the module
-
     MOVEF_8(gParam1_F, lMod_8)
     MOVEF_8(gParam2_F, lModCall_8)
     CALL(cmdMod, lMod_8, lModCall_8)
     RETURN()
 
 cmd_jmpc:
-    DATA8  lFlag_8
-
     CALL(readMem8, 6, 0, lFlags_8)                                      // Read flags register from heap offset 6
     MOVEF_8(gParam1_F, lFlag_8)                                         // Get the flag to compare from the first parameter
     AND8(lFlags_8, lFlag_8, lFlags_8)                                   // lFlags_8 = lFlags_8 or lFlag_8
@@ -133,8 +233,6 @@ cmd_call_ret_param1_local:
     ADD32(lParam1Offset_32, lRegStack_32, lParam1Offset_32)
     ARRAY_READ(gHeap_H, lParam1Offset_32, gParam1Value_F)               // gParam1Value_F = [lParam1Offset_32]
 cmd_call_ret_param1_done:
-
-    DATA32 lStackAlloc_32
 
     JR_EQ8(gCommand_8, 1, cmd_ret)                                      // Ret
     CALL(readMem32, 4, 0, lRegCode_32)                                  // Read code register from heap offset 4

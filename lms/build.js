@@ -21,7 +21,7 @@ const createMotorUpdate = function() {
                             .split('{A}').join(layer + ports[port])
                             .split('{a}').join(layer + ports[port].toLowerCase())
                             .split('{l}').join((layer - 1).toString())
-                            .split('{pn}').join((port + 101).toString())
+                            .split('{pn}').join((port + (1 + layer * 100)).toString())
                             .split('{p}').join(port.toString());
                 console.log('    Generating:', 'vm/modMotor' + layer + ports[port] + '.lms');
                 addFileCode('vm/modMotor' + layer + ports[port] + '.lms', s);
@@ -34,13 +34,14 @@ const files = [
         'vm/modScreenVars.lms',
         'vm/modMotorVars.lms',
         'vm/modSensorVars.lms',
+        'vm/modPSPVars.lms',
+        'vm/modSensorMultiVars.lms',
         'vm/vm.lms',
         'vm/vmLoad.lms',
         'vm/vmRun.lms',
         'vm/vmRead.lms',
         'vm/vmWrite.lms',
         'vm/vmMod.lms',
-        'vm/vmUtils.lms',
         'vm/modStandard.lms',
         'vm/modMath.lms',
         'vm/modScreenInit.lms',
@@ -59,6 +60,11 @@ const files = [
         'vm/modBit.lms',
         'vm/modString.lms',
         'vm/modSystem.lms',
+        'vm/modPSPInit.lms',
+        'vm/modPSP.lms',
+        'vm/modSensorMultiInit.lms',
+        'vm/modSensorMulti.lms',
+        'vm/vmUtils.lms'
     ];
 
 console.log('Building Wheel VM...');

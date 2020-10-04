@@ -2,31 +2,67 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher          = require('../../lib/dispatcher').dispatcher;
-const DOMNode             = require('../../lib/dom').DOMNode;
-const Button              = require('../../lib/components/Button').Button;
-const Display             = require('./io/Display').Display;
-const Buttons             = require('./io/Buttons').Buttons;
-const EV3Button           = require('./io/Buttons').Button;
-const Sound               = require('./io/Sound').Sound;
-const SimulatorToolbar    = require('./SimulatorToolbar').SimulatorToolbar;
-const SimulatorMotors     = require('./SimulatorMotors').SimulatorMotors;
-const SimulatorSensors    = require('./SimulatorSensors').SimulatorSensors;
-const SimulatorConnection = require('./SimulatorConnection').SimulatorConnection;
+const dispatcher       = require('../../lib/dispatcher').dispatcher;
+const DOMNode          = require('../../lib/dom').DOMNode;
+const Button           = require('../../lib/components/Button').Button;
+const Checkbox         = require('../../lib/components/Checkbox').Checkbox;
+const tabIndex         = require('../tabIndex');
+const SimulatorToolbar = require('./SimulatorToolbar').SimulatorToolbar;
 
 exports.Simulator = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts     = opts;
-        this._ui       = opts.ui;
-        this._brick    = opts.brick;
-        this._settings = opts.settings;
-        this._layer    = 0;
-        this._sound    = new Sound();
-        this._motors   = null;
-        this._sensors  = null;
-        this._vm       = null;
-        this.initDOM(opts.parentNode || document.body);
+        (typeof opts.id === 'function') && opts.id(this);
+        this._opts      = opts;
+        this._ui        = opts.ui;
+        this._ev3       = opts.ev3;
+        this._poweredUp = opts.poweredUp;
+        this._settings  = opts.settings;
+        this._layer     = 0;
+        this._vm        = null;
+        this._plugins   = {};
+        this.initDOM(opts.parentNode);
+        dispatcher.on('Simulator.ShowPluginByName', this, this.onShowPluginByName);
+    }
+
+    cleanPath(path) {
+        let valid  = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789';
+        let result = '';
+        for (let i = 0; i < path.length; i++) {
+            (valid.indexOf(path[i]) !== -1) && (result += path[i]);
+        }
+        return result;
+    }
+
+    initPlugins() {
+        let plugins  = this._settings.getPlugins().getSortedPlugins();
+        let children = [];
+        let settings = this._settings;
+        plugins.forEach(
+            function(plugin, index) {
+                let uuid = plugin.uuid;
+                dispatcher.on(
+                    'Menu.Simulator.' + uuid,
+                    this,
+                    function() {
+                        let pluginSettings = settings.getPluginByUiid(uuid, {});
+                        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', uuid, 'visible', !pluginSettings.visible);
+                    }
+                );
+                children.push({
+                    type:      require('../plugins/simulator/' + this.cleanPath(plugin.path) + '/Plugin').Plugin,
+                    plugin:    plugin,
+                    ui:        this._ui,
+                    ev3:       this._ev3,
+                    poweredUp: this._poweredUp,
+                    settings:  settings,
+                    simulator: this,
+                    tabIndex:  tabIndex.SIMULATOR_PLUGINS + index * 96
+                });
+            },
+            this
+        );
+        return children;
     }
 
     initDOM(parentNode) {
@@ -38,109 +74,45 @@ exports.Simulator = class extends DOMNode {
                     {
                         type:      SimulatorToolbar,
                         ui:        this._ui,
-                        brick:     this._brick,
+                        ev3:       this._ev3,
                         settings:  this._settings,
                         simulator: this
                     },
                     {
-                        className: 'ev3-background',
-                        children: [
-                            {
-                                id:        this.setMotors.bind(this),
-                                type:      SimulatorMotors,
-                                ui:        this._ui,
-                                brick:     this._brick,
-                                settings:  this._settings,
-                                simulator: this
-                            },
-                            {
-                                className: 'ev3',
-                                children: [
-                                    {
-                                        className: 'ev3-left'
-                                    },
-                                    {
-                                        className: 'ev3-body',
-                                        children: [
-                                            {
-                                                className: 'ev3-display',
-                                                children: [
-                                                    {
-                                                        className: 'display-border',
-                                                        children: [
-                                                            {
-                                                                id:   this.setDisplayElement.bind(this),
-                                                                type: 'canvas',
-                                                                ui:   this._ui
-                                                            },
-                                                            ('electron' in window) ?
-                                                                {
-                                                                    type:     Button,
-                                                                    ui:       this._ui,
-                                                                    color:    'blue',
-                                                                    value:    'Copy',
-                                                                    onClick:  this.onCopyDisplay.bind(this)
-                                                                } :
-                                                                null
-                                                        ]
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                className: 'ev3-panel',
-                                                children: [
-                                                    {
-                                                        id:   this.setButtons.bind(this),
-                                                        type: Buttons,
-                                                        ui:   this._ui
-                                                    },
-                                                    {
-                                                        type:      EV3Button,
-                                                        ui:        this._ui,
-                                                        className: 'ev3-button-stop',
-                                                        up:        'ev3-button-stop',
-                                                        down:      'ev3-button-stop pressed',
-                                                        onClick:   this._opts.onStop
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                className: 'ev3-bottom',
-                                                children: [
-                                                    {
-                                                        className: 'ev3-log-text',
-                                                        innerHTML: 'WHL'
-                                                    },
-                                                    {
-                                                        className: 'ev3-logo'
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        className: 'ev3-right'
-                                    }
-                                ]
-                            },
-                            {
-                                id:        this.setSensors.bind(this),
-                                type:      SimulatorSensors,
-                                ui:        this._ui,
-                                brick:     this._brick,
-                                simulator: this
-                            },
-                            {
-                                type:      SimulatorConnection,
-                                ui:        this._ui,
-                                brick:     this._brick
-                            }
-                        ]
+                        className: 'abs plugin-container',
+                        children:  this.initPlugins()
                     }
                 ]
             }
         );
         dispatcher.dispatch('Settings.UpdateViewSettings');
+    }
+
+    registerPlugin(uuid, plugin) {
+        this._plugins[uuid] = plugin;
+    }
+
+    setAutoResetPanel(element) {
+        this._autoResetPanelElement = element;
+    }
+
+    setAutoResetCheckbox(element) {
+        this._autoResetCheckbox = element;
+    }
+
+    getPluginByName(name) {
+        let plugins = this._settings.getPlugins().getSortedPlugins();
+        for (let i in plugins) {
+            let plugin = plugins[i];
+            if (plugin.name === name) {
+                return plugin;
+            }
+        }
+        return null;
+    }
+
+    getPluginByUuid(uuid) {
+        return this._plugins[uuid] || null;
     }
 
     getVM() {
@@ -151,61 +123,24 @@ exports.Simulator = class extends DOMNode {
         this._vm = vm;
     }
 
-    getDisplay() {
-        return this._display;
-    }
-
-    getLight() {
-        return require('./io/Light').light;
-    }
-
-    getButtons() {
-        return this._buttons;
-    }
-
-    getSound() {
-        return this._sound;
-    }
-
-    getMotors() {
-        return this._motors;
-    }
-
-    setMotors(motors) {
-        this._motors = motors;
-    }
-
-    getSensors() {
-        return this._sensors;
-    }
-
-    setSensors(sensors) {
-        this._sensors = sensors;
-    }
-
-    setButtons(buttons) {
-        this._buttons = buttons;
-    }
-
-    setDisplayElement(element) {
-        this._canvas  = element;
-        this._display = new Display({canvas: element});
-    }
-
     getLayer() {
         return this._layer;
     }
 
     setLayer(layer) {
         this._layer = layer;
-        this._motors.showLayer(layer);
-        this._sensors.showLayer(layer);
+        for (let plugin in this._plugins) {
+            plugin = this._plugins[plugin];
+            if ('showLayer' in plugin) {
+                plugin.showLayer(layer);
+            }
+        }
     }
 
-    onCopyDisplay() {
-        const clipboard   = require('electron').clipboard;
-        const nativeImage = require('electron').nativeImage;
-        clipboard.writeImage(nativeImage.createFromDataURL(this._canvas.toDataURL('image/png')));
-        dispatcher.dispatch('Console.Log', {message: 'Copied display to clipboard.'});
+    onShowPluginByName(name) {
+        let plugin = this.getPluginByName(name);
+        if (plugin) {
+            dispatcher.dispatch('Settings.Show.PluginByUuid', plugin.uuid);
+        }
     }
 };

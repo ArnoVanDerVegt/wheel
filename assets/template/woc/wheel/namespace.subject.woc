@@ -1,0 +1,86 @@
+@subject Programming:Namespaces
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Dividing your code
+In some cases you want to use the same procedure name more than once in different places.
+For example most components like a `button`, `panel` or a `label` have an `X` and `Y` property with
+a `setX` and `setY` procedure to change the property value.
+
+
+Without namespaces you would only be able to declare a single `setX` or `setY` procedure.
+However if you declare the procedure in a `namespace` you can use the procedure multiple times
+in different namespaces.
+
+
+Within a namespace a procedure or record name still has to be unique.
+
+
+Namespaces apply to `procedures` and `records`.
+
+@section Declaring a namespace
+
+A namespace is usually declared at the beginning of a file.
+In the following examples the same procedure `setX` is used in two different namespaces:
+
+@example
+namespace components.button
+
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_BUTTON, BUTTON_COMPONENT_SET_X
+end
+@end
+
+@example
+namespace components.panel
+
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_X
+end
+@end
+
+
+@section Using a namespaced procedure
+
+When calling a procedure declared in a namespace then the namespace should be used as a prefix.
+
+@example
+proc main
+    ; Call setX in the components.panel namespace:
+    components.panel.setX(10)
+    ; Call setX in the components.button namespace:
+    components.button.setX(55)
+end
+@end
+
+
+@section Inside a namespace
+
+
+When calling a procedure or using a record inside a namespace it's not necessary to use the `namespace` prefix.
+
+
+@example
+namespace components.panel
+
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_X
+end
+
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_PANEL, PANEL_COMPONENT_SET_Y
+end
+
+proc setPosition()
+    ; The setX and setY procedures are declared in the same namespace as this setPosition
+    ; procedure and don't need a namespace prefix to call them here...
+    setX(10)
+    setY(167)
+end
+@end
+
+
+@see record,proc

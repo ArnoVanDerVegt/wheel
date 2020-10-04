@@ -1,0 +1,6 @@
+.dialog-background.graph-dialog .graph-dialog-row .label {
+    float:                          left;
+    width:                          40%;
+    text-align:                     right;
+    padding:                        0 8px 0 0;
+}

@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test Sensor',
-    function() {
+    () => {
         testModuleCall(
             it,
             'Should set type',
@@ -104,7 +104,7 @@ describe(
             ];
         it(
             'Should read sensor',
-            function() {
+            () => {
                 let info = testCompile(source);
                 info.modules[7].on('Sensor.Read', this, function(s) {
                     s.callback(4645);

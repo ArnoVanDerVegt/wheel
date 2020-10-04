@@ -8,10 +8,10 @@ const Text        = require('../../js/frontend/program/output/Text').Text;
 
 describe(
     'Test output',
-    function() {
+    () => {
         it(
             'Should output simple program',
-            function() {
+            () => {
                 let info = testCompile([
                         'number n',
                         'proc main()',
@@ -51,7 +51,7 @@ describe(
         );
         it(
             'Should output program with string',
-            function() {
+            () => {
                 let info = testCompile([
                         'string s = "Jumped over the lazy dog"',
                         'proc main()',
@@ -93,7 +93,7 @@ describe(
         );
         it(
             'Should output program with condition',
-            function() {
+            () => {
                 let info = testCompile([
                         'number a',
                         'proc main()',
@@ -137,7 +137,7 @@ describe(
         );
         it(
             'Should output program with condition and',
-            function() {
+            () => {
                 let info = testCompile([
                         'number a',
                         'number b',
@@ -190,7 +190,7 @@ describe(
         );
         it(
             'Should output program with jump',
-            function() {
+            () => {
                 let info = testCompile([
                         'proc main()',
                         '    number i, j',
@@ -234,7 +234,7 @@ describe(
                         '0000  set     [stack + 0],        1',
                         '0001  set     [stack + 3],        [stack + 0]',
                         '0002  cmp     [stack + 3],        0',
-                        '0003  jmpc    flags.neq,          0013',
+                        '0003  jmpc    flags.neq,          0014',
                         '0004  set     [stack + 1],        0',
                         '0005  set     src,                1',
                         '0006  add     src,                stack',
@@ -245,8 +245,53 @@ describe(
                         '0011  jmpc    flags.le,           0012',
                         '0012  jump    0014',
                         '0013  jump    0005',
-                        '0014  cmp     [stack + 3],        1',
-                        '0015  jmpc    flags.neq,          0015'
+                        '0014  jump    0017',
+                        '0015  cmp     [stack + 3],        1',
+                        '0016  jmpc    flags.neq,          0016'
+                    ].join('\n');
+                assert.equal(output.trim(), expect.trim());
+            }
+        );
+        it(
+            'Should output program with constants',
+            () => {
+                let info = testCompile([
+                        'number a[3] = [0, 1, 2]',
+                        'number b[4] = [4, 5, 6, 7]',
+                        'proc main()',
+                        '    addr a[1]',
+                        '    mod  0, 1',
+                        '    addr b[2]',
+                        '    mod  0, 1',
+                        'end'
+                    ]);
+                let output = new Text(info.program).getOutput(true, false);
+                let expect = [
+                        'Wheel VM Program',
+                        '#VERSION',
+                        '    1',
+                        '#NAME',
+                        '    null',
+                        '#LAYERS',
+                        '    0',
+                        '#HEAP',
+                        '    1024',
+                        '#STRINGS',
+                        '    64,64',
+                        '    0',
+                        '#CONSTANTS',
+                        '    1',
+                        '    offset: 0009',
+                        '    data:   [0,1,2,4,5,6,7]',
+                        '#REG_CODE',
+                        '    0',
+                        '#REG_STACK',
+                        '    16',
+                        '#CODE',
+                        '0000  set     src,                10',
+                        '0001  mod     0,                  1',
+                        '0002  set     src,                14',
+                        '0003  mod     0,                  1'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }

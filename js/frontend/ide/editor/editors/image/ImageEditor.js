@@ -37,7 +37,7 @@ exports.ImageEditor = class extends Editor {
             parentNode,
             {
                 ref:       this.setRef('wrapper'),
-                className: 'resource-wrapper',
+                className: 'max-w resource-wrapper',
                 children: [
                     {
                         type:        ToolbarTop,
@@ -206,7 +206,7 @@ exports.ImageEditor = class extends Editor {
     onSelectGrid() {
         let imageEditorState = this._imageEditorState;
         imageEditorState.setGrid(!imageEditorState.getGrid());
-        this._refs.gridToggle.setClassName(imageEditorState.getGrid() ? 'active' : '');
+        this._refs.gridToggle.setClassName('toolbar-button' + (imageEditorState.getGrid() ? ' active' : ''));
         this._gridElement.setVisible(imageEditorState.getGrid());
     }
 
@@ -216,7 +216,7 @@ exports.ImageEditor = class extends Editor {
         if (imageEditorState.getMeta()) {
             this._refs.metaResourceContent.childNodes[0].innerHTML = this._image.getMeta(this._filename);
         }
-        this._refs.meta.getClassName(imageEditorState.getMeta() ? 'active' : '');
+        this._refs.meta.setClassName('toolbar-button' + (imageEditorState.getMeta() ? ' active' : ''));
         this.updateElements();
     }
 

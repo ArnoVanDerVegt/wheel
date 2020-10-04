@@ -1,6 +1,10 @@
 .simulator .sensors {
+    display:                        none;
+}
+.simulator .sensors.visible {
     margin-top:                     8px;
     -webkit-user-select:            none;
+    display:                        block;
 }
 .simulator .sensors .sensor {
     height:                         70px;
@@ -8,29 +12,7 @@
 .simulator .sensors .sensor .value {
     bottom:                         7px;
 }
-.simulator .sensors .title.with-mode {
-    cursor:                         pointer;
-}
-/*.simulator .sensors.running .sensor .value {
-    pointer-events:                 none;
-}*/
 .simulator .sensors .sensor .value .checkbox {
     float:                          left;
     margin:                         0 0 0 16.5px;
-}
-.simulator .sensors .sensor .value .icon-select {
-    float:                          left;
-    margin:                         -2px 0 0 14px;
-}
-.simulator .sensors .sensor .value.hidden {
-    display:                        none;
-}
-.simulator .sensors .sensor .value input[type="text"] {
-    outline:                        none;
-    border:                         1px solid rgba(0, 0, 0, 0.5);
-    width:                          47px;
-    font-family:                    monospace;
-    font-size:                      13px;
-    text-align:                     center;
-    margin-top:                     1px;
 }

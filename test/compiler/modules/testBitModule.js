@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test Bit module',
-    function() {
+    () => {
         testLogs(
             it,
             'Should get a bitwise or',

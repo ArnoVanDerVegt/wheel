@@ -1,0 +1,563 @@
+body {
+    --source-cursor:                2px solid #383838;
+
+    --source-selected:              rgba(0, 0, 0, 0.1);
+
+    --source-background-odd:        #F8F8F8;
+    --source-background-even:       #FFFFFF;
+
+    --source-comment-background:    #F0F0F0;
+    --source-comment-color:         #383838;
+
+    --source-operator-color:        #383838;
+    --source-operator-style:        normal;
+    --source-operator-weight:       normal;
+
+    --source-string-color:          #5758BB;
+    --source-string-style:          italic;
+    --source-string-weight:         normal;
+
+    --source-meta-color:            #C0392B;
+    --source-meta-style:            italic;
+    --source-meta-weight:           normal;
+
+    --source-define-color:          #C0392B;
+    --source-define-style:          normal;
+    --source-define-weight:         bold;
+
+    --source-type-color:            #9B59B6;
+    --source-type-style:            normal;
+    --source-type-weight:           bold;
+
+    --source-keyword-color:         #E67E22;
+    --source-keyword-style:         normal;
+    --source-keyword-weight:        bold;
+
+    --source-number-color:          #1ABC9C;
+    --source-number-style:          normal;
+    --source-number-weight:         normal;
+
+    --source-variable-color:        #0097E6;
+    --source-variable-style:        normal;
+    --source-variable-weight:       normal;
+
+    --source-proc-color:            #0097E6;
+    --source-proc-style:            italic;
+    --source-proc-weight:           normal;
+
+    --source-register-color:        #9B59B6;
+    --source-register-style:        normal;
+    --source-register-weight:       normal;
+
+    --source-record-color:          #4CD137;
+    --source-record-style:          italic;
+    --source-record-weight:         normal;
+
+    --source-default-color:         #0097E6;
+    --source-default-style:         normal;
+    --source-default-weight:        normal;
+
+    --source-woc-keyword-color:     #00A8FF;
+    --source-woc-keyword-style:     italic;
+    --source-woc-keyword-weight:    normal;
+
+    --source-woc-default-color:     #383838;
+    --source-woc-default-style:     normal;
+    --source-woc-default-weight:    normal;
+
+    --home-background:              linear-gradient(0deg, rgba(52,152,219,1) 0%, rgba(41,128,185,1) 100%);
+    --home-title-color:             #FFFFFF;
+
+    --focus-border-solid:           1px solid #383838;
+    --focus-border-dotted:          1px dotted #383838;
+
+    --color-green:                  #4CD137;
+    --color-green-pressed:          #44BD32;
+    --color-green-active:           #4CD137;
+    --color-green-in-active:        #CAD5E0;
+
+    --color-blue:                   #00A8FF;
+    --color-blue-pressed:           #0097E6;
+    --color-blue-active:            #00A8FF;
+    --color-blue-in-active:         #CAD5E0;
+
+    --color-red:                    #E74C3C;
+    --color-red-pressed:            #C0392B;
+    --color-red-active:             #E74C3C;
+    --color-red-in-active:          #CAD5E0;
+
+    --color-yellow:                 #F1C40F;
+    --color-yellow-pressed:         #F39C12;
+    --color-yellow-active:          #F1C40F;
+    --color-yellow-in-active:       #CAD5E0;
+
+    --color-dark-green:             #95A5A6;
+    --color-dark-green-pressed:     #BDC3C7;
+    --color-dark-green-active:      #95A5A6;
+    --color-dark-green-in-active:   #707070;
+
+    --color-white:                  #FFFFFF;
+    --color-red:                    #E84118;
+    --color-yellow:                 #F9CA24;
+
+    --color-dark-green:             #44BD32;
+    --color-dark-blue:              #00A8FF;
+    --color-dark-red:               #C0392B;
+    --color-dark-yellow:            #D35400;
+
+    --ui-text1:                     #383838;
+    --ui-text2:                     #D0D0D0;
+
+    --ui-border1:                   1px solid #CAD5E0; /* #E0E0E0 */
+    --ui-border2:                   1px solid #383838;
+    --ui-border3:                   1px solid #D0D0D0;
+    --ui-border4:                   1px dotted #CAD5E0; /* #E0E0E0 */
+
+    --ui-background1:               #FFFFFF;
+    --ui-background2:               #FAFBFC;
+    --ui-background3:               #000000;
+    --ui-background4:               #f7f7f7;
+    --ui-background5:               #CAD5E0; /* #E0E0E0 */
+
+    --main-menu-background:         #2C3E50;
+    --main-menu-text:               #FFFFFF;
+    --main-menu-disabled-text:      #D0D4D8;
+
+    --button-shadow:                0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+    --button-text-color:            #FFFFFF;
+    --button-in-active-opacity:     0.75;
+    --button-disabled-opacity:      0.5;
+
+    --tab-in-active:                #CAD5E0; /* #E0E0E0 */
+    --tab-active-background:        #FFFFFF;
+    --tab-active-border:            #0097E6;
+    --tab-active-color:             #00A8FF;
+    --tab-active-focus-border:      1px dotted #00A8FF;
+    --tab-focus-border:             1px dotted #383838;
+
+    --text-input-border:            1px solid #CAD5E0; /* #E0E0E0 */
+    --text-input-color:             #383838;
+    --text-input-background:        #FFFFFF;
+    --text-input-invalid-border:    1px solid #E84118;
+
+    --files-hover-background:       #00A8FF;
+    --files-hover-border:           1px solid #0097E6;
+    --files-hover-color:            #FFFFFF;
+    --files-selected-background:    #0097E6;
+    --files-selected-border:        1px solid #00A8FF;
+    --files-selected-color:         #FFFFFF;
+
+    --console-table-border:         1px solid #0097E6;
+    --console-table-header:         #00A8FF;
+    --console-table-header-color:   #FFFFFF;
+    --console-table-color:          #383838;
+
+    --sensor-background1:           #F0F0F0;
+    --sensor-background2:           #D0D4D8;
+    --sensor-background3:           #FFFFFF;
+    --sensor-text:                  #383838;
+
+    --help-link-color:              #00A8FF;
+    --help-table-border:            1px solid #95A5A6;
+    --help-table-header:            #00A8FF;
+    --help-table-header-color:      #FFFFFF;
+
+    --wizard-step-active:           #00A8FF;
+    --wizard-step-active-color:     #FFFFFF;
+    --wizard-step-in-active:        #0097E6;
+
+    --error-color:                  #FF0000;
+
+    --success-background:           #34495E;
+    --success-border:               1px solid #2C3E50;
+
+    --success-background:           #4CD137;
+    --success-border:               1px solid #44BD32;
+    --success-color:                #FFFFFF;
+    --success-icon-background:      #FFFFFF;
+    --success-icon-color:           #383838;
+
+    --failed-background:            #E84118;
+    --failed-border:                1px solid #C0392B;
+    --failed-color:                 #FFFFFF;
+
+    --warning-background:           #F1C40F;
+    --warning-border:               1px solid #F39C12;
+    --warning-color:                #FFFFFF;
+
+    --sound-current-position:       #383838;
+    --sound-selection-background:   rgba(52, 152, 219, 0.3);
+    --sound-selection-border:       1px solid #000000;
+
+    --image-selection-border:       2px solid #E84118;;
+
+    --console-success:              #44BD32;
+    --console-vm:                   #74B9FF;
+    --console-error:                #D63031;
+    --console-warning:              #F9CA24;
+
+    --resizer-background:           rgba(0, 0, 0, 0.5);
+}
+
+.breaker,
+.legend {
+    float:                          left;
+    width:                          100%;
+}
+.legend .legend-item {
+    float:                          left;
+    height:                         32px;
+    margin:                         0 32px 0 0;
+}
+.legend .legend-item .title {
+    float:                          left;
+    line-height:                    32px;
+    font-size:                      18px;
+    font-family:                    latolight;
+}
+.legend .legend-item .device {
+    float:                          left;
+    width:                          32px;
+    height:                         32px;
+    line-height:                    32px;
+    text-align:                     center;
+    font-size:                      18px;
+    border-radius:                  16px;
+    color:                          #FFFFFF;
+    margin:                         0 16px 0 0;
+}
+.legend .legend-item .device.e {
+    background-color:               #0984E3;
+}
+.legend .legend-item .device.p {
+    background-color:               #F9CA24;
+}
+.legend .legend-item .device.m {
+    background-color:               #E74C3C;
+}
+.legend .legend-item .device.i {
+    background-color:               #4CD137;
+}
+div.third,
+div.quarter {
+    float:                          left;
+}
+div.third {
+    width:                          33%;
+    margin-top:                     24px;
+}
+div.quarter {
+    width:                          25%;
+}
+div.third ul,
+div.third li,
+div.quarter ul,
+div.quarter li {
+    list-style-type:                none;
+    margin-left:                    0;
+    padding-left:                   0;
+}
+div.third li,
+div.quarter li {
+    padding-left:                   0;
+    height:                         30px;
+    max-width:                      calc(100% - 32px);
+}
+.help-files,
+.help-file {
+    float:                          left;
+    width:                          100%;
+    padding:                        96px 0 32px 0;
+}
+.help-file .help-file-subjects {
+    position:                       absolute;
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    top:                            0;
+    left:                           0;
+    width:                          178px;
+    bottom:                         0;
+    overflow:                       auto;
+    padding:                        16px;
+    background-color:               var(--ui-background1);
+}
+.help-file .help-file-subjects h2,
+.help-file .help-file-subjects .subject,
+.help-file .help-file-subjects .sub-subject {
+    max-width:                      100%;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+}
+.help-file .help-file-subjects .subject,
+.help-file .help-file-subjects .sub-subject {
+    color:                          var(--help-link-color);
+    cursor:                         pointer;
+}
+.help-file .help-file-subjects .sub-subject {
+    font-size:                      14px;
+    margin:                         0 0 0 12px;
+}
+.help-file .help-file-subjects h2 {
+    margin:                         0 0 20px 0;
+}
+.help-file .help-file-subjects .subject:hover,
+.help-file .help-file-subjects .sub-subject:hover {
+    text-decoration:                underline;
+}
+.help-file .help-file-content {
+    position:                       absolute;
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    top:                            0;
+    left:                           186px;
+    right:                          0;
+    bottom:                         0;
+    overflow:                       scroll;
+    overflow-x:                     hidden;
+    padding:                        16px;
+    background-color:               var(--ui-background1);
+}
+.help-file .help-file-content-content {
+    float:                          left;
+    position:                       relative;
+}
+.help-files .link,
+.help-file .link {
+    color:                          var(--help-link-color);
+    cursor:                         pointer;
+    float:                          left;
+    width:                          100%;
+}
+.help-files .link {
+    height:                         32px;
+}
+.help-files .link:hover,
+.help-file .link:hover {
+    text-decoration:                underline;
+}
+.help-file .devices {
+    float:                          right;
+    margin-top:                     -43px;
+    margin-right:                   10px;
+}
+.help-files .link span {
+    float:                          left;
+    max-width:                      calc(100% - 40px);
+    height:                         28px;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
+}
+.help-files .link .device {
+    float:                          right;
+    margin:                         2px 8px 0 0;
+}
+.help-file .devices span {
+    float:                          right;
+    margin:                         2px 0 0 4px;
+}
+.help-files .link .device,
+.help-file .devices span {
+    width:                          20px;
+    height:                         20px;
+    border-radius:                  10px;
+    text-align:                     center;
+    line-height:                    21px;
+    font-size:                      13px;
+    font-family:                    latolight;
+}
+.help-files .link .device.e,
+.help-file .devices .e {
+    background-color:               #0984E3;
+    color:                          #FFFFFF;
+}
+.help-files .link .device.p,
+.help-file .devices .p {
+    background-color:               #F9CA24;
+    color:                          #FFFFFF;
+}
+.help-files .link .device.m,
+.help-file .devices .m {
+    background-color:               #E74C3C;
+    color:                          #FFFFFF;
+}
+.help-files .link .device.i,
+.help-file .devices .i {
+    background-color:               #4CD137;
+    color:                          #FFFFFF;
+}
+.help-file .devices .e,
+.help-file .devices .p,
+.help-file .devices .m {
+    float:                          left;
+}
+.help-file pre.wheel,
+.help-file pre.error {
+    float:                          left;
+    clear:                          both;
+    border-radius:                  2px;
+    background-color:               var(--ui-background2);
+}
+.help-file pre.error {
+    background-color:               var(--ui-background5);
+    color:                          var(--error-color);
+    padding:                        16px;
+    font-size:                      14px;
+}
+.help-file h2,
+.help-file h3,
+.help-file h4,
+.help-file h5 {
+    float:                          left;
+    width:                          100%;
+    color:                          #383838;
+    opacity:                        0.5;
+    margin:                         0 0 8px 0;
+}
+.help-file h2 {
+    margin:                         0 0 12px 0;
+    font-size:                      20px;
+    font-weight:                    bold;
+}
+.help-file h3 {
+    font-size:                      19px;
+    font-weight:                    bold;
+}
+.help-file h4 {
+    font-size:                      18px;
+    font-weight:                    bold;
+}
+.help-file h5 {
+    font-size:                      17px;
+    font-weight:                    bold;
+    margin-bottom:                  12px;
+}
+.help-file h5.title-with-source {
+    margin-bottom:                  2px;
+}
+.help-file div.source-location {
+    font-size:                      11px;
+    opacity:                        0.75;
+    margin-bottom:                  16px;
+}
+.help-file hr {
+    width:                          100%;
+    opacity:                        0.5;
+    margin-top:                     16px;
+    margin-bottom:                  32px;
+}
+.help-file pre {
+    float:                          left;
+    margin:                         0 0 16px 0;
+    width:                          calc(100% - 10px);
+}
+.help-file table {
+    border-collapse:                collapse;
+    font-size:                      12px;
+}
+.help-file table td {
+    padding:                        4px;
+    background-color:               var(--ui-background2);
+}
+.help-file table.help-table {
+    margin:                         8px 0 8px 8px;
+    border:                         var(--help-table-border);
+    border-width:                   1px 0 0 1px;
+}
+.help-file table.help-table td {
+    border:                         var(--help-table-border);
+    border-width:                   0 1px 1px 0;
+}
+.help-file table.help-table {
+    border:                         var(--help-table-border);
+    border-width:                   1px 0 0 1px;
+    max-width:                      calc(100% - 10px);
+}
+.help-file table.help-table td,
+.help-file table.help-table th {
+    border:                         var(--help-table-border);
+    border-width:                   0 1px 1px 0;
+    padding:                        8px;
+    vertical-align:                 top;
+}
+.help-file table.help-table th {
+    text-align:                     left;
+    font-weight:                    bold;
+    background-color:               var(--help-table-header);
+    color:                          var(--help-table-header-color);
+}
+.help-file table.help-table.constants td:first-child {
+    min-width:                      360px;
+}
+.help-file table.help-table.constants td:nth-child(2) {
+    min-width:                      64px;
+    text-align:                     right;
+}
+.help-file table.help-table td .image-wrapper {
+    float:                          left;
+    padding:                        4px;
+    border-radius:                  2px;
+    background-color:               #D0D4D8;
+}
+.help-file table.help-table td .image-wrapper img {
+    float:                          left;
+    width:                          64px;
+    height:                         64px;
+}
+.help-file img.display-preview {
+    border:                         var(--ui-border1);
+}
+.help-file img.shadow {
+    box-shadow:                     8px 8px 6px rgba(0, 0, 0, 0.05), 2px 2px 3px rgba(0, 0, 0, 0.25), -2px -2px 3px rgba(0, 0, 0, 0.25), -8px -8px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom:                  16px;
+}
+.help-file .link-box {
+    float:                          left;
+    width:                          100%;
+    margin:                         0 0 16px 0;
+}
+.help-file .link-box .link {
+    color:                          #3498DB;
+}
+.help-file .link-box .link:hover {
+    text-decoration:                underline;
+}
+.help-file .example-loader {
+    float:                          left;
+    width:                          100%;
+}
+.help-file .example-loader input[type="button"].button.blue {
+    float:                          left;
+    min-width:                      80px;
+    height:                         32px;
+    text-align:                     center;
+    line-height:                    28px;
+    margin-right:                   12px;
+}
+.help-file div.see-also-block {
+    float:                          left;
+    width:                          660px;
+    margin:                         8px 0 8px 0;
+}
+.help-file div.see-also-block span,
+.help-file div.see-also-block span.see-also-label {
+    float:                          left;
+}
+.help-file div.see-also-block a.see-also {
+    float:                          left;
+    height:                         20px;
+    line-height:                    18px;
+    padding:                        0 10px 0 10px;
+    border:                         1px solid var(--color-yellow);
+    border-radius:                  10px;
+    margin:                         0 0 4px 8px;
+    font-size:                      14px;
+    -webkit-user-select:            none;
+    cursor:                         pointer;
+    white-space:                    nowrap;
+    text-decoration:                none;
+}
+.help-file div.see-also-block a.see-also:hover {
+    text-decoration:                underline;
+}

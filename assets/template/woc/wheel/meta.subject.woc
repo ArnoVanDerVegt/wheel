@@ -156,10 +156,10 @@ end
 @end
 
 @section #resource
-@keyword resource,rgf,rtf,rbf,rsf
+@keyword resource,rgf,rtf,rbf,rsf,wfrm
 
 With the `#resource` command you can declare a resource which will be downloaded to the EV3 when you
-install your compiled program. There are four valid resource file extensions: `.rtf`, `.rgf`, `.rsf`, `.rbf`.
+install your compiled program. There are four valid resource file extensions: `.rtf`, `.rgf`, `.rsf`, `.rbf`, `.wfrm`.
 
 The resource file should exist within the Wheel path.
 
@@ -171,13 +171,14 @@ end
 @end
 
 @section #display
-@keyword display,motors,sensors
-The `#display` command allows you to show the sensors and/or motors in the simulator.
+@keyword display,motors,sensors,powered
+The `#display` command allows you to show the sensors and/or motors in the simulator,
+it expects one parameter: a comma separated list of plugin names to be shown.
 
 The command is executed when the source file is loaded in the IDE, when the following file is loaded then the
-simulator sensors and motors will be shown:
+simulator EV3 and EV3 Sensors plugins will be shown:
 @example
-#display "sensors,motors"
+#display "EV3,EV3 Sensors"
 
 proc main()
 end

@@ -13,7 +13,7 @@ const DOMUtils = class {
             let c     = element.className || '';
             let items = c.split(' ');
             c = '';
-            items.forEach(function(item) {
+            items.forEach((item) => {
                 if (item !== className) {
                     c += item + ' ';
                 }
@@ -140,13 +140,36 @@ const DOMNode = class extends DOMUtils {
     }
 
     setRef(id) {
-        return (function(element) {
+        return (element) => {
             this._refs[id] = element;
-        }).bind(this);
+        };
     }
 
     getRefs() {
         return this._refs;
+    }
+
+    getElementPosition(element) {
+        if (!element) {
+            element = this._element;
+        }
+        let offsetX = element.offsetLeft;
+        let offsetY = element.offsetTop;
+        let parent  = element.offsetParent;
+        let matrix;
+        let computedStyle;
+        while (parent) {
+            if (typeof WebKitCSSMatrix === 'undefined') {
+                matrix        = {m41: 0, m42: 0};
+            } else {
+                computedStyle = window.getComputedStyle(parent);
+                matrix        = new WebKitCSSMatrix(computedStyle.webkitTransform);
+            }
+            offsetX += matrix.m41 + parent.offsetLeft;
+            offsetY += matrix.m42 + parent.offsetTop - parent.scrollTop;
+            parent = parent.offsetParent;
+        }
+        return {x: offsetX, y: offsetY};
     }
 };
 

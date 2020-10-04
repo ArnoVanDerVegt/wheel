@@ -1,0 +1,100 @@
+.io-device {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    width:                          60px;
+    height:                         80px;
+    background-color:               var(--sensor-background1);
+    border-radius:                  2px;
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.io-device .title {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    width:                          60px;
+    height:                         40px;
+    background-color:               var(--sensor-background2);
+    border-radius:                  2px 2px 0 0;
+}
+.io-device .title span {
+    position:                       absolute;
+    top:                            3px;
+    right:                          3px;
+    width:                          18px;
+    height:                         18px;
+    background-color:               var(--sensor-background3);
+    color:                          var(--sensor-text);
+    border-radius:                  9px;
+    text-align:                     center;
+    line-height:                    19px;
+    font-size:                      14px;
+}
+.io-device .title .ready {
+    display:                        none;
+    position:                       absolute;
+    right:                          17px;
+    top:                            3px;
+    width:                          6px;
+    height:                         6px;
+    border-radius:                  3px;
+    background-color:               red;
+}
+.io-device .title img.type {
+    border-radius:                  2px 0 0 0;
+    width:                          32px;
+    height:                         32px;
+    margin:                         3px 0 0 3px;
+}
+.io-device .speed {
+    display:                        none;
+    position:                       absolute;
+    left:                           0;
+    top:                            40px;
+    width:                          100%;
+    height:                         18px;
+}
+.io-device .speed .speed-bar {
+    position:                       absolute;
+    left:                           5px;
+    top:                            5px;
+    width:                          49px;
+    height:                         10px;
+    border:                         1px solid rgba(0, 0, 0, 0.5);
+    background-color:               var(--sensor-background3);
+}
+.io-device .speed .speed-bar-center {
+    position:                       absolute;
+    left:                           29px;
+    top:                            6px;
+    width:                          1px;
+    height:                         8px;
+    background-color:               rgba(0, 0, 0, 0.5);
+}
+.io-device .speed .speed-bar-value {
+    position:                       absolute;
+    left:                           30px;
+    top:                            6px;
+    width:                          23px;
+    height:                         8px;
+    background-color:               #E84118;
+}
+.io-device .position {
+    position:                       absolute;
+    left:                           1px;
+    bottom:                         0;
+    width:                          calc(100% - 2px);
+    height:                         18px;
+    line-height:                    18px;
+    text-align:                     center;
+    font-size:                      15px;
+    font-family:                    monospace;
+}
+.io-device .color {
+    display:                        none;
+    position:                       absolute;
+    left:                           21px;
+    bottom:                         3px;
+    width:                          18px;
+    height:                         18px;
+}

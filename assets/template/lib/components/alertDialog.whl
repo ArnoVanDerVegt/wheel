@@ -1,0 +1,25 @@
+; @module Component/AlertDialog
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.alertDialog
+
+; @const The alert dialog component module.
+#define MODULE_COMPONENT_ALERT_DIALOG 140   ; `image:images/buttons/alertDialogBlack.svg`
+
+; @const Module calls for the alert dialog component functions.
+#define ALERT_DIALOG_COMPONENT_SHOW     0
+
+; @property name  string The component name.
+; @property x     number The left position of the component icon, this only applies to the icon in design mode.
+; @property y     number The top position of the component icon, this only applies to the icon in design mode.
+; @property title string The title of the dialog.
+; @property text  string The information text shown on the dialog.
+
+; @proc                   Show the alert dialog.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc show(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_ALERT_DIALOG, ALERT_DIALOG_COMPONENT_SHOW
+end

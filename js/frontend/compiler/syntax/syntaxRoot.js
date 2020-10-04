@@ -58,15 +58,16 @@ exports.rootScopeTokens = function() {
         ];
     tokens[t.TOKEN_KEYWORD][t.LEXEME_END] = follow05;
 
-    // "proc" | "record" | "." | "^" | "@" -> IDENTIFIER
+    // "namespace" | "proc" | "record" | "." | "^" | "@" -> IDENTIFIER
     let follow06 = [
             {token: t.TOKEN_IDENTIFIER}
         ];
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_PROC   ] = follow06;
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_RECORD ] = follow06;
-    tokens[t.TOKEN_DOT    ][t.LEXEME_DOT    ] = follow06;
-    tokens[t.TOKEN_POINTER][t.LEXEME_POINTER] = follow06;
-    tokens[t.TOKEN_ADDRESS][t.LEXEME_ADDRESS] = follow06;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_NAMESPACE] = follow06;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_PROC     ] = follow06;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_RECORD   ] = follow06;
+    tokens[t.TOKEN_DOT    ][t.LEXEME_DOT      ] = follow06;
+    tokens[t.TOKEN_POINTER][t.LEXEME_POINTER  ] = follow06;
+    tokens[t.TOKEN_ADDRESS][t.LEXEME_ADDRESS  ] = follow06;
 
     // "number" | "string" -> IDENTIFIER | "^"
     let follow07 = [

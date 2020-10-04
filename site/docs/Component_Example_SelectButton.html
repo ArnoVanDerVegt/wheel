@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Component_Example:SelectButton</title>
+    <meta name="description" content="Component_Example:SelectButton"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>SelectButton</h2>
+            <a id="SelectButtonexample"></a>
+            <h4 class="">SelectButton example</h4>
+            <p>
+                This example shows how to use the selectButton component.
+            </p>
+            <a id="Code"></a>
+            <h4 class="">Code</h4>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"SelectButton example"</span>
+
+<span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/component.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/form.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/selectButton.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/statusLight.whl"</span>
+
+<span class="meta">#define</span> <span class="define">SELECT_BUTTON_SELECT_BUTTON</span> <span class="number">0xF121D096</span>
+<span class="meta">#define</span> <span class="define">SELECT_BUTTON_STATUS_LIGHT</span>  <span class="number">0x8FBC7C0A</span>
+
+<span class="meta">#resource</span> <span class="string">"selectButton.wfrm"</span>
+
+<span class="type">number</span> <span class="variable">buttonToColor</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">[</span><span class="variable">COMPONENT_COLOR_RED</span><span class="operator">,</span> <span class="variable">COMPONENT_COLOR_GREEN</span><span class="operator">,</span> <span class="variable">COMPONENT_COLOR_BLUE</span><span class="operator">]</span>
+
+<span class="comment">; @proc                   SelectButton onChange event.</span>
+<span class="comment">; @param windowHandle     The handle to the active window.</span>
+<span class="comment">; @param value            New active button.</span>
+<span class="keyword">proc</span> <span class="variable">onSelectButtonSelectButtonChange</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+    <span class="variable">components.statusLight.setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">SELECT_BUTTON_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">buttonToColor</span><span class="operator">[</span><span class="variable">value</span><span class="operator">]</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">; @proc                   Show the form.</span>
+<span class="comment">; @ret                    The handle to the form.</span>
+<span class="keyword">proc</span> <span class="variable">showSelectButtonForm</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="keyword">ret</span> <span class="variable">components.form.show</span><span class="operator">(</span><span class="string">"selectButton.wfrm"</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">showSelectButtonForm</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Screenshot"></a>
+            <h4 class="">Screenshot</h4>
+            <img src="data:image/png;base64,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" class="shadow"/>
+            <div class="link-box">
+                <a href="https://github.com/ArnoVanDerVegt/wheel/tree/develop/assets/template/examples/components/selectbutton/selectButton.whlp"            target="_wheelLink" class="start">View on Github »</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

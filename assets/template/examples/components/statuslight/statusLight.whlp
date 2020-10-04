@@ -1,0 +1,31 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "StatusLight example"
+
+#include "lib/standard.whl"
+#include "lib/math.whl"
+#include "lib/components/component.whl"
+#include "lib/components/form.whl"
+#include "lib/components/statusLight.whl"
+
+#define STATUS_LIGHT_STATUS_LIGHT 0x219A30F3
+
+#resource "statusLight.wfrm"
+
+number color     = 0
+number colors[3] = [COMPONENT_COLOR_RED, COMPONENT_COLOR_GREEN, COMPONENT_COLOR_BLUE]
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showStatusLightForm()
+    ret components.form.show("statusLight.wfrm")
+end
+
+proc main()
+    number windowHandle = showStatusLightForm()
+    repeat
+        components.statusLight.setColor(windowHandle, STATUS_LIGHT_STATUS_LIGHT, colors[color])
+        color = remainder(color + 1, 3)
+        sleep(1000)
+    end
+end

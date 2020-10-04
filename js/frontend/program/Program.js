@@ -74,6 +74,7 @@ exports.Program = class {
         this._layerCount = 0;
         this._pass       = 0;
         this._stringList = [];
+        this._eventInfo  = {};
         this.reset();
     }
 
@@ -643,6 +644,10 @@ exports.Program = class {
         return this;
     }
 
+    getCodeUsed() {
+        return this._codeUsed;
+    }
+
     setCodeUsed(codeUsed) {
         this._codeUsed = codeUsed;
     }
@@ -735,7 +740,7 @@ exports.Program = class {
 
     setBreakpoints(breakpoints) {
         let breakpointHash = {};
-        breakpoints.forEach(function(breakpoint) {
+        breakpoints.forEach((breakpoint) => {
             breakpoint.done = false;
             breakpointHash[breakpoint.fileIndex + '_' + breakpoint.lineNum] = breakpoint;
         });
@@ -747,6 +752,9 @@ exports.Program = class {
         }
         for (let i = 0; i < blockIdInfo.length; i++) {
             let token = blockIdInfo[i].token;
+            if (!token) {
+                continue;
+            }
             let hash  = token.fileIndex + '_' + token.lineNum;
             let b     = breakpointHash[hash];
             if (b && !b.done) {
@@ -767,6 +775,22 @@ exports.Program = class {
         }
     }
 
+    getLayerCount() {
+        return this._layerCount;
+    }
+
+    setLayerCount(layerCount) {
+        this._layerCount = layerCount;
+    }
+
+    setEventInfo(eventInfo) {
+        this._eventInfo = eventInfo;
+    }
+
+    getEventInfo(event) {
+        return this._eventInfo[event] || null;
+    }
+
     addInfoToLastCommand(info) {
         let lastCommand = this.getLastCommand();
         if (lastCommand) {
@@ -776,13 +800,5 @@ exports.Program = class {
 
     removeLastCommand() {
         this._commands.pop();
-    }
-
-    getLayerCount() {
-        return this._layerCount;
-    }
-
-    setLayerCount(layerCount) {
-        this._layerCount = layerCount;
     }
 };

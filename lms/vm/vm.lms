@@ -1,0 +1,235 @@
+//=================================================================================================//
+//
+// Wheel VM
+//
+// Copyright Arno van der Vegt 2019
+// license: https://arnovandervegt.github.io/wheel/license.txt
+//
+//=================================================================================================//
+vmthread MAIN {
+    MOVE8_8(0, gKeepRet_8)
+
+    OUTPUT_RESET(0, 15)
+    INPUT_DEVICE(CLR_ALL, -1)
+
+    CALL(modScreenInit)
+    CALL(modSensorInit)
+    CALL(modFileInit)
+    CALL(modMotorInit)
+    CALL(modPSPInit)
+    CALL(modSensorMultiInit)
+    CALL(load)
+    CALL(run)
+}
+
+//= Threads device 1 ==============================================================================//
+
+vmthread motorThread02 {
+    CALL(modMotor1AUpdate)
+}
+vmthread motorThread03 {
+    CALL(modMotor1BUpdate)
+}
+vmthread motorThread04 {
+    CALL(modMotor1CUpdate)
+}
+vmthread motorThread05 {
+    CALL(modMotor1DUpdate)
+}
+
+//= Threads device 2 ==============================================================================//
+
+vmthread motorThread06 {
+    CALL(modMotor2AUpdate)
+}
+vmthread motorThread07 {
+    CALL(modMotor2BUpdate)
+}
+vmthread motorThread08 {
+    CALL(modMotor2CUpdate)
+}
+vmthread motorThread09 {
+    CALL(modMotor2DUpdate)
+}
+
+//= Threads device 3 ==============================================================================//
+
+vmthread motorThread10 {
+    CALL(modMotor3AUpdate)
+}
+vmthread motorThread11 {
+    CALL(modMotor3BUpdate)
+}
+vmthread motorThread12 {
+    CALL(modMotor3CUpdate)
+}
+vmthread motorThread13 {
+    CALL(modMotor3DUpdate)
+}
+
+//= Threads device 4 ==============================================================================//
+
+vmthread motorThread14 {
+    CALL(modMotor4AUpdate)
+}
+vmthread motorThread15 {
+    CALL(modMotor4BUpdate)
+}
+vmthread motorThread16 {
+    CALL(modMotor4CUpdate)
+}
+vmthread motorThread17 {
+    CALL(modMotor4DUpdate)
+}
+
+//= PSP Thread ====================================================================================//
+
+vmthread pspThread19 {
+    CALL(modPSPUpdate)
+}
+
+//= Sensor multi Thread ===========================================================================//
+
+vmthread sensorMultiThread20 {
+    CALL(modSensorMultiLoop)
+}
+
+//= Device 1 ======================================================================================//
+
+subcall startThread1A {
+    JR_NEQ8(gModMotor1AStarted_8, 0, motor_a1_started)
+    MOVE8_8(1, gModMotor1AStarted_8)
+    OBJECT_START(2)
+    RETURN()
+motor_a1_started:
+    OBJECT_TRIG(2)
+}
+subcall startThread1B {
+    JR_NEQ8(gModMotor1BStarted_8, 0, motor_b1_started)
+    MOVE8_8(1, gModMotor1BStarted_8)
+    OBJECT_START(3)
+    RETURN()
+motor_b1_started:
+    OBJECT_TRIG(3)
+}
+subcall startThread1C {
+    JR_NEQ8(gModMotor1CStarted_8, 0, motor_c1_started)
+    MOVE8_8(1, gModMotor1CStarted_8)
+    OBJECT_START(4)
+    RETURN()
+motor_c1_started:
+    OBJECT_TRIG(4)
+}
+subcall startThread1D {
+    JR_NEQ8(gModMotor1DStarted_8, 0, motor_d1_started)
+    MOVE8_8(1, gModMotor1DStarted_8)
+    OBJECT_START(5)
+    RETURN()
+motor_d1_started:
+    OBJECT_TRIG(5)
+}
+
+//= Device 2 ======================================================================================//
+
+subcall startThread2A {
+    JR_NEQ8(gModMotor2AStarted_8, 0, motor_a2_started)
+    MOVE8_8(1, gModMotor2AStarted_8)
+    OBJECT_START(6)
+    RETURN()
+motor_a2_started:
+    OBJECT_TRIG(6)
+}
+subcall startThread2B {
+    JR_NEQ8(gModMotor2BStarted_8, 0, motor_b2_started)
+    MOVE8_8(1, gModMotor2BStarted_8)
+    OBJECT_START(7)
+    RETURN()
+motor_b2_started:
+    OBJECT_TRIG(7)
+}
+subcall startThread2C {
+    JR_NEQ8(gModMotor2CStarted_8, 0, motor_c2_started)
+    MOVE8_8(1, gModMotor2CStarted_8)
+    OBJECT_START(8)
+    RETURN()
+motor_c2_started:
+    OBJECT_TRIG(8)
+}
+subcall startThread2D {
+    JR_NEQ8(gModMotor2DStarted_8, 0, motor_d2_started)
+    MOVE8_8(1, gModMotor2DStarted_8)
+    OBJECT_START(9)
+    RETURN()
+motor_d2_started:
+    OBJECT_TRIG(9)
+}
+
+//= Device 3 ======================================================================================//
+
+subcall startThread3A {
+    JR_NEQ8(gModMotor3AStarted_8, 0, motor_a3_started)
+    MOVE8_8(1, gModMotor3AStarted_8)
+    OBJECT_START(10)
+    RETURN()
+motor_a3_started:
+    OBJECT_TRIG(10)
+}
+subcall startThread3B {
+    JR_NEQ8(gModMotor3BStarted_8, 0, motor_b3_started)
+    MOVE8_8(1, gModMotor3BStarted_8)
+    OBJECT_START(11)
+    RETURN()
+motor_b3_started:
+    OBJECT_TRIG(11)
+}
+subcall startThread3C {
+    JR_NEQ8(gModMotor3CStarted_8, 0, motor_c3_started)
+    MOVE8_8(1, gModMotor3CStarted_8)
+    OBJECT_START(12)
+    RETURN()
+motor_c3_started:
+    OBJECT_TRIG(12)
+}
+subcall startThread3D {
+    JR_NEQ8(gModMotor3DStarted_8, 0, motor_d3_started)
+    MOVE8_8(1, gModMotor3DStarted_8)
+    OBJECT_START(13)
+    RETURN()
+motor_d3_started:
+    OBJECT_TRIG(13)
+}
+
+//= Device 4 ======================================================================================//
+
+subcall startThread4A {
+    JR_NEQ8(gModMotor4AStarted_8, 0, motor_a4_started)
+    MOVE8_8(1, gModMotor4AStarted_8)
+    OBJECT_START(14)
+    RETURN()
+motor_a4_started:
+    OBJECT_TRIG(14)
+}
+subcall startThread4B {
+    JR_NEQ8(gModMotor4BStarted_8, 0, motor_b4_started)
+    MOVE8_8(1, gModMotor4BStarted_8)
+    OBJECT_START(15)
+    RETURN()
+motor_b4_started:
+    OBJECT_TRIG(15)
+}
+subcall startThread4C {
+    JR_NEQ8(gModMotor4CStarted_8, 0, motor_c4_started)
+    MOVE8_8(1, gModMotor4CStarted_8)
+    OBJECT_START(16)
+    RETURN()
+motor_c4_started:
+    OBJECT_TRIG(16)
+}
+subcall startThread4D {
+    JR_NEQ8(gModMotor4DStarted_8, 0, motor_d4_started)
+    MOVE8_8(1, gModMotor4DStarted_8)
+    OBJECT_START(17)
+    RETURN()
+motor_d4_started:
+    OBJECT_TRIG(17)
+}

@@ -2,7 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const getDataProvider  = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const dispatcher       = require('../../../../lib/dispatcher').dispatcher;
+const path             = require('../../../../lib/path');
 const Editor           = require('../Editor').Editor;
 const ToolbarBottom    = require('./toolbar/ToolbarBottom').ToolbarBottom;
 const WheelEditorState = require('./WheelEditorState').WheelEditorState;
@@ -13,7 +15,10 @@ exports.WheelEditor = class extends Editor {
         this._wheelEditorState = new WheelEditorState(opts);
         this._textareaElement  = null;
         this._codeMirror       = null;
-        this._onGlobalUIId     = opts.ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
+        this._mouseDown        = false;
+        this._keyDown          = false;
+        this._onGlobalUIId     = opts.ui.addEventListener('Global.UIId',   this, this.onGlobalUIId);
+        this._onGlobalKeyUp    = opts.ui.addEventListener('Global.Key.Up', this, this.onGlobalKeyUp);
         this._cursorPosition   = opts.cursorPosition;
         this.initDOM(opts.parentNode);
         if (this._wheelEditorState.getMode() === 'text/x-wheel') {
@@ -21,6 +26,15 @@ exports.WheelEditor = class extends Editor {
                 .on('Compiler.Database',     this, this.onCompilerDatabase)
                 .on('PreProcessor.Database', this, this.onPreProcessorDatabase);
         }
+    }
+
+    initCodeMirrorDependencies(codeMirror) {
+        let settings         = this._settings;
+        let wheelEditorState = this._wheelEditorState;
+        codeMirror.getSettings     = function() { return settings; };
+        codeMirror.getDispatcher   = function() { return dispatcher; };
+        codeMirror.getCodeDatabase = function() { return wheelEditorState.getDatabase(); };
+        codeMirror.getDataProvider = function() { return getDataProvider(); };
     }
 
     initCodeMirror() {
@@ -50,9 +64,6 @@ exports.WheelEditor = class extends Editor {
                 'Ctrl-Space': 'autocomplete'
             }
         );
-        codeMirror.getCodeDatabase = function() {
-            return wheelEditorState.getDatabase();
-        };
         if (wheelEditorState.getGutters().length) {
             codeMirror.on('gutterClick', this.onGutterClick.bind(this));
         }
@@ -60,12 +71,14 @@ exports.WheelEditor = class extends Editor {
         codeMirror.on('cursorActivity', this.onCursorChanged.bind(this));
         codeMirror.on('keydown',        this.onKeyDown.bind(this));
         codeMirror.on('keyup',          this.onKeyUp.bind(this));
+        this.initCodeMirrorDependencies(codeMirror);
         if (wheelEditorState.getMode() === 'text/x-wheel') {
             let codeMirrorElement = this._refs.wrapper.querySelector('.CodeMirror');
             if (codeMirrorElement) {
                 codeMirrorElement.addEventListener('mousedown', this.onMouseDown.bind(this));
                 codeMirrorElement.addEventListener('mousemove', this.onMouseMove.bind(this));
                 codeMirrorElement.addEventListener('mouseout',  this.onMouseOut.bind(this));
+                codeMirrorElement.addEventListener('mouseup',   this.onMouseUp.bind(this));
             }
         }
         if (this._cursorPosition) {
@@ -79,7 +92,7 @@ exports.WheelEditor = class extends Editor {
             parentNode,
             {
                 id:        this.setRef('wrapper'),
-                className: 'code-mirror-wrapper',
+                className: 'max-w max-h code-mirror-wrapper',
                 children: [
                     {
                         id:    this.setTextareaElement.bind(this),
@@ -90,6 +103,8 @@ exports.WheelEditor = class extends Editor {
                         type:        ToolbarBottom,
                         ui:          this._ui,
                         settings:    this._settings,
+                        ev3:         this._ev3,
+                        poweredUp:   this._poweredUp,
                         wheelEditor: this
                     }
                 ]
@@ -107,10 +122,13 @@ exports.WheelEditor = class extends Editor {
     remove() {
         super.remove();
         this._onGlobalUIId();
+        this._onGlobalKeyUp();
     }
 
     show() {
         super.show();
+        this._codeMirror.setOption('viewportMargin', Infinity);
+        this._codeMirror.refresh();
         dispatcher.dispatch('Screen.Ready');
     }
 
@@ -121,12 +139,20 @@ exports.WheelEditor = class extends Editor {
         }
     }
 
+    onGlobalKeyUp(event) {
+        if (event.keyCode === 27) { // Escape
+            this.hideReplaceOptions();
+        }
+    }
+
     getValue() {
         return this._codeMirror.getValue();
     }
 
     setValue(value, reset) {
-        this._codeMirror.setValue(value);
+        if (value !== this.getValue()) {
+            this._codeMirror.setValue(value);
+        }
         reset && this._codeMirror.clearHistory();
     }
 
@@ -155,6 +181,109 @@ exports.WheelEditor = class extends Editor {
 
     setTextareaElement(element) {
         this._textareaElement = element;
+    }
+
+    setBluetoothStatusElement(element) {
+        this._blueToothStatusElement = element;
+    }
+
+    /**
+     * Check if the hint token is part of a potential namespace and return the complete namespaced identifier.
+     * For example:
+     *      The lines:                      "components.statusLight.setColor()"
+     *      The found token:                "statusLight"
+     *      Which results in the alt hint:  "components.statusLight.setColor"
+    **/
+    getAltHintFromLine(line, hint, start, end) {
+        let i;
+        let chars   = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789.';
+        let altHint = hint;
+        let ch;
+        if ((start > 0) && (line[start - 1] === '.')) {
+            i = start - 1;
+            while ((i > 0) && (chars.indexOf(line[i]) !== -1)) {
+                ch      = line[i--];
+                altHint = (ch === '.' ? '~' : ch) + altHint;
+            }
+        }
+        if ((end < line.length) && (line[end] === '.')) {
+            let i = end;
+            while ((i < line.length) && (chars.indexOf(line[i]) !== -1)) {
+                ch = line[i++];
+                altHint += (ch === '.' ? '~' : ch);
+            }
+        }
+        return altHint;
+    }
+
+    /**
+     * Get the first occurance of a proc declaration above the cursor line if there is any.
+    **/
+    getProc(line) {
+        let codeMirror = this._codeMirror;
+        while (line > 0) {
+            line--;
+            let s = codeMirror.getLine(line);
+            if (s.substr(0, 5) === 'proc ') {
+                s = s.substr(5 - s.length).trim();
+                let i = s.indexOf('(');
+                return (i === -1) ? false : s.substr(0, i);
+            }
+        }
+        return false;
+    }
+
+    getHintInfoAtCoords(coords) {
+        let codeMirror = this._codeMirror;
+        let start      = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).anchor.ch;
+        let end        = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).head.ch;
+        let hint       = codeMirror.getRange({line: coords.line, ch: start}, {line: coords.line, ch: end});
+        return {
+            coords:  coords,
+            hint:    hint,
+            proc:    this.getProc(coords.line),
+            altHint: this.getAltHintFromLine(codeMirror.getLine(coords.line), (typeof hint === 'string') ? hint : '', start, end)
+        };
+    }
+
+    getVarFromCompiler(opts) {
+        let vr       = false;
+        let database = this._wheelEditorState.getDatabase();
+        if (opts.proc) {
+            let proc = database.compiler.findProc(opts.proc);
+            if (proc) {
+                vr = proc.findLocalVar(opts.hint);
+                if (vr) {
+                    return vr;
+                }
+            }
+        }
+        return vr;
+    }
+
+    getTokenFromHintInfo(hintInfo) {
+        let database = this._wheelEditorState.getDatabase();
+        let proc     = database.compiler.findProc(hintInfo.hint) || database.compiler.findProc(hintInfo.altHint);
+        if (proc) {
+            return proc.getToken();
+        }
+        let record = database.compiler.findRecord(hintInfo.hint) || database.compiler.findRecord(hintInfo.altHint);
+        if (record) {
+            return record.getToken();
+        }
+        let define = database.defines.getFullInfo(hintInfo.hint);
+        if (define) {
+            return define.token;
+        }
+        let vr = this.getVarFromCompiler(hintInfo) || database.compiler.findVar(hintInfo.hint);
+        if (vr) {
+            return vr.getToken();
+        }
+        return null;
+    }
+
+    getFilenameFromToken(token) {
+        return this._wheelEditorState.getDatabase().files[token.fileIndex].filename;
     }
 
     clearAllBreakpoints() {
@@ -196,15 +325,19 @@ exports.WheelEditor = class extends Editor {
     }
 
     showFindToolbar() {
-        this._refs.findOptions.className = 'bottom-options';
+        let refs = this._refs;
+        refs.findOptions.className      = 'bottom-options';
+        refs.connectionStatus.className = 'bottom-options hidden';
         this._wheelEditorState.setFindVisible(true);
-        this._refs.findText.focus();
+        refs.findText.focus();
     }
 
     showReplaceToolbar() {
-        this._refs.wrapper.className        = 'code-mirror-wrapper with-replace';
-        this._refs.findOptions.className    = 'bottom-options';
-        this._refs.replaceOptions.className = 'bottom-options replace';
+        let refs = this._refs;
+        refs.wrapper.className          = 'max-w max-h code-mirror-wrapper with-replace';
+        refs.findOptions.className      = 'bottom-options';
+        refs.replaceOptions.className   = 'bottom-options replace';
+        refs.connectionStatus.className = 'bottom-options hidden';
         this._wheelEditorState.setReplaceVisible(true);
         this._wheelEditorState.setFindVisible(true);
     }
@@ -220,13 +353,13 @@ exports.WheelEditor = class extends Editor {
     }
 
     disableBreakpoints() {
-        this.updateBreakpoints(function(breakpoint) {
+        this.updateBreakpoints((breakpoint) => {
             breakpoint.className = 'breakpoint-marker disabled';
         });
     }
 
     enableBreakpoints() {
-        this.updateBreakpoints(function(breakpoint) {
+        this.updateBreakpoints((breakpoint) => {
             breakpoint.className = 'breakpoint-marker';
         });
     }
@@ -242,13 +375,8 @@ exports.WheelEditor = class extends Editor {
     }
 
     onFindKeyUp(event) {
-        switch (event.keyCode) {
-            case 13: // Enter
-                this.onFind();
-                break;
-            case 27: // Escape
-                this.hideReplaceOptions();
-                break;
+        if (event.keyCode === 13) { // Enter
+            this.onFind();
         }
     }
 
@@ -289,16 +417,27 @@ exports.WheelEditor = class extends Editor {
     }
 
     onCursorChanged() {
+        let wheelEditorState = this._wheelEditorState;
+        if (wheelEditorState.getCursorChangedAfterFind()) {
+            // The cursor changed after clicking find, reset the state...
+            wheelEditorState.setCursorChangedAfterFind(false);
+        } else {
+            // The cursor changed after clicking in the editor, reset the find text state...
+            // This forces the search to reset when find is clicked again.
+            wheelEditorState.setFindText(null);
+        }
         let cursor = this._codeMirror.getCursor();
         this._lastCursor                    = cursor;
         this._refs.cursorPosition.innerHTML = (cursor.line + 1) + ',' + cursor.ch;
     }
 
     onKeyDown(cm, event) {
+        this._keyDown = event.key;
         this.onMouseOut(event);
     }
 
     onKeyUp(cm, event) {
+        this._keyDown = false;
         if (this._autoCompleteTimeout) {
             clearTimeout(this._autoCompleteTimeout);
         }
@@ -306,15 +445,42 @@ exports.WheelEditor = class extends Editor {
         if ('ABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789'.indexOf(ch) === -1) {
             return;
         }
-        let callback = (function() {
+        let callback = () => {
                 CodeMirror.commands.autocomplete(cm, null, {completeSingle: true});
                 this._autoCompleteTimeout = null;
-            }).bind(this);
+            };
         this._autoCompleteTimeout = setTimeout(callback, 1000);
     }
 
     onMouseDown(event) {
+        this._mouseDown = true;
         this.onMouseOut(event);
+    }
+
+    onMouseUp(event) {
+        if (this._mouseDown && (this._keyDown === 'Control')) {
+            let cursor = this._codeMirror.getCursor();
+            let token  = this.getTokenFromHintInfo(this.getHintInfoAtCoords(cursor));
+            if (token) {
+                let filename = this.getFilenameFromToken(token);
+                getDataProvider().getData(
+                    'get',
+                    'ide/path-exists',
+                    {path: filename},
+                    (data) => {
+                        let exists = false;
+                        try {
+                            exists = JSON.parse(data).exists;
+                        } catch (error) {
+                        }
+                        if (exists) {
+                            dispatcher.dispatch('Dialog.File.Open', filename, token);
+                        }
+                    }
+                );
+            }
+        }
+        this._mouseDown = false;
     }
 
     onMouseMove(event) {
@@ -326,17 +492,14 @@ exports.WheelEditor = class extends Editor {
             clearTimeout(wheelEditorState.getHintTimeout());
         }
         wheelEditorState.setHintTimeout(setTimeout(
-            (function() {
+            () => {
                 wheelEditorState.setHintTimeout(null);
-                let codeMirror = this._codeMirror;
-                let coords     = codeMirror.coordsChar({left: event.clientX, top: event.clientY});
-                let start      = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).anchor.ch;
-                let end        = codeMirror.findWordAt({line: coords.line, ch: coords.ch}).head.ch;
-                let hint       = codeMirror.getRange({line: coords.line, ch: start}, {line: coords.line, ch: end});
-                if ((typeof hint === 'string') && (hint.trim() !== '')) {
-                    dispatcher.dispatch('Hint.Show', event, hint, wheelEditorState.getDatabase());
+                let hintInfo = this.getHintInfoAtCoords(this._codeMirror.coordsChar({left: event.clientX, top: event.clientY}));
+                if ((typeof hintInfo.hint === 'string') && (hintInfo.hint.trim() !== '')) {
+                    hintInfo.event = event;
+                    dispatcher.dispatch('Hint.Show', hintInfo);
                 }
-            }).bind(this),
+            },
             300
         ));
     }
@@ -350,24 +513,43 @@ exports.WheelEditor = class extends Editor {
         dispatcher.dispatch('Hint.Hide');
     }
 
+    onFileSavedHide() {
+        super.onFileSavedHide();
+        if (this._wheelEditorState.getFindVisible()) {
+            this._refs.findOptions.className = 'bottom-options';
+        }
+        if (this._wheelEditorState.getReplaceVisible()) {
+            this._refs.replaceOptions.className = 'bottom-options replace';
+        }
+    }
+
+    onFileSaved(filename) {
+        this._refs.findOptions.className    = 'bottom-options hidden';
+        this._refs.replaceOptions.className = 'bottom-options hidden';
+        super.onFileSaved(filename);
+    }
+
     refresh() {
         let wheelEditorState = this._wheelEditorState;
         wheelEditorState.getCodeMirrorRefreshTimeout() && clearTimeout(wheelEditorState.getCodeMirrorRefreshTimeout());
         wheelEditorState.setCodeMirrorRefreshTimeout(setTimeout(
-            (function() {
+            () => {
                 wheelEditorState.setCodeMirrorRefreshTimeout(null);
                 this._codeMirror.setOption('mode', wheelEditorState.getMode());
-            }).bind(this),
+            }),
             10
-        ));
+        );
     }
 
     hideReplaceOptions() {
-        this._refs.findOptions.className    = 'bottom-options hidden';
-        this._refs.replaceOptions.className = 'bottom-options hidden';
-        this._refs.wrapper.className        = 'code-mirror-wrapper';
-        this._wheelEditorState.setFindVisible(false);
-        this._wheelEditorState.setReplaceVisible(false);
+        let refs = this._refs;
+        refs.findOptions.className      = 'bottom-options hidden';
+        refs.replaceOptions.className   = 'bottom-options hidden';
+        refs.connectionStatus.className = 'bottom-options connection-status';
+        refs.wrapper.className          = 'max-w max-h code-mirror-wrapper';
+        this._wheelEditorState
+            .setFindVisible(false)
+            .setReplaceVisible(false);
     }
 
     find() {
@@ -375,9 +557,11 @@ exports.WheelEditor = class extends Editor {
         let findText          = this._refs.findText.getValue();
         let findCaseSensitive = this._refs.findCaseSensitive.getChecked();
         let findCursor        = this._codeMirror.getSearchCursor(findText, null, !findCaseSensitive);
-        wheelEditorState.setFindCursor(findCursor);
-        wheelEditorState.setFindCaseSensitive(findCaseSensitive);
-        wheelEditorState.setFindText(findText);
+        wheelEditorState
+            .setCursorChangedAfterFind(true)
+            .setFindCursor(findCursor)
+            .setFindCaseSensitive(findCaseSensitive)
+            .setFindText(findText);
         findCursor && findCursor.findNext();
         if (findCursor && !findCursor.from()) {
             findCursor = this._codeMirror.getSearchCursor(findText, null, !findCaseSensitive);
@@ -403,8 +587,10 @@ exports.WheelEditor = class extends Editor {
             (wheelEditorState.getFindCaseSensitive() !== findCaseSensitive)) {
             findCursor = this._codeMirror.getSearchCursor(findText, null, !findCaseSensitive);
         }
-        wheelEditorState.setFindText(findText);
-        wheelEditorState.setFindCaseSensitive(findCaseSensitive);
+        wheelEditorState
+            .setCursorChangedAfterFind(true)
+            .setFindText(findText)
+            .setFindCaseSensitive(findCaseSensitive);
         findCursor && findCursor.findNext();
         if (findCursor && !findCursor.from()) {
             findCursor = this._codeMirror.getSearchCursor(findText, null, !findCaseSensitive);
@@ -438,7 +624,7 @@ exports.WheelEditor = class extends Editor {
 
     restoreCursor() {
         setTimeout(
-            (function() {
+            () => {
                 let lastCursor = this._lastCursor;
                 if (!lastCursor) {
                     return;
@@ -450,24 +636,8 @@ exports.WheelEditor = class extends Editor {
                 }
                 codeMirror.focus();
                 codeMirror.setCursor(lastCursor);
-            }).bind(this),
+            },
             0
         );
-    }
-
-    onFileSavedHide() {
-        super.onFileSavedHide();
-        if (this._wheelEditorState.getFindVisible()) {
-            this._refs.findOptions.className = 'bottom-options';
-        }
-        if (this._wheelEditorState.getReplaceVisible()) {
-            this._refs.replaceOptions.className = 'bottom-options replace';
-        }
-    }
-
-    onFileSaved(filename) {
-        this._refs.findOptions.className    = 'bottom-options hidden';
-        this._refs.replaceOptions.className = 'bottom-options hidden';
-        super.onFileSaved(filename);
     }
 };

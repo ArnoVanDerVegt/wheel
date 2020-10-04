@@ -1,0 +1,20 @@
+@subject Component_Example:EV3Motor display
+@device  I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section EV3 Motor display example
+This example shows how to use the EV3 motor display component.
+The EV3 motor component can only be used to display status information about motors,
+it's not meant to control motors.
+
+
+The component can display a reverse or forward speed with the red bar. It can
+display a ready or busy state with the colored dot on the port number and
+it can display a numeric value.
+
+@section Screenshot
+@image images/components/ev3Motor.png
+
+@load Open the tabs example|examples/components/device/ev3Motor.wfrm
+
+@see motor

@@ -7,7 +7,7 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test single dimensional constant arrays',
-    function() {
+    () => {
         testLogs(
             it,
             'Should declare global constant array',

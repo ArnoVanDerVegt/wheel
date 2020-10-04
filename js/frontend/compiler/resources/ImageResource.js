@@ -3,7 +3,6 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const RgfImage        = require('../../../shared/lib/RgfImage').RgfImage;
-const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
 const dispatcher      = require('../../lib/dispatcher').dispatcher;
 const path            = require('../../lib/path');
 const ProjectResource = require('./ProjectResource').ProjectResource;
@@ -14,10 +13,15 @@ exports.ImageResource = class extends ProjectResource {
         if (!data) {
             return;
         }
-        let dataProvider = getDataProvider();
-        let filename     = this._filename;
-        dispatcher.dispatch('Console.Log', {message: 'Writing image <i>' + filename + '</i>...'});
-        dataProvider.getData(
+        let filename = this._filename;
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    'Info',
+                message: 'Writing image <i>' + filename + '</i>...'
+            }
+        );
+        this._getDataProvider().getData(
             'post',
             'ide/file-save',
             {

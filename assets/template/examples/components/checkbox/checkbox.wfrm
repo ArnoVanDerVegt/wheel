@@ -1,0 +1,40 @@
+[
+    {
+        "type": "form",
+        "uid": "0x133BD84D",
+        "name": "checkbox",
+        "title": "Checkbox example",
+        "width": 320,
+        "height": 70,
+        "id": 1
+    },
+    {
+        "x": 40,
+        "y": 20,
+        "parentId": 1,
+        "id": 2,
+        "uid": "0xFD9D281F",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "checkbox",
+        "name": "Checkbox",
+        "text": "Light on",
+        "checked": false,
+        "onChange": "onCheckboxFormCheckboxChange"
+    },
+    {
+        "x": 170,
+        "y": "25",
+        "parentId": 1,
+        "id": 3,
+        "uid": "0x112F9C00",
+        "tabIndex": 0,
+        "hidden": false,
+        "disabled": false,
+        "type": "statusLight",
+        "name": "StatusLight",
+        "text": "StatusLight1",
+        "color": "gray"
+    }
+]

@@ -9,7 +9,7 @@ const PianoKey             = require('./PianoKey').PianoKey;
 exports.Piano = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._brick           = opts.brick;
+        this._device          = opts.device;
         this._dialog          = opts.dialog;
         this._uiId            = opts.uiId;
         this._keyElements     = [];
@@ -24,12 +24,12 @@ exports.Piano = class extends DOMNode {
         let tabIndex = [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 11, 13, 17, 19, 21, 25, 27];
         for (let key = 0; key < 10; key++) {
             children.push({
-                className: 'key',
+                className: 'flt rel key max-h',
                 children: [
                     {
                         type:      PianoKey,
                         piano:     this,
-                        className: 'key',
+                        className: 'flt rel key max-h',
                         key:       key,
                         hotkey:    hotkeys1[key],
                         tabIndex:  tabIndex[key]
@@ -39,12 +39,12 @@ exports.Piano = class extends DOMNode {
         }
         for (let key = 0; key < 7; key++) {
             children.push({
-                className: 'key half half' + key,
+                className: 'abs key max-h half half' + key,
                 children: [
                     {
                         type:      PianoKey,
                         piano:     this,
-                        className: 'key half half' + key,
+                        className: 'abs key max-h half half' + key,
                         key:       10 + key,
                         hotkey:    hotkeys2[key],
                         tabIndex:  tabIndex[10 + key]
@@ -116,6 +116,6 @@ exports.Piano = class extends DOMNode {
         let volume = this._dialog.getVolumeSliderElement().getValue();
         let tones  = [262, 294, 330, 349, 392, 440, 494, 523, 587, 659, 277, 311, 370, 415, 466, 554, 622];
         let sound  = {frequency: tones[key], duration: 500, volume: volume};
-        this._brick.module(soundModuleConstants.MODULE_SOUND, soundModuleConstants.SOUND_PLAY_TONE, sound);
+        this._device.module(soundModuleConstants.MODULE_SOUND, soundModuleConstants.SOUND_PLAY_TONE, sound);
     }
 };

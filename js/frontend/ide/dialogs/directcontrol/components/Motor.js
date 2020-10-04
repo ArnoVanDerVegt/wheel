@@ -12,9 +12,10 @@ exports.Motor = class extends DOMNode {
         super(opts);
         this._ui              = opts.ui;
         this._uiId            = opts.uiId;
-        this._brick           = opts.brick;
+        this._device          = opts.device;
         this._dialog          = opts.dialog;
         this._speed           = 50;
+        this._motorValidator  = opts.motorValidator;
         this._motorId         = opts.motorId;
         this._tabIndex        = opts.tabIndex;
         this._className       = opts.className || '';
@@ -36,7 +37,7 @@ exports.Motor = class extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'motor disabled ' + this._className,
+                className: 'flt rel motor ui1-box disabled ' + this._className,
                 children: [
                     {
                         type:        Button,
@@ -51,7 +52,7 @@ exports.Motor = class extends DOMNode {
                     },
                     {
                         ref:         this.setRef('speed'),
-                        className:   'speed',
+                        className:   'no-select abs speed',
                         innerHTML:   '50'
                     },
                     {
@@ -65,14 +66,24 @@ exports.Motor = class extends DOMNode {
                         onChange:    this.onChange.bind(this)
                     },
                     {
-                        ref:         this.setRef('position'),
-                        className:   'position',
-                        innerHTML:   '0'
+                        className:   'abs position',
+                        children: [
+                            {
+                                type:     Button,
+                                ref:      this.setRef('position'),
+                                ui:       this._ui,
+                                uiId:     this._uiId,
+                                tabIndex: this._tabIndex + 2,
+                                color:    'blue',
+                                value:    '0',
+                                onClick:  this.onClickReset.bind(this)
+                            }
+                        ]
                     },
                     {
                         type:        Button,
                         uiOwner:     this,
-                        tabIndex:    this._tabIndex + 2,
+                        tabIndex:    this._tabIndex + 3,
                         className:   'down',
                         value:       '↓',
                         onKeyDown:   this.onDownKeyPressed.bind(this),
@@ -101,13 +112,18 @@ exports.Motor = class extends DOMNode {
     setAssigned(assigned) {
         let element         = this._element;
         let className       = this._className;
-        let updateClassName = (function() {
+        let updateClassName = () => {
                 this.clearAssignedTimeout();
-                let disabled = (assigned === null) || ([7, 8].indexOf(assigned) === -1);
-                element.className = 'motor ' + (disabled ? 'disabled' : '') + ' ' + className;
-            }).bind(this);
+                let motorValidator = this._motorValidator;
+                let disabled       = !motorValidator.valid(assigned);
+                let hasPosition    = motorValidator.hasPosition(assigned);
+                element.className = 'flt rel motor ui1-box' +
+                    (disabled    ? ' disabled' : '')             +
+                    (hasPosition ? ''          : ' no-position') +
+                    ' ' + className;
+            };
         this.clearAssignedTimeout();
-        if ([0, -1].indexOf(assigned) !== -1) {
+        if (this._motorValidator.waiting(assigned)) {
             this._assignedTimeout = setTimeout(updateClassName, 3000);
         } else {
             updateClassName();
@@ -116,8 +132,12 @@ exports.Motor = class extends DOMNode {
     }
 
     setPosition(position) {
-        this._refs.position.innerHTML = position;
+        this._refs.position.setValue(position);
         return this;
+    }
+
+    getSpeed() {
+        return this._speed;
     }
 
     setSpeed(speed) {
@@ -128,42 +148,47 @@ exports.Motor = class extends DOMNode {
         return this;
     }
 
+    getMotorData(speed) {
+        return {layer: this._dialog.getLayer(), id: this._motorId, speed: speed, brake: this._dialog.getBrake()};
+    }
+
     onUpKeyPressed(event) {
         if (!this._assignedTimeout && ([13, 32].indexOf(event.keyCode) !== -1)) {
-            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: this._speed};
-            this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: this._speed, brake: this._dialog.getBrake()};
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(this._speed));
         }
     }
 
     onUpMousePressed(event) {
         if (!this._assignedTimeout) {
-            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: this._speed};
-            this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            console.log('Up pressed');
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(this._speed));
         }
     }
 
     onUpReleased() {
-        let motor = {layer: this._dialog.getLayer(), id: this._motorId, brake: this._dialog.getBrake() ? 1 : 0};
-        this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
+        console.log('Up released');
+        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, this.getMotorData(this._speed));
     }
 
     onDownKeyPressed(event) {
         if (!this._assignedTimeout && ([13, 32].indexOf(event.keyCode) !== -1)) {
-            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: -this._speed};
-            this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(-this._speed));
         }
     }
 
     onDownMousePressed(event) {
         if (!this._assignedTimeout) {
-            let motor = {layer: this._dialog.getLayer(), id: this._motorId, speed: -this._speed};
-            this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, motor);
+            this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(-this._speed));
         }
     }
 
     onDownReleased() {
-        let motor = {layer: this._dialog.getLayer(), id: this._motorId, brake: this._dialog.getBrake() ? 1 : 0};
-        this._brick.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, motor);
+        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, this.getMotorData(this._speed));
+    }
+
+    onClickReset() {
+        this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_RESET, this.getMotorData(0));
     }
 
     onChange(value) {

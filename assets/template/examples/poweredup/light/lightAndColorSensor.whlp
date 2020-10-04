@@ -1,0 +1,55 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Powered Up Light and color sensor example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/poweredUp.whl"
+#include "lib/light.whl"
+#include "lib/sensor.whl"
+
+#display "Hub"
+
+proc main()
+    ; Select the Powered Up device in the IDE...
+    selectDevice(DEVICE_POWERED_UP)
+
+    ; If you are using a Move Hub then this exemple expects the light sensor to be
+    ; connected to port "C".
+    ; If you are using the Hub -which has only two ports- then you can change
+    ; the value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sensor to port "A"...
+    number inputPort = POWERED_UP_PORT_C
+
+    sensorLayerSetMode(LAYER_1, inputPort, POWERED_UP_SENSOR_MODE_COLOR)
+
+    number lastValue = -1
+
+    repeat
+        ; Read the color value:
+        number value = sensorLayerRead(LAYER_1, inputPort)
+
+        ; Check if the value is changed:
+        if value != lastValue
+            ; The value is changed!
+            lastValue = value
+
+            ; Set the light to the detected color...
+            select value
+                case COLOR_BLUE:
+                    light(LIGHT_PU_BLUE)
+                case COLOR_GREEN:
+                    light(LIGHT_PU_GREEN)
+                case COLOR_YELLOW:
+                    light(LIGHT_PU_YELLOW)
+                case COLOR_RED:
+                    light(LIGHT_PU_RED)
+                case COLOR_WHITE:
+                    light(LIGHT_PU_WHITE)
+                case COLOR_BLACK:
+                    light(LIGHT_PU_BLACK)
+                case COLOR_NONE:
+                    light(LIGHT_PU_NONE)
+            end
+        end
+    end
+end

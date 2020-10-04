@@ -284,7 +284,7 @@ exports.AssignmentExpression = class {
         if (destVrOrType.getArraySize() === false) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
         }
-        let iterator = new Iterator([].concat(opts.srcExpression.tokens));
+        let iterator = new Iterator({tokens: [].concat(opts.srcExpression.tokens), compiler: this._compiler});
         let data     = [];
         iterator.next(); // Skip "["
         compileData.readArrayToData(iterator, destVrOrType, data);
@@ -307,7 +307,7 @@ exports.AssignmentExpression = class {
         if (!(destVrOrType.getType() instanceof Record)) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
         }
-        let iterator = new Iterator([].concat(opts.srcExpression.tokens));
+        let iterator = new Iterator({tokens: [].concat(opts.srcExpression.tokens), compiler: this._compiler});
         let data     = [];
         iterator.next(); // Skip "{"
         compileData.readRecordToData(iterator, destVrOrType.getType(), data);
@@ -351,13 +351,7 @@ exports.AssignmentExpression = class {
                     } else if (opts.srcIdentifier.getType() === t.LEXEME_STRING) {
                         opts.srcVrOrType = t.LEXEME_STRING;
                     } else {
-                        // 1 opts.srcVrOrType = exports.checkType(opts.srcIdentifier.getType(), {tokens: value}).type;
-                        // 2 if ((opts.destIdentifier.getType() instanceof Record) && (opts.srcVrOrType instanceof Record)) {
-                        // 3     if (expectSrcArrayIndex && (destIdentifier.getArraySize() !== false)) {
-                        // 4         throw errors.createError(err.TYPE_MISMATCH, destExpression.tokens[0], 'Type mismatch.');
-                        // 5     }
-                        // 6 } else if (expectSrcArrayIndex && (opts.srcVrOrType instanceof Record)) {
-                        // 7 }
+                        opts.srcVrOrType = t.LEXEME_NUMBER;
                     }
                 } else {
                     opts.srcVrOrType = opts.destIdentifier.getType();

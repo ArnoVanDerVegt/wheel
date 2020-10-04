@@ -20,15 +20,17 @@ exports.PianoKey = class extends DOMNode {
         this.create(
             parentNode,
             {
-                id: (function(element) {
+                id: (element) => {
                     piano.setKeyElement(element, this._key, this._hotkey, this._className);
-                }).bind(this),
+                },
                 type:     'a',
                 href:     '#',
+                className: 'flt rel max-w max-h',
                 tabIndex: this._tabIndex,
                 children: [
                     {
                         type:      'span',
+                        className: 'no-select abs max-w',
                         innerHTML: this._hotkey
                     }
                 ]

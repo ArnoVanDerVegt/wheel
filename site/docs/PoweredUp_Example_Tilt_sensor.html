@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - PoweredUp_Example:Tilt sensor</title>
+    <meta name="description" content="PoweredUp_Example:Tilt sensor"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Tilt sensor</h2>
+            <a id="PoweredUpTiltsensorexample"></a>
+            <h4 class="">Powered Up Tilt sensor example</h4>
+            <p>
+                This example displays the tilt values in the console.
+                <br/>
+                <br/>
+                The <i>Move Hub</i> returns the <i>x</i> and <i>y</i> values and the <i>Technic Hub</i> returns the <i>x</i>, <i>y</i> and <i>z</i> values.
+                <br/>
+                <br/>
+                By calling the <i>poweredUpStart</i> procedure Wheel will register <i>tilt</i> and <i>acceleration</i> values in
+                the global <i>poweredUpDevices</i> variable.
+                <br/>
+                <br/>
+                This demo only works on a real device, the simulator does not support changing <i>tilt</i> or <i>acceleration</i> values.
+            </p>
+            <a id="Code"></a>
+            <h4 class="">Code</h4>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Powered Up tilt sensor example"</span>
+
+<span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/poweredUp.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="comment">; Start reading the Powered Up sensors...</span>
+    <span class="variable">poweredUpStart</span><span class="operator">(</span><span class="operator">)</span>
+
+    <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">lastX</span>
+    <span class="type">number</span> <span class="variable">y</span><span class="operator">,</span> <span class="variable">lastY</span>
+    <span class="type">number</span> <span class="variable">z</span><span class="operator">,</span> <span class="variable">lastZ</span>
+
+    <span class="keyword">repeat</span>
+        <span class="comment">; Get the values...</span>
+        <span class="variable">x</span> <span class="operator">=</span> <span class="variable">poweredUpDevices.layer1.tilt.x</span>
+        <span class="variable">y</span> <span class="operator">=</span> <span class="variable">poweredUpDevices.layer1.tilt.y</span>
+        <span class="variable">z</span> <span class="operator">=</span> <span class="variable">poweredUpDevices.layer1.tilt.z</span>
+
+        <span class="comment">; Check if one of the values is changed:</span>
+        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">x</span> <span class="operator">!</span><span class="operator">=</span> <span class="variable">lastX</span><span class="operator">)</span> <span class="keyword">or</span> <span class="operator">(</span><span class="variable">y</span> <span class="operator">!</span><span class="operator">=</span> <span class="variable">lastY</span><span class="operator">)</span> <span class="keyword">or</span> <span class="operator">(</span><span class="variable">z</span> <span class="operator">!</span><span class="operator">=</span> <span class="variable">lastZ</span><span class="operator">)</span>
+            <span class="comment">; Display the last values:</span>
+            <span class="proc">clearConsole</span><span class="operator">(</span><span class="operator">)</span><span class="comment">;</span>
+            <span class="proc">printS</span><span class="operator">(</span><span class="string">"Tilt:"</span><span class="operator">)</span>
+            <span class="proc">printS</span><span class="operator">(</span><span class="string">"x:"</span><span class="operator">)</span>
+            <span class="proc">printN</span><span class="operator">(</span><span class="variable">x</span><span class="operator">)</span>
+            <span class="proc">printS</span><span class="operator">(</span><span class="string">"y:"</span><span class="operator">)</span>
+            <span class="proc">printN</span><span class="operator">(</span><span class="variable">y</span><span class="operator">)</span>
+            <span class="proc">printS</span><span class="operator">(</span><span class="string">"z:"</span><span class="operator">)</span>
+            <span class="proc">printN</span><span class="operator">(</span><span class="variable">z</span><span class="operator">)</span>
+
+            <span class="variable">lastX</span> <span class="operator">=</span> <span class="variable">x</span>
+            <span class="variable">lastY</span> <span class="operator">=</span> <span class="variable">y</span>
+            <span class="variable">lastZ</span> <span class="operator">=</span> <span class="variable">z</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+            <div class="link-box">
+                <a href="https://github.com/ArnoVanDerVegt/wheel/tree/develop/assets/template/examples/poweredup/tilt/tilt.whlp"            target="_wheelLink" class="start">View on Github »</a>
+            </div>
+            <div class="see-also-block">
+                <span class="see-also-label">See also: </span>
+                <a href="Programming_Modules.html" class="see-also">Modules</a>
+                <a href="IDE_Simulator.html" class="see-also">sensor(Simulator)</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

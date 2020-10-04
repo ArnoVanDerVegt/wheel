@@ -7,10 +7,10 @@ const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test single dimensional constant record arrays',
-    function() {
+    () => {
         describe(
             'Test constant record array declaration',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should declare local array of records',

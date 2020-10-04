@@ -1,0 +1,46 @@
+; @module Component/Interval
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.interval
+
+; @const The interval component module.
+#define MODULE_COMPONENT_INTERVAL   132     ; `image:images/buttons/clockBlack.svg`
+
+; @const Module calls for interval component functions.
+#define INTERVAL_COMPONENT_SET_TIME   0
+#define INTERVAL_COMPONENT_PAUSE      1
+#define INTERVAL_COMPONENT_RESUME     2
+
+; @property name string The component name.
+; @property x    number The left position of the component icon, this only applies to the icon in design mode.
+; @property y    number The top position of the component icon, this only applies to the icon in design mode.
+; @property time number The interval time in milliseconds.
+
+; @event onInterval   Called when interval time is expired.
+; @param windowHandle number The handle of the parent window of the interval component.
+
+; @proc                   Set the interval time.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param time             The interval time in milli seconds.
+proc setTime(number windowHandle, number componentHandle, number time)
+    addr windowHandle
+    mod  MODULE_COMPONENT_INTERVAL, INTERVAL_COMPONENT_SET_TIME
+end
+
+; @proc                   Pause the interval.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc pause(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_INTERVAL, INTERVAL_COMPONENT_PAUSE
+end
+
+; @proc                   Resume the interval.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc resume(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_INTERVAL, INTERVAL_COMPONENT_RESUME
+end

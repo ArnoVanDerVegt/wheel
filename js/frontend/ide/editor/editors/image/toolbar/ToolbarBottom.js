@@ -25,7 +25,7 @@ exports.ToolbarBottom = class extends Toolbar {
         this.create(
             this._parentNode,
             {
-                className: 'resource-options bottom',
+                className: 'flt max-w resource-options bottom',
                 children: [
                     this.addFileSaved(imageEditor),
                     {
@@ -34,18 +34,20 @@ exports.ToolbarBottom = class extends Toolbar {
                         children: [
                             this.addLabel('Text:'),
                             {
-                                ref:      imageEditor.setRef('text'),
-                                type:     TextInput,
-                                ui:       this._ui,
-                                uiId:     1,
-                                tabIndex: tabIndex.IMAGE_TEXT,
-                                onKeyUp:  imageEditor.onKeyUp.bind(imageEditor)
+                                ref:         imageEditor.setRef('text'),
+                                type:        TextInput,
+                                ui:          this._ui,
+                                uiId:        1,
+                                tabIndex:    tabIndex.IMAGE_TEXT,
+                                onKeyUp:     imageEditor.onKeyUp.bind(imageEditor),
+                                placeholder: 'Enter text'
                             },
                             this.addToolOptions({
-                                uiId:     1,
-                                tabIndex: tabIndex.IMAGE_FONT_SIZE,
-                                label:    'Font:',
-                                onSelect: imageEditor.onSelectFont.bind(imageEditor),
+                                uiId:          1,
+                                tabIndex:      tabIndex.IMAGE_FONT_SIZE,
+                                label:         'Font:',
+                                baseClassName: 'tool-options-toolbar',
+                                onSelect:      imageEditor.onSelectFont.bind(imageEditor),
                                 options: [
                                     {title: 'Size 1', icon: 'icon-text1'},
                                     {title: 'Size 2', icon: 'icon-text2'},

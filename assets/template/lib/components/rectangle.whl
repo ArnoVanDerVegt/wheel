@@ -1,0 +1,132 @@
+; @module Component/Rectangle
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.rectangle
+
+; @const The form component module.
+#define MODULE_COMPONENT_RECTANGLE   96     ; `image:images/buttons/rectBlack.svg`
+
+; @const Module calls for rectangle component functions.
+#define RECTANGLE_SET_HIDDEN          0
+#define RECTANGLE_SET_X               1
+#define RECTANGLE_SET_Y               2
+#define RECTANGLE_SET_WIDTH           3
+#define RECTANGLE_SET_HEIGHT          4
+#define RECTANGLE_SET_FILL_COLOR      5
+#define RECTANGLE_SET_BORDER_COLOR    6
+#define RECTANGLE_SET_BORDER_WIDTH    7
+#define RECTANGLE_SET_BORDER_RADIUS   8
+
+; @property name         string  The component name.
+; @property tabIndex     number  The tab index.
+; @property hidden       boolean Hide the component.
+; @property x            number  The left position of the component inside the parent component.
+; @property y            number  The top position of the component inside the parent component.
+; @property zIndex       number  The depth of the component related to other components in the parent.
+; @property width        number  The rectangle width.
+; @property height       number  The rectangle height.
+; @property fillColor    rgb     The fill color in red, green and blue.
+; @property borderColor  rgb     The border color in red, green and blue.
+; @property borderWidth  number  The border width.
+; @property borderRadius number  The border radius, this value can give the rectangle rounded corners.
+
+; @event onClick             Called when the rectangle is clicked.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @event onMouseDown         Called when the mouse is pressed on the rectangle.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @event onMouseUp           Called when the mouse is released on the rectangle.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @event onMouseMove         Called when the mouse moves over the rectangle.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @event onMouseOut           Called when the mouse moves out of the rectangle.
+; @param windowHandle number The handle of the parent window of the rectangle.
+
+; @proc                   Hide the rectangle.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_HIDDEN
+end
+
+; @proc                   Set the x position of the rectangle.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_X
+end
+
+; @proc                   Set the y position of the rectangle.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_Y
+end
+
+; @proc                   Set the rectangle width.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param width            The rectangle width.
+proc setWidth(number windowHandle, number componentHandle, number width)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_WIDTH
+end
+
+; @proc                   Set the rectangle height.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param height           The rectangle height.
+proc setHeight(number windowHandle, number componentHandle, number height)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_HEIGHT
+end
+
+; @proc                   Set the fill color.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param red              The red color component, a value in the range of 0..255.
+; @param green            The green color component, a value in the range of 0..255.
+; @param blue             The blue color component, a value in the range of 0..255.
+proc setFillColor(number windowHandle, number componentHandle, number red, number green, number blue)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_FILL_COLOR
+end
+
+; @proc                   Set the border color.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param red              The red color component, a value in the range of 0..255.
+; @param green            The green color component, a value in the range of 0..255.
+; @param blue             The blue color component, a value in the range of 0..255.
+proc setBorderColor(number windowHandle, number componentHandle, number red, number green, number blue)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_BORDER_COLOR
+end
+
+; @proc                   Set the border width.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param borderWidth      The border width.
+proc setBorderWidth(number windowHandle, number componentHandle, number borderWidth)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_BORDER_WIDTH
+end
+
+; @proc                   Set the border radius.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param borderWidth      The border radius.
+proc setBorderRadius(number windowHandle, number componentHandle, number borderRadius)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RECTANGLE, RECTANGLE_SET_BORDER_RADIUS
+end

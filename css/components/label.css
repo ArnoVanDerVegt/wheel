@@ -1,0 +1,11 @@
+.label.design:before {
+    position:                       absolute;
+    z-index:                        -1;
+    left:                           0;
+    top:                            0;
+    width:                          calc(100% - 2px);
+    height:                         calc(100% - 2px);
+    background:                     var(--design-background);
+    border:                         var(--design-border);
+    content:                        ' ';
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - PoweredUp_Example:Light and color sensor</title>
+    <meta name="description" content="PoweredUp_Example:Light and color sensor"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Light and color sensor</h2>
+            <a id="PoweredUpLightandcolorsensorexample"></a>
+            <h4 class="">Powered Up Light and color sensor example</h4>
+            <p>
+                This example shows how to detect a color and change the color of the light accordingly.
+                <br/>
+                <br/>
+                If you are using a <i>Move Hub</i> then this exemple expects the light sensor to be
+                connected to port "C".
+                If you are using the <i>Hub</i> -which has only two ports- then you can change
+                the <i>inputPort</i> value POWERED_UP_PORT_C to POWERED_UP_PORT_A and connect the sensor to port "A"...
+            </p>
+            <a id="Code"></a>
+            <h4 class="">Code</h4>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Powered Up Light and color sensor example"</span>
+
+<span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/device.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/poweredUp.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/light.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/sensor.whl"</span>
+
+<span class="meta">#display</span> <span class="string">"Hub"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="comment">; Select the Powered Up device in the IDE...</span>
+    <span class="variable">selectDevice</span><span class="operator">(</span><span class="variable">DEVICE_POWERED_UP</span><span class="operator">)</span>
+
+    <span class="type">number</span> <span class="variable">inputPort</span> <span class="operator">=</span> <span class="variable">POWERED_UP_PORT_C</span>
+
+    <span class="variable">sensorLayerSetMode</span><span class="operator">(</span><span class="variable">LAYER_1</span><span class="operator">,</span> <span class="variable">inputPort</span><span class="operator">,</span> <span class="variable">POWERED_UP_SENSOR_MODE_COLOR</span><span class="operator">)</span>
+
+    <span class="type">number</span> <span class="variable">lastValue</span> <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>
+
+    <span class="keyword">repeat</span>
+        <span class="comment">; Read the color value:</span>
+        <span class="type">number</span> <span class="variable">value</span> <span class="operator">=</span> <span class="variable">sensorLayerRead</span><span class="operator">(</span><span class="variable">LAYER_1</span><span class="operator">,</span> <span class="variable">inputPort</span><span class="operator">)</span>
+
+        <span class="comment">; Check if the value is changed:</span>
+        <span class="keyword">if</span> <span class="variable">value</span> <span class="operator">!</span><span class="operator">=</span> <span class="variable">lastValue</span>
+            <span class="comment">; The value is changed!</span>
+            <span class="variable">lastValue</span> <span class="operator">=</span> <span class="variable">value</span>
+
+            <span class="comment">; Set the light to the detected color...</span>
+            <span class="keyword">select</span> <span class="variable">value</span>
+                <span class="keyword">case</span> <span class="variable">COLOR_BLUE</span><span class="operator">:</span>
+                    <span class="proc">light</span><span class="operator">(</span><span class="variable">LIGHT_PU_BLUE</span><span class="operator">)</span>
+                <span class="keyword">case</span> <span class="variable">COLOR_GREEN</span><span class="operator">:</span>
+                    <span class="proc">light</span><span class="operator">(</span><span class="variable">LIGHT_PU_GREEN</span><span class="operator">)</span>
+                <span class="keyword">case</span> <span class="variable">COLOR_YELLOW</span><span class="operator">:</span>
+                    <span class="proc">light</span><span class="operator">(</span><span class="variable">LIGHT_PU_YELLOW</span><span class="operator">)</span>
+                <span class="keyword">case</span> <span class="variable">COLOR_RED</span><span class="operator">:</span>
+                    <span class="proc">light</span><span class="operator">(</span><span class="variable">LIGHT_PU_RED</span><span class="operator">)</span>
+                <span class="keyword">case</span> <span class="variable">COLOR_WHITE</span><span class="operator">:</span>
+                    <span class="proc">light</span><span class="operator">(</span><span class="variable">LIGHT_PU_WHITE</span><span class="operator">)</span>
+                <span class="keyword">case</span> <span class="variable">COLOR_BLACK</span><span class="operator">:</span>
+                    <span class="proc">light</span><span class="operator">(</span><span class="variable">LIGHT_PU_BLACK</span><span class="operator">)</span>
+                <span class="keyword">case</span> <span class="variable">COLOR_NONE</span><span class="operator">:</span>
+                    <span class="proc">light</span><span class="operator">(</span><span class="variable">LIGHT_PU_NONE</span><span class="operator">)</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+            <div class="link-box">
+                <a href="https://github.com/ArnoVanDerVegt/wheel/tree/develop/assets/template/examples/poweredup/light/lightAndColorSensor.whlp"            target="_wheelLink" class="start">View on Github »</a>
+            </div>
+            <div class="see-also-block">
+                <span class="see-also-label">See also: </span>
+                <a href="Programming_Modules.html" class="see-also">Modules</a>
+                <a href="Module_Light.html" class="see-also">light</a>
+                <a href="IDE_Simulator.html" class="see-also">sensor(Simulator)</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

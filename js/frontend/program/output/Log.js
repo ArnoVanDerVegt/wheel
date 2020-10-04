@@ -11,7 +11,7 @@ exports.Log = class extends Text {
         let lastBlock = '';
         let colors    = [consoleColor.reset, consoleColor.bright];
         let color     = 0;
-        this.getOutput().split('\n').forEach(function(line) {
+        this.getOutput().split('\n').forEach((line) => {
             let block = line.substr(5, 4);
             if (block !== lastBlock) {
                 lastBlock = block;

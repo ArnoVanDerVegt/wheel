@@ -10,7 +10,7 @@ const assert         = require('assert');
 
 describe(
     'Test Math module',
-    function() {
+    () => {
         testLogs(
             it,
             'Should round a number',
@@ -355,7 +355,7 @@ describe(
         );
         it(
             'Should get a random number',
-            function() {
+            () => {
                 let source = [
                         'proc random(number min, number max)',
                         '    addr min',

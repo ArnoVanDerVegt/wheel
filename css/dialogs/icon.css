@@ -1,0 +1,27 @@
+.dialog-background.icon-dialog .icon-list {
+    height:                         256px;
+    line-height:                    28px;
+}
+.dialog-background.icon-dialog .icon-list .i {
+    border:                         var(--ui-border1);
+    border-radius:                  2px;
+    margin:                         0 4px 4px 0;
+}
+.dialog-background.icon-dialog img {
+    display:                        none;
+}
+.dialog-background.icon-dialog img.dialog-content-image {
+    display:                        block;
+}
+.dialog-background.icon-dialog.with-image .icon-text {
+    margin-left:                    80px;
+    width:                          504px;
+}
+.dialog-background.icon-dialog.with-image .buttons input[type="button"].button {
+    float:                          right;
+}
+.dialog-background.icon-dialog a,
+.dialog-background.icon-dialog a:visited,
+.dialog-background.icon-dialog a:hover {
+    color:                          #3498DB;
+}

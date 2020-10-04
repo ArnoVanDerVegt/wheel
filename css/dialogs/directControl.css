@@ -1,46 +1,29 @@
-.dialog-background.direct-control-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
-    margin-top:                     -214px;
-    width:                          624px;
-    height:                         428px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
-}
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .brake,
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .volume {
-    position:                       absolute;
+.dialog-background.direct-control-dialog .brake,
+.dialog-background.direct-control-dialog .volume {
     z-index:                        100;
-    right:                          32px;
     bottom:                         32px;
     height:                         32px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .brake.hidden,
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .volume.hidden {
+.dialog-background.direct-control-dialog .brake.hidden,
+.dialog-background.direct-control-dialog .volume.hidden {
     display:                        none;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .brake .checkbox,
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .brake .label,
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .volume .label {
+.dialog-background.direct-control-dialog .brake .checkbox,
+.dialog-background.direct-control-dialog .brake .label,
+.dialog-background.direct-control-dialog .volume .label {
     float:                          left;
     line-height:                    32px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .brake .checkbox {
+.dialog-background.direct-control-dialog .brake .checkbox {
     margin:                         8px 0 0 0;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .brake .label {
+.dialog-background.direct-control-dialog .brake .label {
     margin:                         3px 0 0 8px;
-    -webkit-user-select:            none;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .volume .label {
+.dialog-background.direct-control-dialog .volume .label {
     margin:                         0 8px 0 0;
-    -webkit-user-select:            none;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .tabs {
-    position:                       absolute;
-    top:                            61px;
-    left:                           32px;
-    right:                          32px;
+.dialog-background.direct-control-dialog .tabs {
     width:                          auto;
     height:                         40px;
     overflow:                       hidden;
@@ -48,148 +31,150 @@
     border:                         var(--ui-border1);
     border-width:                   0 0 4px 0;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors {
-    position:                       absolute;
-    left:                           32px;
+.dialog-background.direct-control-dialog .motors {
     top:                            120px;
-    right:                          32px;
-    bottom:                         80px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors.hidden {
+.dialog-background.direct-control-dialog .motors.hidden {
     display:                        none;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor {
-    float:                          left;
-    position:                       relative;
-    background-color:               var(--ui-background1);
-    border:                         var(--ui-border1);
-    border-radius:                  2px;
+.dialog-background.direct-control-dialog .motors .motor-alias {
+    width:                          128px;
+    height:                         32px;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-align:                     center;
+    text-overflow:                  ellipsis;
+    font-family:                    latolight;
+    font-size:                      18px;
+    margin:                         0 16px 0 0;
+    cursor:                         pointer;
+}
+.dialog-background.direct-control-dialog .motors .motor-alias.last {
+    margin:                         0;
+}
+.dialog-background.direct-control-dialog .motors .motor {
     width:                          128px;
     height:                         228px;
     margin:                         0 16px 0 0;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor.last {
+.dialog-background.direct-control-dialog .motors .motor.last {
     margin:                         0;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .button {
+.dialog-background.direct-control-dialog .motors .motor .button {
     position:                       absolute;
     width:                          96px;
     height:                         48px;
     left:                           16px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .button input {
+.dialog-background.direct-control-dialog .motors .motor .button.blue {
+    width:                          56px;
+    height:                         18px;
+    left:                           20px;
+    top:                            2px;
+    font-size:                      12px;
+    line-height:                    17px;
+    border-radius:                  10px;
+}
+.dialog-background.direct-control-dialog .motors .motor .button input {
     width:                          94px;
     height:                         46px;
     font-size:                      28px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .button.up {
+.dialog-background.direct-control-dialog .motors .motor .button.up {
     top:                            16px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .button.down {
+.dialog-background.direct-control-dialog .motors .motor .button.down {
     bottom:                         16px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .speed,
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .position {
-    position:                       absolute;
+.dialog-background.direct-control-dialog .motors .motor .speed,
+.dialog-background.direct-control-dialog .motors .motor .position {
     left:                           16px;
     width:                          96px;
     height:                         24px;
     text-align:                     center;
     background-color:               var(--ui-background2);
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .speed {
+.dialog-background.direct-control-dialog .motors .motor.no-position .position .button.blue {
+    display:                        none;
+}
+.dialog-background.direct-control-dialog .motors .motor .speed {
     top:                            72px;
     line-height:                    28px;
     border-radius:                  16px 16px 0 0;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .slider {
+.dialog-background.direct-control-dialog .motors .motor .slider {
     position:                       absolute;
     top:                            96px;
     left:                           16px;
     border-radius:                  0;
     background-color:               var(--ui-background2);
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor .position {
+.dialog-background.direct-control-dialog .motors .motor .position {
     top:                            128px;
     border-radius:                  0 0 16px 16px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor.disabled .button,
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor.disabled .speed,
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor.disabled .slider,
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .motors .motor.disabled .position {
+.dialog-background.direct-control-dialog .motors .motor.disabled .button,
+.dialog-background.direct-control-dialog .motors .motor.disabled .speed,
+.dialog-background.direct-control-dialog .motors .motor.disabled .slider,
+.dialog-background.direct-control-dialog .motors .motor.disabled .position {
     display:                        none;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano {
-    position:                       absolute;
-    left:                           32px;
+.dialog-background.direct-control-dialog .piano {
     top:                            120px;
-    right:                          32px;
-    bottom:                         80px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano.hidden {
+.dialog-background.direct-control-dialog .piano.hidden {
     display:                        none;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key {
-    float:                          left;
-    position:                       relative;
+.dialog-background.direct-control-dialog .piano .key {
     width:                          56px;
-    height:                         100%;
     padding:                        4px;
-    -webkit-user-select:            none;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.down {
+.dialog-background.direct-control-dialog .piano .key.down {
     padding:                        6px 2px 2px 6px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half {
-    position:                       absolute;
+.dialog-background.direct-control-dialog .piano .key.half {
     top:                            0;
     width:                          40px;
     height:                         160px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half a {
+.dialog-background.direct-control-dialog .piano .key.half a {
     background-color:               #000000;
     position:                       relative;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key a span {
-    position:                       absolute;
+.dialog-background.direct-control-dialog .piano .key a span {
     left:                           0;
     bottom:                         0;
-    width:                          100%;
     height:                         32px;
     line-height:                    32px;
     text-align:                     center;
     pointer-events:                 none;
     color:                          #383838;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half a span {
+.dialog-background.direct-control-dialog .piano .key.half a span {
     color:                          #FFFFFF;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half0 {
+.dialog-background.direct-control-dialog .piano .key.half.half0 {
     left:                           36px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half1 {
+.dialog-background.direct-control-dialog .piano .key.half.half1 {
     left:                           92px;
 }
-
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half2 {
+.dialog-background.direct-control-dialog .piano .key.half.half2 {
     left:                           204px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half3 {
+.dialog-background.direct-control-dialog .piano .key.half.half3 {
     left:                           260px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half4 {
+.dialog-background.direct-control-dialog .piano .key.half.half4 {
     left:                           316px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half5 {
+.dialog-background.direct-control-dialog .piano .key.half.half5 {
     left:                           428px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key.half.half6 {
+.dialog-background.direct-control-dialog .piano .key.half.half6 {
     left:                           484px;
 }
-.dialog-background.direct-control-dialog .dialog-center .dialog-content .piano .key a {
-    float:                          left;
-    width:                          100%;
-    height:                         100%;
+.dialog-background.direct-control-dialog .piano .key a {
     background-color:               #FFFFFF;
     border:                         var(--ui-border1);
     border-radius:                  4px;

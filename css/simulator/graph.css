@@ -1,0 +1,75 @@
+.simulator .graph {
+    display:                        none;
+    margin:                         16px 0 16px 0;
+    -webkit-user-select:            none;
+}
+.simulator .graph.visible {
+    display:                        block;
+}
+.simulator .graph .chart-container {
+    float:                          left;
+    width:                          268px;
+    border-radius:                  2px;
+}
+.simulator .graph .chart {
+    width:                          268px;
+    border-radius:                  2px;
+    margin:                         0 0 8px 0;
+    padding:                        4px 0 0 0;
+    background-color:               var(--sensor-background1);
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.simulator .graph .chart .chart-title {
+    height:                         32px;
+    padding:                        0;
+    background-color:               var(--ui-background2);
+    border-radius:                  0 0 2px 2px;
+}
+.simulator .graph .chart .chart-title img,
+.simulator .graph .chart .chart-title h3 {
+    float:                          left;
+}
+.simulator .graph .chart .chart-title .close-button {
+    float:                          right;
+    margin:                         4px 4px 0 0;
+}
+.simulator .graph .chart .chart-title img {
+    width:                          28px;
+    height:                         28px;
+}
+.simulator .graph .chart .chart-title h3 {
+    font-family:                    latolight;
+    margin:                         0 0 0 8px;
+    padding:                        0;
+    height:                         32px;
+    line-height:                    32px;
+}
+.simulator .graph .title {
+    float:                          left;
+    width:                          268px;
+    height:                         32px;
+    line-height:                    32px;
+    padding:                        0 0 0 8px;
+    background-color:               var(--sensor-background1);
+    border-radius:                  2px;
+    font-family:                    latolight;
+    font-size:                      16px;
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.simulator .graph .title img {
+    float:                          right;
+    margin:                         5px 8px 0 0;
+}
+.simulator .graph .title span {
+    float:                          left;
+}
+.simulator .graph .title .button {
+    float:                          right;
+    margin:                         3px 4px 0 0;
+}
+.simulator .graph .chart canvas {
+    float:                          left;
+    width:                          260px;
+    height:                         96px;
+    margin:                         4px 0 16px 4px;
+}

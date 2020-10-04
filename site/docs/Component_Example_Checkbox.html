@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Component_Example:Checkbox</title>
+    <meta name="description" content="Component_Example:Checkbox"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Checkbox</h2>
+            <a id="Checkboxexample"></a>
+            <h4 class="">Checkbox example</h4>
+            <p>
+                This example shows how to use the checkbox component.
+                <br/>
+                <br/>
+                The <i>windowHandle</i> parameter refers to the active window. When the checkbox value changes
+                then the <i>onCheckboxFormCheckboxChange</i> procedure is called.
+                <br/>
+                <br/>
+                Since the status light is on the same window as the checkbox, the <i>windowHandle</i> parameter
+                can be used to address the status light.
+            </p>
+            <a id="Code"></a>
+            <h4 class="">Code</h4>
+            <pre class="wheel"><span class="meta">#project</span> <span class="string">"Checkbox example"</span>
+
+<span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/component.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/form.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/checkbox.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/components/statusLight.whl"</span>
+
+<span class="meta">#define</span> <span class="define">CHECKBOX_FORM_CHECKBOX</span>     <span class="number">0xFD9D281F</span>
+<span class="meta">#define</span> <span class="define">CHECKBOX_FORM_STATUS_LIGHT</span> <span class="number">0x112F9C00</span>
+
+<span class="meta">#resource</span> <span class="string">"checkbox.wfrm"</span>
+
+<span class="type">number</span> <span class="variable">colors</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">[</span><span class="variable">COMPONENT_COLOR_GRAY</span><span class="operator">,</span> <span class="variable">COMPONENT_COLOR_YELLOW</span><span class="operator">]</span>
+
+<span class="comment">; @proc                   Checkbox onChange event.</span>
+<span class="comment">; @param windowHandle     The handle to the active window.</span>
+<span class="comment">; @param value            The checkbox value.</span>
+<span class="keyword">proc</span> <span class="variable">onCheckboxFormCheckboxChange</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
+    <span class="variable">components.statusLight.setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">CHECKBOX_FORM_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">colors</span><span class="operator">[</span><span class="variable">value</span><span class="operator">]</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">; @proc                   Show the form.</span>
+<span class="comment">; @ret                    The handle to the form.</span>
+<span class="keyword">proc</span> <span class="variable">showCheckboxFormForm</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="keyword">ret</span> <span class="variable">components.form.show</span><span class="operator">(</span><span class="string">"checkbox.wfrm"</span><span class="operator">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">showCheckboxFormForm</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Screenshot"></a>
+            <h4 class="">Screenshot</h4>
+            <img src="data:image/png;base64,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" class="shadow"/>
+            <div class="link-box">
+                <a href="https://github.com/ArnoVanDerVegt/wheel/tree/develop/assets/template/examples/components/checkbox/checkbox.whlp"            target="_wheelLink" class="start">View on Github »</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

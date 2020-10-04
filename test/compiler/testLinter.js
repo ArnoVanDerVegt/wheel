@@ -12,20 +12,20 @@ const compileWithLinter = function(source, linter, done) {
                 callback(source.join('\n'));
             };
         let preProcessor = new PreProcessor({getFileData: getFileData, linter: linter});
-        let preProcessed = function() {
+        let preProcessed = () => {
                 let tokens = preProcessor.getDefinedConcatTokens();
                 new compiler.Compiler({preProcessor: preProcessor, linter: linter}).buildTokens(tokens);
                 done();
             };
-        preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+        preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
     };
 
 describe(
     'Test linter',
-    function() {
+    () => {
         it(
             'Should lint define',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         '#define something 5',
@@ -37,7 +37,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 1);
                         let message = messages[0];
@@ -49,7 +49,7 @@ describe(
         );
         it(
             'Should lint record',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         'record point',
@@ -62,7 +62,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 1);
                         let message = messages[0];
@@ -74,7 +74,7 @@ describe(
         );
         it(
             'Should lint field',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         'record Point',
@@ -87,7 +87,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 2);
                         let message = messages[0];
@@ -102,7 +102,7 @@ describe(
         );
         it(
             'Should lint var',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         'proc main()',
@@ -112,7 +112,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 1);
                         let message = messages[0];
@@ -124,7 +124,7 @@ describe(
         );
         it(
             'Should lint var',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         'proc main()',
@@ -134,7 +134,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 1);
                         let message = messages[0];
@@ -149,7 +149,7 @@ describe(
         );
         it(
             'Should lint proc',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         'proc Test()',
@@ -162,7 +162,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 1);
                         let message = messages[0];
@@ -174,7 +174,7 @@ describe(
         );
         it(
             'Should lint param',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         'proc test(number Param)',
@@ -187,7 +187,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 1);
                         let message = messages[0];
@@ -199,7 +199,7 @@ describe(
         );
         it(
             'Should lint whitespace',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         'proc main()',
@@ -209,7 +209,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 1);
                         let message = messages[0];
@@ -222,7 +222,7 @@ describe(
         );
         it(
             'Should lint tab',
-            function() {
+            () => {
                 let linter = new Linter.Linter();
                 let source = [
                         'proc main()',
@@ -232,7 +232,7 @@ describe(
                 compileWithLinter(
                     source,
                     linter,
-                    function() {
+                    () => {
                         let messages = linter.getMessages();
                         assert.equal(messages.length, 2);
                         let message = messages[0];

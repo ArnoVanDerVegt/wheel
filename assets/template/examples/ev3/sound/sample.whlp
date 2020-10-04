@@ -1,0 +1,21 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Sound sample example"
+
+#include "lib/standard.whl"
+#include "lib/device.whl"
+#include "lib/sound.whl"
+
+; Include the sample as resource:
+#resource "resources/sounds/information/start.rsf"
+
+#display "EV3"
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    playSample("start.rsf", 100)
+
+    halt()
+end

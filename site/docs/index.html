@@ -1,0 +1,772 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Documentation</title>
+    <meta name="description" content="Documentation"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-files">
+        <div class="legend">
+            <div class="legend-item">
+                <div class="device e">E</div>
+                <div class="title">EV3</div>
+            </div>
+            <div class="legend-item">
+                <div class="device p">P</div>
+                <div class="title">Powered Up</div>
+            </div>
+            <div class="legend-item">
+                <div class="device m">M</div>
+                <div class="title">Mindsensors</div>
+            </div>
+            <div class="legend-item">
+                <div class="device i">I</div>
+                <div class="title">IDE</div>
+            </div>
+        </div>
+        <div class="third">
+            <h3>Programming</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Conditions.html">Conditions</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Loops.html">Loops</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Meta_commands.html">Meta commands</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Modules.html">Modules</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Namespaces.html">Namespaces</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Operators.html">Operators</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Procedures.html">Procedures</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Reserved_words.html">Reserved words</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Syntax.html">Syntax</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Variable__initial_value.html">Variable, initial value</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Programming_Variables.html">Variables</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="third">
+            <h3>IDE</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="IDE_Breakpoints.html">Breakpoints</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="IDE_Code_completion.html">Code completion</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="IDE_Connecting_EV3.html">Connecting EV3</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="IDE_Connecting_Powered_Up.html">Connecting Powered Up</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="IDE_Console.html">Console</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="IDE_Debugger.html">Debugger</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="IDE_Simulator.html">Simulator</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="IDE_Supported_files.html">Supported files</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="third">
+            <h3>Compiler and VM</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="VM_Compiler.html">Compiler</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="VM_Compiler__errors.html">Compiler, errors</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="VM_Compiler__linter.html">Compiler, linter</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="VM_VM.html">VM</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="VM_VM_File_format.html">VM File format</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="VM_VM_Installing_on_EV3.html">VM Installing on EV3</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="VM_VM_Performance.html">VM Performance</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="VM_VM_Runtime_errors.html">VM Runtime errors</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="breaker"></div>
+        <div class="third">
+            <h3>Examples</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="Example_Bit.html">Bit</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_File__read.html">File, read</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_File__write.html">File, write</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_Math__abs_neg.html">Math, abs/neg</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_Math__rounding.html">Math, rounding</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_String__add.html">String, add</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_String__charCode.html">String, charCode</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_String__indexOf.html">String, indexOf</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_String__number.html">String, number</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_String__subString.html">String, subString</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Example_String__upper_lower_case.html">String, upper/lower case</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="third">
+            <h3>EV3 examples</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Buttons.html">Buttons</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Light.html">Light</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Motor__move.html">Motor, move</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Motor__target_readyBits.html">Motor, target/readyBits</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_PSP__Left_right_buttons.html">PSP, Left/right buttons</a>
+                        <span class="device e">E</span>
+                        <span class="device m">M</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_PSP__Stick.html">PSP, Stick</a>
+                        <span class="device e">E</span>
+                        <span class="device m">M</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Screen__circles.html">Screen, circles</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Screen__lines.html">Screen, lines</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Screen__pixels.html">Screen, pixels</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Screen__rectangles.html">Screen, rectangles</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Sensor__multiplexer.html">Sensor, multiplexer</a>
+                        <span class="device e">E</span>
+                        <span class="device m">M</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Sensor__value_name.html">Sensor, value name</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Sensor__values.html">Sensor, values</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Sound__sample.html">Sound, sample</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="EV3_Example_Sound__tone.html">Sound, tone</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="third">
+            <h3>Powered Up examples</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="PoweredUp_Example_Device_light.html">Device light</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="PoweredUp_Example_Distance_sensor.html">Distance sensor</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="PoweredUp_Example_Hub_motor.html">Hub motor</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="PoweredUp_Example_Led_lights.html">Led lights</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="PoweredUp_Example_Light_and_color_sensor.html">Light and color sensor</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="PoweredUp_Example_Move_Hub_motor.html">Move Hub motor</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="PoweredUp_Example_Remote_control.html">Remote control</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="PoweredUp_Example_Tilt_sensor.html">Tilt sensor</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="breaker"></div>
+        <div class="third">
+            <h3>IDE Component examples</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_Buttons.html">Buttons</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_Checkbox.html">Checkbox</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_EV3Motor_display.html">EV3Motor display</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_EV3Sensor_display.html">EV3Sensor display</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_Label.html">Label</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_PoweredUpDevice_display.html">PoweredUpDevice display</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_SelectButton.html">SelectButton</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_StatusLight.html">StatusLight</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Component_Example_Tabs.html">Tabs</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="third">
+            <h3>Modules</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="Module_Bit.html">Bit</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Button.html">Button</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Device.html">Device</a>
+                        <span class="device e">E</span>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_File.html">File</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Light.html">Light</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Math.html">Math</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Motor.html">Motor</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_PSP.html">PSP</a>
+                        <span class="device e">E</span>
+                        <span class="device m">M</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_PoweredUp.html">PoweredUp</a>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Screen.html">Screen</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Sensor.html">Sensor</a>
+                        <span class="device e">E</span>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Sensor_multi.html">Sensor multi</a>
+                        <span class="device e">E</span>
+                        <span class="device m">M</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Sound.html">Sound</a>
+                        <span class="device e">E</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Standard.html">Standard</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_String.html">String</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_System.html">System</a>
+                        <span class="device e">E</span>
+                        <span class="device p">P</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="third">
+            <h3>IDE Modules</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_AlertDialog.html">AlertDialog</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Button.html">Button</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Checkbox.html">Checkbox</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Circle.html">Circle</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_ConfirmDialog.html">ConfirmDialog</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Dropdown.html">Dropdown</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_EV3Motor.html">EV3Motor</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_EV3Sensor.html">EV3Sensor</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Form.html">Form</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Icon.html">Icon</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Image.html">Image</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Interval.html">Interval</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Label.html">Label</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_ListItems.html">ListItems</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_LoadingDots.html">LoadingDots</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_PUDevice.html">PUDevice</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Panel.html">Panel</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_ProgressBar.html">ProgressBar</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Radio.html">Radio</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Rectangle.html">Rectangle</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_SelectButton.html">SelectButton</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Slider.html">Slider</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_StatusLight.html">StatusLight</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Tabs.html">Tabs</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Text.html">Text</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_TextInput.html">TextInput</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Timeout.html">Timeout</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Module_Component_Title.html">Title</a>
+                        <span class="device i">I</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="breaker"></div>
+        <div class="third">
+            <h3>Miscellaneous</h3>
+            <ul>
+                <li>
+                    <div class="link">
+                        <a href="Miscellaneous_License.html">License</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="link">
+                        <a href="Miscellaneous_Links.html">Links</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

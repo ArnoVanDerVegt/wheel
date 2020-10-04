@@ -14,7 +14,7 @@ subcall modLight {                                                      // 03) L
     JR_EQ8(pModCall_8,  0, mod_light_update)
     RETURN()
 mod_light_update:                                                       // 01) lightUpdate
-    CALL(readMem8, pRegSrc_32, 0, lColor_8)
+    CALL(readMem8, pRegSrc_32, 1, lColor_8)                             // Ignore the first (layer) value...
     UI_WRITE(LED, lColor_8)
     RETURN()
 }

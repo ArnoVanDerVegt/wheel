@@ -1,0 +1,44 @@
+@subject Example:File, read
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section File read example
+This example shows how to create a file with meta commands and read strings and numbers from the file.
+
+@section Code
+@example
+#project "File read example"
+
+#include "lib/standard.whl"
+#include "lib/file.whl"
+
+; Declare a file named "fruit.rtf" and add data to it:
+#text "fruit.rtf"
+#line "1"
+#line "Apple"
+#line "2"
+#line "Orange"
+#line "3"
+#line "Grape"
+
+proc main()
+    number handle = fileOpenRead("fruit.rtf")
+    string s
+    number i, j
+
+    clearConsole()
+
+    for i = 0 to 2
+        ; Read a number from the file and print the number in de console:
+        j = fileReadNumber(handle)
+        printN(j)
+
+        ; Read a string from the file and print the string in the console:
+        fileReadString(handle, s)
+        printS(s)
+    end
+end
+@end
+
+@load Open file read example|examples/file/fileRead.whlp
+
+@see file,fileOpenRead,fileReadNumber,fileReadString,standard,#text,#line,Modules

@@ -29,13 +29,15 @@ exports.ToolbarBottomViewer = class extends Toolbar {
         this.create(
             this._parentNode,
             {
-                className: 'resource-options bottom viewer',
+                className: 'flt max-w resource-options bottom viewer',
                 children: [
                     this.addFileSaved(wheelEditor),
                     {
-                        type:     ToolOptions,
-                        ui:       this._ui,
-                        uiId:     1,
+                        type:      ToolOptions,
+                        ui:        this._ui,
+                        color:     'green',
+                        className: 'view-output',
+                        uiId:      1,
                         options:  [
                             {
                                 ui:       this._ui,
@@ -71,29 +73,29 @@ exports.ToolbarBottomViewer = class extends Toolbar {
 
     setCompileInfo(element) {
         this._compileInfoElement = element;
-        element.addEventListener('click', this.onClickStatus.bind(this));
+        element.addEventListener('click', this.onClickState.bind(this));
     }
 
-    setFilenameAndStatus(filename, status) {
+    setFilenameAndState(filename, state) {
     }
 
     onCompileStart(projectFilename) {
-        this.setFilenameAndStatus(projectFilename, '');
+        this.setFilenameAndState(projectFilename, '');
     }
 
     onCompileSuccess(projectFilename) {
-        this.setFilenameAndStatus(projectFilename, 'success');
+        this.setFilenameAndState(projectFilename, 'success');
     }
 
     onCompileWarning(projectFilename) {
-        this.setFilenameAndStatus(projectFilename, 'warning');
+        this.setFilenameAndState(projectFilename, 'warning');
     }
 
     onCompileFailed(projectFilename) {
-        this.setFilenameAndStatus(projectFilename, 'failed');
+        this.setFilenameAndState(projectFilename, 'failed');
     }
 
-    onClickStatus() {
+    onClickState() {
         dispatcher.dispatch('Settings.Toggle.ShowConsole');
     }
 };

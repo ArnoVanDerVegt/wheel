@@ -8,6 +8,7 @@ const compiler      = require('../../../js/frontend/compiler/Compiler');
 const Text          = require('../../../js/frontend/program/output/Text').Text;
 const VM            = require('../../../js/frontend/vm/VM').VM;
 const createModules = require('../../utils').createModules;
+const createMocks   = require('../../utils').createMocks;
 const assert        = require('assert');
 
 const testDefineNumber = function(defineValue, callback) {
@@ -23,7 +24,7 @@ const testDefineNumber = function(defineValue, callback) {
                 ].join('\n'));
             };
         let preProcessor = new PreProcessor({getFileData: getFileData});
-        let preProcessed = function() {
+        let preProcessed = () => {
                 dispatcher.reset();
                 let tokens  = preProcessor.getDefinedConcatTokens();
                 let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -33,19 +34,19 @@ const testDefineNumber = function(defineValue, callback) {
                         constants:  program.getConstants(),
                         stringList: program.getStringList()
                     });
-                vm.setModules(createModules(vm));
+                vm.setModules(createModules(vm, createMocks()));
                 dispatcher.on('Console.Log', this, callback);
                 vm.setCommands(program.getCommands()).run();
             };
-        preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+        preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
     };
 
 describe(
     'Test PreProcessor',
-    function() {
+    () => {
         it(
             'Should define integer',
-            function() {
+            () => {
                 testDefineNumber(
                     355,
                     function(message) {
@@ -56,7 +57,7 @@ describe(
         );
         it(
             'Should define float',
-            function() {
+            () => {
                 testDefineNumber(
                     0.5,
                     function(message) {
@@ -67,7 +68,7 @@ describe(
         );
         it(
             'Should define string',
-            function() {
+            () => {
                 let getFileData = function(filename, token, callback) {
                         callback([
                             '#define TEST "Hello world"',
@@ -80,7 +81,7 @@ describe(
                         ].join('\n'));
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -98,18 +99,18 @@ describe(
                             }
                         );
                         assert.equal(preProcessor.getLineCount(), 7);
-                        vm.setModules(createModules(vm));
+                        vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
             'Should include',
-            function() {
+            function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
-                            function() {
+                            () => {
                                 switch (filename) {
                                     case 'test.whl':
                                         callback([
@@ -135,7 +136,7 @@ describe(
                         );
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -154,18 +155,19 @@ describe(
                                 assert.equal(message, 456);
                             }
                         );
-                        vm.setModules(createModules(vm));
+                        vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
+                        done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
             'Should include, strip comments',
-            function() {
+            function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
-                            function() {
+                            () => {
                                 switch (filename) {
                                     case 'test.whl':
                                         callback([
@@ -194,7 +196,7 @@ describe(
                         );
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -213,10 +215,11 @@ describe(
                                 assert.equal(message, 456);
                             }
                         );
-                        vm.setModules(createModules(vm));
+                        vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
+                        done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
@@ -224,7 +227,7 @@ describe(
             function(done) {
                 let getFileData = function(filename, token, callback) {
                         setTimeout(
-                            function() {
+                            () => {
                                 switch (filename) {
                                     case 'test1.whl':
                                         callback([
@@ -262,7 +265,7 @@ describe(
                         );
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -279,9 +282,9 @@ describe(
                         sortedFiles.forEach(function(sortedFile) {
                             files.push(sortedFile.filename);
                         });
-                        assert.deepEqual(files, ['/test1.whl', '/test2.whl', '/main.whl']);
+                        assert.deepEqual(files, ['test1.whl', 'test2.whl', 'main.whl']);
                         let logs    = [];
-                        let modules = createModules(vm);
+                        let modules = createModules(vm, createMocks());
                         vm.setModules(modules);
                         modules[0].on(
                             'Console.Log',
@@ -291,11 +294,10 @@ describe(
                             }
                         );
                         vm.setCommands(program.getCommands()).run();
-                        console.log('logs:', logs);
                         assert.deepEqual(logs, [456, 789]);
                         done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
         it(
@@ -325,7 +327,7 @@ describe(
                         );
                     };
                 let preProcessor = new PreProcessor({getFileData: getFileData, setImage: setImage});
-                let preProcessed = function() {
+                let preProcessed = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -335,11 +337,11 @@ describe(
                                 constants:  program.getConstants(),
                                 stringList: program.getStringList()
                             });
-                        vm.setModules(createModules(vm));
+                        vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
                         done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, preProcessed);
+                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
             }
         );
     }

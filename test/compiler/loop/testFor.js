@@ -6,10 +6,10 @@ const testLogs = require('../../utils').testLogs;
 
 describe(
     'Test for',
-    function() {
+    () => {
         describe(
             'Test for to',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should loop three times',
@@ -107,7 +107,7 @@ describe(
         );
         describe(
             'Test for with step',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should loop up four times with step two',
@@ -144,7 +144,7 @@ describe(
         );
         describe(
             'Test for to with operator',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should loop to max with operator',
@@ -181,7 +181,7 @@ describe(
         );
         describe(
             'Test for downto',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should loop four times',
@@ -252,7 +252,7 @@ describe(
         );
         describe(
             'Test for downto with operator',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should loop to min with operator',

@@ -1,0 +1,24 @@
+.image.design:before {
+    position:                       absolute;
+    z-index:                        -1;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         100%;
+    background:                     var(--design-background);
+    border:                         var(--design-border);
+    content:                        ' ';
+}
+.image img {
+    position:                       absolute;
+    left:                           0;
+    top:                            0;
+    width:                          100%;
+    height:                         100%;
+}
+.image.design img {
+    left:                           1px;
+    top:                            1px;
+    width:                          calc(100% - 2px);
+    height:                         calc(100% - 2px);
+}

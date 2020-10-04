@@ -6,10 +6,10 @@ const testLogs = require('../utils').testLogs;
 
 describe(
     'Test operator',
-    function() {
+    () => {
         describe(
             'Test precedence',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should divide and multiply',
@@ -62,7 +62,7 @@ describe(
         );
         describe(
             'Test with constant',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should add a number',
@@ -131,7 +131,7 @@ describe(
         );
         describe(
             'Test with negative constant',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should add a number',
@@ -200,7 +200,7 @@ describe(
         );
         describe(
             'Test with variable',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should add a number',
@@ -277,7 +277,7 @@ describe(
         );
         describe(
             'Test with minus sign',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should neg',
@@ -315,7 +315,7 @@ describe(
         );
         describe(
             'Test inc/dec operator',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should inc local',

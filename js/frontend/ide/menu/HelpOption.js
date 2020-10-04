@@ -27,7 +27,7 @@ class HelpOptionItem extends DOMNode {
             {
                 id:        this.setElement.bind(this),
                 tabIndex:  this._tabIndex,
-                className: 'help-menu-item',
+                className: 'flt rel max-w help-menu-item',
                 innerHTML: this._title
             }
         );
@@ -65,7 +65,7 @@ exports.HelpOption = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'help',
+                className: 'frt rel help',
                 children: [
                     {
                         type:      'span',
@@ -79,11 +79,12 @@ exports.HelpOption = class extends DOMNode {
                         uiId:        1,
                         tabIndex:    tabIndex.HELP,
                         onKeyUp:     this.onKeyUp.bind(this),
-                        onMousedown: this.onCancelEvent.bind(this)
+                        onMousedown: this.onCancelEvent.bind(this),
+                        placeholder: 'Search...'
                     },
                     {
                         id:        this.setHelpMenuElement.bind(this),
-                        className: 'help-menu'
+                        className: 'abs help-menu'
                     }
                 ]
             }
@@ -114,7 +115,7 @@ exports.HelpOption = class extends DOMNode {
                         this._helpMenuElement,
                         {
                             innerHTML: title,
-                            className: 'help-category'
+                            className: 'flt max-w help-category'
                         }
                     );
                 }

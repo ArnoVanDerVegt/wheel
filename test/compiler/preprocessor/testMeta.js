@@ -11,13 +11,13 @@ const assert            = require('assert');
 
 describe(
     'Test Meta',
-    function() {
+    () => {
         describe(
             'Test settings',
-            function() {
+            () => {
                 it(
                     'Should turn optimizer off',
-                    function() {
+                    () => {
                         let source = [
                                 '#optimizer "off"',
                                 'proc main()',
@@ -30,7 +30,7 @@ describe(
                 );
                 it(
                     'Should set heap',
-                    function() {
+                    () => {
                         let source = [
                                 '#heap 123',
                                 'proc main()',
@@ -43,7 +43,7 @@ describe(
                 );
                 it(
                     'Should set project name',
-                    function() {
+                    () => {
                         let source = [
                                 '#project "My wheel project"',
                                 'proc main()',
@@ -57,7 +57,7 @@ describe(
         );
         describe(
             'Test #include errors',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw FILE_NOT_FOUND',
@@ -112,7 +112,7 @@ describe(
         );
         describe(
             'Test #optimizer errors',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw ON_OR_OFF_EXPECTED',
@@ -147,7 +147,7 @@ describe(
         );
         describe(
             'Test #heap errors',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw NUMBER_CONSTANT_EXPECTED',
@@ -172,7 +172,7 @@ describe(
         );
         describe(
             'Test #project error',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw STRING_CONSTANT_EXPECTED',
@@ -187,7 +187,7 @@ describe(
         );
         describe(
             'Test #define errors',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw IDENTIFIER_EXPECTED',
@@ -222,7 +222,7 @@ describe(
         );
         describe(
             'Test #image',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw FILENAME_EXPECTED',
@@ -326,7 +326,7 @@ describe(
         );
         describe(
             'Test #text',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw FILENAME_EXPECTED',
@@ -397,7 +397,7 @@ describe(
         );
         describe(
             'Test #rangecheck',
-            function() {
+            () => {
                 testCodeAndMemory(
                     it,
                     'Should apply range checking',
@@ -454,7 +454,7 @@ describe(
         );
         describe(
             'Test #stringlength',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw NUMBER_CONSTANT_EXPECTED',
@@ -489,7 +489,7 @@ describe(
         );
         describe(
             'Test #stringcount',
-            function() {
+            () => {
                 testError(
                     it,
                     'Should throw NUMBER_CONSTANT_EXPECTED',

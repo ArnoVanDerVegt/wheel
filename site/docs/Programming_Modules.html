@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Wheel - Programming:Modules</title>
+    <meta name="description" content="Programming:Modules"/>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABhlBMVEUAVH8ASXAABwsAAAAAeLYAcbP///8Apf4FWuEDeOwGVt4AovYEaOAFYOMBlvgEbegAoPwCiPIDdOoChfECgO8Dfe4Ci/MDg/AEcekBnfoBmvkBjvUDaOUFZeT9/f3y8vKfn5+ampoWMVIBkfYAn/QAmPIBkPABiuwCgOkDcuRWW2D5+fkAnPXw8PAAk/Ds7OwChuwCe+gCeOcDbeLh4eEDcOHd3d3KysrGxsaoqKgBU5CLi4uJiYl3eXt0dHRmZmZZXWI7T1w2SlwJNFxYWVlHUFgYPFgUOVQDZdoEWdEAarIBYK8CV6sCQYkEQ3cEL3EGQWMpOEkAlfEBje4Cg+oCduUEYdwEV9YETLwAcrQCTqgDQqICTKECVIIBTH1laWtmaGtWXGA2TV06SFs2R1s9SVg4SFI4QlAfPE8gM0wAlOkAjuUAi+QEZeQBg+IAjNkBcs4AgMwCZckBb8YDXr8AbaoBXKQDPpgCQ4oCOXkDOHIFOGIFMl8XRV4GKFsMKlgIJlYpP0yHjd85AAAABnRSTlONeiAA5eUssUaZAAACGElEQVQ4y4WTZ3MaMRCGAdsbSOEA0xLIAXc0HwZsTAfTiwHT3Huv6b3Xf57dg8HyB+Lng6R955E0sxopJlRKxViUqgmFair2cCyxKZVCGbv/H2J4/IL6hq0/QlfNsqC4ETYbavXvMGR21Z+vu5uMMPNIZvey0N06Agj0f2X5pIAJMTMSGhUeErkoAATjOJyywlNiIw8s5y83GhSTsG6XqWLscElnZ5LLAZCq5it7mK6jEOG4JeH0PAXgFHbsHGffEZyA8JdLHBdBYZ7jviYpWWxzQ9qLVBdQmCfBar3mAfe3rSO+4BmJb7ggwW8w7GXxfsHAIDgg9wFnPwkajeZHHFzLGoZlF0SPyu80JKxh2Q+CFGGFiAQA4bJmDYU5UycTACiZblECpGaaI8FYo6JkvAUKgUzHSILPUg6jIPktDH4Jgv2WxeIjYfpN+TAKrtY0Q8sF8e84k7Cq1+vf58BR1zPUsd3ZT3r9Kgpes9ncSWCj0uYRaWo2f2U2e0mw2V4V5FanbUPScquTBzYbCSFR9F3wlDjrTa8oept13J8qFms+UQyhsKLVapuVfDVFz318cnJMzw1VrcwKCh5avAhpi8CSD8mCh4QnA0iIB3GI5hLAV57LIQmzjwfUkny29xebfvj2oHCxPQhnSdAN8OxffdRtZyDc0+meeYYhCe57LPs/e6+Z0o3/E4XxuJUK1aT7wVjck6o7v/8/LSdqSvnu0LoAAAAASUVORK5CYII=" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/fonts.css"/>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/docs.css"/>
+    <link rel="stylesheet" href="../../css/source.css"/>
+</head>
+<body>
+    <div class="header">
+        <div class="header-center">
+            <h2>
+                <a href="../../index.html">
+                    <img src="../../assets/images/logos/wheelSite.svg" width="40"/>
+                    <span>Wheel IDE</span>
+                </a>
+            </h2>
+            <a href="../ide/ide.html" class="start">Online demo &raquo;</a>
+            <ul>
+                <li><a href="index.html">Documentation</a></li>
+                <li><a href="../source.html">Source</a></li>
+                <li><a href="../screenshots.html">Screenshots</a></li>
+                <li><a href="../install.html">Install</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-center">
+        <div class="help-file">
+            <h2>Modules</h2>
+            <a id="Modules"></a>
+            <p>
+                Modules provide a way to access standard functions from the brick like motors, sensors and the screen.
+                <br/>
+                <br/>
+                The module command can be used to call blocks from your wheel code.
+                <br/>
+                <br/>
+                Each module has a unique numeric id. The VM calls the module based on the id passed.
+                Within a module procedures can be called. The <i>addr</i> command can be used to let the <i>src</i> register point to
+                a block of data which can then be used by the module.
+                <br/>
+                <br/>
+                The following example shows a call to the <i>light</i> module, the <i>src</i> register is pointed to the <i>color</i> variable.
+            </p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="proc">light</span><span class="operator">(</span><span class="type">number</span> <span class="variable">color</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">pattern</span><span class="operator">)</span>
+    <span class="keyword">addr</span> <span class="variable">color</span>
+    <span class="keyword">mod</span>  <span class="variable">MODULE_LIGHT</span><span class="operator">,</span> <span class="variable">LIGHT_UPDATE</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Standardmodules"></a>
+            <h4 class="">Standard modules</h4>
+            <p>
+                Wheel comes with the following standard modules:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Module      </th>
+                    <th> Function                         </th>
+                </th>
+                <tr>
+                    <td>Bit</td>
+                    <td>Bit functions</td>
+                </tr>
+                <tr>
+                    <td>Button</td>
+                    <td>Read the EV3 buttons</td>
+                </tr>
+                <tr>
+                    <td>Device</td>
+                    <td>Select EV3 or Powered Up</td>
+                </tr>
+                <tr>
+                    <td>File</td>
+                    <td>Reading and writing files</td>
+                </tr>
+                <tr>
+                    <td>Light</td>
+                    <td>Control the EV3 light</td>
+                </tr>
+                <tr>
+                    <td>Math</td>
+                    <td>Math functions</td>
+                </tr>
+                <tr>
+                    <td>Motor</td>
+                    <td>Control EV3 motors</td>
+                </tr>
+                <tr>
+                    <td>Powered Up</td>
+                    <td>Control EV3 motors</td>
+                </tr>
+                <tr>
+                    <td>PSP</td>
+                    <td>Psp controller functions for EV3</td>
+                </tr>
+                <tr>
+                    <td>Screen</td>
+                    <td>Drawing functions</td>
+                </tr>
+                <tr>
+                    <td>Sensor</td>
+                    <td>Read and configure sensors</td>
+                </tr>
+                <tr>
+                    <td>SensorMulti</td>
+                    <td>Sensor multiplexer for EV3</td>
+                </tr>
+                <tr>
+                    <td>Sound</td>
+                    <td>Play tones or samples</td>
+                </tr>
+                <tr>
+                    <td>Standard</td>
+                    <td>Core functions</td>
+                </tr>
+                <tr>
+                    <td>String</td>
+                    <td>String functions</td>
+                </tr>
+                <tr>
+                    <td>System</td>
+                    <td>System functions for EV3</td>
+                </tr>
+            </table>
+            <p>
+                To build your own interfaces to control robots from the IDE there are several component modules available.
+                <br/>
+                Input components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                        </th>
+                    <th> Module       </th>
+                    <th> Function                         </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><text x="7.5" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">Ok</text></svg></div></td>
+                    <td>Button</td>
+                    <td>Buttons</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="3" y="7" width="18" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><line x1="12" y1="7" x2="12" y2="17" style="stroke:rgb(0,0,0);stroke-width:1;"/><text x="5.3" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">A</text><text x="14.1" y="14.6" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7px;line-height:7px;">B</text></svg></div></td>
+                    <td>SelectButton</td>
+                    <td>A horizontal list of buttons</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="7" y="7" width="10" height="10" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><line x1="10" y1="10" x2="11" y2="14" style="stroke:rgb(0,0,0);stroke-width:1.5;" stroke-linecap="round"/><line x1="11.25" y1="14" x2="16.2" y2="5.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/></svg></div></td>
+                    <td>Checkbox</td>
+                    <td>Checkbox</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><circle cx="5" cy="6.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><circle cx="5" cy="6.2" r="0.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:rgb(0,0,0);"/><text x="8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Red</text><circle cx="5" cy="12.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><text x="8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Blue</text><circle cx="5" cy="18.2" r="1.5" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><text x="8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Lime</text></svg></div></td>
+                    <td>Radio</td>
+                    <td>A radio group</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="4" y="3.75" width="16" height="4" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><rect x="4" y="7.75" width="16" height="13" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><rect x="4" y="12.75" width="16" height="4" style="fill:rgba(0,0,0,0.2);"/><text x="5" y="7.25" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text><text x="5" y="11.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Rect</text><text x="5" y="15.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Circle</text><text x="5" y="19.75" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:4px;line-height:4px;">Line</text></svg></div></td>
+                    <td>Dropdown</td>
+                    <td>Dropdown</td>
+                </tr>
+            </table>
+            <p>
+                Text components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                        </th>
+                    <th> Module       </th>
+                    <th> Function                           </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><text x="12" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:7.5px;line-height:8px;" text-anchor="middle">Label</text></svg></div></td>
+                    <td>Label</td>
+                    <td>A label and value text</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="translate(1.5, 3.5)"><text x="3" y="16" style="font-family:Times;font-size:20px;font-style:italic;" fill="rgb(0,0,0)">H</text></g></svg></div></td>
+                    <td>Title</td>
+                    <td>A title text</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="translate(1.5, 3.5)"><text x="4.5" y="16" style="font-family:Times;font-size:20px;" fill="rgb(0,0,0)">T</text></g></svg></div></td>
+                    <td>Text</td>
+                    <td>A text block</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><text x="3.3" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">1.</text><text x="7.8" y="8" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Left</text><text x="3.3" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">2.</text><text x="7.8" y="14" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Right</text><text x="3.3" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">3.</text><text x="7.8" y="20" fill="rgb(0,0,0)" style="font-family:latolight,Arial;font-size:5px;line-height:5px;">Down</text></svg></div></td>
+                    <td>Text</td>
+                    <td>A list of items with buller points</td>
+                </tr>
+            </table>
+            <p>
+                Panel components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                </th>
+                    <th> Module </th>
+                    <th> Function                             </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="5" y="5" width="14" height="14" stroke="rgb(0,0,0)" fill="transparent" style="stroke-linejoin:round;"/></svg></div></td>
+                    <td>Panel</td>
+                    <td>A panel which can contain components</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="translate(1.5,2)"><polygon points="3,17 17,17 17,6 10,6 10,3 3,3" stroke="rgb(0,0,0)" fill="transparent" style="stroke-linejoin:round;"/></g></svg></div></td>
+                    <td>Tabs</td>
+                    <td>Tabs with tab panels</td>
+                </tr>
+            </table>
+            <p>
+                Graphics components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                 </th>
+                    <th> Module    </th>
+                    <th> Function                             </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="7" y="7" width="10" height="10" style="fill:rgb(0,0,0)"/></svg></div></td>
+                    <td>Rectangle</td>
+                    <td>A rectangle with an optinal border</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><circle cx="12" cy="12" r="6" fill="rgb(0,0,0)"/></svg></div></td>
+                    <td>Circle</td>
+                    <td>A circle with an optinal border</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><line x1="6" y1="18" x2="10" y2="8.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="15" y1="12.5" x2="18" y2="18" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><circle cx="15" cy="8" r="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg></div></td>
+                    <td>Image</td>
+                    <td>An image</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><circle cx="12" cy="12" r="8" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><line x1="7" y1="16" x2="10" y2="8.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="10" y1="8.5" x2="13" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="13" y1="13.5" x2="15" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="15" y1="12.5" x2="16" y2="16" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><circle cx="14" cy="8" r="1.5" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg></div></td>
+                    <td>Icon</td>
+                    <td>An icon with a list of icon options</td>
+                </tr>
+            </table>
+            <p>
+                Status components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                      </th>
+                    <th> Module      </th>
+                    <th> Function                             </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="translate(1.5, 4)"><circle cx="10" cy="6" r="4" fill="transparent" style="stroke:rgb(0,0,0);stroke-width:1;"/><line x1="8" y1="10" x2="8" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="8" y1="13.5" x2="10" y2="15" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="10" y1="15" x2="12" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="12" y1="13.5" x2="12" y2="10" style="stroke:rgb(0,0,0);stroke-width:1;" stroke-linecap="round"/><line x1="8" y1="10.5" x2="12" y2="11.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/><line x1="8" y1="11.5" x2="12" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/><line x1="8" y1="12.5" x2="12" y2="13.5" style="stroke:rgb(0,0,0);stroke-width:0.5;" stroke-linecap="round"/></g></svg></div></td>
+                    <td>StatusLight</td>
+                    <td>A status light</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="4" y="10" width="16" height="4" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><rect x="4" y="10" width="5" height="4" rx="2" ry="2" style="fill:rgb(0,0,0);"/><rect x="6" y="10" width="5" height="4" style="fill:rgb(0,0,0);"/></svg></div></td>
+                    <td>ProgressBar</td>
+                    <td>A horizontal progress bar</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><circle cx="6" cy="14" r="2.5" style="fill:rgb(0,0,0);"/><circle cx="12" cy="9" r="2.5" style="fill:rgb(0,0,0);"/><circle cx="18" cy="12" r="2.5" style="fill:rgb(0,0,0);"/></svg></div></td>
+                    <td>LoadingDots</td>
+                    <td>Animating loading dots</td>
+                </tr>
+            </table>
+            <p>
+                Device components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                    </th>
+                    <th> Module          </th>
+                    <th> Function                             </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" baseProfile="full" width="24" height="24" viewBox="0 0 24 24" version="1.1"><rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">PU</text><path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg></div></td>
+                    <td>PoweredUpDevice</td>
+                    <td>Displays Powered Up port information</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">EV3</text><circle cx="12" cy="15.5" r="3" style="stroke:rgb(0,0,0);stroke-width:0.5;fill:transparent;"/><line x1="10" x2="14" y1="13.5" y2="17.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/><line x1="14" x2="10" y1="13.5" y2="17.5" style="stroke:rgb(0,0,0);stroke-width:0.5;"/></svg></div></td>
+                    <td>EV3Motor</td>
+                    <td>Displays EV3 motor port information</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="4" y="4" width="16" height="16" rx="2" ry="2" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><text x="12" y="11.5" style="font-family:latolight,Arial;font-size:7px;line-height:7px;" text-anchor="middle">EV3</text><path d="M6,12.5 a1,1 0 0,0 12,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><path d="M8,12.5 a1,1 0 0,0 8,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><path d="M10,12.5 a1,1 0 0,0 4,0" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg></div></td>
+                    <td>EV3Sensor</td>
+                    <td>Displays EV3 sensor port information</td>
+                </tr>
+            </table>
+            <p>
+                Dialog components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                        </th>
+                    <th> Module        </th>
+                    <th> Function         </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><rect x="8" y="11" width="8" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg></div></td>
+                    <td>AlertDialog</td>
+                    <td>An alert dialog</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><rect x="3" y="7" width="18" height="10" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><rect x="5" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/><rect x="13" y="11" width="6" height="4" rx="1" ry="1" style="stroke:rgb(0,0,0);stroke-width:1;fill:transparent;"/></svg></div></td>
+                    <td>ConfirmDialog</td>
+                    <td>A confirm dialog</td>
+                </tr>
+            </table>
+            <p>
+                Non visual components:
+            </p>
+            <table class="help-table">
+                <tr>
+                    <th> Image                                </th>
+                    <th> Module   </th>
+                    <th> Function                   </th>
+                </th>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="scale(0.018,-0.018) translate(150, -1100)"><path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM812 622.667q34-44 59-113t25-125q0-158-112-271t-272-113-272 113-112 271 112 271 272 113q54 0 125-26t115-60l60 62q32-26 60-60zM470 340.667v256h84v-256h-84zM640 896.667v-86h-256v86h256z" /></g></svg></div></td>
+                    <td>Interval</td>
+                    <td>Schedule a repeating event</td>
+                </tr>
+                <tr>
+                    <td><div class="image-wrapper"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" baseProfile="full" version="1.1"><g transform="scale(0.018,-0.018) translate(150, -1100)"><path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" d="M450 318.667l210 212 46-46-256-256-136 136 44 44zM512 84.667q124 0 211 88t87 212-87 211-211 87-211-87-87-211 87-212 211-88zM512 768.667q160 0 272-113t112-271-112-271-272-113-272 113-112 271 112 271 272 113zM336 794.667l-196-164-54 64 196 164zM938 694.667l-54-66-196 166 54 64z" /></g></svg></div></td>
+                    <td>Timer</td>
+                    <td>Scedule an event</td>
+                </tr>
+            </table>
+            <div class="see-also-block">
+                <span class="see-also-label">See also: </span>
+                <a href="Module_Button.html" class="see-also">Button</a>
+                <a href="IDE_Simulator.html" class="see-also">Sensor(Simulator)</a>
+            </div>
+        </div>
+        <div class="footer">
+            <img src="https://travis-ci.org/ArnoVanDerVegt/wheel.svg?branch=master" title="Build status"/>
+            <a href="license.html" class="license">Copyright © Arno van der Vegt 2017 - present</a>
+        </div>
+    </div>
+</body>
+</html>

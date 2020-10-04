@@ -8,6 +8,7 @@ const VMData     = require('./VMData').VMData;
 
 class VM {
     constructor(opts) {
+        this._runningEvent      = false;
         this._stopped           = true;
         this._sleepContinueTime = null;
         this._breakpoint        = false;
@@ -15,6 +16,7 @@ class VM {
         this._entryPoint        = opts.entryPoint || 0;
         this._lastCommand       = null;
         this._commands          = null;
+        this._maxCallStackSize  = 2;
         this._modules           = [];
         this._outputPath        = '';
         this._sortedFiles       = opts.sortedFiles;
@@ -69,7 +71,19 @@ class VM {
     }
 
     setCommands(commands) {
-        this._commands = commands;
+        // Find the max stack size.
+        // This size is reserved when an event call is made.
+        let maxCallStackSize = 2;
+        commands.forEach(
+            function(command) {
+                if (command.getCmd() === $.CMD_CALL) {
+                    maxCallStackSize = Math.max(maxCallStackSize, command.getParam2().getValue());
+                }
+            },
+            this
+        );
+        this._commands         = commands;
+        this._maxCallStackSize = maxCallStackSize;
         return this;
     }
 
@@ -180,18 +194,6 @@ class VM {
         }
     }
 
-    run() {
-        this._sleepContinueTime = null;
-        let vmData   = this._vmData;
-        let data     = vmData.getData();
-        vmData.setGlobalNumber($.REG_CODE, this._entryPoint);
-        while (vmData.getGlobalNumber($.REG_CODE) < this._commands.length) {
-            this.runCommand(this._commands[vmData.getGlobalNumber($.REG_CODE)]);
-            vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
-        }
-        dispatcher.dispatch('VM.Run', this);
-    }
-
     stop() {
         this._stopped = true;
         if (this._runTimeout !== null) {
@@ -214,12 +216,66 @@ class VM {
         return this;
     }
 
+    run() {
+        this._sleepContinueTime = null;
+        let vmData   = this._vmData;
+        let data     = vmData.getData();
+        let commands = this._commands;
+        vmData.setGlobalNumber($.REG_CODE, this._entryPoint);
+        while (vmData.getGlobalNumber($.REG_CODE) < commands.length) {
+            this.runCommand(commands[vmData.getGlobalNumber($.REG_CODE)]);
+            vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
+        }
+        dispatcher.dispatch('VM.Run', this);
+    }
+
+    runEvent(entryPoint, params) {
+        this._runningEvent = true;
+        let commands         = this._commands;
+        let vmData           = this._vmData;
+        let data             = vmData.getData();
+        let regOffsetStack   = data[$.REG_STACK];
+        let callStackSize    = 2 + this._maxCallStackSize;
+        let runningRegisters = null;
+        let registers        = vmData.getRegisters(); // Get the register state from the running VM.
+        data[$.REG_STACK] += callStackSize;
+        data[regOffsetStack + callStackSize - 2] = regOffsetStack;
+        data[regOffsetStack + callStackSize - 1] = 0xFFFFFF;
+        params.forEach(function(param, index) {
+            data[regOffsetStack + callStackSize + index + 2] = param;
+        });
+        vmData.setGlobalNumber($.REG_CODE, entryPoint);
+        let run = (function() { // This function runs a maximum of 1024 VM commands...
+                if (!this.running()) {
+                    return;
+                }
+                if (runningRegisters) {
+                    vmData.setRegisters(runningRegisters); // Restore the event registers.
+                }
+                let commandCount = 0;
+                while (vmData.getGlobalNumber($.REG_CODE) < commands.length) {
+                    this.runCommand(commands[vmData.getGlobalNumber($.REG_CODE)]);
+                    vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
+                    commandCount++;
+                    if (commandCount > 1024) {
+                        runningRegisters = vmData.getRegisters();
+                        vmData.setRegisters(registers); // Restore the running VM register state.
+                        setTimeout(run, 10);
+                        return;
+                    }
+                }
+                vmData.setRegisters(registers); // Restore the running VM register state.
+                this._runningEvent = false;
+            }).bind(this);
+        run();
+    }
+
     runInterval(onFinished) {
         let commands = this._commands;
         let vmData   = this._vmData;
         let data     = vmData.getData();
         let count    = 0;
-        while ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped && !this._breakpoint) {
+        while ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped && !this._breakpoint && !this._runningEvent) {
             if (this._sleepContinueTime === null) {
                 let command    = commands[vmData.getGlobalNumber($.REG_CODE)];
                 let breakpoint = command.getBreakpoint();

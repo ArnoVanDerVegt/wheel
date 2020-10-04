@@ -24,6 +24,12 @@ mod_sound_tone:                                                         // 00) s
     CALL(readMem8,  pRegSrc_32, 2, lVolume_8)
 
     SOUND(TONE, lVolume_8, lFrequency_16, lDuration_16)
+
+    DATA32 lTimeA_32
+    DATA32 lTimeB_32
+    MOVE16_32(lDuration_16, lTimeA_32)
+    TIMER_WAIT(lTimeA_32, lTimeB_32)
+    TIMER_READY(lTimeB_32)
     RETURN()
 
 mod_sound_sample:

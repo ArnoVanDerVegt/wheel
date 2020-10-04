@@ -18,7 +18,7 @@ exports.TextEditor = class extends Editor {
             parentNode,
             {
                 ref:       this.setRef('wrapper'),
-                className: 'text-wrapper',
+                className: 'max-w max-h text-wrapper',
                 children: [
                     {
                         id:    this.setTextareaElement.bind(this),
@@ -53,6 +53,8 @@ exports.TextEditor = class extends Editor {
     }
 
     setValue(value, reset) {
-        this._textAreaElement.value = value;
+        if (this._textAreaElement.value !== value) {
+            this._textAreaElement.value = value;
+        }
     }
 };

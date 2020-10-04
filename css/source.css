@@ -17,7 +17,7 @@ pre.wheel {
     color:                          var(--source-default-color);
     font-style:                     var(--source-default-style);
     font-weight:                    var(--source-default-weight);
-    overflow-x:                     hidden;
+    overflow-x:                     scroll;
 }
 .wheel.top {
     margin:                         0;

@@ -9,7 +9,6 @@ const exec             = require('child_process').exec;
 const RgfImage         = require('../../shared/lib/RgfImage').RgfImage;
 const settings         = require('./settings');
 const DirectoryWatcher = require('../DirectoryWatcher').DirectoryWatcher;
-const ipcRenderer      = require('electron').ipcRenderer;
 
 const genericPath = function(p) {
         return p.split('\\').join('/');
@@ -23,12 +22,23 @@ const createResultCallback = function(result, res) {
         };
     };
 
+const getSystemDocumentPath = function() {
+        let p = os.homedir();
+        if (fs.existsSync(path.join(p, 'Documents'))) {
+            p = path.join(p, 'Documents');
+        }
+        return p;
+    };
+
 exports.ideRoutes = {
-    _directoryWatcher: null,
-    _settings:         null,
-    _cwd:              path.join(__dirname, '/../../..'),
-    _currentPath:      {},
-    _documentPath:     genericPath(path.join(os.homedir(), 'Wheel')),
+    _node:               false,
+    _directoryWatcher:   null,
+    _settings:           null,
+    _cwd:                path.join(__dirname, '/../../..'),
+    _currentPath:        {},
+    _systemDocumentPath: genericPath(getSystemDocumentPath()),
+    _documentPath:       genericPath(path.join(getSystemDocumentPath(), 'Wheel')),
+
     _onIpcMessage: function(event, arg) {
         let data;
         try {
@@ -40,6 +50,7 @@ exports.ideRoutes = {
         switch (data.message) {
             case 'settings':
                 settings.isInApplicationsFolder = data.isInApplicationsFolder;
+                settings.isPackaged             = data.isPackaged;
                 settings.version                = data.version;
                 this._saveSettings();
                 break;
@@ -60,15 +71,18 @@ exports.ideRoutes = {
             this._res = null;
         }
     },
+
     _saveSettings: function() {
         return settings.saveToLocalStorage(this._getSettings()) || settings.saveToFile(this._getSettings());
     },
+
     _getSettings: function() {
         if (!this._settings) {
             this._settings = {};
         }
         return this._settings;
     },
+
     files: function(req, res) {
         let index = req.query.index;
         if (!(index in this._currentPath)) {
@@ -86,7 +100,7 @@ exports.ideRoutes = {
         }
         fs.readdir(
             this._currentPath[index],
-            (function(error, files) {
+            (error, files) => {
                 let result = {
                         files: [],
                         path:  genericPath(this._currentPath[index])
@@ -117,100 +131,129 @@ exports.ideRoutes = {
                     }
                 }
                 res.send(JSON.stringify(result));
-            }).bind(this)
+            }
         );
     },
-    file: function(req, res) {
-        let f;
-        let filename = req.body.filename;
-        let result   = {success: true, filename: filename, data: null};
+
+    _findFile(filename) {
         let found    = false;
+        if ((typeof filename === 'string') && (filename.indexOf(',') !== -1)) {
+            let f = filename;
+            filename = filename.split(',');
+            filename.push(f);
+        }
+        if (Array.isArray(filename)) {
+            for (let i = 0; i < filename.length; i++) {
+                if (fs.existsSync(filename[i])) {
+                    return filename[i];
+                }
+            }
+            return null;
+        }
         if (fs.existsSync(filename)) {
-            f     = filename;
-            found = true;
-        } else if (fs.existsSync('/' + filename)) {
-            f     = '/' + filename;
-            found = true;
-        } else if (fs.existsSync(path.join(this._documentPath, filename))) {
-            f     = path.join(this._documentPath, filename);
-            found = true;
-        } else {
-            let searchPath = this._getSettings().searchPath || [];
-            for (let i = 0; i < searchPath.length; i++) {
-                f = path.join(searchPath[i], filename);
-                if (fs.existsSync(f)) {
-                    found = true;
-                    break;
-                }
-                f = path.join(this._documentPath, searchPath[i], filename);
-                if (fs.existsSync(f)) {
-                    found = true;
-                    break;
-                }
+            return filename;
+        }
+        if (fs.existsSync('/' + filename)) {
+            return '/' + filename;
+        }
+        if (fs.existsSync(path.join(this._documentPath, filename))) {
+            return path.join(this._documentPath, filename);
+        }
+        let searchPath = this._getSettings().searchPath || [];
+        let f;
+        for (let i = 0; i < searchPath.length; i++) {
+            f = path.join(searchPath[i], filename);
+            if (fs.existsSync(f)) {
+                return f;
+            }
+            f = path.join(this._documentPath, searchPath[i], filename);
+            if (fs.existsSync(f)) {
+                return f;
             }
         }
-        if (found) {
-            let extension = path.extname(f);
-            switch (extension) {
-                case '.rgf':
-                    result.data = new RgfImage().unpack(fs.readFileSync(f));
-                    res.send(JSON.stringify(result));
-                    break;
-                case '.mp3':
-                case '.wav':
-                    res.send(fs.readFileSync(f));
-                    break;
-                case '.bmp':
-                case '.png':
-                case '.jpg':
-                case '.jpeg':
-                case '.gif':
-                    res.send('data:image/' + extension + ';base64,' + fs.readFileSync(f).toString('base64'));
-                    break;
-                case '.rsf':
-                    result.data = fs.readFileSync(f);
-                    res.send(JSON.stringify(result));
-                    break;
-                default:
-                    try {
-                        result.data = fs.readFileSync(f).toString();
-                        res.send(JSON.stringify(result));
-                    } catch (error) {
-                        res.send(JSON.stringify({success: false}));
-                    }
-                    break;
-            }
-        } else {
+        return null;
+    },
+
+    file: function(req, res) {
+        let filename = this._findFile(req.query.filename);
+        let result   = {success: true, filename: req.query.filename, data: null};
+        if (filename === null) {
             result.success = false;
             res.send(JSON.stringify(result));
+            return;
+        }
+        let extension = path.extname(filename);
+        switch (extension) {
+            case '.rgf':
+                result.data = new RgfImage().unpack(fs.readFileSync(filename));
+                res.send(JSON.stringify(result));
+                break;
+            case '.mp3':
+            case '.wav':
+                res.send(fs.readFileSync(filename));
+                break;
+            case '.bmp':
+            case '.png':
+            case '.jpg':
+            case '.jpeg':
+            case '.gif':
+                res.send('data:image/' + extension + ';base64,' + fs.readFileSync(filename).toString('base64'));
+                break;
+            case '.rsf':
+                result.data = fs.readFileSync(filename);
+                res.send(JSON.stringify(result));
+                break;
+            case '.wfrm':
+                result.data = {wfrm: fs.readFileSync(filename).toString(), isProject: false};
+                let whlFilename = this._findFile(filename.substr(0, filename.length - extension.length) + '.whl');
+                if (whlFilename !== null) {
+                    result.data.whl = fs.readFileSync(whlFilename).toString();
+                } else {
+                    whlFilename = this._findFile(filename.substr(0, filename.length - extension.length) + '.whlp');
+                    if (whlFilename !== null) {
+                        result.data.whl       = fs.readFileSync(whlFilename).toString();
+                        result.data.isProject = true;
+                    }
+                }
+                res.send(JSON.stringify(result));
+                break;
+            default:
+                try {
+                    result.data = fs.readFileSync(filename).toString();
+                    res.send(JSON.stringify(result));
+                } catch (error) {
+                    res.send(JSON.stringify({success: false}));
+                }
+                break;
         }
     },
+
     fileAppend(req, res) {
         let filename = req.body.filename;
         let result   = {success: true, filename: filename};
         fs.appendFile(filename, req.body.data, createResultCallback(result, res));
     },
+
     fileSave: function(req, res) {
         let f;
         let filename = req.body.filename;
         let data     = req.body.data;
         let result   = {success: true};
-        switch (filename.substr(-4)) {
-            case '.rgf':
-                if (typeof data === 'string') {
-                    try {
-                        data = JSON.parse(data);
-                    } catch (error) {
-                        result.success = false;
-                    }
+        if (filename.substr(-4) === '.rgf') {
+            if (typeof data === 'string') {
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    result.success = false;
                 }
-                if (result.success) {
-                    data = new RgfImage().pack(data);
-                }
-                break;
-            case '.rsf':
-                data = new Uint8Array(data);
-                break;
+            }
+            if (result.success) {
+                data = new RgfImage().pack(data);
+            }
+        } else if (filename.substr(-4) === '.rsf') {
+            data = new Uint8Array(data);
+        } else if (filename.substr(-5) === '.wfrm') {
+            data = JSON.stringify(data, null, 4);
         }
         if (result.success) {
             fs.writeFile(filename, data, createResultCallback(result, res));
@@ -218,15 +261,18 @@ exports.ideRoutes = {
             res.send(JSON.stringify(result));
         }
     },
+
     fileSaveBase64AsBinary(req, res) {
         let result = {success: true};
         fs.writeFile(req.body.filename, Buffer.from(req.body.data, 'base64'), createResultCallback(result, res));
     },
+
     fileDelete: function(req, res) {
         let filename = req.body.filename;
         let result   = {success: false};
         fs.unlink(req.body.filename, createResultCallback(result, res));
     },
+
     fileSize: function(req, res) {
         let filename = req.body.filename;
         let result   = {success: false, size: 0};
@@ -240,21 +286,57 @@ exports.ideRoutes = {
         }
         res.send(JSON.stringify(result));
     },
+
     filesInPath: function(req, res) {
         let filelist      = [];
         let readFilesSync = function(dir) {
-            let files = fs.readdirSync(dir);
-            files.forEach(function(file) {
-                if (fs.statSync(dir + '/' + file).isDirectory()) {
-                    readFilesSync(dir + '/' + file);
-                } else if ((file.substr(-4) === '.woc') || (file.substr(-4) === '.whl') || (file.substr(-5) === '.whlp')) {
-                    filelist.push(genericPath(path.join(dir, file)));
-                }
-            });
-        };
+                let files = fs.readdirSync(dir);
+                files.forEach((file) => {
+                    if (fs.statSync(dir + '/' + file).isDirectory()) {
+                        readFilesSync(dir + '/' + file);
+                    } else if ((file.substr(-4) === '.woc') || (file.substr(-4) === '.whl') || (file.substr(-5) === '.whlp')) {
+                        filelist.push(genericPath(path.join(dir, file)));
+                    }
+                });
+            };
         readFilesSync(this._documentPath);
         res.send(JSON.stringify(filelist));
     },
+
+    findInFile: function(req, res) {
+        let caseSensitive = req.body.caseSensitive;
+        let filename      = req.body.filename;
+        let text          = req.body.text;
+        let textLength    = text.length;
+        let result        = {filename: filename, text: text, found: []};
+        try {
+            if (fs.existsSync(filename)) {
+                let data = fs.readFileSync(filename).toString();
+                let origLines;
+                if (!caseSensitive) {
+                    origLines = data.split('\n');
+                    data      = data.toLowerCase();
+                    text      = text.toLowerCase();
+                }
+                let lines = data.split('\n');
+                if (caseSensitive) {
+                    origLines = lines;
+                }
+                for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+                    let line    = lines[lineNum];
+                    let linePos = line.indexOf(text, 0);
+                    while (linePos !== -1) {
+                        result.found.push({line: origLines[lineNum], num: lineNum, pos: linePos});
+                        linePos += textLength;
+                        linePos = line.indexOf(text, linePos);
+                    }
+                }
+            }
+        } catch (error) {
+        }
+        res.send(JSON.stringify(result));
+    },
+
     directoryCreate: function(req, res) {
         let directory = req.body.directory;
         let result    = {success: false};
@@ -268,10 +350,12 @@ exports.ideRoutes = {
         }
         res.send(JSON.stringify(result));
     },
+
     directoryDelete: function(req, res) {
         let result = {success: false};
         fs.rmdir(req.body.directory, createResultCallback(result, res));
     },
+
     pathCreate: function(req, res) {
         let result = {success: false};
         try {
@@ -289,20 +373,69 @@ exports.ideRoutes = {
         }
         res.send(JSON.stringify(result));
     },
+
     pathExists: function(req, res) {
         let result = {success: false};
         try {
-            result.exists  = fs.existsSync(req.body.path);
+            result.exists  = fs.existsSync(req.query.path);
             result.success = true;
         } catch (error) {
             result.error = error.toString();
         }
         res.send(JSON.stringify(result));
     },
+
     rename: function(req, res) {
         let result = {success: false};
         fs.rename(req.body.oldName, req.body.newName, createResultCallback(result, res));
     },
+
+    updateSystemDocumentPath: function(req, result) {
+        // When using electron the userDocument path is provided from an ipc call to main.js!
+        if (req && req.query && req.query.systemDocumentPath) {
+            this._systemDocumentPath  = req.query.systemDocumentPath;
+            result.systemDocumentPath = this._systemDocumentPath;
+        }
+        return this;
+    },
+
+    updateDocumentPath: function(result) {
+        if ('documentPath' in result) {
+            this._documentPath = result.documentPath;
+        }
+        // The generic path should always end with "/Wheel"...
+        if (['/Wheel', '\\Wheel'].indexOf(this._documentPath.substr(-6)) === -1) {
+            this._documentPath = genericPath(path.join(this._documentPath, 'Wheel'));
+        }
+        result.documentPath       = this._documentPath;
+        result.documentPathExists = fs.existsSync(this._documentPath);
+        return this;
+    },
+
+    updateOS: function(result) {
+        result.os = {
+            homedir:  genericPath(os.homedir()),
+            platform: os.platform(),
+            arch:     os.arch(),
+            pathSep:  path.sep
+        };
+        return this;
+    },
+
+    updateSearchPath: function(result) {
+        if (!('searchPath' in result)) {
+            result.searchPath = [];
+        }
+        return this;
+    },
+
+    updateRecentProject: function(result) {
+        if (typeof result.recentProject === 'string') {
+            result.recentProject = genericPath(result.recentProject);
+        }
+        return this;
+    },
+
     settingsLoad: function(req, res) {
         let result = settings.loadFromLocalStorage();
         if (!result) {
@@ -311,41 +444,47 @@ exports.ideRoutes = {
                 result = {};
             }
         }
-        result.os = {
-            homedir:  genericPath(os.homedir()),
-            platform: os.platform(),
-            arch:     os.arch(),
-            pathSep:  path.sep
-        };
-        if (!('searchPath' in result)) {
-            result.searchPath = [];
+        if (typeof result === 'string') {
+            try {
+                result = JSON.parse(result);
+            } catch (error) {
+                result = {};
+            }
         }
-        if (typeof result.recentProject === 'string') {
-            result.recentProject = genericPath(result.recentProject);
-        }
-        if (fs.existsSync(result.documentPath)) {
-            this._documentPath  = genericPath(result.documentPath);
-        } else {
-            this._documentPath  = genericPath(path.join(os.homedir(), 'Wheel'));
-            result.documentPath = this._documentPath;
-        }
-        result.documentPathExists = fs.existsSync(this._documentPath);
-        this._settings            = result;
-        this._res                 = res;
+        this._currentPath = {}; // The application restarted, reset the paths!
+        this
+            .updateSystemDocumentPath(req, result)
+            .updateDocumentPath(result)
+            .updateOS(result)
+            .updateSearchPath(result)
+            .updateRecentProject(result);
+        this._settings = result;
         if (!this.directoryWatcher && result.documentPathExists) {
             this.directoryWatcher = new DirectoryWatcher(this._documentPath);
         }
-        ipcRenderer.on('postMessage', this._onIpcMessage.bind(this));
-        ipcRenderer.send('postMessage', {command: 'settings', settings: result});
+        if (this._node) {
+            this._res                 = null;
+            result.systemDocumentPath = getSystemDocumentPath();
+            res.send(JSON.stringify(result));
+        } else {
+            // Save the response callback.
+            // This callback will be called from the ipcRenderer on postMessage event handler.
+            this._res = res;
+            const ipcRenderer = require('electron').ipcRenderer;
+            ipcRenderer.on('postMessage', this._onIpcMessage.bind(this));
+            ipcRenderer.send('postMessage', {command: 'settings', settings: result});
+        }
     },
+
     settingsSave: function(req, res) {
-        let result = {success: true};
-        let data   = req.body.settings;
-        if (this._documentPath !== genericPath(data.documentPath)) {
-            this.directoryWatcher = new DirectoryWatcher(genericPath(data.documentPath));
+        let result       = {success: true};
+        let data         = req.body.settings;
+        let documentPath = this._node ? this._documentPath : data.documentPath;
+        if (this._documentPath !== genericPath(documentPath)) {
+            this.directoryWatcher = new DirectoryWatcher(genericPath(documentPath));
         }
         let windowPosition = this._getSettings().windowPosition;
-        this._documentPath                = genericPath(data.documentPath);
+        this._documentPath                = genericPath(documentPath);
         this._cwd                         = this._getSettings().documentPath;
         this._settings                    = req.body.settings;
         this._settings.documentPathExists = fs.existsSync(this._documentPath);
@@ -355,13 +494,16 @@ exports.ideRoutes = {
         result.success = this._saveSettings();
         res.send(JSON.stringify(result));
     },
+
     changes: function(req, res) {
         res.send(JSON.stringify(this.directoryWatcher ? this.directoryWatcher.getChanges() : []));
     },
+
     userInfo: function(req, res) {
         this._cwd = this._getSettings().documentPath;
         res.send(JSON.stringify({username: os.userInfo().username, cwd: this._cwd}));
     },
+
     exec: function(req, res) {
         let command = req.body.command;
         let result  = null;
@@ -391,7 +533,7 @@ exports.ideRoutes = {
             {
                 cwd: this._cwd
             },
-            function(error, stdout, stderr) {
+            (error, stdout, stderr) => {
                 let result = {};
                 if (error) {
                     result.success = false;
@@ -403,5 +545,23 @@ exports.ideRoutes = {
                 res.send(JSON.stringify(result));
             }
         );
+    },
+
+    setNode: function(node) {
+        this._node = node;
+    },
+
+    revealInFinder: function(req, res) {
+        let result = {success: false};
+        exec(
+            (os.platform() === 'darwin') ?
+                ('open "' + path.dirname(req.query.path) + '"') :
+                ('start "" "' + path.dirname(req.query.path) + '"'),
+            null,
+            (error, stdout, stderr) => {
+                result.error = error;
+            }
+        );
+        res.send(JSON.stringify(result));
     }
 };

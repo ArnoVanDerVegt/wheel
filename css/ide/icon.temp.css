@@ -1,0 +1,413 @@
+.i {
+    float:                          left;
+    width:                          64px;
+    height:                         64px;
+    background-position:            0 0;
+    background-size:                64px 64px;
+    background-repeat:              no-repeat;
+    background-color:               transparent;
+    outline:                        none;
+}
+.i.design:before {
+    position:                       absolute;
+    z-index:                        -1;
+    left:                           0;
+    top:                            0;
+    width:                          calc(100% - 2px);
+    height:                         calc(100% - 2px);
+    background:                     var(--design-background);
+    border:                         var(--design-border);
+    content:                        ' ';
+}
+.i:focus {
+    border:                         var(--focus-border-dotted);
+    border-radius:                  4px;
+}
+.i.active {
+    background-color:               var(--color-blue);
+}
+.i-point {
+    background-image:               url('images/buttons/pointBlack.svg');
+}
+.i-point.active,
+body.ide.dark .i-point {
+    background-image:               url('images/buttons/pointWhite.svg');
+}
+.i-circle {
+    background-image:               url('images/buttons/circleBlack.svg');
+}
+.i-circle.active,
+body.ide.dark .i-circle {
+    background-image:               url('images/buttons/circleWhite.svg');
+}
+.i-circle-stripe {
+    background-image:               url('images/buttons/circleStripeBlack.svg');
+}
+.i-circle-stripe.active,
+body.ide.dark .i-circle-stripe {
+    background-image:               url('images/buttons/circleStripeWhite.svg');
+}
+.i-rect {
+    background-image:               url('images/buttons/rectBlack.svg');
+}
+.i-rect.active,
+body.ide.dark .i-rect {
+    background-image:               url('images/buttons/rectWhite.svg');
+}
+.i-rect-stripe {
+    background-image:               url('images/buttons/rectStripeBlack.svg');
+}
+.i-rect-stripe.active,
+body.ide.dark .i-rect-stripe {
+    background-image:               url('images/buttons/rectStripeWhite.svg');
+}
+.i-line {
+    background-image:               url('images/buttons/lineBlack.svg');
+}
+.i-line.active,
+body.ide.dark .i-line {
+    background-image:               url('images/buttons/lineWhite.svg');
+}
+.i-fill-white {
+    background-image:               url('images/buttons/fillWhiteBlack.svg');
+}
+.i-fill-white.active,
+body.ide.dark .i-fill-white {
+    background-image:               url('images/buttons/fillWhiteWhite.svg');
+}
+.i-fill-black {
+    background-image:               url('images/buttons/fillBlackBlack.svg');
+}
+.i-fill-black.active,
+body.ide.dark .i-fill-black {
+    background-image:               url('images/buttons/fillBlackWhite.svg');
+}
+.i-fill-transparent {
+    background-image:               url('images/buttons/fillTransparentBlack.svg');
+}
+.i-fill-transparent.active,
+body.ide.dark .i-fill-transparent {
+    background-image:               url('images/buttons/fillTransparentWhite.svg');
+}
+.i-line-white {
+    background-image:               url('images/buttons/lineWhiteWhite.svg');
+}
+.i-line-white.active,
+body.ide.dark .i-line-white {
+    background-image:               url('images/buttons/lineWhiteBlack.svg');
+}
+.i-line-black {
+    background-image:               url('images/buttons/lineBlackBlack.svg');
+}
+.i-line-black.active,
+body.ide.dark .i-line-black {
+    background-image:               url('images/buttons/lineBlackWhite.svg');
+}
+.i-size1 {
+    background-image:               url('images/buttons/size1Black.svg');
+}
+.i-size1.active,
+body.ide.dark .i-size1 {
+    background-image:               url('images/buttons/size1White.svg');
+}
+.i-size2 {
+    background-image:               url('images/buttons/size2Black.svg');
+}
+.i-size2.active,
+body.ide.dark .i-size2 {
+    background-image:               url('images/buttons/size2White.svg');
+}
+.i-size3 {
+    background-image:               url('images/buttons/size3Black.svg');
+}
+.i-size3.active,
+body.ide.dark .i-size3 {
+    background-image:               url('images/buttons/size3White.svg');
+}
+.i-size4 {
+    background-image:               url('images/buttons/size4Black.svg');
+}
+.i-size4.active,
+body.ide.dark .i-size4 {
+    background-image:               url('images/buttons/size4White.svg');
+}
+.i-text {
+    background-image:               url('images/buttons/textBlack.svg');
+}
+.i-text.active,
+body.ide.dark .i-text {
+    background-image:               url('images/buttons/textWhite.svg');
+}
+.i-header {
+    background-image:               url('images/buttons/headerBlack.svg');
+}
+.i-header.active,
+body.ide.dark .i-header {
+    background-image:               url('images/buttons/headerWhite.svg');
+}
+.i-btn {
+    background-image:               url('images/buttons/buttonBlack.svg');
+}
+.i-btn.active,
+body.ide.dark .i-btn {
+    background-image:               url('images/buttons/buttonWhite.svg');
+}
+.i-select-btn {
+    background-image:               url('images/buttons/selectButtonBlack.svg');
+}
+.i-select-btn.active,
+body.ide.dark .i-select-btn {
+    background-image:               url('images/buttons/selectButtonWhite.svg');
+}
+.i-text-input {
+    background-image:               url('images/buttons/textInputBlack.svg');
+}
+.i-text-input.active,
+body.ide.dark .i-text-input {
+    background-image:               url('images/buttons/textInputWhite.svg');
+}
+.i-slider {
+    background-image:               url('images/buttons/sliderBlack.svg');
+}
+.i-slider.active,
+body.ide.dark .i-slider {
+    background-image:               url('images/buttons/sliderWhite.svg');
+}
+.i-text1 {
+    background-image:               url('images/buttons/text1Black.svg');
+}
+.i-text1.active,
+body.ide.dark .i-text1 {
+    background-image:               url('images/buttons/text1White.svg');
+}
+.i-text2 {
+    background-image:               url('images/buttons/text2Black.svg');
+}
+.i-text2.active,
+body.ide.dark .i-text2 {
+    background-image:               url('images/buttons/text2White.svg');
+}
+.i-text3 {
+    background-image:               url('images/buttons/text3Black.svg');
+}
+.i-text3.active,
+body.ide.dark .i-text3 {
+    background-image:               url('images/buttons/text3White.svg');
+}
+.i-move {
+    background-image:               url('images/buttons/moveBlack.svg');
+}
+.i-move.active,
+body.ide.dark .i-move {
+    background-image:               url('images/buttons/moveWhite.svg');
+}
+.i-label {
+    background-image:               url('images/buttons/labelBlack.svg');
+}
+.i-label.active,
+body.ide.dark .i-label {
+    background-image:               url('images/buttons/labelWhite.svg');
+}
+.i-checkbox {
+    background-image:               url('images/buttons/checkboxBlack.svg');
+}
+.i-checkbox.active,
+body.ide.dark .i-checkbox {
+    background-image:               url('images/buttons/checkboxWhite.svg');
+}
+.i-tabs {
+    background-image:               url('images/buttons/tabsBlack.svg');
+}
+.i-tabs.active,
+body.ide.dark .i-tabs {
+    background-image:               url('images/buttons/tabsWhite.svg');
+}
+.i-panel {
+    background-image:               url('images/buttons/panelBlack.svg');
+}
+.i-panel.active,
+body.ide.dark .i-panel {
+    background-image:               url('images/buttons/panelWhite.svg');
+}
+.i-status-light {
+    background-image:               url('images/buttons/statusLightBlack.svg');
+}
+.i-status-light.active,
+body.ide.dark .i-status-light {
+    background-image:               url('images/buttons/statusLightWhite.svg');
+}
+.i-image {
+    background-image:               url('images/buttons/imageBlack.svg');
+}
+.i-image.active,
+body.ide.dark .i-image {
+    background-image:               url('images/buttons/imageWhite.svg');
+}
+.i-pu-device {
+    background-image:               url('images/buttons/puDeviceBlack.svg');
+}
+.i-pu-device.active,
+body.ide.dark .i-pu-device {
+    background-image:               url('images/buttons/puDeviceWhite.svg');
+}
+.i-ev3-sensor {
+    background-image:               url('images/buttons/ev3SensorBlack.svg');
+}
+.i-ev3-sensor.active,
+body.ide.dark .i-ev3-sensor {
+    background-image:               url('images/buttons/ev3SensorWhite.svg');
+}
+.i-ev3-motor {
+    background-image:               url('images/buttons/ev3MotorBlack.svg');
+}
+.i-ev3-motor.active,
+body.ide.dark .i-ev3-motor {
+    background-image:               url('images/buttons/ev3MotorWhite.svg');
+}
+.i-select {
+    background-image:               url('images/buttons/selectBlack.svg');
+}
+.i-select.active,
+body.ide.dark .i-select {
+    background-image:               url('images/buttons/selectWhite.svg');
+}
+.i-delete {
+    background-image:               url('images/buttons/deleteBlack.svg');
+}
+.i-delete.active,
+body.ide.dark .i-delete {
+    background-image:               url('images/buttons/deleteWhite.svg');
+}
+.i-copy {
+    background-image:               url('images/buttons/copyBlack.svg');
+}
+.i-copy.active,
+body.ide.dark .i-copy {
+    background-image:               url('images/buttons/copyWhite.svg');
+}
+.i-paste {
+    background-image:               url('images/buttons/pasteBlack.svg');
+}
+.i-paste.active,
+body.ide.dark .i-paste {
+    background-image:               url('images/buttons/pasteWhite.svg');
+}
+.i-grid {
+    background-image:               url('images/buttons/gridBlack.svg');
+}
+.i-grid.active,
+body.ide.dark .i-grid {
+    background-image:               url('images/buttons/gridWhite.svg');
+}
+.i-binary {
+    background-image:               url('images/buttons/binaryBlack.svg');
+}
+.i-binary.active,
+body.ide.dark .i-binary {
+    background-image:               url('images/buttons/binaryWhite.svg');
+}
+.i-volume {
+    background-image:               url('images/buttons/volumeBlack.svg');
+}
+.i-volume.active,
+body.ide.dark .i-volume {
+    background-image:               url('images/buttons/volumeWhite.svg');
+}
+.i-fade-in {
+    background-image:               url('images/buttons/fadeInBlack.svg');
+}
+.i-fade-in.active,
+body.ide.dark .i-fade-in {
+    background-image:               url('images/buttons/fadeInWhite.svg');
+}
+.i-fade-out {
+    background-image:               url('images/buttons/fadeOutBlack.svg');
+}
+.i-fade-out.active,
+body.ide.dark .i-fade-out {
+    background-image:               url('images/buttons/fadeOutWhite.svg');
+}
+.i-undo {
+    background-image:               url('images/buttons/undoBlack.svg');
+}
+.i-undo.active,
+body.ide.dark .i-undo {
+    background-image:               url('images/buttons/undoWhite.svg');
+}
+.i-play {
+    background-image:               url('images/buttons/playBlack.svg');
+}
+.i-play.active,
+body.ide.dark .i-play {
+    background-image:               url('images/buttons/playWhite.svg');
+}
+.i-progress {
+    background-image:               url('images/buttons/progressBlack.svg');
+}
+.i-progress.active,
+body.ide.dark .i-progress {
+    background-image:               url('images/buttons/progressWhite.svg');
+}
+.i-loading {
+    background-image:               url('images/buttons/loadingBlack.svg');
+}
+.i-loading.active,
+body.ide.dark .i-loading {
+    background-image:               url('images/buttons/loadingWhite.svg');
+}
+.i-radio {
+    background-image:               url('images/buttons/radioBlack.svg');
+}
+.i-radio.active,
+body.ide.dark .i-radio {
+    background-image:               url('images/buttons/radioWhite.svg');
+}
+.i-dropdown {
+    background-image:               url('images/buttons/dropdownBlack.svg');
+}
+.i-dropdown.active,
+body.ide.dark .i-dropdown {
+    background-image:               url('images/buttons/dropdownWhite.svg');
+}
+.i-list-items {
+    background-image:               url('images/buttons/listItemsBlack.svg');
+}
+.i-list-items.active,
+body.ide.dark .i-list-items {
+    background-image:               url('images/buttons/listItemsWhite.svg');
+}
+.i-timer {
+    background-image:               url('images/buttons/timerBlack.svg');
+}
+.i-timer.active,
+body.ide.dark .i-timer {
+    background-image:               url('images/buttons/timerWhite.svg');
+}
+.i-clock {
+    background-image:               url('images/buttons/clockBlack.svg');
+}
+.i-clock.active,
+body.ide.dark .i-clock {
+    background-image:               url('images/buttons/clockWhite.svg');
+}
+.i-alert-dialog {
+    background-image:               url('images/buttons/alertDialogBlack.svg');
+}
+.i-alert-dialog.active,
+body.ide.dark .i-alert-dialog {
+    background-image:               url('images/buttons/alertDialogWhite.svg');
+}
+.i-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogBlack.svg');
+}
+.i-confirm-dialog.active,
+body.ide.dark .i-confirm-dialog {
+    background-image:               url('images/buttons/confirmDialogWhite.svg');
+}
+.i-icon {
+    background-image:               url('images/buttons/iconBlack.svg');
+}
+.i-icon.active,
+body.ide.dark .i-icon {
+    background-image:               url('images/buttons/iconWhite.svg');
+}

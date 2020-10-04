@@ -1,0 +1,60 @@
+/* Statistics dialog */
+.dialog-background.statistics-dialog .statistics-text {
+    height:                         456px;
+    line-height:                    28px;
+    padding:                        16px 0 0 0;
+}
+.dialog-background.statistics-dialog.with-image .buttons input[type="button"].button {
+    float:                          right;
+}
+.dialog-background.statistics-dialog .text-line {
+    height:                         20px;
+    line-height:                    20px;
+    padding:                        0 16px 0 16px;
+}
+.dialog-background.statistics-dialog .chart {
+    padding:                        16px;
+}
+.dialog-background.statistics-dialog .chart .chart-row {
+    margin:                         0;
+    height:                         28px;
+}
+.dialog-background.statistics-dialog .chart .chart-bar,
+.dialog-background.statistics-dialog .chart .chart-title {
+    float:                          left;
+    position:                       relative;
+    width:                          50%;
+    color:                          var(--ui-text2);
+    padding:                        0 0 0 8px;
+}
+.dialog-background.statistics-dialog .chart .chart-bar {
+    height:                         28px;
+    padding:                        8px 0 0 0;
+}
+.dialog-background.statistics-dialog .chart .chart-title {
+    color:                          var(--ui-text1);
+    height:                         28px;
+    line-height:                    28px;
+}
+.dialog-background.statistics-dialog .chart .chart-bar,
+.dialog-background.statistics-dialog .chart .chart-bar .chart-bar-perc {
+    line-height:                    8px;
+}
+.dialog-background.statistics-dialog .chart .chart-bar .chart-bar-perc {
+    position:                       absolute;
+    left:                           0;
+    top:                            8px;
+    height:                         8px;
+    overflow:                       hidden;
+    white-space:                    nowrap;
+    color:                          var(--ui-text1);
+    padding:                        0 0 0 8px;
+    border-radius:                  4px;
+    box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.dialog-background.statistics-dialog .chart .chart-bar .chart-bar-perc.green {
+    background-color:               var(--color-green);
+}
+.dialog-background.statistics-dialog .chart .chart-bar .chart-bar-perc.red {
+    background-color:               var(--color-red);
+}

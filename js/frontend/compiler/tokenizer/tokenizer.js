@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 (function() {
+    const LEXEME_NAMESPACE          = 'namespace';
     const LEXEME_PROC               = 'proc';
     const LEXEME_NUMBER             = 'number';
     const LEXEME_STRING             = 'string';
@@ -10,6 +11,7 @@
     const LEXEME_CASE               = 'case';
     const LEXEME_DEFAULT            = 'default';
     const LEXEME_ELSE               = 'else';
+    const LEXEME_ELSEIF             = 'elseif';
     const LEXEME_END                = 'end';
     const LEXEME_FOR                = 'for';
     const LEXEME_IF                 = 'if';
@@ -20,6 +22,7 @@
     const LEXEME_DOWNTO             = 'downto';
     const LEXEME_STEP               = 'step';
     const LEXEME_RECORD             = 'record';
+    const LEXEME_UNION              = 'union';
     const LEXEME_REPEAT             = 'repeat';
     const LEXEME_WHILE              = 'while';
     const LEXEME_ADDR               = 'addr';
@@ -85,6 +88,10 @@
     const TOKEN_COMMENT             = 20;
     const TOKEN_WHITE_SPACE         = 21;
 
+    const TAG_IMAGE                 = 'image';
+    const TAGS                      = [TAG_IMAGE];
+
+    exports.LEXEME_NAMESPACE          = LEXEME_NAMESPACE;
     exports.LEXEME_PROC               = LEXEME_PROC;
     exports.LEXEME_NUMBER             = LEXEME_NUMBER;
     exports.LEXEME_STRING             = LEXEME_STRING;
@@ -92,6 +99,7 @@
     exports.LEXEME_CASE               = LEXEME_CASE;
     exports.LEXEME_DEFAULT            = LEXEME_DEFAULT;
     exports.LEXEME_ELSE               = LEXEME_ELSE;
+    exports.LEXEME_ELSEIF             = LEXEME_ELSEIF;
     exports.LEXEME_END                = LEXEME_END;
     exports.LEXEME_FOR                = LEXEME_FOR;
     exports.LEXEME_IF                 = LEXEME_IF;
@@ -102,6 +110,7 @@
     exports.LEXEME_DOWNTO             = LEXEME_DOWNTO;
     exports.LEXEME_STEP               = LEXEME_STEP;
     exports.LEXEME_RECORD             = LEXEME_RECORD;
+    exports.LEXEME_UNION              = LEXEME_UNION;
     exports.LEXEME_REPEAT             = LEXEME_REPEAT;
     exports.LEXEME_WHILE              = LEXEME_WHILE;
     exports.LEXEME_ADDR               = LEXEME_ADDR;
@@ -168,10 +177,12 @@
     exports.TOKEN_WHITE_SPACE         = TOKEN_WHITE_SPACE;
 
     const keywords = [
+            LEXEME_NAMESPACE,
             LEXEME_BREAK,
             LEXEME_CASE,
             LEXEME_DEFAULT,
             LEXEME_ELSE,
+            LEXEME_ELSEIF,
             LEXEME_END,
             LEXEME_FOR,
             LEXEME_IF,
@@ -183,6 +194,7 @@
             LEXEME_DOWNTO,
             LEXEME_STEP,
             LEXEME_RECORD,
+            LEXEME_UNION,
             LEXEME_REPEAT,
             LEXEME_WHILE,
             LEXEME_ADDR,
@@ -229,16 +241,19 @@
         return token;
     }
 
+    exports.makeToken = makeToken;
+
     exports.Tokenizer = class {
         constructor() {
             this.reset();
         }
 
         reset() {
-            this._lexeme  = '';
-            this._tokens  = [];
-            this._offset  = 0;
-            this._lineNum = 1;
+            this._lastNonWhiteSpaceToken = null;
+            this._lexeme                 =  '';
+            this._tokens                 = [];
+            this._offset                 = 0;
+            this._lineNum                = 1;
             return this;
         }
 
@@ -344,6 +359,9 @@
                 token.cls   = TOKEN_NUMBER;
                 token.value = parseFloat(lexeme);
             }
+            if (token.cls !== TOKEN_WHITE_SPACE) {
+                this._lastNonWhiteSpaceToken = token;
+            }
             this._lexeme = '';
             token.index  = this._tokens.length;
             this._tokens.push(token);
@@ -409,17 +427,43 @@
         removeTrailingSpaces(line) {
             let lines = line.split('\n');
             for (let i = 0; i < lines.length; i++) {
-                line = lines[i];
-                let j = line.length;
-                if ((j > 0) && (line.substr(j - 1, 1) === ' ')) {
-                    j--;
-                    while ((j > 0) && (line.substr(j, 1) === ' ')) {
-                        j--;
+                let line = lines[i];
+                if (line.trimEnd) {
+                    lines[i] = line.trimEnd();
+                } else {
+                    while (line.length && line[line.length - 1] === ' ') {
+                        line = line.substr(0, line.length - 1);
                     }
-                    lines[i] = line.substr(0, j);
+                    lines[i] = line;
                 }
             }
             return lines.join('\n');
+        }
+
+        parseTag(comment) {
+            if ((comment.length < 2) || (comment[0] !== '`')) {
+                return null;
+            }
+            let i = comment.indexOf('`');
+            comment = comment.substr(i + 1 - comment.length);
+            i       = comment.indexOf('`');
+            if (i === -1) {
+                return null;
+            }
+            comment = comment.substr(0, i);
+            i       = comment.indexOf(':');
+            if (i === -1) {
+                return null;
+            }
+            let tag  = comment.substr(0, i);
+            let data = comment.substr(i + 1 - comment.length);
+            if (TAGS.indexOf(tag) === -1) {
+                return null;
+            }
+            return {
+                name: tag,
+                data: data
+            };
         }
 
         tokenize(line) {
@@ -545,13 +589,20 @@
                         break;
                     case LEXEME_SEMICOLON:
                         this.addToken();
+                        let comment = '';
                         while (c !== null) {
                             c = this.readChar();
                             if (c === LEXEME_NEWLINE) {
+                                if (this._lastNonWhiteSpaceToken) {
+                                    this._lastNonWhiteSpaceToken.tag = this.parseTag(comment.trim());
+                                    this._lastNonWhiteSpaceToken     = null;
+                                }
                                 this.addToken(c);
                                 this._index--;
                                 this._lineNum++;
                                 break;
+                            } else {
+                                comment += c;
                             }
                         }
                         break;

@@ -1,0 +1,27 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Tabs example"
+
+#include "lib/standard.whl"
+#include "lib/components/component.whl"
+#include "lib/components/form.whl"
+#include "lib/components/tabs.whl"
+#include "lib/components/button.whl"
+#include "lib/components/label.whl"
+
+#define TABS_BUTTON 0x0CDEA28A
+#define TABS_LABEL  0x20043D38
+#define TABS_TABS   0xB7304559
+
+#resource "tabs.wfrm"
+
+; @proc                   Show the form.
+; @ret                    The handle to the form.
+proc showTabsForm()
+    ret components.form.show("tabs.wfrm")
+end
+
+proc main()
+    showTabsForm()
+    halt()
+end

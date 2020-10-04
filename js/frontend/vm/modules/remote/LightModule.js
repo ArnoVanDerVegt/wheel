@@ -9,11 +9,12 @@ exports.LightModule = class extends VMModule {
     run(commandId) {
         let vmData = this._vmData;
         let vm     = this._vm;
+        let device = this._device();
         switch (commandId) {
             case lightModuleConstants.LIGHT_UPDATE:
-                let light = vmData.getRecordFromAtOffset(['color', 'pattern']);
+                let light = vmData.getRecordFromSrcOffset(['layer', 'mode']);
                 this.emit('Light.Light', light);
-                this._brick.module(lightModuleConstants.MODULE_LIGHT, lightModuleConstants.LIGHT_UPDATE, light);
+                device.module(lightModuleConstants.MODULE_LIGHT, lightModuleConstants.LIGHT_UPDATE, light);
                 break;
         }
     }

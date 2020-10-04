@@ -1,0 +1,32 @@
+.include-files {
+    position:                       absolute;
+    -webkit-user-select:            none;
+    padding:                        0;
+    background-color:               var(--ui-background1);
+    border-radius:                  2px;
+    border:                         var(--ui-border1);
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+}
+.include-files .include-file {
+    height:                         32px;
+}
+.include-files .include-file .checkbox,
+.include-files .include-file .label {
+    float:                          left;
+}
+.include-files .include-file .checkbox {
+    margin:                         3px 8px 0 8px;
+}
+.include-files .include-file .label.file {
+    width:                          136px;
+}
+.include-files .include-file .label.description {
+    width:                          200px;
+    font-style:                     italic;
+    font-size:                      11px;
+    overflow:                       hidden;
+}
+.include-files .include-file .label {
+    line-height:                    31px;
+}

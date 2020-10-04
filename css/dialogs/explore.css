@@ -1,41 +1,6 @@
-.dialog-background.ev3-file-viewer-dialog .dialog-center .dialog-content {
-    margin:                         0 auto 0 auto;
-    margin-top:                     -320px;
-    width:                          800px;
-    height:                         640px;
-    background-color:               var(--ui-background2);
-    position:                       relative;
-    border-radius:                  2px;
-}
-.dialog-background.ev3-file-viewer-dialog .dialog-center .dialog-content .current-path {
-    position:                       absolute;
-    left:                           32px;
-    top:                            24px;
-    max-width:                      calc(100% - 128px);
-    height:                         64px;
-    line-height:                    64px;
-    overflow:                       hidden;
-    font-size:                      11px;
-}
-.dialog-background.ev3-file-viewer-dialog .dialog-center .dialog-content .current-file,
-.dialog-background.ev3-file-viewer-dialog .dialog-center .dialog-content .current-file-input {
-    position:                       absolute;
-    left:                           32px;
-    bottom:                         32px;
-    height:                         32px;
-    line-height:                    32px;
-}
-.dialog-background.ev3-file-viewer-dialog .dialog-center .dialog-content .current-file-input {
-    width:                          180px;
-    font-size:                      16px;
-    outline:                        none;
-    padding:                        0 0 0 8px;
-}
 .dialog-background.ev3-file-viewer-dialog .copy-to-ev3,
-.dialog-background.ev3-file-viewer-dialog .copy-to-local,
 .dialog-background.ev3-file-viewer-dialog .delete,
 .dialog-background.ev3-file-viewer-dialog .create-dir {
-    position:                       absolute;
     top:                            56px;
 }
 .dialog-background.ev3-file-viewer-dialog .create-dir {
@@ -47,8 +12,6 @@
     margin:                         8px 4px 0 0;
 }
 .dialog-background.ev3-file-viewer-dialog .files.left {
-    position:                       absolute;
-    left:                           32px;
     top:                            104px;
     width:                          calc(50% - 36px);
     height:                         calc(456px);
@@ -56,7 +19,6 @@
 .dialog-background.ev3-file-viewer-dialog .files.left.loading div,
 .dialog-background.ev3-file-viewer-dialog .files.right.loading div {
     pointer-events:                 none;
-    -webkit-user-select:            none;
 }
 .dialog-background.ev3-file-viewer-dialog .files.right.loading,
 .dialog-background.ev3-file-viewer-dialog .files.right.loading {
@@ -68,30 +30,16 @@
 .dialog-background.ev3-file-viewer-dialog .create-dir {
     right:                          112px;
 }
-.dialog-background.ev3-file-viewer-dialog .copy-to-local {
-    right:                          112px;
-}
-.dialog-background.ev3-file-viewer-dialog .tool-options {
-    position:                       absolute;
-    top:                            64px;
-}
 .dialog-background.ev3-file-viewer-dialog .tool-options.left-view {
     right:                          calc(50% + 8px);
 }
-.dialog-background.ev3-file-viewer-dialog .tool-options.right-view {
-    right:                          32px;
-}
 .dialog-background.ev3-file-viewer-dialog .left-label,
 .dialog-background.ev3-file-viewer-dialog .right-label {
-    position:                       absolute;
-    top:                            64px;
     line-height:                    24px;
     font-weight:                    bold;
-    -webkit-user-select:            none;
 }
 .dialog-background.ev3-file-viewer-dialog .left-path,
 .dialog-background.ev3-file-viewer-dialog .right-path {
-    position:                       absolute;
     top:                            86px;
     line-height:                    24px;
     width:                          calc(50% - 36px);
@@ -100,18 +48,12 @@
     overflow:                       hidden;
     white-space:                    nowrap;
     pointer-events:                 none;
-    -webkit-user-select:            none;
-}
-.dialog-background.ev3-file-viewer-dialog .left-label,
-.dialog-background.ev3-file-viewer-dialog .left-path {
-    left:                           32px;
 }
 .dialog-background.ev3-file-viewer-dialog .files.right {
     position:                       absolute;
-    left:                           calc(50% + 4px);
     top:                            104px;
     width:                          calc(50% - 36px);
-    height:                         calc(456px);
+    height:                         456px;
 }
 .dialog-background.ev3-file-viewer-dialog .right-label,
 .dialog-background.ev3-file-viewer-dialog .right-path {

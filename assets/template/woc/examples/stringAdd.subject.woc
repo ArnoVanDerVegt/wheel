@@ -1,0 +1,34 @@
+@subject Example:String, add
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section String add example
+This example demonstrates how to declare a string and add values to it.
+
+@section Code
+@example
+#project "String add example"
+
+#include "lib/standard.whl"
+
+proc main()
+    clearConsole()
+
+    ; Print "One" in the console:
+    string s
+    s = "One"
+    printS(s)
+
+    ; Print "One two" in the console:
+    s = s + " two"
+    printS(s)
+
+    ; Print "One two three" in the console:
+    s = s + " three"
+    printS(s)
+end
+@end
+
+@load Open add example|examples/string/add.whlp
+@load Open add example for EV3|examples/ev3/string/add.whlp
+
+@see string,standard,Modules

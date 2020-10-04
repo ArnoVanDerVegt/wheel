@@ -256,6 +256,9 @@ exports.VarExpression = class {
     compileAddFieldOffsetToReg(opts) {
         let token = opts.expression.tokens[opts.index];
         let field = opts.identifierType.findVar(token.lexeme);
+        if (!field) {
+            throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
+        }
         if (field.getOffset() !== 0) {
             this.addToReg(opts.reg, $.T_NUM_C, field.getOffset());
         }
@@ -267,7 +270,7 @@ exports.VarExpression = class {
     **/
     compileProcCall(opts, result) {
         let scope       = this._scope;
-        let iterator    = new Iterator(opts.expression.tokens);
+        let iterator    = new Iterator({tokens: opts.expression.tokens, compiler: this._compiler});
         let CompileCall = require('../compiler/CompileCall').CompileCall;
         iterator.skipWhiteSpace().next();
         new CompileCall({compiler: this._compiler, program: this._program, scope: scope}).compile(iterator, null, opts.identifier);

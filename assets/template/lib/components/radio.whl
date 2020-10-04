@@ -1,0 +1,91 @@
+; @module Component/Radio
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.radio
+
+; @const The form module.
+#define MODULE_COMPONENT_RADIO        68    ; `image:images/buttons/radioBlack.svg`
+
+; @const Module calls for the radio component functions.
+#define RADIO_COMPONENT_SET_HIDDEN     0
+#define RADIO_COMPONENT_SET_DISABLED   1
+#define RADIO_COMPONENT_SET_X          2
+#define RADIO_COMPONENT_SET_Y          3
+#define RADIO_COMPONENT_SET_VALUE      4
+#define RADIO_COMPONENT_GET_VALUE      5
+
+; @property name       string  The component name.
+; @property tabIndex   number  The tab index.
+; @property hidden     boolean Hide the component.
+; @property disabled   boolean Disable the component.
+; @property x          number  The left position of the component inside the parent component.
+; @property y          number  The top position of the component inside the parent component.
+; @property zIndex     number  The depth of the component related to other components in the parent.
+; @property items      list    A list of selectable items.
+; @property value      number  The selected item.
+; @property horizontal boolean Display the items on a single line or underneath each other.
+
+; @event onChange            Called when an other item is selected.
+; @param windowHandle number The handle of the parent window of the radio.
+; @param value        number Index of the selected item, the index of the first item is 0, the second is 1, etc..
+
+; @event onFocus             Called when the radio is focussed.
+; @param windowHandle number The handle of the parent window of the radio.
+
+; @event onBlur              Called when the radio looses focus.
+; @param windowHandle number The handle of the parent window of the radio.
+
+; @proc                   Hide the radio component.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RADIO, RADIO_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Disable the radio component.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param disabled         Disabled `TRUE` or `FALSE`.
+proc setDisabled(number windowHandle, number componentHandle, number disabled)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RADIO, RADIO_COMPONENT_SET_DISABLED
+end
+
+; @proc                   Set the x position of the radio component.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RADIO, RADIO_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the radio component.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RADIO, RADIO_COMPONENT_SET_Y
+end
+
+; @proc                   Set the value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param value            The active item.
+proc setValue(number windowHandle, number componentHandle, number value)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RADIO, RADIO_COMPONENT_SET_VALUE
+end
+
+; @proc                   Get the value.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @return                 The value.
+proc getValue(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_RADIO, RADIO_COMPONENT_GET_VALUE
+end

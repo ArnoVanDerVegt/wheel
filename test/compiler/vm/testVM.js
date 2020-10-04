@@ -9,10 +9,10 @@ const assert      = require('assert');
 
 describe(
     'Test VM',
-    function() {
+    () => {
         describe(
             'Test Log',
-            function() {
+            () => {
                 testLogs(
                     it,
                     'Should log number',
@@ -30,7 +30,7 @@ describe(
                 );
                 it(
                     'Should assert getters',
-                    function() {
+                    () => {
                         let source = [
                                 'number n',
                                 'proc main()',
@@ -44,8 +44,7 @@ describe(
                             assert.equal(opts.message, 22);
                         });
                         info.vm.setCommands(info.commands);
-                        assert.equal(info.vm.getModules().length, 12);
-                        assert.equal(info.vm.getBreakpoint(),     false);
+                        assert.equal(info.vm.getBreakpoint(), false);
                     }
                 );
                 it(
@@ -61,9 +60,9 @@ describe(
                         dispatcher.on('Console.Log', this, function(opts) {
                             assert.equal(opts.message, 22);
                         });
-                        info.vm.setCommands(info.commands).startRunInterval(function() {});
+                        info.vm.setCommands(info.commands).startRunInterval(() => {});
                         setTimeout(
-                            function() {
+                            () => {
                                 assert.equal(info.vm.running(), true);
                                 info.vm.stop();
                                 assert.equal(info.vm.running(), false);
@@ -84,9 +83,9 @@ describe(
                             ];
                         let info   = testCompile(source);
                         let called = false;
-                        info.vm.setCommands(info.commands).startRunInterval(function() { called = true; });
+                        info.vm.setCommands(info.commands).startRunInterval(() => { called = true; });
                         setTimeout(
-                            function() {
+                            () => {
                                 assert.equal(called, true);
                                 done();
                             },
@@ -104,10 +103,10 @@ describe(
                                 'end'
                             ];
                         let info = testCompile(source);
-                        info.vm.setCommands(info.commands).startRunInterval(function() {});
+                        info.vm.setCommands(info.commands).startRunInterval(() => {});
                         info.vm.sleep(5);
                         setTimeout(
-                            function() {
+                            () => {
                                 info.vm.stop();
                                 assert.equal(info.vm.running(), false);
                                 done();
@@ -129,9 +128,9 @@ describe(
                                 'end'
                             ];
                         let info = testCompile(source);
-                        info.vm.setCommands(info.commands).startRunInterval(function() {});
+                        info.vm.setCommands(info.commands).startRunInterval(() => {});
                         setTimeout(
-                            function() {
+                            () => {
                                 assert.equal(info.vm.sleeping(), true);
                                 info.vm.stop();
                                 assert.equal(info.vm.running(), false);
@@ -162,9 +161,9 @@ describe(
                             info.vm.continueAfterBreakpoint(breakpoint);
                         });
                         info.commands[1].setBreakpoint({test: true});
-                        info.vm.setCommands(info.commands).startRunInterval(function() {});
+                        info.vm.setCommands(info.commands).startRunInterval(() => {});
                         setTimeout(
-                            function() {
+                            () => {
                                 info.vm.stop();
                                 assert.equal(info.vm.running(), false);
                                 done();
@@ -184,9 +183,9 @@ describe(
                                 'end'
                             ];
                         let info = testCompile(source);
-                        info.vm.setCommands(info.commands).startRunInterval(function() {});
+                        info.vm.setCommands(info.commands).startRunInterval(() => {});
                         setTimeout(
-                            function() {
+                            () => {
                                 info.vm.continueAfterBreakpoint(false);
                                 info.vm.stop();
                                 assert.equal(info.vm.running(), false);
@@ -198,9 +197,9 @@ describe(
                 );
                 it(
                     'Should throw unknown module',
-                    function() {
+                    () => {
                         assert.throws(
-                            function() {
+                            () => {
                                 let source = [
                                         'number n',
                                         'proc main()',
@@ -218,7 +217,7 @@ describe(
                 );
                 it(
                     'Should stop vm',
-                    function() {
+                    () => {
                         let source = [
                                 'proc main()',
                                 '    repeat',
@@ -227,14 +226,14 @@ describe(
                                 'end'
                             ];
                         let info = testCompile(source);
-                        info.vm.setCommands(info.commands).startRunInterval(function() {});
+                        info.vm.setCommands(info.commands).startRunInterval(() => {});
                         assert.equal(info.vm.running(), true);
                         info.vm.stop();
                     }
                 );
                 it(
                     'Should stop program',
-                    function() {
+                    () => {
                         let source = [
                                 'proc main()',
                                 '    repeat',
@@ -243,7 +242,7 @@ describe(
                                 'end'
                             ];
                         let info = testCompile(source);
-                        info.vm.setCommands(info.commands).startRunInterval(function() {});
+                        info.vm.setCommands(info.commands).startRunInterval(() => {});
                         assert.equal(info.vm.running(), true);
                         info.vm.stop();
                     }

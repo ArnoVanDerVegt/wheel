@@ -1,0 +1,36 @@
+@subject Example:Math, abs/neg
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Math abs, neg example
+This gets a random value between -5 and +5 and prints the value, the absolute and negative value in the console.
+
+@section Code
+@example
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Math abs/neg example"
+
+#include "lib/standard.whl"
+#include "lib/math.whl"
+
+proc main()
+    clearConsole()
+
+    ; Get a random value between -5 and +5:
+    number n = random(1, 99) / 10 - 5
+    printS("Number:")
+    printN(n)
+
+    ; Print the absolute value in the console:
+    printS("Abs:")
+    printN(abs(n))
+
+    ; Print the negative number in the console:
+    printS("Neg:")
+    printN(neg(n))
+end
+@end
+
+@load Open file read example|examples/math/absNeg.whlp
+
+@see math,abs,neg,Modules

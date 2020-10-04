@@ -14,40 +14,61 @@
     background:                     rgba(0, 0, 0, 0.5);
 }
 .dialog-background .dialog-center {
-    position:                       absolute;
     left:                           0;
     right:                          0;
     top:                            50%;
-    width:                          100%;
     height:                         50%;
 }
 .dialog-background .dialog-center .dialog-content {
-    overflow:                       hidden;
+    margin:                         0 auto 0 auto;
     transform:                      scale(0.5, 0.25);
     opacity:                        0;
     transition:                     transform 0.2s, opacity 0.2s;
+    box-shadow:                     8px 8px 6px rgba(0, 0, 0, 0.25), 2px 2px 3px rgba(0, 0, 0, 0.5), -2px -2px 3px rgba(0, 0, 0, 0.5), -8px -8px 6px rgba(0, 0, 0, 0.25);
+    background-color:               var(--ui-background2);
+    position:                       relative;
+    border-radius:                  2px;
 }
 .dialog-background.show .dialog-center .dialog-content {
     transform:                      scale(1, 1);
     opacity:                        1;
 }
-.dialog-background .dialog-center .dialog-content .dialog-content-image {
-    position:                       absolute;
+.dialog-background .dialog-center .dialog-content .dialog-content-image-wrapper {
+    left:                           0;
+    top:                            0;
+    overflow:                       hidden;
+    pointer-events:                 none;
+}
+
+@-moz-keyframes backgroundSpin {
+    100% {
+        -moz-transform:             rotate(360deg);
+    }
+}
+@-webkit-keyframes backgroundSpin {
+    100% {
+        -webkit-transform:          rotate(360deg);
+    }
+}
+@keyframes backgroundSpin {
+    100% {
+        -webkit-transform:          rotate(360deg); transform: rotate(360deg);
+    }
+}
+.dialog-background .dialog-center .dialog-content .dialog-content-image-wrapper .dialog-content-image {
     right:                          -192px;
     bottom:                         -256px;
     -webkit-user-select:            none;
+    -webkit-animation:              backgroundSpin 180s linear infinite;
+    -moz-animation:                 backgroundSpin 180s linear infinite;
+    animation:                      backgroundSpin 180s linear infinite;
 }
 .dialog-background .dialog-center .dialog-content .buttons {
-    position:                       absolute;
     left:                           0;
     bottom:                         0;
-    width:                          100%;
     height:                         80px;
     padding:                        16px 32px 0 32px;
     -webkit-user-select:            none;
-}
-.dialog-background .dialog-center .dialog-content .buttons .dont-show-again {
-    float:                          right;
 }
 .dialog-background .dialog-center .dialog-content .buttons .dont-show-again a.checkbox,
 .dialog-background .dialog-center .dialog-content .buttons .dont-show-again span.dont-show-label {
@@ -66,23 +87,21 @@
     height:                         32px;
     text-align:                     center;
     line-height:                    28px;
+    font-size:                      17px;
 }
 .dialog-background .dialog-center .dialog-content .dialog-title {
-    float:                          left;
-    position:                       relative;
     left:                           0;
     top:                            0;
-    width:                          100%;
     height:                         64px;
     line-height:                    64px;
     padding:                        0 0 0 32px;
     margin:                         0;
     font-family:                    latolight;
     -webkit-user-select:            none;
+    cursor:                         move;
 }
 .dialog-background .dialog-center .dialog-content .dialog-close,
 .dialog-background .dialog-center .dialog-content .dialog-help {
-    position:                       absolute;
     width:                          32px;
     height:                         32px;
     right:                          32px;
@@ -109,4 +128,57 @@
     border:                         var(--ui-border1);
     transition:                     opacity 0.3s;
     opacity:                        1;
+}
+.dialog-background .dialog-center .dialog-content input[type="text"],
+.dialog-background .dialog-center .dialog-content .input-row .input-label {
+    height:                         32px;
+    font-size:                      16px;
+    line-height:                    32px;
+}
+.dialog-background .dialog-center .dialog-content input[type="text"] {
+    float:                          left;
+    padding:                        0 0 0 8px;
+}
+.dialog-background .dialog-center .dialog-content input[type="text"].invalid {
+    border:                         var(--text-input-invalid-border);
+}
+.dialog-background .dialog-center .dialog-content .text-row {
+    height:                         32px;
+    line-height:                    28px;
+    margin:                         0 0 0 32px;
+}
+.dialog-background .dialog-center .dialog-content .input-row {
+    padding:                        0 0 8px 0;
+}
+.dialog-background .dialog-center .dialog-content .input-row.lt {
+    padding-left:                   32px;
+}
+.dialog-background .dialog-center .dialog-content .input-row a.checkbox {
+    float:                          left;
+    width:                          22px;
+    height:                         22px;
+    margin:                         6px 0 0 0;
+}
+.dialog-background .dialog-center .dialog-content .input-row .input-label {
+    width:                          128px;
+    text-align:                     right;
+    padding:                        0 8px 0 0;
+}
+.dialog-background .dialog-center .dialog-content .input-row input[type="button"].gray {
+    height:                         32px;
+    padding:                        0 8px 0 8px;
+    margin:                         0 0 0 32px;
+}
+.dialog-background .dialog-center .dialog-content .input-row.number input[type="text"] {
+    width:                          80px;
+}
+.dialog-background .dialog-center .dialog-content .input-row.filename input[type="text"] {
+    width:                          180px;
+}
+.dialog-background .dialog-center .dialog-content .input-row.description input[type="text"] {
+    width:                          408px;
+}
+.dialog-background .dialog-center .dialog-content .checkbox-list-row a.checkbox {
+    float:                          left;
+    margin:                         0 8px 0 128px;
 }

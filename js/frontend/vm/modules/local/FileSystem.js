@@ -20,18 +20,19 @@ const createJSONCallback = function(callback) {
 
 exports.FileSystem = class {
     constructor(opts) {
-        this._vm    = opts.vm;
-        this._files = [];
+        this._getDataProvider = opts.getDataProvider || getDataProvider;
+        this._vm              = opts.vm;
+        this._files           = [];
     }
 
     exists(filename, callback) {
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
-        getDataProvider().getData(
-            'post',
+        this._getDataProvider().getData(
+            'get',
             'ide/path-exists',
             {path: path.join(outputPath, this.getValidatedFilename(filename))},
-            createJSONCallback(function(data) {
+            createJSONCallback((data) => {
                 callback(data.exists ? 1 : 0);
                 vm.sleep(0);
             })
@@ -56,11 +57,11 @@ exports.FileSystem = class {
         if (mode === MODE_READ) {
             let outputPath = this._vm.getOutputPath();
             let vm         = this._vm.sleep(10000);
-            getDataProvider().getData(
-                'post',
+            this._getDataProvider().getData(
+                'get',
                 'ide/file',
                 {filename: path.join(outputPath, this.getValidatedFilename(filename))},
-                createJSONCallback(function(data) {
+                createJSONCallback((data) => {
                     if ('data' in data) {
                         file.lines = data.data.split('\r');
                     }
@@ -72,29 +73,31 @@ exports.FileSystem = class {
         return files.length - 1;
     }
 
-    writeString(handle, s) {
+    writeString(handle, s, callback) {
         let file = this.getOpenFile(handle, MODE_WRITE);
         if (!file) {
             return this;
         }
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
-        getDataProvider().getData(
+        this._getDataProvider().getData(
             'post',
             'ide/file-append',
             {
                 filename: path.join(outputPath, this.getValidatedFilename(file.filename)),
                 data:     s + '\r'
             },
-            createJSONCallback(function(data) {
+            createJSONCallback((data) => {
+                data.handle = handle;
+                callback && callback(data);
                 vm.sleep(0);
             })
         );
         return this;
     }
 
-    writeNumber(handle, n) {
-        return this.writeString(handle, n);
+    writeNumber(handle, n, callback) {
+        return this.writeString(handle, n, callback);
     }
 
     readString(handle) {
@@ -122,14 +125,15 @@ exports.FileSystem = class {
         return this;
     }
 
-    remove(filename) {
+    remove(filename, callback) {
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
-        getDataProvider().getData(
+        this._getDataProvider().getData(
             'post',
             'ide/file-delete',
             {filename: path.join(outputPath, this.getValidatedFilename(filename))},
-            createJSONCallback(function(data) {
+            createJSONCallback((data) => {
+                callback && callback(data);
                 vm.sleep(0);
             })
         );
@@ -157,11 +161,11 @@ exports.FileSystem = class {
     fileSize(filename, callback) {
         let outputPath = this._vm.getOutputPath();
         let vm         = this._vm.sleep(10000);
-        getDataProvider().getData(
+        this._getDataProvider().getData(
             'post',
             'ide/file-size',
             {filename: path.join(outputPath, this.getValidatedFilename(filename))},
-            createJSONCallback(function(data) {
+            createJSONCallback((data) => {
                 callback(data.success ? data.size : 0);
                 vm.sleep(0);
             })

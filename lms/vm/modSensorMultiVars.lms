@@ -1,0 +1,7 @@
+HANDLE gMSData1_H
+HANDLE gMSData2_H
+HANDLE gMSData3_H
+HANDLE gMSData4_H
+DATA8  gMSThreadStarted_8
+DATA32 gMSWriteOffset_32
+HANDLE gMSWriteOffset_H

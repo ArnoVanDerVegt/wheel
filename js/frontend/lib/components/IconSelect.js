@@ -8,11 +8,13 @@ exports.IconSelect = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._open         = false;
-        this._disabled     = false;
+        this._disabled     = ('disabled' in opts) ? opts.disabled : false;
         this._focus        = false;
         this._options      = opts.options;
         this._value        = ('value' in opts) ? opts.value : this._options[0].value;
         this._onChange     = opts.onChange;
+        this._onFocus      = opts.onFocus;
+        this._onBlur       = opts.onBlur;
         this._tabIndex     = opts.tabIndex;
         this._ui           = opts.ui;
         this._onGlobalUIId = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
@@ -21,6 +23,7 @@ exports.IconSelect = class extends DOMNode {
     }
 
     remove() {
+        super.remove();
         this._onGlobalUIId();
     }
 
@@ -60,12 +63,14 @@ exports.IconSelect = class extends DOMNode {
     onFocus() {
         this._focus             = true;
         this._element.className = this.getClassName();
+        this._onFocus && this._onFocus();
     }
 
     onBlur() {
         this._focus             = false;
         this._open              = false;
         this._element.className = this.getClassName();
+        this._onBlur && this._onBlur();
     }
 
     onClick(event) {
@@ -76,6 +81,7 @@ exports.IconSelect = class extends DOMNode {
         this._open              = !this._open;
         this._focus             = true;
         this._element.className = this.getClassName();
+        this.updateListPosition();
     }
 
     onClickOption(index) {
@@ -86,6 +92,27 @@ exports.IconSelect = class extends DOMNode {
         this._value               = option.value;
         this._selectedElement.src = option.icon;
         this._onChange && this._onChange(this._value);
+    }
+
+    updateListPosition() {
+        if (!this._open) {
+            return;
+        }
+        let element = this._element;
+        let offsetY = element.offsetTop;
+        let parent  = element.offsetParent;
+        while (parent) {
+            offsetY += parent.offsetTop;
+            parent = parent.offsetParent;
+            if (parent) {
+                offsetY += (parent.scrollTop || 0);
+            }
+        }
+        if (offsetY < window.innerHeight / 2) {
+            this._optionsElement.style.top = '26px';
+        } else {
+            this._optionsElement.style.top = '-' + (this._options.length * 18 + 1) + 'px';
+        }
     }
 
     getValue() {
@@ -145,7 +172,6 @@ exports.IconSelect = class extends DOMNode {
 
     setOptionsElement(element) {
         let height = this._options.length * 18 + 1;
-
         this._optionsElement              = element;
         this._optionsElement.style.top    = '-' + height + 'px';
         this._optionsElement.style.height = height + 'px';
@@ -159,9 +185,9 @@ exports.IconSelect = class extends DOMNode {
                     className: 'option',
                     children: [
                         {
-                            id: (function(element) {
+                            id: (element) => {
                                 element.addEventListener('click', this.onClickOption.bind(this, index));
-                            }).bind(this),
+                            },
                             type: 'img',
                             src:  option.icon
                         }
@@ -171,5 +197,9 @@ exports.IconSelect = class extends DOMNode {
             this
         );
         return elements;
+    }
+
+    focus() {
+        this._element.focus();
     }
 };

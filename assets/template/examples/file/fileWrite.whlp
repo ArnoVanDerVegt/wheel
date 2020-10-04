@@ -2,6 +2,8 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "File write example"
 
+; When you run this example then a file named `furniture.rtf` will be written in the `examples/file/output`.
+
 #include "lib/standard.whl"
 #include "lib/file.whl"
 

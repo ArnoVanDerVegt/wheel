@@ -7,7 +7,8 @@ const DOMNode = require('../../dom').DOMNode;
 exports.Img = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._src = opts.src;
+        this._src       = opts.src;
+        this._className = opts.className || '';
         this.initDOM(opts.parentNode);
     }
 
@@ -15,9 +16,10 @@ exports.Img = class extends DOMNode {
         this.create(
             parentNode,
             {
-                ref:  this.setRef('image'),
-                type: 'img',
-                src:  this._src || ''
+                ref:       this.setRef('image'),
+                type:      'img',
+                src:       this._src || '',
+                className: this._className
             }
         );
     }

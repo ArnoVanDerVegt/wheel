@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform   = require('../../platform');
 const dispatcher = require('../../dispatcher').dispatcher;
 const Item       = require('./Item').Item;
 
@@ -31,14 +32,14 @@ exports.Directory = class extends Item {
                                 id:        this.setNameElement.bind(this),
                                 type:      'a',
                                 href:      '#',
-                                className: 'name',
+                                className: 'abs name',
                                 innerHTML: this._file.name
                             }
                         ]
                     },
                     {
                         id:        this.setChildElements.bind(this),
-                        className: 'directory-content',
+                        className: 'flt max-w directory-content',
                         style: {
                             display: this._open ? 'block' : 'none'
                         }
@@ -66,10 +67,6 @@ exports.Directory = class extends Item {
     }
 
     setSelected(selected) {
-        if (selected === this._selected) {
-            this.setOpen(!this._open);
-            this._fileTree.setFullPathOpen(this._fullPath, this._open);
-        }
         this._selected              = selected;
         this._nameElement.className = this.getNameClassName();
     }
@@ -111,7 +108,7 @@ exports.Directory = class extends Item {
         this.onCancelEvent(event);
         this._nameElement.focus();
         let menuItems = this._contextMenu.getMenuItems();
-        if ('electron' in window) {
+        if (platform.isElectron()) {
             menuItems[0].setDisabled(false); // New file
             menuItems[1].setDisabled(false); // New image
             menuItems[2].setDisabled(false); // New project
