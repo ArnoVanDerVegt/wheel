@@ -7,7 +7,7 @@ const ExportSettings = require('../components/ExportSettings').ExportSettings;
 exports.tab = (settingsDialog, opts) => {
     return {
         ref:       settingsDialog.setRef('tabExport'),
-        className: 'abs max-x tab-panel ui1-box vscroll tab-export',
+        className: 'abs max-w tab-panel ui1-box vscroll tab-export',
         children: [
             {
                 type:     ExportSettings,
