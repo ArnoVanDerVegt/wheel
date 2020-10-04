@@ -23,7 +23,10 @@
   <img src="images/screenshot03.png"/>
 </p>
 
-Try the [Online demo](http://arnovandervegt.github.io/wheel/site/ide/ide.html).
+<p align="center">
+  Try the <a href="http://arnovandervegt.github.io/wheel/site/ide/ide.html">Online demo</a> or 
+  <a href="https://arnovandervegt.github.io/wheel/site/docs/index.html">View the documentation</a>.
+</p>
 
 ## IDE Features
 
