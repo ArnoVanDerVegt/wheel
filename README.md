@@ -39,7 +39,7 @@ It can display sensor information, motor speeds, motor position.
 
 ### IDE Features
 
-- Highlight source code editor
+- Highlighted source code editor
 - Code completion and code hints
 - Breakpoints, a debugger, variable inspector
 - EV3 Image and sound editor
