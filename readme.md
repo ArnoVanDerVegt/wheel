@@ -20,12 +20,12 @@
 </h4>
 
 <p align="center">
-  <img src="images/screenshot03.png"/>
+  <a href="http://arnovandervegt.github.io/wheel/site/ide/ide.html">Try the Online demo</a> • 
+  <a href="https://arnovandervegt.github.io/wheel/site/docs/index.html">View the documentation</a>.
 </p>
 
 <p align="center">
-  Try the <a href="http://arnovandervegt.github.io/wheel/site/ide/ide.html">Online demo</a> or 
-  <a href="https://arnovandervegt.github.io/wheel/site/docs/index.html">View the documentation</a>.
+  <img src="https://arnovandervegt.github.io/wheel/images/screenshot03.png"/>
 </p>
 
 ## IDE Features
