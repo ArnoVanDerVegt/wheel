@@ -333,6 +333,27 @@
             callback({success: true});
         },
 
+        pathExists(params, callback) {
+            let exists     = false;
+            let path       = params.path;
+            let files      = getRequireDependency('./js/frontend/ide/data/templates').files;
+            let localFiles = getLocalStorageFiles().getFiles();
+            if ((path in files) || (path in localFiles)) {
+                exists = true;
+            } else {
+                let f = [files, localFiles];
+                for (let i = 0; (i < f.length) && !exists; i++) {
+                    for (let j in f[i]) {
+                        if (j.indexOf(path) === 0) {
+                            exists = true;
+                        }
+                        break;
+                    }
+                }
+            }
+            callback(JSON.stringify({success: true, exists: exists}));
+        },
+
         directoryCreate(params, callback) {
             callback({success: getLocalStorageFiles().createDirectory(params.directory)});
             changes.push({eventType: 'change', path: params.directory});

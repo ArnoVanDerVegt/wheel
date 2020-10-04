@@ -33,6 +33,7 @@ const routes = {
         'ide/settings-save':                ideRoutes.settingsSave.bind(ideRoutes),
         'ide/changes':                      ideRoutes.changes.bind(ideRoutes),
         'ide/path-create':                  ideRoutes.pathCreate.bind(ideRoutes),
+        'ide/path-exists':                  ideRoutes.pathExists.bind(ideRoutes),
         'ide/directory-create':             ideRoutes.directoryCreate.bind(ideRoutes),
         'ide/directory-delete':             ideRoutes.directoryDelete.bind(ideRoutes),
         // Powered Up...

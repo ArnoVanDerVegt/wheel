@@ -404,7 +404,7 @@ body.no-quick-view-menu .resource-options.main-menu {
 .resource-options.main-menu .icon-button.icon-tag:focus,
 .resource-options.main-menu .icon-button.icon-folder:focus,
 .resource-options.main-menu .icon-button.icon-simulator:focus {
-    background-color:               transparent;
+    background-color:               rgba(255, 255, 255, 0.2);
 }
 
 .icon-button.icon-copy,

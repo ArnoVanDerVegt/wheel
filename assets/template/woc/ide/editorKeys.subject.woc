@@ -1,0 +1,37 @@
+@subject IDE:Editor keys
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Editor keys
+The `Wheel` IDE has the following hot keys:
+
++-------------------+-------------------+--------------------------------------------+
+| Mac               | Windows           | Function                                   |
++-------------------+-------------------+--------------------------------------------+
+| Cmd + C           | Ctrl + C          | Copy.                                      |
+| Cmd + V           | Ctrl + V          | Paste.                                     |
+| Cmd + Z           | Ctrl + Z          | Undo.                                      |
+|                   |                   |                                            |
+| Cmd + F           | Ctrl + F          | Find.                                      |
+| Cmd + G           | Ctrl + G          | Find next.                                 |
+|                   |                   |                                            |
+| Cmd + I           | Ctrl + I          | New image file.                            |
+| Cmd + R           | Ctrl + R          | Resize image.                              |
+|                   |                   |                                            |
+| Cmd + L           | Ctrl + L          | Open EV3 file viewer.                      |
+|                   |                   |                                            |
+| Cmd + B           | Ctrl + B          | Show console panel.                        |
+| Cmd + D           | Ctrl + D          | Show files panel.                          |
+|                   |                   |                                            |
+| Cmd + E           | Ctrl + E          | Compile and run.                           |
+|                   |                   |                                            |
+| Cmd + N           | Ctrl + N          | New file.                                  |
+| Cmd + O           | Ctrl + O          | Open file.                                 |
+| Cmd + P           | Ctrl + P          | New project file.                          |
+| Cmd + S           | Ctrl + S          | Save active file.                          |
+| Cmd + X           | Ctrl + X          | Close file.                                |
+|                   |                   |                                            |
+| Cmd + Q           | Ctrl + Q          | Close application, only for electron app.  |
+|                   |                   |                                            |
+| Ctrl + Enter      | Ctrl + Enter      | Open file at cursor.                       |
+| Ctrl + left mouse | Ctrl + left mouse | Jump to declaration.                       |
++-------------------+-------------------+--------------------------------------------+
