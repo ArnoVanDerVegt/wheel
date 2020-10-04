@@ -101,7 +101,7 @@ exports.MainMenu = class extends MainMenu {
                     {
                         type:      Button,
                         ui:        this._ui,
-                        uiId:      this._uiId,
+                        uiId:      1,
                         tabIndex:  tabIndex.QUICK_VIEW_MENU,
                         className: 'toolbar-button',
                         color:     ' ',
@@ -112,7 +112,7 @@ exports.MainMenu = class extends MainMenu {
                     {
                         type:      Button,
                         ui:        this._ui,
-                        uiId:      this._uiId,
+                        uiId:      1,
                         tabIndex:  tabIndex.QUICK_VIEW_MENU + 1,
                         className: 'toolbar-button',
                         color:     ' ',
@@ -123,7 +123,7 @@ exports.MainMenu = class extends MainMenu {
                     {
                         type:      Button,
                         ui:        this._ui,
-                        uiId:      this._uiId,
+                        uiId:      1,
                         tabIndex:  tabIndex.QUICK_VIEW_MENU + 2,
                         className: 'toolbar-button',
                         color:     ' ',
@@ -134,7 +134,7 @@ exports.MainMenu = class extends MainMenu {
                     {
                         type:      Button,
                         ui:        this._ui,
-                        uiId:      this._uiId,
+                        uiId:      1,
                         tabIndex:  tabIndex.QUICK_VIEW_MENU + 3,
                         className: 'toolbar-button',
                         color:     ' ',
