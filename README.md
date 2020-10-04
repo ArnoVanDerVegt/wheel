@@ -29,28 +29,32 @@
   <img src="https://arnovandervegt.github.io/wheel/images/screenshot03.png"/>
 </p>
 
-## IDE Features
+## About
+
+Wheel is an IDE which allows you to program EV3 and Powered Up robots in a text based language.
+The IDE provides several tools to test your robots and debug your programs.
+
+A simulator allows you to view the state of your EV3 or Powered Up devices. 
+It can display sensor information, motor speeds, motor position.
+
+### IDE Features
 
 - Highlight source code editor
-- Code completion
-- Code hints
-- Breakpoints
-- Debugger, variable inspector
-- Image editor
-- Sound editor
-- Direct motor control
+- Code completion and code hints
+- Breakpoints, a debugger, variable inspector
+- EV3 Image and sound editor
 - Works with standard EV3 firmware!
 - EV3 File browser
-- Help files
 
-## Language features
+### Language features
 
+- A simple syntax
 - Text based language
-- Procedural
+- Procedural programming
 - Number, struct, string and pointer types
 - Include files
 
-## Simulator features
+### Simulator features
 
 - Direct motor control
 - EV3 Display
@@ -58,23 +62,35 @@
 - View sensor status
 - Simulate sensor input
 - Read button input
-- Connect to brick
-- Connect to Powered Up
-- Supports daisy chaining
+- Connect to an EV3 or to Powered Up
+- Supports daisy chaining or multiple Powered Up devices
 
-## NodeJS
+### Installation
 
-The NodeJS version can be started with the following command: `$ node server.js`.
-The NodeJS version only supports PoweredUp.
+The best way to run the latest version of Wheel is to use the electron version.
+To run this version you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
-## Electron
+```bash
+# Clone this repository
+$ git clone https://github.com/ArnoVanDerVegt/wheel.git
 
-The electron version can be started with the command: `npm start`.
+# Go into the repository
+$ cd wheel
 
-## Tools
+# Install dependencies
+$ npm install
+```
 
-The tools to pack all files can be found in the `tools` directory:
+#### Electron
 
-- Update images: `$ node images.js`
-- Update template files: `$ node template.js`
-- Pack and minifiy the js and css files: `$ node template.js`
+The electron version can be started with the command:
+```bash
+$ node server.js
+```
+
+#### NodeJS
+
+The NodeJS version only supports PoweredUp and can be started with the following command: 
+```bash
+$ node server.js
+```
