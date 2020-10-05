@@ -66,7 +66,7 @@ require('./js/shared/device/poweredup/PoweredUp');
 require('./js/backend/routes/settings');
 require('./js/backend/routes/ev3');
 require('./js/backend/routes/ide');
-require('./js/frontend/ev3/Downloader');
+require('./js/frontend/program/Downloader');
 const dispatcher = require('./js/frontend/lib/dispatcher').dispatcher;
 require('./js/frontend/lib/platform');
 require('./js/frontend/lib/Emitter');
