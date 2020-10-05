@@ -85,7 +85,7 @@ $ npm install
 
 The electron version can be started with the command:
 ```bash
-$ node server.js
+$ npm start
 ```
 
 #### NodeJS
