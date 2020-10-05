@@ -22,7 +22,8 @@
 
 <p align="center">
   <a href="http://arnovandervegt.github.io/wheel/site/ide/ide.html">Try the Online demo</a> •
-  <a href="https://arnovandervegt.github.io/wheel/site/docs/index.html">View the documentation</a>
+  <a href="https://arnovandervegt.github.io/wheel/site/docs/index.html">View the documentation</a> •
+  <a href="https://github.com/ArnoVanDerVegt/wheel/wiki">About Wheel</a>
 </p>
 
 <p align="center">
@@ -39,7 +40,7 @@ It can display sensor information, motor speeds, motor position.
 
 ### IDE Features
 
-- Highlight source code editor
+- Highlighted source code editor
 - Code completion and code hints
 - Breakpoints, a debugger, variable inspector
 - EV3 Image and sound editor
@@ -85,7 +86,7 @@ $ npm install
 
 The electron version can be started with the command:
 ```bash
-$ node server.js
+$ npm start
 ```
 
 #### NodeJS
