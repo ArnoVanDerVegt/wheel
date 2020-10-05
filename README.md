@@ -22,7 +22,8 @@
 
 <p align="center">
   <a href="http://arnovandervegt.github.io/wheel/site/ide/ide.html">Try the Online demo</a> •
-  <a href="https://arnovandervegt.github.io/wheel/site/docs/index.html">View the documentation</a>
+  <a href="https://arnovandervegt.github.io/wheel/site/docs/index.html">View the documentation</a> •
+  <a href="https://github.com/ArnoVanDerVegt/wheel/wiki">About Wheel</a>
 </p>
 
 <p align="center">
