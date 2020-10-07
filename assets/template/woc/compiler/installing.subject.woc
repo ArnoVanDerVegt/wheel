@@ -31,6 +31,6 @@ code. This code has to be pasted in a file named `program.rtf`.
 
 
 The `program.rtf` file and de `vm.rbf` have to be uploaded to your EV3 device and be placed in the same directory.
-The `vm.rbf` file can be found on github at: `https://github.com/ArnoVanDerVegt/wheel/tree/master/assets/template/vm`.
+The `vm.rbf` file can be found on github at: `https://github.com/ArnoVanDerVegt/wheel/tree/main/assets/template/vm`.
 
 @see connecting
