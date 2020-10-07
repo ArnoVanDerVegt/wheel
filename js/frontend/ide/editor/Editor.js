@@ -9,9 +9,8 @@ const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataPr
 const getImage        = require('../data/images').getImage;
 const Editors         = require('./Editors').Editors;
 
-exports.Editor = class extends DOMUtils {
+exports.Editor = class {
     constructor(opts) {
-        super(opts);
         (typeof opts.id === 'function') && opts.id(this);
         this._ui                           = opts.ui;
         this._settings                     = opts.settings;

@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const Button   = require('../../../../lib/components/Button').Button;
 const platform = require('../../../../lib/platform');
 const getImage = require('../../../data/images').getImage;
 const Updater  = require('../components/Updater').Updater;
@@ -42,7 +43,24 @@ exports.tab = (settingsDialog, opts) => {
                     uiId:     opts.uiId,
                     settings: opts.settings
                 } :
-                null
+                null,
+            {
+                className: 'flt max-w version',
+                children: [
+                    {
+                        type:     Button,
+                        color:    'blue',
+                        ui:       opts.ui,
+                        uiId:     opts.uiId,
+                        tabIndex: 10,
+                        value:    'Open JavaScript console',
+                        onClick:  () => {
+                            let ipcRenderer = require('electron').ipcRenderer;
+                            ipcRenderer.send('postMessage', {command: 'console'});
+                        }
+                    }
+                ]
+            }
         ]
     };
 };
