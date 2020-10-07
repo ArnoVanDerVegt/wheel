@@ -22,7 +22,7 @@ exports.NewVersion = class extends DOMNode {
             dispatcher.dispatch('Settings.Set.LastVersionCheckDate', today);
             let url = 'http://127.0.0.1:3000/newVersion.json';
             if (isPackaged) {
-                url = 'https://raw.githubusercontent.com/ArnoVanDerVegt/wheel/master/newVersion.json';
+                url = 'https://raw.githubusercontent.com/ArnoVanDerVegt/wheel/main/newVersion.json';
             }
             new Http({onLoad: this.onLoadNewVersionInfo.bind(this)}).get(url, {});
             this.initDOM(opts.parentNode);

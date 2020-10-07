@@ -66,9 +66,6 @@ const createWindow = function() {
         }
         // And load the index.html of the app.
         mainWindow.loadFile('electron.html');
-        if (!app.isPackaged) {
-            mainWindow.webContents.openDevTools();
-        }
         let moveDebounce = null;
         mainWindow.on(
             'move',
@@ -110,6 +107,9 @@ const createWindow = function() {
                         break;
                     case 'quit':
                         app.quit();
+                        break;
+                    case 'console':
+                        mainWindow.webContents.openDevTools();
                         break;
                     case 'settings':
                         let settings = arg.settings;
