@@ -14,6 +14,7 @@ exports.HomeScreenTile = class extends DOMNode {
         this._icon           = opts.icon;
         this._onClick        = opts.onClick;
         this._tabIndex       = opts.tabIndex;
+        this._settings       = opts.settings;
         this._settingsGetter = opts.settingsGetter;
         this.initDOM(opts.parentNode);
         opts.ui.addEventListener('Global.UIId', this, this.onGlobalUIId);

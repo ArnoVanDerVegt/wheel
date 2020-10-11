@@ -83,7 +83,6 @@ const createWindow = function() {
                 );
             }
         );
-
         // Open the DevTools.
         // MainWindow.webContents.openDevTools()
         // Emitted when the window is closed.
@@ -96,7 +95,7 @@ const createWindow = function() {
                 mainWindow = null;
             }
         );
-
+        // mainWindow.webContents.openDevTools();
         ipcMain.on(
             'postMessage',
             function(event, arg) {

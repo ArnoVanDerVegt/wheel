@@ -382,6 +382,7 @@ require('./js/frontend/ide/editor/editors/home/HomeScreenConnectEV3Tile');
 require('./js/frontend/ide/editor/editors/home/HomeScreenConnectPoweredUpTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreenRecentProjectTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreenThemeTile');
+require('./js/frontend/ide/editor/editors/home/HomeScreenNewProjectTile');
 require('./js/frontend/ide/editor/editors/home/HomeScreen');
 require('./js/frontend/ide/editor/editors/text/toolbar/BluetoothState');
 require('./js/frontend/ide/editor/editors/text/toolbar/ToolbarBottom');

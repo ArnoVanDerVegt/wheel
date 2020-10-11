@@ -110,3 +110,23 @@
     left:                           96px;
     top:                            48px;
 }
+.home-screen-content .home-screen-tile .home-screen-tile-content .home-screen-tile-text a {
+    float:                          left;
+    border:                         1px solid transparent;
+    height:                         50%;
+    padding:                        0 0 0 8px;
+    line-height:                    38px;
+    font-family:                    latolight;
+    outline:                        none;
+    opacity:                        0.65;
+}
+.home-screen-content .home-screen-tile .home-screen-tile-content .home-screen-tile-text a.title1:focus {
+    border:                         var(--focus-border-dotted);
+    border-radius:                  0 4px 0 0;
+    opacity:                        1;
+}
+.home-screen-content .home-screen-tile .home-screen-tile-content .home-screen-tile-text a.title2:focus {
+    border:                         var(--focus-border-dotted);
+    border-radius:                  0 0 4px 0;
+    opacity:                        1;
+}

@@ -15,6 +15,7 @@ const HomeScreenThemeTile            = require('./HomeScreenThemeTile').HomeScre
 const HomeScreenRecentProjectTile    = require('./HomeScreenRecentProjectTile').HomeScreenRecentProjectTile;
 const HomeScreenRecentFormTile       = require('./HomeScreenRecentFormTile').HomeScreenRecentFormTile;
 const HomeScreenDocumentationTile    = require('./HomeScreenDocumentationTile').HomeScreenDocumentationTile;
+const HomeScreenNewProjectTile       = require('./HomeScreenNewProjectTile').HomeScreenNewProjectTile;
 
 exports.HomeScreen = class extends DOMNode {
     constructor(opts) {
@@ -75,21 +76,23 @@ exports.HomeScreen = class extends DOMNode {
                     title:    'Open recent form &raquo;',
                     settings: this._settings,
                     type:     HomeScreenRecentFormTile,
-                    tabIndex: tabIndex.HOME_SCREEN + 1
+                    tabIndex: tabIndex.HOME_SCREEN + 2
                 } :
                 null),
-            this.addHomeScreenTile({
-                id:       addTile(),
-                icon:     getImage('images/files/homeWhlp.svg'),
-                title:    'Create new project &raquo;',
-                tabIndex: tabIndex.HOME_SCREEN + 2,
-                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', 'Project', activeDirectory)
-            }),
+            {
+                id:             addTile(),
+                ui:             ui,
+                uiId:           1,
+                icon:           getImage('images/files/homeWhlp.svg'),
+                type:           HomeScreenNewProjectTile,
+                tabIndex:       tabIndex.HOME_SCREEN + 4,
+                settings:       settings
+            },
             this.addHomeScreenTile({
                 id:       addTile(),
                 icon:     getImage('images/files/homeWhl.svg'),
                 title:    'New file &raquo;',
-                tabIndex: tabIndex.HOME_SCREEN + 3,
+                tabIndex: tabIndex.HOME_SCREEN + 6,
                 onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', 'File', activeDirectory)
             }),
             platform.isElectron() ?
@@ -97,7 +100,7 @@ exports.HomeScreen = class extends DOMNode {
                     id:             addTile(),
                     icon:           getImage('images/files/homeRgf.svg'),
                     title:          'New image EV3 &raquo;',
-                    tabIndex:       tabIndex.HOME_SCREEN + 4,
+                    tabIndex:       tabIndex.HOME_SCREEN + 8,
                     settings:       settings,
                     settingsGetter: settings.getShowEV3ImageTile.bind(settings),
                     onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath())
@@ -109,7 +112,7 @@ exports.HomeScreen = class extends DOMNode {
                 title:          'New form &raquo;',
                 settings:       settings,
                 settingsGetter: settings.getShowNewFormTile.bind(settings),
-                tabIndex:       tabIndex.HOME_SCREEN + 5,
+                tabIndex:       tabIndex.HOME_SCREEN + 10,
                 onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath())
             }),
             platform.isElectron() ?
@@ -119,7 +122,7 @@ exports.HomeScreen = class extends DOMNode {
                     icon:           getImage('images/files/homeEv3.svg'),
                     title:          'Connect to EV3 &raquo;',
                     type:           HomeScreenConnectEV3Tile,
-                    tabIndex:       tabIndex.HOME_SCREEN + 6,
+                    tabIndex:       tabIndex.HOME_SCREEN + 12,
                     settings:       settings,
                     settingsGetter: settings.getShowEV3Tile.bind(settings),
                     ev3:            this._ev3,
@@ -132,7 +135,7 @@ exports.HomeScreen = class extends DOMNode {
                 icon:           getImage('images/files/homePoweredUp.svg'),
                 title:          'Connect to Powered Up &raquo;',
                 type:           HomeScreenConnectPoweredUpTile,
-                tabIndex:       tabIndex.HOME_SCREEN + 7,
+                tabIndex:       tabIndex.HOME_SCREEN + 14,
                 settings:       settings,
                 settingsGetter: settings.getShowPoweredUpTile.bind(settings),
                 poweredUp:      this._poweredUp,
@@ -157,7 +160,7 @@ exports.HomeScreen = class extends DOMNode {
                 type:     HomeScreenDocumentationTile,
                 icon:     getImage('images/files/homeHelp.svg'),
                 title:    'Open documentation &raquo;',
-                tabIndex: tabIndex.HOME_SCREEN + 8,
+                tabIndex: tabIndex.HOME_SCREEN + 16,
                 onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Help.Show', {documentPath: settings.getDocumentPath()})
             }),
             showThemeTile ?
@@ -168,7 +171,7 @@ exports.HomeScreen = class extends DOMNode {
                     title:    'Theme',
                     settings: this._settings,
                     type:     HomeScreenThemeTile,
-                    tabIndex: tabIndex.HOME_SCREEN + 9
+                    tabIndex: tabIndex.HOME_SCREEN + 18
                 } :
                 null
         ];
