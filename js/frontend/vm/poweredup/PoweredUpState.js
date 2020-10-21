@@ -84,8 +84,9 @@ exports.PoweredUpState = class extends BasicDeviceState {
 
     updateLayerState(data) {
         this.setState(data.state);
+        let layerState = this._layerState;
         for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
-            data.state.layers[i] && this._layerState[i].setState(data.state.layers[i]);
+            data.state.layers[i] && layerState[i].getConnected() && layerState[i].setState(data.state.layers[i]);
         }
     }
 

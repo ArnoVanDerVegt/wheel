@@ -16,6 +16,7 @@ exports.MotorOrSensorState = class extends BasicIOState {
 
     setType(type) {
         super.setType(type);
+        this._connected = this._device.getConnected();
         if ((type in this._deviceInfo) || ([0, 1].indexOf(type) !== -1)) {
             this._type = type;
         } else {

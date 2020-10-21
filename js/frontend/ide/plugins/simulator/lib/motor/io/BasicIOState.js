@@ -90,7 +90,7 @@ exports.BasicIOState = class {
     }
 
     setTimeoutReset() {
-        if (!this._settings.getSensorAutoReset()) {
+        if (this._connected || !this._settings.getSensorAutoReset()) {
             return;
         }
         if (this._timeoutReset) {
