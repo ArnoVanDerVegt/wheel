@@ -20,6 +20,7 @@ const FileDialog            = require('./FileDialog').FileDialog;
 exports.FilePoweredUpProjectDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
+        this._device              = opts.device;
         this._expectedExtensions  = ['', '.whlp'];
         this._deviceList          = new DeviceListState();
         this._currentStep         = 0;
@@ -74,6 +75,13 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
         ];
     }
 
+    reset() {
+        this._stepContentElements.forEach((stepContentElements) => {
+            stepContentElements.reset();
+        });
+        dispatcher.dispatch('Dialog.File.PoweredUpProject.Reset');
+    }
+
     addStep(opts) {
         opts.dialog     = this;
         opts.id         = this.addStepContentElement.bind(this);
@@ -81,6 +89,7 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
         opts.uiId       = this._uiId;
         opts.deviceList = this._deviceList;
         opts.settings   = this._settings;
+        opts.device     = this._device;
         opts.hidden     = true;
         return opts;
     }
@@ -167,10 +176,7 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
     }
 
     onShow() {
-        this._stepContentElements.forEach((stepContentElements) => {
-            stepContentElements.reset();
-        });
-        dispatcher.dispatch('Dialog.File.PoweredUpProject.Reset');
+        this.reset();
         this._previousButtonElement.setDisabled(true);
         this._nextButtonElement.setDisabled(false);
         this.showStep(0);

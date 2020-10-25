@@ -104,7 +104,7 @@ exports.ListItem = class extends DOMNode {
     }
 
     getClassName() {
-        return 'list-item' +
+        return 'flt rel max-w list-item' +
             (this._selected ? ' selected' : '') +
             (this._focus    ? ' focus' : '');
     }

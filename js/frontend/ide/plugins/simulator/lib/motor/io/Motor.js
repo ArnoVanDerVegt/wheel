@@ -121,6 +121,7 @@ exports.Motor = class extends BasicIODevice {
 
     setHidden(hidden) {
         this._motorElement.className = 'motor' + (hidden ? ' hidden' : '');
+        return this;
     }
 
     getType() {
@@ -129,6 +130,7 @@ exports.Motor = class extends BasicIODevice {
 
     setType(type) {
         this._state.setType(type);
+        return this;
     }
 
     setSpeed(speed) {

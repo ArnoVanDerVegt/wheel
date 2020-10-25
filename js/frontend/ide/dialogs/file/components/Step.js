@@ -9,6 +9,7 @@ exports.Step = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._dialog     = opts.dialog;
+        this._device     = opts.device;
         this._ui         = opts.ui;
         this._uiId       = opts.uiId;
         this._parentNode = opts.parentNode;

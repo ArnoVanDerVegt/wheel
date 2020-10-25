@@ -51,7 +51,7 @@ exports.IDEDialogs = class extends IDEEvents {
         }
         new FileNewDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings});
         new FileRenameDialog              ({getImage: getImage, ui: this._ui});
-        new FilePoweredUpProjectDialog    ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new FilePoweredUpProjectDialog    ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
         new ConfirmDialog                 ({getImage: getImage, ui: this._ui});
         new AlertDialog                   ({getImage: getImage, ui: this._ui});
         new EV3ConnectListDialog          ({getImage: getImage, ui: this._ui});

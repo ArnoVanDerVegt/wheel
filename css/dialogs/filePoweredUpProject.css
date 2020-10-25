@@ -127,7 +127,7 @@
 }
 .dialog-background.file-new-powered-up-project .device-options .button {
     float:                          right;
-    width:                          102px;
+    min-width:                      102px;
     height:                         48px;
     margin:                         0 0 0 8px;
 }

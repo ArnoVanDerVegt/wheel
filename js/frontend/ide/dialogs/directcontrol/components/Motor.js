@@ -161,13 +161,11 @@ exports.Motor = class extends DOMNode {
 
     onUpMousePressed(event) {
         if (!this._assignedTimeout) {
-            console.log('Up pressed');
             this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_ON, this.getMotorData(this._speed));
         }
     }
 
     onUpReleased() {
-        console.log('Up released');
         this._device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_STOP, this.getMotorData(this._speed));
     }
 

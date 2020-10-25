@@ -171,6 +171,26 @@ exports.Plugin = class extends Plugin {
         this._technicHub = technicHub;
     }
 
+    showMotors() {
+        let count      = this.getMotorCount();
+        let layer      = this._simulator.getLayer();
+        let layerState = this._device.getLayerState(layer);
+        let motors     = this._motors;
+        let foundCount = 0;
+        for (let i = 0; i < motors.length; i++) {
+            let motor = motors[i];
+            motor.setHidden(true);
+            if (layer === (i >> 2)) {
+                if (foundCount < count) {
+                    motor
+                        .setHidden(false)
+                        .setType(layerState.getMotorPort(foundCount).assigned);
+                }
+                foundCount++;
+            }
+        }
+    }
+
     /**
      * Select the type of device for the layer...
     **/

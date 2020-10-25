@@ -30,6 +30,15 @@ exports.PoweredUpStep2Device = class extends PoweredUpDeviceList {
                     children: [
                         {
                             type:     Button,
+                            ref:      this.setRef('importButton'),
+                            ui:       this._ui,
+                            uiId:     this._uiId,
+                            onClick:  this.onImport.bind(this),
+                            value:    'Import from connections',
+                            color:    'blue'
+                        },
+                        {
+                            type:     Button,
                             ref:      this.setRef('addButton'),
                             ui:       this._ui,
                             uiId:     this._uiId,
@@ -66,6 +75,22 @@ exports.PoweredUpStep2Device = class extends PoweredUpDeviceList {
                 }
             ]
         };
+    }
+
+    onImport() {
+        this._dialog.reset();
+        for (let i = 0; i < this._settings.getDeviceCount(); i++) {
+            let layerState = this._device.getLayerState(i);
+            if (layerState.getType() !== null) {
+                dispatcher.dispatch('Dialog.File.PoweredUpProject.AddDevice', layerState.getType());
+                layerState.getPortAssignments().forEach((type, port) => {
+                    if (type > 0) {
+                        dispatcher.dispatch('Dialog.File.PoweredUpProject.SetPortType', ['A', 'B', 'C', 'D'][port], type);
+                    }
+                });
+            }
+        }
+        this._dialog.onNext();
     }
 
     onAdd() {

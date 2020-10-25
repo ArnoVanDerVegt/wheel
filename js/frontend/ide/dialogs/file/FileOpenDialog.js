@@ -8,6 +8,7 @@ const path            = require('../../../lib/path');
 const Files           = require('../../../lib/components/files/Files').Files;
 const Dialog          = require('../../../lib/components/Dialog').Dialog;
 const ToolOptions     = require('../../../lib/components/ToolOptions').ToolOptions;
+const TextInput       = require('../../../lib/components/TextInput').TextInput;
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('../../data/images').getImage;
 const FileDialog      = require('./FileDialog').FileDialog;
@@ -84,7 +85,10 @@ exports.FileOpenDialog = class extends FileDialog {
                     className: 'abs dialog-r current-file'
                 },
                 {
+                    type:        TextInput,
                     ref:         this.setRef('currentFileInput'),
+                    ui:          this._ui,
+                    uiId:        this._uiId,
                     tabIndex:    2048,
                     className:   'abs dialog-r current-file-input',
                     onKeyUp:     this.onCurrentFileInputKeyUp.bind(this),
