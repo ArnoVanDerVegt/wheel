@@ -14,6 +14,7 @@ exports.ListDialog = class extends Dialog {
         this._list          = [];
         this._dispatchApply = null;
         this.initWindow({
+            ListItem:   opts.ListItem,
             help:       opts.help,
             showSignal: opts.showSignal,
             width:      500,
