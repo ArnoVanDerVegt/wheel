@@ -105,6 +105,21 @@ exports.PoweredUp = class extends BasicDevice {
         ].indexOf(type) !== -1);
     }
 
+    _getAutoConnectIndex(uuid) {
+        let index       = -1;
+        let autoConnect = this._autoConnect;
+        if (Array.isArray(autoConnect)) {
+            for (let i = 0; i < autoConnect.length; i++) {
+                let item = autoConnect[i];
+                if ((item.uuid === uuid) && !this._hubs[item.index]) {
+                    index = item.index;
+                    break;
+                }
+            }
+        }
+        return index;
+    }
+
     _addHub(hub) {
         if (!this._isSupportedHubType(hub.type)) {
             return;
@@ -113,18 +128,8 @@ exports.PoweredUp = class extends BasicDevice {
         if (uuid in this._hubsByUuid) {
             return;
         }
-        let index       = -1;
-        let hubs        = this._hubs;
-        let autoConnect = this._autoConnect;
-        if (Array.isArray(autoConnect)) {
-            for (let i = 0; i < autoConnect.length; i++) {
-                let item = autoConnect[i];
-                if ((item.uuid === uuid) && !hubs[item.index]) {
-                    index = item.index;
-                    break;
-                }
-            }
-        }
+        let index = this._getAutoConnectIndex(uuid);
+        let hubs  = this._hubs;
         if (index === -1) {
             index = hubs.length;
             hubs.push(hub);
@@ -385,21 +390,40 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     connect(uuid, callback) {
-        if (uuid in this._hubsByUuid) {
-            let hub = this._hubsByUuid[uuid];
-            if (!hub) {
-                callback(null);
-                return;
-            }
-            if (!hub.connected && !hub.connecting) {
-                hub.connecting  = true;
-                hub.connectTime = Date.now();
-                this._hubs[hub.index].connect();
-            }
-            callback(hub);
-        } else {
+        let hubsByUuid = this._hubsByUuid;
+        let hub        = hubsByUuid[uuid];
+        if (!hub) {
             callback(null);
+            return;
         }
+        if (!hub.connected && !hub.connecting) {
+            hub.connecting  = true;
+            hub.connectTime = Date.now();
+            let hubs = this._hubs;
+            hubs[hub.index].connect();
+            // Check if the hub does not have a fixed auto connect index:
+            if (this._getAutoConnectIndex(uuid) === -1) {
+                // Try to find a hub with a lower index which is not connecting or connected.
+                // This way the first available layer is filled with this hub.
+                for (let id in hubsByUuid) {
+                    let h = hubsByUuid[id];
+                    if ((id !== uuid) && (h.index < hub.index) && !h.connected && !h.connecting) {
+                        // The hub should not have a fixed auto connect index:
+                        if (this._getAutoConnectIndex(id) === -1) {
+                            // Swap the hubs:
+                            let swapHub   = hubs[h.index];
+                            let swapIndex = h.index;
+                            hubs[h.index]   = hubs[hub.index];
+                            hubs[hub.index] = swapHub;
+                            h.index         = hub.index;
+                            hub.index       = swapIndex;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        callback(hub);
     }
 
     disconnect() {
@@ -631,55 +655,53 @@ exports.PoweredUp = class extends BasicDevice {
     getState() {
         let time   = Date.now();
         let layers = this._layers;
-        this._hubs.forEach(
-            (h) => {
-                if (!h) {
-                    return;
-                }
-                let hub   = this._hubsByUuid[h.uuid];
-                let index = hub.index;
-                if (hub.connecting && (time > hub.connectTime + 3000)) {
-                    hub.connecting = false;
-                    hub.connected  = true;
-                    this._updateConnectedHubs();
-                }
-                layers[index].uuid         = h.uuid;
-                layers[index].type         = h.type;
-                layers[index].batteryLevel = h.batteryLevel;
-                layers[index].connected    = hub.connected;
-            },
-            this
-        );
-        const copyLayer = function(layer) {
-                let result = {
-                        uuid:       layer.uuid,
-                        type:       layer.type,
-                        connecting: layer.connecting,
-                        connected:  layer.connected,
-                        button:     layer.button,
-                        tilt:       layer.tilt,
-                        accel:      layer.accel,
-                        ports:      []
-                    };
-                for (let i = 0; i < 4; i++) {
-                    let port = layer.ports[i];
-                    result.ports.push({
-                        value:    port.value,
-                        assigned: port.assigned,
-                        ready:    !port.moving
-                    });
-                }
-                return result;
-            };
+        this._hubs.forEach((h) => {
+            if (!h) {
+                return;
+            }
+            let hub   = this._hubsByUuid[h.uuid];
+            let index = hub.index;
+            if (hub.connecting && (time > hub.connectTime + 3000)) {
+                hub.connecting = false;
+                hub.connected  = true;
+                this._updateConnectedHubs();
+            }
+            layers[index].uuid         = h.uuid;
+            layers[index].type         = h.type;
+            layers[index].batteryLevel = h.batteryLevel;
+            layers[index].connected    = hub.connected;
+        });
         let result = {layers: []};
         for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
-            result.layers.push(copyLayer(layers[i]));
+            result.layers.push(this.cloneLayer(layers[i]));
         }
         return result;
     }
 
     setMode(layer, port, mode) {
         this.getLayerPort(layer, port).mode = parseInt(mode, 10);
+    }
+
+    cloneLayer(layer) {
+        let result = {
+                uuid:       layer.uuid,
+                type:       layer.type,
+                connecting: layer.connecting,
+                connected:  layer.connected,
+                button:     layer.button,
+                tilt:       layer.tilt,
+                accel:      layer.accel,
+                ports:      []
+            };
+        for (let i = 0; i < 4; i++) {
+            let port = layer.ports[i];
+            result.ports.push({
+                value:    port.value,
+                assigned: port.assigned,
+                ready:    !port.moving
+            });
+        }
+        return result;
     }
 
     stopPolling() {}
