@@ -32,6 +32,10 @@ exports.BasicDeviceState = class extends Emitter {
         return this._connected;
     }
 
+    getLayerCount() {
+        return this._layerCount;
+    }
+
     getLayerState(layer) {
         return (layer === undefined) ? this._layerState : this._layerState[layer];
     }

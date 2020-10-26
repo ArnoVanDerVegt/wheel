@@ -26,7 +26,8 @@ exports.MotorModule = class extends VMModule {
     }
 
     getLayerAndIdValid(motor) {
-        return ((motor.layer >= 0) && (motor.layer <= 3)) && ((motor.id >= 0) && (motor.id <= 3));
+        let layerCount = this._device ? this._device.getLayerCount() : 4;
+        return ((motor.layer >= 0) && (motor.layer < layerCount)) && ((motor.id >= 0) && (motor.id <= 3));
     }
 
     getMotorPort(motor) {

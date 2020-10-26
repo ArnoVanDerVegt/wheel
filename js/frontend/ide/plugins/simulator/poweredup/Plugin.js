@@ -24,6 +24,7 @@ const dummyLight = {
 
 exports.Plugin = class extends Plugin {
     constructor(opts) {
+        opts.layerCount       = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         opts.motorConstructor = MotorOrSensor;
         opts.stateConstructor = MotorOrSensorState;
         opts.ev3              = opts.poweredUp; // Todo: Hack device should be fixed!

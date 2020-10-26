@@ -12,6 +12,7 @@ exports.Plugin = class extends SimulatorPlugin {
         if (!opts.stateConstructor) {
             throw new Error('No state constructor');
         }
+        this._layerCount          = opts.layerCount || 4;
         this._device              = opts.ev3;
         this._baseClassName       = 'motors';
         this._motors              = [];
@@ -27,7 +28,7 @@ exports.Plugin = class extends SimulatorPlugin {
         let Motor    = this._motorConstructor;
         let addMotor = this.addMotor.bind(this);
         let children = [];
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < this._layerCount * 4; i++) {
             children.push({
                 type:             Motor,
                 stateConstructor: this._stateConstructor,

@@ -17,6 +17,7 @@ exports.DirectControlDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._device             = opts.device;
+        this._layerCount         = opts.layerCount;
         this._layer              = 0;
         this._motorElements      = [];
         this._motorAliasElements = [];
@@ -114,7 +115,7 @@ exports.DirectControlDialog = class extends Dialog {
 
     initLayerState() {
         this._layerState = [];
-        for (let layer = 0; layer < 4; layer++) {
+        for (let layer = 0; layer < this._layerCount; layer++) {
             let layerOutputs = [];
             for (let output = 0; output < 4; output++) {
                 layerOutputs.push({
@@ -148,12 +149,10 @@ exports.DirectControlDialog = class extends Dialog {
     }
 
     getLayer() {
-        let tabToLayer = {
-                'Layer 1': 0,
-                'Layer 2': 1,
-                'Layer 3': 2,
-                'Layer 4': 3
-            };
+        let tabToLayer = {};
+        for (let i = 0; i < this._layerCount; i++) {
+            tabToLayer['Layer ' + (i + 1)] = i;
+        }
         if (!this._refs.tabs || !this._refs.tabs.getActiveTab()) {
             return 0;
         }

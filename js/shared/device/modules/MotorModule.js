@@ -8,25 +8,33 @@ const DeviceModule         = require('./DeviceModule').DeviceModule;
 exports.MotorModule = class extends DeviceModule {
     constructor(opts) {
         super(opts);
-        this._timers = [[null, null, null, null], [null, null, null, null], [null, null, null, null], [null, null, null, null]];
+        this._timers = [];
     }
 
     clearStopTimer(layer, id) {
-        if (this._timers[layer][id]) {
-            clearTimeout(this._timers[layer][id]);
-            this._timers[layer][id] = null;
+        let timers = this.getStopTimer(layer);
+        if (timers[id]) {
+            clearTimeout(timers[id]);
+            timers[id] = null;
         }
     }
 
+    getStopTimer(layer) {
+        if (!this._timers[layer]) {
+            this._timers[layer] = [null, null, null, null];
+        }
+        return this._timers[layer];
+    }
+
     setStopTimer(layer, id, time) {
-        let times = this._timers;
-        if (timers[layer][id]) {
-            clearTimeout(this._timers[layer][id]);
+        let timers = getStopTimer(layer);
+        if (timers[id]) {
+            clearTimeout(timers[id]);
         }
         let device = this._device;
-        timers[layer][id] = setTimeout(
+        timers[id] = setTimeout(
             function() {
-                timers[layer][id] = null;
+                timers[id] = null;
                 device.motorStop(layer, id);
             },
             time
@@ -34,7 +42,7 @@ exports.MotorModule = class extends DeviceModule {
     }
 
     run(commandId, data) {
-        if ((data.layer < 0) || (data.layer > 3) || (data.id < 0) || (data.id > 3)) {
+        if ((data.layer < 0) || (data.layer >= this._device.getLayerCount()) || (data.id < 0) || (data.id > 3)) {
             return;
         }
         switch (commandId) {

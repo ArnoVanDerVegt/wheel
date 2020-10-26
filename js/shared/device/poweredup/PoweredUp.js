@@ -36,7 +36,7 @@ exports.PoweredUp = class extends BasicDevice {
     constructor(opts) {
         super(opts);
         this._gettingHubs       = false;
-        this._layerCount        = 0;
+        this._layerCount        = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         this._scanning          = false;
         this._autoConnect       = [];
         this._connectedHubUuids = {};
@@ -390,7 +390,8 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     setLayerCount(layerCount) {
-        this._layerCount = layerCount;
+        // Ingore this setter, this is set with POWERED_UP_LAYER_COUNT constant.
+        // This setter is used only for EV3.
     }
 
     getMotorPosition(layer, port) {

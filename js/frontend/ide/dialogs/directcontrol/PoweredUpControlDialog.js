@@ -26,6 +26,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
                 poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR,
                 poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR
             ];
+        opts.layerCount     = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         opts.hasSound       = false;
         opts.title          = 'Powered Up Direct control';
         opts.motorValidator = {
@@ -39,7 +40,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
 
     initEvents() {
         let device = this._device;
-        for (let layer = 0; layer < 4; layer++) {
+        for (let layer = 0; layer < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; layer++) {
             for (let output = 0; output < 4; output++) {
                 (function(layer, output) {
                     device.on(
