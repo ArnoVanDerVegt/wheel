@@ -148,7 +148,7 @@ exports.FileOpenDialog = class extends FileDialog {
                 refs.currentFileInput
                     .show()
                     .setValue(filename)
-                    .setClassName('abs current-file-input');
+                    .setClassName('abs dialog-r current-file-input');
                 refs.buttonApply
                     .setValue('Save')
                     .setDisabled(filename.trim() === '');
@@ -240,11 +240,11 @@ exports.FileOpenDialog = class extends FileDialog {
         let refs = this._refs;
         if (refs.currentFileInput.getValue().trim() === '') {
             refs.buttonApply.setDisabled(true);
-            refs.currentFileInput.setClassName('abs current-file-input invalid');
+            refs.currentFileInput.setClassName('abs dialog-r current-file-input invalid');
             return false;
         }
         refs.buttonApply.setDisabled(false);
-        refs.currentFileInput.setClassName('abs current-file-input');
+        refs.currentFileInput.setClassName('abs dialog-r current-file-input');
         return true;
     }
 
@@ -274,7 +274,7 @@ exports.FileOpenDialog = class extends FileDialog {
                 if (file) {
                     refs.buttonApply.setDisabled(false);
                     refs.currentFileInput
-                        .setClassName('abs current-file-input')
+                        .setClassName('abs dialog-r current-file-input')
                         .setValue(file.name);
                 }
                 break;
