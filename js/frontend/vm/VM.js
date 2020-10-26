@@ -276,6 +276,7 @@ class VM {
         let data     = vmData.getData();
         let count    = 0;
         while ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped && !this._breakpoint && !this._runningEvent) {
+            dispatcher.dispatch('VM.Step', this);
             if (this._sleepContinueTime === null) {
                 let command    = commands[vmData.getGlobalNumber($.REG_CODE)];
                 let breakpoint = command.getBreakpoint();

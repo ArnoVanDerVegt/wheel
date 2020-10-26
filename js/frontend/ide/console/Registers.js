@@ -52,19 +52,16 @@ exports.Registers = class extends DOMNode {
                 ]
             };
 
-        ['stack', 'src', 'dest', 'ptr', 'code', 'return', 'flags'].forEach(
-            function(register, index) {
-                dom.children[1].children.push({
-                    type: 'tr',
-                    children: [
-                        {type: 'td', innerHTML: register},
-                        {type: 'td', innerHTML: index},
-                        {type: 'td', innerHTML: '', id: function(element) { this.setRegisterElement(element, index); }.bind(this)}
-                    ]
-                });
-            },
-            this
-        );
+        ['stack', 'src', 'dest', 'ptr', 'code', 'return', 'flags'].forEach((register, index) => {
+            dom.children[1].children.push({
+                type: 'tr',
+                children: [
+                    {type: 'td', innerHTML: register},
+                    {type: 'td', innerHTML: index},
+                    {type: 'td', innerHTML: '', id: (element) => { this.setRegisterElement(element, index); }}
+                ]
+            });
+        });
         this.create(this._element, dom);
     }
 

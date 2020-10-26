@@ -2,25 +2,34 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform             = require('../../lib/platform');
-const dispatcher           = require('../../lib/dispatcher').dispatcher;
-const DOMNode              = require('../../lib/dom').DOMNode;
-const Tabs                 = require('../../lib/components/Tabs').Tabs;
-const Button               = require('../../lib/components/Button').Button;
-const Resizer              = require('../../lib/components/Resizer').Resizer;
-const CloseButton          = require('../../lib/components/CloseButton').CloseButton;
-const SettingsState        = require('../settings/SettingsState');
-const tabIndex             = require('../tabIndex');
-const Vars                 = require('./Vars').Vars;
-const NewVersion           = require('./NewVersion').NewVersion;
-const Registers            = require('./Registers').Registers;
-const Log                  = require('./Log').Log;
-const FindResults          = require('./FindResults').FindResults;
-const Terminal             = require('./Terminal').Terminal;
+const platform         = require('../../lib/platform');
+const dispatcher       = require('../../lib/dispatcher').dispatcher;
+const DOMNode          = require('../../lib/dom').DOMNode;
+const Tabs             = require('../../lib/components/Tabs').Tabs;
+const Button           = require('../../lib/components/Button').Button;
+const Resizer          = require('../../lib/components/Resizer').Resizer;
+const CloseButton      = require('../../lib/components/CloseButton').CloseButton;
+const SettingsState    = require('../settings/SettingsState');
+const tabIndex         = require('../tabIndex');
+const Vars             = require('./Vars').Vars;
+const NewVersion       = require('./NewVersion').NewVersion;
+const Registers        = require('./Registers').Registers;
+const Log              = require('./Log').Log;
+const FindResults      = require('./FindResults').FindResults;
+const Terminal         = require('./Terminal').Terminal;
+
+const TAB_LOG          = 'Log';
+const TAB_REGISTERS    = 'Registers';
+const TAB_GLOBALS      = 'Globals';
+const TAB_LOCALS       = 'Locals';
+const TAB_TERMINAL     = 'Terminal';
+const TAB_VERSION      = 'Version';
+const TAB_FIND_RESULTS = 'FindResults';
 
 exports.Console = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._activeTab       = TAB_LOG;
         this._ui              = opts.ui;
         this._settings        = opts.settings;
         this._getDataProvider = opts.getDataProvider;
@@ -29,7 +38,8 @@ exports.Console = class extends DOMNode {
             .on('Console.RuntimeError', this, this.onRuntimeError)
             .on('Console.Log',          this, this.onLog)
             .on('Console.Error',        this, this.onError)
-            .on('Console.FindResult',   this, this.onFindResult);
+            .on('Console.FindResult',   this, this.onFindResult)
+            .on('VM.Step',              this, this.onVMStep);
         this.initDOM(opts.parentNode);
     }
 
@@ -148,36 +158,43 @@ exports.Console = class extends DOMNode {
     }
 
     onClickConsoleTab() {
+        this._activeTab = TAB_LOG;
         dispatcher.dispatch('Button.Console.Change', {hidden: false});
         this.hide().show(this._logElement);
     }
 
     onClickRegistersTab() {
+        this._activeTab = TAB_REGISTERS;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.registers);
     }
 
     onClickGlobalVarsTab() {
+        this._activeTab = TAB_GLOBALS;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.globals);
     }
 
     onClickLocalVarsTab() {
+        this._activeTab = TAB_LOCALS;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.locals);
     }
 
     onClickTerminalTab() {
+        this._activeTab = TAB_TERMINAL;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.terminal);
     }
 
     onClickNewVersionTab() {
+        this._activeTab = TAB_VERSION;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
         this.hide().show(this._refs.newVersion);
     }
 
     onClickFindResultsTab() {
+        this._activeTab = TAB_FIND_RESULTS;
         dispatcher.dispatch('Button.Console.Change', {hidden: false});
         this.hide().show(this._refs.findResults);
     }
@@ -226,6 +243,12 @@ exports.Console = class extends DOMNode {
         refs.findResults.addResult(findResult);
         refs.tabs.setActiveTab('Find results');
         dispatcher.dispatch('Button.Console.Change', {hidden: false});
+    }
+
+    onVMStep(vm) {
+        if (this._activeTab === TAB_REGISTERS) {
+            this._refs.registers.update({vm: vm});
+        }
     }
 
     onError(message) {

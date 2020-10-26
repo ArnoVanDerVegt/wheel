@@ -98,8 +98,11 @@ exports.FileNewDialog = class extends FileDialog {
         if (path.getExtension(filename) !== '.whl') {
             filename += '.whl';
         }
-        let file = [];
-        this.addIncludes(file, this._includeFilesElement.getIncludeFiles());
+        let file         = [];
+        let includeFiles = this._includeFilesElement.getIncludeFiles();
+        includeFiles.forEach((includeFile) => {
+            file.push('#include "' + includeFile + '"');
+        });
         dispatcher.dispatch(
             'Create.File',
             {

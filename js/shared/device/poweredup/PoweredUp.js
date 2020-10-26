@@ -361,10 +361,18 @@ exports.PoweredUp = class extends BasicDevice {
         return {};
     }
 
-    getDevice(layer, port) {
+    /**
+     * The _onInterval is a hack, when turning the motor on for a longer time it seems to stop.
+     * When a motor is turned on then an interval is attached to keep it running.
+    **/
+    getClearedDevice(layer, port) {
         const device = this.getLayerPort(layer, port).device;
         if (!device || !device.connected) {
             return null;
+        }
+        if (device._onInterval) {
+            clearInterval(device._onInterval);
+            device._onInterval = null;
         }
         return device;
     }
@@ -547,7 +555,7 @@ exports.PoweredUp = class extends BasicDevice {
         if (!this.getHubConnected(layer)) {
             return;
         }
-        let motorDevice = this.getDevice(layer, motor);
+        let motorDevice = this.getClearedDevice(layer, motor);
         if (!motorDevice) {
             return;
         }
@@ -571,28 +579,33 @@ exports.PoweredUp = class extends BasicDevice {
         if (!this.getHubConnected(layer)) {
             return;
         }
-        let motorDevice = this.getDevice(layer, motor);
+        let motorDevice = this.getClearedDevice(layer, motor);
         if (motorDevice) {
             this.getLayerPort(layer, motor).on = true; // Let the motor monitor know that this motor should not be stopped!
-            switch (motorDevice.type) {
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR:
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR:
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR:
-                    motorDevice.setPower        && motorDevice.setPower(speed);
-                    break;
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR:
-                    motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
-                    motorDevice.setPower        && motorDevice.setPower(speed);
-                    break;
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS:
-                    motorDevice.setBrightness   && motorDevice.setBrightness(speed);
-                    break;
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR:
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR:
-                case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR:
-                    motorDevice.setSpeed        && motorDevice.setSpeed(speed, 10000);
-                    break;
-            }
+            const turnMotorOn = () => {
+                    switch (motorDevice.type) {
+                        case poweredUpModuleConstants.POWERED_UP_DEVICE_BASIC_MOTOR:
+                        case poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR:
+                        case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_MOVE_HUB_MOTOR:
+                            motorDevice.setPower        && motorDevice.setPower(speed);
+                            break;
+                        case poweredUpModuleConstants.POWERED_UP_DEVICE_BOOST_TACHO_MOTOR:
+                            motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
+                            motorDevice.setPower        && motorDevice.setPower(speed);
+                            break;
+                        case poweredUpModuleConstants.POWERED_UP_DEVICE_LED_LIGHTS:
+                            motorDevice.setBrightness   && motorDevice.setBrightness(speed);
+                            break;
+                        case poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_LARGE_MOTOR:
+                        case poweredUpModuleConstants.POWERED_UP_DEVICE_CONTROL_PLUS_XLARGE_MOTOR:
+                        case poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR:
+                            motorDevice.setSpeed        && motorDevice.setSpeed(speed, 10000);
+                            break;
+                    }
+                };
+            turnMotorOn();
+            // This is a hack! See getClearedDevice for more information...
+            motorDevice._onInterval = setInterval(turnMotorOn, 5000);
         }
         callback && callback();
     }
@@ -601,7 +614,7 @@ exports.PoweredUp = class extends BasicDevice {
         if (!this.getHubConnected(layer)) {
             return;
         }
-        let motorDevice = this.getDevice(layer, motor);
+        let motorDevice = this.getClearedDevice(layer, motor);
         if (motorDevice) {
             motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
             motorDevice.stop            && motorDevice.stop();
