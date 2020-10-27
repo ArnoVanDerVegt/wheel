@@ -11,7 +11,7 @@ const LayerState               = require('./LayerState').LayerState;
 exports.PoweredUpState = class extends BasicDeviceState {
     constructor(opts) {
         opts.LayerState    = LayerState;
-        opts.maxLayerCount = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
+        opts.layerCount    = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         super(opts);
         // Allow dependency injection for unit tests...
         this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider();
