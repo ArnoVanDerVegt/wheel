@@ -19,6 +19,7 @@ const PoweredUpModule = require('./modules/PoweredUpModule').PoweredUpModule;
 
 exports.BasicDevice = class {
     constructor(opts) {
+        this._layerCount = opts.layerCount || 4;
         this._modules    = [];
         this._connected  = false;
         this._connecting = false;
