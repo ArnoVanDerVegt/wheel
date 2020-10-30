@@ -42,7 +42,7 @@ exports.DirectControlDialog = class extends Dialog {
                 ui:        this._ui,
                 uiId:      this._uiId,
                 tabIndex:  1,
-                active:    {title: 'Layer 1', meta: ''},
+                active:    {title: '1', meta: ''},
                 className: 'dialog-l dialog-r dialog-t'
             },
             {
@@ -149,14 +149,10 @@ exports.DirectControlDialog = class extends Dialog {
     }
 
     getLayer() {
-        let tabToLayer = {};
-        for (let i = 0; i < this._layerCount; i++) {
-            tabToLayer['Layer ' + (i + 1)] = i;
-        }
         if (!this._refs.tabs || !this._refs.tabs.getActiveTab()) {
             return 0;
         }
-        return tabToLayer[this._refs.tabs.getActiveTab().title];
+        return parseInt(this._refs.tabs.getActiveTab().title, 10) - 1;
     }
 
     onOutputAssigned(layer, output, assigned) {
@@ -224,7 +220,7 @@ exports.DirectControlDialog = class extends Dialog {
         for (let i = 0; i <= opts.deviceCount; i++) {
             (function(index) {
                 tabs.push({
-                    title: 'Layer ' + (i + 1),
+                    title: (i + 1).toString(),
                     onClick: (function() {
                         this.onSelectLayer(index);
                     }).bind(this)
@@ -236,7 +232,7 @@ exports.DirectControlDialog = class extends Dialog {
         }
         this._refs.tabs
             .setTabs(tabs)
-            .setActiveTab('Layer 1', '')
+            .setActiveTab('1', '')
             .focus();
         this.onSelectLayer(0);
     }

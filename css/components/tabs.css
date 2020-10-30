@@ -25,6 +25,7 @@
     color:                          var(--tab-in-active);
     border:                         1px solid transparent;
     border-width:                   1px 1px 0 1px;
+    min-width:                      32px;
 }
 .tabs .tabs-content .tab::after {
     position:                       absolute;
@@ -39,6 +40,7 @@
 .tabs .tabs-content .tab input[type="button"].title,
 .tabs .tabs-content .tab input[type="button"].close {
     float:                          left;
+    min-width:                      32px;
     height:                         calc(100% - 2px);
     line-height:                    27px;
     margin:                         2px;
