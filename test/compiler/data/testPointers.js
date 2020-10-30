@@ -159,6 +159,62 @@ describe(
                 );
                 testLogs(
                     it,
+                    'Should use a record pointer parameter passed as parameter',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'proc test1(Point ^point)',
+                        '    point.x = 259',
+                        'end',
+                        'proc test2(Point ^point)',
+                        '    test1(point)',
+                        'end',
+                        'proc main()',
+                        '    Point p',
+                        '    p.x = 463',
+                        '    addr p.x',
+                        '    mod 0, 1',
+                        '    test1(@p)',
+                        '    addr p.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        463,
+                        259
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use a record with a record field pointer parameter',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'record Test',
+                        '    Point p',
+                        'end',
+                        'proc test(Test ^test)',
+                        '    test.p.x = 1276',
+                        'end',
+                        'proc main()',
+                        '    Test t',
+                        '    t.p.x = 454',
+                        '    addr t.p.x',
+                        '    mod 0, 1',
+                        '    test(@t)',
+                        '    addr t.p.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        454,
+                        1276
+                    ]
+                );
+                testLogs(
+                    it,
                     'Should use assign and read a record pointer',
                     [
                         'proc main()',
@@ -334,6 +390,94 @@ describe(
                     ],
                     [
                         492
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use a record pointer with an array of records as parameter',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'record Test',
+                        '    Point p[2]',
+                        'end',
+                        'proc test(Test ^test)',
+                        '    test.p[0].x = 1276',
+                        '    test.p[1].x = 457',
+                        'end',
+                        'proc main()',
+                        '    Test t',
+                        '    t.p[0].x = 454',
+                        '    addr t.p[0].x',
+                        '    mod 0, 1',
+                        '    t.p[1].x = 1454',
+                        '    addr t.p[1].x',
+                        '    mod 0, 1',
+                        '    test(@t)',
+                        '    addr t.p[0].x',
+                        '    mod 0, 1',
+                        '    addr t.p[1].x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        454,
+                        1454,
+                        1276,
+                        457
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use a record pointer with various assignments',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'record Test',
+                        '    Point p[2]',
+                        'end',
+                        'proc test(Test ^test)',
+                        '    addr test.p[0].x',
+                        '    mod 0, 1',
+                        '    addr test.p[0].y',
+                        '    mod 0, 1',
+                        '    addr test.p[1].x',
+                        '    mod 0, 1',
+                        '    test.p[0] = {4566, 179}',
+                        '    test.p[1] = {1285, 12}',
+                        'end',
+                        'proc main()',
+                        '    Test t',
+                        '    t.p[0].x = 454',
+                        '    t.p[0].y = 2345',
+                        '    addr t.p[0].x',
+                        '    mod 0, 1',
+                        '    t.p[1].x = 1454',
+                        '    addr t.p[1].x',
+                        '    mod 0, 1',
+                        '    test(@t)',
+                        '    addr t.p[0].x',
+                        '    mod 0, 1',
+                        '    addr t.p[1].x',
+                        '    mod 0, 1',
+                        '    addr t.p[0].y',
+                        '    mod 0, 1',
+                        '    addr t.p[1].y',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        454,
+                        1454,
+                        454,
+                        2345,
+                        1454,
+                        4566,
+                        1285,
+                        179,
+                        12
                     ]
                 );
             }
