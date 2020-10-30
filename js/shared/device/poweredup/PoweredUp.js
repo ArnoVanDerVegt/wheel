@@ -34,9 +34,9 @@ exports.setLibrary = function(pupConstants, pup) {
 
 exports.PoweredUp = class extends BasicDevice {
     constructor(opts) {
+        opts.layerCount = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         super(opts);
         this._gettingHubs       = false;
-        this._layerCount        = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         this._scanning          = false;
         this._autoConnect       = [];
         this._connectedHubUuids = {};
@@ -494,7 +494,7 @@ exports.PoweredUp = class extends BasicDevice {
             if (motorDevice.setDecelerationTime) {
                 motorDevice.setDecelerationTime(0);
             }
-            let speed = Math.abs(port.speed);
+            let speed = Math.max(Math.abs(port.speed) * gain, 50);
             switch (direction) {
                 case DIRECTION_REVERSE:
                     motorDevice.setPower(-speed);
@@ -535,17 +535,26 @@ exports.PoweredUp = class extends BasicDevice {
                 let motorDevice = port.motorDevice;
                 if (motorDevice) {
                     if (port.moving) {
-                        if ((Math.abs(port.endDegrees - port.degrees) < port.threshold) ||
+                        if ((Math.abs(port.endDegrees - port.degrees) <= port.threshold) ||
                             ((port.startDegrees < port.endDegrees) && (port.degrees >= port.endDegrees)) ||
                             ((port.startDegrees > port.endDegrees) && (port.degrees <= port.endDegrees))) {
-                            this.setDirection(port, DIRECTION_NONE, 0);
+                            if (Math.abs(port.degrees - port.endDegrees) > port.threshold) {
+                                port.startDegrees = port.degrees;
+                                if (port.degrees < port.endDegrees) {
+                                    this.setDirection(port, DIRECTION_FORWARD, 0.5);
+                                } else {
+                                    this.setDirection(port, DIRECTION_REVERSE, 0.5);
+                                }
+                            } else {
+                                this.setDirection(port, DIRECTION_NONE, 0);
+                            }
                         } else if (port.degrees < port.endDegrees) {
-                            this.setDirection(port, DIRECTION_FORWARD);
+                            this.setDirection(port, DIRECTION_FORWARD, 1);
                         } else {
-                            this.setDirection(port, DIRECTION_REVERSE);
+                            this.setDirection(port, DIRECTION_REVERSE, 1);
                         }
-                    } else if (!port.on) {
-                        this.setDirection(port, DIRECTION_NONE);
+                    } else {
+                        this.setDirection(port, DIRECTION_NONE, 0);
                     }
                 }
             }
@@ -615,12 +624,15 @@ exports.PoweredUp = class extends BasicDevice {
         if (!this.getHubConnected(layer)) {
             return;
         }
+        let port = this._layers[layer].ports[motor];
+        port.moving = false;
         let motorDevice = this.getClearedDevice(layer, motor);
         if (motorDevice) {
             motorDevice.setBrakingStyle && motorDevice.setBrakingStyle(this.getPUBrake(brake));
-            motorDevice.stop            && motorDevice.stop();
             motorDevice.setBrightness   && motorDevice.setBrightness(0);
+            motorDevice.setPower        && motorDevice.setPower(0);
             motorDevice.brake           && motorDevice.brake();
+            motorDevice.stop            && motorDevice.stop();
         }
         callback && callback();
     }
