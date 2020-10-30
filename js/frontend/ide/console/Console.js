@@ -33,13 +33,14 @@ exports.Console = class extends DOMNode {
         this._ui              = opts.ui;
         this._settings        = opts.settings;
         this._getDataProvider = opts.getDataProvider;
+        this._vmStepEvent     = null;
         dispatcher
             .on('Console.Breakpoint',   this, this.onBreakpoint)
             .on('Console.RuntimeError', this, this.onRuntimeError)
             .on('Console.Log',          this, this.onLog)
             .on('Console.Error',        this, this.onError)
             .on('Console.FindResult',   this, this.onFindResult)
-            .on('VM.Step',              this, this.onVMStep);
+            .on('VM.Run',               this, this.onVMRun);
         this.initDOM(opts.parentNode);
     }
 
@@ -158,45 +159,38 @@ exports.Console = class extends DOMNode {
     }
 
     onClickConsoleTab() {
-        this._activeTab = TAB_LOG;
         dispatcher.dispatch('Button.Console.Change', {hidden: false});
-        this.hide().show(this._logElement);
+        this.hide().show(TAB_LOG, this._logElement);
     }
 
     onClickRegistersTab() {
-        this._activeTab = TAB_REGISTERS;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
-        this.hide().show(this._refs.registers);
+        this.hide().show(TAB_REGISTERS, this._refs.registers);
     }
 
     onClickGlobalVarsTab() {
-        this._activeTab = TAB_GLOBALS;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
-        this.hide().show(this._refs.globals);
+        this.hide().show(TAB_GLOBALS, this._refs.globals);
     }
 
     onClickLocalVarsTab() {
-        this._activeTab = TAB_LOCALS;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
-        this.hide().show(this._refs.locals);
+        this.hide().show(TAB_LOCALS, this._refs.locals);
     }
 
     onClickTerminalTab() {
-        this._activeTab = TAB_TERMINAL;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
-        this.hide().show(this._refs.terminal);
+        this.hide().show(TAB_TERMINAL, this._refs.terminal);
     }
 
     onClickNewVersionTab() {
-        this._activeTab = TAB_VERSION;
         dispatcher.dispatch('Button.Console.Change', {hidden: true});
-        this.hide().show(this._refs.newVersion);
+        this.hide().show(TAB_VERSION, this._refs.newVersion);
     }
 
     onClickFindResultsTab() {
-        this._activeTab = TAB_FIND_RESULTS;
         dispatcher.dispatch('Button.Console.Change', {hidden: false});
-        this.hide().show(this._refs.findResults);
+        this.hide().show(TAB_FIND_RESULTS, this._refs.findResults);
     }
 
     onClickClear() {
@@ -239,10 +233,20 @@ exports.Console = class extends DOMNode {
     onFindResult(findResult) {
         let refs = this._refs;
         dispatcher.dispatch('Settings.Set.Console.Visible', true);
-        this.hide().show(refs.findResults);
+        this.hide().show(TAB_FIND_RESULTS, refs.findResults);
         refs.findResults.addResult(findResult);
         refs.tabs.setActiveTab('Find results');
         dispatcher.dispatch('Button.Console.Change', {hidden: false});
+    }
+
+    onVMRun(vm) {
+        if (this._vmStepEvent) {
+            this._vmStepEvent();
+            this._vmStepEvent = null;
+        }
+        if (this._activeTab === TAB_REGISTERS) {
+            this._vmStepEvent = dispatcher.on('VM.Step', this, this.onVMStep);
+        }
     }
 
     onVMStep(vm) {
@@ -264,14 +268,23 @@ exports.Console = class extends DOMNode {
         let level    = SettingsState.CONSOLE_LOG_LEVELS.indexOf(settings.getConsoleShowOnLevel());
         if (incoming >= level) {
             dispatcher.dispatch('Settings.Set.Console.Visible', true);
-            this.hide().show(this._logElement);
+            this.hide().show(TAB_LOG, this._logElement);
             this._refs.tabs.setActiveTab('Console');
             dispatcher.dispatch('Button.Console.Change', {hidden: false});
         }
     }
 
-    show(active) {
-        this._active = active;
+    show(tabName, active) {
+        if (tabName === TAB_REGISTERS) {
+            if (!this._vmStepEvent) {
+                this._vmStepEvent = dispatcher.on('VM.Step', this, this.onVMStep);
+            }
+        } else if (this._vmStepEvent) {
+            this._vmStepEvent();
+            this._vmStepEvent = null;
+        }
+        this._activeTab = tabName;
+        this._active    = active;
         active.show();
         if (active === this._refs.terminal) {
             this._refs.terminal.focus();

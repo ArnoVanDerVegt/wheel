@@ -534,6 +534,7 @@ exports.CompileAndRun = class extends DOMUtils {
             this.stop();
         } else {
             this._vm = this.createVM(this._program);
+            dispatcher.dispatch('VM.Run', this._vm);
             this.onBeforeRun(this._program);
             this.setRunProgramTitle('Stop');
             this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).getDisplay()
@@ -554,6 +555,8 @@ exports.CompileAndRun = class extends DOMUtils {
         this._vm.stop();
         this._motors && this._motors.reset();
         let ev3Plugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID);
+        this._ev3.stopAllMotors();
+        this._poweredUp.stopAllMotors();
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();

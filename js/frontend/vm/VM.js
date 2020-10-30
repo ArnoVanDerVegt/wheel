@@ -292,12 +292,12 @@ class VM {
                 this._sleepContinueTime = null;
             }
             count++;
-            if (count > 1024) {
+            if (count > 512) {
                 break;
             }
         }
         if ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped) {
-            this._runTimeout = setTimeout(this.runInterval.bind(this, onFinished), 10);
+            this._runTimeout = setTimeout(this.runInterval.bind(this, onFinished), 1);
         } else {
             this._stopped    = true;
             this._runTimeout = null;
