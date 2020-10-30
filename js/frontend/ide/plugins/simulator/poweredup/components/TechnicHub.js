@@ -53,9 +53,11 @@ exports.TechnicHub = class extends BasicHub {
                     {
                         ref:       this.setRef('hubState'),
                         className: 'hub-state',
-                        children: []
-                            .concat(this.getVectorRow('tilt', 'Tilt', true))
-                            .concat(this.getVectorRow('accel', 'Acceleration', true))
+                        children: [].concat(
+                            this.getVectorRow('tilt', 'Tilt', true),
+                            this.getVectorRow('accel', 'Acceleration', true),
+                            this.getDirectControlRow()
+                        )
                     }
                 ]
             }

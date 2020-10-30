@@ -12,6 +12,7 @@ exports.Plugin = class extends SimulatorPlugin {
         if (!opts.stateConstructor) {
             throw new Error('No state constructor');
         }
+        this._ui                  = opts.ui;
         this._layerCount          = opts.layerCount || 4;
         this._device              = opts.ev3;
         this._baseClassName       = 'motors';

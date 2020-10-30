@@ -7,7 +7,6 @@ const dispatcher               = require('../../../../lib/dispatcher').dispatche
 const DOMNode                  = require('../../../../lib/dom').DOMNode;
 const TextInput                = require('../../../../lib/components/TextInput').TextInput;
 const Console                  = require('../../../console/Console');
-const SimulatorPlugin          = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Plugin                   = require('../lib/motor/Plugin').Plugin;
 const MotorOrSensor            = require('./io/MotorOrSensor').MotorOrSensor;
 const MotorOrSensorState       = require('./io/MotorOrSensorState').MotorOrSensorState;
@@ -33,6 +32,7 @@ exports.Plugin = class extends Plugin {
         this.initEvents();
         this._assignmentError  = false;
         this._buttons          = null;
+        this._settings         = opts.settings;
         this._poweredUp        = opts.poweredUp;
         this._uuid             = '';
         this._simulatedDevices = new SimulatedDevices({});
@@ -53,6 +53,16 @@ exports.Plugin = class extends Plugin {
     }
 
     getMainElement() {
+        let children = [];
+        [TechnicHub, Hub, MoveHub, Remote].forEach((type) => {
+            children.push({
+                type:     type,
+                plugin:   this,
+                ui:       this._ui,
+                device:   this._device,
+                settings: this._settings
+            });
+        });
         return {
             className: 'powered-up remote',
             children: [
@@ -68,24 +78,7 @@ exports.Plugin = class extends Plugin {
                     ]
                 },
                 {
-                    children: [
-                        {
-                            type:   TechnicHub,
-                            plugin: this
-                        },
-                        {
-                            type:   Hub,
-                            plugin: this
-                        },
-                        {
-                            type:   MoveHub,
-                            plugin: this
-                        },
-                        {
-                            type:   Remote,
-                            plugin: this
-                        }
-                    ]
+                    children: children
                 }
             ]
         };

@@ -34,6 +34,11 @@ exports.Hub = class extends BasicHub {
                                 ]
                             }
                         ]
+                    },
+                    {
+                        ref:       this.setRef('hubState'),
+                        className: 'hub-state',
+                        children:  [].concat(this.getDirectControlRow())
                     }
                 ]
             }

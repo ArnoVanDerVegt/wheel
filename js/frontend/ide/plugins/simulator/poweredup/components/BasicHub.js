@@ -2,7 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode = require('../../../../../lib/dom').DOMNode;
+const DOMNode    = require('../../../../../lib/dom').DOMNode;
+const dispatcher = require('../../../../../lib/dispatcher').dispatcher;
+const Button     = require('../../../../../lib/components/Button').Button;
 
 let colors = [];
 colors[  0] = 'black';
@@ -21,7 +23,13 @@ colors[255] = 'none';
 exports.BasicHub = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._light = null;
+        this._settings = opts.settings;
+        this._ui       = opts.ui;
+        this._device   = opts.device;
+        this._light    = null;
+        this._device
+            .addEventListener('PoweredUp.Connected',    this, this.onDeviceConnected)
+            .addEventListener('PoweredUp.Disconnected', this, this.onDeviceDisconnected);
     }
 
     getVectorRow(ref, title, addZ) {
@@ -60,6 +68,26 @@ exports.BasicHub = class extends DOMNode {
         ];
     }
 
+    getDirectControlRow() {
+        return [
+            {
+                className: 'flt max-w hub-state-row',
+                children: [
+                    {
+                        type:    Button,
+                        ref:     this.setRef('directControlButton'),
+                        ui:      this._ui,
+                        onClick: this.onClickDirectControl.bind(this),
+                        uiId:    1,
+                        value:   'Direct control',
+                        color:   'blue',
+                        hidden:  true
+                    }
+                ]
+            }
+        ];
+    }
+
     getLight() {
         if (this._light) {
             return this._light;
@@ -91,6 +119,30 @@ exports.BasicHub = class extends DOMNode {
         refs.tiltY.innerHTML = 'y: ' + tilt.y;
         if (refs.tiltZ) {
             refs.tiltZ.innerHTML = 'z: ' + tilt.z;
+        }
+    }
+
+    onClickDirectControl() {
+        dispatcher.dispatch(
+            'Dialog.PoweredUpControl.Show',
+            {
+                deviceCount: this._settings.getDeviceCount() - 1,
+                withAlias:   true
+            }
+        );
+    }
+
+    onDeviceConnected() {
+        let refs = this._refs;
+        if (refs.directControlButton) {
+            refs.directControlButton.setHidden(false);
+        }
+    }
+
+    onDeviceDisconnected() {
+        let refs = this._refs;
+        if (refs.directControlButton) {
+            refs.directControlButton.setHidden(true);
         }
     }
 

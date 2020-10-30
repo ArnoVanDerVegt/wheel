@@ -44,8 +44,10 @@ exports.MoveHub = class extends BasicHub {
                     {
                         ref:       this.setRef('hubState'),
                         className: 'hub-state',
-                        children: []
-                            .concat(this.getVectorRow('tilt', 'Tilt'))
+                        children:  [].concat(
+                            this.getVectorRow('tilt', 'Tilt'),
+                            this.getDirectControlRow()
+                        )
                     }
                 ]
             }
