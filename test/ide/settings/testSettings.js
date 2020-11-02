@@ -659,10 +659,10 @@ describe(
                     'Should validate device count',
                     () => {
                         let settings = new SettingsState.SettingsState({});
-                        assert.equal(settings.getValidatedDeviceCount(0), 1);
-                        assert.equal(settings.getValidatedDeviceCount(1), 1);
-                        assert.equal(settings.getValidatedDeviceCount(4), 4);
-                        assert.equal(settings.getValidatedDeviceCount(9), 1);
+                        assert.equal(settings.getValidatedDeviceCount(0),  1);
+                        assert.equal(settings.getValidatedDeviceCount(1),  1);
+                        assert.equal(settings.getValidatedDeviceCount(4),  4);
+                        assert.equal(settings.getValidatedDeviceCount(11), 1);
                     }
                 );
             }

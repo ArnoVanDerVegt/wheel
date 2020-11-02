@@ -50,7 +50,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
         }
         let layerState = this._layerState;
         for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
-            if (layerState[i].getConnected() !== state.layers[i].connected) {
+            if (state.layers[i] && (layerState[i].getConnected() !== state.layers[i].connected)) {
                 if (state.layers[i].connected) {
                     layerState[i].setConnected(true);
                     this.emit('PoweredUp.Connected', i);
