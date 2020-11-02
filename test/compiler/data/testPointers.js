@@ -584,6 +584,42 @@ describe(
                         825
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should use a pointer to an index of a record array',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'Point points[4]',
+                        'proc test1(Point ^point)',
+                        '    point.x = 4546',
+                        '    point.y = 9443',
+                        'end',
+                        'proc test2(Point ^point)',
+                        '    point.x = 1835',
+                        '    point.y = 9451',
+                        'end',
+                        'proc main()',
+                        '    test1(@points[0])',
+                        '    test2(@points[3])',
+                        '    addr points[3].x',
+                        '    mod 0, 1',
+                        '    addr points[3].y',
+                        '    mod 0, 1',
+                        '    addr points[0].x',
+                        '    mod 0, 1',
+                        '    addr points[0].y',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        1835,
+                        9451,
+                        4546,
+                        9443
+                    ]
+                );
             }
         );
     }
