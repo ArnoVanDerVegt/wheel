@@ -2,9 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../../lib/dispatcher').dispatcher;
-const Dialog     = require('../../../lib/components/Dialog').Dialog;
-const Dropdown   = require('../../../lib/components/Dropdown').Dropdown;
+const poweredUpModuleConstants = require('../../../../shared/vm/modules/poweredUpModuleConstants');
+const dispatcher               = require('../../../lib/dispatcher').dispatcher;
+const Dialog                   = require('../../../lib/components/Dialog').Dialog;
+const Dropdown                 = require('../../../lib/components/Dropdown').Dropdown;
 
 exports.DeviceCountDialog = class extends Dialog {
     constructor(opts) {
@@ -20,6 +21,10 @@ exports.DeviceCountDialog = class extends Dialog {
     }
 
     initWindowContent() {
+        let items = [];
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+            items.push({value: i + 1, title: (i + 1) + ' Device' + (i ? 's' : '')});
+        }
         return [
             {
                 type:      Dropdown,
@@ -28,16 +33,7 @@ exports.DeviceCountDialog = class extends Dialog {
                 uiId:      this._uiId,
                 className: 'abs dialog-lt',
                 tabIndex:  1,
-                items: [
-                    {value: 1, title: '1 Device'},
-                    {value: 2, title: '2 Devices'},
-                    {value: 3, title: '3 Devices'},
-                    {value: 4, title: '4 Devices'},
-                    {value: 5, title: '5 Devices'},
-                    {value: 6, title: '6 Devices'},
-                    {value: 7, title: '7 Devices'},
-                    {value: 8, title: '8 Devices'}
-                ]
+                items:     items
             },
             this.initButtons([
                 {

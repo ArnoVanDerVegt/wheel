@@ -123,7 +123,7 @@ exports.DeviceListState = class extends Emitter {
 
     onAddDevice(type) {
         let list = this._list;
-        if (list.length >= 8) {
+        if (list.length >= poweredUpModuleConstants.POWERED_UP_LAYER_COUNT) {
             return;
         }
         let lastActiveIndex = this._activeIndex;

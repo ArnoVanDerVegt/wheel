@@ -19,6 +19,8 @@
 #define LAYER_6            5
 #define LAYER_7            6
 #define LAYER_8            7
+#define LAYER_9            8
+#define LAYER_10           9
 
 ; @const The avaialable types of devices.
 #define DEVICE_EV3         0    ; `image:images/ev3/ev364.png`

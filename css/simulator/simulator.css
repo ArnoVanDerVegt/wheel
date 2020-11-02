@@ -103,12 +103,7 @@ body.ide.no-simulator div.simulator {
 .simulator .simulator-options .dropdown {
     float:                          right;
     margin:                         8px 16px 0 8px;
-    min-width:                      24px;
-}
-.simulator .simulator-options .dropdown .dropdown-value .dropdown-value-label,
-.simulator .simulator-options .dropdown .dropdown-list-item {
-    text-align:                     center;
-    padding:                        0;
+    min-width:                      48px;
 }
 
 /* Simulator plugins */
