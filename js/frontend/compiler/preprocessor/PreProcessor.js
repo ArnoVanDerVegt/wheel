@@ -93,10 +93,11 @@ exports.PreProcessor = class PreProcessor {
         }
         this._fileCount++;
         let fileItem = {
-                depth:    depth,
-                index:    index,
-                tokens:   null,
-                filename: path.join(this._documentPath, filename)
+                depth:       depth,
+                index:       index,
+                tokens:      null,
+                projectPath: this._projectPath,
+                filename:    filename
             };
         filesDone[filename] = fileItem;
         this._getFileData(

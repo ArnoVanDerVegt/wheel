@@ -2,15 +2,17 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const tokenUtils = require('../../compiler/tokenizer/tokenUtils');
-const dispatcher = require('../../lib/dispatcher').dispatcher;
-const DOMNode    = require('../../lib/dom').DOMNode;
-const path       = require('../../lib/path');
+const tokenUtils      = require('../../compiler/tokenizer/tokenUtils');
+const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
+const dispatcher      = require('../../lib/dispatcher').dispatcher;
+const DOMNode         = require('../../lib/dom').DOMNode;
+const path            = require('../../lib/path');
 
 class LogMessage extends DOMNode {
     constructor(opts) {
         super(opts);
         this._open            = false;
+        this._settings        = opts.settings;
         this._className       = opts.className;
         this._log             = opts.log;
         this._lineInfo        = opts.lineInfo;
@@ -86,9 +88,46 @@ class LogMessage extends DOMNode {
         count.innerHTML = this._count;
     }
 
+    fileExists(filename, callback) {
+        getDataProvider().getData(
+            'get',
+            'ide/path-exists',
+            {path: filename},
+            (data) => {
+                let exists = false;
+                try {
+                    exists = JSON.parse(data).exists;
+                } catch (error) {
+                }
+                callback(exists);
+            }
+        );
+    }
+
     onClickLineInfo() {
-        let lineInfo = this._lineInfo;
-        dispatcher.dispatch('Dialog.File.Open', lineInfo.filename, lineInfo);
+        let lineInfo     = this._lineInfo;
+        let documentPath = this._settings.getDocumentPath();
+        let files        = [
+                path.join(documentPath, lineInfo.projectPath, lineInfo.filename),
+                path.join(documentPath, lineInfo.filename)
+            ];
+        let index        = 0;
+        let findFile     = () => {
+                this.fileExists(
+                    files[index],
+                    (exists) => {
+                        if (exists) {
+                            dispatcher.dispatch('Dialog.File.Open', files[index], lineInfo);
+                        } else if (index < files.length) {
+                            index++;
+                            findFile();
+                        } else {
+                            dispatcher.dispatch('Dialog.File.Open', files[0], lineInfo);
+                        }
+                    }
+                );
+            };
+        findFile();
     }
 
     onClickParentMessage() {
@@ -170,6 +209,7 @@ exports.Log = class extends DOMNode {
             this._lastMessage = new LogMessage({
                 parentNode:      element,
                 log:             this,
+                settings:        this._settings,
                 message:         opts.message,
                 messageId:       opts.messageId,
                 parentMessageId: opts.parentMessageId,
@@ -185,15 +225,17 @@ exports.Log = class extends DOMNode {
     onError(opts) {
         let error = opts;
         if (error.token) {
-            let token       = error.token;
-            let sortedFiles = this._preProcessor.getSortedFiles();
-            let filename    = token.filename || sortedFiles[token.fileIndex].filename;
-            let line        = tokenUtils.getLineFromToken(token, opts.tokens);
-            let text        = '<i class="error">' + line.left + '<b>' + line.lexeme + '</b>' + line.right + '<i>';
+            let token           = error.token;
+            let sortedFiles     = this._preProcessor.getSortedFiles();
+            let fileItem        = sortedFiles[token.fileIndex];
+            let filename        = fileItem.filename;
+            let projectPath     = fileItem.projectPath;
+            let line            = tokenUtils.getLineFromToken(token, opts.tokens);
+            let text            = '<i class="error">' + line.left + '<b>' + line.lexeme + '</b>' + line.right + '<i>';
             let pathAndFilename = path.getPathAndFilename(filename);
             this.onLog({
                 message:  pathAndFilename.filename + '(line:' + token.lineNum + ',' + line.left.length + ') ' + text,
-                lineInfo: {filename: filename, lineNum: token.lineNum, ch: line.left.length}
+                lineInfo: {projectPath: projectPath, filename: filename, lineNum: token.lineNum, ch: line.left.length}
             });
         }
         this.onLog({
