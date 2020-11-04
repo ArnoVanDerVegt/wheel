@@ -505,5 +505,107 @@ describe(
                 );
             }
         );
+        describe(
+            'Test with with addr',
+            () => {
+                testLogs(
+                    it,
+                    'Should use addr with number fields',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        'end',
+                        'proc main()',
+                        '    Point p',
+                        '    p.x = 5581',
+                        '    p.y = 5916',
+                        '    with p',
+                        '        addr x',
+                        '        mod  0, 1',
+                        '        addr y',
+                        '        mod  0, 1',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        5581,
+                        5916
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use addr with nested record number fields',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        'end',
+                        'record Line',
+                        '   Point p1, p2',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    l.p1.x = 1581',
+                        '    l.p1.y = 1916',
+                        '    l.p2.x = 2581',
+                        '    l.p2.y = 2916',
+                        '    with l',
+                        '        addr p1.x',
+                        '        mod  0, 1',
+                        '        addr p1.y',
+                        '        mod  0, 1',
+                        '        addr p2.x',
+                        '        mod  0, 1',
+                        '        addr p2.y',
+                        '        mod  0, 1',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        1581,
+                        1916,
+                        2581,
+                        2916
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use addr with nested pointer record number fields',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        'end',
+                        'record Line',
+                        '   Point ^p1, ^p2',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    Point pp1, pp2',
+                        '    pp1.x = 3581',
+                        '    pp1.y = 3916',
+                        '    pp2.x = 4581',
+                        '    pp2.y = 4916',
+                        '    l.p1 = @pp1',
+                        '    l.p2 = @pp2',
+                        '    with l',
+                        '        addr p1.x',
+                        '        mod  0, 1',
+                        '        addr p1.y',
+                        '        mod  0, 1',
+                        '        addr p2.x',
+                        '        mod  0, 1',
+                        '        addr p2.y',
+                        '        mod  0, 1',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        3581,
+                        3916,
+                        4581,
+                        4916
+                    ]
+                );
+            }
+        );
     }
 );
