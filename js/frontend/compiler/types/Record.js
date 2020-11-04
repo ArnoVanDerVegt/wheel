@@ -28,8 +28,9 @@ exports.Record = class extends Scope {
     getWithRecord(withOffset) {
         let record = new exports.Record(this._parentScope, this._name, this._global, this._namespace);
         this._vars.forEach((vr) => {
-            record.addVar(vr.getToken(), vr.getName(), vr.getType(), vr.getArraySize(), vr.getPointer(), false);
-            vr.setWithOffset(withOffset);
+            record
+                .addVar(vr.getToken(), vr.getName(), vr.getType(), vr.getArraySize(), vr.getPointer(), false)
+                .setWithOffset(withOffset);
         });
         return record;
     }

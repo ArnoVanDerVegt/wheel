@@ -125,8 +125,7 @@ exports.Scope = class {
     findWithField(name) {
         let withStack = this._withStack;
         for (let i = withStack.length - 1; i >= 0; i--) {
-            let withItem   = withStack[i];
-            let varsByName = withItem.record.getVarsByName();
+            let varsByName = withStack[i].getVarsByName();
             if (name in varsByName) {
                 return varsByName[name];
             }
@@ -323,10 +322,7 @@ exports.Scope = class {
 
     pushWith(record) {
         let result = this._stackOffset;
-        this._withStack.push({
-            stackOffset: record.getWithRecord(this._stackOffset),
-            record:      record
-        });
+        this._withStack.push(record.getWithRecord(this._stackOffset));
         this._stackOffset++;
         return result;
     }
