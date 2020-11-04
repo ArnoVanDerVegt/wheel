@@ -606,5 +606,152 @@ describe(
                 );
             }
         );
+        describe(
+            'Test with with arrays',
+            () => {
+                testLogs(
+                    it,
+                    'Should use array of records',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        'end',
+                        'record Line',
+                        '   Point p[2]',
+                        'end',
+                        'proc test(Point p)',
+                        '    addr p.y',
+                        '    mod 0, 1',
+                        '    addr p.x',
+                        '    mod 0, 1',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    with l.p[0]',
+                        '        x = 4434',
+                        '        y = 4661',
+                        '    end',
+                        '    with l.p[1]',
+                        '        x = 5551',
+                        '        y = 5713',
+                        '    end',
+                        '    with l',
+                        '        test(p[0])',
+                        '        test(p[1])',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        4661,
+                        4434,
+                        5713,
+                        5551
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use array of records with array',
+                    [
+                        'record Point',
+                        '   number n[2]',
+                        'end',
+                        'record Line',
+                        '   Point p[2]',
+                        'end',
+                        'proc test(Point p)',
+                        '    addr p.n[1]',
+                        '    mod 0, 1',
+                        '    addr p.n[0]',
+                        '    mod 0, 1',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    with l.p[0]',
+                        '        n[0] = 6434',
+                        '        n[1] = 6661',
+                        '    end',
+                        '    with l.p[1]',
+                        '        n[0] = 7551',
+                        '        n[1] = 7713',
+                        '    end',
+                        '    with l',
+                        '        test(p[0])',
+                        '        test(p[1])',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        6661,
+                        6434,
+                        7713,
+                        7551
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use multidimensional array field',
+                    [
+                        'record Line',
+                        '   number p[2][2]',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    with l',
+                        '        p[0][0] = 9434',
+                        '        p[0][1] = 9661',
+                        '        p[1][0] = 8551',
+                        '        p[1][1] = 8713',
+                        '    end',
+                        '    number j, i',
+                        '    for i = 0 to 1',
+                        '        for j = 0 to 1',
+                        '            addr l.p[i][j]',
+                        '            mod  0, 1',
+                        '        end',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        9434,
+                        9661,
+                        8551,
+                        8713
+                    ]
+                );
+                /*testLogs(
+                    it,
+                    'Should use pointer to multidimensional array field',
+                    [
+                        'record Line',
+                        '   number ^p[2][2]',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    number pp[2][2]',
+                        '    pp[0][0] = 1434',
+                        '    pp[0][1] = 1661',
+                        '    pp[1][0] = 2551',
+                        '    pp[1][1] = 2713',
+                        '    number j, i',
+                        '    with l',
+                        '        p = @pp',
+                        '        for i = 0 to 1',
+                        '            for j = 0 to 1',
+                        '                addr l.p[i][j]',
+                        '                mod  0, 1',
+                        '            end',
+                        '        end',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        1434,
+                        1661,
+                        2551,
+                        2713
+                    ]
+                );*/
+            }
+        );
     }
 );
