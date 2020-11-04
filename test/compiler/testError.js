@@ -437,7 +437,7 @@ describe(
                 );
                 testError(
                     it,
-                    'Should throw TYPE_MISMATCH',
+                    'Should throw POINTER_TYPE_EXPECTED',
                     [
                         'proc main()',
                         '    string a',
@@ -445,7 +445,7 @@ describe(
                         '    a = @b',
                         'end'
                     ],
-                    'Error: #' + errors.TYPE_MISMATCH + ' Type mismatch.'
+                    'Error: #' + errors.POINTER_TYPE_EXPECTED + ' Pointer type expected.'
                 );
                 testError(
                     it,

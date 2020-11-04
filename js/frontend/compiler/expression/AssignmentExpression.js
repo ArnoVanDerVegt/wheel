@@ -395,7 +395,12 @@ exports.AssignmentExpression = class {
             .validateDataSize(opts);
         let copySize = 0;
         let type     = this._varExpression.getTypeFromIdentifier(opts.srcVrOrType);
-        if (type === t.LEXEME_STRING) {
+        if (opts.address) {
+            if (opts.destInfo.type && opts.destInfo.type.getPointer && !opts.destInfo.type.getPointer()) {
+                throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destInfo.type.getToken(), 'Pointer type expected.');
+            }
+            this.compileAddressPointerAssignment(opts);
+        } else if (type === t.LEXEME_STRING) {
             this.compileStringAssignment(opts);
         } else if (type === t.LEXEME_PROC) {
             opts.srcIdentifier = this._scope.findIdentifier(opts.srcExpression.tokens[0].lexeme);
@@ -403,8 +408,6 @@ exports.AssignmentExpression = class {
             copySize = this.compileNumberAssignment(opts);
         } else if (type === t.LEXEME_NUMBER) {
             copySize = this.compileNumberAssignment(opts);
-        } else if (opts.address) {
-            this.compileAddressPointerAssignment(opts);
         } else {
             copySize = opts.srcVrOrType.getTotalSize ? opts.srcVrOrType.getTotalSize() : opts.srcVrOrType.getSize();
         }

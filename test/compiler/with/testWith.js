@@ -718,7 +718,7 @@ describe(
                         8713
                     ]
                 );
-                /*testLogs(
+                testLogs(
                     it,
                     'Should use pointer to multidimensional array field',
                     [
@@ -750,7 +750,7 @@ describe(
                         2551,
                         2713
                     ]
-                );*/
+                );
             }
         );
     }
