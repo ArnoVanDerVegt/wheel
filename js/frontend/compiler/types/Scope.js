@@ -29,6 +29,7 @@ exports.Scope = class {
         this._stringsAdded      = [];
         this._stringsAddedCount = 0;
         this._tempVarIndex      = 0;
+        this._withStack         = [];
     }
 
     addRecord(record) {
@@ -121,6 +122,18 @@ exports.Scope = class {
         return this._stringsAddedCount;
     }
 
+    findWithField(name) {
+        let withStack = this._withStack;
+        for (let i = withStack.length - 1; i >= 0; i--) {
+            let withItem   = withStack[i];
+            let varsByName = withItem.record.getVarsByName();
+            if (name in varsByName) {
+                return varsByName[name];
+            }
+        }
+        return null;
+    }
+
     findIdentifier(name) {
         let record = this._recordsByName[name];
         if (record) {
@@ -141,6 +154,10 @@ exports.Scope = class {
         proc = this._procByName[this._namespace.getCurrentNamespace() + name];
         if (proc) {
             return proc;
+        }
+        let field = this.findWithField(name);
+        if (field) {
+            return field;
         }
         return this._parentScope ? this._parentScope.findIdentifier(name) : null;
     }
@@ -302,5 +319,19 @@ exports.Scope = class {
 
     getTempVarIndex() {
         return this._tempVarIndex++;
+    }
+
+    pushWith(record) {
+        let result = this._stackOffset;
+        this._withStack.push({
+            stackOffset: record.getWithRecord(this._stackOffset),
+            record:      record
+        });
+        this._stackOffset++;
+        return result;
+    }
+
+    popWith() {
+        this._withStack.pop();
     }
 };

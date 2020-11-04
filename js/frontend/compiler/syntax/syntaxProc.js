@@ -81,13 +81,14 @@ exports.procScopeTokens = function() {
     tokens[t.TOKEN_KEYWORD][t.LEXEME_REPEAT] = follow06;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_BREAK ] = follow06;
 
-    // "proc" | "record" | "addr" | "for" | "." | "^" | "@" -> IDENTIFIER
+    // "proc" | "record" | "addr" | "with" | "for" | "." | "^" | "@" -> IDENTIFIER
     let follow07 = [
             {token: t.TOKEN_IDENTIFIER}
         ];
     tokens[t.TOKEN_KEYWORD][t.LEXEME_PROC   ] = follow07;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_RECORD ] = follow07;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_ADDR   ] = follow07;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_WITH   ] = follow07;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_FOR    ] = follow07;
     tokens[t.TOKEN_DOT    ][t.LEXEME_DOT    ] = follow07;
     tokens[t.TOKEN_POINTER][t.LEXEME_POINTER] = follow07;

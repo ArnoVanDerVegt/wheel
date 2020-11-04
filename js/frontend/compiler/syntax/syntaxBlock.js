@@ -33,13 +33,14 @@ exports.blockScopeTokens = function() {
     tokens[t.TOKEN_ASSIGNMENT_OPERATOR][t.LEXEME_ASSIGN_MUL   ] = follow01;
     tokens[t.TOKEN_ASSIGNMENT_OPERATOR][t.LEXEME_ASSIGN_DIV   ] = follow01;
 
-    // "=" -> IDENTIFIER| NUMBER | STRING | "(" | "[" | "@"
+    // "=" -> IDENTIFIER| NUMBER | STRING | "(" | "{" | "[" | "@"
     let follow02 = [
             {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_NUMBER},
             {token: t.TOKEN_STRING},
             {token: t.TOKEN_BRACKET_OPEN},
             {token: t.TOKEN_PARENTHESIS_OPEN},
+            {token: t.TOKEN_CURLY_OPEN},
             {token: t.TOKEN_ADDRESS}
         ];
     tokens[t.TOKEN_ASSIGNMENT_OPERATOR][t.LEXEME_ASSIGN] = follow02;
@@ -53,13 +54,14 @@ exports.blockScopeTokens = function() {
         ];
     tokens[t.TOKEN_BRACKET_OPEN][t.LEXEME_BRACKET_OPEN] = follow03;
 
-    // "proc" | "record" | "addr" | "for" | "elseif" | "." | "^" | "@" -> IDENTIFIER
+    // "proc" | "record" | "addr" | "with" | "for" | "elseif" | "." | "^" | "@" -> IDENTIFIER
     let follow04 = [
             {token: t.TOKEN_IDENTIFIER}
         ];
     tokens[t.TOKEN_KEYWORD][t.LEXEME_PROC   ] = follow04;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_RECORD ] = follow04;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_ADDR   ] = follow04;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_WITH   ] = follow04;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_FOR    ] = follow04;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_ELSEIF ] = follow04;
     tokens[t.TOKEN_DOT    ][t.LEXEME_DOT    ] = follow04;

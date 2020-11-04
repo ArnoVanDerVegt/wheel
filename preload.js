@@ -137,6 +137,7 @@ require('./js/frontend/compiler/keyword/CompileRepeat');
 require('./js/frontend/compiler/keyword/CompileRet');
 require('./js/frontend/compiler/keyword/CompileSelect');
 require('./js/frontend/compiler/keyword/CompileWhile');
+require('./js/frontend/compiler/keyword/CompileWith');
 require('./js/frontend/compiler/CompilerUseInfo');
 require('./js/frontend/compiler/Compiler');
 require('./js/frontend/vm/modules/VMModule');

@@ -74,11 +74,12 @@ let namespaceScope = {
 
 // Block
 let blockScope = {};
-blockScope[t.LEXEME_IF        ] = function() { return [ifScope,     ifScopeCondition   ]; };
-blockScope[t.LEXEME_ELSEIF    ] = function() { return [ifScope,     ifScopeCondition   ]; };
+blockScope[t.LEXEME_IF        ] = function() { return [ifScope,     ifConditionScope   ]; };
+blockScope[t.LEXEME_ELSEIF    ] = function() { return [ifScope,     ifConditionScope   ]; };
 blockScope[t.LEXEME_SELECT    ] = function() { return [selectScope, selectValueScope   ]; };
 blockScope[t.LEXEME_WHILE     ] = function() { return [whileScope,  whileScopeCondition]; };
 blockScope[t.LEXEME_FOR       ] = function() { return [forScope,    toScope            ]; };
+blockScope[t.LEXEME_WITH      ] = function() { return [withScope,   withExpressionScope]; };
 blockScope[t.LEXEME_NAMESPACE ] = function() { return [namespaceScope           ];        };
 blockScope[t.LEXEME_REPEAT    ] = function() { return [repeatScope              ];        };
 blockScope[t.LEXEME_RECORD    ] = function() { return [recordScope              ];        };
@@ -98,7 +99,7 @@ let ifScope = {
         endLexeme: [t.LEXEME_END],
         scope:     blockScope
     };
-let ifScopeCondition = {
+let ifConditionScope = {
         name:      'if condition',
         tokens:    booleanScopeTokens(),
         endLexeme: [t.LEXEME_NEWLINE]
@@ -135,6 +136,19 @@ let selectScope = {
     };
 selectScope.scope[t.LEXEME_CASE   ] = function() { return [selectCaseScope, selectCaseValueScope]; };
 selectScope.scope[t.LEXEME_DEFAULT] = function() { return [selectCaseScope, selectDefaultScope  ]; };
+
+// With <identifier>
+let withScope = {
+        name:      'with',
+        tokens:    blockScopeTokens(),
+        endLexeme: [t.LEXEME_END],
+        scope:     blockScope
+    };
+let withExpressionScope = {
+        name:      'with expression',
+        tokens:    addrScopeTokens(),
+        endLexeme: [t.LEXEME_NEWLINE]
+    };
 
 // Repeat
 let repeatScope = {

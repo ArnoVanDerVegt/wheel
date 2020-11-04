@@ -11,6 +11,7 @@ exports.Var = class {
         this._global               = opts.global;
         this._offset               = opts.offset;
         this._pointer              = opts.pointer;
+        this._withOffset           = null;
         this._assignedProc         = null;
         this._stringConstantOffset = null;
         this._isParam              = false;
@@ -60,6 +61,15 @@ exports.Var = class {
             }
         }
         return (this.getPrimitiveType() ? 1 : this._type.getSize()) * arraySize;
+    }
+
+    getWithOffset() {
+        return this._withOffset;
+    }
+
+    setWithOffset(withOffset) {
+        this._withOffset = withOffset;
+        return this;
     }
 
     getOffset() {

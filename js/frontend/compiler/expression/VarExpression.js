@@ -22,9 +22,10 @@ exports.assertRecord = function(opts) {
 
 exports.VarExpression = class {
     constructor(opts) {
-        this._scope    = opts.scope;
-        this._program  = opts.program;
-        this._compiler = opts.compiler;
+        this._scope          = opts.scope;
+        this._program        = opts.program;
+        this._compiler       = opts.compiler;
+        this._lastRecordType = null;
     }
 
     assertArray(identifier, token) {
@@ -100,6 +101,10 @@ exports.VarExpression = class {
             $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, $.REG_STACK,
             $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this._scope.getStackOffset()
         );
+    }
+
+    getLastRecordType() {
+        return this._lastRecordType;
     }
 
     getIdentifierSize(identifier) {
@@ -259,6 +264,9 @@ exports.VarExpression = class {
         if (!field) {
             throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
         }
+        if (field.getType() instanceof Record) {
+            this._lastRecordType = field.getType();
+        }
         if (field.getOffset() !== 0) {
             this.addToReg(opts.reg, $.T_NUM_C, field.getOffset());
         }
@@ -356,6 +364,9 @@ exports.VarExpression = class {
     compileSingleTokenToRegister(opts, result) {
         let program = this._program;
         result.dataSize = 1;
+        if (opts.identifier && opts.identifier.getType) {
+            this._lastRecordType = opts.identifier.getType();
+        }
         if (opts.expression.tokens[0].cls === t.TOKEN_NUMBER) {
             program.addCommand($.CMD_SET, $.T_NUM_L, this._scope.getStackOffset(), $.T_NUM_C, opts.expression.tokens[0].value);
             this.setReg(opts.reg, $.T_NUM_G, $.REG_STACK);
@@ -368,7 +379,13 @@ exports.VarExpression = class {
             this.setReg(opts.reg, $.T_NUM_C, opts.identifier.getEntryPoint() - 1);
             result.type = t.LEXEME_PROC;
         } else {
-            if (opts.identifier.getPointer() && (opts.identifier.getType() === t.LEXEME_STRING)) {
+            if (opts.identifier.getWithOffset() !== null) {
+                this.setReg($.REG_PTR, $.T_NUM_L, opts.identifier.getWithOffset());
+                program.addCommand(
+                    $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset(),
+                    $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
+                );
+            } else if (opts.identifier.getPointer() && (opts.identifier.getType() === t.LEXEME_STRING)) {
                 this.setReg($.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
                 if (!opts.identifier.getGlobal()) {
                     this.addToReg($.REG_PTR, $.T_NUM_G, $.REG_STACK);
@@ -390,6 +407,7 @@ exports.VarExpression = class {
     }
 
     compileExpressionToRegister(identifier, expression, reg, forWriting) {
+        this._lastRecordType = null;
         let program = this._program;
         let result  = {type: t.LEXEME_NUMBER, fullArrayAddress: true};
         let opts    = {
@@ -409,6 +427,9 @@ exports.VarExpression = class {
         } else {
             this.assertIdentifier(identifier, expression);
             opts.identifierType = identifier.getType();
+            if (opts.identifierType instanceof Record) {
+                this._lastRecordType = opts.identifierType;
+            }
             this.setReg(reg, $.T_NUM_C, identifier.getOffset());
             if (!identifier.getGlobal()) {
                 this.addToReg(reg, $.T_NUM_G, $.REG_STACK);
@@ -427,6 +448,7 @@ exports.VarExpression = class {
                 result.arrayIndex = true;
                 this.compileArrayIndex(opts, result);
             } else if ((opts.token.cls === t.TOKEN_PARENTHESIS_OPEN) && (identifier instanceof Proc)) {
+                this._lastRecordType = null;
                 this.compileProcCall(opts, result);
                 this.setStackOffsetToPtr();
                 opts.identifierType = t.LEXEME_NUMBER;
@@ -434,6 +456,7 @@ exports.VarExpression = class {
                 throw errors.createError(err.SYNTAX_ERROR_DOT_EXPECTED, opts.token, '"." Expected got "' + opts.token.lexeme + '".');
             } else {
                 exports.assertRecord(opts);
+                this._lastRecordType = opts.identifier.getType();
                 opts.index++;
                 this.compileAddFieldOffsetToReg(opts);
                 if (opts.identifier.getPointer()) {

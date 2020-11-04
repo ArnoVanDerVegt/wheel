@@ -236,6 +236,7 @@ const files = [
         './js/frontend/compiler/keyword/CompileRet',
         './js/frontend/compiler/keyword/CompileSelect',
         './js/frontend/compiler/keyword/CompileWhile',
+        './js/frontend/compiler/keyword/CompileWith',
         './js/frontend/compiler/CompilerUseInfo',
         './js/frontend/compiler/Compiler',
         './js/frontend/ide/settings/PluginsState',
