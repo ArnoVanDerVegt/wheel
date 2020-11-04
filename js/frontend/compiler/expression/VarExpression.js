@@ -89,10 +89,22 @@ exports.VarExpression = class {
             );
             this._program.addInfoToLastCommand({token: opts.token, scope: this._scope});
         }
-        this._program.addCommand(
-            $.CMD_SET, $.T_NUM_L, offset, type,      opts.indexIdentifier.getOffset(),
-            $.CMD_MUL, $.T_NUM_L, offset, $.T_NUM_C, opts.identifier.getType().getSize() * opts.arraySize
-        );
+        if (opts.indexIdentifier.getWithOffset() === null) {
+            this._program.addCommand(
+                $.CMD_SET, $.T_NUM_L, offset, type,      opts.indexIdentifier.getOffset(),
+                $.CMD_MUL, $.T_NUM_L, offset, $.T_NUM_C, opts.identifier.getType().getSize() * opts.arraySize
+            );
+        } else {
+            // Get the "with" offset:
+            this._program.addCommand(
+                $.CMD_SET, $.T_NUM_L, offset + 1, $.T_NUM_G, $.REG_PTR,     // Save the pointer register....
+                $.CMD_SET, $.T_NUM_G, $.REG_PTR,  $.T_NUM_L, opts.indexIdentifier.getWithOffset(),
+                $.CMD_ADD, $.T_NUM_G, $.REG_PTR,  $.T_NUM_C, opts.indexIdentifier.getOffset(),
+                $.CMD_SET, $.T_NUM_L, offset,     $.T_NUM_P, 0,
+                $.CMD_MUL, $.T_NUM_L, offset,     $.T_NUM_C, opts.identifier.getType().getSize() * opts.arraySize,
+                $.CMD_SET, $.T_NUM_G, $.REG_PTR,  $.T_NUM_L, offset + 1     // Restore the pointer register...
+            );
+        }
         this.addToReg(opts.reg, $.T_NUM_L, offset);
     }
 
