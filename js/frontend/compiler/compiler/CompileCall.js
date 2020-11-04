@@ -129,6 +129,10 @@ exports.CompileCall = class CompileCall extends CompileScope {
                     (vrOrType.getType().getName() !== vr.getType().getName())) {
                 throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
             }
+            // If it's a pointer in a field used in a "with" statement then dereference the pointer...
+            if (vrOrType.getWithOffset && vrOrType.getWithOffset() && vrOrType.getPointer && vrOrType.getPointer()) {
+                program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
+            }
         } else {
             mathExpressionNode.compile(t.LEXEME_NUMBER);
             vrOrType = t.LEXEME_NUMBER;

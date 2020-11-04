@@ -142,6 +142,10 @@ exports.Scope = class {
         if (record) {
             return record;
         }
+        let field = this.findWithField(name);
+        if (field) {
+            return field;
+        }
         let vr = this._varsByName[name];
         if (vr) {
             return vr;
@@ -153,10 +157,6 @@ exports.Scope = class {
         proc = this._procByName[this._namespace.getCurrentNamespace() + name];
         if (proc) {
             return proc;
-        }
-        let field = this.findWithField(name);
-        if (field) {
-            return field;
         }
         return this._parentScope ? this._parentScope.findIdentifier(name) : null;
     }
