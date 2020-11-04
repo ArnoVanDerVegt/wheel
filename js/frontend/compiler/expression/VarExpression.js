@@ -387,15 +387,26 @@ exports.VarExpression = class {
                 );
             } else if (opts.identifier.getPointer() && (opts.identifier.getType() === t.LEXEME_STRING)) {
                 this.setReg($.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
-                if (!opts.identifier.getGlobal()) {
+                // If it's a "with" field then the offset is relative to the pointer on the stack not to the stack register itself!
+                if (!opts.identifier.getGlobal() && (opts.identifier.getWithOffset() === null)) {
                     this.addToReg($.REG_PTR, $.T_NUM_G, $.REG_STACK);
                 }
                 program.addCommand($.CMD_SET, $.T_NUM_G, opts.reg, $.T_NUM_P, 0);
             } else {
                 result.dataSize = opts.identifier.getTotalSize();
                 this.setReg(opts.reg, $.T_NUM_C, opts.identifier.getOffset());
-                if (!opts.identifier.getGlobal()) {
-                    this.addToReg(opts.reg, $.T_NUM_G, $.REG_STACK);
+                if (opts.identifier.getWithOffset() === null) {
+                    if (opts.identifier.getPointer() && !opts.forWriting && (opts.identifier.getType() !== t.LEXEME_NUMBER)) {
+                        if (!opts.identifier.getGlobal()) {
+                            this.addToReg(opts.reg, $.T_NUM_G, $.REG_STACK);
+                        }
+                        program.addCommand(
+                            $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg,
+                            $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_P, 0
+                        );
+                    } else if (!opts.identifier.getGlobal()) {
+                        this.addToReg(opts.reg, $.T_NUM_G, $.REG_STACK);
+                    }
                 }
             }
             result.type = opts.identifier;
@@ -431,7 +442,10 @@ exports.VarExpression = class {
                 this._lastRecordType = opts.identifierType;
             }
             this.setReg(reg, $.T_NUM_C, identifier.getOffset());
-            if (!identifier.getGlobal()) {
+            // If it's a "with" field then the offset is relative to the pointer on the stack not to the stack register itself!
+            if (opts.identifier.getWithOffset() !== null) {
+                this.addToReg(reg, $.T_NUM_L, opts.identifier.getWithOffset());
+            } else if (!identifier.getGlobal()) {
                 this.addToReg(reg, $.T_NUM_G, $.REG_STACK);
             }
             if (identifier.getPointer()) {

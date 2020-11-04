@@ -21,13 +21,10 @@ exports.CompileWith = class extends CompileBlock {
             throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
         }
         program.nextBlockId(token, scope);
-        this._varExpression.compileExpressionToRegister(identifier, withExpression, $.REG_PTR, true);
+        this._varExpression.compileExpressionToRegister(identifier, withExpression, $.REG_PTR, false);
         let lastRecordType = this._varExpression.getLastRecordType();
         if (!(lastRecordType instanceof Record)) {
             throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Type mismatch, record type expected.');
-        }
-        if (identifier.getPointer()) {
-            program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
         }
         program.addCommand($.CMD_SET, $.T_NUM_L, scope.pushWith(lastRecordType), $.T_NUM_G, $.REG_PTR);
         this.compileBlock(iterator, null);
