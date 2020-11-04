@@ -118,7 +118,7 @@ describe(
             () => {
                 testLogs(
                     it,
-                    'Should compile with record field',
+                    'Should use with record field',
                     [
                         'record Point',
                         '   number x, y',
@@ -155,7 +155,81 @@ describe(
                 );
                 testLogs(
                     it,
-                    'Should compile with nested with',
+                    'Should copy value to with field',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        'end',
+                        'record Line',
+                        '   Point p1, p2',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    Point pp',
+                        '    pp.x = 3454',
+                        '    pp.y = 8413',
+                        '    with l',
+                        '        p1 = pp',
+                        '        p2 = pp',
+                        '    end',
+                        '    addr l.p1.y',
+                        '    mod 0, 1',
+                        '    addr l.p1.x',
+                        '    mod 0, 1',
+                        '    addr l.p2.y',
+                        '    mod 0, 1',
+                        '    addr l.p2.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        8413,
+                        3454,
+                        8413,
+                        3454
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should copy value from with field',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        'end',
+                        'record Line',
+                        '   Point p1, p2',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    Point pp1, pp2',
+                        '    l.p1.x = 3454',
+                        '    l.p1.y = 8413',
+                        '    l.p2.x = 3231',
+                        '    l.p2.y = 1571',
+                        '    with l',
+                        '        pp1 = p1',
+                        '        pp2 = p2',
+                        '    end',
+                        '    addr pp1.y',
+                        '    mod 0, 1',
+                        '    addr pp1.x',
+                        '    mod 0, 1',
+                        '    addr pp2.y',
+                        '    mod 0, 1',
+                        '    addr pp2.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        8413,
+                        3454,
+                        1571,
+                        3231
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use with nested with',
                     [
                         'record Point',
                         '   number x, y',
@@ -305,7 +379,7 @@ describe(
                 );
                 testLogs(
                     it,
-                    'Should call with record pointer parameter',
+                    'Should call with record pointer parameter and dereference pointer',
                     [
                         'record Point',
                         '   number x, y',
@@ -321,17 +395,105 @@ describe(
                         'end',
                         'proc main()',
                         '    Line l',
+                        '    Point pp1, pp2',
+                        '    pp1.x = 8434',
+                        '    pp1.y = 8661',
+                        '    pp2.x = 8551',
+                        '    pp2.y = 8713',
+                        '    l.p1 = @pp1',
+                        '    l.p2 = @pp2',
+                        '    with l',
+                        '        test(p1)',
+                        '        test(p2)',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        8661,
+                        8434,
+                        8713,
+                        8551
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should call with record pointer parameter',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        'end',
+                        'record Line',
+                        '   Point ^pp1, ^pp2',
+                        'end',
+                        'proc test(Point ^p)', // Passed as a pointer, values should be changed after calling this!
+                        '    p.y = p.y + 1',
+                        '    p.x = p.x + 1',
+                        'end',
+                        'proc main()',
+                        '    Line l',
                         '    Point p1, p2',
                         '    p1.x = 8434',
                         '    p1.y = 8661',
                         '    p2.x = 8551',
                         '    p2.y = 8713',
-                        '    l.p1 = @p1',
-                        '    l.p2 = @p2',
+                        '    l.pp1 = @p1',
+                        '    l.pp2 = @p2',
                         '    with l',
-                        '        test(p1)',
-                        '        test(p2)',
+                        '        test(pp1)',
+                        '        test(pp2)',
                         '    end',
+                        '    addr l.pp1.y',
+                        '    mod 0, 1',
+                        '    addr l.pp1.x',
+                        '    mod 0, 1',
+                        '    addr l.pp2.y',
+                        '    mod 0, 1',
+                        '    addr l.pp2.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        8662,
+                        8435,
+                        8714,
+                        8552
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should call with record pointer parameter and dereference pointer and not change fields in proc',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        'end',
+                        'record Line',
+                        '   Point ^pp1, ^pp2',
+                        'end',
+                        'proc test(Point p)', // Not passed as pointer so values should not be changed after calling this...
+                        '    p.y = p.y + 1',
+                        '    p.x = p.x + 1',
+                        'end',
+                        'proc main()',
+                        '    Line l',
+                        '    Point p1, p2',
+                        '    p1.x = 8434',
+                        '    p1.y = 8661',
+                        '    p2.x = 8551',
+                        '    p2.y = 8713',
+                        '    l.pp1 = @p1',
+                        '    l.pp2 = @p2',
+                        '    with l',
+                        '        test(pp1)',
+                        '        test(pp2)',
+                        '    end',
+                        '    addr l.pp1.y',
+                        '    mod 0, 1',
+                        '    addr l.pp1.x',
+                        '    mod 0, 1',
+                        '    addr l.pp2.y',
+                        '    mod 0, 1',
+                        '    addr l.pp2.x',
+                        '    mod 0, 1',
                         'end'
                     ],
                     [
