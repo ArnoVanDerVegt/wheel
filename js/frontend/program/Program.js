@@ -2,16 +2,6 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-
-// Todo:
-//     0000|0000 set     [stack + 2],    15
-//     0001|0000 ret     [stack + 2]
-//
-//    0010 set     src,            0
-//    0011 add     src,            stack
-//
-//    0000|0000 set     [stack + 23],   5
-//    0001|0001 set     [stack + 24],   [stack + 23]
 const $ = require('./commands');
 
 class Param {
@@ -184,6 +174,17 @@ exports.Program = class {
             //     Set     [stack + 0],    [9]
             valueA2 += valueB2;
             typeA2    = $.T_NUM_G;
+            optimized = true;
+            commands.pop();
+        } else if ((cmdB    === $.CMD_SET) && (typeB1  === $.T_NUM_G) && (valueB1 === $.REG_PTR)   &&
+                                              (typeB2  === $.T_NUM_G) && (valueB2 === $.REG_STACK) &&
+                                              (typeA2  === $.T_NUM_P)) {
+            // Found:
+            //     Set     ptr,            stack
+            //     Set     [stack + 0],    [ptr + 4]
+            // Replace with:
+            //     Set     [stack + 0],    [stack + 4]
+            typeA2    = $.T_NUM_L;
             optimized = true;
             commands.pop();
         } else if ((cmdB    === $.CMD_SET) && (typeB1  === $.T_NUM_G) && (valueB1 === $.REG_PTR) &&
@@ -510,6 +511,25 @@ exports.Program = class {
                                            (typeC2 === $.T_NUM_C) &&
                    (cmdB === $.CMD_ADD) && (typeB1 === $.T_NUM_G) && (valueB1 === $.REG_PTR)   &&
                                            (typeB2 === $.T_NUM_G) && (valueB2 === $.REG_STACK) &&
+                   (cmdB === $.CMD_ADD) && (typeA1 === $.T_NUM_G) && (valueA1 === $.REG_PTR)   &&
+                                           (typeA2 === $.T_NUM_C)) {
+            // Found:
+            //     Set     ptr,            3
+            //     Add     ptr,            stack
+            //     Add     ptr,            7
+            // Replaced with:
+            //     Set     ptr,            stack
+            //     Add     ptr,            10
+            commands.pop();
+            commands.pop();
+            commands.push(new Command($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, $.REG_STACK));
+            valueA2 += valueC2;
+            optimized = true;
+            add       = true;
+        } else if ((cmdC === $.CMD_SET) && (typeC1 === $.T_NUM_G) && (valueC1 === $.REG_PTR)   &&
+                                           (typeC2 === $.T_NUM_C) &&
+                   (cmdB === $.CMD_ADD) && (typeB1 === $.T_NUM_G) && (valueB1 === $.REG_PTR)   &&
+                                           (typeB2 === $.T_NUM_G) && (valueB2 === $.REG_STACK) &&
                    (cmdA === $.CMD_SET) && (typeA2 === $.T_NUM_P) &&
                                            (typeA1 === $.T_NUM_G) && (valueA1 === $.REG_SRC)) {
             // Found:
@@ -524,6 +544,27 @@ exports.Program = class {
             typeA2    = $.T_NUM_L;
             optimized = true;
             add       = true;
+        } else if ((cmdC === $.CMD_SET) && (typeC1 === $.T_NUM_G) && (valueC1 === $.REG_PTR)   &&
+                                           (typeC2 === $.T_NUM_G) && (valueC2 === $.REG_STACK) &&
+                   (cmdB === $.CMD_ADD) && (typeB1 === $.T_NUM_G) && (valueB1 === $.REG_PTR)   &&
+                                           (typeB2 === $.T_NUM_C)                              &&
+                   (cmdA === $.CMD_SET) && (typeA1 === $.T_NUM_G) && (valueA1 === $.REG_SRC)   &&
+                                           (typeA2 === $.T_NUM_G) && (valueA2 === $.REG_PTR)) {
+            // Found:
+            //     Set     ptr,            stack
+            //     Add     ptr,            24
+            //     Set     src,            ptr
+            // Replaced with:
+            //     Set     src,            stack
+            //     Add     src,            24
+            commands.pop();
+            commands.pop();
+            commands.push(
+                new Command($.CMD_SET, $.T_NUM_G, $.REG_SRC, $.T_NUM_G, $.REG_STACK),
+                new Command($.CMD_ADD, $.T_NUM_G, $.REG_SRC, $.T_NUM_C, valueB2)
+            );
+            optimized = true;
+            add       = false;
         } else if ((cmdC === $.CMD_SET) && (typeC1 === $.T_NUM_G) && (valueC1 === $.REG_PTR)   &&
                                            (typeC2 === $.T_NUM_C) &&
                    (cmdB === $.CMD_ADD) && (typeB1 === $.T_NUM_G) && (valueB1 === $.REG_PTR)   &&
