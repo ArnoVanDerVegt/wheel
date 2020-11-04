@@ -737,7 +737,7 @@ describe(
                         '        p = @pp',
                         '        for i = 0 to 1',
                         '            for j = 0 to 1',
-                        '                addr l.p[i][j]',
+                        '                addr p[i][j]',
                         '                mod  0, 1',
                         '            end',
                         '        end',
