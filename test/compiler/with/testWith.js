@@ -753,5 +753,122 @@ describe(
                 );
             }
         );
+        describe(
+            'Test with with proc',
+            () => {
+                testLogs(
+                    it,
+                    'Should set and call proc in record',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        '   proc   c',
+                        'end',
+                        'proc test(Point p)',
+                        '    addr p.x',
+                        '    mod  0, 1',
+                        '    addr p.y',
+                        '    mod  0, 1',
+                        'end',
+                        'proc main()',
+                        '    Point p',
+                        '    with p',
+                        '        x = 145',
+                        '        y = 466',
+                        '        c = test',
+                        '    end',
+                        '    with p',
+                        '        c(p)',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        145,
+                        466
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should set and call proc in nested record',
+                    [
+                        'record CallMe',
+                        '   proc   c',
+                        'end',
+                        'record Point',
+                        '   number x, y',
+                        '   CallMe callMe',
+                        'end',
+                        'proc test(Point p)',
+                        '    addr p.x',
+                        '    mod  0, 1',
+                        '    addr p.y',
+                        '    mod  0, 1',
+                        'end',
+                        'proc main()',
+                        '    Point p',
+                        '    with p',
+                        '        x = 245',
+                        '        y = 366',
+                        '        callMe.c = test',
+                        '    end',
+                        '    with p.callMe',
+                        '        c(p)',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        245,
+                        366
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should set and call array of proc record',
+                    [
+                        'record Point',
+                        '   number x, y',
+                        '   proc callMe[2]',
+                        'end',
+                        'proc test1(Point p)',
+                        '    p.x += 10',
+                        '    p.y += 20',
+                        '    addr p.x',
+                        '    mod  0, 1',
+                        '    addr p.y',
+                        '    mod  0, 1',
+                        'end',
+                        'proc test2(Point p)',
+                        '    p.x += 100',
+                        '    p.y += 200',
+                        '    addr p.x',
+                        '    mod  0, 1',
+                        '    addr p.y',
+                        '    mod  0, 1',
+                        'end',
+                        'proc main()',
+                        '    Point p',
+                        '    with p',
+                        '        x = 100',
+                        '        y = 200',
+                        '        callMe[0] = test1',
+                        '        callMe[1] = test2',
+                        '    end',
+                        '    number i',
+                        '    with p',
+                        '        for i = 0 to 1',
+                        '            callMe[i](p)',
+                        '        end',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        110,
+                        220,
+                        200,
+                        400
+                    ]
+                );
+            }
+        );
     }
 );
