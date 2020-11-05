@@ -235,6 +235,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
             this._compiler.getUseInfo().setUseProc(proc.getName(), proc); // Set the proc as used...
         }
         scope.addStackOffset(scope.getSize() + 2);
+        let selfPointerStackOffset = scope.getStackOffset();
         this._parameterIndex = 0;
         while (!done && token) {
             token = iterator.skipWhiteSpace().peek();
@@ -269,7 +270,11 @@ exports.CompileCall = class CompileCall extends CompileScope {
         if (proc === t.LEXEME_PROC) {
             let identifier    = scope.findIdentifier(procExpression.tokens[0].lexeme);
             let varExpression = this._varExpression;
-            let vrOrType      = varExpression.compileExpressionToRegister(identifier, procExpression, $.REG_PTR).type;
+            let vrOrType      = varExpression.compileExpressionToRegister(identifier, procExpression, $.REG_PTR, false, true).type;
+            if (vrOrType && vrOrType.getProc && vrOrType.getProc() && vrOrType.getProc().getMethod()) {
+                // If it's a method then push the self pointer in the dest register to the stack...
+                program.addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_G, $.REG_DEST);
+            }
             program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getSize() + 2);
         } else {
             program.addCommand($.CMD_CALL, $.T_NUM_C, proc.getEntryPoint() - 1, $.T_NUM_C, returnStackOffset + scope.getSize() + 2);

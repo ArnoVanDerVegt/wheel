@@ -10,12 +10,14 @@ const CompileBlock = require('../compiler/CompileBlock').CompileBlock;
 const CompileVars  = require('../compiler/CompileVars').CompileVars;
 const Proc         = require('../types/Proc').Proc;
 const Record       = require('../types/Record').Record;
+const Objct        = require('../types/Objct').Objct;
 const Var          = require('../types/Var');
 
 exports.CompileProc = class extends CompileBlock {
     constructor(opts) {
         super(opts);
-        this._main = false;
+        this._main  = false;
+        this._objct = null;
     }
 
     compileParameters(iterator) {
@@ -44,6 +46,9 @@ exports.CompileProc = class extends CompileBlock {
             scope.addVar(null, '!____STACK_RETURN____', t.LEXEME_NUMBER, false);
         }
         scope.setEntryPoint(entryPoint);
+        if (this._objct) {
+            scope.addVar(null, '!____SELF_POINTER____', this._objct, false);
+        }
         let index       = 0;
         let expectType  = true;
         let expectComma = false;
@@ -117,9 +122,7 @@ exports.CompileProc = class extends CompileBlock {
     }
 
     compileInitGlobalVars() {
-        let vars = this._scope.getParentScope().getVars();
-        for (let i = 0; i < vars.length; i++) {
-            let vr                   = vars[i];
+        this._scope.getParentScope().getVars().forEach((vr) => {
             let stringConstantOffset = vr.getStringConstantOffset();
             if (stringConstantOffset !== null) {
                 this._program.addCommand(
@@ -129,40 +132,99 @@ exports.CompileProc = class extends CompileBlock {
                     $.CMD_SETS, $.T_NUM_G, vr.getOffset(), $.T_NUM_C, vr.getStringConstantOffset()
                 );
             }
+        });
+        return this;
+    }
+
+    compileInitGlobalObjects() {
+        let program = this._program;
+        this._scope.getParentScope().getVars().forEach((vr) => {
+            if (vr.getType() instanceof Objct) {
+                vr.getType().getVars().forEach((field) => {
+                    if (field.getProc()) {
+                        let methodOffset = vr.getOffset() + field.getOffset();
+                        program.addCommand($.CMD_SET, $.T_NUM_G, methodOffset, $.T_NUM_C, field.getProc().getCodeOffset() - 1);
+                    }
+                });
+            }
+        });
+    }
+
+    compileProcName(iterator, token) {
+        let procName = token.lexeme;
+        let procUsed = false;
+        this._objct = null;
+        if ((iterator.skipWhiteSpace().peek() ? iterator.peek().lexeme : '') === t.LEXEME_DOT) {
+            iterator.next();
+            let objectName = procName;
+            let objct      = this._scope.findIdentifier(objectName);
+            if (objct instanceof Object) {
+                this._objct = objct;
+            } else {
+                throw errors.createError(err.OBJECT_TYPE_EXPECTED, token, 'Object type expected.');
+            }
+            procName = iterator.skipWhiteSpace().next();
+            procName = (procName === null) ? '' : procName.lexeme;
+            procUsed = true;
+        } else {
+            procName = this.getNamespacedProcName(procName);
+            procUsed = this._compiler.getUseInfo().getUsedProc(procName);
         }
+        return {
+            name: procName,
+            used: procUsed
+        };
     }
 
     compileProc(iterator, token) {
         let program  = this._program;
-        let compiler = this._compiler;
-        let linter   = compiler.getLinter();
-        let useInfo  = compiler.getUseInfo();
-        let procName = this.getNamespacedProcName(token.lexeme);
-        let procUsed = useInfo.getUsedProc(procName);
-        program.setCodeUsed(procUsed); // Only add code when the proc was used...
+        let linter   = this._compiler.getLinter();
+        let procName = this.compileProcName(iterator, token);
+        program.setCodeUsed(procName.used); // Only add code when the proc was used...
         linter && linter.addProc(token);
-        this._scope = new Proc(this._scope, procName, false, compiler.getNamespace()).setToken(token);
-        if (procUsed instanceof Proc) {
-            this._scope.setVarsLocked(procUsed);
+        this._scope = new Proc(this._scope, procName.name, false, this._compiler.getNamespace())
+            .setToken(token)
+            .setCodeOffset(program.getLength());
+        if (procName.used instanceof Proc) {
+            this._scope.setVarsLocked(procName.used);
         }
-        let identifier = this._scope.getParentScope().findIdentifier(procName);
-        if ((identifier !== null) && (procName !== t.LEXEME_MAIN)) {
-            throw errors.createError(err.DUPLICATE_IDENTIFIER, token, 'Duplicate identifier.');
+        if (this._objct === null) {
+            // Check duplicate identifier...
+            let identifier = this._scope.getParentScope().findIdentifier(procName.name);
+            if ((identifier !== null) && (procName.name !== t.LEXEME_MAIN)) {
+                throw errors.createError(err.DUPLICATE_IDENTIFIER, token, 'Duplicate identifier.');
+            }
+            this._scope.getParentScope().addProc(this._scope);
         }
-        this._scope.getParentScope().addProc(this._scope);
         this.compileParameters(iterator);
+        // Check if it's the main proc...
         if (token.lexeme === t.LEXEME_MAIN) {
-            this.compileInitGlobalVars();
+            this
+                .compileInitGlobalVars()
+                .compileInitGlobalObjects();
+        }
+        // If it's an object then add the proc as method...
+        if (this._objct) {
+            this._objct
+                .addVar(token, procName.name, t.LEXEME_PROC, false, false, false)
+                .setProc(this._scope);
+            this._scope.setMethod(true);
+            // Add self to the with stack...
+            program.addCommand($.CMD_SET, $.T_NUM_L, this._scope.pushWith(this._objct), $.T_NUM_L, 0);
         }
         this.compileBlock(iterator, null);
+        if (this._objct) {
+            // Remove self from the with stack...
+            this._scope.popWith();
+        }
+        // Release the allocated strings...
         let lastCommand = program.getLastCommand();
         if (!this._main && (!lastCommand || (lastCommand.getCmd() !== $.CMD_RET))) {
             new CompileVars({
                 compiler: this._compiler,
                 program:  this._program,
                 scope:    this._scope
-            })
-                .compileStringRelease(iterator.current());
+            }).compileStringRelease(iterator.current());
             program.addCommand($.CMD_RET, 0, 0, 0, 0);
         }
     }

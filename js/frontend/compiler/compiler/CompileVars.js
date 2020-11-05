@@ -9,7 +9,6 @@ const t              = require('../tokenizer/tokenizer');
 const Proc           = require('../types/Proc').Proc;
 const Record         = require('../types/Record').Record;
 const Var            = require('../types/Var');
-const CompileCall    = require('./CompileCall').CompileCall;
 const compileData    = require('./CompileData').compileData;
 const VarExpression  = require('../expression/VarExpression').VarExpression;
 const MathExpression = require('../expression/MathExpression').MathExpression;

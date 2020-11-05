@@ -5,4 +5,17 @@
 const Scope = require('./Scope').Scope;
 
 exports.Proc = class extends Scope {
+    constructor(parentScope, name, global, namespace) {
+        super(parentScope, name, global, namespace);
+        this._method = false;
+    }
+
+    getMethod() {
+        return this._method;
+    }
+
+    setMethod(method) {
+        this._method = method;
+        return this;
+    }
 };

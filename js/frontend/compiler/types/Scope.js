@@ -30,6 +30,7 @@ exports.Scope = class {
         this._stringsAddedCount = 0;
         this._tempVarIndex      = 0;
         this._withStack         = [];
+        this._codeOffset        = 0;
     }
 
     addRecord(record) {
@@ -318,6 +319,15 @@ exports.Scope = class {
 
     getTempVarIndex() {
         return this._tempVarIndex++;
+    }
+
+    getCodeOffset() {
+        return this._codeOffset;
+    }
+
+    setCodeOffset(codeOffset) {
+        this._codeOffset = codeOffset;
+        return this;
     }
 
     pushWith(record) {

@@ -32,6 +32,31 @@ describe(
                         39, 397
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should declare a simple object with a method',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p',
+                        'proc main()',
+                        '    p.x = 4397',
+                        '    p.y = 539',
+                        '    p.log()',
+                        'end'
+                    ],
+                    [
+                        4397,
+                        539
+                    ]
+                );
             }
         );
     }

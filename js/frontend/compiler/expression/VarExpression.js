@@ -425,7 +425,7 @@ exports.VarExpression = class {
         return result;
     }
 
-    compileExpressionToRegister(identifier, expression, reg, forWriting) {
+    compileExpressionToRegister(identifier, expression, reg, forWriting, forCalling) {
         this._lastRecordType = null;
         let program = this._program;
         let result  = {type: t.LEXEME_NUMBER, fullArrayAddress: true};
@@ -464,7 +464,8 @@ exports.VarExpression = class {
             }
         }
         result.type = identifier;
-        while (opts.index < expression.tokens.length) {
+        let lastToken = expression.tokens.length - 1;
+        while (opts.index <= lastToken) {
             opts.token = expression.tokens[opts.index];
             if (opts.token.cls === t.TOKEN_BRACKET_OPEN) {
                 result.arrayIndex = true;
@@ -480,6 +481,10 @@ exports.VarExpression = class {
                 exports.assertRecord(opts);
                 this._lastRecordType = opts.identifier.getType();
                 opts.index++;
+                if (forCalling && (opts.index === lastToken)) {
+                    // It's a method to call then save the self pointer in the dest register!
+                    program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_DEST, $.T_NUM_G, reg);
+                }
                 this.compileAddFieldOffsetToReg(opts);
                 if (opts.identifier.getPointer()) {
                     if (reg !== $.REG_PTR) {
