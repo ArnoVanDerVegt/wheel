@@ -2,8 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const testLogs          = require('../utils').testLogs;
-const testCodeAndMemory = require('../utils').testCodeAndMemory;
+const testLogs = require('../../utils').testLogs;
 
 describe(
     'Test list',
@@ -94,6 +93,12 @@ describe(
                 '        count++',
                 '    end',
                 'end',
+                'proc shapeLogPoint0(Shape ^shape, number index)',
+                '    addr shape.points[index].x',
+                '    mod  0, 1',
+                '    addr shape.points[index].y',
+                '    mod  0, 1',
+                'end',
                 'proc shapeLogPoint1(Shape ^shape, number index)',
                 '    with shape.points[index]',
                 '        addr x',
@@ -117,15 +122,19 @@ describe(
                 '    shapeReset(@shape)',
                 '    shapeAddPoint(@shape, 1234, 1667)',
                 '    shapeAddPoint(@shape, 6234, 6667)',
-                '    shapeLogPoint1(@shape, 0)',
-                '    shapeLogPoint2(@shape, 1)',
+                '    shapeAddPoint(@shape, 3234, 3667)',
+                '    shapeLogPoint0(@shape, 0)',
+                '    shapeLogPoint1(@shape, 1)',
+                '    shapeLogPoint2(@shape, 2)',
                 'end'
             ],
             [
                 1234,
                 1667,
                 6234,
-                6667
+                6667,
+                3234,
+                3667
             ]
         );
     }
