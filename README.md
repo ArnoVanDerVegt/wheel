@@ -8,9 +8,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/last-commit/ArnoVanDerVegt/wheel?color=blue" alt="Last commit">
-  <a href="https://travis-ci.org/ArnoVanDerVegt/wheel">
-    <img src="https://app.codeship.com/projects/582d421b-a5b5-4f7e-9d3c-99e2da0157ac/status?branch=main" alt="Build Status">
-  </a>
+  <img src="https://app.codeship.com/projects/582d421b-a5b5-4f7e-9d3c-99e2da0157ac/status?branch=main" alt="Build Status">
   <a href="https://github.com/ArnoVanDerVegt/wheel/blob/master/license.txt">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="License">
   </a>
