@@ -119,8 +119,8 @@ exports.VarExpression = class {
         return this._lastRecordType;
     }
 
-    getIdentifierSize(identifier) {
-        return (identifier === t.LEXEME_NUMBER) || (identifier === t.LEXEME_STRING) ? 1 : identifier.getSize();
+    getIdentifierSize(type) {
+        return ([t.LEXEME_NUMBER, t.LEXEME_STRING, t.LEXEME_PROC].indexOf(type) !== -1) ? 1 : type.getSize();
     }
 
     getTypeFromIdentifier(identifier) {
@@ -316,11 +316,7 @@ exports.VarExpression = class {
             opts.identifierSize = identifierSize;
             opts.arraySize      = 1;
             opts.maxArraySize   = arraySize;
-            if ([t.LEXEME_NUMBER, t.LEXEME_STRING, t.LEXEME_STRING].indexOf(opts.identifier.getType()) !== -1) {
-                result.dataSize = 1;
-            } else {
-                result.dataSize = opts.identifier.getType().getSize();
-            }
+            result.dataSize     = identifierSize;
             this.compileArrayIndexToReg(opts);
         } else {
             // It's a multi dimensional array...
