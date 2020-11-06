@@ -151,14 +151,16 @@ exports.CompileProc = class extends CompileBlock {
             if (record instanceof Objct) {
                 let objct                 = record;
                 let constructorCodeOffset = objct.getConstructorCodeOffset();
+                let index                 = 0;
                 objct.getVars().forEach((field) => {
                     if (field.getProc()) {
                         let methodOffset     = field.getOffset();
                         let methodCodeOffset = field.getProc().getCodeOffset() - 1;
-                        let command          = commands[constructorCodeOffset + 1];
+                        let command          = commands[constructorCodeOffset + 1 + index];
                         // Update the virtual method table...
                         command.getParam1().setValue(methodOffset);
                         command.getParam2().setValue(methodCodeOffset);
+                        index++;
                     }
                 });
             }
