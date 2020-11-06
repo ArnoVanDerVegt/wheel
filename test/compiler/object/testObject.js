@@ -29,12 +29,13 @@ describe(
                         'end'
                     ],
                     [
-                        39, 397
+                        39,
+                        397
                     ]
                 );
                 testLogs(
                     it,
-                    'Should declare a simple object with a method',
+                    'Should declare an object with one method',
                     [
                         'object Point',
                         '    number x, y',
@@ -59,7 +60,7 @@ describe(
                 );
                 testLogs(
                     it,
-                    'Should declare a simple object with two methods',
+                    'Should declare an object with two methods',
                     [
                         'object Point',
                         '    number x, y',
@@ -87,7 +88,7 @@ describe(
                 );
                 testLogs(
                     it,
-                    'Should declare a simple object with two methods',
+                    'Should declare an object with two methods with parameter',
                     [
                         'object Point',
                         '    number x, y',
@@ -115,7 +116,7 @@ describe(
                 );
                 testLogs(
                     it,
-                    'Should declare a simple object with two methods and a local var',
+                    'Should declare an object with two methods and a local var',
                     [
                         'object Point',
                         '    number x, y',
@@ -140,6 +141,133 @@ describe(
                     [
                         3472,
                         1841
+                    ]
+                );
+                /*testLogs(
+                    it,
+                    'Should declare a simple object and call methods from a method',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.setXY(number xx, number yy)',
+                        '    number i = 10',
+                        '    x = xx + i',
+                        '    y = yy + i',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'proc Point.test()',
+                        '    setXY(3469, 1839)',
+                        '    log()',
+                        'end',
+                        'Point p',
+                        'proc main()',
+                            'p.test()',
+                        'end'
+                    ],
+                    [
+                        3479,
+                        1849
+                    ]
+                );*/
+            }
+        );
+        describe(
+            'Test object with record field',
+            () => {
+                testLogs(
+                    it,
+                    'Should declare a simple object with a record field',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'object Test',
+                        '    Point p',
+                        'end',
+                        'Test test',
+                        'proc main()',
+                        '    test.p.x = 97',
+                        '    test.p.y = 439',
+                        '    addr test.p.y',
+                        '    mod 0, 1',
+                        '    addr test.p.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        439,
+                        97
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should declare a simple object with a method and a record field',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'object Test',
+                        '    Point p',
+                        'end',
+                        'proc Test.log()',
+                        '    with p',
+                        '        addr x',
+                        '        mod 0, 1',
+                        '        addr y',
+                        '        mod 0, 1',
+                        '    end',
+                        'end',
+                        'Test test',
+                        'proc main()',
+                        '    test.p.x = 9439',
+                        '    test.p.y = 9531',
+                        '    test.log()',
+                        'end'
+                    ],
+                    [
+                        9439,
+                        9531
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should declare a simple object with two methods',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'object Test',
+                        '    Point p',
+                        'end',
+                        'proc Test.setXY()',
+                        '    with p',
+                        '        x = 15439',
+                        '        y = 16539',
+                        '    end',
+                        'end',
+                        'proc Test.log()',
+                        '    with p',
+                        '        addr x',
+                        '        mod 0, 1',
+                        '        addr y',
+                        '        mod 0, 1',
+                        '    end',
+                        'end',
+                        'Test test',
+                        'proc main()',
+                        '    test.setXY()',
+                        '    test.log()',
+                        'end'
+                    ],
+                    [
+                        15439,
+                        16539
                     ]
                 );
             }
