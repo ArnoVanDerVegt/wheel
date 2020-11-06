@@ -447,13 +447,13 @@ exports.VarExpression = class {
         let program = this._program;
         let result  = {type: t.LEXEME_NUMBER, fullArrayAddress: true};
         let opts    = {
-                index:          1,
-                forWriting:     forWriting,
-                reg:            reg,
-                expression:     expression,
-                identifier:     identifier,
-                identifierType: null,
-                token:          null,
+                index:                  1,
+                forWriting:             forWriting,
+                reg:                    reg,
+                expression:             expression,
+                identifier:             identifier,
+                identifierType:         null,
+                token:                  null,
                 selfPointerStackOffset: selfPointerStackOffset
             };
         if (expression.tokens.length === 1) {
