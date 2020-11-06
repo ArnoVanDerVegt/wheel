@@ -491,7 +491,9 @@ exports.VarExpression = class {
                 opts.index++;
                 if ((selfPointerStackOffset !== false) && (opts.index === lastToken)) {
                     // It's a method to call then save the self pointer on the stack!
-                    program.addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_G, reg);
+                    program
+                        .nextBlockId()
+                        .addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_G, reg);
                 }
                 this.compileAddFieldOffsetToReg(opts);
                 if (opts.identifier.getPointer()) {

@@ -301,8 +301,17 @@ exports.Scope = class {
         return this._parentScope;
     }
 
-    getParamCount(paramCount) {
+    getParamCount() {
         return this._paramCount;
+    }
+
+    /**
+     * Return the total parameter count including:
+     *     !____CODE_RETURN____'
+     *     !____STACK_RETURN____'
+    **/
+    getTotalParamCount() {
+        return this._paramCount + 2;
     }
 
     setParamCount(paramCount) {

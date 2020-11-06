@@ -16,7 +16,9 @@ const compileData    = require('./CompileData').compileData;
 exports.CompileCall = class CompileCall extends CompileScope {
     constructor(opts) {
         super(opts);
-        this._parameterIndex = 0;
+        this._parameterIndex      = 0;
+        this._parameterOffset     = 2;
+        this._parameterBaseOffset = 2;
     }
 
     copyParameter(scope, size) {
@@ -35,11 +37,11 @@ exports.CompileCall = class CompileCall extends CompileScope {
     }
 
     getParameterVr(procVars) {
-        return procVars ? procVars[2 + this._parameterIndex] : null;
+        return procVars ? procVars[this._parameterIndex] : null;
     }
 
     getParameterOffset(scope) {
-        return scope.getStackOffset() + 2;
+        return scope.getStackOffset() + this._parameterBaseOffset;
     }
 
     /**
@@ -136,7 +138,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
         }
         // Set the stack offset above the highest parameter for temp variables...
         let stackOffset = scope.getStackOffset();
-        scope.addStackOffset(2);
+        scope.addStackOffset(this._parameterOffset);
         let vr                 = this.getParameterVr(procVars);
         let vrOrType;
         let mathExpressionNode = new MathExpression({
@@ -263,7 +265,9 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let callStackSize          = callMethod ? 3 : 2;
         let returnStackOffset      = scope.getStackOffset();
         let selfPointerStackOffset = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
-        this._parameterIndex = 0;
+        this._parameterIndex      = callStackSize;
+        this._parameterOffset     = callStackSize;
+        this._parameterBaseOffset = callMethod ? 4 : 2; // Add 1 for the local self pointer used in the compiler generated "with" scope...
         while (!done && token) {
             token = iterator.skipWhiteSpace().peek();
             switch (token.cls) {
@@ -290,7 +294,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
                     throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
             }
         }
-        if ((proc !== t.LEXEME_PROC) && (proc.getParamCount() !== this._parameterIndex)) {
+        if ((proc !== t.LEXEME_PROC) && (proc.getTotalParamCount() !== this._parameterIndex)) {
             throw errors.createError(err.PARAM_COUNT_MISMATCH, token, 'Parameter count mismatch.');
         }
         let program = this._program;

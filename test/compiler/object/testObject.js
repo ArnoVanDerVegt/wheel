@@ -85,6 +85,34 @@ describe(
                         6539
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should declare a simple object with two methods',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.setXY(number xx, number yy)',
+                        '    x = xx',
+                        '    y = yy',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p',
+                        'proc main()',
+                        '    p.setXY(3462, 1831)',
+                        '    p.log()',
+                        'end'
+                    ],
+                    [
+                        3462,
+                        1831
+                    ]
+                );
             }
         );
     }
