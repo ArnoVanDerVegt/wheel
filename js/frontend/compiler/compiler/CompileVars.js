@@ -167,7 +167,7 @@ exports.CompileVars = class {
             if (tokens[0].cls === t.TOKEN_NUMBER) {
                 program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, tokens[0].value);
             } else {
-                varExpression.compileExpressionToRegister(scope.findIdentifier(tokens[0].lexeme), {tokens: tokens}, $.REG_PTR);
+                varExpression.compileExpressionToRegister(scope.findIdentifier(tokens[0].lexeme), {tokens: tokens}, $.REG_PTR, false, false);
                 program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_P, 0);
             }
         } else {

@@ -31,7 +31,7 @@ exports.compileToTempStackValue = function(compiler, program, scope, expression)
             program.addCommand($.CMD_SET, $.T_NUM_L, stackOffset, $.T_NUM_C, tokens[0].value);
         } else {
             let identifier = scope.findIdentifier(token.lexeme);
-            let vrOrType   = varExpression.compileExpressionToRegister(identifier, expression, $.REG_PTR).type;
+            let vrOrType   = varExpression.compileExpressionToRegister(identifier, expression, $.REG_PTR, false, false).type;
             if (varExpression.getTypeFromIdentifier(vrOrType) === t.LEXEME_NUMBER) {
                 program.addCommand($.CMD_SET, $.T_NUM_L, stackOffset, $.T_NUM_P, 0);
             } else {
@@ -188,7 +188,7 @@ exports.AssignmentExpression = class {
             varExpression.saveStringInLocalVar(token.lexeme);
         } else {
             let srcIdentifier = this._scope.findIdentifier(token.lexeme);
-            result      = varExpression.compileExpressionToRegister(srcIdentifier, opts.srcExpression, $.REG_PTR);
+            result      = varExpression.compileExpressionToRegister(srcIdentifier, opts.srcExpression, $.REG_PTR, false, false);
             srcVrOrType = result.type;
             switch (varExpression.getTypeFromIdentifier(srcVrOrType)) {
                 case t.LEXEME_STRING:
@@ -280,7 +280,7 @@ exports.AssignmentExpression = class {
      * Compile a constant array assignment like: v = [...]
     **/
     compileArrayConstantAssignment(opts) {
-        let destVrOrType = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true).type;
+        let destVrOrType = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true, false).type;
         if (destVrOrType.getArraySize() === false) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
         }
@@ -360,7 +360,7 @@ exports.AssignmentExpression = class {
         }
         let varExpression = this._varExpression;
         mathExpressionNode.compile(opts.srcVrOrType);
-        opts.destVrOrType = varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true).type;
+        opts.destVrOrType = varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true, false).type;
         if (!varExpression.getTypesEqual(opts.srcVrOrType, opts.destVrOrType)) {
             throw errors.createError(err.TYPE_MISMATCH, destExpression.tokens[0], 'Type mismatch.');
         }
@@ -386,7 +386,7 @@ exports.AssignmentExpression = class {
     **/
     compileDataAssignment(opts) {
         opts.srcInfo      = this.compileSourceExpression(opts);
-        opts.destInfo     = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true);
+        opts.destInfo     = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true, false);
         opts.srcVrOrType  = opts.srcInfo.type;
         opts.destVrOrType = opts.destInfo.type;
         this

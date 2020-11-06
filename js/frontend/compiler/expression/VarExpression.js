@@ -26,6 +26,7 @@ exports.VarExpression = class {
         this._program        = opts.program;
         this._compiler       = opts.compiler;
         this._lastRecordType = null;
+        this._lastProcField  = null;
     }
 
     assertArray(identifier, token) {
@@ -117,6 +118,10 @@ exports.VarExpression = class {
 
     getLastRecordType() {
         return this._lastRecordType;
+    }
+
+    getLastProcField() {
+        return this._lastProcField;
     }
 
     getIdentifierSize(type) {
@@ -278,6 +283,8 @@ exports.VarExpression = class {
         }
         if (field.getType() instanceof Record) {
             this._lastRecordType = field.getType();
+        } else if (field.getType() === t.LEXEME_PROC) {
+            this._lastProcField = field.getProc();
         }
         if (field.getOffset() !== 0) {
             this.addToReg(opts.reg, $.T_NUM_C, field.getOffset());
@@ -425,8 +432,9 @@ exports.VarExpression = class {
         return result;
     }
 
-    compileExpressionToRegister(identifier, expression, reg, forWriting, forCalling) {
+    compileExpressionToRegister(identifier, expression, reg, forWriting, selfPointerStackOffset) {
         this._lastRecordType = null;
+        this._lastProcField  = null;
         let program = this._program;
         let result  = {type: t.LEXEME_NUMBER, fullArrayAddress: true};
         let opts    = {
@@ -481,9 +489,9 @@ exports.VarExpression = class {
                 exports.assertRecord(opts);
                 this._lastRecordType = opts.identifier.getType();
                 opts.index++;
-                if (forCalling && (opts.index === lastToken)) {
-                    // It's a method to call then save the self pointer in the dest register!
-                    program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_DEST, $.T_NUM_G, reg);
+                if ((selfPointerStackOffset !== false) && (opts.index === lastToken)) {
+                    // It's a method to call then save the self pointer on the stack!
+                    program.addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_G, reg);
                 }
                 this.compileAddFieldOffsetToReg(opts);
                 if (opts.identifier.getPointer()) {

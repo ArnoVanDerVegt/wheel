@@ -8,6 +8,8 @@ const err            = require('../errors').errors;
 const t              = require('../tokenizer/tokenizer');
 const MathExpression = require('../expression/MathExpression').MathExpression;
 const Record         = require('../types/Record').Record;
+const Var            = require('../types/Var').Var;
+const Proc           = require('../types/Proc').Proc;
 const CompileScope   = require('./CompileScope').CompileScope;
 const compileData    = require('./CompileData').compileData;
 
@@ -38,6 +40,37 @@ exports.CompileCall = class CompileCall extends CompileScope {
 
     getParameterOffset(scope) {
         return scope.getStackOffset() + 2;
+    }
+
+    /**
+     * Try to find an instance of the Proc type.
+     * We need to know if the proc is a method.
+    **/
+    getProc(procExpression, proc, procIdentifier) {
+        if (proc instanceof Proc) {
+            return proc;
+        }
+        if ((procIdentifier instanceof Var) && procIdentifier.getAssignedProc()) {
+            return procIdentifier.getAssignedProc();
+        }
+        let program  = this._program;
+        let codeUsed = program.getCodeUsed();
+        program.setCodeUsed(false);
+        this._varExpression.compileExpressionToRegister(procIdentifier, procExpression, $.REG_PTR, false, true);
+        program.setCodeUsed(codeUsed);
+        return this._varExpression.getLastProcField();
+    }
+
+    /**
+     * Get the parameter vars from a proc.
+     * If the proc is of an unknown type the parse the expression to find the type.
+    **/
+    getProcVars(proc) {//procExpression, proc, procIdentifier) {
+        if (proc instanceof Proc) {
+            this._compiler.getUseInfo().setUseProc(proc.getName(), proc); // Set the proc as used...
+            return proc.getVars();
+        }
+        return null;
     }
 
     compilePrimitiveParameter(token, address, vr, type, vrOrType) {
@@ -117,7 +150,9 @@ exports.CompileCall = class CompileCall extends CompileScope {
             vrOrType = varExpression.compileExpressionToRegister(
                 scope.findIdentifier(tokens[0].lexeme),
                 {tokens: mathExpressionNode.getValue()},
-                $.REG_PTR
+                $.REG_PTR,
+                false,
+                false
             ).type;
             // If the parameter is a pointer then check if an address or pointer value is given...
             if (vr && vr.getPointer() && !(address || vrOrType.getPointer())) {
@@ -219,23 +254,15 @@ exports.CompileCall = class CompileCall extends CompileScope {
     }
 
     compile(iterator, procExpression, proc, procIdentifier) {
-        let procVars          = null;
-        let token             = iterator.next();
-        let done              = false;
-        let scope             = this._scope;
-        let returnStackOffset = scope.getStackOffset();
-        if (proc === t.LEXEME_PROC) {
-            if (procIdentifier.getAssignedProc()) {
-                let assignedProc = procIdentifier.getAssignedProc();
-                procVars = assignedProc.getVars();
-                this._compiler.getUseInfo().setUseProc(assignedProc.getName(), assignedProc); // Set the proc as used...
-            }
-        } else {
-            procVars = proc.getVars();
-            this._compiler.getUseInfo().setUseProc(proc.getName(), proc); // Set the proc as used...
-        }
-        scope.addStackOffset(scope.getSize() + 2);
-        let selfPointerStackOffset = scope.getStackOffset();
+        let token                  = iterator.next();
+        let done                   = false;
+        let scope                  = this._scope;
+        let callProc               = this.getProc(procExpression, proc, procIdentifier);
+        let callProcVars           = this.getProcVars(callProc);//procExpression, proc, procIdentifier);
+        let callMethod             = callProc && callProc.getMethod();
+        let callStackSize          = callMethod ? 3 : 2;
+        let returnStackOffset      = scope.getStackOffset();
+        let selfPointerStackOffset = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
         this._parameterIndex = 0;
         while (!done && token) {
             token = iterator.skipWhiteSpace().peek();
@@ -246,18 +273,18 @@ exports.CompileCall = class CompileCall extends CompileScope {
                     break;
                 case t.TOKEN_BRACKET_OPEN:
                     token = iterator.next();
-                    done  = this.compileConstantArrayParameter(iterator, token, proc, procVars);
+                    done  = this.compileConstantArrayParameter(iterator, token, proc, callProcVars);
                     break;
                 case t.TOKEN_CURLY_OPEN:
                     token = iterator.next();
-                    done  = this.compileConstantRecordParameter(iterator, token, proc, procVars);
+                    done  = this.compileConstantRecordParameter(iterator, token, proc, callProcVars);
                     break;
                 case t.TOKEN_PARENTHESIS_OPEN:
                 case t.TOKEN_ADDRESS:
                 case t.TOKEN_NUMBER:
                 case t.TOKEN_STRING:
                 case t.TOKEN_IDENTIFIER:
-                    done = this.compileParameter(iterator, proc, procVars);
+                    done = this.compileParameter(iterator, proc, callProcVars);
                     break;
                 default:
                     throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
@@ -268,14 +295,14 @@ exports.CompileCall = class CompileCall extends CompileScope {
         }
         let program = this._program;
         if (proc === t.LEXEME_PROC) {
-            let identifier    = scope.findIdentifier(procExpression.tokens[0].lexeme);
-            let varExpression = this._varExpression;
-            let vrOrType      = varExpression.compileExpressionToRegister(identifier, procExpression, $.REG_PTR, false, true).type;
-            if (vrOrType && vrOrType.getProc && vrOrType.getProc() && vrOrType.getProc().getMethod()) {
-                // If it's a method then push the self pointer in the dest register to the stack...
-                program.addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_G, $.REG_DEST);
-            }
-            program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getSize() + 2);
+            let vrOrType = this._varExpression.compileExpressionToRegister(
+                    procIdentifier,
+                    procExpression,
+                    $.REG_PTR,
+                    false,
+                    selfPointerStackOffset
+                ).type;
+            program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getSize() + callStackSize);
         } else {
             program.addCommand($.CMD_CALL, $.T_NUM_C, proc.getEntryPoint() - 1, $.T_NUM_C, returnStackOffset + scope.getSize() + 2);
         }
