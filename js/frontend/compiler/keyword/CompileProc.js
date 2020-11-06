@@ -47,7 +47,7 @@ exports.CompileProc = class extends CompileBlock {
         }
         scope.setEntryPoint(entryPoint);
         if (this._objct) {
-            scope.addVar(null, '!____SELF_POINTER____', this._objct, false);
+            scope.addVar(null, '!____SELF_POINTER____', t.LEXEME_NUMBER, false);
         }
         let index       = 0;
         let expectType  = true;
@@ -201,7 +201,7 @@ exports.CompileProc = class extends CompileBlock {
         this._scope.setMethod(true);
         this._compiler.getUseInfo().addUseMethod(this._objct.getName());
         // Add self to the with stack...
-        this._program.addCommand($.CMD_SET, $.T_NUM_L, this._scope.pushWith(this._objct), $.T_NUM_L, 0);
+        this._scope.pushSelf(this._objct);
     }
 
     compileProc(iterator, token) {
@@ -238,7 +238,7 @@ exports.CompileProc = class extends CompileBlock {
         this.compileBlock(iterator, null);
         if (this._objct) {
             // Remove self from the with stack...
-            this._scope.popWith();
+            this._scope.popSelf();
         }
         // Release the allocated strings...
         let lastCommand = program.getLastCommand();

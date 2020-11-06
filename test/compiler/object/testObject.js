@@ -113,6 +113,35 @@ describe(
                         1831
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should declare a simple object with two methods and a local var',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.setXY(number xx, number yy)',
+                        '    number i = 10',
+                        '    x = xx + i',
+                        '    y = yy + i',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p',
+                        'proc main()',
+                        '    p.setXY(3462, 1831)',
+                        '    p.log()',
+                        'end'
+                    ],
+                    [
+                        3472,
+                        1841
+                    ]
+                );
             }
         );
     }

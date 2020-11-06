@@ -29,4 +29,12 @@ exports.Proc = class extends Scope {
     getTotalParamCount() {
         return this._paramCount + (this._method ? 3 : 2);
     }
+
+    pushSelf(record) {
+        this._withStack.push(record.getWithRecord(0));
+    }
+
+    popSelf() {
+        this._withStack.pop();
+    }
 };

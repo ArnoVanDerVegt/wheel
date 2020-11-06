@@ -347,6 +347,7 @@ exports.Scope = class {
     }
 
     popWith() {
+        this._stackOffset--;
         this._withStack.pop();
     }
 };

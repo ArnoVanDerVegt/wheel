@@ -16,9 +16,8 @@ const compileData    = require('./CompileData').compileData;
 exports.CompileCall = class CompileCall extends CompileScope {
     constructor(opts) {
         super(opts);
-        this._parameterIndex      = 0;
-        this._parameterOffset     = 2;
-        this._parameterBaseOffset = 2;
+        this._parameterIndex  = 0;
+        this._parameterOffset = 2;
     }
 
     copyParameter(scope, size) {
@@ -41,7 +40,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
     }
 
     getParameterOffset(scope) {
-        return scope.getStackOffset() + this._parameterBaseOffset;
+        return scope.getStackOffset() + this._parameterOffset;
     }
 
     /**
@@ -265,9 +264,8 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let callStackSize          = callMethod ? 3 : 2;
         let returnStackOffset      = scope.getStackOffset();
         let selfPointerStackOffset = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
-        this._parameterIndex      = callStackSize;
-        this._parameterOffset     = callStackSize;
-        this._parameterBaseOffset = callMethod ? 4 : 2; // Add 1 for the local self pointer used in the compiler generated "with" scope...
+        this._parameterIndex  = callStackSize;
+        this._parameterOffset = callStackSize;
         while (!done && token) {
             token = iterator.skipWhiteSpace().peek();
             switch (token.cls) {
