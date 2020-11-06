@@ -13,4 +13,17 @@ exports.CompileObject = class extends CompileRecord {
     getDataType() {
         return new Objct(null, this.getNamespacedRecordName(this._token.lexeme), false, this._compiler.getNamespace()).setToken(this._token);
     }
+
+    compile(iterator) {
+        let objct    = super.compile(iterator);
+        let compiler = this._compiler;
+        compiler.getUseInfo().setUseObjct(objct.getName());
+        if (compiler.getPass() === 0) {
+            return;
+        }
+        let methods = compiler.getUseInfo().getUseObjct(objct.getName());
+        console.log('=======>', methods);
+        for (let i = 0; i < methods; i++) {
+        }
+    }
 };

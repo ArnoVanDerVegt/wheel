@@ -123,6 +123,7 @@ exports.CompileRecord = class extends CompileScope {
             }
         }
         this.checkDataTypeUnion(dataType);
+        return dataType;
     }
 
     getNamespacedRecordName(name) {

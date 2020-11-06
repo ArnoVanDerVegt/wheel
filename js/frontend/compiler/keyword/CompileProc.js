@@ -209,6 +209,7 @@ exports.CompileProc = class extends CompileBlock {
                 .addVar(token, procName.name, t.LEXEME_PROC, false, false, false)
                 .setProc(this._scope);
             this._scope.setMethod(true);
+            this._compiler.getUseInfo().addUseMethod(this._objct.getName());
             // Add self to the with stack...
             program.addCommand($.CMD_SET, $.T_NUM_L, this._scope.pushWith(this._objct), $.T_NUM_L, 0);
         }

@@ -5,4 +5,16 @@
 const Record = require('./Record').Record;
 
 exports.Objct = class extends Record {
+    constructor(parentScope, name, global, namespace) {
+        super(parentScope, name, global, namespace);
+        this._constructorCodeOffset = null;
+    }
+
+    getConstructorCodeOffset(constructorCodeOffset) {
+        return this._constructorCodeOffset;
+    }
+
+    setConstructorCodeOffset(constructorCodeOffset) {
+        this._constructorCodeOffset = constructorCodeOffset;
+    }
 };
