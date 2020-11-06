@@ -143,7 +143,7 @@ describe(
                         1841
                     ]
                 );
-                /*testLogs(
+                testLogs(
                     it,
                     'Should declare a simple object and call methods from a method',
                     [
@@ -167,14 +167,38 @@ describe(
                         'end',
                         'Point p',
                         'proc main()',
-                            'p.test()',
+                        '    p.test()',
                         'end'
                     ],
                     [
                         3479,
                         1849
                     ]
-                );*/
+                );
+                testLogs(
+                    it,
+                    'Should declare a simple object and call methods from a method',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        'end',
+                        'proc Point.test()',
+                        '    log()',
+                        'end',
+                        'Point p',
+                        'proc main()',
+                        '    p.x = 3479',
+                        '    p.test()',
+                        'end'
+                    ],
+                    [
+                        3479
+                    ]
+                );
             }
         );
         describe(

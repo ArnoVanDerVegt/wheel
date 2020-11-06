@@ -396,6 +396,15 @@ exports.VarExpression = class {
         } else {
             if (opts.identifier.getWithOffset() !== null) {
                 this.setReg($.REG_PTR, $.T_NUM_L, opts.identifier.getWithOffset());
+                if (opts.identifier.getType() === t.LEXEME_PROC) {
+                    this._lastProcField = opts.identifier.getProc();
+                    if (opts.selfPointerStackOffset !== false) {
+                        // It's a method to call then save the self pointer on the stack!
+                        program
+                            .nextBlockId()
+                            .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
+                    }
+                }
                 program.addCommand(
                     $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset(),
                     $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
@@ -444,7 +453,8 @@ exports.VarExpression = class {
                 expression:     expression,
                 identifier:     identifier,
                 identifierType: null,
-                token:          null
+                token:          null,
+                selfPointerStackOffset: selfPointerStackOffset
             };
         if (expression.tokens.length === 1) {
             return this.compileSingleTokenToRegister(opts, result);

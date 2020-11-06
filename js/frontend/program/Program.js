@@ -164,22 +164,6 @@ exports.Program = class {
             lastCommandB.getParam2().setValue(valueB2 + valueA2);
             add       = false;
             optimized = true;
-
-
-        // } else if ((cmdB    === $.CMD_SET) && (typeB1  === $.T_NUM_G) && (valueB1 === $.REG_PTR) &&
-        //                                       (typeB2  === $.T_NUM_C) &&
-        //            (cmdA    === $.CMD_SET) && (typeA2  === $.T_NUM_G) && (valueA2 === $.REG_PTR)) {
-        //     // Found:
-        //     //     Set     ptr,            9
-        //     //     Set     [stack + 3],    ptr
-        //     // Replace with:
-        //     //     Set     [stack + 3],    9
-        //     valueA2   = valueB2;
-        //     typeA2    = $.T_NUM_C;
-        //     optimized = true;
-        //     commands.pop();
-
-
         } else if ((cmdB    === $.CMD_SET) && (typeB1  === $.T_NUM_G) && (valueB1 === $.REG_PTR) &&
                                               (typeB2  === $.T_NUM_C) &&
                                               (typeA2  === $.T_NUM_P)) {

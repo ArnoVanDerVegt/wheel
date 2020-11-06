@@ -11,7 +11,7 @@ exports.Var = class {
         this._global               = opts.global;
         this._offset               = opts.offset;
         this._pointer              = opts.pointer;
-        this._proc                 = null;
+        this._proc                 = false;
         this._withOffset           = null;
         this._assignedProc         = null;
         this._stringConstantOffset = null;
@@ -110,6 +110,7 @@ exports.Var = class {
     **/
     setProc(proc) {
         this._proc = proc;
+        return this;
     }
 };
 

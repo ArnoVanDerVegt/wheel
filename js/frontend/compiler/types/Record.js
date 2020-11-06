@@ -30,6 +30,7 @@ exports.Record = class extends Scope {
         this._vars.forEach((vr) => {
             record
                 .addVar(vr.getToken(), vr.getName(), vr.getType(), vr.getArraySize(), vr.getPointer(), false)
+                .setProc(vr.getProc())
                 .setWithOffset(withOffset);
         });
         return record;
