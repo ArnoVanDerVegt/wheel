@@ -122,6 +122,7 @@ exports.CompileProc = class extends CompileBlock {
     }
 
     compileInitGlobalVars() {
+        let program = this._program;
         this._scope.getParentScope().getVars().forEach((vr) => {
             let stringConstantOffset = vr.getStringConstantOffset();
             if (stringConstantOffset !== null) {
@@ -132,22 +133,37 @@ exports.CompileProc = class extends CompileBlock {
                     $.CMD_SETS, $.T_NUM_G, vr.getOffset(), $.T_NUM_C, vr.getStringConstantOffset()
                 );
             }
+            if (vr.getType() instanceof Objct) {
+                let objct = vr.getType();
+                // Set the self pointer...
+                program.addCommand($.CMD_SET,  $.T_NUM_L, 3,                                    $.T_NUM_C, vr.getOffset());
+                // Call the constructor...
+                program.addCommand($.CMD_CALL, $.T_NUM_C, objct.getConstructorCodeOffset() - 1, $.T_NUM_C, 3);
+            }
         });
         return this;
     }
 
     compileInitGlobalObjects() {
-        let program = this._program;
-        this._scope.getParentScope().getVars().forEach((vr) => {
-            if (vr.getType() instanceof Objct) {
-                vr.getType().getVars().forEach((field) => {
+        let program  = this._program;
+        let commands = program.getCommands();
+        this._scope.getParentScope().getRecords().forEach((record) => {
+            if (record instanceof Objct) {
+                let objct                 = record;
+                let constructorCodeOffset = objct.getConstructorCodeOffset();
+                objct.getVars().forEach((field) => {
                     if (field.getProc()) {
-                        let methodOffset = vr.getOffset() + field.getOffset();
-                        program.addCommand($.CMD_SET, $.T_NUM_G, methodOffset, $.T_NUM_C, field.getProc().getCodeOffset() - 1);
+                        let methodOffset     = field.getOffset();
+                        let methodCodeOffset = field.getProc().getCodeOffset() - 1;
+                        let command          = commands[constructorCodeOffset + 1];
+                        // Update the virtual method table...
+                        command.getParam1().setValue(methodOffset);
+                        command.getParam2().setValue(methodCodeOffset);
                     }
                 });
             }
         });
+        return this;
     }
 
     compileProcName(iterator, token) {
@@ -176,6 +192,16 @@ exports.CompileProc = class extends CompileBlock {
         };
     }
 
+    compileMethodSetup(token, procName) {
+        this._objct
+            .addVar(token, procName.name, t.LEXEME_PROC, false, false, false)
+            .setProc(this._scope);
+        this._scope.setMethod(true);
+        this._compiler.getUseInfo().addUseMethod(this._objct.getName());
+        // Add self to the with stack...
+        this._program.addCommand($.CMD_SET, $.T_NUM_L, this._scope.pushWith(this._objct), $.T_NUM_L, 0);
+    }
+
     compileProc(iterator, token) {
         let program  = this._program;
         let linter   = this._compiler.getLinter();
@@ -198,20 +224,14 @@ exports.CompileProc = class extends CompileBlock {
         }
         this.compileParameters(iterator);
         // Check if it's the main proc...
-        if (token.lexeme === t.LEXEME_MAIN) {
+        if ((token.lexeme === t.LEXEME_MAIN) && (this._compiler.getPass() === 1)) {
             this
-                .compileInitGlobalVars()
-                .compileInitGlobalObjects();
+                .compileInitGlobalObjects()
+                .compileInitGlobalVars();
         }
         // If it's an object then add the proc as method...
         if (this._objct) {
-            this._objct
-                .addVar(token, procName.name, t.LEXEME_PROC, false, false, false)
-                .setProc(this._scope);
-            this._scope.setMethod(true);
-            this._compiler.getUseInfo().addUseMethod(this._objct.getName());
-            // Add self to the with stack...
-            program.addCommand($.CMD_SET, $.T_NUM_L, this._scope.pushWith(this._objct), $.T_NUM_L, 0);
+            this.compileMethodSetup(token, procName);
         }
         this.compileBlock(iterator, null);
         if (this._objct) {

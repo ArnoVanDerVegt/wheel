@@ -65,7 +65,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
      * Get the parameter vars from a proc.
      * If the proc is of an unknown type the parse the expression to find the type.
     **/
-    getProcVars(proc) {//procExpression, proc, procIdentifier) {
+    getProcVars(proc) {
         if (proc instanceof Proc) {
             this._compiler.getUseInfo().setUseProc(proc.getName(), proc); // Set the proc as used...
             return proc.getVars();
@@ -258,7 +258,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let done                   = false;
         let scope                  = this._scope;
         let callProc               = this.getProc(procExpression, proc, procIdentifier);
-        let callProcVars           = this.getProcVars(callProc);//procExpression, proc, procIdentifier);
+        let callProcVars           = this.getProcVars(callProc);
         let callMethod             = callProc && callProc.getMethod();
         let callStackSize          = callMethod ? 3 : 2;
         let returnStackOffset      = scope.getStackOffset();
