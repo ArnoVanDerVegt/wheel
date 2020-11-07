@@ -2,7 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const $ = require('../../program/commands');
+const $      = require('../../program/commands');
+const Record = require('../types/Record').Record;
+const Objct  = require('../types/Objct').Objct;
 
 exports.CompileObjct = class {
     constructor(opts) {
@@ -51,6 +53,29 @@ exports.CompileObjct = class {
             this.addCommand($.CMD_ADD,  $.T_NUM_L, 1,           $.T_NUM_C, 1);                 // Increase the loop counter...
             this.addCommand($.CMD_CMP,  $.T_NUM_L, 1,           $.T_NUM_C, vr.getArraySize()); // Compare the loop counter to the array size...
             this.addCommand($.CMD_JMPC, $.T_NUM_C, $.FLAG_LESS, $.T_NUM_C, loopJmpOffset);     // Jump if less...
+        }
+    }
+
+    compileConstructorCalls(vr) {
+        let offset = vr.getOffset();
+        const compileRecordFields = (vr) => {
+                vr.getVars().forEach((field) => {
+                    let arraySize = field.getArraySize() || 1;
+                    if (field.getType() instanceof Objct) {
+                        this.compileConstructorCall(offset, field);
+                        offset += field.getSize() * arraySize;
+                    } else if (field.getType() instanceof Record) {
+                        compileRecordFields(field.getType());
+                    } else {
+                        offset += field.getSize() * arraySize;
+                    }
+                });
+            };
+        if (vr.getType() instanceof Objct) {
+            this.compileConstructorCall(vr.getOffset(), vr);
+            compileRecordFields(vr.getType());
+        } else if (vr.getType() instanceof Record) {
+            compileRecordFields(vr.getType());
         }
     }
 };

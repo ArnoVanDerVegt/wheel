@@ -122,33 +122,11 @@ exports.CompileProc = class extends CompileBlock {
         scope.setParamCount(paramCount);
     }
 
-    compileCallConstructor(vr) {
-        let compileObjct = new CompileObjct({
-                program: this._program
-            });
-        if (vr.getType() instanceof Objct) {
-            compileObjct.compileConstructorCall(vr.getOffset(), vr);
-        } else if (vr.getType() instanceof Record) {
-            let offset = vr.getOffset();
-            const compileRecordFields = (vr) => {
-                    vr.getVars().forEach((field) => {
-                        let arraySize = field.getArraySize() || 1;
-                        if (field.getType() instanceof Objct) {
-                            compileObjct.compileConstructorCall(offset, field);
-                            offset += field.getSize() * arraySize;
-                        } else if (field.getType() instanceof Record) {
-                            compileRecordFields(field.getType());
-                        } else {
-                            offset += field.getSize() * arraySize;
-                        }
-                    });
-                };
-            compileRecordFields(vr.getType());
-        }
-    }
-
     compileInitGlobalVars() {
-        let program = this._program;
+        let program      = this._program;
+        let compileObjct = new CompileObjct({
+                program: program
+            });
         this._scope.getParentScope().getVars().forEach((vr) => {
             let stringConstantOffset = vr.getStringConstantOffset();
             if (stringConstantOffset !== null) {
@@ -160,7 +138,7 @@ exports.CompileProc = class extends CompileBlock {
                 );
             }
             if (!vr.getPointer()) {
-                this.compileCallConstructor(vr);
+                compileObjct.compileConstructorCalls(vr);
             }
         });
         return this;

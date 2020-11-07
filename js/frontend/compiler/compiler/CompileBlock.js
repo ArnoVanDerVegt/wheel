@@ -25,7 +25,7 @@ class CompileBlock extends CompileScope {
             keywordCompiler[t.LEXEME_NAMESPACE] = require('../keyword/CompileNamespace').CompileNamespace;
             keywordCompiler[t.LEXEME_PROC     ] = require('../keyword/CompileProc'     ).CompileProc;
             keywordCompiler[t.LEXEME_RECORD   ] = require('../keyword/CompileRecord'   ).CompileRecord;
-            keywordCompiler[t.LEXEME_OBJECT   ] = require('../keyword/CompileObject'   ).CompileObject;
+            keywordCompiler[t.LEXEME_OBJECT   ] = require('../keyword/CompileObjct'    ).CompileObjct;
             keywordCompiler[t.LEXEME_ADDR     ] = require('../keyword/CompileAddr'     ).CompileAddr;
             keywordCompiler[t.LEXEME_MOD      ] = require('../keyword/CompileModule'   ).CompileModule;
             keywordCompiler[t.LEXEME_FOR      ] = require('../keyword/CompileFor'      ).CompileFor;

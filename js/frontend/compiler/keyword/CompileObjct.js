@@ -10,7 +10,7 @@ const Objct         = require('../types/Objct').Objct;
 const Var           = require('../types/Var');
 const CompileRecord = require('./CompileRecord').CompileRecord;
 
-exports.CompileObject = class extends CompileRecord {
+exports.CompileObjct = class extends CompileRecord {
     getDataType() {
         return new Objct(null, this.getNamespacedRecordName(this._token.lexeme), false, this._compiler.getNamespace()).setToken(this._token);
     }

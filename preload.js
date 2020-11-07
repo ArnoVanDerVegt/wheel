@@ -135,7 +135,7 @@ require('./js/frontend/compiler/keyword/CompileIf');
 require('./js/frontend/compiler/keyword/CompileModule');
 require('./js/frontend/compiler/keyword/CompileProc');
 require('./js/frontend/compiler/keyword/CompileRecord');
-require('./js/frontend/compiler/keyword/CompileObject');
+require('./js/frontend/compiler/keyword/CompileObjct');
 require('./js/frontend/compiler/keyword/CompileRepeat');
 require('./js/frontend/compiler/keyword/CompileRet');
 require('./js/frontend/compiler/keyword/CompileSelect');

@@ -729,5 +729,96 @@ describe(
                 );
             }
         );
+        describe(
+            'Test object as parameter',
+            () => {
+                testLogs(
+                    it,
+                    'Should use object as parameter',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'Point p',
+                        'proc test(Point p)',
+                        '    addr p.y',
+                        '    mod 0, 1',
+                        '    addr p.x',
+                        '    mod 0, 1',
+                        'end',
+                        'proc main()',
+                        '    p.x = 1397',
+                        '    p.y = 2391',
+                        '    test(p)',
+                        'end'
+                    ],
+                    [
+                        2391,
+                        1397
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use object with a method as parameter',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr y',
+                        '    mod 0, 1',
+                        '    addr x',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p',
+                        'proc test(Point p)',
+                        '    p.log()',
+                        'end',
+                        'proc main()',
+                        '    p.x = 2397',
+                        '    p.y = 3391',
+                        '    test(p)',
+                        'end'
+                    ],
+                    [
+                        3391,
+                        2397
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use object pointer with a method as parameter',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.setXY(number xx, number yy)',
+                        '    x = xx',
+                        '    y = yy',
+                        'end',
+                        'proc Point.log()',
+                        '    addr y',
+                        '    mod 0, 1',
+                        '    addr x',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p',
+                        'proc test(Point ^p)',
+                        '    p.setXY(1246, 2356)',
+                        'end',
+                        'proc main()',
+                        '    p.x = 2397',
+                        '    p.y = 3391',
+                        '    test(@p)',
+                        '    p.log()',
+                        'end'
+                    ],
+                    [
+                        2356,
+                        1246
+                    ]
+                );
+            }
+        );
     }
 );

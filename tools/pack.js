@@ -233,7 +233,7 @@ const files = [
         './js/frontend/compiler/keyword/CompileIf',
         './js/frontend/compiler/keyword/CompileModule',
         './js/frontend/compiler/keyword/CompileRecord',
-        './js/frontend/compiler/keyword/CompileObject',
+        './js/frontend/compiler/keyword/CompileObjct',
         './js/frontend/compiler/keyword/CompileProc',
         './js/frontend/compiler/keyword/CompileRepeat',
         './js/frontend/compiler/keyword/CompileRet',
