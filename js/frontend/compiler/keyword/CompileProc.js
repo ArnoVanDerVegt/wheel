@@ -17,8 +17,9 @@ const Var          = require('../types/Var');
 exports.CompileProc = class extends CompileBlock {
     constructor(opts) {
         super(opts);
-        this._main  = false;
-        this._objct = null;
+        this._main            = false;
+        this._objct           = null;
+        this._startEntryPoint = null;
     }
 
     compileParameters(iterator) {
@@ -27,7 +28,6 @@ exports.CompileProc = class extends CompileBlock {
         let parameters = iterator.nextUntilLexeme([t.LEXEME_NEWLINE]);
         let scope      = this._scope;
         let program    = this._program;
-        let entryPoint = program.getLength();
         let tokens     = parameters.tokens;
         tokens.pop();
         this._main = false;
@@ -38,15 +38,15 @@ exports.CompileProc = class extends CompileBlock {
             if (scope.getParentScope().getEntryPoint() !== null) {
                 throw errors.createError(err.MAIN_PROC_ALREADY_DEFINED, token, 'Main proc already defined.');
             }
-            scope.getParentScope().setEntryPoint(entryPoint);
+            scope.getParentScope().setEntryPoint(this._startEntryPoint);
             this._main = true;
-            program.setEntryPoint(entryPoint);
+            program.setEntryPoint(this._startEntryPoint);
         } else {
-            this._compiler.setEventProc(scope.getName(), entryPoint);
+            this._compiler.setEventProc(scope.getName(), this._startEntryPoint);
             scope.addVar(null, '!____CODE_RETURN____',  t.LEXEME_NUMBER, false);
             scope.addVar(null, '!____STACK_RETURN____', t.LEXEME_NUMBER, false);
         }
-        scope.setEntryPoint(entryPoint);
+        scope.setEntryPoint(this._startEntryPoint);
         if (this._objct) {
             scope.addVar(null, '!____SELF_POINTER____', t.LEXEME_NUMBER, false);
         }
@@ -196,6 +196,7 @@ exports.CompileProc = class extends CompileBlock {
         let program  = this._program;
         let linter   = this._compiler.getLinter();
         let procName = this.compileProcName(iterator, token);
+        this._startEntryPoint = program.getLength();
         program.setCodeUsed(procName.used); // Only add code when the proc was used...
         linter && linter.addProc(token);
         this._scope = new Proc(this._scope, procName.name, false, this._compiler.getNamespace())
