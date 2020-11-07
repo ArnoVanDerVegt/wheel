@@ -36,6 +36,20 @@ exports.CompileObject = class extends CompileRecord {
             // The offset relative to the self pointer and the method offset will be set when the main procedure is found!
             program.addCommand($.CMD_SET, $.T_NUM_P, 0, $.T_NUM_C, 0);
         }
+        // Call the constructor for all object fields...
+        objct.getVars().forEach((vr) => {
+            if (vr.getType() instanceof Objct) {
+                if (vr.getOffset() === 0) {
+                    program.addCommand($.CMD_SET, $.T_NUM_L, 3, $.T_NUM_L, 0);
+                } else {
+                    program.addCommand(
+                        $.CMD_SET, $.T_NUM_L, 3, $.T_NUM_L, 0,
+                        $.CMD_ADD, $.T_NUM_L, 3, $.T_NUM_C, vr.getOffset()
+                    );
+                }
+                program.addCommand($.CMD_CALL, $.T_NUM_C, vr.getType().getConstructorCodeOffset(), $.T_NUM_C, 3);
+            }
+        });
         program.addCommand($.CMD_RET, 0, 0, 0, 0);
     }
 };
