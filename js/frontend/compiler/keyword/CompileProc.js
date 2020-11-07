@@ -122,23 +122,44 @@ exports.CompileProc = class extends CompileBlock {
         scope.setParamCount(paramCount);
     }
 
-    compileInitGlobalVars() {
-        let program      = this._program;
+    compileCallConstructor(vr) {
         let compileObjct = new CompileObjct({
-                program: program
+                program: this._program
             });
+        if (vr.getType() instanceof Objct) {
+            compileObjct.compileConstructorCall(vr.getOffset(), vr);
+        } else if (vr.getType() instanceof Record) {
+            let offset = vr.getOffset();
+            const compileRecordFields = (vr) => {
+                    vr.getVars().forEach((field) => {
+                        if (field.getType() instanceof Objct) {
+                            compileObjct.compileConstructorCall(offset, field);
+                            offset += field.getSize();
+                        } else if (field.getType() instanceof Record) {
+                            compileRecordFields(field.getType());
+                        } else {
+                            offset += field.getSize();
+                        }
+                    });
+                };
+            compileRecordFields(vr.getType());
+        }
+    }
+
+    compileInitGlobalVars() {
+        let program = this._program;
         this._scope.getParentScope().getVars().forEach((vr) => {
             let stringConstantOffset = vr.getStringConstantOffset();
             if (stringConstantOffset !== null) {
-                this._program.addCommand(
+                program.addCommand(
                     $.CMD_SET,  $.T_NUM_G, $.REG_SRC,      $.T_NUM_C, 1,
                     $.CMD_SET,  $.T_NUM_G, $.REG_PTR,      $.T_NUM_C, vr.getOffset(),
                     $.CMD_MOD,  $.T_NUM_C, 10,             $.T_NUM_C, 0, // STRING_ALLOCATE_GLOBAL_STRING
                     $.CMD_SETS, $.T_NUM_G, vr.getOffset(), $.T_NUM_C, vr.getStringConstantOffset()
                 );
             }
-            if ((vr.getType() instanceof Objct) && !vr.getPointer()) {
-                compileObjct.compileConstructorCall(vr);
+            if (!vr.getPointer()) {
+                this.compileCallConstructor(vr);
             }
         });
         return this;

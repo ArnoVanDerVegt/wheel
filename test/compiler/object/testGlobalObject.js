@@ -8,7 +8,7 @@ const testLogs          = require('../../utils').testLogs;
 describe(
     'Test global object',
     () => {
-        /*describe(
+        describe(
             'Test basic object',
             () => {
                 testLogs(
@@ -500,7 +500,7 @@ describe(
                     ]
                 );
             }
-        );*/
+        );
         describe(
             'Test array of object',
             () => {
@@ -576,6 +576,117 @@ describe(
                         52939,
                         66397,
                         66939
+                    ]
+                );
+            }
+        );
+        describe(
+            'Test object field in record',
+            () => {
+                testLogs(
+                    it,
+                    'Should declare a record with two object fields',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'record Line',
+                        '    Point p1, p2',
+                        'end',
+                        'Line l',
+                        'proc main()',
+                        '    l.p1.x = 8551',
+                        '    l.p1.y = 3501',
+                        '    l.p2.x = 9314',
+                        '    l.p2.y = 3851',
+                        '    addr l.p1.x',
+                        '    mod 0, 1',
+                        '    addr l.p1.y',
+                        '    mod 0, 1',
+                        '    addr l.p2.x',
+                        '    mod 0, 1',
+                        '    addr l.p2.y',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        8551,
+                        3501,
+                        9314,
+                        3851
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should declare a record with two object fields and call a method in the objects',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'record Line',
+                        '    Point p1, p2',
+                        'end',
+                        'Line l',
+                        'proc main()',
+                        '    l.p1.x = 1551',
+                        '    l.p1.y = 2501',
+                        '    l.p2.x = 3314',
+                        '    l.p2.y = 4851',
+                        '    with l',
+                        '        p1.log()',
+                        '        p2.log()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        1551,
+                        2501,
+                        3314,
+                        4851
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should declare a record with a record field with two object fields and call a method in the objects',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'record Line',
+                        '    Point p1, p2',
+                        'end',
+                        'record Shape',
+                        '    Line l1, l2',
+                        'end',
+                        'Shape s',
+                        'proc main()',
+                        '    s.l2.p1.x = 7551',
+                        '    s.l2.p1.y = 6501',
+                        '    s.l2.p2.x = 5314',
+                        '    s.l2.p2.y = 4851',
+                        '    with s.l2',
+                        '        p1.log()',
+                        '        p2.log()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        7551,
+                        6501,
+                        5314,
+                        4851
                     ]
                 );
             }
