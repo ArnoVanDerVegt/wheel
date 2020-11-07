@@ -6,7 +6,7 @@ const testCodeAndMemory = require('../../utils').testCodeAndMemory;
 const testLogs          = require('../../utils').testLogs;
 
 describe(
-    'Test object',
+    'Test global object',
     () => {
         describe(
             'Test basic object',

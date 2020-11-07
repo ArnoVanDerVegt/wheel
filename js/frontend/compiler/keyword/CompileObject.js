@@ -22,13 +22,17 @@ exports.CompileObject = class extends CompileRecord {
         if (compiler.getPass() === 0) {
             return;
         }
-        let program = this._program;
-        let methods = compiler.getUseInfo().getUseObjct(objct.getName());
-        objct.setConstructorCodeOffset(program.getLength());
+        let program     = this._program;
+        let methodTable = [];
+        let methods     = compiler.getUseInfo().getUseObjct(objct.getName());
+        objct
+            .setConstructorCodeOffset(program.getLength())
+            .setMethodTable(methodTable);
         // Move the self pointer to the pointer register...
         program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_L, 0);
         // Create the virtual method table...
         for (let i = 0; i < methods; i++) {
+            methodTable.push(program.getLength());
             // The offset relative to the self pointer and the method offset will be set when the main procedure is found!
             program.addCommand($.CMD_SET, $.T_NUM_P, 0, $.T_NUM_C, 0);
         }

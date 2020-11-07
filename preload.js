@@ -117,6 +117,7 @@ require('./js/frontend/compiler/compiler/CompileCall');
 require('./js/frontend/compiler/compiler/CompileVars');
 require('./js/frontend/compiler/compiler/CompileBlock');
 require('./js/frontend/compiler/compiler/CompileLoop');
+require('./js/frontend/compiler/compiler/CompileObjct');
 require('./js/frontend/compiler/linter/Linter');
 require('./js/frontend/compiler/resources/ProjectResource');
 require('./js/frontend/compiler/resources/ImageResource');

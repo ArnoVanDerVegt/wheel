@@ -8,13 +8,24 @@ exports.Objct = class extends Record {
     constructor(parentScope, name, global, namespace) {
         super(parentScope, name, global, namespace);
         this._constructorCodeOffset = null;
+        this._methodTable           = null;
     }
 
     getConstructorCodeOffset(constructorCodeOffset) {
-        return this._constructorCodeOffset;
+        return this._constructorCodeOffset - 1;
     }
 
     setConstructorCodeOffset(constructorCodeOffset) {
         this._constructorCodeOffset = constructorCodeOffset;
+        return this;
+    }
+
+    getMethodTable() {
+        return this._methodTable;
+    }
+
+    setMethodTable(methodTable) {
+        this._methodTable = methodTable;
+        return this;
     }
 };

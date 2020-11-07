@@ -8,6 +8,7 @@ const err          = require('../errors').errors;
 const t            = require('../tokenizer/tokenizer');
 const CompileBlock = require('../compiler/CompileBlock').CompileBlock;
 const CompileVars  = require('../compiler/CompileVars').CompileVars;
+const CompileObjct = require('../compiler/CompileObjct').CompileObjct;
 const Proc         = require('../types/Proc').Proc;
 const Record       = require('../types/Record').Record;
 const Objct        = require('../types/Objct').Objct;
@@ -122,7 +123,10 @@ exports.CompileProc = class extends CompileBlock {
     }
 
     compileInitGlobalVars() {
-        let program = this._program;
+        let program      = this._program;
+        let compileObjct = new CompileObjct({
+                program: program
+            });
         this._scope.getParentScope().getVars().forEach((vr) => {
             let stringConstantOffset = vr.getStringConstantOffset();
             if (stringConstantOffset !== null) {
@@ -134,35 +138,19 @@ exports.CompileProc = class extends CompileBlock {
                 );
             }
             if (vr.getType() instanceof Objct) {
-                let objct = vr.getType();
-                // Set the self pointer...
-                program.addCommand($.CMD_SET,  $.T_NUM_L, 3,                                    $.T_NUM_C, vr.getOffset());
-                // Call the constructor...
-                program.addCommand($.CMD_CALL, $.T_NUM_C, objct.getConstructorCodeOffset() - 1, $.T_NUM_C, 3);
+                compileObjct.compileConstructorCall(vr);
             }
         });
         return this;
     }
 
     compileInitGlobalObjects() {
-        let program  = this._program;
-        let commands = program.getCommands();
+        let compileObjct = new CompileObjct({
+                program: this._program
+            });
         this._scope.getParentScope().getRecords().forEach((record) => {
             if (record instanceof Objct) {
-                let objct                 = record;
-                let constructorCodeOffset = objct.getConstructorCodeOffset();
-                let index                 = 0;
-                objct.getVars().forEach((field) => {
-                    if (field.getProc()) {
-                        let methodOffset     = field.getOffset();
-                        let methodCodeOffset = field.getProc().getCodeOffset() - 1;
-                        let command          = commands[constructorCodeOffset + 1 + index];
-                        // Update the virtual method table...
-                        command.getParam1().setValue(methodOffset);
-                        command.getParam2().setValue(methodCodeOffset);
-                        index++;
-                    }
-                });
+                compileObjct.compileMethodTable(record);
             }
         });
         return this;
