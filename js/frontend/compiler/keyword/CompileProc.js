@@ -20,6 +20,17 @@ exports.CompileProc = class extends CompileBlock {
         this._main            = false;
         this._objct           = null;
         this._startEntryPoint = null;
+        this._compileObjct    = null;
+    }
+
+    getCompileObjct() {
+        if (!this._compileObjct) {
+            this._compileObjct = new CompileObjct({
+                program: this._program,
+                scope:   this._scope
+            });
+        }
+        return this._compileObjct;
     }
 
     compileParameters(iterator) {
@@ -123,11 +134,7 @@ exports.CompileProc = class extends CompileBlock {
     }
 
     compileInitGlobalVars() {
-        let program      = this._program;
-        let compileObjct = new CompileObjct({
-                program: program,
-                scope:   this._scope
-            });
+        let program = this._program;
         this._scope.getParentScope().getVars().forEach((vr) => {
             let stringConstantOffset = vr.getStringConstantOffset();
             if (stringConstantOffset !== null) {
@@ -139,20 +146,16 @@ exports.CompileProc = class extends CompileBlock {
                 );
             }
             if (!vr.getPointer()) {
-                compileObjct.compileConstructorCalls(vr);
+                this.getCompileObjct().compileConstructorCalls(vr);
             }
         });
         return this;
     }
 
     compileInitGlobalObjects() {
-        let compileObjct = new CompileObjct({
-                program: this._program,
-                scope:   this._scope
-            });
         this._scope.getParentScope().getRecords().forEach((record) => {
             if (record instanceof Objct) {
-                compileObjct.compileMethodTable(record);
+                this.getCompileObjct().compileMethodTable(record);
             }
         });
         return this;

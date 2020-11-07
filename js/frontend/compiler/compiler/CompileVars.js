@@ -8,8 +8,10 @@ const err            = require('../errors').errors;
 const t              = require('../tokenizer/tokenizer');
 const Proc           = require('../types/Proc').Proc;
 const Record         = require('../types/Record').Record;
+const Objct          = require('../types/Objct').Objct;
 const Var            = require('../types/Var');
 const compileData    = require('./CompileData').compileData;
+const CompileObjct   = require('./CompileObjct').CompileObjct;
 const VarExpression  = require('../expression/VarExpression').VarExpression;
 const MathExpression = require('../expression/MathExpression').MathExpression;
 
@@ -19,6 +21,17 @@ exports.CompileVars = class {
         this._program       = opts.program;
         this._scope         = opts.scope;
         this._varExpression = new VarExpression(opts);
+        this._compileObjct  = null;
+    }
+
+    getCompileObjct() {
+        if (!this._compileObjct) {
+            this._compileObjct = new CompileObjct({
+                program: this._program,
+                scope:   this._scope
+            });
+        }
+        return this._compileObjct;
     }
 
     compileConstantData(vr, data, token) {
@@ -262,6 +275,9 @@ exports.CompileVars = class {
                 throw errors.createError(err.DUPLICATE_IDENTIFIER, token, 'Duplicate identifier "' + token.lexeme + '".');
             }
             let vr = scope.addVar(token, token.lexeme, type, arraySize, pointer);
+            if ((type instanceof Objct) && !vr.getPointer()) {
+                this.getCompileObjct().compileConstructorCalls(vr);
+            }
             if (addConst) {
                 if (type instanceof Record) {
                     if (arraySize === false) {
