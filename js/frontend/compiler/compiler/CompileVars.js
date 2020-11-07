@@ -275,7 +275,7 @@ exports.CompileVars = class {
                 throw errors.createError(err.DUPLICATE_IDENTIFIER, token, 'Duplicate identifier "' + token.lexeme + '".');
             }
             let vr = scope.addVar(token, token.lexeme, type, arraySize, pointer);
-            if ((type instanceof Objct) && !vr.getPointer()) {
+            if (!vr.getPointer() && (type instanceof Record)) {
                 this.getCompileObjct().compileConstructorCalls(vr);
             }
             if (addConst) {

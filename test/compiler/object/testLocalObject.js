@@ -616,8 +616,6 @@ describe(
                         3851
                     ]
                 );
-                /*
-                todo:
                 testLogs(
                     it,
                     'Should declare a record with two object fields and call a method in the objects',
@@ -729,7 +727,6 @@ describe(
                         4851
                     ]
                 );
-                */
             }
         );
         describe(
