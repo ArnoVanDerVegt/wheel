@@ -9,6 +9,10 @@ exports.CompileObjct = class {
         this._program = opts.program;
     }
 
+    addCommand() {
+        this._program.nextBlockId().addCommand.apply(this._program, [].slice.call(arguments));
+    }
+
     compileMethodTable(objct) {
         let commands    = this._program.getCommands();
         let methodTable = objct.getMethodTable();
@@ -27,12 +31,28 @@ exports.CompileObjct = class {
     }
 
     compileConstructorCall(vr) {
-        let objct = vr.getType();
-        this._program.addCommand(
-            // Set the self pointer...
-            $.CMD_SET,  $.T_NUM_L, 3,                                $.T_NUM_C, vr.getOffset(),
-            // Call the constructor...
-            $.CMD_CALL, $.T_NUM_C, objct.getConstructorCodeOffset(), $.T_NUM_C, 3
-        );
+        let objct   = vr.getType();
+        let program = this._program;
+        if (vr.getArraySize() === false) {
+            program
+                .nextBlockId()
+                .addCommand(
+                    // Set the self pointer...
+                    $.CMD_SET,  $.T_NUM_L, 3,                                $.T_NUM_C, vr.getOffset(),
+                    // Call the constructor...
+                    $.CMD_CALL, $.T_NUM_C, objct.getConstructorCodeOffset(), $.T_NUM_C, 3
+                );
+        } else {
+            let loopJmpOffset = program.getLength() + 2;
+            let offset        = objct.getConstructorCodeOffset();
+            this.addCommand($.CMD_SET,  $.T_NUM_L, 1,           $.T_NUM_C, 0);                 // Set a loop counter...
+            this.addCommand($.CMD_SET,  $.T_NUM_L, 2,           $.T_NUM_C, vr.getOffset());    // Set the offset...
+            this.addCommand($.CMD_SET,  $.T_NUM_L, 5,           $.T_NUM_L, 2);                 // Set the self pointer...
+            this.addCommand($.CMD_CALL, $.T_NUM_C, offset,      $.T_NUM_C, 5);                 // Call the constructor,  add 5 to the stack: 3 + 1 (counter) + 1 (offset)...
+            this.addCommand($.CMD_ADD,  $.T_NUM_L, 2,           $.T_NUM_C, vr.getSize());      // Add the size to the offset...
+            this.addCommand($.CMD_ADD,  $.T_NUM_L, 1,           $.T_NUM_C, 1);                 // Increase the loop counter...
+            this.addCommand($.CMD_CMP,  $.T_NUM_L, 1,           $.T_NUM_C, vr.getArraySize()); // Compare the loop counter to the array size...
+            this.addCommand($.CMD_JMPC, $.T_NUM_C, $.FLAG_LESS, $.T_NUM_C, loopJmpOffset);     // Jump if less...
+        }
     }
 };

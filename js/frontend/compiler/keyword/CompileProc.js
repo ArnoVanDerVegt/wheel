@@ -137,7 +137,7 @@ exports.CompileProc = class extends CompileBlock {
                     $.CMD_SETS, $.T_NUM_G, vr.getOffset(), $.T_NUM_C, vr.getStringConstantOffset()
                 );
             }
-            if (vr.getType() instanceof Objct) {
+            if ((vr.getType() instanceof Objct) && !vr.getPointer()) {
                 compileObjct.compileConstructorCall(vr);
             }
         });

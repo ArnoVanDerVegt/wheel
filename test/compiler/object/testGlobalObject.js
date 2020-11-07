@@ -8,7 +8,7 @@ const testLogs          = require('../../utils').testLogs;
 describe(
     'Test global object',
     () => {
-        describe(
+        /*describe(
             'Test basic object',
             () => {
                 testLogs(
@@ -497,6 +497,85 @@ describe(
                         2151,
                         3861,
                         4413
+                    ]
+                );
+            }
+        );*/
+        describe(
+            'Test array of object',
+            () => {
+                testLogs(
+                    it,
+                    'Should declare an array of simple objects',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'Point p[3]',
+                        'proc main()',
+                        '    p[0].x = 1397',
+                        '    p[0].y = 1939',
+                        '    p[1].x = 2397',
+                        '    p[1].y = 2939',
+                        '    p[2].x = 6397',
+                        '    p[2].y = 6939',
+                        '    addr p[0].x',
+                        '    mod 0, 1',
+                        '    addr p[0].y',
+                        '    mod 0, 1',
+                        '    addr p[1].x',
+                        '    mod 0, 1',
+                        '    addr p[1].y',
+                        '    mod 0, 1',
+                        '    addr p[2].x',
+                        '    mod 0, 1',
+                        '    addr p[2].y',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        1397,
+                        1939,
+                        2397,
+                        2939,
+                        6397,
+                        6939
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should declare an array of simple objects and call methods',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p[3]',
+                        'proc main()',
+                        '    p[0].x = 41397',
+                        '    p[0].y = 41939',
+                        '    p[1].x = 52397',
+                        '    p[1].y = 52939',
+                        '    p[2].x = 66397',
+                        '    p[2].y = 66939',
+                        '    number i',
+                        '    for i = 0 to 2',
+                        '        p[i].log()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        41397,
+                        41939,
+                        52397,
+                        52939,
+                        66397,
+                        66939
                     ]
                 );
             }
