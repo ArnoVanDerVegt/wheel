@@ -132,13 +132,14 @@ exports.CompileProc = class extends CompileBlock {
             let offset = vr.getOffset();
             const compileRecordFields = (vr) => {
                     vr.getVars().forEach((field) => {
+                        let arraySize = field.getArraySize() || 1;
                         if (field.getType() instanceof Objct) {
                             compileObjct.compileConstructorCall(offset, field);
-                            offset += field.getSize();
+                            offset += field.getSize() * arraySize;
                         } else if (field.getType() instanceof Record) {
                             compileRecordFields(field.getType());
                         } else {
-                            offset += field.getSize();
+                            offset += field.getSize() * arraySize;
                         }
                     });
                 };

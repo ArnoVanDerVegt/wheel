@@ -689,6 +689,44 @@ describe(
                         4851
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should declare a record with a record field with and array of object fields and call a method in the objects',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'record Line',
+                        '    Point p[2]',
+                        'end',
+                        'record Shape',
+                        '    Line l1, l2',
+                        'end',
+                        'Shape s',
+                        'proc main()',
+                        '    s.l2.p[0].x = 1551',
+                        '    s.l2.p[0].y = 2501',
+                        '    s.l2.p[1].x = 3314',
+                        '    s.l2.p[1].y = 4851',
+                        '    with s.l2',
+                        '        p[0].log()',
+                        '        p[1].log()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        1551,
+                        2501,
+                        3314,
+                        4851
+                    ]
+                );
             }
         );
     }
