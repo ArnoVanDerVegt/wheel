@@ -125,7 +125,8 @@ exports.CompileProc = class extends CompileBlock {
     compileInitGlobalVars() {
         let program      = this._program;
         let compileObjct = new CompileObjct({
-                program: program
+                program: program,
+                scope:   this._scope
             });
         this._scope.getParentScope().getVars().forEach((vr) => {
             let stringConstantOffset = vr.getStringConstantOffset();
@@ -146,7 +147,8 @@ exports.CompileProc = class extends CompileBlock {
 
     compileInitGlobalObjects() {
         let compileObjct = new CompileObjct({
-                program: this._program
+                program: this._program,
+                scope:   this._scope
             });
         this._scope.getParentScope().getRecords().forEach((record) => {
             if (record instanceof Objct) {
