@@ -87,9 +87,6 @@ exports.CompileObjct = class extends CompileRecord {
                 program.addCommand($.CMD_CALL, $.T_NUM_C, vr.getType().getConstructorCodeOffset(), $.T_NUM_C, 3);
             }
         });
-        if (!vars.length) {
-            objct.addVar(null, '!____EMPTY_OBJECT____', t.LEXEME_NUMBER, false);
-        }
         program.addCommand($.CMD_RET, 0, 0, 0, 0);
     }
 };

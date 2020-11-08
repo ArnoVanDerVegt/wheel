@@ -83,7 +83,7 @@ describe(
                         'end',
                         'object Mamal extends Animal',
                         'end',
-                        'object Dog extends Animal',
+                        'object Dog extends Mamal',
                         'end',
                         'proc Dog.move()',
                         '    printS("Walk")',

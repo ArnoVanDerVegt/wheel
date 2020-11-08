@@ -33,6 +33,38 @@ exports.CompileProc = class extends CompileBlock {
         return this._compileObjct;
     }
 
+    /**
+     * Check if the super object has a proc with the same name and if so then check if the parameters are the same.
+    **/
+    validateSuperProc(token) {
+        let scope      = this._scope;
+        let vars       = scope.getVars();
+        let name       = scope.getName();
+        let superObjct = this._objct.getParentScope();
+        let superProc  = null;
+        while (superObjct) {
+            superProc = superObjct.getVarsByName()[name];
+            if (superProc) {
+                break;
+            }
+            superObjct = superObjct.getParentScope();
+        }
+        if (!superProc) {
+            return;
+        }
+        superProc = superProc.getProc();
+        if (superProc.getParamCount() !== this._scope.getParamCount()) {
+            throw errors.createError(err.PROC_DOES_NOT_MATCH_SUPER_PROC, token, 'Proc does not match super proc declaration.');
+        }
+        for (let i = 0; i < superProc.getParamCount(); i++) {
+            let v1 = superProc.getVars()[3 + i];
+            let v2 = vars[3 + i];
+            if ((v1.getName() !== v2.getName()) || (v1.getType() !== v2.getType()) || (v1.getArraySize() !== v2.getArraySize())) {
+                throw errors.createError(err.PROC_DOES_NOT_MATCH_SUPER_PROC, token, 'Proc does not match super proc declaration.');
+            }
+        }
+    }
+
     compileParameters(iterator) {
         let linter     = this._compiler.getLinter();
         let token      = iterator.skipWhiteSpace().next();
@@ -131,6 +163,9 @@ exports.CompileProc = class extends CompileBlock {
             index++;
         }
         scope.setParamCount(paramCount);
+        if (this._objct) {
+            this.validateSuperProc(tokens[0]);
+        }
     }
 
     compileInitGlobalVars() {

@@ -59,7 +59,8 @@ exports.errors = {
     DEFAULT_ALREADY_DEFINED:                 54,
     DEFAULT_LAST_EXPECTED:                   55,
     DUPLICATE_RESOURCE:                      56,
-    OBJECT_TYPE_EXPECTED:                    57
+    OBJECT_TYPE_EXPECTED:                    57,
+    PROC_DOES_NOT_MATCH_SUPER_PROC:          58
 };
 
 exports.createError = function(num, token, message) {
