@@ -8,29 +8,60 @@ const Objct  = require('../types/Objct').Objct;
 
 exports.CompileObjct = class {
     constructor(opts) {
-        this._program = opts.program;
-        this._scope   = opts.scope;
+        this._program       = opts.program;
+        this._scope         = opts.scope;
+        this._methodOffsets = null;
     }
 
     addCommand() {
         this._program.nextBlockId().addCommand.apply(this._program, [].slice.call(arguments));
     }
 
+    addMethodPointer(field, commandIndex) {
+        if (field.getProc()) {
+            let name             = field.getName();
+            let methodOffset     = field.getOffset();
+            let methodCodeOffset = field.getProc().getCodeOffset() - 1;
+            if (!(name in this._methodOffsets)) {
+                this._methodOffsets[name] = [];
+            }
+            this._methodOffsets[name].push({
+                commandIndex: commandIndex,
+                offset:       methodOffset,
+                codeOffset:   methodCodeOffset
+            });
+            return true;
+        }
+        return false;
+    }
+
     compileMethodTable(objct) {
-        let commands    = this._program.getCommands();
-        let methodTable = objct.getMethodTable();
+        this._methodOffsets = {};
         let index       = 0;
+        let methodTable = objct.getMethodTable();
+        let superObjct  = objct.getParentScope();
+        while (superObjct instanceof Objct) {
+            superObjct.getVars().forEach((field) => {
+                if (this.addMethodPointer(field, methodTable[index])) {
+                    index++;
+                }
+            });
+            superObjct = superObjct.getParentScope();
+        }
         objct.getVars().forEach((field) => {
-            if (field.getProc()) {
-                let methodOffset     = field.getOffset();
-                let methodCodeOffset = field.getProc().getCodeOffset() - 1;
-                let command          = commands[methodTable[index]];
-                // Update the virtual method table...
-                command.getParam1().setValue(methodOffset);
-                command.getParam2().setValue(methodCodeOffset);
+            if (this.addMethodPointer(field, methodTable[index])) {
                 index++;
             }
         });
+        for (let name in this._methodOffsets) {
+            let methods = this._methodOffsets[name];
+            for (let i = 0; i < methods.length; i++) {
+                let method  = methods[i];
+                let command = this._program.getCommands()[method.commandIndex];
+                command.getParam1().setValue(method.offset);
+                command.getParam2().setValue(method.codeOffset);
+            }
+        }
     }
 
     compileConstructorCall(local, offset, vr) {

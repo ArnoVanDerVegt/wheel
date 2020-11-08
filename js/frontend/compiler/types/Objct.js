@@ -28,4 +28,9 @@ exports.Objct = class extends Record {
         this._methodTable = methodTable;
         return this;
     }
+
+    extend(dataType) {
+        this._size        = dataType.getTotalSize();
+        this._parentScope = dataType;
+    }
 };

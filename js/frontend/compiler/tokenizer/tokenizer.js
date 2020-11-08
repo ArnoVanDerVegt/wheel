@@ -23,6 +23,7 @@
     const LEXEME_STEP               = 'step';
     const LEXEME_RECORD             = 'record';
     const LEXEME_OBJECT             = 'object';
+    const LEXEME_EXTENDS            = 'extends';
     const LEXEME_UNION              = 'union';
     const LEXEME_REPEAT             = 'repeat';
     const LEXEME_WHILE              = 'while';
@@ -113,6 +114,7 @@
     exports.LEXEME_STEP               = LEXEME_STEP;
     exports.LEXEME_RECORD             = LEXEME_RECORD;
     exports.LEXEME_OBJECT             = LEXEME_OBJECT;
+    exports.LEXEME_EXTENDS            = LEXEME_EXTENDS;
     exports.LEXEME_UNION              = LEXEME_UNION;
     exports.LEXEME_REPEAT             = LEXEME_REPEAT;
     exports.LEXEME_WHILE              = LEXEME_WHILE;
@@ -199,6 +201,7 @@
             LEXEME_STEP,
             LEXEME_RECORD,
             LEXEME_OBJECT,
+            LEXEME_EXTENDS,
             LEXEME_UNION,
             LEXEME_REPEAT,
             LEXEME_WHILE,

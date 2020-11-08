@@ -47,6 +47,9 @@ exports.CompileRecord = class extends CompileScope {
         }
     }
 
+    compileExtends(iterator, dataType) {
+    }
+
     compile(iterator) {
         this._type       = null;
         this._expectType = true;
@@ -57,6 +60,7 @@ exports.CompileRecord = class extends CompileScope {
         this._linter && this._linter.addRecord(this._token);
         let dataType = this.getDataType();
         this.addDataTypeToScope(dataType);
+        this.compileExtends(iterator, dataType);
         while (!this._end) {
             this._token = iterator.skipWhiteSpace().next();
             switch (this._token.cls) {

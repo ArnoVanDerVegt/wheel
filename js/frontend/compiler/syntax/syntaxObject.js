@@ -50,15 +50,28 @@ exports.objectScopeTokens = function() {
         ];
     tokens[t.TOKEN_NUMBER] = follow06;
 
-    // IDENTIFIER -> IDENTIFIER | "[" | "," | "^" | "\n"
+    // IDENTIFIER -> IDENTIFIER | "[" | "," | "^" | "\n" | "extends"
     let follow07 = [
             {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_BRACKET_OPEN},
             {token: t.TOKEN_COMMA},
             {token: t.TOKEN_POINTER},
-            {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
+            {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]},
+            {token: t.TOKEN_KEYWORD,     lexeme: [t.LEXEME_EXTENDS]}
         ];
     tokens[t.TOKEN_IDENTIFIER] = follow07;
+
+    // "union" -> "\n"
+    let follow08 = [
+            {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
+        ];
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_UNION] = follow08;
+
+    // "extends" -> IDENTIFIER
+    let follow09 = [
+            {token: t.TOKEN_IDENTIFIER}
+        ];
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_EXTENDS] = follow09;
 
     return utils.updateTokens(tokens);
 };
