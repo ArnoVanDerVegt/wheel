@@ -126,9 +126,18 @@ exports.Scope = class {
     findWithField(name) {
         let withStack = this._withStack;
         for (let i = withStack.length - 1; i >= 0; i--) {
-            let varsByName = withStack[i].getVarsByName();
+            let withItem   = withStack[i];
+            let varsByName = withItem.getVarsByName();
             if (name in varsByName) {
                 return varsByName[name];
+            }
+            let superScope = withItem.getParentScope();
+            while (superScope) {
+                varsByName = superScope.getVarsByName();
+                if (name in varsByName) {
+                    return varsByName[name];
+                }
+                superScope = superScope.getParentScope();
             }
         }
         return null;
@@ -201,6 +210,10 @@ exports.Scope = class {
             return proc;
         }
         return this._parentScope ? this._parentScope.findProc(name) : null;
+    }
+
+    getNamespace() {
+        return this._namespace;
     }
 
     getToken() {

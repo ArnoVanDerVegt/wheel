@@ -67,6 +67,44 @@ describe(
                         'Swim'
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should extend a simple object and an empty object and overwrite a method',
+                    [
+                        'proc printS(string s)',
+                        '    addr s',
+                        '    mod  0, 2',
+                        'end',
+                        'object Animal',
+                        '    number x, y',
+                        'end',
+                        'proc Animal.move()',
+                        '    printS("Move")',
+                        'end',
+                        'object Mamal extends Animal',
+                        'end',
+                        'object Dog extends Animal',
+                        'end',
+                        'proc Dog.move()',
+                        '    printS("Walk")',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'Dog d',
+                        'proc main()',
+                        '    d.x = 5677',
+                        '    d.y = 4361',
+                        '    d.move()',
+                        'end'
+                    ],
+                    [
+                        'Walk',
+                        5677,
+                        4361
+                    ]
+                );
             }
         );
     }

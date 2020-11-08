@@ -17,7 +17,7 @@ exports.CompileObjct = class {
         this._program.nextBlockId().addCommand.apply(this._program, [].slice.call(arguments));
     }
 
-    addMethodPointer(field, commandIndex) {
+    addMethodPointer(field, commandIndex, superObjct) {
         if (field.getProc()) {
             let name             = field.getName();
             let methodOffset     = field.getOffset();
@@ -42,14 +42,14 @@ exports.CompileObjct = class {
         let superObjct  = objct.getParentScope();
         while (superObjct instanceof Objct) {
             superObjct.getVars().forEach((field) => {
-                if (this.addMethodPointer(field, methodTable[index])) {
+                if (this.addMethodPointer(field, methodTable[index], superObjct)) {
                     index++;
                 }
             });
             superObjct = superObjct.getParentScope();
         }
         objct.getVars().forEach((field) => {
-            if (this.addMethodPointer(field, methodTable[index])) {
+            if (this.addMethodPointer(field, methodTable[index], objct)) {
                 index++;
             }
         });
@@ -90,11 +90,11 @@ exports.CompileObjct = class {
             let loopJmpOffset;
             if (local) {
                 loopJmpOffset = program.getLength() + 3;
-                this.addCommand($.CMD_SET,  $.T_NUM_L, size + 2,    $.T_NUM_G, $.REG_STACK);       // Set the offset...
-                this.addCommand($.CMD_ADD,  $.T_NUM_L, size + 2,    $.T_NUM_C, offset);            // Set the offset...
+                this.addCommand($.CMD_SET,  $.T_NUM_L, size + 2,    $.T_NUM_G, $.REG_STACK);   // Set the offset...
+                this.addCommand($.CMD_ADD,  $.T_NUM_L, size + 2,    $.T_NUM_C, offset);        // Set the offset...
             } else {
                 loopJmpOffset = program.getLength() + 2;
-                this.addCommand($.CMD_SET,  $.T_NUM_L, size + 2,    $.T_NUM_C, offset);            // Set the offset...
+                this.addCommand($.CMD_SET,  $.T_NUM_L, size + 2,    $.T_NUM_C, offset);        // Set the offset...
             }
             this.addCommand($.CMD_SET,  $.T_NUM_L, size + 1,    $.T_NUM_C, 0);                 // Set a loop counter...
             this.addCommand($.CMD_SET,  $.T_NUM_L, size + 5,    $.T_NUM_L, size + 2);          // Set the self pointer...

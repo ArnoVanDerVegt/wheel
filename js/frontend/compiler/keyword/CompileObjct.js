@@ -73,7 +73,8 @@ exports.CompileObjct = class extends CompileRecord {
             .setMethodTable(methodTable);
         this.compileMethodTable(objct, methodTable);
         // Call the constructor for all object fields...
-        objct.getVars().forEach((vr) => {
+        let vars = objct.getVars()
+        vars.forEach((vr) => {
             if ((vr.getType() instanceof Objct) && !vr.getPointer()) {
                 if (vr.getOffset() === 0) {
                     program.addCommand($.CMD_SET, $.T_NUM_L, 3, $.T_NUM_L, 0);
@@ -86,6 +87,9 @@ exports.CompileObjct = class extends CompileRecord {
                 program.addCommand($.CMD_CALL, $.T_NUM_C, vr.getType().getConstructorCodeOffset(), $.T_NUM_C, 3);
             }
         });
+        if (!vars.length) {
+            objct.addVar(null, '!____EMPTY_OBJECT____', t.LEXEME_NUMBER, false);
+        }
         program.addCommand($.CMD_RET, 0, 0, 0, 0);
     }
 };

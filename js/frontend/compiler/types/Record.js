@@ -25,14 +25,26 @@ exports.Record = class extends Scope {
         return (this._unionSize === 0) || (this._unionSize === this._size);
     }
 
-    getWithRecord(withOffset) {
-        let record = new exports.Record(this._parentScope, this._name, this._global, this._namespace);
-        this._vars.forEach((vr) => {
-            record
+    _getWithRecord(record, parentScope, withOffset) {
+        let withRecord = new exports.Record(parentScope, record.getName(), record.getGlobal(), record.getNamespace());
+        record.getVars().forEach((vr) => {
+            withRecord
                 .addVar(vr.getToken(), vr.getName(), vr.getType(), vr.getArraySize(), vr.getPointer(), false)
                 .setProc(vr.getProc())
                 .setWithOffset(withOffset);
         });
-        return record;
+        return withRecord;
+    }
+
+    getWithRecord(withOffset) {
+        // Get the with scope with offset, also include the super objects with offsets...
+        const getWithRecord = (record) => {
+                let parentScope = record.getParentScope();
+                if (parentScope instanceof exports.Record) {
+                    parentScope = getWithRecord(parentScope);
+                }
+                return this._getWithRecord(record, parentScope, withOffset);
+            };
+        return getWithRecord(this);
     }
 };
