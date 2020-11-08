@@ -59,7 +59,7 @@ exports.CompileObjct = class {
                 let method  = methods[i];
                 let command = this._program.getCommands()[method.commandIndex];
                 command.getParam1().setValue(method.offset);
-                command.getParam2().setValue(method.codeOffset);
+                command.getParam2().setValue(methods[methods.length - 1 - i].codeOffset); // Reverse the call order!
             }
         }
     }

@@ -33,4 +33,20 @@ exports.Objct = class extends Record {
         this._size        = dataType.getTotalSize();
         this._parentScope = dataType;
     }
+
+    findVar(name) {
+        // Try to find the field in the lowest super class...
+        let result = null;
+        const findVar = (parentScope) => {
+                let varsByName = parentScope.getVarsByName();
+                if (name in varsByName) {
+                    result = varsByName[name];
+                }
+                if (parentScope.getParentScope()) {
+                    findVar(parentScope.getParentScope());
+                }
+            }
+        findVar(this);
+        return result || this._parentScope.findIdentifier(name);
+    }
 };

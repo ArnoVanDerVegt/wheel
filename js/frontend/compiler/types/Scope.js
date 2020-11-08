@@ -126,18 +126,18 @@ exports.Scope = class {
     findWithField(name) {
         let withStack = this._withStack;
         for (let i = withStack.length - 1; i >= 0; i--) {
-            let withItem   = withStack[i];
-            let varsByName = withItem.getVarsByName();
-            if (name in varsByName) {
-                return varsByName[name];
-            }
-            let superScope = withItem.getParentScope();
+            let superScope = withStack[i];
+            let superFound = null;
+            let varsByName;
             while (superScope) {
                 varsByName = superScope.getVarsByName();
                 if (name in varsByName) {
-                    return varsByName[name];
+                    superFound = varsByName[name];
                 }
                 superScope = superScope.getParentScope();
+            }
+            if (superFound) {
+                return superFound;
             }
         }
         return null;
