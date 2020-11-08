@@ -252,5 +252,11 @@ exports.procScopeTokens = function() {
         ];
     tokens[t.TOKEN_IDENTIFIER] = follow21;
 
+    // "super" -> "("
+    let follow22 = [
+            {token: t.TOKEN_PARENTHESIS_OPEN}
+        ];
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_SUPER] = follow22;
+
     return utils.updateTokens(tokens);
 };

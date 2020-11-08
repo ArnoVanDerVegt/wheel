@@ -36,6 +36,7 @@ class CompileBlock extends CompileScope {
             keywordCompiler[t.LEXEME_IF       ] = require('../keyword/CompileIf'       ).CompileIf;
             keywordCompiler[t.LEXEME_SELECT   ] = require('../keyword/CompileSelect'   ).CompileSelect;
             keywordCompiler[t.LEXEME_WITH     ] = require('../keyword/CompileWith'     ).CompileWith;
+            keywordCompiler[t.LEXEME_SUPER    ] = require('../keyword/CompileSuper'    ).CompileSuper;
         }
     }
 

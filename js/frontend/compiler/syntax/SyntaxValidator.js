@@ -12,6 +12,7 @@ const procParamsScopeTokens        = require('./syntaxProcParams').procParamsSco
 const recordScopeTokens            = require('./syntaxRecord').recordScopeTokens;
 const objectScopeTokens            = require('./syntaxObject').objectScopeTokens;
 const addrScopeTokens              = require('./syntaxAddr').addrScopeTokens;
+const superScopeTokens             = require('./syntaxSuper').superScopeTokens;
 const moduleScopeTokens            = require('./syntaxModule').moduleScopeTokens;
 const breakScopeTokens             = require('./syntaxBreak').breakScopeTokens;
 const selectScopeTokens            = require('./syntaxSelect').selectScopeTokens;
@@ -59,6 +60,13 @@ let addrScope = {
         endLexeme: [t.LEXEME_NEWLINE]
     };
 
+// Super <identifier>
+let superScope = {
+        name:      'super',
+        tokens:    superScopeTokens(),
+        endLexeme: [t.LEXEME_NEWLINE]
+    };
+
 // Module <const>, <const>
 let moduleScope = {
         name:      'mod',
@@ -93,6 +101,7 @@ blockScope[t.LEXEME_REPEAT    ] = function() { return [repeatScope              
 blockScope[t.LEXEME_RECORD    ] = function() { return [recordScope              ];        };
 blockScope[t.LEXEME_OBJECT    ] = function() { return [objectScope              ];        };
 blockScope[t.LEXEME_ADDR      ] = function() { return [addrScope                ];        };
+blockScope[t.LEXEME_SUPER     ] = function() { return [superScope               ];        };
 blockScope[t.LEXEME_MOD       ] = function() { return [moduleScope              ];        };
 blockScope[t.LEXEME_BREAK     ] = function() { return [breakScope               ];        };
 blockScope[t.LEXEME_ASSIGN    ] = function() { return [assignOperateScope       ];        };

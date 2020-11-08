@@ -24,6 +24,7 @@
     const LEXEME_RECORD             = 'record';
     const LEXEME_OBJECT             = 'object';
     const LEXEME_EXTENDS            = 'extends';
+    const LEXEME_SUPER              = 'super';
     const LEXEME_UNION              = 'union';
     const LEXEME_REPEAT             = 'repeat';
     const LEXEME_WHILE              = 'while';
@@ -115,6 +116,7 @@
     exports.LEXEME_RECORD             = LEXEME_RECORD;
     exports.LEXEME_OBJECT             = LEXEME_OBJECT;
     exports.LEXEME_EXTENDS            = LEXEME_EXTENDS;
+    exports.LEXEME_SUPER              = LEXEME_SUPER;
     exports.LEXEME_UNION              = LEXEME_UNION;
     exports.LEXEME_REPEAT             = LEXEME_REPEAT;
     exports.LEXEME_WHILE              = LEXEME_WHILE;
@@ -202,6 +204,7 @@
             LEXEME_RECORD,
             LEXEME_OBJECT,
             LEXEME_EXTENDS,
+            LEXEME_SUPER,
             LEXEME_UNION,
             LEXEME_REPEAT,
             LEXEME_WHILE,
