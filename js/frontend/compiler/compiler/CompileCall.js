@@ -48,6 +48,9 @@ exports.CompileCall = class CompileCall extends CompileScope {
      * We need to know if the proc is a method.
     **/
     getProc(procExpression, proc, procIdentifier) {
+        if (procExpression === t.LEXEME_SUPER) {
+            return this._scope;
+        }
         if (proc instanceof Proc) {
             return proc;
         }
@@ -296,7 +299,16 @@ exports.CompileCall = class CompileCall extends CompileScope {
             throw errors.createError(err.PARAM_COUNT_MISMATCH, token, 'Parameter count mismatch.');
         }
         let program = this._program;
-        if (proc === t.LEXEME_PROC) {
+        if (procExpression === t.LEXEME_SUPER) {
+            if (!scope.getSuper()) {
+                throw errors.createError(err.NO_SUPER_PROC_FOUND, token, 'No super proc found.');
+            }
+            program.addCommand(
+                $.CMD_SET,  $.T_NUM_G, $.REG_PTR,                               $.T_NUM_L, 0,
+                $.CMD_SET,  $.T_NUM_L, returnStackOffset + scope.getSize() + 3, $.T_NUM_G, $.REG_PTR,
+                $.CMD_CALL, $.T_NUM_C, scope.getSuper().getCodeOffset() - 1,    $.T_NUM_C, returnStackOffset + scope.getSize() + 3
+            );
+        } else if (proc === t.LEXEME_PROC) {
             let vrOrType = this._varExpression.compileExpressionToRegister(
                     procIdentifier,
                     procExpression,

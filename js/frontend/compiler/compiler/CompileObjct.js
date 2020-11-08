@@ -40,6 +40,11 @@ exports.CompileObjct = class {
         let index       = 0;
         let methodTable = objct.getMethodTable();
         let superObjct  = objct.getParentScope();
+        objct.getVars().forEach((field) => {
+            if (this.addMethodPointer(field, methodTable[index], objct)) {
+                index++;
+            }
+        });
         while (superObjct instanceof Objct) {
             superObjct.getVars().forEach((field) => {
                 if (this.addMethodPointer(field, methodTable[index], superObjct)) {
@@ -48,11 +53,6 @@ exports.CompileObjct = class {
             });
             superObjct = superObjct.getParentScope();
         }
-        objct.getVars().forEach((field) => {
-            if (this.addMethodPointer(field, methodTable[index], objct)) {
-                index++;
-            }
-        });
         for (let name in this._methodOffsets) {
             let methods = this._methodOffsets[name];
             for (let i = 0; i < methods.length; i++) {

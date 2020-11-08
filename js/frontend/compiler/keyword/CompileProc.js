@@ -230,6 +230,20 @@ exports.CompileProc = class extends CompileBlock {
         this._compiler.getUseInfo().addUseMethod(this._objct.getName());
         // Add self to the with stack...
         this._scope.pushSelf(this._objct);
+        // Find the super object proc....
+        if (this._objct.getParentScope()) {
+            let superProc  = null;
+            let superObjct = this._objct.getParentScope();
+            while (superObjct) {
+                let varsByName = superObjct.getVarsByName();
+                if (procName.name in varsByName) {
+                    superProc = varsByName[procName.name].getProc();
+                    break;
+                }
+                superObjct = superObjct.getParentScope();
+            }
+            this._scope.setSuper(superProc);
+        }
     }
 
     compileProc(iterator, token) {

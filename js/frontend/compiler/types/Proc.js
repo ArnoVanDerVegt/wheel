@@ -8,6 +8,7 @@ exports.Proc = class extends Scope {
     constructor(parentScope, name, global, namespace) {
         super(parentScope, name, global, namespace);
         this._method = false;
+        this._super  = null;
     }
 
     getMethod() {
@@ -16,6 +17,15 @@ exports.Proc = class extends Scope {
 
     setMethod(method) {
         this._method = method;
+        return this;
+    }
+
+    getSuper() {
+        return this._super;
+    }
+
+    setSuper(supr) {
+        this._super = supr;
         return this;
     }
 
