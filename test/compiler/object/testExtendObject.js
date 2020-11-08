@@ -105,6 +105,36 @@ describe(
                         4361
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should extend a simple object and an empty object and overwrite a method',
+                    [
+                        'object Animal',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc Animal.setXY(number xx, number yy)',
+                        '    x = xx',
+                        '    y = yy',
+                        'end',
+                        'object Mamal extends Animal',
+                        'end',
+                        'object Dog extends Mamal',
+                        'end',
+                        'Dog d',
+                        'proc main()',
+                        '    d.setXY(3357, 2371)',
+                        '    addr d.x',
+                        '    mod 0, 1',
+                        '    addr d.y',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        3357,
+                        2371
+                    ]
+                );
             }
         );
     }

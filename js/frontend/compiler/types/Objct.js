@@ -30,8 +30,14 @@ exports.Objct = class extends Record {
     }
 
     extend(dataType) {
-        this._size        = dataType.getTotalSize();
+        // The size can be set to 0 here because extend is only called when there are no fields in this scope!
+        this._size        = 0;
         this._parentScope = dataType;
+        let superObjct = dataType;
+        while (superObjct) {
+            this._size += superObjct.getSize();
+            superObjct = superObjct.getParentScope();
+        }
     }
 
     findVar(name) {

@@ -57,7 +57,6 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let program  = this._program;
         let codeUsed = program.getCodeUsed();
         program.setCodeUsed(false);
-        procIdentifier.___________ = 1;
         this._varExpression.compileExpressionToRegister(procIdentifier, procExpression, $.REG_PTR, false, true);
         program.setCodeUsed(codeUsed);
         return this._varExpression.getLastProcField();

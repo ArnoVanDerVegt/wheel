@@ -241,7 +241,7 @@ exports.CompileProc = class extends CompileBlock {
         linter && linter.addProc(token);
         this._scope = new Proc(this._scope, procName.name, false, this._compiler.getNamespace())
             .setToken(token)
-            .setCodeOffset(program.getLength());
+            .setCodeOffset(this._startEntryPoint);
         if (procName.used instanceof Proc) {
             this._scope.setVarsLocked(procName.used);
         }

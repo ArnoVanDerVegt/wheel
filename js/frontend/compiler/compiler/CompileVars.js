@@ -275,7 +275,8 @@ exports.CompileVars = class {
                 throw errors.createError(err.DUPLICATE_IDENTIFIER, token, 'Duplicate identifier "' + token.lexeme + '".');
             }
             let vr = scope.addVar(token, token.lexeme, type, arraySize, pointer);
-            if (!vr.getPointer() && (type instanceof Record)) {
+            // The global object initialization code is compiled in CompileProc when the main procedure is compiled!
+            if (!vr.getGlobal() && !vr.getPointer() && (type instanceof Record)) {
                 this.getCompileObjct().compileConstructorCalls(vr);
             }
             if (addConst) {
