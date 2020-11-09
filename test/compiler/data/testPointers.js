@@ -622,5 +622,33 @@ describe(
                 );
             }
         );
+        describe(
+            'Test type pointers',
+            () => {
+                testLogs(
+                    it,
+                    'Should use a single record pointer',
+                    [
+                        'record Point',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'Point p',
+                        'proc main()',
+                        '    ^Point a',
+                        '    number n',
+                        '    p.y = 123',
+                        '    a = @p',
+                        '    n = a.y',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        123
+                    ]
+                );
+            }
+        );
     }
 );

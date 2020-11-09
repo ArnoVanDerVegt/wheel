@@ -57,7 +57,7 @@ exports.checkType = function(type, expression) {
                 expectIdentifier = true;
                 break;
             case t.TOKEN_IDENTIFIER:
-                VarExpression.assertRecord({identifierType: type, token: token});
+                VarExpression.assertRecord({identifierType: {type: type}, token: token});
                 let identifier = type.findIdentifier(token.lexeme);
                 if (identifier === null) {
                     throw errors.createError(errors.errors.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
@@ -278,8 +278,12 @@ exports.AssignmentExpression = class {
     }
 
     compileAddressPointerAssignment(opts) {
+        // Check if it's a data type like: number ^a[10]
         if (!opts.destVrOrType.getPointer || !opts.destVrOrType.getPointer()) {
-            throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destExpression.tokens[0], 'Pointer type expected.');
+            // Check if it's a data type like: ^SomeObject a
+            if (!opts.destVrOrType.getType().typePointer) {
+                throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destExpression.tokens[0], 'Pointer type expected.');
+            }
         }
         this._program.addCommand($.CMD_SET, $.T_NUM_P, 0, $.T_NUM_L, this._scope.getStackOffset());
     }
@@ -416,8 +420,12 @@ exports.AssignmentExpression = class {
         let copySize = 0;
         let type     = this._varExpression.getTypeFromIdentifier(opts.srcVrOrType);
         if (opts.address) {
+            // Check if it's a data type like: number ^a[10]
             if (opts.destInfo.type && opts.destInfo.type.getPointer && !opts.destInfo.type.getPointer()) {
-                throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destInfo.type.getToken(), 'Pointer type expected.');
+                // Check if it's a data type like: ^SomeObject a
+                if (!opts.destInfo.type.getType().typePointer) {
+                    throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destInfo.type.getToken(), 'Pointer type expected.');
+                }
             }
             this.compileAddressPointerAssignment(opts);
         } else if (type === t.LEXEME_STRING) {

@@ -15,7 +15,7 @@ const Var            = require('../types/Var').Var;
 const MathExpression = require('./MathExpression').MathExpression;
 
 exports.assertRecord = function(opts) {
-    if (opts.identifierType instanceof Record) {
+    if (opts.identifierType.type instanceof Record) {
         return;
     }
     throw errors.createError(err.RECORD_TYPE_EXPECTED, opts.token, 'Record type expected.');
@@ -175,6 +175,15 @@ exports.VarExpression = class {
         return false;
     }
 
+    getFieldFromIndexToken(opts) {
+        let token = opts.expression.tokens[opts.index];
+        let field = opts.identifierType.type.findVar(token.lexeme);
+        if (!field) {
+            throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
+        }
+        return field;
+    }
+
     findIdentifier(token) {
         let identifier = this._scope.findIdentifier(token.lexeme);
         if (!identifier) {
@@ -303,17 +312,13 @@ exports.VarExpression = class {
      * Add a field offset to a register
     **/
     compileAddFieldOffsetToReg(opts) {
-        let token = opts.expression.tokens[opts.index];
-        let field = opts.identifierType.findVar(token.lexeme);
-        if (!field) {
-            throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
-        }
+        let field = this.getFieldFromIndexToken(opts);
         if (field.getType().type instanceof Record) {
             this._lastRecordType = field.getType().type;
         } else if (field.getType().type === t.LEXEME_PROC) {
             this._lastProcField = field.getProc();
         }
-        if (field.getOffset() !== 0) {
+        if ((field.getOffset() !== 0) && !opts.identifierType.typePointer) {
             this.addToReg(opts.reg, $.T_NUM_C, field.getOffset());
         }
         opts.identifier = field;
@@ -489,12 +494,12 @@ exports.VarExpression = class {
             return this.compileSingleTokenToRegister(opts, result);
         }
         if (identifier instanceof Proc) {
-            opts.identifierType = t.LEXEME_NUMBER;
+            opts.identifierType = {type: t.LEXEME_NUMBER};
         } else {
             this.assertIdentifier(identifier, expression);
-            opts.identifierType = identifier.getType().type;
-            if (opts.identifierType instanceof Record) {
-                this._lastRecordType = opts.identifierType;
+            opts.identifierType = identifier.getType();
+            if (opts.identifierType.type instanceof Record) {
+                this._lastRecordType = opts.identifierType.type;
             }
             this.setReg(reg, $.T_NUM_C, identifier.getOffset());
             // If it's a "with" field then the offset is relative to the pointer on the stack not to the stack register itself!
@@ -521,7 +526,7 @@ exports.VarExpression = class {
                 this._lastRecordType = null;
                 this.compileProcCall(opts, result);
                 this.setStackOffsetToPtr();
-                opts.identifierType = t.LEXEME_NUMBER;
+                opts.identifierType = {type: t.LEXEME_NUMBER};
             } else if (opts.token.cls !== t.TOKEN_DOT) {
                 throw errors.createError(err.SYNTAX_ERROR_DOT_EXPECTED, opts.token, '"." Expected got "' + opts.token.lexeme + '".');
             } else {
@@ -536,6 +541,7 @@ exports.VarExpression = class {
                 }
                 this.compileAddFieldOffsetToReg(opts);
                 if (opts.identifier.getPointer()) {
+                    // It's a pointer like: number ^n
                     if (reg !== $.REG_PTR) {
                         program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, reg);
                     }
@@ -546,8 +552,23 @@ exports.VarExpression = class {
                     if (reg !== $.REG_PTR) {
                         program.addCommand($.CMD_SET, $.T_NUM_G, reg, $.T_NUM_G, $.REG_PTR);
                     }
+                } else if (opts.identifierType.typePointer) {
+                    // It's a pointer like: ^RecordType r
+                    if (reg !== $.REG_PTR) {
+                        program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, reg);
+                    }
+                    // When writing the last field then we don't dereference the pointer...
+                    if (!forWriting || (opts.index + 1 < expression.tokens.length)) {
+                        program.addCommand(
+                            $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                            $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
+                        );
+                    }
+                    if (reg !== $.REG_PTR) {
+                        program.addCommand($.CMD_SET, $.T_NUM_G, reg, $.T_NUM_G, $.REG_PTR);
+                    }
                 }
-                opts.identifierType = opts.identifier.getType().type;
+                opts.identifierType = opts.identifier.getType();
                 result.dataSize     = opts.identifier.getTotalSize();
                 result.type         = opts.identifier;
             }

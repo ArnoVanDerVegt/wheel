@@ -140,6 +140,7 @@ class CompileBlock extends CompileScope {
         let end      = false;
         let token    = null;
         let opts     = {compiler: compiler, program: program, scope: scope};
+        let identifier;
         compiler.incDepth();
         while (!end && !iterator.finished()) {
             token = iterator.skipWhiteSpace().next();
@@ -160,17 +161,18 @@ class CompileBlock extends CompileScope {
                     }
                     break;
                 case t.TOKEN_POINTER:
-                    token = iterator.skipWhiteSpace().next();
+                    identifier = scope.findIdentifier(iterator.skipWhiteSpace().next().lexeme);
                     if (identifier instanceof Record) {
                         new CompileVars(opts).compile(identifier, true, iterator);
                     } else {
                         throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
                     }
+                    break;
                 case t.TOKEN_META:
                     this.compileMeta(iterator, token);
                     break;
                 case t.TOKEN_IDENTIFIER:
-                    let identifier = scope.findIdentifier(token.lexeme);
+                    identifier = scope.findIdentifier(token.lexeme);
                     if (identifier && !(identifier instanceof Proc)) {
                         if (identifier instanceof Record) {
                             new CompileVars(opts).compile(identifier, false, iterator);

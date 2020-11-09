@@ -223,6 +223,36 @@ describe(
                         3333
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should extend a simple object and an empty object and overwrite a method',
+                    [
+                        'object Animal',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc Animal.test()',
+                        'end',
+
+                        'object Dog extends Animal',
+                        'end',
+                        'proc Dog.test()',
+                        '    number i = 2222',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+
+                        'Dog d',
+                        'proc main()',
+                        '    ^Animal a[2]',
+                        '    a[0] = @d',
+                        '    a[0].test()',
+                        'end'
+                    ],
+                    [
+                        2222
+                    ]
+                );
             }
         );
     }
