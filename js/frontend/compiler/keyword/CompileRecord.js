@@ -14,7 +14,6 @@ exports.CompileRecord = class extends CompileScope {
         super(opts);
         this._linter     = null;
         this._token      = null;
-        this._type       = null;
         this._expectType = true;
         this._end        = false;
         this._pointer    = false;
@@ -40,24 +39,25 @@ exports.CompileRecord = class extends CompileScope {
                 throw errors.createError(err.UNION_SIZE_MISMATCH, this._token, 'Union size mismatch.');
             }
         } else if (this._token.is(t.LEXEME_PROC)) {
-            this._type       = this._token.lexeme;
             this._expectType = false;
+            return this._token.lexeme;
         } else if (this._token.is(t.LEXEME_END)) {
             this._end = true;
         }
+        return null;
     }
 
     compileExtends(iterator, dataType) {
     }
 
     compile(iterator) {
-        this._type       = null;
         this._expectType = true;
         this._end        = false;
         this._pointer    = false;
         this._linter     = this._compiler.getLinter();
         this._token      = iterator.skipWhiteSpace().next();
         this._linter && this._linter.addRecord(this._token);
+        let type     = null;
         let dataType = this.getDataType();
         this.addDataTypeToScope(dataType);
         this.compileExtends(iterator, dataType);
@@ -65,20 +65,20 @@ exports.CompileRecord = class extends CompileScope {
             this._token = iterator.skipWhiteSpace().next();
             switch (this._token.cls) {
                 case t.TOKEN_TYPE:
-                    this._type       = this._token.lexeme;
+                    type = this._token.lexeme;
                     this._expectType = false;
                     break;
                 case t.TOKEN_KEYWORD:
-                    this.compileKeyword(dataType);
+                    type = this.compileKeyword(dataType) || type;
                     break;
                 case t.TOKEN_POINTER:
                     this._pointer = true;
                     break;
                 case t.TOKEN_IDENTIFIER:
                     if (this._expectType) {
-                        this._type       = this._scope.findIdentifier(this._token.lexeme);
+                        type = this._scope.findIdentifier(this._token.lexeme);
                         this._expectType = false;
-                        if (this._type === null) {
+                        if (type === null) {
                             throw errors.createError(err.UNDEFINED_IDENTIFIER, this._token, 'Undefined identifier "' + this._token.lexeme + '".');
                         }
                     } else {
@@ -112,7 +112,7 @@ exports.CompileRecord = class extends CompileScope {
                             }
                         }
                         this._linter && this._linter.addField(nameToken);
-                        dataType.addVar(this._token, name, this._type, Var.getArraySize(arraySize), this._pointer);
+                        dataType.addVar(this._token, name, type, Var.getArraySize(arraySize), this._pointer);
                         this._expectType = true;
                     }
                     let p = iterator.skipWhiteSpace().peek();
