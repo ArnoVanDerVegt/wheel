@@ -323,6 +323,7 @@ exports.VarExpression = class {
             this.addToReg(opts.reg, $.T_NUM_C, field.getOffset());
         }
         opts.identifier = field;
+        return opts;
     }
 
     /**
@@ -344,12 +345,14 @@ exports.VarExpression = class {
      * Compile an array index to add to a register, examples: [2], [5][4], [i * 2], [i[2]]
     **/
     compileArrayIndex(opts, result) {
+        opts.dereferencedPointer = false;
         this.assertArray(opts.identifier, opts.token);
         let program        = this._program;
-        let arraySize      = opts.identifier.getArraySize();
+        let identifier     = opts.identifier;
+        let arraySize      = identifier.getArraySize();
         // Check if it's a number, string or pointer then the size is 1.
         // If it's a record then it's the size of the record...
-        let identifierSize = opts.identifier.getPointer() ? 1 : this.getIdentifierSize(opts.identifier.getType().type);
+        let identifierSize = (identifier.getType().typePointer || identifier.getPointer()) ? 1 : this.getIdentifierSize(identifier.getType().type);
         if (typeof arraySize === 'number') {
             // It's a single dimensional array...
             opts.index++;
@@ -389,12 +392,12 @@ exports.VarExpression = class {
                     result.type = new Var({
                         name:        '?',
                         arraySize:   resultArraySize,
-                        offset:      opts.identifier.getOffset(),
-                        token:       opts.identifier.getToken(),
-                        type:        opts.identifier.getType().type,
-                        typePointer: opts.identifier.getType().typePointer,
-                        global:      opts.identifier.getGlobal(),
-                        pointer:     opts.identifier.getPointer()
+                        offset:      identifier.getOffset(),
+                        token:       identifier.getToken(),
+                        type:        identifier.getType().type,
+                        typePointer: identifier.getType().typePointer,
+                        global:      identifier.getGlobal(),
+                        pointer:     identifier.getPointer()
                     });
                     break;
                 }
@@ -402,9 +405,11 @@ exports.VarExpression = class {
             opts.index--;
         }
         // When writing the last field then we don't dereference the pointer...
-        if (opts.identifier.getPointer() && (!opts.forWriting || (opts.index + 1 < opts.expression.tokens.length))) {
+        if (identifier.getPointer() && (!opts.forWriting || (opts.index + 1 < opts.expression.tokens.length))) {
             program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
+            opts.dereferencedPointer = true;
         }
+        return opts;
     }
 
     /**
@@ -521,7 +526,7 @@ exports.VarExpression = class {
             opts.token = expression.tokens[opts.index];
             if (opts.token.cls === t.TOKEN_BRACKET_OPEN) {
                 result.arrayIndex = true;
-                this.compileArrayIndex(opts, result);
+                opts              = this.compileArrayIndex(opts, result);
             } else if ((opts.token.cls === t.TOKEN_PARENTHESIS_OPEN) && (identifier instanceof Proc)) {
                 this._lastRecordType = null;
                 this.compileProcCall(opts, result);
@@ -539,7 +544,7 @@ exports.VarExpression = class {
                         .nextBlockId()
                         .addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_G, reg);
                 }
-                this.compileAddFieldOffsetToReg(opts);
+                opts = this.compileAddFieldOffsetToReg(opts);
                 if (opts.identifier.getPointer()) {
                     // It's a pointer like: number ^n
                     if (reg !== $.REG_PTR) {
@@ -559,10 +564,17 @@ exports.VarExpression = class {
                     }
                     // When writing the last field then we don't dereference the pointer...
                     if (!forWriting || (opts.index + 1 < expression.tokens.length)) {
-                        program.addCommand(
-                            $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
-                            $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
-                        );
+                        if (opts.dereferencedPointer) {
+                            opts.dereferencedPointer = false;
+                            program.addCommand(
+                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
+                            );
+                        } else {
+                            program.addCommand(
+                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
+                            );
+                        }
                     }
                     if (reg !== $.REG_PTR) {
                         program.addCommand($.CMD_SET, $.T_NUM_G, reg, $.T_NUM_G, $.REG_PTR);

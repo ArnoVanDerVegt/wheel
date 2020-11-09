@@ -708,6 +708,32 @@ describe(
                         461
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should use an array of record pointers',
+                    [
+                        'record Point',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc test(^Point ^a[2])',
+                        '    number i',
+                        '    i = a[1].y',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p[2]',
+                        'proc main()',
+                        '    ^Point pp[2]',
+                        '    pp[1] = @p[1]',
+                        '    p[1].y = 3461',
+                        '    test(@pp)',
+                        'end'
+                    ],
+                    [
+                        3461
+                    ]
+                );
             }
         );
     }
