@@ -10,11 +10,11 @@ exports.Var = class {
         this._global               = opts.global;
         this._offset               = opts.offset;
         this._pointer              = opts.pointer;
+        this._isParam              = opts.isParam;
         this._proc                 = false;
         this._withOffset           = null;
         this._assignedProc         = null;
         this._stringConstantOffset = null;
-        this._isParam              = false;
         this._type                 = {
             type:        opts.type,
             typePointer: opts.typePointer
@@ -101,10 +101,6 @@ exports.Var = class {
 
     getIsParam() {
         return this._isParam;
-    }
-
-    setIsParam(isParam) {
-        this._isParam = isParam;
     }
 
     getProc() {

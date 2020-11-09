@@ -158,6 +158,7 @@ exports.VarExpression = class {
                     }
                     parentScope = parentScope.getParentScope();
                 }
+                return false;
             };
         return checkScopeWithParentScope(type1, type2) || checkScopeWithParentScope(type2, type1);
     }
@@ -348,7 +349,6 @@ exports.VarExpression = class {
         let arraySize      = opts.identifier.getArraySize();
         // Check if it's a number, string or pointer then the size is 1.
         // If it's a record then it's the size of the record...
-        // let identifierSize = this.getIdentifierSize(opts.identifier.getType().type);
         let identifierSize = opts.identifier.getPointer() ? 1 : this.getIdentifierSize(opts.identifier.getType().type);
         if (typeof arraySize === 'number') {
             // It's a single dimensional array...

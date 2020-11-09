@@ -73,7 +73,7 @@ exports.CompileObjct = class extends CompileRecord {
             .setMethodTable(methodTable);
         this.compileMethodTable(objct, methodTable);
         // Call the constructor for all object fields...
-        let vars = objct.getVars()
+        let vars = objct.getVars();
         vars.forEach((vr) => {
             if ((vr.getType().type instanceof Objct) && !vr.getPointer()) {
                 if (vr.getOffset() === 0) {

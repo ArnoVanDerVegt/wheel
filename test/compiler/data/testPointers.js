@@ -648,6 +648,31 @@ describe(
                         123
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should use a single record pointer',
+                    [
+                        'record Point',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc test(^Point pp)',
+                        '    number n',
+                        '    n = pp.y',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p',
+                        'proc main()',
+                        '    number n',
+                        '    p.y = 45646',
+                        '    test(@p)',
+                        'end'
+                    ],
+                    [
+                        45646
+                    ]
+                );
             }
         );
     }

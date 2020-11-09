@@ -51,7 +51,7 @@ exports.Objct = class extends Record {
                 if (parentScope.getParentScope()) {
                     findVar(parentScope.getParentScope());
                 }
-            }
+            };
         findVar(this);
         return result || this._parentScope.findIdentifier(name);
     }

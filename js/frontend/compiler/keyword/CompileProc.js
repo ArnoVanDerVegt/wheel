@@ -115,6 +115,7 @@ exports.CompileProc = class extends CompileBlock {
         let expectType  = true;
         let expectComma = false;
         let type        = null;
+        let typePointer = false;
         let paramCount  = 0;
         let pointer     = false;
         while (index < tokens.length) {
@@ -127,7 +128,11 @@ exports.CompileProc = class extends CompileBlock {
                     }
                     break;
                 case t.TOKEN_POINTER:
-                    pointer = true;
+                    if (expectType) {
+                        typePointer = true;
+                    } else {
+                        pointer = true;
+                    }
                     break;
                 case t.TOKEN_IDENTIFIER:
                     if (expectType) {
@@ -166,11 +171,13 @@ exports.CompileProc = class extends CompileBlock {
                             token:        token,
                             name:         token.lexeme,
                             type:         type,
-                            typePointer:  false,
+                            typePointer:  typePointer,
                             arraySize:    Var.getArraySize(arraySize),
                             pointer:      pointer,
-                            ignoreString: true
-                        }).setIsParam(true);
+                            ignoreString: true,
+                            isParam:      true
+                        });
+                        typePointer = false;
                         expectComma = true;
                     }
                     pointer = false;

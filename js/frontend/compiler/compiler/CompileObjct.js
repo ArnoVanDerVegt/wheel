@@ -46,11 +46,14 @@ exports.CompileObjct = class {
             }
         });
         while (superObjct instanceof Objct) {
-            superObjct.getVars().forEach((field) => {
-                if (this.addMethodPointer(field, methodTable[index], superObjct)) {
-                    index++;
-                }
-            });
+            index = (function(index, superObjct) {
+                superObjct.getVars().forEach((field) => {
+                    if (this.addMethodPointer(field, methodTable[index], superObjct)) {
+                        index++;
+                    }
+                });
+                return index;
+            }).call(this, index, superObjct);
             superObjct = superObjct.getParentScope();
         }
         for (let name in this._methodOffsets) {
