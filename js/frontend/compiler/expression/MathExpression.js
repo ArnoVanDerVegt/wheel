@@ -114,9 +114,9 @@ class MathExpressionNode {
                 this._program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, program.addConstantString(value[0].lexeme));
             } else {
                 let identifier = scope.findIdentifier(value[0].lexeme);
-                if (identifier && identifier.getType && (identifier.getType() !== expectedType)) {
+                if (identifier && identifier.getType && (identifier.getType().type !== expectedType)) {
                     const AssignmentExpression = require('./AssignmentExpression');
-                    if (AssignmentExpression.checkType(identifier.getType(), {tokens: value}).type !== t.LEXEME_NUMBER) {
+                    if (AssignmentExpression.checkType(identifier.getType().type, {tokens: value}).type !== t.LEXEME_NUMBER) {
                         throw errors.createError(err.TYPE_MISMATCH, value[0], 'Type mismatch.');
                     }
                 }

@@ -59,7 +59,7 @@ exports.CompileProc = class extends CompileBlock {
         for (let i = 0; i < superProc.getParamCount(); i++) {
             let v1 = superProc.getVars()[3 + i];
             let v2 = vars[3 + i];
-            if ((v1.getName() !== v2.getName()) || (v1.getType() !== v2.getType()) || (v1.getArraySize() !== v2.getArraySize())) {
+            if ((v1.getName() !== v2.getName()) || (v1.getType().type !== v2.getType().type) || (v1.getArraySize() !== v2.getArraySize())) {
                 throw errors.createError(err.PROC_DOES_NOT_MATCH_SUPER_PROC, token, 'Proc does not match super proc declaration.');
             }
         }
@@ -86,12 +86,30 @@ exports.CompileProc = class extends CompileBlock {
             program.setEntryPoint(this._startEntryPoint);
         } else {
             this._compiler.setEventProc(scope.getName(), this._startEntryPoint);
-            scope.addVar(null, '!____CODE_RETURN____',  t.LEXEME_NUMBER, false);
-            scope.addVar(null, '!____STACK_RETURN____', t.LEXEME_NUMBER, false);
+            scope.addVar({
+                token:       null,
+                name:        '!____CODE_RETURN____',
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   false
+            });
+            scope.addVar({
+                token:       null,
+                name:        '!____STACK_RETURN____',
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   false
+            });
         }
         scope.setEntryPoint(this._startEntryPoint);
         if (this._objct) {
-            scope.addVar(null, '!____SELF_POINTER____', t.LEXEME_NUMBER, false);
+            scope.addVar({
+                token:       null,
+                name:        '!____SELF_POINTER____',
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   false
+            });
         }
         let index       = 0;
         let expectType  = true;
@@ -144,7 +162,15 @@ exports.CompileProc = class extends CompileBlock {
                             }
                         }
                         linter && linter.addParam(token);
-                        scope.addVar(token, token.lexeme, type, Var.getArraySize(arraySize), pointer, true).setIsParam(true);
+                        scope.addVar({
+                            token:        token,
+                            name:         token.lexeme,
+                            type:         type,
+                            typePointer:  false,
+                            arraySize:    Var.getArraySize(arraySize),
+                            pointer:      pointer,
+                            ignoreString: true
+                        }).setIsParam(true);
                         expectComma = true;
                     }
                     pointer = false;
@@ -224,7 +250,15 @@ exports.CompileProc = class extends CompileBlock {
 
     compileMethodSetup(token, procName) {
         this._objct
-            .addVar(token, procName.name, t.LEXEME_PROC, false, false, false)
+            .addVar({
+                token:        token,
+                name:         procName.name,
+                type:         t.LEXEME_PROC,
+                typePointer:  false,
+                arraySize:    false,
+                pointer:      false,
+                ignoreString: false
+            })
             .setProc(this._scope);
         this._scope.setMethod(true);
         this._compiler.getUseInfo().addUseMethod(this._objct.getName());
@@ -301,7 +335,13 @@ exports.CompileProc = class extends CompileBlock {
         }
         let linter = this._compiler.getLinter();
         linter && linter.addParam(token);
-        this._scope.addVar(token, token.lexeme, t.LEXEME_PROC, false);
+        this._scope.addVar({
+            token:       token,
+            name:        token.lexeme,
+            type:        t.LEXEME_PROC,
+            typePointer: false,
+            arraySize:   false
+        });
         return true;
     }
 

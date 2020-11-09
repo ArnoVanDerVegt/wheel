@@ -92,7 +92,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
             return false;
         }
         // The type of parameter is known...
-        if (vr.getType() !== type) {
+        if (vr.getType().type !== type) {
             throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
         }
         let size = false;
@@ -169,9 +169,9 @@ exports.CompileCall = class CompileCall extends CompileScope {
                 throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
             }
             // "number" or "string" types don't have a getName function!
-            if (vr && vr.getType && vr.getType().getName &&
-                    vrOrType.getType && vrOrType.getType().getName &&
-                    (vrOrType.getType().getName() !== vr.getType().getName())) {
+            if (vr && vr.getType && vr.getType().type.getName &&
+                    vrOrType.getType && vrOrType.getType().type.getName &&
+                    (vrOrType.getType().type.getName() !== vr.getType().type.getName())) {
                 throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
             }
             // If it's a pointer in a field used in a "with" statement then dereference the pointer...
@@ -231,7 +231,13 @@ exports.CompileCall = class CompileCall extends CompileScope {
         compileData.readArrayToData(iterator, vr, data);
         let program = this._program;
         let scope   = this._scope;
-        let dataVar = scope.getParentScope().addVar(null, '!_' + iterator.current().index, t.LEXEME_NUMBER, data.length);
+        let dataVar = scope.getParentScope().addVar({
+                token:       null,
+                name:        '!_' + iterator.current().index,
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   data.length
+            });
         program
             .addConstant({offset: dataVar.getOffset(), data: data})
             .addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, dataVar.getOffset());
@@ -246,13 +252,19 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let done = false;
         let data = [];
         let vr   = this.getParameterVr(procVars);
-        if (vr && !(vr.getType() instanceof Record)) {
+        if (vr && !(vr.getType().type instanceof Record)) {
             throw errors.createError(err.TYPE_MISMATCH, token, 'Type mismatch.');
         }
-        compileData.readRecordToData(iterator, vr.getType(), data);
+        compileData.readRecordToData(iterator, vr.getType().type, data);
         let program = this._program;
         let scope   = this._scope;
-        let dataVar = scope.getParentScope().addVar(null, '!_' + iterator.current().index, t.LEXEME_NUMBER, data.length);
+        let dataVar = scope.getParentScope().addVar({
+                token:       null,
+                name:        '!_' + iterator.current().index,
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   data.length
+            });
         program
             .addConstant({offset: dataVar.getOffset(), data: data})
             .addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, dataVar.getOffset());

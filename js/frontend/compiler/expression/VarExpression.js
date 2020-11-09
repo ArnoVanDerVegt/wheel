@@ -94,7 +94,7 @@ exports.VarExpression = class {
         if (opts.indexIdentifier.getWithOffset() === null) {
             this._program.addCommand(
                 $.CMD_SET, $.T_NUM_L, offset, type,      opts.indexIdentifier.getOffset(),
-                $.CMD_MUL, $.T_NUM_L, offset, $.T_NUM_C, opts.identifier.getType().getSize() * opts.arraySize
+                $.CMD_MUL, $.T_NUM_L, offset, $.T_NUM_C, opts.identifier.getType().type.getSize() * opts.arraySize
             );
         } else {
             // Get the "with" offset:
@@ -103,7 +103,7 @@ exports.VarExpression = class {
                 $.CMD_SET, $.T_NUM_G, $.REG_PTR,  $.T_NUM_L, opts.indexIdentifier.getWithOffset(),
                 $.CMD_ADD, $.T_NUM_G, $.REG_PTR,  $.T_NUM_C, opts.indexIdentifier.getOffset(),
                 $.CMD_SET, $.T_NUM_L, offset,     $.T_NUM_P, 0,
-                $.CMD_MUL, $.T_NUM_L, offset,     $.T_NUM_C, opts.identifier.getType().getSize() * opts.arraySize,
+                $.CMD_MUL, $.T_NUM_L, offset,     $.T_NUM_C, opts.identifier.getType().type.getSize() * opts.arraySize,
                 $.CMD_SET, $.T_NUM_G, $.REG_PTR,  $.T_NUM_L, offset + 1     // Restore the pointer register...
             );
         }
@@ -134,7 +134,7 @@ exports.VarExpression = class {
             return identifier;
         }
         if (identifier.getType) {
-            identifier = identifier.getType();
+            identifier = identifier.getType().type;
         }
         if (identifier instanceof Proc) {
             identifier = t.LEXEME_NUMBER;
@@ -168,9 +168,9 @@ exports.VarExpression = class {
         if (type1 === type2) {
             return true;
         }
-        if ((vrOrType1.getType && (vrOrType1.getType() instanceof Objct)) &&
-            (vrOrType2.getType && (vrOrType2.getType() instanceof Objct))) {
-            return this.getObjectsShareParent(vrOrType1.getType(), vrOrType2.getType());
+        if ((vrOrType1.getType && (vrOrType1.getType().type instanceof Objct)) &&
+            (vrOrType2.getType && (vrOrType2.getType().type instanceof Objct))) {
+            return this.getObjectsShareParent(vrOrType1.getType().type, vrOrType2.getType().type);
         }
         return false;
     }
@@ -308,9 +308,9 @@ exports.VarExpression = class {
         if (!field) {
             throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
         }
-        if (field.getType() instanceof Record) {
-            this._lastRecordType = field.getType();
-        } else if (field.getType() === t.LEXEME_PROC) {
+        if (field.getType().type instanceof Record) {
+            this._lastRecordType = field.getType().type;
+        } else if (field.getType().type === t.LEXEME_PROC) {
             this._lastProcField = field.getProc();
         }
         if (field.getOffset() !== 0) {
@@ -343,8 +343,8 @@ exports.VarExpression = class {
         let arraySize      = opts.identifier.getArraySize();
         // Check if it's a number, string or pointer then the size is 1.
         // If it's a record then it's the size of the record...
-        // let identifierSize = this.getIdentifierSize(opts.identifier.getType());
-        let identifierSize = opts.identifier.getPointer() ? 1 : this.getIdentifierSize(opts.identifier.getType());
+        // let identifierSize = this.getIdentifierSize(opts.identifier.getType().type);
+        let identifierSize = opts.identifier.getPointer() ? 1 : this.getIdentifierSize(opts.identifier.getType().type);
         if (typeof arraySize === 'number') {
             // It's a single dimensional array...
             opts.index++;
@@ -382,13 +382,14 @@ exports.VarExpression = class {
                         resultArraySize = resultArraySize[0];
                     }
                     result.type = new Var({
-                        name:      '?',
-                        arraySize: resultArraySize,
-                        offset:    opts.identifier.getOffset(),
-                        token:     opts.identifier.getToken(),
-                        type:      opts.identifier.getType(),
-                        global:    opts.identifier.getGlobal(),
-                        pointer:   opts.identifier.getPointer()
+                        name:        '?',
+                        arraySize:   resultArraySize,
+                        offset:      opts.identifier.getOffset(),
+                        token:       opts.identifier.getToken(),
+                        type:        opts.identifier.getType().type,
+                        typePointer: opts.identifier.getType().typePointer,
+                        global:      opts.identifier.getGlobal(),
+                        pointer:     opts.identifier.getPointer()
                     });
                     break;
                 }
@@ -408,7 +409,7 @@ exports.VarExpression = class {
         let program = this._program;
         result.dataSize = 1;
         if (opts.identifier && opts.identifier.getType) {
-            this._lastRecordType = opts.identifier.getType();
+            this._lastRecordType = opts.identifier.getType().type;
         }
         if (opts.expression.tokens[0].cls === t.TOKEN_NUMBER) {
             program.addCommand($.CMD_SET, $.T_NUM_L, this._scope.getStackOffset(), $.T_NUM_C, opts.expression.tokens[0].value);
@@ -424,7 +425,7 @@ exports.VarExpression = class {
         } else {
             if (opts.identifier.getWithOffset() !== null) {
                 this.setReg($.REG_PTR, $.T_NUM_L, opts.identifier.getWithOffset());
-                if (opts.identifier.getType() === t.LEXEME_PROC) {
+                if (opts.identifier.getType().type === t.LEXEME_PROC) {
                     this._lastProcField = opts.identifier.getProc();
                     if (opts.selfPointerStackOffset !== false) {
                         // It's a method to call then save the self pointer on the stack!
@@ -437,7 +438,7 @@ exports.VarExpression = class {
                     $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset(),
                     $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
                 );
-            } else if (opts.identifier.getPointer() && (opts.identifier.getType() === t.LEXEME_STRING)) {
+            } else if (opts.identifier.getPointer() && (opts.identifier.getType().type === t.LEXEME_STRING)) {
                 this.setReg($.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
                 // If it's a "with" field then the offset is relative to the pointer on the stack not to the stack register itself!
                 if (!opts.identifier.getGlobal() && (opts.identifier.getWithOffset() === null)) {
@@ -448,7 +449,7 @@ exports.VarExpression = class {
                 result.dataSize = opts.identifier.getTotalSize();
                 this.setReg(opts.reg, $.T_NUM_C, opts.identifier.getOffset());
                 if (opts.identifier.getWithOffset() === null) {
-                    if (opts.identifier.getPointer() && !opts.forWriting && (opts.identifier.getType() !== t.LEXEME_NUMBER)) {
+                    if (opts.identifier.getPointer() && !opts.forWriting && (opts.identifier.getType().type !== t.LEXEME_NUMBER)) {
                         if (!opts.identifier.getGlobal()) {
                             this.addToReg(opts.reg, $.T_NUM_G, $.REG_STACK);
                         }
@@ -491,7 +492,7 @@ exports.VarExpression = class {
             opts.identifierType = t.LEXEME_NUMBER;
         } else {
             this.assertIdentifier(identifier, expression);
-            opts.identifierType = identifier.getType();
+            opts.identifierType = identifier.getType().type;
             if (opts.identifierType instanceof Record) {
                 this._lastRecordType = opts.identifierType;
             }
@@ -525,7 +526,7 @@ exports.VarExpression = class {
                 throw errors.createError(err.SYNTAX_ERROR_DOT_EXPECTED, opts.token, '"." Expected got "' + opts.token.lexeme + '".');
             } else {
                 exports.assertRecord(opts);
-                this._lastRecordType = opts.identifier.getType();
+                this._lastRecordType = opts.identifier.getType().type;
                 opts.index++;
                 if ((selfPointerStackOffset !== false) && (opts.index === lastToken)) {
                     // It's a method to call then save the self pointer on the stack!
@@ -546,7 +547,7 @@ exports.VarExpression = class {
                         program.addCommand($.CMD_SET, $.T_NUM_G, reg, $.T_NUM_G, $.REG_PTR);
                     }
                 }
-                opts.identifierType = opts.identifier.getType();
+                opts.identifierType = opts.identifier.getType().type;
                 result.dataSize     = opts.identifier.getTotalSize();
                 result.type         = opts.identifier;
             }

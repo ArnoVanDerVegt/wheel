@@ -6,7 +6,6 @@ exports.Var = class {
     constructor(opts) {
         this._token                = opts.token;
         this._name                 = opts.name;
-        this._type                 = opts.type;
         this._arraySize            = opts.arraySize;
         this._global               = opts.global;
         this._offset               = opts.offset;
@@ -16,6 +15,10 @@ exports.Var = class {
         this._assignedProc         = null;
         this._stringConstantOffset = null;
         this._isParam              = false;
+        this._type                 = {
+            type:        opts.type,
+            typePointer: opts.typePointer
+        };
     }
 
     getToken() {
@@ -27,7 +30,10 @@ exports.Var = class {
     }
 
     getType() {
-        return this._type;
+        return {
+            type:        this._type.type,
+            typePointer: this._type.typePointer
+        };
     }
 
     getArraySize() {
@@ -44,11 +50,11 @@ exports.Var = class {
 
     getPrimitiveType() {
         const t = require('../tokenizer/tokenizer');
-        return ([t.LEXEME_NUMBER, t.LEXEME_PROC, t.LEXEME_STRING].indexOf(this._type) !== -1);
+        return ([t.LEXEME_NUMBER, t.LEXEME_PROC, t.LEXEME_STRING].indexOf(this._type.type) !== -1);
     }
 
     getSize() {
-        return this.getPrimitiveType() ? 1 : this._type.getSize();
+        return this.getPrimitiveType() ? 1 : this._type.type.getSize();
     }
 
     getTotalSize() {
@@ -61,7 +67,7 @@ exports.Var = class {
                 arraySize *= this._arraySize[i];
             }
         }
-        return (this.getPrimitiveType() ? 1 : this._type.getSize()) * arraySize;
+        return (this.getPrimitiveType() ? 1 : this._type.type.getSize()) * arraySize;
     }
 
     getWithOffset() {

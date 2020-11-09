@@ -60,7 +60,7 @@ exports.Scope = class {
         let checkRecord = (record) => {
                 let vars = record.getVars();
                 vars.forEach((vr) => {
-                    let type      = vr.getType();
+                    let type      = vr.getType().type;
                     let arraySize = vr.getArraySize();
                     arraySize = (arraySize === false) ? 1 : arraySize;
                     if (type === tokenizer.LEXEME_STRING) {
@@ -83,26 +83,30 @@ exports.Scope = class {
         checkRecord(type);
     }
 
-    addVar(token, name, type, arraySize, pointer, ignoreString) {
+    addVar(opts) {
         if (this._varsLocked) {
-            return this._varsByName[name];
+            return this._varsByName[opts.name];
         }
-        let vr = new Var({
-                    token:     token,
-                    name:      name,
-                    type:      type,
-                    arraySize: arraySize,
-                    pointer:   pointer,
-                    global:    this._global,
-                    offset:    this._size
+        let typePointer = ('typePointer' in opts) ? opts.typePointer : false;
+        let arraySize   = ('arraySize'   in opts) ? opts.arraySize   : false;
+        let pointer     = ('pointer'     in opts) ? opts.pointer     : false;
+        let vr          = new Var({
+                    token:       opts.token,
+                    name:        opts.name,
+                    type:        opts.type,
+                    typePointer: typePointer,
+                    arraySize:   arraySize,
+                    pointer:     pointer,
+                    global:      this._global,
+                    offset:      this._size
                 });
-        this._varsByName[name] = vr;
+        this._varsByName[opts.name] = vr;
         this._vars.push(vr);
         const Record = require('./Record').Record;
         // - ignoreString:
         // A parameter string does not need to allocate a new string, it's always a reference to an existing string!
-        if (!ignoreString && !(this instanceof Record)) {
-            this.addVarString(type, arraySize, pointer);
+        if (!opts.ignoreString && !(this instanceof Record)) {
+            this.addVarString(opts.type, arraySize, pointer);
         }
         let size = vr.getTotalSize();
         this._size        += size;

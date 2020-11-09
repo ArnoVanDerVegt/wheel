@@ -39,7 +39,13 @@ exports.CompileVars = class {
         if (vr.getGlobal()) {
             program.addConstant({offset: vr.getOffset(), data: data});
         } else {
-            let dataVar = this._scope.getParentScope().addVar(null, '!' + vr.getName(), t.LEXEME_NUMBER, data.length);
+            let dataVar = this._scope.getParentScope().addVar({
+                    token:       null,
+                    name:        '!' + vr.getName(),
+                    type:        t.LEXEME_NUMBER,
+                    typePointer: false,
+                    arraySize:   data.length
+                });
             program
                 .addConstant({offset: dataVar.getOffset(), data: data})
                 .addCommand(
@@ -101,7 +107,7 @@ exports.CompileVars = class {
             throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
         }
         let data    = [];
-        compileData.readRecordToData(iterator, vr.getType(), data);
+        compileData.readRecordToData(iterator, vr.getType().type, data);
         this.compileConstantData(vr, data, token);
         return iterator.skipWhiteSpaceWithoutNewline().next().is(t.LEXEME_NEWLINE);
     }
@@ -191,7 +197,7 @@ exports.CompileVars = class {
     compileSingleConstant(program, iterator, vr) {
         let expression = iterator.nextUntilLexeme([t.LEXEME_NEWLINE, t.LEXEME_COMMA, t.LEXEME_ASSIGN]);
         let token      = expression.tokens[0];
-        switch (vr.getType()) {
+        switch (vr.getType().type) {
             case t.LEXEME_NUMBER:
                 if ((expression.tokens.length === 1) && (token.cls === t.TOKEN_NUMBER)) {
                     this.compileNumberConstant(vr, token.value);
@@ -248,7 +254,7 @@ exports.CompileVars = class {
         return Var.getArraySize(arraySize);
     }
 
-    compile(type, iterator) {
+    compile(type, typePointer, iterator) {
         let program = this._program;
         let linter  = this._compiler.getLinter();
         let done    = false;
@@ -274,7 +280,14 @@ exports.CompileVars = class {
             if (!scope.getVarsLocked() && scope.findLocalVar(token.lexeme)) {
                 throw errors.createError(err.DUPLICATE_IDENTIFIER, token, 'Duplicate identifier "' + token.lexeme + '".');
             }
-            let vr = scope.addVar(token, token.lexeme, type, arraySize, pointer);
+            let vr = scope.addVar({
+                    token:       token,
+                    name:        token.lexeme,
+                    type:        type,
+                    typePointer: typePointer,
+                    arraySize:   arraySize,
+                    pointer:     pointer
+                });
             // The global object initialization code is compiled in CompileProc when the main procedure is compiled!
             if (!vr.getGlobal() && !vr.getPointer() && (type instanceof Record)) {
                 this.getCompileObjct().compileConstructorCalls(vr);

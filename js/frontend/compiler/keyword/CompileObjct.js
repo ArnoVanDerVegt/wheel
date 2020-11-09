@@ -75,7 +75,7 @@ exports.CompileObjct = class extends CompileRecord {
         // Call the constructor for all object fields...
         let vars = objct.getVars()
         vars.forEach((vr) => {
-            if ((vr.getType() instanceof Objct) && !vr.getPointer()) {
+            if ((vr.getType().type instanceof Objct) && !vr.getPointer()) {
                 if (vr.getOffset() === 0) {
                     program.addCommand($.CMD_SET, $.T_NUM_L, 3, $.T_NUM_L, 0);
                 } else {
@@ -84,7 +84,7 @@ exports.CompileObjct = class extends CompileRecord {
                         $.CMD_ADD, $.T_NUM_L, 3, $.T_NUM_C, vr.getOffset()
                     );
                 }
-                program.addCommand($.CMD_CALL, $.T_NUM_C, vr.getType().getConstructorCodeOffset(), $.T_NUM_C, 3);
+                program.addCommand($.CMD_CALL, $.T_NUM_C, vr.getType().type.getConstructorCodeOffset(), $.T_NUM_C, 3);
             }
         });
         program.addCommand($.CMD_RET, 0, 0, 0, 0);

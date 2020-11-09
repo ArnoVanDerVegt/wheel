@@ -29,7 +29,15 @@ exports.Record = class extends Scope {
         let withRecord = new exports.Record(parentScope, record.getName(), record.getGlobal(), record.getNamespace());
         record.getVars().forEach((vr) => {
             withRecord
-                .addVar(vr.getToken(), vr.getName(), vr.getType(), vr.getArraySize(), vr.getPointer(), false)
+                .addVar({
+                    token:        vr.getToken(),
+                    name:         vr.getName(),
+                    type:         vr.getType().type,
+                    typePointer:  vr.getType().typePointer,
+                    arraySize:    vr.getArraySize(),
+                    pointer:      vr.getPointer(),
+                    ignoreString: false
+                })
                 .setProc(vr.getProc())
                 .setWithOffset(withOffset);
         });

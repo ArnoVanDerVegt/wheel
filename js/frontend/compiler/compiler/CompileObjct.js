@@ -65,7 +65,7 @@ exports.CompileObjct = class {
     }
 
     compileConstructorCall(local, offset, vr) {
-        let objct   = vr.getType();
+        let objct   = vr.getType().type;
         let program = this._program;
         let size    = this._scope.getTotalSize();
         let call    = objct.getConstructorCodeOffset();
@@ -112,21 +112,21 @@ exports.CompileObjct = class {
         const compileRecordFields = (vr) => {
                 vr.getVars().forEach((field) => {
                     let arraySize = field.getArraySize() || 1;
-                    if (field.getType() instanceof Objct) {
+                    if (field.getType().type instanceof Objct) {
                         this.compileConstructorCall(local, offset, field);
                         offset += field.getSize() * arraySize;
-                    } else if (field.getType() instanceof Record) {
-                        compileRecordFields(field.getType());
+                    } else if (field.getType().type instanceof Record) {
+                        compileRecordFields(field.getType().type);
                     } else {
                         offset += field.getSize() * arraySize;
                     }
                 });
             };
-        if (vr.getType() instanceof Objct) {
+        if (vr.getType().type instanceof Objct) {
             this.compileConstructorCall(local, vr.getOffset(), vr);
-            compileRecordFields(vr.getType());
-        } else if (vr.getType() instanceof Record) {
-            compileRecordFields(vr.getType());
+            compileRecordFields(vr.getType().type);
+        } else if (vr.getType().type instanceof Record) {
+            compileRecordFields(vr.getType().type);
         }
     }
 };

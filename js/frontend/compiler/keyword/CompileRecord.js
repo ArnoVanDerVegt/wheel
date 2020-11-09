@@ -112,7 +112,14 @@ exports.CompileRecord = class extends CompileScope {
                             }
                         }
                         this._linter && this._linter.addField(nameToken);
-                        dataType.addVar(this._token, name, type, Var.getArraySize(arraySize), this._pointer);
+                        dataType.addVar({
+                            token:       this._token,
+                            name:        name,
+                            type:        type,
+                            typePointer: false,
+                            arraySize:   Var.getArraySize(arraySize),
+                            pointer:     this._pointer
+                        });
                         this._expectType = true;
                     }
                     let p = iterator.skipWhiteSpace().peek();

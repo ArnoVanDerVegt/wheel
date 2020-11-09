@@ -148,7 +148,7 @@ class CompileBlock extends CompileScope {
             program.nextBlockId(token, scope);
             switch (token.cls) {
                 case t.TOKEN_TYPE:
-                    new CompileVars(opts).compile(token.lexeme, iterator);
+                    new CompileVars(opts).compile(token.lexeme, false, iterator);
                     break;
                 case t.TOKEN_KEYWORD:
                     if (token.is(t.LEXEME_END) || (endStatements && (endStatements.indexOf(token.lexeme) !== -1))) {
@@ -160,7 +160,12 @@ class CompileBlock extends CompileScope {
                     }
                     break;
                 case t.TOKEN_POINTER:
-                    throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
+                    token = iterator.skipWhiteSpace().next();
+                    if (identifier instanceof Record) {
+                        new CompileVars(opts).compile(identifier, true, iterator);
+                    } else {
+                        throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
+                    }
                 case t.TOKEN_META:
                     this.compileMeta(iterator, token);
                     break;
@@ -168,15 +173,15 @@ class CompileBlock extends CompileScope {
                     let identifier = scope.findIdentifier(token.lexeme);
                     if (identifier && !(identifier instanceof Proc)) {
                         if (identifier instanceof Record) {
-                            new CompileVars(opts).compile(identifier, iterator);
+                            new CompileVars(opts).compile(identifier, false, iterator);
                         } else {
                             iterator.setIndexToToken(token);
                             let isProcCall     = false;
                             let destExpression = iterator.nextUntilLexeme([t.LEXEME_NEWLINE, t.LEXEME_ASSIGN]);
-                            if (identifier.getType() === t.LEXEME_PROC) {
+                            if (identifier.getType().type === t.LEXEME_PROC) {
                                 isProcCall = (destExpression.lastToken.cls !== t.TOKEN_ASSIGNMENT_OPERATOR);
-                            } else if (identifier.getType() instanceof Record) {
-                                isProcCall = AssignmentExpression.checkType(identifier.getType(), destExpression).procCall;
+                            } else if (identifier.getType().type instanceof Record) {
+                                isProcCall = AssignmentExpression.checkType(identifier.getType().type, destExpression).procCall;
                             }
                             iterator.setIndexToToken(token);
                             if (isProcCall) {
