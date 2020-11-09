@@ -710,7 +710,7 @@ describe(
                 );
                 testLogs(
                     it,
-                    'Should use an array of record pointers',
+                    'Should use a pointer to an array of record pointers, access with constant index',
                     [
                         'record Point',
                         '    number x',
@@ -731,6 +731,45 @@ describe(
                         'end'
                     ],
                     [
+                        3461
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use a pointer to an array of record pointers, access with variable index',
+                    [
+                        'record Point',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc test(^Point ^a[2])',
+                        '    number i',
+                        '    number j = 1',
+                        '    for j = 0 to 1',
+                        '        i = a[j].x',
+                        '        addr i',
+                        '        mod 0, 1',
+                        '        i = a[j].y',
+                        '        addr i',
+                        '        mod 0, 1',
+                        '    end',
+                        'end',
+                        'Point p[2]',
+                        'proc main()',
+                        '    ^Point pp[2]',
+                        '    pp[0] = @p[0]',
+                        '    pp[1] = @p[1]',
+                        '    p[0].x = 3361',
+                        '    p[0].y = 3461',
+                        '    p[1].x = 9813',
+                        '    p[1].y = 3461',
+                        '    test(@pp)',
+                        'end'
+                    ],
+                    [
+                        3361,
+                        3461,
+                        9813,
                         3461
                     ]
                 );
