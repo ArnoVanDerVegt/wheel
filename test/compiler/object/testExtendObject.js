@@ -144,43 +144,45 @@ describe(
                         '    number y',
                         'end',
                         'proc Animal.test()',
-                        '    number i = 1111',
+                        '    number i = 4562',
                         '    addr i',
                         '    mod 0, 1',
                         'end',
-
                         'object Mamal extends Animal',
                         'end',
                         'proc Mamal.test()',
-                        '    number i = 2222',
+                        '    number i = 9281',
                         '    addr i',
                         '    mod 0, 1',
                         '    super()',
                         'end',
-
                         'object Dog extends Mamal',
                         'end',
                         'proc Dog.test()',
-                        '    number i = 3333',
+                        '    number i = 9314',
                         '    addr i',
                         '    mod 0, 1',
                         '    super()',
                         'end',
-
                         'Dog d',
                         'proc main()',
                         '    d.test()',
                         'end'
                     ],
                     [
-                        3333,
-                        2222,
-                        1111
+                        9314,
+                        9281,
+                        4562
                     ]
                 );
+            }
+        );
+        describe(
+            'Test polymorphism',
+            () => {
                 testLogs(
                     it,
-                    'Should extend a simple object and an empty object and overwrite a method',
+                    'Should create two objects and cast them as their parent through a pointer field',
                     [
                         'object Animal',
                         '    number x',
@@ -188,23 +190,20 @@ describe(
                         'end',
                         'proc Animal.test()',
                         'end',
-
                         'object Dog extends Animal',
                         'end',
                         'proc Dog.test()',
-                        '    number i = 2222',
+                        '    number i = 3261',
                         '    addr i',
                         '    mod 0, 1',
                         'end',
-
                         'object Cat extends Animal',
                         'end',
                         'proc Cat.test()',
-                        '    number i = 3333',
+                        '    number i = 3674',
                         '    addr i',
                         '    mod 0, 1',
                         'end',
-
                         'Dog d',
                         'Cat c',
                         'record AnimalPtr',
@@ -219,13 +218,13 @@ describe(
                         'end'
                     ],
                     [
-                        2222,
-                        3333
+                        3261,
+                        3674
                     ]
                 );
                 testLogs(
                     it,
-                    'Should extend a simple object and an empty object and overwrite a method',
+                    'Should create one object and cast them as their parent through a type pointer',
                     [
                         'object Animal',
                         '    number x',
@@ -233,15 +232,13 @@ describe(
                         'end',
                         'proc Animal.test()',
                         'end',
-
                         'object Dog extends Animal',
                         'end',
                         'proc Dog.test()',
-                        '    number i = 2222',
+                        '    number i = 3469',
                         '    addr i',
                         '    mod 0, 1',
                         'end',
-
                         'Dog d',
                         'proc main()',
                         '    ^Animal a[2]',
@@ -250,7 +247,48 @@ describe(
                         'end'
                     ],
                     [
-                        2222
+                        3469
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should create two objects and cast them as their parent through a type pointer',
+                    [
+                        'object Animal',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc Animal.test()',
+                        'end',
+                        'object Dog extends Animal',
+                        'end',
+                        'proc Dog.test()',
+                        '    number i = 5326',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'object Cat extends Animal',
+                        'end',
+                        'proc Cat.test()',
+                        '    number i = 5367',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'Dog d',
+                        'Cat c',
+                        'proc main()',
+                        '    ^Animal a[2]',
+                        '    a[0] = @d',
+                        '    a[1] = @c',
+                        '    number n',
+                        '    for n = 0 to 1',
+                        '        a[n].test()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        5326,
+                        5367
                     ]
                 );
             }
