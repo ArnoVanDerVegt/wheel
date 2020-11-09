@@ -9,6 +9,7 @@ const t              = require('../tokenizer/tokenizer');
 const tokenUtils     = require('../tokenizer/tokenUtils');
 const Iterator       = require('../tokenizer/TokenIterator').Iterator;
 const Record         = require('../types/Record').Record;
+const Objct          = require('../types/Objct').Objct;
 const Proc           = require('../types/Proc').Proc;
 const Var            = require('../types/Var').Var;
 const MathExpression = require('./MathExpression').MathExpression;
@@ -144,8 +145,34 @@ exports.VarExpression = class {
         return identifier;
     }
 
+    /**
+     * Check if the given types share the same parent...
+    **/
+    getObjectsShareParent(type1, type2) {
+        const checkScopeWithParentScope = (type1, type2) => {
+                // Check if it's an extended object...
+                let parentScope = type2;
+                while (parentScope) {
+                    if (parentScope === type1) {
+                        return true;
+                    }
+                    parentScope = parentScope.getParentScope();
+                }
+            };
+        return checkScopeWithParentScope(type1, type2) || checkScopeWithParentScope(type2, type1);
+    }
+
     getTypesEqual(vrOrType1, vrOrType2) {
-        return (this.getTypeFromIdentifier(vrOrType1) === this.getTypeFromIdentifier(vrOrType2));
+        let type1 = this.getTypeFromIdentifier(vrOrType1);
+        let type2 = this.getTypeFromIdentifier(vrOrType2);
+        if (type1 === type2) {
+            return true;
+        }
+        if ((vrOrType1.getType && (vrOrType1.getType() instanceof Objct)) &&
+            (vrOrType2.getType && (vrOrType2.getType() instanceof Objct))) {
+            return this.getObjectsShareParent(vrOrType1.getType(), vrOrType2.getType());
+        }
+        return false;
     }
 
     findIdentifier(token) {
@@ -316,7 +343,8 @@ exports.VarExpression = class {
         let arraySize      = opts.identifier.getArraySize();
         // Check if it's a number, string or pointer then the size is 1.
         // If it's a record then it's the size of the record...
-        let identifierSize = this.getIdentifierSize(opts.identifier.getType());
+        // let identifierSize = this.getIdentifierSize(opts.identifier.getType());
+        let identifierSize = opts.identifier.getPointer() ? 1 : this.getIdentifierSize(opts.identifier.getType());
         if (typeof arraySize === 'number') {
             // It's a single dimensional array...
             opts.index++;

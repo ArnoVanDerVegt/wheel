@@ -49,7 +49,10 @@ exports.CompileCall = class CompileCall extends CompileScope {
     **/
     getProc(procExpression, proc, procIdentifier) {
         if (procExpression === t.LEXEME_SUPER) {
-            return this._scope;
+            if (!this._scope.getSuper()) {
+                throw errors.createError(err.NO_SUPER_PROC_FOUND, token, 'No super proc found.');
+            }
+            return this._scope.getSuper();
         }
         if (proc instanceof Proc) {
             return proc;
@@ -69,7 +72,10 @@ exports.CompileCall = class CompileCall extends CompileScope {
      * Get the parameter vars from a proc.
      * If the proc is of an unknown type the parse the expression to find the type.
     **/
-    getProcVars(proc) {
+    getProcVars(procExpression, proc) {
+        if (procExpression === t.LEXEME_SUPER) {
+            return this._scope.getSuper().getVars();
+        }
         if (proc instanceof Proc) {
             this._compiler.getUseInfo().setUseProc(proc.getName(), proc); // Set the proc as used...
             return proc.getVars();
@@ -141,8 +147,8 @@ exports.CompileCall = class CompileCall extends CompileScope {
         // Set the stack offset above the highest parameter for temp variables...
         let stackOffset = scope.getStackOffset();
         scope.addStackOffset(this._parameterOffset);
-        let vr                 = this.getParameterVr(procVars);
         let vrOrType;
+        let vr                 = this.getParameterVr(procVars);
         let mathExpressionNode = new MathExpression({
                 varExpression: this._varExpression,
                 compiler:      this._compiler,
@@ -259,14 +265,15 @@ exports.CompileCall = class CompileCall extends CompileScope {
 
     compile(iterator, procExpression, proc, procIdentifier) {
         let token                  = iterator.next();
-        let done                   = false;
+        let program                = this._program;
         let scope                  = this._scope;
         let callProc               = this.getProc(procExpression, proc, procIdentifier);
-        let callProcVars           = this.getProcVars(callProc);
+        let callProcVars           = this.getProcVars(procExpression, callProc);
         let callMethod             = callProc && callProc.getMethod();
         let callStackSize          = callMethod ? 3 : 2;
         let returnStackOffset      = scope.getStackOffset();
         let selfPointerStackOffset = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
+        let done                   = false;
         this._parameterIndex  = callStackSize;
         this._parameterOffset = callStackSize;
         while (!done && token) {
@@ -295,14 +302,10 @@ exports.CompileCall = class CompileCall extends CompileScope {
                     throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
             }
         }
-        if ((proc !== t.LEXEME_PROC) && (proc.getTotalParamCount() !== this._parameterIndex)) {
+        if (callProc && (callProc.getTotalParamCount() !== this._parameterIndex)) {
             throw errors.createError(err.PARAM_COUNT_MISMATCH, token, 'Parameter count mismatch.');
         }
-        let program = this._program;
         if (procExpression === t.LEXEME_SUPER) {
-            if (!scope.getSuper()) {
-                throw errors.createError(err.NO_SUPER_PROC_FOUND, token, 'No super proc found.');
-            }
             program.addCommand(
                 $.CMD_SET,  $.T_NUM_G, $.REG_PTR,                               $.T_NUM_L, 0,
                 $.CMD_SET,  $.T_NUM_L, returnStackOffset + scope.getSize() + 3, $.T_NUM_G, $.REG_PTR,

@@ -159,6 +159,8 @@ class CompileBlock extends CompileScope {
                         throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
                     }
                     break;
+                case t.TOKEN_POINTER:
+                    throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
                 case t.TOKEN_META:
                     this.compileMeta(iterator, token);
                     break;

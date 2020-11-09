@@ -10,6 +10,7 @@ const Iterator       = require('../tokenizer/TokenIterator').Iterator;
 const tokenUtils     = require('../tokenizer/tokenUtils');
 const compileData    = require('../compiler/CompileData').compileData;
 const Record         = require('../types/Record').Record;
+const Objct          = require('../types/Objct').Objct;
 const Proc           = require('../types/Proc').Proc;
 const MathExpression = require('./MathExpression').MathExpression;
 const VarExpression  = require('./VarExpression');
@@ -114,8 +115,15 @@ exports.AssignmentExpression = class {
     validateRecords(opts) {
         let srcType  = opts.srcVrOrType.getType  ? opts.srcVrOrType.getType()  : opts.srcVrOrType;
         let destType = opts.destVrOrType.getType ? opts.destVrOrType.getType() : opts.destVrOrType;
-        if ((srcType instanceof Record) && (destType instanceof Record)) {
-            if ((srcType.getName() !== destType.getName()) || (opts.srcInfo.arrayIndex !== opts.destInfo.arrayIndex)) {
+        if ((srcType instanceof Objct) && (destType instanceof Objct)) {
+            if (!this._varExpression.getObjectsShareParent(srcType, destType)) {
+                throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
+            } else {
+                // Todo: check object assignment.
+            }
+        } else if ((srcType instanceof Record) && (destType instanceof Record)) {
+            if (srcType.getName() !== destType.getName()) {
+                // Todo: check (opts.srcInfo.arrayIndex !== opts.destInfo.arrayIndex)
                 if (opts.destInfo.dataSize !== opts.srcInfo.dataSize) {
                     throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
                 }
