@@ -167,6 +167,9 @@ exports.CompileProc = class extends CompileBlock {
                             }
                         }
                         linter && linter.addParam(token);
+                        if (typePointer && !(type instanceof Record)) {
+                            throw errors.createError(err.RECORD_OR_OBJECT_TYPE_EXPECTED, token, 'Record or object type expected.');
+                        }
                         scope.addVar({
                             token:        token,
                             name:         token.lexeme,

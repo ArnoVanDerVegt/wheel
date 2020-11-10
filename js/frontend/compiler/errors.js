@@ -61,7 +61,8 @@ exports.errors = {
     DUPLICATE_RESOURCE:                      56,
     OBJECT_TYPE_EXPECTED:                    57,
     PROC_DOES_NOT_MATCH_SUPER_PROC:          58,
-    NO_SUPER_PROC_FOUND:                     59
+    NO_SUPER_PROC_FOUND:                     59,
+    RECORD_OR_OBJECT_TYPE_EXPECTED:          60
 };
 
 exports.createError = function(num, token, message) {

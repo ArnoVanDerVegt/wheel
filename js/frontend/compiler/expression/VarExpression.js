@@ -84,12 +84,13 @@ exports.VarExpression = class {
         let offset  = this._scope.getStackOffset() + 1;
         let type    = opts.indexIdentifier.getGlobal() ? $.T_NUM_G : $.T_NUM_L;
         if (this._compiler.getRangeCheck()) {
-            this._program.addCommand(
-                $.CMD_SET, $.T_NUM_G, $.REG_RANGE0, $.T_NUM_C, opts.maxArraySize,
-                $.CMD_SET, $.T_NUM_G, $.REG_RANGE1, type,      opts.indexIdentifier.getOffset(),
-                $.CMD_MOD, $.T_NUM_C, 0,            $.T_NUM_C, 0
-            );
-            this._program.addInfoToLastCommand({token: opts.token, scope: this._scope});
+            this._program
+                .addCommand(
+                    $.CMD_SET, $.T_NUM_G, $.REG_RANGE0, $.T_NUM_C, opts.maxArraySize,
+                    $.CMD_SET, $.T_NUM_G, $.REG_RANGE1, type,      opts.indexIdentifier.getOffset(),
+                    $.CMD_MOD, $.T_NUM_C, 0,            $.T_NUM_C, 0
+                )
+                .addInfoToLastCommand({token: opts.token, scope: this._scope});
         }
         if (opts.indexIdentifier.getWithOffset() === null) {
             this._program.addCommand(
@@ -256,11 +257,11 @@ exports.VarExpression = class {
                                     $.CMD_SET, $.T_NUM_G, $.REG_RANGE1,           $.T_NUM_L, scope.getStackOffset(),
                                     $.CMD_MOD, $.T_NUM_C, 0,                      $.T_NUM_C, 0
                                 )
-                                .addInfoToLastCommand({token: indexToken, scope: this._scope});
-                            program.addCommand(
-                                $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, opts.arraySize,
-                                $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L, scope.getStackOffset()
-                            );
+                                .addInfoToLastCommand({token: indexToken, scope: this._scope})
+                                .addCommand(
+                                    $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, opts.arraySize,
+                                    $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L, scope.getStackOffset()
+                                );
                         } else {
                             // Add to offset: offset = [local] * arraySize
                             program.addCommand(
@@ -406,7 +407,16 @@ exports.VarExpression = class {
         }
         // When writing the last field then we don't dereference the pointer...
         if (identifier.getPointer() && (!opts.forWriting || (opts.index + 1 < opts.expression.tokens.length))) {
-            program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
+            if (opts.identifier.getType().typePointer && (opts.reg !== $.REG_PTR)) {
+                program.addCommand(
+                    $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg,
+                    $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                    $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
+                );
+            } else {
+                program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
+            }
+
             opts.dereferencedPointer = true;
         }
         return opts;
@@ -480,6 +490,79 @@ exports.VarExpression = class {
         return result;
     }
 
+    /**
+     * Compile a record or array or combination of both...
+    **/
+    compileComplexTypeToRegister(opts, result) {
+        let program   = this._program;
+        let lastToken = opts.expression.tokens.length - 1;
+        while (opts.index <= lastToken) {
+            opts.token = opts.expression.tokens[opts.index];
+            if (opts.token.cls === t.TOKEN_BRACKET_OPEN) {
+                result.arrayIndex = true;
+                opts              = this.compileArrayIndex(opts, result);
+            } else if ((opts.token.cls === t.TOKEN_PARENTHESIS_OPEN) && (opts.identifier instanceof Proc)) {
+                this._lastRecordType = null;
+                this.compileProcCall(opts, result);
+                this.setStackOffsetToPtr();
+                opts.identifierType = {type: t.LEXEME_NUMBER};
+            } else if (opts.token.cls !== t.TOKEN_DOT) {
+                throw errors.createError(err.SYNTAX_ERROR_DOT_EXPECTED, opts.token, '"." Expected got "' + opts.token.lexeme + '".');
+            } else {
+                exports.assertRecord(opts);
+                this._lastRecordType = opts.identifier.getType().type;
+                opts.index++;
+                if ((opts.selfPointerStackOffset !== false) && (opts.index === lastToken)) {
+                    // It's a method to call then save the self pointer on the stack!
+                    program
+                        .nextBlockId()
+                        .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
+                }
+                opts = this.compileAddFieldOffsetToReg(opts);
+                if (opts.identifier.getPointer()) {
+                    // It's a pointer like: number ^n
+                    // When writing the last field then we don't dereference the pointer...
+                    if (!opts.forWriting || (opts.index + 1 < opts.expression.tokens.length)) {
+                        if (opts.reg === $.REG_PTR) {
+                            program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
+                        } else {
+                            program.addCommand(
+                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg,
+                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                                $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
+                            );
+                        }
+                    }
+                } else if (opts.identifierType.typePointer) {
+                    // It's a pointer like: ^RecordType r
+                    // When writing the last field then we don't dereference the pointer...
+                    if (!opts.forWriting || (opts.index + 1 < opts.expression.tokens.length)) {
+                        if (opts.reg !== $.REG_PTR) {
+                            program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg);
+                        }
+                        if (opts.dereferencedPointer) {
+                            opts.dereferencedPointer = false;
+                            program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset());
+                        } else {
+                            program.addCommand(
+                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
+                            );
+                        }
+                        if (opts.reg !== $.REG_PTR) {
+                            program.addCommand($.CMD_SET, $.T_NUM_G, opts.reg, $.T_NUM_G, $.REG_PTR);
+                        }
+                    }
+                }
+                opts.identifierType = opts.identifier.getType();
+                result.dataSize     = opts.identifier.getTotalSize();
+                result.type         = opts.identifier;
+            }
+            opts.index++;
+        }
+        return result;
+    }
+
     compileExpressionToRegister(identifier, expression, reg, forWriting, selfPointerStackOffset) {
         this._lastRecordType = null;
         this._lastProcField  = null;
@@ -521,71 +604,6 @@ exports.VarExpression = class {
             }
         }
         result.type = identifier;
-        let lastToken = expression.tokens.length - 1;
-        while (opts.index <= lastToken) {
-            opts.token = expression.tokens[opts.index];
-            if (opts.token.cls === t.TOKEN_BRACKET_OPEN) {
-                result.arrayIndex = true;
-                opts              = this.compileArrayIndex(opts, result);
-            } else if ((opts.token.cls === t.TOKEN_PARENTHESIS_OPEN) && (identifier instanceof Proc)) {
-                this._lastRecordType = null;
-                this.compileProcCall(opts, result);
-                this.setStackOffsetToPtr();
-                opts.identifierType = {type: t.LEXEME_NUMBER};
-            } else if (opts.token.cls !== t.TOKEN_DOT) {
-                throw errors.createError(err.SYNTAX_ERROR_DOT_EXPECTED, opts.token, '"." Expected got "' + opts.token.lexeme + '".');
-            } else {
-                exports.assertRecord(opts);
-                this._lastRecordType = opts.identifier.getType().type;
-                opts.index++;
-                if ((selfPointerStackOffset !== false) && (opts.index === lastToken)) {
-                    // It's a method to call then save the self pointer on the stack!
-                    program
-                        .nextBlockId()
-                        .addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_G, reg);
-                }
-                opts = this.compileAddFieldOffsetToReg(opts);
-                if (opts.identifier.getPointer()) {
-                    // It's a pointer like: number ^n
-                    if (reg !== $.REG_PTR) {
-                        program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, reg);
-                    }
-                    // When writing the last field then we don't dereference the pointer...
-                    if (!forWriting || (opts.index + 1 < expression.tokens.length)) {
-                        program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
-                    }
-                    if (reg !== $.REG_PTR) {
-                        program.addCommand($.CMD_SET, $.T_NUM_G, reg, $.T_NUM_G, $.REG_PTR);
-                    }
-                } else if (opts.identifierType.typePointer) {
-                    // It's a pointer like: ^RecordType r
-                    if (reg !== $.REG_PTR) {
-                        program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, reg);
-                    }
-                    // When writing the last field then we don't dereference the pointer...
-                    if (!forWriting || (opts.index + 1 < expression.tokens.length)) {
-                        if (opts.dereferencedPointer) {
-                            opts.dereferencedPointer = false;
-                            program.addCommand(
-                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
-                            );
-                        } else {
-                            program.addCommand(
-                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
-                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
-                            );
-                        }
-                    }
-                    if (reg !== $.REG_PTR) {
-                        program.addCommand($.CMD_SET, $.T_NUM_G, reg, $.T_NUM_G, $.REG_PTR);
-                    }
-                }
-                opts.identifierType = opts.identifier.getType();
-                result.dataSize     = opts.identifier.getTotalSize();
-                result.type         = opts.identifier;
-            }
-            opts.index++;
-        }
-        return result;
+        return this.compileComplexTypeToRegister(opts, result);
     }
 };

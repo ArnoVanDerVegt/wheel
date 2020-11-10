@@ -25,7 +25,7 @@ exports.RecordTreeBuilder = class {
         let arrayTreeBuilder = null;
         for (let i = 0; i < fields.length; i++) {
             let field     = fields[i];
-            let fieldType = field.getType();
+            let fieldType = field.getType().type;
             let arraySize = field.getArraySize();
             let o         = offset + field.getOffset();
             let treeNodeChild;
@@ -86,13 +86,13 @@ exports.RecordTreeBuilder = class {
         let offset   = baseOffset + vr.getOffset();
         let treeNode = {
                 children: [],
-                title:    getRecord(vr.getType().getName()) + getSpace() + getVariable(vr.getName())
+                title:    getRecord(vr.getType().type.getName()) + getSpace() + getVariable(vr.getName())
             };
         if (vr.getArraySize() === false) {
-            this.initRecord(vr.getType(), treeNode, offset);
+            this.initRecord(vr.getType().type, treeNode, offset);
         } else {
             treeNode.title += getArrayIndex(vr.getArraySize());
-            this.initRecordArray(vr.getType(), treeNode, offset, vr.getArraySize());
+            this.initRecordArray(vr.getType().type, treeNode, offset, vr.getArraySize());
         }
         return treeNode;
     }

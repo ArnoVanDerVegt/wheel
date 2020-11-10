@@ -718,6 +718,8 @@ describe(
                         'end',
                         'proc test(^Point ^a[2])',
                         '    number i',
+                        '    addr a[1].x',
+                        '    mod 0, 1',
                         '    i = a[1].y',
                         '    addr i',
                         '    mod 0, 1',
@@ -726,11 +728,13 @@ describe(
                         'proc main()',
                         '    ^Point pp[2]',
                         '    pp[1] = @p[1]',
+                        '    p[1].x = 1742',
                         '    p[1].y = 3461',
                         '    test(@pp)',
                         'end'
                     ],
                     [
+                        1742,
                         3461
                     ]
                 );
@@ -744,10 +748,9 @@ describe(
                         'end',
                         'proc test(^Point ^a[2])',
                         '    number i',
-                        '    number j = 1',
+                        '    number j',
                         '    for j = 0 to 1',
-                        '        i = a[j].x',
-                        '        addr i',
+                        '        addr a[j].x',
                         '        mod 0, 1',
                         '        i = a[j].y',
                         '        addr i',

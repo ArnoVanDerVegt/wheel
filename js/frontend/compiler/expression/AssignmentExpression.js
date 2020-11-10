@@ -469,8 +469,7 @@ exports.AssignmentExpression = class {
                 return this.compileArrayConstantAssignment(opts);
             case tokenUtils.ASSIGNMENT_MATH_EXPRESSION:
                 return this.compileMathExpressionAssignment(opts);
-            default:
-                return this.compileDataAssignment(opts);
         }
+        return this.compileDataAssignment(opts);
     }
 };

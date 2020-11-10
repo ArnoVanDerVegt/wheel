@@ -74,7 +74,7 @@ exports.Vars = class extends DOMNode {
                 if (vr.getName().substr(0, 1) === '!') {
                     return;
                 }
-                let type = vr.getType();
+                let type = vr.getType().type;
                 dom.children[1].children.push({
                     type: 'tr',
                     children: [
@@ -198,11 +198,11 @@ exports.Vars = class extends DOMNode {
                 if (!elementByVarName) {
                     return;
                 }
-                if (vr.getType() === 'number') {
+                if (vr.getType().type === 'number') {
                     this.updateNumber(elementByVarName, vr, baseOffset);
-                } else if (vr.getType() === 'string') {
+                } else if (vr.getType().type === 'string') {
                     this.updateString(elementByVarName, vr, baseOffset);
-                } else if (vr.getType() instanceof Record) {
+                } else if (vr.getType().type instanceof Record) {
                     this.updateRecord(elementByVarName, vr, baseOffset);
                 }
             },

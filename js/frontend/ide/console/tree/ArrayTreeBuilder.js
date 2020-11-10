@@ -16,7 +16,7 @@ exports.ArrayTreeBuilder = class {
     }
 
     buildArray(vr, arraySize, children) {
-        let isNumber  = (vr.getType() === 'number');
+        let isNumber  = (vr.getType().type === 'number');
         let itemCount = isNumber ? 10 : 4;
         let i         = 0;
         while (i < arraySize) {
