@@ -80,7 +80,7 @@ exports.Hint = class extends Component {
 
     getVarString(hintInfo, vr) {
         let vrString = '';
-        let type     = vr.getType();
+        let type     = vr.getType().type;
         if (typeof type === 'string') {
             vrString = this.getSpan(hintInfo, type, 'type');
         } else {
@@ -192,7 +192,7 @@ exports.Hint = class extends Component {
     }
 
     getHintFromVar(hintInfo, vr, scope) {
-        let type = vr.getType();
+        let type = vr.getType().type;
         hintInfo.type  = vr.getIsParam() ? 'param' : scope;
         hintInfo.token = vr.getToken();
         hintInfo.hint  = this.getVarString(hintInfo, vr);

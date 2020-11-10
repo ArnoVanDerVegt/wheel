@@ -68,7 +68,7 @@ exports.ArrayTreeBuilder = class {
                     }
                 }
             };
-        this._offset = baseOffset + vr.getOffset();
+        this._offset = baseOffset + (vr.getPointer() ? this._data[vr.getOffset()] : vr.getOffset());
         buildArray(0, tree.children);
         return tree;
     }

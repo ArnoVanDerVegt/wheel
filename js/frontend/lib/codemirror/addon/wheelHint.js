@@ -106,7 +106,7 @@ class Completions {
 
     getVarString(vr) {
         let vrString = '';
-        let type     = vr.getType();
+        let type     = vr.getType().type;
         if (typeof type === 'string') {
             vrString = this.getSpan(type, 'type');
         } else {

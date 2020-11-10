@@ -50,6 +50,7 @@ exports.Vars = class extends DOMNode {
     }
 
     updateDOM(scope) {
+        let data = this._vm.getVMData().getData();
         let vars = scope.getVars();
         let dom  = {
                 type: 'table',
@@ -80,8 +81,8 @@ exports.Vars = class extends DOMNode {
                     children: [
                         {type: 'td', innerHTML: vr.getName()},
                         {type: 'td', innerHTML: type.getName ? type.getName() : type},
-                        {type: 'td', innerHTML: vr.getOffset(), className: 'offset'},
-                        {type: 'td', id: function(element) { this.setVarElement(element, vr); }.bind(this)}
+                        {type: 'td', innerHTML: (vr.getPointer() ? ('@' + vr.getOffset() + ' =&gt; ' + data[vr.getOffset()]) : vr.getOffset()), className: 'offset'},
+                        {type: 'td', id: (element) => { this.setVarElement(element, vr); }}
                     ]
                 });
             },

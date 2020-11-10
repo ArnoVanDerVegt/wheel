@@ -6,7 +6,7 @@ exports.VarViewNumber = class extends VarView {
     initDOM(parentNode) {
         let vr         = this._vr;
         let baseOffset = this._baseOffset;
-        let offset     = baseOffset + vr.getOffset();
+        let offset     = baseOffset + (vr.getPointer() ? this._data[vr.getOffset()] : vr.getOffset());
         let arraySize  = vr.getArraySize();
         let node       = {
                 className: 'wheel',
