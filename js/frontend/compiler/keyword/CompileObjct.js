@@ -67,7 +67,9 @@ exports.CompileObjct = class extends CompileRecord {
             return;
         }
         let program     = this._program;
+        let codeUsed    = program.getCodeUsed();
         let methodTable = [];
+        program.setCodeUsed(true);
         objct
             .setConstructorCodeOffset(program.getLength())
             .setMethodTable(methodTable);
@@ -88,5 +90,6 @@ exports.CompileObjct = class extends CompileRecord {
             }
         });
         program.addCommand($.CMD_RET, 0, 0, 0, 0);
+        program.setCodeUsed(codeUsed);
     }
 };
