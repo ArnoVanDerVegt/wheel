@@ -215,16 +215,24 @@ describe(
                         '    a[1].a = @c',
                         '    a[0].a.test()',
                         '    a[1].a.test()',
+                        '    number i = 0',
+                        '    a[i].a.test()',
+                        '    i = 1',
+                        '    a[i].a.test()',
+                        '    a[i - 1].a.test()',
                         'end'
                     ],
                     [
                         3261,
-                        3674
+                        3674,
+                        3261,
+                        3674,
+                        3261
                     ]
                 );
                 testLogs(
                     it,
-                    'Should create one object and cast them as their parent through a type pointer',
+                    'Should create one object and cast it as the parent through a type pointer',
                     [
                         'object Animal',
                         '    number x',
@@ -244,9 +252,12 @@ describe(
                         '    ^Animal a[2]',
                         '    a[0] = @d',
                         '    a[0].test()',
+                        '    number i = 1',
+                        '    a[i - 1].test()',
                         'end'
                     ],
                     [
+                        3469,
                         3469
                     ]
                 );
@@ -283,17 +294,20 @@ describe(
                         '    number n',
                         '    for n = 0 to 1',
                         '        a[n].test()',
+                        '        a[1 - n].test()',
                         '    end',
                         'end'
                     ],
                     [
                         5326,
-                        5367
+                        5367,
+                        5367,
+                        5326
                     ]
                 );
                 testLogs(
                     it,
-                    'Should call super object proc with with',
+                    'Should call sub object proc with with and constant index',
                     [
                         'object Animal',
                         '    number x',
@@ -319,6 +333,68 @@ describe(
                     ],
                     [
                         8462
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should call sub object proc with with and variable index',
+                    [
+                        'object Animal',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc Animal.test()',
+                        'end',
+                        'object Dog extends Animal',
+                        'end',
+                        'proc Dog.test()',
+                        '    number i = 3866',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'Dog d',
+                        'proc main()',
+                        '    ^Animal a[2]',
+                        '    a[0] = @d',
+                        '    number i = 0',
+                        '    with a[i]',
+                        '        test()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        3866
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should call sub object proc with with and math expression index',
+                    [
+                        'object Animal',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc Animal.test()',
+                        'end',
+                        'object Dog extends Animal',
+                        'end',
+                        'proc Dog.test()',
+                        '    number i = 8856',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'Dog d',
+                        'proc main()',
+                        '    ^Animal a[2]',
+                        '    a[0] = @d',
+                        '    number i = 1',
+                        '    with a[i - 1]',
+                        '        test()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        8856
                     ]
                 );
             }
