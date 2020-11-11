@@ -27,9 +27,10 @@ exports.Rtf = class {
     }
 
     outputName() {
+        let title = this._program.getTitle() || '';
         return this
             .addLine('#NAME')
-            .addLine(this._program.getTitle().substr(0, 31));
+            .addLine(title.substr(0, 31));
     }
 
     outputLayers() {
