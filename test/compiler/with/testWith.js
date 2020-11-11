@@ -386,7 +386,7 @@ describe(
                         'record Line',
                         '   Point ^p1, ^p2',
                         'end',
-                        'proc test(Point p)',
+                        'proc test(Point ^p)',
                         '    addr p.y',
                         '    mod 0, 1',
                         '    addr p.x',
@@ -402,7 +402,7 @@ describe(
                         '    l.p1 = @pp1',
                         '    l.p2 = @pp2',
                         '    with l',
-                        '        test(p1)',
+                        '        test(p1)', // Todo: If no pointer is passed then if compiles but does not work: catch type error!!!
                         '        test(p2)',
                         '    end',
                         'end'

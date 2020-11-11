@@ -159,6 +159,31 @@ describe(
                 );
                 testLogs(
                     it,
+                    'Should use a record type pointer parameter',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'proc test(^Point point)',
+                        '    point.x = 155',
+                        'end',
+                        'proc main()',
+                        '    Point p',
+                        '    p.x = 167',
+                        '    addr p.x',
+                        '    mod 0, 1',
+                        '    test(@p)',
+                        '    addr p.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        167,
+                        155
+                    ]
+                );
+                testLogs(
+                    it,
                     'Should use a record pointer parameter passed as parameter',
                     [
                         'record Point',
@@ -183,6 +208,34 @@ describe(
                     [
                         463,
                         259
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use a record type pointer parameter passed as parameter',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'proc test1(^Point point)',
+                        '    point.x = 1259',
+                        'end',
+                        'proc test2(^Point point)',
+                        '    test1(point)',
+                        'end',
+                        'proc main()',
+                        '    Point p',
+                        '    p.x = 1463',
+                        '    addr p.x',
+                        '    mod 0, 1',
+                        '    test1(@p)',
+                        '    addr p.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        1463,
+                        1259
                     ]
                 );
                 testLogs(
@@ -215,6 +268,34 @@ describe(
                 );
                 testLogs(
                     it,
+                    'Should use a record with a record type field pointer parameter',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'record Test',
+                        '    Point p',
+                        'end',
+                        'proc test(^Test test)',
+                        '    test.p.x = 2276',
+                        'end',
+                        'proc main()',
+                        '    Test t',
+                        '    t.p.x = 2454',
+                        '    addr t.p.x',
+                        '    mod 0, 1',
+                        '    test(@t)',
+                        '    addr t.p.x',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        2454,
+                        2276
+                    ]
+                );
+                testLogs(
+                    it,
                     'Should use assign and read a record pointer',
                     [
                         'proc main()',
@@ -238,6 +319,34 @@ describe(
                     [
                         377,
                         567
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use assign and read a record type pointer',
+                    [
+                        'proc main()',
+                        '    record Point',
+                        '        number x, y',
+                        '    end',
+                        '    Point p',
+                        '    record Line',
+                        '        Point p1',
+                        '        ^Point p2',
+                        '    end',
+                        '    Line l',
+                        '    p.x = 3377',
+                        '    p.y = 3567',
+                        '    l.p2 = @p',
+                        '    addr l.p2.x',
+                        '    mod 0, 1',
+                        '    addr l.p2.y',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        3377,
+                        3567
                     ]
                 );
                 testLogs(
@@ -270,6 +379,35 @@ describe(
                 );
                 testLogs(
                     it,
+                    'Should use assign and read a record type pointer to pointer',
+                    [
+                        'proc main()',
+                        '    record Point',
+                        '        number x, y',
+                        '    end',
+                        '    Point p',
+                        '    record Line',
+                        '        Point p1',
+                        '        ^Point p2',
+                        '    end',
+                        '    Line l, ^lp',
+                        '    p.x = 4534',
+                        '    p.y = 4799',
+                        '    l.p2 = @p',
+                        '    lp = @l',
+                        '    addr lp.p2.x',
+                        '    mod 0, 1',
+                        '    addr lp.p2.y',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        4534,
+                        4799
+                    ]
+                );
+                testLogs(
+                    it,
                     'Should use assign and read a record pointer to pointer to number pointer',
                     [
                         'proc main()',
@@ -295,6 +433,36 @@ describe(
                     [
                         3487,
                         6789
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should use assign and read a record type pointer to pointer to number pointer',
+                    [
+                        'proc main()',
+                        '    record Point',
+                        '        number x, ^y',
+                        '    end',
+                        '    Point p',
+                        '    record Line',
+                        '        Point p1',
+                        '        ^Point p2',
+                        '    end',
+                        '    Line l, ^lp',
+                        '    p.x = 1487',
+                        '    number n = 1789',
+                        '    p.y = @n',
+                        '    l.p2 = @p',
+                        '    lp = @l',
+                        '    addr lp.p2.x',
+                        '    mod 0, 1',
+                        '    addr lp.p2.y',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        1487,
+                        1789
                     ]
                 );
                 testLogs(

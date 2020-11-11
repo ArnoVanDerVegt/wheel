@@ -4,6 +4,10 @@
 **/
 exports.Var = class {
     constructor(opts) {
+        if (!opts.arraySize && opts.typePointer && !opts.pointer) {
+            opts.pointer     = true;
+            opts.typePointer = false;
+        }
         this._token                = opts.token;
         this._name                 = opts.name;
         this._arraySize            = opts.arraySize;
@@ -50,7 +54,8 @@ exports.Var = class {
 
     getPrimitiveType() {
         const t = require('../tokenizer/tokenizer');
-        return ([t.LEXEME_NUMBER, t.LEXEME_PROC, t.LEXEME_STRING].indexOf(this._type.type) !== -1);
+        return (this._type.typePointer || this._pointer) ||
+            ([t.LEXEME_NUMBER, t.LEXEME_PROC, t.LEXEME_STRING].indexOf(this._type.type) !== -1);
     }
 
     getSize() {
@@ -67,7 +72,7 @@ exports.Var = class {
                 arraySize *= this._arraySize[i];
             }
         }
-        return (this.getPrimitiveType() ? 1 : this._type.type.getSize()) * arraySize;
+        return this.getSize() * arraySize;
     }
 
     getWithOffset() {

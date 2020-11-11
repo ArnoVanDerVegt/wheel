@@ -345,23 +345,6 @@ exports.VarExpression = class {
     }
 
     /**
-     * Add a field offset to a register
-    **/
-    compileAddFieldOffsetToReg(opts) {
-        let field = this.getFieldFromIndexToken(opts);
-        if (field.getType().type instanceof Record) {
-            this.setLastRecordType(field.getType().type);
-        } else if (field.getType().type === t.LEXEME_PROC) {
-            this._lastProcField = field.getProc();
-        }
-        if ((field.getOffset() !== 0) && !opts.identifierType.typePointer) {
-            this.addToReg(opts.reg, $.T_NUM_C, field.getOffset());
-        }
-        opts.identifier = field;
-        return opts;
-    }
-
-    /**
      * Compile a procedure call and add the return register to the register
     **/
     compileProcCall(opts, result) {
@@ -534,6 +517,18 @@ exports.VarExpression = class {
      * Compile a record or array or combination of both...
     **/
     compileComplexTypeToRegister(opts, result) {
+        /**
+         * Move to the next field of the expression...
+        **/
+        const nextField = () => {
+                let field = this.getFieldFromIndexToken(opts);
+                if (field.getType().type instanceof Record) {
+                    this.setLastRecordType(field.getType().type);
+                } else if (field.getType().type === t.LEXEME_PROC) {
+                    this._lastProcField = field.getProc();
+                }
+                opts.identifier = field;
+            };
         let program   = this._program;
         let lastToken = opts.expression.tokens.length - 1;
         while (opts.index <= lastToken) {
@@ -547,7 +542,7 @@ exports.VarExpression = class {
             } else if ((opts.token.cls === t.TOKEN_PARENTHESIS_OPEN) && (opts.identifier instanceof Proc)) {
                 this.compileProcCall(opts, result);
                 this.setStackOffsetToPtr();
-                opts.identifierType = {type: t.LEXEME_NUMBER};
+                opts.identifierType = {type: t.LEXEME_NUMBER, typePointer: false};
             } else if (opts.token.cls !== t.TOKEN_DOT) {
                 throw errors.createError(err.SYNTAX_ERROR_DOT_EXPECTED, opts.token, '"." Expected got "' + opts.token.lexeme + '".');
             } else {
@@ -560,37 +555,44 @@ exports.VarExpression = class {
                         .nextBlockId()
                         .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
                 }
-                opts = this.compileAddFieldOffsetToReg(opts);
+                let typePointer = opts.identifierType.typePointer;
+                // Get the next field from the expression...
+                nextField();
+                if ((opts.identifier.getOffset() !== 0)  && !typePointer) {
+                    this.addToReg(opts.reg, $.T_NUM_C, opts.identifier.getOffset());
+                }
                 if (opts.identifier.getPointer()) {
                     // It's a pointer like: number ^n
                     // When writing the last field then we don't dereference the pointer...
                     if (!opts.forWriting || (opts.index + 1 < opts.expression.tokens.length)) {
                         opts = this.compileDerefecencePointer(opts);
                     }
-                } else if (opts.identifierType.typePointer) {
+                } else if (typePointer) {
                     // It's a pointer like: ^RecordType r
                     // When writing the last field then we don't dereference the pointer...
-                    if (!opts.forWriting || (opts.index + 1 < opts.expression.tokens.length)) {
+                    if (!opts.forWriting || (opts.index < opts.expression.tokens.length)) {
                         if (opts.reg !== $.REG_PTR) {
                             program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg);
                         }
                         if (opts.dereferencedPointer) {
                             opts.dereferencedPointer = false;
-                            program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset());
+                            program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
                         } else if (opts.selfPointerStackOffset === false) {
                           program.addCommand(
                               $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
-                              $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
+                              $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
                           );
                         } else {
                             program.addCommand(
                                 $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
-                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
+                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
                             );
                         }
                         if (opts.reg !== $.REG_PTR) {
                             program.addCommand($.CMD_SET, $.T_NUM_G, opts.reg, $.T_NUM_G, $.REG_PTR);
                         }
+                    } else if (opts.forWriting) {
+                        opts = this.compileDerefecencePointer(opts);
                     }
                 }
                 opts.identifierType = opts.identifier.getType();
@@ -621,7 +623,7 @@ exports.VarExpression = class {
             return this.compileSingleTokenToRegister(opts, result);
         }
         if (identifier instanceof Proc) {
-            opts.identifierType = {type: t.LEXEME_NUMBER};
+            opts.identifierType = {type: t.LEXEME_NUMBER, typePointer: false};
         } else {
             this.assertIdentifier(identifier, expression);
             opts.identifierType = identifier.getType();
