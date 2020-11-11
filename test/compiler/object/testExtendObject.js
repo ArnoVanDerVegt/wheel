@@ -291,6 +291,36 @@ describe(
                         5367
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should call super object proc with with',
+                    [
+                        'object Animal',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc Animal.test()',
+                        'end',
+                        'object Dog extends Animal',
+                        'end',
+                        'proc Dog.test()',
+                        '    number i = 8462',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'Dog d',
+                        'proc main()',
+                        '    ^Animal a[2]',
+                        '    a[0] = @d',
+                        '    with a[0]',
+                        '        test()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        8462
+                    ]
+                );
             }
         );
     }

@@ -204,6 +204,18 @@ exports.VarExpression = class {
         return $.CMD_SET;
     }
 
+    compileDerefecencePointer(opts) {
+        if (opts.reg === $.REG_PTR) {
+            this._program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
+        } else {
+            this._program.addCommand(
+                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg,
+                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
+            );
+        }
+    }
+
     /**
      * Compile the index of an array and add the offset to a register
     **/
@@ -224,6 +236,10 @@ exports.VarExpression = class {
                     this.addToReg(opts.reg, $.T_NUM_C, indexToken.value * opts.identifierSize * opts.arraySize);
                 } else if (indexToken.value < 0) {
                     throw errors.createError(err.INVALID_ARRAY_INDEX, indexToken, 'Invalid array index.');
+                }
+                if (!opts.identifier.getPointer() && opts.identifier.getType().typePointer &&
+                    !opts.forWriting && (opts.selfPointerStackOffset === false)) {
+                    this.compileDerefecencePointer(opts);
                 }
             } else if (indexToken.cls === t.TOKEN_IDENTIFIER) {
                 opts.indexIdentifier = this.findIdentifier(indexToken);
@@ -454,10 +470,16 @@ exports.VarExpression = class {
                             .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
                     }
                 }
-                program.addCommand(
-                    $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset(),
-                    $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
-                );
+               if (opts.reg === $.REG_PTR) {
+                   program.addCommand(
+                       $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
+                   );
+               } else {
+                   program.addCommand(
+                       $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset(),
+                       $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
+                   );
+               }
             } else if (opts.identifier.getPointer() && (opts.identifier.getType().type === t.LEXEME_STRING)) {
                 this.setReg($.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
                 // If it's a "with" field then the offset is relative to the pointer on the stack not to the stack register itself!
@@ -523,15 +545,7 @@ exports.VarExpression = class {
                     // It's a pointer like: number ^n
                     // When writing the last field then we don't dereference the pointer...
                     if (!opts.forWriting || (opts.index + 1 < opts.expression.tokens.length)) {
-                        if (opts.reg === $.REG_PTR) {
-                            program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
-                        } else {
-                            program.addCommand(
-                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg,
-                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
-                                $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
-                            );
-                        }
+                        this.compileDerefecencePointer(opts);
                     }
                 } else if (opts.identifierType.typePointer) {
                     // It's a pointer like: ^RecordType r
@@ -543,6 +557,11 @@ exports.VarExpression = class {
                         if (opts.dereferencedPointer) {
                             opts.dereferencedPointer = false;
                             program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset());
+                        } else if (opts.selfPointerStackOffset === false) {
+                          program.addCommand(
+                              $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                              $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, this.getFieldFromIndexToken(opts).getOffset()
+                          );
                         } else {
                             program.addCommand(
                                 $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,

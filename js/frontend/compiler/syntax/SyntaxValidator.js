@@ -12,6 +12,7 @@ const procParamsScopeTokens        = require('./syntaxProcParams').procParamsSco
 const recordScopeTokens            = require('./syntaxRecord').recordScopeTokens;
 const objectScopeTokens            = require('./syntaxObject').objectScopeTokens;
 const addrScopeTokens              = require('./syntaxAddr').addrScopeTokens;
+const withScopeTokens              = require('./syntaxWith').withScopeTokens;
 const superScopeTokens             = require('./syntaxSuper').superScopeTokens;
 const moduleScopeTokens            = require('./syntaxModule').moduleScopeTokens;
 const breakScopeTokens             = require('./syntaxBreak').breakScopeTokens;
@@ -164,7 +165,7 @@ let withScope = {
     };
 let withExpressionScope = {
         name:      'with expression',
-        tokens:    addrScopeTokens(),
+        tokens:    withScopeTokens(),
         endLexeme: [t.LEXEME_NEWLINE]
     };
 

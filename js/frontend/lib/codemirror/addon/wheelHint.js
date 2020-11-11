@@ -76,13 +76,16 @@ const wheelLexemes = [
         'or',
         'proc',
         'record',
+        'object',
         'repeat',
         'ret',
         'select',
         'step',
         'string',
         'to',
-        'while'
+        'while',
+        'with',
+        'as'
     ];
 
 function wheelHint(editor, options) {

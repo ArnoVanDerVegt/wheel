@@ -186,6 +186,7 @@ const files = [
         './js/frontend/compiler/syntax/syntaxProcParams',
         './js/frontend/compiler/syntax/syntaxRecord',
         './js/frontend/compiler/syntax/syntaxAddr',
+        './js/frontend/compiler/syntax/syntaxWith',
         './js/frontend/compiler/syntax/syntaxSuper',
         './js/frontend/compiler/syntax/syntaxModule',
         './js/frontend/compiler/syntax/syntaxBreak',

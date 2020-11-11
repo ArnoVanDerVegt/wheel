@@ -126,8 +126,10 @@ exports.CompileObjct = class {
                 });
             };
         if (vr.getType().type instanceof Objct) {
-            this.compileConstructorCall(local, vr.getOffset(), vr);
-            compileRecordFields(vr.getType().type);
+            if (!vr.getPointer() && !vr.getType().typePointer) {
+                this.compileConstructorCall(local, vr.getOffset(), vr);
+                compileRecordFields(vr.getType().type);
+            }
         } else if (vr.getType().type instanceof Record) {
             compileRecordFields(vr.getType().type);
         }

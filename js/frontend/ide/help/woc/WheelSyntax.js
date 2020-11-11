@@ -38,10 +38,13 @@ const keywords = [
         'else',
         'elseif',
         'record',
+        'object',
         'union',
         'or',
         'and',
-        'call'
+        'call',
+        'with',
+        'as'
     ];
 
 const registers = [
@@ -61,7 +64,8 @@ const registers = [
 const types = [
         'number',
         'string',
-        'record'
+        'record',
+        'object'
     ];
 
 const sign = [
@@ -204,7 +208,7 @@ exports.WheelSyntax = class {
                     } else if (this._records.indexOf(w) !== -1) {
                         result += '<span class="record">' + w + '</span>';
                     } else if (keywords.indexOf(w) !== -1) {
-                        if (w === 'record') {
+                        if ((w === 'record') || (w === 'object')) {
                             let nextWord = grabNextWord();
                             (nextWord === '') || this._records.push(nextWord);
                         }

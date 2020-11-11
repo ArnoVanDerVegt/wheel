@@ -29,6 +29,7 @@
     const LEXEME_REPEAT             = 'repeat';
     const LEXEME_WHILE              = 'while';
     const LEXEME_WITH               = 'with';
+    const LEXEME_AS                 = 'as';
     const LEXEME_ADDR               = 'addr';
     const LEXEME_MOD                = 'mod';
     const LEXEME_AND                = 'and';
@@ -121,6 +122,7 @@
     exports.LEXEME_REPEAT             = LEXEME_REPEAT;
     exports.LEXEME_WHILE              = LEXEME_WHILE;
     exports.LEXEME_WITH               = LEXEME_WITH;
+    exports.LEXEME_AS                 = LEXEME_AS;
     exports.LEXEME_ADDR               = LEXEME_ADDR;
     exports.LEXEME_MOD                = LEXEME_MOD;
     exports.LEXEME_AND                = LEXEME_AND;
@@ -209,6 +211,7 @@
             LEXEME_REPEAT,
             LEXEME_WHILE,
             LEXEME_WITH,
+            LEXEME_AS,
             LEXEME_ADDR,
             LEXEME_MOD
         ];

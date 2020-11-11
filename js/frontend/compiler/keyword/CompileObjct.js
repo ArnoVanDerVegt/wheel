@@ -75,7 +75,7 @@ exports.CompileObjct = class extends CompileRecord {
         // Call the constructor for all object fields...
         let vars = objct.getVars();
         vars.forEach((vr) => {
-            if ((vr.getType().type instanceof Objct) && !vr.getPointer()) {
+            if ((vr.getType().type instanceof Objct) && !vr.getPointer() && !vr.getType().typePointer) {
                 if (vr.getOffset() === 0) {
                     program.addCommand($.CMD_SET, $.T_NUM_L, 3, $.T_NUM_L, 0);
                 } else {

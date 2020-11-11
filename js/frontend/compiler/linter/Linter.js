@@ -9,7 +9,7 @@ const numbers     = '0123456789';
 const alphaNum    = uppercase + lowercase + numbers;
 const all         = uppercase + lowercase + numbers + '_';
 
-const TYPE_TO_STR = ['Whitespace', 'Tab', 'Var', 'Param', 'Field', 'Proc', 'Record', 'Define'];
+const TYPE_TO_STR = ['Whitespace', 'Tab', 'Var', 'Param', 'Field', 'Proc', 'Record', 'Object', 'Define'];
 const WHITE_SPACE = 0;
 const TAB         = 1;
 const VAR         = 2;

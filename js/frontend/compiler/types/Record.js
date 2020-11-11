@@ -27,6 +27,9 @@ exports.Record = class extends Scope {
 
     _getWithRecord(record, parentScope, withOffset) {
         let withRecord = new exports.Record(parentScope, record.getName(), record.getGlobal(), record.getNamespace());
+        if (parentScope) {
+            withRecord.setSize(parentScope.getSize());
+        }
         record.getVars().forEach((vr) => {
             withRecord
                 .addVar({

@@ -88,6 +88,7 @@ require('./js/frontend/compiler/syntax/syntaxProcName');
 require('./js/frontend/compiler/syntax/syntaxProcParams');
 require('./js/frontend/compiler/syntax/syntaxRecord');
 require('./js/frontend/compiler/syntax/syntaxAddr');
+require('./js/frontend/compiler/syntax/syntaxWith');
 require('./js/frontend/compiler/syntax/syntaxSuper');
 require('./js/frontend/compiler/syntax/syntaxModule');
 require('./js/frontend/compiler/syntax/syntaxBreak');
