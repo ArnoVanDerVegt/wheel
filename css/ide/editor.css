@@ -437,6 +437,9 @@ body.no-quick-view-menu .resource-options.main-menu {
 .resource-options .tool-options-toolbar {
     margin:                         8px 2px 0 2px;
 }
+.resource-options .tool-options.view-output {
+    margin-left:                    8px;
+}
 .resource-options .bottom-options .tool-options,
 .resource-options .bottom-options .tool-options-toolbar {
     margin:                         4px 2px 0 8px;
