@@ -397,6 +397,46 @@ describe(
                         8856
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should call objects in a typed pointer array in a record',
+                    [
+                        'object Animal',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc Animal.test()',
+                        '    number i = 3561',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'object Dog extends Animal',
+                        'end',
+                        'proc Dog.test()',
+                        '    number i = 9913',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'Animal a',
+                        'Dog d',
+                        'record List',
+                        '    ^Animal l[2]',
+                        'end',
+                        'proc main()',
+                        '    List list',
+                        '    list.l[0] = @d',
+                        '    list.l[1] = @a',
+                        '    number i',
+                        '    for i = 0 to 1',
+                        '        list.l[i].test()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        9913,
+                        3561
+                    ]
+                );
             }
         );
         describe(

@@ -115,7 +115,7 @@ exports.CompileObjct = class {
         const compileRecordFields = (vr) => {
                 vr.getVars().forEach((field) => {
                     let arraySize = field.getArraySize() || 1;
-                    if (field.getType().type instanceof Objct) {
+                    if ((field.getType().type instanceof Objct) && !field.getPointer() && !field.getType().typePointer) {
                         this.compileConstructorCall(local, offset, field);
                         offset += field.getSize() * arraySize;
                     } else if (field.getType().type instanceof Record) {

@@ -16,7 +16,6 @@ exports.CompileRecord = class extends CompileScope {
         this._token      = null;
         this._expectType = true;
         this._end        = false;
-        this._pointer    = false;
     }
 
     getDataType() {
@@ -53,12 +52,13 @@ exports.CompileRecord = class extends CompileScope {
     compile(iterator) {
         this._expectType = true;
         this._end        = false;
-        this._pointer    = false;
         this._linter     = this._compiler.getLinter();
         this._token      = iterator.skipWhiteSpace().next();
         this._linter && this._linter.addRecord(this._token);
-        let type     = null;
-        let dataType = this.getDataType();
+        let type        = null;
+        let typePointer = false;
+        let pointer     = false;
+        let dataType    = this.getDataType();
         this.addDataTypeToScope(dataType);
         this.compileExtends(iterator, dataType);
         while (!this._end) {
@@ -72,7 +72,11 @@ exports.CompileRecord = class extends CompileScope {
                     type = this.compileKeyword(dataType) || type;
                     break;
                 case t.TOKEN_POINTER:
-                    this._pointer = true;
+                    if (this._expectType) {
+                        typePointer = true;
+                    } else {
+                        pointer = true;
+                    }
                     break;
                 case t.TOKEN_IDENTIFIER:
                     if (this._expectType) {
@@ -116,18 +120,19 @@ exports.CompileRecord = class extends CompileScope {
                             token:       this._token,
                             name:        name,
                             type:        type,
-                            typePointer: false,
+                            typePointer: typePointer,
                             arraySize:   Var.getArraySize(arraySize),
-                            pointer:     this._pointer
+                            pointer:     pointer
                         });
                         this._expectType = true;
+                        pointer          = false;
+                        typePointer      = false;
                     }
                     let p = iterator.skipWhiteSpace().peek();
                     if (p.cls === t.TOKEN_COMMA) {
                         iterator.next();
                         this._expectType = false;
                     }
-                    this._pointer = false;
                     break;
                 default:
                     throw errors.createError(err.SYNTAX_ERROR, this._token, 'Syntax error.');
