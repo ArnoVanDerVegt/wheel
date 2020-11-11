@@ -399,5 +399,45 @@ describe(
                 );
             }
         );
+        describe(
+            'Test type cast',
+            () => {
+                testLogs(
+                    it,
+                    'Should cast object',
+                    [
+                        'object Animal',
+                        '    number x',
+                        '    number y',
+                        'end',
+                        'proc Animal.test()',
+                        '    number i = 3534',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'object Dog extends Animal',
+                        'end',
+                        'proc Dog.doDogThing()',
+                        '    number i = 8856',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'Dog d',
+                        'proc main()',
+                        '    ^Animal a[2]',
+                        '    a[0] = @d',
+                        '    d.test()',
+                        '    with a[0] as Dog',
+                        '        doDogThing()',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        3534,
+                        8856
+                    ]
+                );
+            }
+        );
     }
 );
