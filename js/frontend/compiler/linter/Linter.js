@@ -9,7 +9,7 @@ const numbers     = '0123456789';
 const alphaNum    = uppercase + lowercase + numbers;
 const all         = uppercase + lowercase + numbers + '_';
 
-const TYPE_TO_STR = ['Whitespace', 'Tab', 'Var', 'Param', 'Field', 'Proc', 'Record', 'Define'];
+const TYPE_TO_STR = ['Whitespace', 'Tab', 'Var', 'Param', 'Field', 'Proc', 'Record', 'Object', 'Define'];
 const WHITE_SPACE = 0;
 const TAB         = 1;
 const VAR         = 2;
@@ -17,7 +17,8 @@ const PARAM       = 3;
 const FIELD       = 4;
 const PROC        = 5;
 const RECORD      = 6;
-const DEFINE      = 7;
+const OBJECT      = 7;
+const DEFINE      = 8;
 
 exports.TYPE_TO_STR = TYPE_TO_STR;
 exports.WHITE_SPACE = WHITE_SPACE;
@@ -27,6 +28,7 @@ exports.PARAM       = PARAM;
 exports.FIELD       = FIELD;
 exports.PROC        = PROC;
 exports.RECORD      = RECORD;
+exports.OBJECT      = OBJECT;
 exports.DEFINE      = DEFINE;
 
 exports.Linter = class {
@@ -136,9 +138,20 @@ exports.Linter = class {
         }
     }
 
-    addProc(token) {
-        if (!this.checkString(token.origLexeme, lowercase, alphaNum)) {
-            this.addMessage(token, this.toCamelCase(token.origLexeme), PROC);
+    addProc(procName) {
+        if (procName.objectNameToken) {
+            if (!this.checkString(procName.objctName, uppercase, alphaNum)) {
+                this.addMessage(procName.objectNameToken, this.toUCamelCase(procName.objectNameToken.origLexeme), OBJECT);
+            }
+        }
+        if (!this.checkString(procName.name, lowercase, alphaNum)) {
+            this.addMessage(procName.nameToken, this.toCamelCase(procName.nameToken.origLexeme), PROC);
+        }
+    }
+
+    addObject(token) {
+        if (!this.checkString(token.origLexeme, uppercase, alphaNum)) {
+            this.addMessage(token, this.toUCamelCase(token.origLexeme), OBJECT);
         }
     }
 

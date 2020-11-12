@@ -10,6 +10,7 @@ const Iterator       = require('../tokenizer/TokenIterator').Iterator;
 const tokenUtils     = require('../tokenizer/tokenUtils');
 const compileData    = require('../compiler/CompileData').compileData;
 const Record         = require('../types/Record').Record;
+const Objct          = require('../types/Objct').Objct;
 const Proc           = require('../types/Proc').Proc;
 const MathExpression = require('./MathExpression').MathExpression;
 const VarExpression  = require('./VarExpression');
@@ -31,7 +32,7 @@ exports.compileToTempStackValue = function(compiler, program, scope, expression)
             program.addCommand($.CMD_SET, $.T_NUM_L, stackOffset, $.T_NUM_C, tokens[0].value);
         } else {
             let identifier = scope.findIdentifier(token.lexeme);
-            let vrOrType   = varExpression.compileExpressionToRegister(identifier, expression, $.REG_PTR).type;
+            let vrOrType   = varExpression.compileExpressionToRegister(identifier, expression, $.REG_PTR, false, false).type;
             if (varExpression.getTypeFromIdentifier(vrOrType) === t.LEXEME_NUMBER) {
                 program.addCommand($.CMD_SET, $.T_NUM_L, stackOffset, $.T_NUM_P, 0);
             } else {
@@ -56,12 +57,12 @@ exports.checkType = function(type, expression) {
                 expectIdentifier = true;
                 break;
             case t.TOKEN_IDENTIFIER:
-                VarExpression.assertRecord({identifierType: type, token: token});
+                VarExpression.assertRecord({identifierType: {type: type}, token: token});
                 let identifier = type.findIdentifier(token.lexeme);
                 if (identifier === null) {
                     throw errors.createError(errors.errors.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
                 }
-                type = identifier.getType();
+                type = identifier.getType().type;
                 expectIdentifier = false;
                 break;
             case t.TOKEN_BRACKET_OPEN:
@@ -112,10 +113,17 @@ exports.AssignmentExpression = class {
     }
 
     validateRecords(opts) {
-        let srcType  = opts.srcVrOrType.getType  ? opts.srcVrOrType.getType()  : opts.srcVrOrType;
-        let destType = opts.destVrOrType.getType ? opts.destVrOrType.getType() : opts.destVrOrType;
-        if ((srcType instanceof Record) && (destType instanceof Record)) {
-            if ((srcType.getName() !== destType.getName()) || (opts.srcInfo.arrayIndex !== opts.destInfo.arrayIndex)) {
+        let srcType  = opts.srcVrOrType.getType  ? opts.srcVrOrType.getType().type  : opts.srcVrOrType;
+        let destType = opts.destVrOrType.getType ? opts.destVrOrType.getType().type : opts.destVrOrType;
+        if ((srcType instanceof Objct) && (destType instanceof Objct)) {
+            if (!this._varExpression.getObjectsShareParent(srcType, destType)) {
+                throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
+            } else {
+                // Todo: check object assignment.
+            }
+        } else if ((srcType instanceof Record) && (destType instanceof Record)) {
+            if (srcType.getName() !== destType.getName()) {
+                // Todo: check (opts.srcInfo.arrayIndex !== opts.destInfo.arrayIndex)
                 if (opts.destInfo.dataSize !== opts.srcInfo.dataSize) {
                     throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
                 }
@@ -161,7 +169,7 @@ exports.AssignmentExpression = class {
         for (let i = 0; i < opts.srcIdentifier.getParamCount(); i++) {
             let assignedVar = assignedVars[2 + i]; // Skip the first two -return- values...
             let srcVar      = srcVars[2 + i];
-            if (assignedVar.getType() !== srcVar.getType()) {
+            if (assignedVar.getType().type !== srcVar.getType().type) {
                 throw errors.createError(
                     err.TYPE_MISMATCH,
                     opts.srcExpression.tokens[0],
@@ -188,7 +196,7 @@ exports.AssignmentExpression = class {
             varExpression.saveStringInLocalVar(token.lexeme);
         } else {
             let srcIdentifier = this._scope.findIdentifier(token.lexeme);
-            result      = varExpression.compileExpressionToRegister(srcIdentifier, opts.srcExpression, $.REG_PTR);
+            result      = varExpression.compileExpressionToRegister(srcIdentifier, opts.srcExpression, $.REG_PTR, false, false);
             srcVrOrType = result.type;
             switch (varExpression.getTypeFromIdentifier(srcVrOrType)) {
                 case t.LEXEME_STRING:
@@ -252,7 +260,7 @@ exports.AssignmentExpression = class {
             throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destExpression.tokens[0], 'Pointer type expected.');
         }
         if (!opts.address && opts.destVrOrType.getPointer()) {
-            if (opts.destIdentifier.getArraySize() && opts.destIdentifier.getPointer() && (opts.destIdentifier.getType() === t.LEXEME_NUMBER)) {
+            if (opts.destIdentifier.getArraySize() && opts.destIdentifier.getPointer() && (opts.destIdentifier.getType().type === t.LEXEME_NUMBER)) {
                 this._program.addCommand($.CMD_SET, $.T_NUM_P, 0, $.T_NUM_L, this._scope.getStackOffset());
             } else {
                 this._program.addCommand(
@@ -270,8 +278,12 @@ exports.AssignmentExpression = class {
     }
 
     compileAddressPointerAssignment(opts) {
+        // Check if it's a data type like: number ^a[10]
         if (!opts.destVrOrType.getPointer || !opts.destVrOrType.getPointer()) {
-            throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destExpression.tokens[0], 'Pointer type expected.');
+            // Check if it's a data type like: ^SomeObject a
+            if (!opts.destVrOrType.getType().typePointer) {
+                throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destExpression.tokens[0], 'Pointer type expected.');
+            }
         }
         this._program.addCommand($.CMD_SET, $.T_NUM_P, 0, $.T_NUM_L, this._scope.getStackOffset());
     }
@@ -280,7 +292,7 @@ exports.AssignmentExpression = class {
      * Compile a constant array assignment like: v = [...]
     **/
     compileArrayConstantAssignment(opts) {
-        let destVrOrType = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true).type;
+        let destVrOrType = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true, false).type;
         if (destVrOrType.getArraySize() === false) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
         }
@@ -289,7 +301,13 @@ exports.AssignmentExpression = class {
         iterator.next(); // Skip "["
         compileData.readArrayToData(iterator, destVrOrType, data);
         let globalScope = this._scope.getGlobal() ? this._scope : this._scope.getParentScope();
-        let dataVar     = globalScope.addVar(null, '!data' + this._scope.getTempVarIndex(), t.LEXEME_NUMBER, data.length);
+        let dataVar     = globalScope.addVar({
+                token:       null,
+                name:        '!data' + this._scope.getTempVarIndex(),
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   data.length
+            });
         this._program
             .addConstant({offset: dataVar.getOffset(), data: data})
             .addCommand(
@@ -304,15 +322,21 @@ exports.AssignmentExpression = class {
     **/
     compileRecordConstantAssignment(opts) {
         let destVrOrType = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true).type;
-        if (!(destVrOrType.getType() instanceof Record)) {
+        if (!(destVrOrType.getType().type instanceof Record)) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
         }
         let iterator = new Iterator({tokens: [].concat(opts.srcExpression.tokens), compiler: this._compiler});
         let data     = [];
         iterator.next(); // Skip "{"
-        compileData.readRecordToData(iterator, destVrOrType.getType(), data);
+        compileData.readRecordToData(iterator, destVrOrType.getType().type, data);
         let globalScope = this._scope.getGlobal() ? this._scope : this._scope.getParentScope();
-        let dataVar     = globalScope.addVar(null, '!data' + this._scope.getTempVarIndex(), t.LEXEME_NUMBER, data.length);
+        let dataVar     = globalScope.addVar({
+                token:       null,
+                name:        '!data' + this._scope.getTempVarIndex(),
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   data.length
+            });
         this._program
             .addConstant({offset: dataVar.getOffset(), data: data})
             .addCommand(
@@ -346,21 +370,21 @@ exports.AssignmentExpression = class {
                 if (opts.srcIdentifier) {
                     if (opts.srcIdentifier instanceof Proc) {
                         opts.srcVrOrType = t.LEXEME_NUMBER;
-                    } else if (opts.srcIdentifier.getType() === t.LEXEME_NUMBER) {
+                    } else if (opts.srcIdentifier.getType().type === t.LEXEME_NUMBER) {
                         opts.srcVrOrType = t.LEXEME_NUMBER;
-                    } else if (opts.srcIdentifier.getType() === t.LEXEME_STRING) {
+                    } else if (opts.srcIdentifier.getType().type === t.LEXEME_STRING) {
                         opts.srcVrOrType = t.LEXEME_STRING;
                     } else {
                         opts.srcVrOrType = t.LEXEME_NUMBER;
                     }
                 } else {
-                    opts.srcVrOrType = opts.destIdentifier.getType();
+                    opts.srcVrOrType = opts.destIdentifier.getType().type;
                 }
             }
         }
         let varExpression = this._varExpression;
         mathExpressionNode.compile(opts.srcVrOrType);
-        opts.destVrOrType = varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true).type;
+        opts.destVrOrType = varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true, false).type;
         if (!varExpression.getTypesEqual(opts.srcVrOrType, opts.destVrOrType)) {
             throw errors.createError(err.TYPE_MISMATCH, destExpression.tokens[0], 'Type mismatch.');
         }
@@ -386,7 +410,7 @@ exports.AssignmentExpression = class {
     **/
     compileDataAssignment(opts) {
         opts.srcInfo      = this.compileSourceExpression(opts);
-        opts.destInfo     = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true);
+        opts.destInfo     = this._varExpression.compileExpressionToRegister(opts.destIdentifier, opts.destExpression, $.REG_PTR, true, false);
         opts.srcVrOrType  = opts.srcInfo.type;
         opts.destVrOrType = opts.destInfo.type;
         this
@@ -396,8 +420,12 @@ exports.AssignmentExpression = class {
         let copySize = 0;
         let type     = this._varExpression.getTypeFromIdentifier(opts.srcVrOrType);
         if (opts.address) {
+            // Check if it's a data type like: number ^a[10]
             if (opts.destInfo.type && opts.destInfo.type.getPointer && !opts.destInfo.type.getPointer()) {
-                throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destInfo.type.getToken(), 'Pointer type expected.');
+                // Check if it's a data type like: ^SomeObject a
+                if (!opts.destInfo.type.getType().typePointer) {
+                    throw errors.createError(err.POINTER_TYPE_EXPECTED, opts.destInfo.type.getToken(), 'Pointer type expected.');
+                }
             }
             this.compileAddressPointerAssignment(opts);
         } else if (type === t.LEXEME_STRING) {
@@ -441,8 +469,7 @@ exports.AssignmentExpression = class {
                 return this.compileArrayConstantAssignment(opts);
             case tokenUtils.ASSIGNMENT_MATH_EXPRESSION:
                 return this.compileMathExpressionAssignment(opts);
-            default:
-                return this.compileDataAssignment(opts);
         }
+        return this.compileDataAssignment(opts);
     }
 };

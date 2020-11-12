@@ -10,64 +10,103 @@ const Record       = require('../types/Record').Record;
 const Var          = require('../types/Var');
 
 exports.CompileRecord = class extends CompileScope {
+    constructor(opts) {
+        super(opts);
+        this._linter     = null;
+        this._token      = null;
+        this._expectType = true;
+        this._end        = false;
+    }
+
+    getDataType() {
+        return new Record(null, this.getNamespacedRecordName(this._token.lexeme), false, this._compiler.getNamespace()).setToken(this._token);
+    }
+
+    addDataTypeToScope(dataType) {
+        this._scope.addRecord(dataType);
+    }
+
+    addLinterItem(token) {
+        this._linter && this._linter.addRecord(this._token);
+    }
+
+    checkDataTypeUnion(dataType) {
+        if (!dataType.checkUnion()) {
+            throw errors.createError(err.UNION_SIZE_MISMATCH, this._token, 'Union size mismatch.');
+        }
+    }
+
+    compileKeyword(dataType) {
+        if (this._token.is(t.LEXEME_UNION)) {
+            if (!dataType.union()) {
+                throw errors.createError(err.UNION_SIZE_MISMATCH, this._token, 'Union size mismatch.');
+            }
+        } else if (this._token.is(t.LEXEME_PROC)) {
+            this._expectType = false;
+            return this._token.lexeme;
+        } else if (this._token.is(t.LEXEME_END)) {
+            this._end = true;
+        }
+        return null;
+    }
+
+    compileExtends(iterator, dataType) {
+    }
+
     compile(iterator) {
-        let compiler   = this._compiler;
-        let linter     = compiler.getLinter();
-        let type       = null;
-        let end        = false;
-        let token      = iterator.skipWhiteSpace().next();
-        let record     = new Record(null, this.getNamespacedRecordName(token.lexeme), false, compiler.getNamespace()).setToken(token);
-        let expectType = true;
-        let pointer    = false;
-        linter && linter.addRecord(token);
-        this._scope.addRecord(record);
-        while (!end) {
-            token = iterator.skipWhiteSpace().next();
-            switch (token.cls) {
+        this._expectType = true;
+        this._end        = false;
+        this._linter     = this._compiler.getLinter();
+        this._token      = iterator.skipWhiteSpace().next();
+        this.addLinterItem(this._token);
+        let type        = null;
+        let typePointer = false;
+        let pointer     = false;
+        let dataType    = this.getDataType();
+        this.addDataTypeToScope(dataType);
+        this.compileExtends(iterator, dataType);
+        while (!this._end) {
+            this._token = iterator.skipWhiteSpace().next();
+            switch (this._token.cls) {
                 case t.TOKEN_TYPE:
-                    type       = token.lexeme;
-                    expectType = false;
+                    type = this._token.lexeme;
+                    this._expectType = false;
                     break;
                 case t.TOKEN_KEYWORD:
-                    if (token.is(t.LEXEME_UNION)) {
-                        if (!record.union()) {
-                            throw errors.createError(err.UNION_SIZE_MISMATCH, token, 'Union size mismatch.');
-                        }
-                    } else if (token.is(t.LEXEME_PROC)) {
-                        type       = token.lexeme;
-                        expectType = false;
-                    } else if (token.is(t.LEXEME_END)) {
-                        end = true;
-                    }
+                    type = this.compileKeyword(dataType) || type;
                     break;
                 case t.TOKEN_POINTER:
-                    pointer = true;
+                    if (this._expectType) {
+                        typePointer = true;
+                    } else {
+                        pointer = true;
+                    }
                     break;
                 case t.TOKEN_IDENTIFIER:
-                    if (expectType) {
-                        type       = this._scope.findIdentifier(token.lexeme);
-                        expectType = false;
+                    if (this._expectType) {
+                        type = this._scope.findIdentifier(this._token.lexeme);
+                        this._expectType = false;
                         if (type === null) {
-                            throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
+                            throw errors.createError(err.UNDEFINED_IDENTIFIER, this._token, 'Undefined identifier "' + this._token.lexeme + '".');
                         }
                     } else {
                         let arraySize = [];
-                        let nameToken = token;
+                        let nameToken = this._token;
                         let name      = nameToken.lexeme;
                         let p         = iterator.skipWhiteSpace().peek();
                         if (p && (p.cls === t.TOKEN_BRACKET_OPEN)) {
                             iterator.skipWhiteSpace().next();
                             let done = false;
                             while (!done) {
-                                token = iterator.next();
-                                if (token.cls === t.TOKEN_NUMBER) {
-                                    if (token.value === 0) {
-                                        throw errors.createError(err.INVALID_ARRAY_SIZE, token, 'Invalid array size.');
+                                this._token = iterator.next();
+                                if (this._token.cls === t.TOKEN_NUMBER) {
+                                    if (this._token.value === 0) {
+                                        throw errors.createError(err.INVALID_ARRAY_SIZE, this._token, 'Invalid array size.');
                                     }
-                                    arraySize.push(token.value);
-                                    token = iterator.skipWhiteSpace().next();
-                                    if (token.cls !== t.TOKEN_BRACKET_CLOSE) {
-                                        throw errors.createError(err.SYNTAX_ERROR_BRACKET_CLOSE_EXPECTED, token, '"]" Expected.');
+                                    arraySize.push(this._token.value);
+                                    this._token = iterator.skipWhiteSpace().next();
+                                    if (this._token.cls !== t.TOKEN_BRACKET_CLOSE) {
+                                        throw errors.createError(err.SYNTAX_ERROR_BRACKET_CLOSE_EXPECTED, this._token, '"]" Expected.');
                                     }
                                     p = iterator.skipWhiteSpace().peek();
                                     if (p && (p.cls === t.TOKEN_BRACKET_OPEN)) {
@@ -76,28 +115,35 @@ exports.CompileRecord = class extends CompileScope {
                                         done = true;
                                     }
                                 } else {
-                                    throw errors.createError(err.SYNTAX_ERROR_NUMBER_CONSTANT_EXPECTED, token, 'Number constant expected.');
+                                    throw errors.createError(err.SYNTAX_ERROR_NUMBER_CONSTANT_EXPECTED, this._token, 'Number constant expected.');
                                 }
                             }
                         }
-                        linter && linter.addField(nameToken);
-                        record.addVar(token, name, type, Var.getArraySize(arraySize), pointer);
-                        expectType = true;
+                        this._linter && this._linter.addField(nameToken);
+                        dataType.addVar({
+                            token:       this._token,
+                            name:        name,
+                            type:        type,
+                            typePointer: typePointer,
+                            arraySize:   Var.getArraySize(arraySize),
+                            pointer:     pointer
+                        });
+                        this._expectType = true;
+                        pointer          = false;
+                        typePointer      = false;
                     }
                     let p = iterator.skipWhiteSpace().peek();
                     if (p.cls === t.TOKEN_COMMA) {
                         iterator.next();
-                        expectType = false;
+                        this._expectType = false;
                     }
-                    pointer = false;
                     break;
                 default:
-                    throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
+                    throw errors.createError(err.SYNTAX_ERROR, this._token, 'Syntax error.');
             }
         }
-        if (!record.checkUnion()) {
-            throw errors.createError(err.UNION_SIZE_MISMATCH, token, 'Union size mismatch.');
-        }
+        this.checkDataTypeUnion(dataType);
+        return dataType;
     }
 
     getNamespacedRecordName(name) {

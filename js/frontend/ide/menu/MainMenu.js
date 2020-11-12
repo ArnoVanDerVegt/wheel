@@ -391,7 +391,8 @@ exports.MainMenu = class extends MainMenu {
             title: '^Tools',
             width: '192px',
             items: [
-                {title: 'Gear ratio calculator',                                  dispatch: 'Dialog.GearRatioCalculator.Show'}
+                {title: 'Gear ratio calculator',                                  dispatch: 'Dialog.GearRatioCalculator.Show'},
+                {title: 'Wheel to SVG',                                           dispatch: 'Dialog.WheelToSVG.Show'}
             ]
         });
         return this;

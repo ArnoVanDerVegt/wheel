@@ -30,6 +30,7 @@ exports.Scope = class {
         this._stringsAddedCount = 0;
         this._tempVarIndex      = 0;
         this._withStack         = [];
+        this._codeOffset        = 0;
     }
 
     addRecord(record) {
@@ -59,7 +60,7 @@ exports.Scope = class {
         let checkRecord = (record) => {
                 let vars = record.getVars();
                 vars.forEach((vr) => {
-                    let type      = vr.getType();
+                    let type      = vr.getType().type;
                     let arraySize = vr.getArraySize();
                     arraySize = (arraySize === false) ? 1 : arraySize;
                     if (type === tokenizer.LEXEME_STRING) {
@@ -82,26 +83,30 @@ exports.Scope = class {
         checkRecord(type);
     }
 
-    addVar(token, name, type, arraySize, pointer, ignoreString) {
+    addVar(opts) {
         if (this._varsLocked) {
-            return this._varsByName[name];
+            return this._varsByName[opts.name];
         }
-        let vr = new Var({
-                    token:     token,
-                    name:      name,
-                    type:      type,
-                    arraySize: arraySize,
-                    pointer:   pointer,
-                    global:    this._global,
-                    offset:    this._size
+        let typePointer = ('typePointer' in opts) ? opts.typePointer : false;
+        let arraySize   = ('arraySize'   in opts) ? opts.arraySize   : false;
+        let pointer     = ('pointer'     in opts) ? opts.pointer     : false;
+        let vr          = new Var({
+                    token:       opts.token,
+                    name:        opts.name,
+                    type:        opts.type,
+                    typePointer: typePointer,
+                    arraySize:   arraySize,
+                    pointer:     pointer,
+                    global:      this._global,
+                    offset:      this._size
                 });
-        this._varsByName[name] = vr;
+        this._varsByName[opts.name] = vr;
         this._vars.push(vr);
         const Record = require('./Record').Record;
         // - ignoreString:
         // A parameter string does not need to allocate a new string, it's always a reference to an existing string!
-        if (!ignoreString && !(this instanceof Record)) {
-            this.addVarString(type, arraySize, pointer);
+        if (!opts.ignoreString && !(this instanceof Record)) {
+            this.addVarString(opts.type, arraySize, pointer);
         }
         let size = vr.getTotalSize();
         this._size        += size;
@@ -125,9 +130,18 @@ exports.Scope = class {
     findWithField(name) {
         let withStack = this._withStack;
         for (let i = withStack.length - 1; i >= 0; i--) {
-            let varsByName = withStack[i].getVarsByName();
-            if (name in varsByName) {
-                return varsByName[name];
+            let superScope = withStack[i];
+            let superFound = null;
+            let varsByName;
+            while (superScope) {
+                varsByName = superScope.getVarsByName();
+                if (name in varsByName) {
+                    superFound = varsByName[name];
+                }
+                superScope = superScope.getParentScope();
+            }
+            if (superFound) {
+                return superFound;
             }
         }
         return null;
@@ -200,6 +214,10 @@ exports.Scope = class {
             return proc;
         }
         return this._parentScope ? this._parentScope.findProc(name) : null;
+    }
+
+    getNamespace() {
+        return this._namespace;
     }
 
     getToken() {
@@ -300,8 +318,17 @@ exports.Scope = class {
         return this._parentScope;
     }
 
-    getParamCount(paramCount) {
+    getParamCount() {
         return this._paramCount;
+    }
+
+    /**
+     * Return the total parameter count including:
+     *     !____CODE_RETURN____'
+     *     !____STACK_RETURN____'
+    **/
+    getTotalParamCount() {
+        return this._paramCount + 2;
     }
 
     setParamCount(paramCount) {
@@ -320,6 +347,15 @@ exports.Scope = class {
         return this._tempVarIndex++;
     }
 
+    getCodeOffset() {
+        return this._codeOffset;
+    }
+
+    setCodeOffset(codeOffset) {
+        this._codeOffset = codeOffset;
+        return this;
+    }
+
     pushWith(record) {
         let result = this._stackOffset;
         this._withStack.push(record.getWithRecord(this._stackOffset));
@@ -328,6 +364,7 @@ exports.Scope = class {
     }
 
     popWith() {
+        this._stackOffset--;
         this._withStack.pop();
     }
 };

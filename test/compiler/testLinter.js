@@ -173,6 +173,54 @@ describe(
             }
         );
         it(
+            'Should lint object',
+            () => {
+                let linter = new Linter.Linter();
+                let source = [
+                        'object obj',
+                        'end',
+                        'proc main()',
+                        'end'
+                    ];
+                compileWithLinter(
+                    source,
+                    linter,
+                    () => {
+                        let messages = linter.getMessages();
+                        assert.equal(messages.length, 1);
+                        let message = messages[0];
+                        assert.equal(message.type,             Linter.OBJECT);
+                        assert.equal(message.token.origLexeme, 'obj');
+                    }
+                );
+            }
+        );
+        it(
+            'Should lint method',
+            () => {
+                let linter = new Linter.Linter();
+                let source = [
+                        'object Obj',
+                        'end',
+                        'proc Obj.Test()',
+                        'end',
+                        'proc main()',
+                        'end'
+                    ];
+                compileWithLinter(
+                    source,
+                    linter,
+                    () => {
+                        let messages = linter.getMessages();
+                        assert.equal(messages.length, 1);
+                        let message = messages[0];
+                        assert.equal(message.type,             Linter.PROC);
+                        assert.equal(message.token.origLexeme, 'Test');
+                    }
+                );
+            }
+        );
+        it(
             'Should lint param',
             () => {
                 let linter = new Linter.Linter();

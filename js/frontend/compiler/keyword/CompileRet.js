@@ -29,7 +29,9 @@ exports.CompileRet = class extends CompileScope {
                     this._varExpression.compileExpressionToRegister(
                         scope.findIdentifier(retExpression.tokens[0].lexeme),
                         {tokens: mathExpressionNode.getValue()},
-                        $.REG_PTR
+                        $.REG_PTR,
+                        false,
+                        false
                     );
                     program.addCommand($.CMD_RET, $.T_NUM_P, 0, 0, 0);
                 }

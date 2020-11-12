@@ -89,8 +89,22 @@ exports.blockScopeTokens = function() {
         ];
     tokens[t.TOKEN_KEYWORD][t.LEXEME_DEFAULT] = follow07;
 
-    // "]" | ")" -> "+" | "-" | "*" | "/" | "[" | "]" | ")" | "+=" | "-=" | "*=" | "/=" | "," | "." | "\n"
+    // "]" -> "+" | "-" | "*" | "/" | "[" | "]" |  ")" | "(" | "+=" | "-=" | "*=" | "/=" | "," | "." | "\n"
     let follow08 = [
+            {token: t.TOKEN_NUMERIC_OPERATOR},
+            {token: t.TOKEN_PARENTHESIS_CLOSE},
+            {token: t.TOKEN_BRACKET_OPEN},
+            {token: t.TOKEN_BRACKET_CLOSE},
+            {token: t.TOKEN_PARENTHESIS_OPEN},
+            {token: t.TOKEN_ASSIGNMENT_OPERATOR},
+            {token: t.TOKEN_COMMA},
+            {token: t.TOKEN_DOT},
+            {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
+        ];
+    tokens[t.TOKEN_BRACKET_CLOSE][t.LEXEME_BRACKET_CLOSE] = follow08;
+
+    // )" -> "+" | "-" | "*" | "/" | "[" | "]" |  ")" | "+=" | "-=" | "*=" | "/=" | "," | "." | "\n"
+    let follow09 = [
             {token: t.TOKEN_NUMERIC_OPERATOR},
             {token: t.TOKEN_PARENTHESIS_CLOSE},
             {token: t.TOKEN_BRACKET_OPEN},
@@ -100,11 +114,10 @@ exports.blockScopeTokens = function() {
             {token: t.TOKEN_DOT},
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
-    tokens[t.TOKEN_PARENTHESIS_CLOSE][t.LEXEME_PARENTHESIS_CLOSE] = follow08;
-    tokens[t.TOKEN_BRACKET_CLOSE    ][t.LEXEME_BRACKET_CLOSE    ] = follow08;
+    tokens[t.TOKEN_PARENTHESIS_CLOSE][t.LEXEME_PARENTHESIS_CLOSE] = follow09;
 
     // "(" -> IDENTIFIER | NUMBER | STRING | "number" | "string" | "(" | ")" | "[" | "@"
-    let follow09 = [
+    let follow10 = [
             {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_NUMBER},
             {token: t.TOKEN_STRING},
@@ -114,10 +127,10 @@ exports.blockScopeTokens = function() {
             {token: t.TOKEN_BRACKET_OPEN},
             {token: t.TOKEN_ADDRESS}
         ];
-    tokens[t.TOKEN_PARENTHESIS_OPEN][t.LEXEME_PARENTHESIS_OPEN ] = follow09;
+    tokens[t.TOKEN_PARENTHESIS_OPEN][t.LEXEME_PARENTHESIS_OPEN] = follow10;
 
     // "," -> IDENTIFIER | NUMBER | STRING | "number" | "string" | "(" | "[" | "@" | "^"
-    let follow10 = [
+    let follow11 = [
             {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_NUMBER},
             {token: t.TOKEN_STRING},
@@ -127,57 +140,57 @@ exports.blockScopeTokens = function() {
             {token: t.TOKEN_ADDRESS},
             {token: t.TOKEN_POINTER}
         ];
-    tokens[t.TOKEN_COMMA][t.LEXEME_COMMA] = follow10;
+    tokens[t.TOKEN_COMMA][t.LEXEME_COMMA] = follow11;
 
     // META ->  NUMBER | STRING | "\n"
-    let follow11 = [
+    let follow12 = [
             {token: t.TOKEN_NUMBER},
             {token: t.TOKEN_STRING},
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
-    tokens[t.TOKEN_META] = follow11;
+    tokens[t.TOKEN_META] = follow12;
 
     // "repeat" | "break" -> IDENTIFIER | "\n"
-    let follow12 = [
+    let follow13 = [
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]},
             {token: t.TOKEN_IDENTIFIER}
         ];
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_REPEAT] = follow12;
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_BREAK ] = follow12;
-
-    // "if" | "elseif" | "while" | "select" -> IDENTIFIER | "("
-    let follow13 = [
-            {token: t.TOKEN_IDENTIFIER},
-            {token: t.TOKEN_PARENTHESIS_OPEN},
-            {token: t.TOKEN_KEYWORD, lexeme: t.LEXEME_NOT}
-        ];
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_IF    ] = follow13;
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_ELSEIF] = follow13;
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_WHILE ] = follow13;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_REPEAT] = follow13;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_BREAK ] = follow13;
 
     // "if" | "elseif" | "while" | "select" -> IDENTIFIER | "("
     let follow14 = [
             {token: t.TOKEN_IDENTIFIER},
+            {token: t.TOKEN_PARENTHESIS_OPEN},
+            {token: t.TOKEN_KEYWORD, lexeme: t.LEXEME_NOT}
+        ];
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_IF    ] = follow14;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_ELSEIF] = follow14;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_WHILE ] = follow14;
+
+    // "if" | "elseif" | "while" | "select" -> IDENTIFIER | "("
+    let follow15 = [
+            {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_PARENTHESIS_OPEN}
         ];
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_SELECT] = follow14;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_SELECT] = follow15;
 
     // "else" -> "\n"
-    let follow15 = [
+    let follow16 = [
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_ELSE] = follow15;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_ELSE] = follow16;
 
     // "ret" -> NUMBER | IDENTIFIER | "\n"
-    let follow16 = [
+    let follow17 = [
             {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_NUMBER},
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
-    tokens[t.TOKEN_KEYWORD][t.LEXEME_RET] = follow16;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_RET] = follow17;
 
     // NUMBER -> "+" | "-" | "*" | "/" | ")" | "]" | "," | ":" | "\n"
-    let follow17 = [
+    let follow18 = [
             {token: t.TOKEN_NUMERIC_OPERATOR},
             {token: t.TOKEN_PARENTHESIS_CLOSE},
             {token: t.TOKEN_BRACKET_CLOSE},
@@ -185,10 +198,10 @@ exports.blockScopeTokens = function() {
             {token: t.TOKEN_COLON},
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
-    tokens[t.TOKEN_NUMBER] = follow17;
+    tokens[t.TOKEN_NUMBER] = follow18;
 
     // STRING -> IDENTIFIER | STRING | "," | ")" | "]" | "\n"
-    let follow18 = [
+    let follow19 = [
             {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_STRING},
             {token: t.TOKEN_COMMA},
@@ -196,11 +209,11 @@ exports.blockScopeTokens = function() {
             {token: t.TOKEN_BRACKET_CLOSE},
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
-    tokens[t.TOKEN_STRING] = follow18;
+    tokens[t.TOKEN_STRING] = follow19;
 
     // IDENTIFIER -> IDENTIFIER | "+" | "-" | "*" | "/" | "+=" | "-=" | "*=" | "/=" |
     // IDENTIFIER -> "(" | ")" | "[" | "]" | "," | "." | "^" | "\n"
-    let follow19 = [
+    let follow20 = [
             {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_NUMERIC_OPERATOR},
             {token: t.TOKEN_ASSIGNMENT_OPERATOR},
@@ -213,7 +226,7 @@ exports.blockScopeTokens = function() {
             {token: t.TOKEN_POINTER},
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
-    tokens[t.TOKEN_IDENTIFIER] = follow19;
+    tokens[t.TOKEN_IDENTIFIER] = follow20;
 
     return utils.updateTokens(tokens);
 };

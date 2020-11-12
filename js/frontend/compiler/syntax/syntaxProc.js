@@ -81,12 +81,13 @@ exports.procScopeTokens = function() {
     tokens[t.TOKEN_KEYWORD][t.LEXEME_REPEAT] = follow06;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_BREAK ] = follow06;
 
-    // "proc" | "record" | "addr" | "with" | "for" | "." | "^" | "@" -> IDENTIFIER
+    // "proc" | "record" | "object" | "addr" | "with" | "for" | "." | "^" | "@" -> IDENTIFIER
     let follow07 = [
             {token: t.TOKEN_IDENTIFIER}
         ];
     tokens[t.TOKEN_KEYWORD][t.LEXEME_PROC   ] = follow07;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_RECORD ] = follow07;
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_OBJECT ] = follow07;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_ADDR   ] = follow07;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_WITH   ] = follow07;
     tokens[t.TOKEN_KEYWORD][t.LEXEME_FOR    ] = follow07;
@@ -250,6 +251,12 @@ exports.procScopeTokens = function() {
             {token: t.TOKEN_WHITE_SPACE, lexeme: [t.LEXEME_NEWLINE]}
         ];
     tokens[t.TOKEN_IDENTIFIER] = follow21;
+
+    // "super" -> "("
+    let follow22 = [
+            {token: t.TOKEN_PARENTHESIS_OPEN}
+        ];
+    tokens[t.TOKEN_KEYWORD][t.LEXEME_SUPER] = follow22;
 
     return utils.updateTokens(tokens);
 };

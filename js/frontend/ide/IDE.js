@@ -257,6 +257,10 @@ exports.IDE = class extends IDEDOM {
         return this._componentFormContainer;
     }
 
+    getActiveEditor() {
+        return this._editor.getActiveEditor();
+    }
+
     getEditor(path, filename) {
         let editor = this._editor;
         return editor.findEditor(path, filename) || editor.findEditor((path === '') ? null : path, filename);
