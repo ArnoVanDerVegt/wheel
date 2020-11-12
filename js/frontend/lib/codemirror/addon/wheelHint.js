@@ -76,13 +76,16 @@ const wheelLexemes = [
         'or',
         'proc',
         'record',
+        'object',
         'repeat',
         'ret',
         'select',
         'step',
         'string',
         'to',
-        'while'
+        'while',
+        'with',
+        'as'
     ];
 
 function wheelHint(editor, options) {
@@ -106,7 +109,7 @@ class Completions {
 
     getVarString(vr) {
         let vrString = '';
-        let type     = vr.getType();
+        let type     = vr.getType().type;
         if (typeof type === 'string') {
             vrString = this.getSpan(type, 'type');
         } else {

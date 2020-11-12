@@ -1,0 +1,168 @@
+@subject Programming:Objects
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Objects
+@keyword object,extend,cast,super
+With objects you can group data and procedures together.
+
+
+The declaration of an object is the same as the declaration of a record but objects have some extra features.
+You can add methods to an object and objects can be extended.
+
+
+In the following example an object named `Animal` is declared and the methods `setPosition` and `logPosition` are added:
+@example
+#include "lib/standard.whl"
+
+object Animal
+    number x, y
+end
+
+proc Animal.setPosition(number xx, number yy)
+    x = xx
+    y = yy
+end
+
+proc Animal.logPosition()
+    printN(x)
+    printN(y)
+end
+
+proc main()
+    Animal animal
+    animal.setPosition(146, 381)
+    animal.logPosition()
+end
+@end
+
+@section Extending objects
+By extending an object you create a new object which `inherits` the fields and methods from another object.
+In the next example a new object named `Bird` is declared which extends the `Animal` object:
+@example
+#include "lib/standard.whl"
+
+object Animal
+    number x, y
+end
+
+proc Animal.setPosition(number xx, number yy)
+    x = xx
+    y = yy
+end
+
+proc Animal.logPosition()
+    printN(x)
+    printN(y)
+end
+
+object Bird extends Animal
+end
+
+proc main()
+    Bird bird
+    bird.setPosition(146, 381)
+    bird.logPosition()
+end
+@end
+The `Bird` object inherits the fields `x` and `y` and the methods `setPosition` and `logPosition` from the `Animal` object.
+
+
+The `Bird` object is a `sub` object from `Animal` and the `Animal` object is called as `super` object from `Bird`.
+
+
+@section Super
+At this point the `Bird` object still behaves the same way the `Animal` object does but we can modify its behaviour:
+@example
+#include "lib/standard.whl"
+
+object Animal
+    number x, y
+end
+
+proc Animal.setPosition(number xx, number yy)
+    x = xx
+    y = yy
+end
+
+proc Animal.logPosition()
+    printN(x)
+    printN(y)
+end
+
+object Bird extends Animal
+end
+
+proc Bird.logPosition()
+    printS("The bird is flew to:")
+    super()
+end
+
+proc main()
+    Bird bird
+    bird.setPosition(146, 381)
+    bird.logPosition()
+end
+@end
+When the `logPosition` method is called the text `"The bird is located at:"` is printed in the console.
+With the `super` call the declaration of `logPosition` in the parent object is called.
+
+@section Polymorphism
+By declaring different objects with the same `super` object you can treat the objects the same way but
+they behave differently. In the next example two objects are created based on the `Animal` object.
+Each of the objects has a different implementation of the `logPosition` procedure.
+
+
+An array of pointers to the `Animal` object is created and the values point to the `bird` and `fish` objects.
+When the `logPosition` is called then the behaviour changes bases on the type of object but all calls are made in the same way.
+This is called `polymorphism`.
+
+@example
+#include "lib/standard.whl"
+
+object Animal
+    number x, y
+end
+
+proc Animal.setPosition(number xx, number yy)
+    x = xx
+    y = yy
+end
+
+proc Animal.logPosition()
+    printN(x)
+    printN(y)
+end
+
+object Bird extends Animal
+end
+
+proc Bird.logPosition()
+    printS("The bird is flew to:")
+    super()
+end
+
+object Fish extends Animal
+end
+
+proc Fish.logPosition()
+    printS("The fish swam to:")
+    super()
+end
+
+proc main()
+    Bird bird
+    Fish fish
+    bird.setPosition(146, 381)
+    fish.setPosition(586, 95)
+
+    ^Animal animals[2]
+    animals[0] = @bird
+    animals[1] = @fish
+
+    number i
+
+    for i = 0 to 1
+        animals[i].logPosition()
+    end
+end
+@end

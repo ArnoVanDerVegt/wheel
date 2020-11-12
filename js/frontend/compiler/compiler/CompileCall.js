@@ -8,13 +8,16 @@ const err            = require('../errors').errors;
 const t              = require('../tokenizer/tokenizer');
 const MathExpression = require('../expression/MathExpression').MathExpression;
 const Record         = require('../types/Record').Record;
+const Var            = require('../types/Var').Var;
+const Proc           = require('../types/Proc').Proc;
 const CompileScope   = require('./CompileScope').CompileScope;
 const compileData    = require('./CompileData').compileData;
 
 exports.CompileCall = class CompileCall extends CompileScope {
     constructor(opts) {
         super(opts);
-        this._parameterIndex = 0;
+        this._parameterIndex  = 0;
+        this._parameterOffset = 2;
     }
 
     copyParameter(scope, size) {
@@ -33,11 +36,51 @@ exports.CompileCall = class CompileCall extends CompileScope {
     }
 
     getParameterVr(procVars) {
-        return procVars ? procVars[2 + this._parameterIndex] : null;
+        return procVars ? procVars[this._parameterIndex] : null;
     }
 
     getParameterOffset(scope) {
-        return scope.getStackOffset() + 2;
+        return scope.getStackOffset() + this._parameterOffset;
+    }
+
+    /**
+     * Try to find an instance of the Proc type.
+     * We need to know if the proc is a method.
+    **/
+    getProc(procExpression, proc, procIdentifier) {
+        if (procExpression === t.LEXEME_SUPER) {
+            if (!this._scope.getSuper()) {
+                throw errors.createError(err.NO_SUPER_PROC_FOUND, token, 'No super proc found.');
+            }
+            return this._scope.getSuper();
+        }
+        if (proc instanceof Proc) {
+            return proc;
+        }
+        if ((procIdentifier instanceof Var) && procIdentifier.getAssignedProc()) {
+            return procIdentifier.getAssignedProc();
+        }
+        let program  = this._program;
+        let codeUsed = program.getCodeUsed();
+        program.setCodeUsed(false);
+        this._varExpression.compileExpressionToRegister(procIdentifier, procExpression, $.REG_PTR, false, true);
+        program.setCodeUsed(codeUsed);
+        return this._varExpression.getLastProcField();
+    }
+
+    /**
+     * Get the parameter vars from a proc.
+     * If the proc is of an unknown type the parse the expression to find the type.
+    **/
+    getProcVars(procExpression, proc) {
+        if (procExpression === t.LEXEME_SUPER) {
+            return this._scope.getSuper().getVars();
+        }
+        if (proc instanceof Proc) {
+            this._compiler.getUseInfo().setUseProc(proc.getName(), proc); // Set the proc as used...
+            return proc.getVars();
+        }
+        return null;
     }
 
     compilePrimitiveParameter(token, address, vr, type, vrOrType) {
@@ -49,7 +92,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
             return false;
         }
         // The type of parameter is known...
-        if (vr.getType() !== type) {
+        if (vr.getType().type !== type) {
             throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
         }
         let size = false;
@@ -103,9 +146,9 @@ exports.CompileCall = class CompileCall extends CompileScope {
         }
         // Set the stack offset above the highest parameter for temp variables...
         let stackOffset = scope.getStackOffset();
-        scope.addStackOffset(2);
-        let vr                 = this.getParameterVr(procVars);
+        scope.addStackOffset(this._parameterOffset);
         let vrOrType;
+        let vr                 = this.getParameterVr(procVars);
         let mathExpressionNode = new MathExpression({
                 varExpression: this._varExpression,
                 compiler:      this._compiler,
@@ -117,16 +160,18 @@ exports.CompileCall = class CompileCall extends CompileScope {
             vrOrType = varExpression.compileExpressionToRegister(
                 scope.findIdentifier(tokens[0].lexeme),
                 {tokens: mathExpressionNode.getValue()},
-                $.REG_PTR
+                $.REG_PTR,
+                false,
+                false
             ).type;
             // If the parameter is a pointer then check if an address or pointer value is given...
             if (vr && vr.getPointer() && !(address || vrOrType.getPointer())) {
                 throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
             }
             // "number" or "string" types don't have a getName function!
-            if (vr && vr.getType && vr.getType().getName &&
-                    vrOrType.getType && vrOrType.getType().getName &&
-                    (vrOrType.getType().getName() !== vr.getType().getName())) {
+            if (vr && vr.getType && vr.getType().type.getName &&
+                    vrOrType.getType && vrOrType.getType().type.getName &&
+                    (vrOrType.getType().type.getName() !== vr.getType().type.getName())) {
                 throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
             }
             // If it's a pointer in a field used in a "with" statement then dereference the pointer...
@@ -143,29 +188,27 @@ exports.CompileCall = class CompileCall extends CompileScope {
             this.addParameter(scope, 1);
             return result;
         }
-        let size = false;
-        let type = varExpression.getTypeFromIdentifier(vrOrType);
+        let pointer = false;
+        let size    = false;
+        let type    = varExpression.getTypeFromIdentifier(vrOrType);
         if ([t.LEXEME_NUMBER, t.LEXEME_PROC, t.LEXEME_STRING].indexOf(type) !== -1) {
             size = this.compilePrimitiveParameter(token, address, vr, type, vrOrType);
         } else {
-            let pointer = false;
             if (vr) {
                 // The type of parameter is known...
                 if (varExpression.getTypeFromIdentifier(vr) !== varExpression.getTypeFromIdentifier(vrOrType)) {
                     throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
                 }
                 pointer = vr.getPointer();
-                if (address || pointer) {
-                    program.addCommand($.CMD_SET, $.T_NUM_L, this.getParameterOffset(scope), $.T_NUM_G, $.REG_PTR);
-                }
             }
             if (!address && !pointer) {
                 size = vrOrType.getTotalSize ? vrOrType.getTotalSize() : vrOrType.getSize();
             }
         }
-        if (address) {
+        if (address || pointer) {
             program.addCommand($.CMD_SET, $.T_NUM_L, this.getParameterOffset(scope), $.T_NUM_G, $.REG_PTR);
-        } else if (size !== false) {
+        }
+        if (!address && (size !== false)) {
             this.copyParameter(scope, size);
         }
         if (vr) {
@@ -186,7 +229,13 @@ exports.CompileCall = class CompileCall extends CompileScope {
         compileData.readArrayToData(iterator, vr, data);
         let program = this._program;
         let scope   = this._scope;
-        let dataVar = scope.getParentScope().addVar(null, '!_' + iterator.current().index, t.LEXEME_NUMBER, data.length);
+        let dataVar = scope.getParentScope().addVar({
+                token:       null,
+                name:        '!_' + iterator.current().index,
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   data.length
+            });
         program
             .addConstant({offset: dataVar.getOffset(), data: data})
             .addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, dataVar.getOffset());
@@ -201,13 +250,19 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let done = false;
         let data = [];
         let vr   = this.getParameterVr(procVars);
-        if (vr && !(vr.getType() instanceof Record)) {
+        if (vr && !(vr.getType().type instanceof Record)) {
             throw errors.createError(err.TYPE_MISMATCH, token, 'Type mismatch.');
         }
-        compileData.readRecordToData(iterator, vr.getType(), data);
+        compileData.readRecordToData(iterator, vr.getType().type, data);
         let program = this._program;
         let scope   = this._scope;
-        let dataVar = scope.getParentScope().addVar(null, '!_' + iterator.current().index, t.LEXEME_NUMBER, data.length);
+        let dataVar = scope.getParentScope().addVar({
+                token:       null,
+                name:        '!_' + iterator.current().index,
+                type:        t.LEXEME_NUMBER,
+                typePointer: false,
+                arraySize:   data.length
+            });
         program
             .addConstant({offset: dataVar.getOffset(), data: data})
             .addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, dataVar.getOffset());
@@ -219,23 +274,18 @@ exports.CompileCall = class CompileCall extends CompileScope {
     }
 
     compile(iterator, procExpression, proc, procIdentifier) {
-        let procVars          = null;
-        let token             = iterator.next();
-        let done              = false;
-        let scope             = this._scope;
-        let returnStackOffset = scope.getStackOffset();
-        if (proc === t.LEXEME_PROC) {
-            if (procIdentifier.getAssignedProc()) {
-                let assignedProc = procIdentifier.getAssignedProc();
-                procVars = assignedProc.getVars();
-                this._compiler.getUseInfo().setUseProc(assignedProc.getName(), assignedProc); // Set the proc as used...
-            }
-        } else {
-            procVars = proc.getVars();
-            this._compiler.getUseInfo().setUseProc(proc.getName(), proc); // Set the proc as used...
-        }
-        scope.addStackOffset(scope.getSize() + 2);
-        this._parameterIndex = 0;
+        let token                  = iterator.next();
+        let program                = this._program;
+        let scope                  = this._scope;
+        let callProc               = this.getProc(procExpression, proc, procIdentifier);
+        let callProcVars           = this.getProcVars(procExpression, callProc);
+        let callMethod             = callProc && callProc.getMethod();
+        let callStackSize          = callMethod ? 3 : 2;
+        let returnStackOffset      = scope.getStackOffset();
+        let selfPointerStackOffset = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
+        let done                   = false;
+        this._parameterIndex  = callStackSize;
+        this._parameterOffset = callStackSize;
         while (!done && token) {
             token = iterator.skipWhiteSpace().peek();
             switch (token.cls) {
@@ -245,32 +295,41 @@ exports.CompileCall = class CompileCall extends CompileScope {
                     break;
                 case t.TOKEN_BRACKET_OPEN:
                     token = iterator.next();
-                    done  = this.compileConstantArrayParameter(iterator, token, proc, procVars);
+                    done  = this.compileConstantArrayParameter(iterator, token, proc, callProcVars);
                     break;
                 case t.TOKEN_CURLY_OPEN:
                     token = iterator.next();
-                    done  = this.compileConstantRecordParameter(iterator, token, proc, procVars);
+                    done  = this.compileConstantRecordParameter(iterator, token, proc, callProcVars);
                     break;
                 case t.TOKEN_PARENTHESIS_OPEN:
                 case t.TOKEN_ADDRESS:
                 case t.TOKEN_NUMBER:
                 case t.TOKEN_STRING:
                 case t.TOKEN_IDENTIFIER:
-                    done = this.compileParameter(iterator, proc, procVars);
+                    done = this.compileParameter(iterator, proc, callProcVars);
                     break;
                 default:
                     throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
             }
         }
-        if ((proc !== t.LEXEME_PROC) && (proc.getParamCount() !== this._parameterIndex)) {
+        if (callProc && (callProc.getTotalParamCount() !== this._parameterIndex)) {
             throw errors.createError(err.PARAM_COUNT_MISMATCH, token, 'Parameter count mismatch.');
         }
-        let program = this._program;
-        if (proc === t.LEXEME_PROC) {
-            let identifier    = scope.findIdentifier(procExpression.tokens[0].lexeme);
-            let varExpression = this._varExpression;
-            let vrOrType      = varExpression.compileExpressionToRegister(identifier, procExpression, $.REG_PTR).type;
-            program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getSize() + 2);
+        if (procExpression === t.LEXEME_SUPER) {
+            program.addCommand(
+                $.CMD_SET,  $.T_NUM_G, $.REG_PTR,                               $.T_NUM_L, 0,
+                $.CMD_SET,  $.T_NUM_L, returnStackOffset + scope.getSize() + 3, $.T_NUM_G, $.REG_PTR,
+                $.CMD_CALL, $.T_NUM_C, scope.getSuper().getCodeOffset() - 1,    $.T_NUM_C, returnStackOffset + scope.getSize() + 3
+            );
+        } else if (proc === t.LEXEME_PROC) {
+            let vrOrType = this._varExpression.compileExpressionToRegister(
+                    procIdentifier,
+                    procExpression,
+                    $.REG_PTR,
+                    false,
+                    selfPointerStackOffset
+                ).type;
+            program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getSize() + callStackSize);
         } else {
             program.addCommand($.CMD_CALL, $.T_NUM_C, proc.getEntryPoint() - 1, $.T_NUM_C, returnStackOffset + scope.getSize() + 2);
         }

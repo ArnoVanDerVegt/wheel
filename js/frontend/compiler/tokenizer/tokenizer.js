@@ -22,10 +22,14 @@
     const LEXEME_DOWNTO             = 'downto';
     const LEXEME_STEP               = 'step';
     const LEXEME_RECORD             = 'record';
+    const LEXEME_OBJECT             = 'object';
+    const LEXEME_EXTENDS            = 'extends';
+    const LEXEME_SUPER              = 'super';
     const LEXEME_UNION              = 'union';
     const LEXEME_REPEAT             = 'repeat';
     const LEXEME_WHILE              = 'while';
     const LEXEME_WITH               = 'with';
+    const LEXEME_AS                 = 'as';
     const LEXEME_ADDR               = 'addr';
     const LEXEME_MOD                = 'mod';
     const LEXEME_AND                = 'and';
@@ -111,10 +115,14 @@
     exports.LEXEME_DOWNTO             = LEXEME_DOWNTO;
     exports.LEXEME_STEP               = LEXEME_STEP;
     exports.LEXEME_RECORD             = LEXEME_RECORD;
+    exports.LEXEME_OBJECT             = LEXEME_OBJECT;
+    exports.LEXEME_EXTENDS            = LEXEME_EXTENDS;
+    exports.LEXEME_SUPER              = LEXEME_SUPER;
     exports.LEXEME_UNION              = LEXEME_UNION;
     exports.LEXEME_REPEAT             = LEXEME_REPEAT;
     exports.LEXEME_WHILE              = LEXEME_WHILE;
     exports.LEXEME_WITH               = LEXEME_WITH;
+    exports.LEXEME_AS                 = LEXEME_AS;
     exports.LEXEME_ADDR               = LEXEME_ADDR;
     exports.LEXEME_MOD                = LEXEME_MOD;
     exports.LEXEME_AND                = LEXEME_AND;
@@ -196,10 +204,14 @@
             LEXEME_DOWNTO,
             LEXEME_STEP,
             LEXEME_RECORD,
+            LEXEME_OBJECT,
+            LEXEME_EXTENDS,
+            LEXEME_SUPER,
             LEXEME_UNION,
             LEXEME_REPEAT,
             LEXEME_WHILE,
             LEXEME_WITH,
+            LEXEME_AS,
             LEXEME_ADDR,
             LEXEME_MOD
         ];

@@ -13,7 +13,7 @@ class CompileData {
         for (let i = 0, j = fields.length - 1; i <= j; i++) {
             let field     = fields[i];
             let token     = iterator.skipWhiteSpace().next();
-            let type      = field.getType();
+            let type      = field.getType().type;
             let arraySize = field.getArraySize();
             if (type === t.LEXEME_NUMBER) {
                 if (arraySize === false) {
@@ -51,7 +51,7 @@ class CompileData {
 
     readArrayContentToData(iterator, vr, data, arraySize) {
         let index = 0;
-        let type  = vr.getType();
+        let type  = vr.getType().type;
         let done  = false;
         while (!done) {
             let token = iterator.skipWhiteSpace().next();

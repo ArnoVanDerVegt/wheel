@@ -1,0 +1,24 @@
+.dialog-background.wheel-to-svg-dialog textarea {
+    width:                          100%;
+    height:                         100%;
+    font-family:                    monospace;
+    font-size:                      13px;
+    padding:                        4px;
+}
+.dialog-background.wheel-to-svg-dialog .wheel-input-label,
+.dialog-background.wheel-to-svg-dialog .svg-output-label {
+    height:                         24px;
+}
+.dialog-background.wheel-to-svg-dialog .svg-output-label {
+    top:                            228px;
+}
+.dialog-background.wheel-to-svg-dialog .wheel-input,
+.dialog-background.wheel-to-svg-dialog .svg-output {
+    height:                         128px;
+}
+.dialog-background.wheel-to-svg-dialog .wheel-input {
+    top:                            88px;
+}
+.dialog-background.wheel-to-svg-dialog .svg-output {
+    top:                            252px;
+}

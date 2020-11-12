@@ -8,6 +8,7 @@ exports.CompilerUseInfo = class {
         this._useProc    = {main: true};
         this._useModules = [];
         this._eventInfo  = {};
+        this._objct      = {};
     }
 
     setEventInfo(eventInfo) {
@@ -38,6 +39,22 @@ exports.CompilerUseInfo = class {
         }
         if (this._useModules[module].indexOf(moduleProc) === -1) {
             this._useModules[module].push(moduleProc);
+        }
+    }
+
+    getUseObjct(objct) {
+        return this._objct[objct];
+    }
+
+    setUseObjct(objct) {
+        if ((this._compiler.getPass() === 0) && !(objct in this._objct)) {
+            this._objct[objct] = 0;
+        }
+    }
+
+    addUseMethod(objct) {
+        if ((this._compiler.getPass() === 0) && (objct in this._objct)) {
+            this._objct[objct]++;
         }
     }
 };

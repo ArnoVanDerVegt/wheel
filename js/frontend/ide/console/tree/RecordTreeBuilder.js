@@ -25,9 +25,9 @@ exports.RecordTreeBuilder = class {
         let arrayTreeBuilder = null;
         for (let i = 0; i < fields.length; i++) {
             let field     = fields[i];
-            let fieldType = field.getType();
+            let fieldType = field.getType().type;
             let arraySize = field.getArraySize();
-            let o         = offset + field.getOffset();
+            let o         = offset + (field.getPointer() ? this._data[field.getOffset()] : field.getOffset());
             let treeNodeChild;
             if (fieldType === 'number') {
                 if (arraySize === false) {
@@ -83,16 +83,16 @@ exports.RecordTreeBuilder = class {
 
     build(vr, baseOffset) {
         this._baseOffset = baseOffset;
-        let offset   = baseOffset + vr.getOffset();
+        let offset   = baseOffset + (vr.getPointer() ? this._data[vr.getOffset()] : vr.getOffset());
         let treeNode = {
                 children: [],
-                title:    getRecord(vr.getType().getName()) + getSpace() + getVariable(vr.getName())
+                title:    getRecord(vr.getType().type.getName()) + getSpace() + getVariable(vr.getName())
             };
         if (vr.getArraySize() === false) {
-            this.initRecord(vr.getType(), treeNode, offset);
+            this.initRecord(vr.getType().type, treeNode, offset);
         } else {
             treeNode.title += getArrayIndex(vr.getArraySize());
-            this.initRecordArray(vr.getType(), treeNode, offset, vr.getArraySize());
+            this.initRecordArray(vr.getType().type, treeNode, offset, vr.getArraySize());
         }
         return treeNode;
     }

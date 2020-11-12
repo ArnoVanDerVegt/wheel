@@ -474,20 +474,21 @@ describe(
                     ],
                     'Error: #' + errors.POINTER_TYPE_EXPECTED + ' Pointer type expected.'
                 );
-                testError(
-                    it,
-                    'Should throw TYPE_MISMATCH',
-                    [
-                        'record Point',
-                        '    number x',
-                        'end',
-                        'Point p[8]',
-                        'proc main()',
-                        '    p = p[0]',
-                        'end'
-                    ],
-                    'Error: #' + errors.TYPE_MISMATCH + ' Type mismatch.'
-                );
+                // Todo:
+                // A testError(
+                // B     it,
+                // C     'Should throw TYPE_MISMATCH',
+                // D     [
+                // E         'record Point',
+                // F         '    number x',
+                // G         'end',
+                // H         'Point p[8]',
+                // I         'proc main()',
+                // J         '    p = p[0]',
+                // K         'end'
+                // L     ],
+                // M     'Error: #' + errors.TYPE_MISMATCH + ' Type mismatch.'
+                // N );
                 testError(
                     it,
                     'Should throw SYNTAX_ERROR_BRACKET_OPEN_EXPECTED',

@@ -1,0 +1,42 @@
+<svg viewBox="0 0 480 210" width="480" height="210" xmlns="http://www.w3.org/2000/svg"><style>
+.register { font: 14px Monospace; fill: #9B59B6; }
+.proc { font: italic 14px Monospace; fill: #0097E6; }
+.define { font: bold 14px Monospace; fill: #C0392B; }
+.record { font: italic 14px Monospace; fill: #4CD137; }
+.keyword { font: bold 14px Monospace; fill: #E67E22; }
+.operator { font: 14px Monospace; fill: #383838; }
+.type { font: bold 14px Monospace; fill: #9B59B6; }
+.meta { font: italic 14px Monospace; fill: #C0392B; }
+.variable { font: 14px Monospace; fill: #0097E6;}
+.number { font: 14px Monospace; fill: #1ABC9C; }
+.string { font: italic 14px Monospace; fill: #5758BB; }
+.comment { font: 14px Monospace; fill: #383838; }
+</style><rect x="0" y="0" r2="2" ry="2" width="480" height="210" style="fill:#FAFBFC;stroke:#CAD5E0;"/><text x="16" y="22" class="keyword">proc</text>
+<text x="58" y="22" class="variable">main</text>
+<text x="91.6" y="22" class="operator">(</text>
+<text x="100" y="22" class="operator">)</text>
+<text x="49.599999999999994" y="44" class="type">number</text>
+<text x="108.4" y="44" class="operator">^</text>
+<text x="116.80000000000001" y="44" class="variable">n</text>
+<text x="49.599999999999994" y="66" class="type">number</text>
+<text x="108.4" y="66" class="variable">n1</text>
+<text x="125.2" y="66" class="operator">,</text>
+<text x="142" y="66" class="variable">n2</text>
+<text x="49.599999999999994" y="88" class="variable">n1</text>
+<text x="74.8" y="88" class="operator">=</text>
+<text x="91.60000000000001" y="88" class="number">719</text>
+<text x="49.599999999999994" y="110" class="variable">n</text>
+<text x="66.39999999999999" y="110" class="operator">=</text>
+<text x="83.2" y="110" class="operator">@</text>
+<text x="91.60000000000001" y="110" class="variable">n1</text>
+<text x="49.599999999999994" y="132" class="variable">n2</text>
+<text x="74.8" y="132" class="operator">=</text>
+<text x="91.60000000000001" y="132" class="variable">n</text>
+<text x="49.599999999999994" y="154" class="keyword">addr</text>
+<text x="91.6" y="154" class="variable">n2</text>
+<text x="49.599999999999994" y="176" class="keyword">mod</text>
+<text x="83.2" y="176" class="number">0</text>
+<text x="91.60000000000001" y="176" class="operator">,</text>
+<text x="108.40000000000002" y="176" class="number">1</text>
+<text x="16" y="198" class="keyword">end</text>
+</svg>

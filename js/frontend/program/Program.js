@@ -837,6 +837,7 @@ exports.Program = class {
         if (lastCommand) {
             lastCommand.info = info;
         }
+        return this;
     }
 
     removeLastCommand() {

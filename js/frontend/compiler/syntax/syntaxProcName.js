@@ -9,17 +9,24 @@ exports.procNameScopeTokens = function() {
     let tokens = utils.createTokens();
 
     // "(" -> IDENTIFIER | "number" | "string"
-    let follow05 = [
+    let follow01 = [
             {token: t.TOKEN_IDENTIFIER},
             {token: t.TOKEN_TYPE, lexeme: [t.LEXEME_NUMBER, t.LEXEME_STRING]}
         ];
-    tokens[t.TOKEN_PARENTHESIS_OPEN] = follow05;
+    tokens[t.TOKEN_PARENTHESIS_OPEN] = follow01;
 
-    // IDENTIFIER -> "("
-    let follow06 = [
-            {token: t.TOKEN_PARENTHESIS_OPEN}
+    // IDENTIFIER -> "(" | "."
+    let follow02 = [
+            {token: t.TOKEN_PARENTHESIS_OPEN},
+            {token: t.TOKEN_DOT}
         ];
-    tokens[t.TOKEN_IDENTIFIER] = follow06;
+    tokens[t.TOKEN_IDENTIFIER] = follow02;
+
+    // "." -> IDENTIFIER
+    let follow03 = [
+            {token: t.TOKEN_IDENTIFIER}
+        ];
+    tokens[t.TOKEN_DOT] = follow03;
 
     return utils.updateTokens(tokens);
 };

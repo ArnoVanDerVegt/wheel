@@ -1,0 +1,97 @@
+<svg viewBox="0 0 480 210" width="480" height="210" xmlns="http://www.w3.org/2000/svg"><style>
+.register { font: 14px Monospace; fill: #9B59B6; }
+.proc { font: italic 14px Monospace; fill: #0097E6; }
+.define { font: bold 14px Monospace; fill: #C0392B; }
+.record { font: italic 14px Monospace; fill: #4CD137; }
+.keyword { font: bold 14px Monospace; fill: #E67E22; }
+.operator { font: 14px Monospace; fill: #383838; }
+.type { font: bold 14px Monospace; fill: #9B59B6; }
+.meta { font: italic 14px Monospace; fill: #C0392B; }
+.variable { font: 14px Monospace; fill: #0097E6;}
+.number { font: 14px Monospace; fill: #1ABC9C; }
+.string { font: italic 14px Monospace; fill: #5758BB; }
+.comment { font: 14px Monospace; fill: #383838; }
+</style><rect x="0" y="0" r2="2" ry="2" width="480" height="210" style="fill:#FAFBFC;stroke:#CAD5E0;"/><text x="16" y="22" class="number">0000</text>
+<text x="49.6" y="22" class="operator">|</text>
+<text x="58" y="22" class="number">0000</text>
+<text x="100" y="22" class="keyword">set</text>
+<text x="167.20000000000002" y="22" class="operator">[</text>
+<text x="175.60000000000002" y="22" class="register">stack</text>
+<text x="226.00000000000003" y="22" class="operator">+</text>
+<text x="242.80000000000004" y="22" class="number">1</text>
+<text x="251.20000000000005" y="22" class="operator">]</text>
+<text x="259.6" y="22" class="operator">,</text>
+<text x="301.5999999999999" y="22" class="number">719</text>
+<text x="16" y="44" class="number">0001</text>
+<text x="49.6" y="44" class="operator">|</text>
+<text x="58" y="44" class="number">0001</text>
+<text x="100" y="44" class="keyword">set</text>
+<text x="167.20000000000002" y="44" class="register">ptr</text>
+<text x="192.40000000000003" y="44" class="operator">,</text>
+<text x="301.59999999999997" y="44" class="number">1</text>
+<text x="16" y="66" class="number">0002</text>
+<text x="49.6" y="66" class="operator">|</text>
+<text x="58" y="66" class="number">0001</text>
+<text x="100" y="66" class="keyword">add</text>
+<text x="167.20000000000002" y="66" class="register">ptr</text>
+<text x="192.40000000000003" y="66" class="operator">,</text>
+<text x="301.59999999999997" y="66" class="register">stack</text>
+<text x="16" y="88" class="number">0003</text>
+<text x="49.6" y="88" class="operator">|</text>
+<text x="58" y="88" class="number">0001</text>
+<text x="100" y="88" class="keyword">set</text>
+<text x="167.20000000000002" y="88" class="operator">[</text>
+<text x="175.60000000000002" y="88" class="register">stack</text>
+<text x="226.00000000000003" y="88" class="operator">+</text>
+<text x="242.80000000000004" y="88" class="number">0</text>
+<text x="251.20000000000005" y="88" class="operator">]</text>
+<text x="259.6" y="88" class="operator">,</text>
+<text x="301.5999999999999" y="88" class="register">ptr</text>
+<text x="16" y="110" class="number">0004</text>
+<text x="49.6" y="110" class="operator">|</text>
+<text x="58" y="110" class="number">0002</text>
+<text x="100" y="110" class="keyword">set</text>
+<text x="167.20000000000002" y="110" class="register">ptr</text>
+<text x="192.40000000000003" y="110" class="operator">,</text>
+<text x="301.59999999999997" y="110" class="operator">[</text>
+<text x="309.99999999999994" y="110" class="register">stack</text>
+<text x="360.3999999999999" y="110" class="operator">+</text>
+<text x="377.1999999999999" y="110" class="number">0</text>
+<text x="385.59999999999985" y="110" class="operator">]</text>
+<text x="16" y="132" class="number">0005</text>
+<text x="49.6" y="132" class="operator">|</text>
+<text x="58" y="132" class="number">0002</text>
+<text x="100" y="132" class="keyword">set</text>
+<text x="167.20000000000002" y="132" class="operator">[</text>
+<text x="175.60000000000002" y="132" class="register">stack</text>
+<text x="226.00000000000003" y="132" class="operator">+</text>
+<text x="242.80000000000004" y="132" class="number">2</text>
+<text x="251.20000000000005" y="132" class="operator">]</text>
+<text x="259.6" y="132" class="operator">,</text>
+<text x="301.5999999999999" y="132" class="operator">[</text>
+<text x="309.9999999999999" y="132" class="register">ptr</text>
+<text x="343.59999999999985" y="132" class="operator">+</text>
+<text x="360.3999999999998" y="132" class="number">0</text>
+<text x="368.7999999999998" y="132" class="operator">]</text>
+<text x="16" y="154" class="number">0006</text>
+<text x="49.6" y="154" class="operator">|</text>
+<text x="58" y="154" class="number">0003</text>
+<text x="100" y="154" class="keyword">set</text>
+<text x="167.20000000000002" y="154" class="register">src</text>
+<text x="192.40000000000003" y="154" class="operator">,</text>
+<text x="301.59999999999997" y="154" class="number">2</text>
+<text x="16" y="176" class="number">0007</text>
+<text x="49.6" y="176" class="operator">|</text>
+<text x="58" y="176" class="number">0003</text>
+<text x="100" y="176" class="keyword">add</text>
+<text x="167.20000000000002" y="176" class="register">src</text>
+<text x="192.40000000000003" y="176" class="operator">,</text>
+<text x="301.59999999999997" y="176" class="register">stack</text>
+<text x="16" y="198" class="number">0008</text>
+<text x="49.6" y="198" class="operator">|</text>
+<text x="58" y="198" class="number">0004</text>
+<text x="100" y="198" class="keyword">mod</text>
+<text x="167.20000000000002" y="198" class="number">0</text>
+<text x="175.60000000000002" y="198" class="operator">,</text>
+<text x="301.59999999999997" y="198" class="number">1</text>
+</svg>

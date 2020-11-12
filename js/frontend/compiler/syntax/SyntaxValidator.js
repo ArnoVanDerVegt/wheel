@@ -10,7 +10,10 @@ const procScopeTokens              = require('./syntaxProc').procScopeTokens;
 const procNameScopeTokens          = require('./syntaxProcName').procNameScopeTokens;
 const procParamsScopeTokens        = require('./syntaxProcParams').procParamsScopeTokens;
 const recordScopeTokens            = require('./syntaxRecord').recordScopeTokens;
+const objectScopeTokens            = require('./syntaxObject').objectScopeTokens;
 const addrScopeTokens              = require('./syntaxAddr').addrScopeTokens;
+const withScopeTokens              = require('./syntaxWith').withScopeTokens;
+const superScopeTokens             = require('./syntaxSuper').superScopeTokens;
 const moduleScopeTokens            = require('./syntaxModule').moduleScopeTokens;
 const breakScopeTokens             = require('./syntaxBreak').breakScopeTokens;
 const selectScopeTokens            = require('./syntaxSelect').selectScopeTokens;
@@ -44,10 +47,24 @@ let recordScope = {
         endLexeme: [t.LEXEME_END]
     };
 
+// Object <identifier>
+let objectScope = {
+        name:      'object',
+        tokens:    objectScopeTokens(),
+        endLexeme: [t.LEXEME_END]
+    };
+
 // Addr <identifier>
 let addrScope = {
         name:      'address',
         tokens:    addrScopeTokens(),
+        endLexeme: [t.LEXEME_NEWLINE]
+    };
+
+// Super <identifier>
+let superScope = {
+        name:      'super',
+        tokens:    superScopeTokens(),
         endLexeme: [t.LEXEME_NEWLINE]
     };
 
@@ -83,7 +100,9 @@ blockScope[t.LEXEME_WITH      ] = function() { return [withScope,   withExpressi
 blockScope[t.LEXEME_NAMESPACE ] = function() { return [namespaceScope           ];        };
 blockScope[t.LEXEME_REPEAT    ] = function() { return [repeatScope              ];        };
 blockScope[t.LEXEME_RECORD    ] = function() { return [recordScope              ];        };
+blockScope[t.LEXEME_OBJECT    ] = function() { return [objectScope              ];        };
 blockScope[t.LEXEME_ADDR      ] = function() { return [addrScope                ];        };
+blockScope[t.LEXEME_SUPER     ] = function() { return [superScope               ];        };
 blockScope[t.LEXEME_MOD       ] = function() { return [moduleScope              ];        };
 blockScope[t.LEXEME_BREAK     ] = function() { return [breakScope               ];        };
 blockScope[t.LEXEME_ASSIGN    ] = function() { return [assignOperateScope       ];        };
@@ -146,7 +165,7 @@ let withScope = {
     };
 let withExpressionScope = {
         name:      'with expression',
-        tokens:    addrScopeTokens(),
+        tokens:    withScopeTokens(),
         endLexeme: [t.LEXEME_NEWLINE]
     };
 
@@ -220,6 +239,7 @@ let rootScope = {
         scope:     {}
     };
 rootScope.scope[t.LEXEME_RECORD] = function() { return [recordScope];                               };
+rootScope.scope[t.LEXEME_OBJECT] = function() { return [objectScope];                               };
 rootScope.scope[t.LEXEME_PROC  ] = function() { return [procScope, procParamsScope, procNameScope]; };
 
 exports.SyntaxValidator = class {
