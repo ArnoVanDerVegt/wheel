@@ -108,6 +108,10 @@ class SyntaxLineOutputHTML {
 
 exports.SyntaxOutputHTML = class {
     constructor() {
+        this.clear();
+    }
+
+    clear() {
         this._output = '';
     }
 

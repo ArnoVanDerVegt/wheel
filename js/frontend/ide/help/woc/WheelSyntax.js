@@ -82,6 +82,8 @@ exports.WheelSyntax = class {
     }
 
     parseLines(lines) {
+        this._output = '';
+        this._syntaxOtutput.clear();
         while (lines.length && (lines[lines.length - 1].trim() === '')) {
             lines.pop();
         }

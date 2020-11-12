@@ -233,28 +233,35 @@ exports.CompileProc = class extends CompileBlock {
     }
 
     compileProcName(iterator, token) {
-        let procName = token.lexeme;
-        let procUsed = false;
+        let procNameToken  = token;
+        let procName       = token.lexeme;
+        let procUsed       = false;
+        let objctNameToken = null;
+        let objectName     = '';
         this._objct = null;
         if ((iterator.skipWhiteSpace().peek() ? iterator.peek().lexeme : '') === t.LEXEME_DOT) {
             iterator.next();
-            let objectName = procName;
-            let objct      = this._scope.findIdentifier(objectName);
+            objctNameToken = token;
+            objectName     = procName;
+            let objct = this._scope.findIdentifier(objectName);
             if (objct instanceof Object) {
                 this._objct = objct;
             } else {
                 throw errors.createError(err.OBJECT_TYPE_EXPECTED, token, 'Object type expected.');
             }
-            procName = iterator.skipWhiteSpace().next();
-            procName = (procName === null) ? '' : procName.lexeme;
-            procUsed = true;
+            procNameToken = iterator.skipWhiteSpace().next();
+            procName      = (procNameToken === null) ? '' : procNameToken.lexeme;
+            procUsed      = true;
         } else {
             procName = this.getNamespacedProcName(procName);
             procUsed = this._compiler.getUseInfo().getUsedProc(procName);
         }
         return {
-            name: procName,
-            used: procUsed
+            objctNameToken: objctNameToken,
+            objctName:      objectName,
+            nameToken:      procNameToken,
+            name:           procName,
+            used:           procUsed
         };
     }
 
@@ -296,7 +303,7 @@ exports.CompileProc = class extends CompileBlock {
         let procName = this.compileProcName(iterator, token);
         this._startEntryPoint = program.getLength();
         program.setCodeUsed(procName.used); // Only add code when the proc was used...
-        linter && linter.addProc(token);
+        linter && linter.addProc(procName);
         this._scope = new Proc(this._scope, procName.name, false, this._compiler.getNamespace())
             .setToken(token)
             .setCodeOffset(this._startEntryPoint);

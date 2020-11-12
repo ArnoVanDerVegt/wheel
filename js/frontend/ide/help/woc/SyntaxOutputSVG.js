@@ -128,6 +128,10 @@ class SyntaxLineOutputSVG {
 
 exports.SyntaxOutputSVG = class {
     constructor() {
+        this.clear();
+    }
+
+    clear() {
         this._output   = '';
         this._y        = LINE_HEIGHT;
         this._maxWidth = 0;

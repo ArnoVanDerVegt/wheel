@@ -26,6 +26,10 @@ exports.CompileRecord = class extends CompileScope {
         this._scope.addRecord(dataType);
     }
 
+    addLinterItem(token) {
+        this._linter && this._linter.addRecord(this._token);
+    }
+
     checkDataTypeUnion(dataType) {
         if (!dataType.checkUnion()) {
             throw errors.createError(err.UNION_SIZE_MISMATCH, this._token, 'Union size mismatch.');
@@ -54,7 +58,7 @@ exports.CompileRecord = class extends CompileScope {
         this._end        = false;
         this._linter     = this._compiler.getLinter();
         this._token      = iterator.skipWhiteSpace().next();
-        this._linter && this._linter.addRecord(this._token);
+        this.addLinterItem(this._token);
         let type        = null;
         let typePointer = false;
         let pointer     = false;

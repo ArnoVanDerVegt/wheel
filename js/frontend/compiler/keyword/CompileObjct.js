@@ -15,6 +15,10 @@ exports.CompileObjct = class extends CompileRecord {
         return new Objct(null, this.getNamespacedRecordName(this._token.lexeme), false, this._compiler.getNamespace()).setToken(this._token);
     }
 
+    addLinterItem(token) {
+        this._linter && this._linter.addObject(this._token);
+    }
+
     compileExtends(iterator, dataType) {
         let token = iterator.skipWhiteSpace().peek();
         if (token.lexeme === t.LEXEME_EXTENDS) {
