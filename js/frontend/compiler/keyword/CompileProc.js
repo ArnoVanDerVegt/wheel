@@ -88,6 +88,7 @@ exports.CompileProc = class extends CompileBlock {
             this._compiler.setEventProc(scope.getName(), this._startEntryPoint);
             scope.addVar({
                 compiler:    this._compiler,
+                unionId:     0,
                 token:       null,
                 name:        '!____CODE_RETURN____',
                 type:        t.LEXEME_NUMBER,
@@ -96,6 +97,7 @@ exports.CompileProc = class extends CompileBlock {
             });
             scope.addVar({
                 compiler:    this._compiler,
+                unionId:     0,
                 token:       null,
                 name:        '!____STACK_RETURN____',
                 type:        t.LEXEME_NUMBER,
@@ -107,6 +109,7 @@ exports.CompileProc = class extends CompileBlock {
         if (this._objct) {
             scope.addVar({
                 compiler:    this._compiler,
+                unionId:     0,
                 token:       null,
                 name:        '!____SELF_POINTER____',
                 type:        t.LEXEME_NUMBER,
@@ -175,6 +178,7 @@ exports.CompileProc = class extends CompileBlock {
                         }
                         scope.addVar({
                             compiler:     this._compiler,
+                            unionId:      0,
                             token:        token,
                             name:         token.lexeme,
                             type:         type,
@@ -275,6 +279,7 @@ exports.CompileProc = class extends CompileBlock {
         objct
             .addVar({
                 compiler:     this._compiler,
+                unionId:      0,
                 token:        token,
                 name:         procName.name,
                 type:         t.LEXEME_PROC,
@@ -289,6 +294,7 @@ exports.CompileProc = class extends CompileBlock {
         // Add self to the with stack...
         scope.setSelf(new Var.Var({
             compiler:    this._compiler,
+            unionId:     0,
             offset:      0,
             token:       null,
             name:        '!____SELF_POINTER_RECORD____',
@@ -352,8 +358,7 @@ exports.CompileProc = class extends CompileBlock {
             this._scope.popSelf();
         }
         // Release the allocated strings...
-        let lastCommand = program.getLastCommand();
-        if (!this._main && (!lastCommand || (lastCommand.getCmd() !== $.CMD_RET))) {
+        if (!this._main) {
             new CompileVars({
                 compiler: this._compiler,
                 program:  this._program,
@@ -371,6 +376,7 @@ exports.CompileProc = class extends CompileBlock {
         linter && linter.addParam(token);
         this._scope.addVar({
             compiler:    this._compiler,
+            unionId:     0,
             token:       token,
             name:        token.lexeme,
             type:        t.LEXEME_PROC,

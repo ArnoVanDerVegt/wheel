@@ -117,6 +117,9 @@ exports.CompileObjct = class {
                     compileRecordFields(vr.getParentScope());
                 }
                 vr.getVars().forEach((field) => {
+                    if (field.getUnionId() !== 0) { // Only initialize the first union part!
+                        return;
+                    }
                     let arraySize = field.getArraySize() || 1;
                     if ((field.getType().type instanceof Objct) && !field.getPointer() && !field.getType().typePointer) {
                         this.compileConstructorCall(local, offset, field);

@@ -303,6 +303,7 @@ exports.AssignmentExpression = class {
         let globalScope = this._scope.getGlobal() ? this._scope : this._scope.getParentScope();
         let dataVar     = globalScope.addVar({
                 compiler:    this._compiler,
+                unionId:     0,
                 token:       null,
                 name:        '!data' + this._scope.getTempVarIndex(),
                 type:        t.LEXEME_NUMBER,
@@ -333,6 +334,7 @@ exports.AssignmentExpression = class {
         let globalScope = this._scope.getGlobal() ? this._scope : this._scope.getParentScope();
         let dataVar     = globalScope.addVar({
                 compiler:    this._compiler,
+                unionId:     0,
                 token:       null,
                 name:        '!data' + this._scope.getTempVarIndex(),
                 type:        t.LEXEME_NUMBER,

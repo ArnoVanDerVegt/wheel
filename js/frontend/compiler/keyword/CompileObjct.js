@@ -35,7 +35,7 @@ exports.CompileObjct = class extends CompileRecord {
             if (!(superObjct instanceof Objct)) {
                 throw errors.createError(err.OBJECT_TYPE_EXPECTED, token, 'Object type expected.');
             }
-            dataType.extend(superObjct);
+            dataType.extend(superObjct, this._compiler);
         }
     }
 

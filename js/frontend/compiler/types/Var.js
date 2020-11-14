@@ -8,6 +8,10 @@ exports.Var = class {
             opts.pointer     = true;
             opts.typePointer = false;
         }
+        if (opts.unionId === undefined) {
+            throw new Error('No union id');
+        }
+        this._unionId              = opts.unionId;
         this._compiler             = opts.compiler;
         this._token                = opts.token;
         this._name                 = opts.name;
@@ -28,6 +32,10 @@ exports.Var = class {
 
     getCompiler() {
         return this._compiler;
+    }
+
+    getUnionId() {
+        return this._unionId;
     }
 
     getToken() {

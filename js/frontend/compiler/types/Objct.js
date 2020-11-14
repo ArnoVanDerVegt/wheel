@@ -29,12 +29,15 @@ exports.Objct = class extends Record {
         return this;
     }
 
-    extend(dataType) {
+    extend(dataType, compiler) {
         // The size can be set to 0 here because extend is only called when there are no fields in this scope!
         this._size        = 0;
         this._parentScope = dataType;
         let superObjct = dataType;
         while (superObjct) {
+            if (compiler.getPass() && (superObjct.getSize() !== compiler.getObjctSize(superObjct.getName()))) {
+                throw new Error('Unexpected object size for object "' + superObjct.getName() + '".');
+            }
             this._size += superObjct.getSize();
             superObjct = superObjct.getParentScope();
         }

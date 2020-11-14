@@ -409,6 +409,7 @@ exports.VarExpression = class {
                     }
                     result.type = new Var({
                         compiler:    this._compiler,
+                        unionId:     0,
                         name:        '?',
                         arraySize:   resultArraySize,
                         offset:      identifier.getOffset(),

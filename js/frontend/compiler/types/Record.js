@@ -11,6 +11,7 @@ exports.Record = class extends Scope {
     }
 
     union() {
+        this._unionId++;
         if (this._unionSize === 0) {
             this._unionSize = this._size;
             this._size      = 0;
@@ -33,6 +34,7 @@ exports.Record = class extends Scope {
         record.getVars().forEach((vr) => {
             withRecord
                 .addVar({
+                    unionId:      vr.getUnionId(),
                     compiler:     vr.getCompiler(),
                     token:        vr.getToken(),
                     name:         vr.getName(),

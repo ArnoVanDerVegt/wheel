@@ -10,6 +10,7 @@ exports.Scope = class {
         if (!namespace) {
             throw new Error('No namespace');
         }
+        this._unionId           = 0;
         this._token             = null;
         this._program           = null;
         this._parentScope       = parentScope;
@@ -99,6 +100,7 @@ exports.Scope = class {
                     typePointer: typePointer,
                     arraySize:   arraySize,
                     pointer:     pointer,
+                    unionId:     this._unionId,
                     global:      this._global,
                     offset:      this._size
                 });
@@ -222,6 +224,14 @@ exports.Scope = class {
             return proc;
         }
         return this._parentScope ? this._parentScope.findProc(name) : null;
+    }
+
+    getUnionId() {
+        return this._unionId;
+    }
+
+    setUnionId(unionId) {
+        this._unionId = unionId;
     }
 
     getNamespace() {
