@@ -92,6 +92,7 @@ exports.Scope = class {
         let arraySize   = ('arraySize'   in opts) ? opts.arraySize   : false;
         let pointer     = ('pointer'     in opts) ? opts.pointer     : false;
         let vr          = new Var({
+                    compiler:    opts.compiler,
                     token:       opts.token,
                     name:        opts.name,
                     type:        opts.type,

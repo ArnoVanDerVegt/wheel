@@ -302,6 +302,7 @@ exports.AssignmentExpression = class {
         compileData.readArrayToData(iterator, destVrOrType, data);
         let globalScope = this._scope.getGlobal() ? this._scope : this._scope.getParentScope();
         let dataVar     = globalScope.addVar({
+                compiler:    this._compiler,
                 token:       null,
                 name:        '!data' + this._scope.getTempVarIndex(),
                 type:        t.LEXEME_NUMBER,
@@ -331,6 +332,7 @@ exports.AssignmentExpression = class {
         compileData.readRecordToData(iterator, destVrOrType.getType().type, data);
         let globalScope = this._scope.getGlobal() ? this._scope : this._scope.getParentScope();
         let dataVar     = globalScope.addVar({
+                compiler:    this._compiler,
                 token:       null,
                 name:        '!data' + this._scope.getTempVarIndex(),
                 type:        t.LEXEME_NUMBER,

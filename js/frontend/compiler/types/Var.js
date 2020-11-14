@@ -8,6 +8,7 @@ exports.Var = class {
             opts.pointer     = true;
             opts.typePointer = false;
         }
+        this._compiler             = opts.compiler;
         this._token                = opts.token;
         this._name                 = opts.name;
         this._offset               = opts.offset;
@@ -23,6 +24,10 @@ exports.Var = class {
             type:        opts.type,
             typePointer: opts.typePointer
         };
+    }
+
+    getCompiler() {
+        return this._compiler;
     }
 
     getToken() {
@@ -59,6 +64,14 @@ exports.Var = class {
     }
 
     getSize() {
+        let compiler = this._compiler;
+        // In the second pass we know the exact object size including the virtual methods!
+        if (compiler.getPass() && !this._type.typePointer && !this._pointer) {
+            const Objct = require('./Objct').Objct;
+            if (this._type.type instanceof Objct) {
+                return this._compiler.getObjctSize(this._type.type.getName());
+            }
+        }
         return this.getPrimitiveType() ? 1 : this._type.type.getSize();
     }
 

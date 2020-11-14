@@ -33,6 +33,7 @@ exports.Record = class extends Scope {
         record.getVars().forEach((vr) => {
             withRecord
                 .addVar({
+                    compiler:     vr.getCompiler(),
                     token:        vr.getToken(),
                     name:         vr.getName(),
                     type:         vr.getType().type,

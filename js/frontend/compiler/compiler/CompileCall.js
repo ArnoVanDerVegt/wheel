@@ -139,10 +139,16 @@ exports.CompileCall = class CompileCall extends CompileScope {
         if (address) {
             tokens.shift();
         }
-        if ((tokens.length === 1) && (tokens[0].cls === t.TOKEN_STRING)) {
-            program.addCommand($.CMD_SET, $.T_NUM_L, this.getParameterOffset(scope), $.T_NUM_C, program.addConstantString(tokens[0].lexeme));
-            this.addParameter(scope, 1);
-            return result;
+        if (tokens.length === 1) {
+            if (tokens[0].cls === t.TOKEN_STRING) {
+                program.addCommand($.CMD_SET, $.T_NUM_L, this.getParameterOffset(scope), $.T_NUM_C, program.addConstantString(tokens[0].lexeme));
+                this.addParameter(scope, 1);
+                return result;
+            } else if (tokens[0].lexeme === t.LEXEME_SELF) {
+                program.addCommand($.CMD_SET, $.T_NUM_L, this.getParameterOffset(scope), $.T_NUM_L, 0);
+                this.addParameter(scope, 1);
+                return result;
+            }
         }
         // Set the stack offset above the highest parameter for temp variables...
         let stackOffset = scope.getStackOffset();
@@ -230,6 +236,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let program = this._program;
         let scope   = this._scope;
         let dataVar = scope.getParentScope().addVar({
+                compiler:    this._compiler,
                 token:       null,
                 name:        '!_' + iterator.current().index,
                 type:        t.LEXEME_NUMBER,
@@ -257,6 +264,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let program = this._program;
         let scope   = this._scope;
         let dataVar = scope.getParentScope().addVar({
+                compiler:    this._compiler,
                 token:       null,
                 name:        '!_' + iterator.current().index,
                 type:        t.LEXEME_NUMBER,

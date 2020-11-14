@@ -43,7 +43,7 @@ exports.CompilerUseInfo = class {
     }
 
     getUseObjct(objct) {
-        return this._objct[objct];
+        return this._objct[objct] || 0;
     }
 
     setUseObjct(objct) {

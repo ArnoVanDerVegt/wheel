@@ -13,6 +13,7 @@ const CompileBlock    = require('./compiler/CompileBlock').CompileBlock;
 const compileModule   = require('./keyword/CompileModule');
 const SyntaxValidator = require('./syntax/SyntaxValidator').SyntaxValidator;
 const Scope           = require('./types/Scope').Scope;
+const Objct           = require('./types/Objct').Objct;
 const Namespace       = require('./types/Namespace').Namespace;
 const CompilerUseInfo = require('./CompilerUseInfo').CompilerUseInfo;
 
@@ -25,6 +26,7 @@ exports.Compiler = class extends CompileBlock {
         this._namespace     = new Namespace({});
         this._eventInfo     = {};
         this._depth         = 0;
+        this._objctSize     = {};
     }
 
     compile(tokens) {
@@ -52,7 +54,9 @@ exports.Compiler = class extends CompileBlock {
         dispatcher.dispatch('Compiler.Database', this._scope);
         this._program.reset(this._pass);
         this._pass = 1;
-        this.compile(tokens);
+        this
+            .saveObjctSize()
+            .compile(tokens);
         this._program.setEventInfo(this._eventInfo);
         if (this._scope.getEntryPoint() === null) {
             throw errors.createError(err.MISSING_MAIN_PROC, tokens[tokens.length - 1], 'Missing main proc.');
@@ -64,6 +68,15 @@ exports.Compiler = class extends CompileBlock {
         let t      = new tokenizer.Tokenizer();
         let tokens = t.tokenize(source).getTokens();
         return this.buildTokens(tokens);
+    }
+
+    saveObjctSize() {
+        this._scope.getRecords().forEach((record) => {
+            if (record instanceof Objct) {
+                this._objctSize[record.getName()] = record.getSize();
+            }
+        });
+        return this;
     }
 
     incDepth() {
@@ -101,6 +114,10 @@ exports.Compiler = class extends CompileBlock {
 
     getScope() {
         return this._scope;
+    }
+
+    getObjctSize(name) {
+        return this._objctSize[name] || 0;
     }
 
     getLinter() {

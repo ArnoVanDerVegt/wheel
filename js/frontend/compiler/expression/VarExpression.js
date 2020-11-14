@@ -408,6 +408,7 @@ exports.VarExpression = class {
                         resultArraySize = resultArraySize[0];
                     }
                     result.type = new Var({
+                        compiler:    this._compiler,
                         name:        '?',
                         arraySize:   resultArraySize,
                         offset:      identifier.getOffset(),

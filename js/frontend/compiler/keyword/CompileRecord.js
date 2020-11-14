@@ -121,6 +121,7 @@ exports.CompileRecord = class extends CompileScope {
                         }
                         this._linter && this._linter.addField(nameToken);
                         dataType.addVar({
+                            compiler:    this._compiler,
                             token:       this._token,
                             name:        name,
                             type:        type,
