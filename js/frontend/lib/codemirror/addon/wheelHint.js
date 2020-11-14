@@ -77,6 +77,7 @@ const wheelLexemes = [
         'proc',
         'record',
         'object',
+        'self',
         'repeat',
         'ret',
         'select',

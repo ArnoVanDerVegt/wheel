@@ -39,6 +39,7 @@ exports.keywords = [
         'elseif',
         'record',
         'object',
+        'self',
         'union',
         'or',
         'and',

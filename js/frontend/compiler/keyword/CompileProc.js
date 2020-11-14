@@ -266,7 +266,9 @@ exports.CompileProc = class extends CompileBlock {
     }
 
     compileMethodSetup(token, procName) {
-        this._objct
+        let scope = this._scope;
+        let objct = this._objct;
+        objct
             .addVar({
                 token:        token,
                 name:         procName.name,
@@ -276,15 +278,24 @@ exports.CompileProc = class extends CompileBlock {
                 pointer:      false,
                 ignoreString: false
             })
-            .setProc(this._scope);
-        this._scope.setMethod(true);
-        this._compiler.getUseInfo().addUseMethod(this._objct.getName());
+            .setProc(scope);
+        scope.setMethod(true);
+        this._compiler.getUseInfo().addUseMethod(objct.getName());
         // Add self to the with stack...
-        this._scope.pushSelf(this._objct);
+        scope.setSelf(new Var.Var({
+            offset:      0,
+            token:       null,
+            name:        '!____SELF_POINTER_RECORD____',
+            global:      false,
+            type:        scope.pushSelf(objct),
+            typePointer: false,
+            pointer:     false,
+            arraySize:   false
+        }).setWithOffset(0));
         // Find the super object proc....
         if (this._objct.getParentScope()) {
             let superProc  = null;
-            let superObjct = this._objct.getParentScope();
+            let superObjct = objct.getParentScope();
             while (superObjct) {
                 let varsByName = superObjct.getVarsByName();
                 if (procName.name in varsByName) {
@@ -293,7 +304,7 @@ exports.CompileProc = class extends CompileBlock {
                 }
                 superObjct = superObjct.getParentScope();
             }
-            this._scope.setSuper(superProc);
+            scope.setSuper(superProc);
         }
     }
 

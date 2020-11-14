@@ -10,11 +10,11 @@ exports.Var = class {
         }
         this._token                = opts.token;
         this._name                 = opts.name;
-        this._arraySize            = opts.arraySize;
-        this._global               = opts.global;
         this._offset               = opts.offset;
-        this._pointer              = opts.pointer;
-        this._isParam              = opts.isParam;
+        this._arraySize            = opts.arraySize;
+        this._global               = !!opts.global;
+        this._pointer              = !!opts.pointer;
+        this._isParam              = !!opts.isParam;
         this._proc                 = false;
         this._withOffset           = null;
         this._assignedProc         = null;

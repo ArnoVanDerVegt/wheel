@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const t   = require('../tokenizer/tokenizer');
 const Var = require('./Var').Var;
 
 exports.Scope = class {
@@ -148,6 +149,12 @@ exports.Scope = class {
     }
 
     findIdentifier(name) {
+        if (!isNaN(name * 1)) {
+            return null;
+        }
+        if (name === t.LEXEME_SELF) {
+            return this._self || null;
+        }
         let record = this._recordsByName[name];
         if (record) {
             return record;
@@ -156,13 +163,13 @@ exports.Scope = class {
         if (record) {
             return record;
         }
-        let field = this.findWithField(name);
-        if (field) {
-            return field;
-        }
         let vr = this._varsByName[name];
         if (vr) {
             return vr;
+        }
+        let field = this.findWithField(name);
+        if (field) {
+            return field;
         }
         let proc = this._procByName[name];
         if (proc) {

@@ -11,6 +11,14 @@ exports.Proc = class extends Scope {
         this._super  = null;
     }
 
+    getSelf() {
+        return this._self;
+    }
+
+    setSelf(self) {
+        this._self = self;
+    }
+
     getMethod() {
         return this._method;
     }
@@ -41,10 +49,13 @@ exports.Proc = class extends Scope {
     }
 
     pushSelf(record) {
-        this._withStack.push(record.getWithRecord(0));
+        let withRecord = record.getWithRecord(0);
+        this._withStack.push(withRecord);
+        return withRecord;
     }
 
     popSelf() {
+        this._self = null;
         this._withStack.pop();
     }
 };
