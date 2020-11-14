@@ -310,7 +310,7 @@ exports.IDE = class extends IDEDOM {
         return true;
     }
 
-    getEditorFileData(filename, callback) {
+    onGetEditorFileData(filename, callback) {
         let projectPath       = path.getPathAndFilename(this._projectFilename).path;
         let documentPath      = this._settings.getDocumentPath();
         let fullProjectPath1  = path.join(projectPath, filename);
@@ -327,7 +327,7 @@ exports.IDE = class extends IDEDOM {
         callback(null);
     }
 
-    getFileData(filename, token, callback) {
+    onGetFileData(filename, token, callback) {
         const documentPath    = this._settings.getDocumentPath();
         const addDocumentPath = (filename) => {
                 return path.join(documentPath, path.removePath(documentPath, filename));

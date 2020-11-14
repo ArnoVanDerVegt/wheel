@@ -12,7 +12,7 @@ const createMocks   = require('../../utils').createMocks;
 const assert        = require('assert');
 
 const testDefineNumber = function(defineValue, callback) {
-        let getFileData = function(filename, token, callback) {
+        let onGetFileData = function(filename, token, callback) {
                 callback([
                     '#define TEST ' + defineValue,
                     'proc main()',
@@ -23,8 +23,7 @@ const testDefineNumber = function(defineValue, callback) {
                     'end'
                 ].join('\n'));
             };
-        let preProcessor = new PreProcessor({getFileData: getFileData});
-        let preProcessed = () => {
+        let onFinished = () => {
                 dispatcher.reset();
                 let tokens  = preProcessor.getDefinedConcatTokens();
                 let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -38,7 +37,8 @@ const testDefineNumber = function(defineValue, callback) {
                 dispatcher.on('Console.Log', this, callback);
                 vm.setCommands(program.getCommands()).run();
             };
-        preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
+        let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+        preProcessor.processFile({filename: 'main.whl', token: null});
     };
 
 describe(
@@ -69,7 +69,7 @@ describe(
         it(
             'Should define string',
             () => {
-                let getFileData = function(filename, token, callback) {
+                let onGetFileData = function(filename, token, callback) {
                         callback([
                             '#define TEST "Hello world"',
                             'proc main()',
@@ -80,8 +80,7 @@ describe(
                             'end'
                         ].join('\n'));
                     };
-                let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = () => {
+                let onFinished = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -102,13 +101,14 @@ describe(
                         vm.setModules(createModules(vm, createMocks()));
                         vm.setCommands(program.getCommands()).run();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
+                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );
         it(
             'Should include',
             function(done) {
-                let getFileData = function(filename, token, callback) {
+                let onGetFileData = function(filename, token, callback) {
                         setTimeout(
                             () => {
                                 switch (filename) {
@@ -135,8 +135,7 @@ describe(
                             1
                         );
                     };
-                let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = () => {
+                let onFinished = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -159,13 +158,14 @@ describe(
                         vm.setCommands(program.getCommands()).run();
                         done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
+                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );
         it(
             'Should include, strip comments',
             function(done) {
-                let getFileData = function(filename, token, callback) {
+                let onGetFileData = function(filename, token, callback) {
                         setTimeout(
                             () => {
                                 switch (filename) {
@@ -195,8 +195,7 @@ describe(
                             1
                         );
                     };
-                let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = () => {
+                let onFinished = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -219,13 +218,14 @@ describe(
                         vm.setCommands(program.getCommands()).run();
                         done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
+                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );
         it(
             'Should include',
             function(done) {
-                let getFileData = function(filename, token, callback) {
+                let onGetFileData = function(filename, token, callback) {
                         setTimeout(
                             () => {
                                 switch (filename) {
@@ -264,8 +264,7 @@ describe(
                             1
                         );
                     };
-                let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = () => {
+                let onFinished = () => {
                         dispatcher.reset();
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -297,13 +296,14 @@ describe(
                         assert.deepEqual(logs, [456, 789]);
                         done();
                     };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
+                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );
         it(
             'Should create image',
             function(done) {
-                let getFileData = function(filename, token, callback) {
+                let onGetFileData = function(filename, token, callback) {
                         callback([
                             '#image "image.rgf"',
                             '#data "010101"',
@@ -312,6 +312,20 @@ describe(
                             'proc main()',
                             'end'
                         ].join('\n'));
+                    };
+                let onFinished = () => {
+                        dispatcher.reset();
+                        let tokens  = preProcessor.getDefinedConcatTokens();
+                        let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
+                        let vm      = new VM({
+                                entryPoint: program.getEntryPoint(),
+                                globalSize: program.getGlobalSize(),
+                                constants:  program.getConstants(),
+                                stringList: program.getStringList()
+                            });
+                        vm.setModules(createModules(vm, createMocks()));
+                        vm.setCommands(program.getCommands()).run();
+                        done();
                     };
                 let setImage = function(image) {
                         assert.deepEqual(
@@ -326,22 +340,8 @@ describe(
                             }
                         );
                     };
-                let preProcessor = new PreProcessor({getFileData: getFileData, setImage: setImage});
-                let preProcessed = () => {
-                        dispatcher.reset();
-                        let tokens  = preProcessor.getDefinedConcatTokens();
-                        let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
-                        let vm      = new VM({
-                                entryPoint: program.getEntryPoint(),
-                                globalSize: program.getGlobalSize(),
-                                constants:  program.getConstants(),
-                                stringList: program.getStringList()
-                            });
-                        vm.setModules(createModules(vm, createMocks()));
-                        vm.setCommands(program.getCommands()).run();
-                        done();
-                    };
-                preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
+                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished, setImage: setImage});
+                preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );
     }

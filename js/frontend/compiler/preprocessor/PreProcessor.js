@@ -20,21 +20,27 @@ const removePadding = function(s) {
 
 exports.PreProcessor = class PreProcessor {
     constructor(opts) {
-        this._documentPath      = opts.documentPath || '';
-        this._projectFilename   = opts.projectFilename;
-        this._projectPath       = path.getPathAndFilename(opts.projectFilename || '').path;
-        this._linter            = opts.linter;
-        this._getFileData       = opts.getFileData;
-        this._getEditorFileData = opts.getEditorFileData;
-        this._filesDone         = {};
-        this._fileCount         = 0;
-        this._sortedFiles       = null;
-        this._defines           = new Defines();
-        this._lineCount         = 0;
-        this._resources         = new ProjectResources({
-            projectFilename:   this._projectFilename,
-            getFileData:       this._getFileData,
-            getEditorFileData: this._getEditorFileData
+        this._documentPath        = opts.documentPath || '';
+        this._projectFilename     = opts.projectFilename;
+        this._projectPath         = path.getPathAndFilename(opts.projectFilename || '').path;
+        this._linter              = opts.linter;
+        this._onGetFileData       = opts.onGetFileData;
+        this._onGetEditorFileData = opts.onGetEditorFileData;
+        this._onError             = opts.onError;
+        this._onFinished          = opts.onFinished;
+        this._filesDone           = {};
+        this._fileCount           = 0;
+        this._sortedFiles         = null;
+        this._error               = false;
+        this._defines             = new Defines();
+        this._lineCount           = 0;
+        this._includeRoot         = {
+            filename: ''
+        };
+        this._resources           = new ProjectResources({
+            projectFilename:     this._projectFilename,
+            onGetEditorFileData: this._onGetEditorFileData,
+            onGetFileData:       this._onGetFileData
         });
     }
 
@@ -84,35 +90,36 @@ exports.PreProcessor = class PreProcessor {
         fileItem.includes = includes;
     }
 
-    processFile(includeItem, depth, index, finishedCallback) {
+    processFile(includeItem, includeNode) {
+        if (!includeNode) {
+            includeNode          = this._includeRoot;
+            includeNode.filename = includeItem.filename;
+        }
         let filesDone = this._filesDone;
         let filename  = this.getBaseFilename(includeItem.filename);
         if (filename in filesDone) {
-            filesDone[filename].depth += depth;
             return;
         }
         this._fileCount++;
         let fileItem = {
-                depth:       depth,
-                index:       index,
                 tokens:      null,
                 projectPath: this._projectPath,
                 filename:    filename
             };
         filesDone[filename] = fileItem;
-        this._getFileData(
+        this._onGetFileData(
             filename,
             includeItem.token,
-            this.onFileData.bind(this, fileItem, depth, finishedCallback)
+            this.onFileData.bind(this, fileItem, includeNode)
         );
     }
 
-    processResources(finishedCallback) {
+    processResources() {
         let filesDone    = this._filesDone;
         let resources    = this._resources.getResources();
         let projectPath  = this._projectPath;
         let index        = 0;
-        let loadResource = function() {
+        let loadResource = () => {
                 let resource = resources[index++];
                 if (resource) {
                     if (resource.neededBeforeCompile()) {
@@ -123,30 +130,33 @@ exports.PreProcessor = class PreProcessor {
                         loadResource();
                     }
                 } else {
-                    finishedCallback(filesDone);
+                    this.getSortedFiles();
+                    this._onFinished(filesDone, this._error);
                 }
             };
         loadResource();
     }
 
-    onFileData(fileItem, depth, finishedCallback, data) {
+    onFileData(fileItem, includeNode, data) {
         this._fileCount--;
         if (fileItem.tokens === null) {
             this.processIncludes(fileItem, data);
         }
         let filesDone = this._filesDone;
         let includes  = fileItem.includes;
-        for (let i = 0; i < includes.length; i++) {
-            let include = includes[i];
+        includes.forEach((include) => {
             if (include in filesDone) {
-                let fileDone = filesDone[include];
-                fileDone.depth += depth;
-            } else {
-                this.processFile(include, depth + 1, i, finishedCallback);
+                return;
             }
-        }
+            let newNode = {filename: include.filename};
+            if (!includeNode.includes) {
+                includeNode.includes = [];
+            }
+            includeNode.includes.push(newNode);
+            this.processFile(include, newNode);
+        });
         if (this._fileCount === 0) {
-            this.processResources(finishedCallback);
+            this.processResources(this._onFinished);
         }
     }
 
@@ -177,16 +187,99 @@ exports.PreProcessor = class PreProcessor {
         return this._lineCount;
     }
 
+    /**
+     * Build an include file tree and return the depth of the file relative to the root of the project...
+    **/
+    getDepthByFilename() {
+        let projectPath        = this._projectPath;
+        let includesByFilename = {};
+        let includeByFilename  = {}; // To check for circular includes...
+        let depthByFilename    = {};
+        const makeNodeByFilename = (node) => {
+                if (node.includes) {
+                    includesByFilename[node.filename] = node.includes;
+                    node.includes.forEach((node) => {
+                        makeNodeByFilename(node);
+                    });
+                }
+            };
+        const makeIncludes = (node) => {
+                if (this._error) {
+                    return;
+                }
+                if (node.includes) {
+                    node.includes.forEach((includeNode) => {
+                        let filename1 = path.removePath(projectPath, node.filename);
+                        let filename2 = includeNode.filename;
+                        let index1    = filename1 + '!' + filename2;
+                        let index2    = filename2 + '!' + filename1;
+                        if ((index1 in includeByFilename) || (index2 in includeByFilename)) {
+                            if (!this._error) {
+                                if (this._onError) {
+                                    this._onError({
+                                        type:    'Error',
+                                        message: 'Circular include in ' +
+                                            '<i class="error">"' + filename1 + '"</i> and ' +
+                                            '<i class="error">' + filename2 + '"</i>.'
+                                    });
+                                }
+                                this._error = true;
+                            }
+                            return;
+                        }
+                        includeByFilename[index1] = true;
+                        makeIncludes(includeNode);
+                    });
+                } else if (node.filename in includesByFilename) {
+                    node.includes = includesByFilename[node.filename];
+                }
+            };
+        const makeIncludeOrder = (node, depth) => {
+                if (node.filename in depthByFilename) {
+                    depthByFilename[node.filename] = Math.max(depthByFilename[node.filename], depth);
+                } else {
+                    depthByFilename[node.filename] = depth;
+                }
+                if (node.includes) {
+                    node.includes.forEach((node) => {
+                        makeIncludeOrder(node, depth + 1);
+                    });
+                }
+            };
+        makeNodeByFilename(this._includeRoot);
+        makeIncludes(this._includeRoot);
+        if (!this._error) {
+            makeIncludeOrder(this._includeRoot, 0);
+        }
+        return this._error ? null : depthByFilename;
+    }
+
     getSortedFiles() {
         if (this._sortedFiles) {
             return this._sortedFiles;
         }
-        let filesDone = this._filesDone;
-        let files     = [];
+        let depthByFilename = this.getDepthByFilename();
+        let documentPath    = this._documentPath;
+        let projectPath     = this._projectPath;
+        let filesDone       = this._filesDone;
+        let files           = [];
+        if (!depthByFilename) {
+            return [];
+        }
         for (let i in filesDone) {
             let fileDone = filesDone[i];
             fileDone.toString = function() {
-                this.sortIndex = ('00000000' + (256 - fileDone.depth)).substr(-8) + ('0000' + fileDone.index).substr(-4);
+                let depth    = 0;
+                let filename = this.filename;
+                if (this.filename in depthByFilename) {
+                    depth = depthByFilename[filename];
+                } else {
+                    filename = path.removePath(projectPath, path.join(documentPath, filename));
+                    if (filename in depthByFilename) {
+                        depth = depthByFilename[filename];
+                    }
+                }
+                this.sortIndex = ('00000000' + (99999999 - depth)).substr(-8);
                 return this.sortIndex;
             };
             files.push(fileDone);

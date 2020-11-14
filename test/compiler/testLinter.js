@@ -8,16 +8,16 @@ const compiler     = require('../../js/frontend/compiler/Compiler');
 const Linter       = require('../../js/frontend/compiler/linter/Linter');
 
 const compileWithLinter = function(source, linter, done) {
-        let getFileData = function(filename, token, callback) {
+        let onGetFileData = function(filename, token, callback) {
                 callback(source.join('\n'));
             };
-        let preProcessor = new PreProcessor({getFileData: getFileData, linter: linter});
-        let preProcessed = () => {
+        let onFinished = () => {
                 let tokens = preProcessor.getDefinedConcatTokens();
                 new compiler.Compiler({preProcessor: preProcessor, linter: linter}).buildTokens(tokens);
                 done();
             };
-        preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
+        let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished, linter: linter});
+        preProcessor.processFile({filename: 'main.whl', token: null});
     };
 
 describe(

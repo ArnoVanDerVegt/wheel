@@ -11,11 +11,11 @@ const path            = require('../../lib/path');
 
 exports.ProjectResources = class {
     constructor(opts) {
-        this._getFileData       = opts.getFileData;
-        this._getEditorFileData = opts.getEditorFileData;
-        this._getDataProvider   = opts.getDataProvider || false;
-        this._projectFilename   = opts.projectFilename;
-        this._resources         = [];
+        this._onGetFileData       = opts.onGetFileData;
+        this._onGetEditorFileData = opts.onGetEditorFileData;
+        this._getDataProvider     = opts.getDataProvider || false;
+        this._projectFilename     = opts.projectFilename;
+        this._resources           = [];
     }
 
     add(filename, data, token) {
@@ -52,11 +52,11 @@ exports.ProjectResources = class {
             }
         } else if (path.getExtension(filename) === '.wfrm') {
             resources.push(new FormResource({
-                filename:          filename,
-                data:              null,
-                getDataProvider:   this._getDataProvider,
-                getFileData:       this._getFileData,
-                getEditorFileData: this._getEditorFileData
+                filename:            filename,
+                data:                null,
+                getDataProvider:     this._getDataProvider,
+                onGetFileData:       this._onGetFileData,
+                onGetEditorFileData: this._onGetEditorFileData
             }));
         } else {
             resources.push(new ProjectResource({

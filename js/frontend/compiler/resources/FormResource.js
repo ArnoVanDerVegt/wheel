@@ -10,9 +10,9 @@ const ProjectResource = require('./ProjectResource').ProjectResource;
 exports.FormResource = class extends ProjectResource {
     constructor(opts) {
         super(opts);
-        this._getFileData       = opts.getFileData;
-        this._getEditorFileData = opts.getEditorFileData;
-        this._wfrm              = null;
+        this._onGetFileData       = opts.onGetFileData;
+        this._onGetEditorFileData = opts.onGetEditorFileData;
+        this._wfrm                = null;
     }
 
     canSave() {
@@ -46,8 +46,8 @@ exports.FormResource = class extends ProjectResource {
     }
 
     getData(callback) {
-        if (this._getEditorFileData) {
-            this._getEditorFileData(
+        if (this._onGetEditorFileData) {
+            this._onGetEditorFileData(
                 path.join(this._projectPath, this._filename),
                 (data) => {
                     if (data) {
