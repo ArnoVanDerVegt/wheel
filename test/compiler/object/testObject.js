@@ -73,5 +73,32 @@ describe(
                 3851
             ]
         );
+        testCodeAndMemory(
+            it,
+            'Should call an object from an extended object',
+            [
+                'object Test',
+                'end',
+                'proc Test.log()',
+                '    number i = 1234',
+                '    addr i',
+                '    mod 0, 1',
+                'end',
+                'object BaseObject',
+                '    Test test',
+                'end',
+                'proc BaseObject.testTest()',
+                '    test.log()',
+                'end',
+                'object ExtendedObject extends BaseObject',
+                'end',
+                'ExtendedObject eo',
+                'proc main()',
+                '    eo.testTest()',
+                'end'
+            ],
+            true,
+            false
+        );
     }
 );

@@ -175,6 +175,34 @@ describe(
                         4562
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should call a method in an object field from an extended object',
+                    [
+                        'object Test',
+                        'end',
+                        'proc Test.log()',
+                        '    number i = 1234',
+                        '    addr i',
+                        '    mod 0, 1',
+                        'end',
+                        'object BaseObject',
+                        '    Test test',
+                        'end',
+                        'proc BaseObject.testTest()',
+                        '    test.log()',
+                        'end',
+                        'object ExtendedObject extends BaseObject',
+                        'end',
+                        'ExtendedObject eo',
+                        'proc main()',
+                        '    eo.testTest()',
+                        'end'
+                    ],
+                    [
+                        1234
+                    ]
+                );
             }
         );
         describe(

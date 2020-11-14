@@ -113,6 +113,9 @@ exports.CompileObjct = class {
         let offset = vr.getOffset();
         let local  = !vr.getGlobal();
         const compileRecordFields = (vr) => {
+                if (vr.getParentScope() instanceof Objct) {
+                    compileRecordFields(vr.getParentScope());
+                }
                 vr.getVars().forEach((field) => {
                     let arraySize = field.getArraySize() || 1;
                     if ((field.getType().type instanceof Objct) && !field.getPointer() && !field.getType().typePointer) {
