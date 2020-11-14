@@ -34,7 +34,7 @@ class SyntaxLineOutputSVG {
             j++;
         }
         return line.substr(i, j - i).trim();
-    };
+    }
 
     addOutputText(className, text) {
         let s = text.split('"').join('&#34;');
