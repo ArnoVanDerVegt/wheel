@@ -37,10 +37,12 @@
     z-index:                        1000;
     content:                        " ";
 }
+.tabs .tabs-content .tab input[type="button"].title {
+    min-width:                      32px;
+}
 .tabs .tabs-content .tab input[type="button"].title,
 .tabs .tabs-content .tab input[type="button"].close {
     float:                          left;
-    min-width:                      32px;
     height:                         calc(100% - 2px);
     line-height:                    27px;
     margin:                         2px;
