@@ -479,14 +479,14 @@ exports.VarExpression = class {
                             .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
                     }
                 }
-               if (opts.reg === $.REG_PTR) {
-                   program.addCommand(
-                       $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
-                   );
-               } else {
-                   program.addCommand(
-                       $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset(),
-                       $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
+                if (opts.reg === $.REG_PTR) {
+                    program.addCommand(
+                        $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
+                    );
+                } else {
+                    program.addCommand(
+                        $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset(),
+                        $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
                    );
                }
             } else if (opts.identifier.getPointer() && (opts.identifier.getType().type === t.LEXEME_STRING)) {

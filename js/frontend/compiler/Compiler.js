@@ -70,6 +70,9 @@ exports.Compiler = class extends CompileBlock {
         return this.buildTokens(tokens);
     }
 
+    /**
+     * This function saves the object sizes WITHOUT the super object size!
+    **/
     saveObjctSize() {
         this._scope.getRecords().forEach((record) => {
             if (record instanceof Objct) {
