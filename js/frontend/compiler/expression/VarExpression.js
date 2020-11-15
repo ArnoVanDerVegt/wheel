@@ -352,7 +352,11 @@ exports.VarExpression = class {
         let iterator    = new Iterator({tokens: opts.expression.tokens, compiler: this._compiler});
         let CompileCall = require('../compiler/CompileCall').CompileCall;
         iterator.skipWhiteSpace().next();
-        new CompileCall({compiler: this._compiler, program: this._program, scope: scope}).compile(iterator, null, opts.identifier);
+        new CompileCall({compiler: this._compiler, program: this._program, scope: scope}).compile({
+            iterator:       iterator,
+            proc:           opts.identifier,
+            procExpression: null
+        });
         this.setStackOffsetToPtr();
         this.assignToPtr($.CMD_SET, $.T_NUM_G, $.REG_RET);
         opts.index      = opts.expression.tokens.length;

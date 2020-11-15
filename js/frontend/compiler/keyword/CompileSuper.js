@@ -13,6 +13,11 @@ exports.CompileSuper = class extends CompileScope {
     compile(iterator) {
         let opts = {compiler: this._compiler, program: this._program, scope: this._scope};
         this.checkNotInGlobalScope(iterator);
-        new CompileCall(opts).compile(iterator, t.LEXEME_SUPER, t.LEXEME_PROC, t.LEXEME_SUPER);
+        new CompileCall(opts).compile({
+            iterator:       iterator,
+            proc:           t.LEXEME_PROC,
+            procExpression: t.LEXEME_SUPER,
+            procIdentifier: t.LEXEME_SUPER
+        });
     }
 };

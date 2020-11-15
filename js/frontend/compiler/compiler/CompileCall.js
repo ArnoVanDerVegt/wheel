@@ -281,7 +281,11 @@ exports.CompileCall = class CompileCall extends CompileScope {
         return token && (token.cls === t.TOKEN_PARENTHESIS_CLOSE);
     }
 
-    compile(iterator, procExpression, proc, procIdentifier) {
+    compile(opts) {
+        let iterator = opts.iterator;
+        let proc                   = opts.proc           || null;
+        let procExpression         = opts.procExpression || null;
+        let procIdentifier         = opts.procIdentifier || null;
         let token                  = iterator.next();
         let program                = this._program;
         let scope                  = this._scope;
