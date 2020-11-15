@@ -102,7 +102,7 @@ exports.Scope = class {
                     pointer:     pointer,
                     unionId:     this._unionId,
                     global:      this._global,
-                    offset:      ('offset' in opts) ? opts.offset : this._size,
+                    offset:      ('offset' in opts) ? opts.offset : this._size
                 });
         this._varsByName[opts.name] = vr;
         this._vars.push(vr);
