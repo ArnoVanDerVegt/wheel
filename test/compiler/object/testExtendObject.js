@@ -203,6 +203,39 @@ describe(
                         1234
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should call method in extended extended object',
+                    [
+                        'object Test1',
+                        'end',
+                        'proc Test1.init1()',
+                        'end',
+                        'object Test2 extends Test1',
+                        'end',
+                        'object Test3 extends Test2',
+                        'end',
+                        'proc Test3.init2()',
+                        'end',
+                        'proc Test3.init1()',
+                        '    init2()',
+                        'end',
+                        'Test3 test3',
+                        'proc main()',
+                        '    number n = 3466',
+                        '    addr n',
+                        '    mod 0, 1',
+                        '    test3.init1()',
+                        '    n = 3567',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        3466,
+                        3567
+                    ]
+                );
             }
         );
         describe(
