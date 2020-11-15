@@ -292,18 +292,20 @@ exports.CompileProc = class extends CompileBlock {
         scope.setMethod(true);
         this._compiler.getUseInfo().addUseMethod(objct.getName());
         // Add self to the with stack...
-        scope.setSelf(new Var.Var({
-            compiler:    this._compiler,
-            unionId:     0,
-            offset:      0,
-            token:       null,
-            name:        '!____SELF_POINTER_RECORD____',
-            global:      false,
-            type:        scope.pushSelf(objct),
-            typePointer: false,
-            pointer:     false,
-            arraySize:   false
-        }).setWithOffset(0));
+        scope
+            .setSelf(new Var.Var({
+                compiler:    this._compiler,
+                unionId:     0,
+                offset:      0,
+                token:       null,
+                name:        '!____SELF_POINTER_RECORD____',
+                global:      false,
+                type:        scope.pushSelf(objct),
+                typePointer: false,
+                pointer:     false,
+                arraySize:   false
+            }).setWithOffset(0))
+            .incStackOffset();
         // Find the super object proc....
         if (this._objct.getParentScope()) {
             let superProc  = null;
@@ -355,7 +357,9 @@ exports.CompileProc = class extends CompileBlock {
         this.compileBlock(iterator, null);
         if (this._objct) {
             // Remove self from the with stack...
-            this._scope.popSelf();
+            this._scope
+                .popSelf()
+                .decStackOffset();
         }
         // Release the allocated strings...
         if (!this._main) {

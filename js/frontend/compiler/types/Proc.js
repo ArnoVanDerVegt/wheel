@@ -17,6 +17,7 @@ exports.Proc = class extends Scope {
 
     setSelf(self) {
         this._self = self;
+        return this;
     }
 
     getMethod() {
@@ -57,5 +58,6 @@ exports.Proc = class extends Scope {
     popSelf() {
         this._self = null;
         this._withStack.pop();
+        return this;
     }
 };

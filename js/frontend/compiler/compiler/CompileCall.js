@@ -47,7 +47,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
      * Try to find an instance of the Proc type.
      * We need to know if the proc is a method.
     **/
-    getProc(procExpression, proc, procIdentifier) {
+    getProc(token, proc, procExpression, procIdentifier) {
         if (procExpression === t.LEXEME_SUPER) {
             if (!this._scope.getSuper()) {
                 throw errors.createError(err.NO_SUPER_PROC_FOUND, token, 'No super proc found.');
@@ -300,7 +300,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
             callMethod             = true;
             proc                   = t.LEXEME_PROC;
         } else {
-            callProc               = this.getProc(procExpression, proc, procIdentifier);
+            callProc               = this.getProc(token, proc, procExpression, procIdentifier);
             callProcVars           = this.getProcVars(callProc, procExpression, procIdentifier);
             callMethod             = callProc && callProc.getMethod();
         }
