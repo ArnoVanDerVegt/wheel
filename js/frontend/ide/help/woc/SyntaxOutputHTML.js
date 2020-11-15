@@ -29,7 +29,7 @@ class SyntaxLineOutputHTML {
             j++;
         }
         return line.substr(i, j - i).trim();
-    };
+    }
 
     addWord(line, i, w) {
         w = w || this._word;

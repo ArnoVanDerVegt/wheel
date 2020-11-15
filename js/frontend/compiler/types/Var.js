@@ -8,13 +8,18 @@ exports.Var = class {
             opts.pointer     = true;
             opts.typePointer = false;
         }
+        if (opts.unionId === undefined) {
+            throw new Error('No union id');
+        }
+        this._unionId              = opts.unionId;
+        this._compiler             = opts.compiler;
         this._token                = opts.token;
         this._name                 = opts.name;
-        this._arraySize            = opts.arraySize;
-        this._global               = opts.global;
         this._offset               = opts.offset;
-        this._pointer              = opts.pointer;
-        this._isParam              = opts.isParam;
+        this._arraySize            = opts.arraySize;
+        this._global               = !!opts.global;
+        this._pointer              = !!opts.pointer;
+        this._isParam              = !!opts.isParam;
         this._proc                 = false;
         this._withOffset           = null;
         this._assignedProc         = null;
@@ -23,6 +28,14 @@ exports.Var = class {
             type:        opts.type,
             typePointer: opts.typePointer
         };
+    }
+
+    getCompiler() {
+        return this._compiler;
+    }
+
+    getUnionId() {
+        return this._unionId;
     }
 
     getToken() {
@@ -59,6 +72,14 @@ exports.Var = class {
     }
 
     getSize() {
+        let compiler = this._compiler;
+        // In the second pass we know the exact object size including the virtual methods!
+        if (compiler.getPass() && !this._type.typePointer && !this._pointer) {
+            const Objct = require('./Objct').Objct;
+            if (this._type.type instanceof Objct) {
+                return this._compiler.getObjctSize(this._type.type.getName());
+            }
+        }
         return this.getPrimitiveType() ? 1 : this._type.type.getSize();
     }
 

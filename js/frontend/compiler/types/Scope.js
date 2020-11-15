@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const t   = require('../tokenizer/tokenizer');
 const Var = require('./Var').Var;
 
 exports.Scope = class {
@@ -9,6 +10,7 @@ exports.Scope = class {
         if (!namespace) {
             throw new Error('No namespace');
         }
+        this._unionId           = 0;
         this._token             = null;
         this._program           = null;
         this._parentScope       = parentScope;
@@ -91,14 +93,16 @@ exports.Scope = class {
         let arraySize   = ('arraySize'   in opts) ? opts.arraySize   : false;
         let pointer     = ('pointer'     in opts) ? opts.pointer     : false;
         let vr          = new Var({
+                    compiler:    opts.compiler,
                     token:       opts.token,
                     name:        opts.name,
                     type:        opts.type,
                     typePointer: typePointer,
                     arraySize:   arraySize,
                     pointer:     pointer,
+                    unionId:     this._unionId,
                     global:      this._global,
-                    offset:      this._size
+                    offset:      ('offset' in opts) ? opts.offset : this._size
                 });
         this._varsByName[opts.name] = vr;
         this._vars.push(vr);
@@ -148,6 +152,12 @@ exports.Scope = class {
     }
 
     findIdentifier(name) {
+        if (!isNaN(name * 1)) {
+            return null;
+        }
+        if (name === t.LEXEME_SELF) {
+            return this._self || null;
+        }
         let record = this._recordsByName[name];
         if (record) {
             return record;
@@ -156,13 +166,13 @@ exports.Scope = class {
         if (record) {
             return record;
         }
-        let field = this.findWithField(name);
-        if (field) {
-            return field;
-        }
         let vr = this._varsByName[name];
         if (vr) {
             return vr;
+        }
+        let field = this.findWithField(name);
+        if (field) {
+            return field;
         }
         let proc = this._procByName[name];
         if (proc) {
@@ -214,6 +224,14 @@ exports.Scope = class {
             return proc;
         }
         return this._parentScope ? this._parentScope.findProc(name) : null;
+    }
+
+    getUnionId() {
+        return this._unionId;
+    }
+
+    setUnionId(unionId) {
+        this._unionId = unionId;
     }
 
     getNamespace() {

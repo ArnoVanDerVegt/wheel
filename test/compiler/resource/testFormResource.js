@@ -19,9 +19,9 @@ describe(
             (done) => {
                 let mockDataProvider = new MockDataProvider();
                 let formResource     = new FormResource({
-                        filename:          'test.wfrm',
-                        getDataProvider:   () => { return mockDataProvider; },
-                        getEditorFileData: (filename, callback) => {
+                        filename:            'test.wfrm',
+                        getDataProvider:     () => { return mockDataProvider; },
+                        onGetEditorFileData: (filename, callback) => {
                             callback([{type: 'form', name: 'testForm'}]);
                         }
                     });

@@ -107,8 +107,9 @@ class LogMessage extends DOMNode {
     onClickLineInfo() {
         let lineInfo     = this._lineInfo;
         let documentPath = this._settings.getDocumentPath();
+        let projectPath  = path.removePath(documentPath, lineInfo.projectPath);
         let files        = [
-                path.join(documentPath, lineInfo.projectPath, lineInfo.filename),
+                path.join(documentPath, projectPath, lineInfo.filename),
                 path.join(documentPath, lineInfo.filename)
             ];
         let index        = 0;

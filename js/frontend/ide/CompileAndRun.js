@@ -286,14 +286,6 @@ exports.CompileAndRun = class extends DOMUtils {
         return null;
     }
 
-    getFileData(filename, token, callback) {
-        callback('');
-    }
-
-    getEditorFileData(filename, callback) {
-        callback(null);
-    }
-
     setSource(source) {
         this._source = source;
     }
@@ -455,7 +447,20 @@ exports.CompileAndRun = class extends DOMUtils {
         this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).getDisplay().drawLoaded(this._title);
     }
 
-    filesProcessed(title) {
+    onGetFileData(filename, token, callback) {
+        callback('');
+    }
+
+    onGetEditorFileData(filename, callback) {
+        callback(null);
+    }
+
+    onFilesProcessed(title, filesDone, preProcessorError) {
+        if (preProcessorError) {
+            this._compiling     = false;
+            this._compileSilent = false;
+            return;
+        }
         let compiler = new Compiler({linter: this.getLinter()});
         let tokens   = this._preProcessor.getDefinedConcatTokens();
         this._tokens      = tokens;
@@ -510,15 +515,17 @@ exports.CompileAndRun = class extends DOMUtils {
                     linter.reset();
                 }
                 this._preProcessor = new PreProcessor({
-                    documentPath:      documentPath,
-                    projectFilename:   this._projectFilename,
-                    linter:            linter,
-                    getFileData:       this.getFileData.bind(this),
-                    getEditorFileData: this.getEditorFileData.bind(this),
-                    setImage:          this.onSetImage.bind(this)
+                    documentPath:        documentPath,
+                    linter:              linter,
+                    projectFilename:     this._projectFilename,
+                    onGetFileData:       this.onGetFileData.bind(this),
+                    onGetEditorFileData: this.onGetEditorFileData.bind(this),
+                    onError:             this.onCompilerError.bind(this),
+                    onFinished:          this.onFilesProcessed.bind(this, title),
+                    setImage:            this.onSetImage.bind(this)
                 });
                 this.onCreatedPreProcessor(this._preProcessor);
-                this._preProcessor.processFile({filename: this._projectFilename, token: null}, 0, 0, this.filesProcessed.bind(this, title));
+                this._preProcessor.processFile({filename: this._projectFilename, token: null});
             } catch (error) {
                 this._compiling = false;
                 if (!this._compileSilent) {

@@ -147,6 +147,15 @@ class CompileBlock extends CompileScope {
             // Check if the token belongs to the next file, if so then reset the namespace to the root.
             compiler.getNamespace().checkCurrentFileIndex(token);
             program.nextBlockId(token, scope);
+            if (token.lexeme === t.LEXEME_SELF) {
+                if (!scope.getSelf) {
+                    throw errors.createError(err.SYNTAX_ERROR, token, 'Syntax error.');
+                } else {
+                    identifier = scope.getSelf();
+                }
+            } else {
+                identifier = null;
+            }
             switch (token.cls) {
                 case t.TOKEN_TYPE:
                     new CompileVars(opts).compile(token.lexeme, false, iterator);
@@ -172,7 +181,9 @@ class CompileBlock extends CompileScope {
                     this.compileMeta(iterator, token);
                     break;
                 case t.TOKEN_IDENTIFIER:
-                    identifier = scope.findIdentifier(token.lexeme);
+                    if (identifier === null) {
+                        identifier = scope.findIdentifier(token.lexeme);
+                    }
                     if (identifier && !(identifier instanceof Proc)) {
                         if (identifier instanceof Record) {
                             new CompileVars(opts).compile(identifier, false, iterator);
@@ -189,7 +200,12 @@ class CompileBlock extends CompileScope {
                             if (isProcCall) {
                                 let procExpression = iterator.nextUntilTokenCls([t.TOKEN_PARENTHESIS_OPEN]);
                                 iterator.setIndexToToken(procExpression.lastToken);
-                                new CompileCall(opts).compile(iterator, procExpression, t.LEXEME_PROC, identifier);
+                                new CompileCall(opts).compile({
+                                    iterator:       iterator,
+                                    proc:           t.LEXEME_PROC,
+                                    procExpression: procExpression,
+                                    procIdentifier: identifier
+                                });
                             } else {
                                 destExpression = iterator.nextUntilLexeme([
                                     t.LEXEME_NEWLINE,
@@ -210,7 +226,11 @@ class CompileBlock extends CompileScope {
                     } else {
                         let proc = scope.findProc(token.lexeme);
                         if (proc) {
-                            new CompileCall(opts).compile(iterator, null, proc);
+                            new CompileCall(opts).compile({
+                                iterator:       iterator,
+                                proc:           proc,
+                                procExpression: null
+                            });
                         } else {
                             throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
                         }

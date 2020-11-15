@@ -11,6 +11,7 @@ exports.Record = class extends Scope {
     }
 
     union() {
+        this._unionId++;
         if (this._unionSize === 0) {
             this._unionSize = this._size;
             this._size      = 0;
@@ -28,17 +29,20 @@ exports.Record = class extends Scope {
     _getWithRecord(record, parentScope, withOffset) {
         let withRecord = new exports.Record(parentScope, record.getName(), record.getGlobal(), record.getNamespace());
         if (parentScope) {
-            withRecord.setSize(parentScope.getSize());
+            withRecord.setSize(parentScope ? (parentScope.getSize() + 1) : 0);
         }
         record.getVars().forEach((vr) => {
             withRecord
                 .addVar({
+                    unionId:      vr.getUnionId(),
+                    compiler:     vr.getCompiler(),
                     token:        vr.getToken(),
                     name:         vr.getName(),
                     type:         vr.getType().type,
                     typePointer:  vr.getType().typePointer,
                     arraySize:    vr.getArraySize(),
                     pointer:      vr.getPointer(),
+                    offset:       vr.getOffset(),
                     ignoreString: false
                 })
                 .setProc(vr.getProc())

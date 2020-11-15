@@ -272,7 +272,7 @@ exports.testError = function(it, message, source, err) {
         assert.throws(
             () => {
                 dispatcher.reset();
-                let getFileData = function(filename, token, callback) {
+                let onGetFileData = function(filename, token, callback) {
                         if (filename === '<main>') {
                             callback(source.join('\n'));
                             return;
@@ -281,12 +281,12 @@ exports.testError = function(it, message, source, err) {
                         const err    = require('../js/frontend/compiler/errors').errors;
                         throw errors.createError(err.FILE_NOT_FOUND, token, 'File not found: "' + filename + '".');
                     };
-                let preProcessor = new PreProcessor({getFileData: getFileData});
-                let preProcessed = () => {
+                let onFinished = () => {
                         let tokens  = preProcessor.getDefinedConcatTokens();
                         new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
                     };
-                preProcessor.processFile({filename: '<main>', token: null}, 0, 0, preProcessed);
+                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                preProcessor.processFile({filename: '<main>', token: null});
             },
             function(error) {
                 return (error.toString() === err);
@@ -348,7 +348,7 @@ exports.testCompile = function(source, linter) {
 
 exports.testPreProcessor = function(source, callback) {
     dispatcher.reset();
-    let getFileData = function(filename, token, callback) {
+    let onGetFileData = function(filename, token, callback) {
             if (filename === '<main>') {
                 callback(source.join('\n'));
                 return;
@@ -357,11 +357,11 @@ exports.testPreProcessor = function(source, callback) {
             const err    = require('../js/frontend/compiler/errors').errors;
             throw errors.createError(err.FILE_NOT_FOUND, token, 'File not found: "' + filename + '".');
         };
-    let preProcessor = new PreProcessor({getFileData: getFileData});
-    let preProcessed = () => {
+    let onFinished = () => {
             callback(preProcessor);
         };
-    preProcessor.processFile({filename: '<main>', token: null}, 0, 0, preProcessed);
+    let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+    preProcessor.processFile({filename: '<main>', token: null});
 };
 
 exports.testRangeCheckError = function(it, message, source) {
@@ -473,9 +473,8 @@ exports.testComponentCall = function(it, opts) {
                     value += '';
                     break;
             }
-            let getFileData  = getGetFileDataCallback(opts.moduleFile, opts.procName, win, component, value, opts.type);
-            let preProcessor = new PreProcessor({getFileData: getFileData});
-            let preProcessed = () => {
+            let onGetFileData = getGetFileDataCallback(opts.moduleFile, opts.procName, win, component, value, opts.type);
+            let onFinished    = () => {
                     dispatcher.reset();
                     let tokens  = preProcessor.getDefinedConcatTokens();
                     let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
@@ -526,7 +525,8 @@ exports.testComponentCall = function(it, opts) {
                     }
                     done();
                 };
-            preProcessor.processFile({filename: 'main.whl', token: null}, 0, 0, preProcessed);
+            let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+            preProcessor.processFile({filename: 'main.whl', token: null});
         }
     );
 };

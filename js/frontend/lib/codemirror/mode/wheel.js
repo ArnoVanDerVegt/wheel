@@ -15,7 +15,7 @@
             }
             let keywords = words(
                     'proc record union and select case to downto else elseif end for if not or repeat until while break default mod addr step ret ' +
-                    'static with object public private protected super namespace'
+                    'static with object self extends public private protected super namespace'
                 );
             let types    = words('number string');
             let meta     = words('#define #include #image #heap #optimizer #rangecheck #data #project #break #display #resource #text #line #stringlength #stringcount');

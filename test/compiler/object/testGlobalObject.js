@@ -88,6 +88,37 @@ describe(
                 );
                 testLogs(
                     it,
+                    'Should declare an object and set value with self',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.setX(number x)',
+                        '    self.x = x',
+                        'end',
+                        'proc Point.setY(number y)',
+                        '    self.y = y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr self.x',
+                        '    mod 0, 1',
+                        '    addr self.y',
+                        '    mod 0, 1',
+                        'end',
+                        'Point p',
+                        'proc main()',
+                        '    p.setX(1345)',
+                        '    p.setY(9345)',
+                        '    p.log()',
+                        'end'
+                    ],
+                    [
+                        1345,
+                        9345
+                    ]
+                );
+                testLogs(
+                    it,
                     'Should declare an object with two methods with parameter',
                     [
                         'object Point',

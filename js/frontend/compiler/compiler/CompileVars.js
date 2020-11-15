@@ -27,8 +27,9 @@ exports.CompileVars = class {
     getCompileObjct() {
         if (!this._compileObjct) {
             this._compileObjct = new CompileObjct({
-                program: this._program,
-                scope:   this._scope
+                compiler: this._compiler,
+                program:  this._program,
+                scope:    this._scope
             });
         }
         return this._compileObjct;
@@ -40,6 +41,7 @@ exports.CompileVars = class {
             program.addConstant({offset: vr.getOffset(), data: data});
         } else {
             let dataVar = this._scope.getParentScope().addVar({
+                    compiler:    this._compiler,
                     token:       null,
                     name:        '!' + vr.getName(),
                     type:        t.LEXEME_NUMBER,
@@ -281,6 +283,7 @@ exports.CompileVars = class {
                 throw errors.createError(err.DUPLICATE_IDENTIFIER, token, 'Duplicate identifier "' + token.lexeme + '".');
             }
             let vr = scope.addVar({
+                    compiler:    this._compiler,
                     token:       token,
                     name:        token.lexeme,
                     type:        type,

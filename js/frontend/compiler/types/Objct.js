@@ -9,6 +9,11 @@ exports.Objct = class extends Record {
         super(parentScope, name, global, namespace);
         this._constructorCodeOffset = null;
         this._methodTable           = null;
+        this._compiler              = null;
+    }
+
+    setCompiler(compiler) {
+        this._compiler = compiler;
     }
 
     getConstructorCodeOffset(constructorCodeOffset) {
@@ -29,14 +34,29 @@ exports.Objct = class extends Record {
         return this;
     }
 
+    getSize() {
+        let compiler = this._compiler;
+        if (!compiler.getPass()) {
+            return super.getSize();
+        }
+        let size        = this._size;
+        let parentScope = this._parentScope;
+        while (parentScope && (parentScope instanceof exports.Objct)) {
+            size += compiler.getObjctSize(parentScope.getName());
+            parentScope = parentScope.getParentScope();
+        }
+        return size;
+    }
+
     extend(dataType) {
         // The size can be set to 0 here because extend is only called when there are no fields in this scope!
         this._size        = 0;
         this._parentScope = dataType;
+        let compiler   = this._compiler;
         let superObjct = dataType;
-        while (superObjct) {
-            this._size += superObjct.getSize();
-            superObjct = superObjct.getParentScope();
+        if (superObjct && compiler.getPass()) {
+            // We only know the actual size in the second pass...
+            this._size = superObjct.getSize();
         }
     }
 

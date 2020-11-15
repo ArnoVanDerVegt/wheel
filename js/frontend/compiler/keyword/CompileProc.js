@@ -26,8 +26,9 @@ exports.CompileProc = class extends CompileBlock {
     getCompileObjct() {
         if (!this._compileObjct) {
             this._compileObjct = new CompileObjct({
-                program: this._program,
-                scope:   this._scope
+                compiler: this._compiler,
+                program:  this._program,
+                scope:    this._scope
             });
         }
         return this._compileObjct;
@@ -87,6 +88,8 @@ exports.CompileProc = class extends CompileBlock {
         } else {
             this._compiler.setEventProc(scope.getName(), this._startEntryPoint);
             scope.addVar({
+                compiler:    this._compiler,
+                unionId:     0,
                 token:       null,
                 name:        '!____CODE_RETURN____',
                 type:        t.LEXEME_NUMBER,
@@ -94,6 +97,8 @@ exports.CompileProc = class extends CompileBlock {
                 arraySize:   false
             });
             scope.addVar({
+                compiler:    this._compiler,
+                unionId:     0,
                 token:       null,
                 name:        '!____STACK_RETURN____',
                 type:        t.LEXEME_NUMBER,
@@ -104,6 +109,8 @@ exports.CompileProc = class extends CompileBlock {
         scope.setEntryPoint(this._startEntryPoint);
         if (this._objct) {
             scope.addVar({
+                compiler:    this._compiler,
+                unionId:     0,
                 token:       null,
                 name:        '!____SELF_POINTER____',
                 type:        t.LEXEME_NUMBER,
@@ -171,6 +178,8 @@ exports.CompileProc = class extends CompileBlock {
                             throw errors.createError(err.RECORD_OR_OBJECT_TYPE_EXPECTED, token, 'Record or object type expected.');
                         }
                         scope.addVar({
+                            compiler:     this._compiler,
+                            unionId:      0,
                             token:        token,
                             name:         token.lexeme,
                             type:         type,
@@ -266,8 +275,12 @@ exports.CompileProc = class extends CompileBlock {
     }
 
     compileMethodSetup(token, procName) {
-        this._objct
+        let scope = this._scope;
+        let objct = this._objct;
+        objct
             .addVar({
+                compiler:     this._compiler,
+                unionId:      0,
                 token:        token,
                 name:         procName.name,
                 type:         t.LEXEME_PROC,
@@ -276,15 +289,28 @@ exports.CompileProc = class extends CompileBlock {
                 pointer:      false,
                 ignoreString: false
             })
-            .setProc(this._scope);
-        this._scope.setMethod(true);
-        this._compiler.getUseInfo().addUseMethod(this._objct.getName());
+            .setProc(scope);
+        scope.setMethod(true);
+        this._compiler.getUseInfo().addUseMethod(objct.getName());
         // Add self to the with stack...
-        this._scope.pushSelf(this._objct);
+        scope
+            .setSelf(new Var.Var({
+                compiler:    this._compiler,
+                unionId:     0,
+                offset:      0,
+                token:       null,
+                name:        '!____SELF_POINTER_RECORD____',
+                global:      false,
+                type:        scope.pushSelf(objct),
+                typePointer: false,
+                pointer:     false,
+                arraySize:   false
+            }).setWithOffset(0))
+            .incStackOffset();
         // Find the super object proc....
         if (this._objct.getParentScope()) {
             let superProc  = null;
-            let superObjct = this._objct.getParentScope();
+            let superObjct = objct.getParentScope();
             while (superObjct) {
                 let varsByName = superObjct.getVarsByName();
                 if (procName.name in varsByName) {
@@ -293,7 +319,7 @@ exports.CompileProc = class extends CompileBlock {
                 }
                 superObjct = superObjct.getParentScope();
             }
-            this._scope.setSuper(superProc);
+            scope.setSuper(superProc);
         }
     }
 
@@ -332,11 +358,12 @@ exports.CompileProc = class extends CompileBlock {
         this.compileBlock(iterator, null);
         if (this._objct) {
             // Remove self from the with stack...
-            this._scope.popSelf();
+            this._scope
+                .popSelf()
+                .decStackOffset();
         }
         // Release the allocated strings...
-        let lastCommand = program.getLastCommand();
-        if (!this._main && (!lastCommand || (lastCommand.getCmd() !== $.CMD_RET))) {
+        if (!this._main) {
             new CompileVars({
                 compiler: this._compiler,
                 program:  this._program,
@@ -353,6 +380,8 @@ exports.CompileProc = class extends CompileBlock {
         let linter = this._compiler.getLinter();
         linter && linter.addParam(token);
         this._scope.addVar({
+            compiler:    this._compiler,
+            unionId:     0,
             token:       token,
             name:        token.lexeme,
             type:        t.LEXEME_PROC,

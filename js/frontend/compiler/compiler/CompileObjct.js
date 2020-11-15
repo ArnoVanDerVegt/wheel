@@ -8,6 +8,7 @@ const Objct  = require('../types/Objct').Objct;
 
 exports.CompileObjct = class {
     constructor(opts) {
+        this._compiler      = opts.compiler;
         this._program       = opts.program;
         this._scope         = opts.scope;
         this._methodOffsets = null;
@@ -110,28 +111,31 @@ exports.CompileObjct = class {
     }
 
     compileConstructorCalls(vr) {
-        let offset = vr.getOffset();
-        let local  = !vr.getGlobal();
-        const compileRecordFields = (vr) => {
+        let baseOffset = vr.getOffset();
+        let local      = !vr.getGlobal();
+        const compileRecordFields = (vr, offset) => {
+                if (vr.getParentScope() instanceof Objct) {
+                    compileRecordFields(vr.getParentScope(), offset);
+                }
                 vr.getVars().forEach((field) => {
+                    if (field.getUnionId() !== 0) { // Only initialize the first union part!
+                        return;
+                    }
                     let arraySize = field.getArraySize() || 1;
                     if ((field.getType().type instanceof Objct) && !field.getPointer() && !field.getType().typePointer) {
-                        this.compileConstructorCall(local, offset, field);
-                        offset += field.getSize() * arraySize;
+                        this.compileConstructorCall(local, baseOffset + offset + field.getOffset(), field);
                     } else if (field.getType().type instanceof Record) {
-                        compileRecordFields(field.getType().type);
-                    } else {
-                        offset += field.getSize() * arraySize;
+                        compileRecordFields(field.getType().type, offset + field.getOffset());
                     }
                 });
             };
         if (vr.getType().type instanceof Objct) {
             if (!vr.getPointer() && !vr.getType().typePointer) {
                 this.compileConstructorCall(local, vr.getOffset(), vr);
-                compileRecordFields(vr.getType().type);
+                compileRecordFields(vr.getType().type, 0);
             }
         } else if (vr.getType().type instanceof Record) {
-            compileRecordFields(vr.getType().type);
+            compileRecordFields(vr.getType().type, 0);
         }
     }
 };
