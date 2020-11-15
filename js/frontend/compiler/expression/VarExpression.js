@@ -355,7 +355,9 @@ exports.VarExpression = class {
         new CompileCall({compiler: this._compiler, program: this._program, scope: scope}).compile({
             iterator:       iterator,
             proc:           opts.identifier,
-            procExpression: null
+            procExpression: null,
+            procIdentifier: opts.identifier,
+            callMethod:     opts.callMethod
         });
         this.setStackOffsetToPtr();
         this.assignToPtr($.CMD_SET, $.T_NUM_G, $.REG_RET);
@@ -549,6 +551,12 @@ exports.VarExpression = class {
                 this.compileProcCall(opts, result);
                 this.setStackOffsetToPtr();
                 opts.identifierType = {type: t.LEXEME_NUMBER, typePointer: false};
+            } else if ((opts.token.cls === t.TOKEN_PARENTHESIS_OPEN) && (opts.identifier.getType().type === t.LEXEME_PROC)) {
+                opts.callMethod = true;
+                this.compileProcCall(opts, result);
+                this.setStackOffsetToPtr();
+                opts.identifierType = {type: t.LEXEME_NUMBER, typePointer: false};
+                result.type         = t.LEXEME_NUMBER;
             } else if (opts.token.cls !== t.TOKEN_DOT) {
                 throw errors.createError(err.SYNTAX_ERROR_DOT_EXPECTED, opts.token, '"." Expected got "' + opts.token.lexeme + '".');
             } else {

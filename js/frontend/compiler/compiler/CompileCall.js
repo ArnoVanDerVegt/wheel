@@ -72,7 +72,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
      * Get the parameter vars from a proc.
      * If the proc is of an unknown type the parse the expression to find the type.
     **/
-    getProcVars(procExpression, proc) {
+    getProcVars(proc, procExpression, procIdentifier) {
         if (procExpression === t.LEXEME_SUPER) {
             return this._scope.getSuper().getVars();
         }
@@ -289,9 +289,22 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let token                  = iterator.next();
         let program                = this._program;
         let scope                  = this._scope;
-        let callProc               = this.getProc(procExpression, proc, procIdentifier);
-        let callProcVars           = this.getProcVars(procExpression, callProc);
-        let callMethod             = callProc && callProc.getMethod();
+        let callProc;
+        let callProcVars;
+        let callMethod;
+
+        if (opts.callMethod) {
+            // This function is called from VarExpression!
+            callProc               = procIdentifier.getProc();
+            callProcVars           = procIdentifier.getProc().getVars();
+            callMethod             = true;
+            proc                   = t.LEXEME_PROC;
+        } else {
+            callProc               = this.getProc(procExpression, proc, procIdentifier);
+            callProcVars           = this.getProcVars(callProc, procExpression, procIdentifier);
+            callMethod             = callProc && callProc.getMethod();
+        }
+
         let callStackSize          = callMethod ? 3 : 2;
         let returnStackOffset      = scope.getStackOffset();
         let selfPointerStackOffset = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
@@ -334,13 +347,16 @@ exports.CompileCall = class CompileCall extends CompileScope {
                 $.CMD_CALL, $.T_NUM_C, scope.getSuper().getCodeOffset() - 1,    $.T_NUM_C, returnStackOffset + scope.getSize() + 3
             );
         } else if (proc === t.LEXEME_PROC) {
-            let vrOrType = this._varExpression.compileExpressionToRegister(
-                    procIdentifier,
-                    procExpression,
-                    $.REG_PTR,
-                    false,
-                    selfPointerStackOffset
-                ).type;
+            if (!opts.callMethod) {
+                // When callMethod is true then this function is called from VarExpression and the address setup is already done!
+                let vrOrType = this._varExpression.compileExpressionToRegister(
+                        procIdentifier,
+                        procExpression,
+                        $.REG_PTR,
+                        false,
+                        selfPointerStackOffset
+                    ).type;
+            }
             program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getSize() + callStackSize);
         } else {
             program.addCommand($.CMD_CALL, $.T_NUM_C, proc.getEntryPoint() - 1, $.T_NUM_C, returnStackOffset + scope.getSize() + 2);
