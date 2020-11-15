@@ -113,9 +113,9 @@ exports.CompileObjct = class {
     compileConstructorCalls(vr) {
         let baseOffset = vr.getOffset();
         let local      = !vr.getGlobal();
-        const compileRecordFields = (vr) => {
+        const compileRecordFields = (vr, offset) => {
                 if (vr.getParentScope() instanceof Objct) {
-                    compileRecordFields(vr.getParentScope());
+                    compileRecordFields(vr.getParentScope(), offset);
                 }
                 vr.getVars().forEach((field) => {
                     if (field.getUnionId() !== 0) { // Only initialize the first union part!
@@ -123,19 +123,19 @@ exports.CompileObjct = class {
                     }
                     let arraySize = field.getArraySize() || 1;
                     if ((field.getType().type instanceof Objct) && !field.getPointer() && !field.getType().typePointer) {
-                        this.compileConstructorCall(local, baseOffset + field.getOffset(), field);
+                        this.compileConstructorCall(local, baseOffset + offset + field.getOffset(), field);
                     } else if (field.getType().type instanceof Record) {
-                        compileRecordFields(field.getType().type);
+                        compileRecordFields(field.getType().type, offset + field.getOffset());
                     }
                 });
             };
         if (vr.getType().type instanceof Objct) {
             if (!vr.getPointer() && !vr.getType().typePointer) {
                 this.compileConstructorCall(local, vr.getOffset(), vr);
-                compileRecordFields(vr.getType().type);
+                compileRecordFields(vr.getType().type, 0);
             }
         } else if (vr.getType().type instanceof Record) {
-            compileRecordFields(vr.getType().type);
+            compileRecordFields(vr.getType().type, 0);
         }
     }
 };
