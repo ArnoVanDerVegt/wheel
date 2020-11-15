@@ -116,13 +116,19 @@ exports.CompileObjct = class {
                 if (vr.getParentScope() instanceof Objct) {
                     compileRecordFields(vr.getParentScope());
                 }
+                let size        = 0;
+                let parentScope = vr.getParentScope();
+                while (parentScope) {
+                    size += parentScope.getSize();
+                    parentScope = parentScope.getParentScope();
+                }
                 vr.getVars().forEach((field) => {
                     if (field.getUnionId() !== 0) { // Only initialize the first union part!
                         return;
                     }
                     let arraySize = field.getArraySize() || 1;
                     if ((field.getType().type instanceof Objct) && !field.getPointer() && !field.getType().typePointer) {
-                        this.compileConstructorCall(local, offset, field);
+                        this.compileConstructorCall(local, offset + size, field);
                         offset += field.getSize() * arraySize;
                     } else if (field.getType().type instanceof Record) {
                         compileRecordFields(field.getType().type);

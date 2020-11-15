@@ -236,6 +236,45 @@ describe(
                         3567
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should call a method of an object field in extended extended object',
+                    [
+                        'object Test0',
+                        'end',
+                        'proc Test0.init0()',
+                        'end',
+                        'object Test1',
+                        'end',
+                        'proc Test1.init1()',
+                        'end',
+                        'object Test2 extends Test1',
+                        'end',
+                        'object Test3 extends Test2',
+                        '    Test0 test0',
+                        'end',
+                        'proc Test3.init2()',
+                        '    test0.init0()',
+                        'end',
+                        'proc Test3.init1()',
+                        '    number n = 2545',
+                        '    addr n',
+                        '    mod 0, 1',
+                        '    init2()',
+                        '    n = 6782',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end',
+                        'Test3 test3',
+                        'proc main()',
+                        '    test3.init1()',
+                        'end'
+                    ],
+                    [
+                        2545,
+                        6782
+                    ]
+                );
             }
         );
         describe(
