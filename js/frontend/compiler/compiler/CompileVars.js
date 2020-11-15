@@ -27,8 +27,9 @@ exports.CompileVars = class {
     getCompileObjct() {
         if (!this._compileObjct) {
             this._compileObjct = new CompileObjct({
-                program: this._program,
-                scope:   this._scope
+                compiler: this._compiler,
+                program:  this._program,
+                scope:    this._scope
             });
         }
         return this._compileObjct;

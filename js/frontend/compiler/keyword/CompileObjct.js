@@ -12,7 +12,10 @@ const CompileRecord = require('./CompileRecord').CompileRecord;
 
 exports.CompileObjct = class extends CompileRecord {
     getDataType() {
-        return new Objct(null, this.getNamespacedRecordName(this._token.lexeme), false, this._compiler.getNamespace()).setToken(this._token);
+        let token = this._token;
+        let objct = new Objct(null, this.getNamespacedRecordName(token.lexeme), false, this._compiler.getNamespace()).setToken(token);
+        objct.setCompiler(this._compiler);
+        return objct;
     }
 
     addLinterItem(token) {
