@@ -534,6 +534,29 @@ exports.VarExpression = class {
     }
 
     /**
+     * Check if it's a method call.
+     * If so then create a stack entry and save the self pointer on the stack.
+    **/
+    compileMethodCallSelfPointer(opts) {
+        if ((opts.selfPointerStackOffset !== false) || !this.getMakeMethodCall(opts.identifier)) {
+            return;
+        }
+        // It's a method call...
+        this._scope.incStackOffset();
+        // Save the self pointer of the object on the stack.
+        // This value is passed to CompileCall.compile from the compileProcCall method in this class.
+        if (this._selfPointerStackOffset === false) {
+            this._scope.incStackOffset();
+            this._selfPointerStackOffset = this._scope.getStackOffset();
+        }
+        // This code may not be optimized away!!!
+        this._program
+            .nextBlockId()
+            .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, opts.reg)
+            .nextBlockId();
+    }
+
+    /**
      * Compile a record or array or combination of both...
     **/
     compileComplexTypeToRegister(opts, result) {
@@ -556,6 +579,8 @@ exports.VarExpression = class {
             if (opts.identifier.getType) {
                 this.setLastRecordType(opts.identifier.getType().type);
             }
+            // Check if it's an object, a method call and if the self pointer needs to be saved on the stack...
+            this.compileMethodCallSelfPointer(opts);
             if (opts.token.cls === t.TOKEN_BRACKET_OPEN) {
                 result.arrayIndex = true;
                 opts              = this.compileArrayIndex(opts, result);
@@ -680,14 +705,15 @@ exports.VarExpression = class {
             // Save the self pointer of the object on the stack.
             // This value is passed to CompileCall.compile from the compileProcCall method in this class.
             this._selfPointerStackOffset = scope.getStackOffset();
+            // This code may not be optimized away!!!
             program
                 .nextBlockId()
                 .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, reg)
                 .nextBlockId();
-            result = this.compileComplexTypeToRegister(opts, result);
+        }
+        result = this.compileComplexTypeToRegister(opts, result);
+        if (this._selfPointerStackOffset !== false) {
             scope.decStackOffset();
-        } else {
-            result = this.compileComplexTypeToRegister(opts, result);
         }
         return result;
     }

@@ -151,23 +151,52 @@ describe(
                         'object Point',
                         '    number x, y',
                         'end',
-                        'proc Point.setX(number x)',
-                        '    self.x = x',
+                        'proc Point.setY(number y)',
+                        '    self.y = y',
                         'end',
-                        'proc Point.getX()',
-                        '    ret self.x',
+                        'proc Point.getY()',
+                        '    ret self.y',
                         'end',
                         'Point p',
                         'proc main()',
-                        '    p.setX(8244)',
+                        '    p.setY(8244)',
                         '    number n',
-                        '    n = p.getX()',
+                        '    n = p.getY()',
                         '    addr n',
                         '    mod 0, 1',
                         'end'
                     ],
                     [
                         8244
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should return a value of an object which is a field in a record',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'record Test',
+                        '    Point point',
+                        'end',
+                        'proc Point.setY(number y)',
+                        '    self.y = y',
+                        'end',
+                        'proc Point.getY()',
+                        '    ret self.y',
+                        'end',
+                        'Test t',
+                        'proc main()',
+                        '    t.point.setY(2845)',
+                        '    number n',
+                        '    n = t.point.getY()',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        2845
                     ]
                 );
             }
