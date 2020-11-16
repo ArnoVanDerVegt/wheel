@@ -199,6 +199,37 @@ describe(
                         2845
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should return a value of an object which is in an array',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.setY(number y)',
+                        '    self.y = y',
+                        'end',
+                        'proc Point.getY()',
+                        '    ret self.y',
+                        'end',
+                        'Point points[2]',
+                        'proc main()',
+                        '    points[0].setY(1281)',
+                        '    points[1].setY(9551)',
+                        '    number n',
+                        '    n = points[1].getY()',
+                        '    addr n',
+                        '    mod 0, 1',
+                        '    n = points[0].getY()',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        9551,
+                        1281
+                    ]
+                );
             }
         );
     }
