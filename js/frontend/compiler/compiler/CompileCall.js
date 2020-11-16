@@ -83,6 +83,21 @@ exports.CompileCall = class CompileCall extends CompileScope {
         return null;
     }
 
+    /**
+     * Move the iterator to the "(" lexeme...
+    **/
+    skipUntilParenthesisOpen(iterator, token) {
+        if (token.cls === t.TOKEN_PARENTHESIS_OPEN) {
+            return;
+        }
+        iterator.skipWhiteSpace();
+        while (iterator.peek() && (iterator.peek().cls !== t.TOKEN_PARENTHESIS_OPEN)) {
+            iterator.skipWhiteSpace();
+            iterator.next();
+        }
+        iterator.next();
+    }
+
     compilePrimitiveParameter(token, address, vr, type, vrOrType) {
         let program = this._program;
         let scope   = this._scope;
@@ -282,7 +297,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
     }
 
     compile(opts) {
-        let iterator = opts.iterator;
+        let iterator               = opts.iterator;
         let proc                   = opts.proc           || null;
         let procExpression         = opts.procExpression || null;
         let procIdentifier         = opts.procIdentifier || null;
@@ -292,7 +307,6 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let callProc;
         let callProcVars;
         let callMethod;
-
         if (opts.callMethod) {
             // This function is called from VarExpression!
             callProc               = procIdentifier.getProc();
@@ -304,11 +318,11 @@ exports.CompileCall = class CompileCall extends CompileScope {
             callProcVars           = this.getProcVars(callProc, procExpression, procIdentifier);
             callMethod             = callProc && callProc.getMethod();
         }
-
         let callStackSize          = callMethod ? 3 : 2;
         let returnStackOffset      = scope.getStackOffset();
         let selfPointerStackOffset = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
         let done                   = false;
+        this.skipUntilParenthesisOpen(iterator, token);
         this._parameterIndex  = callStackSize;
         this._parameterOffset = callStackSize;
         while (!done && token) {
@@ -339,6 +353,9 @@ exports.CompileCall = class CompileCall extends CompileScope {
         }
         if (callProc && (callProc.getTotalParamCount() !== this._parameterIndex)) {
             throw errors.createError(err.PARAM_COUNT_MISMATCH, token, 'Parameter count mismatch.');
+        }
+        if (opts.selfPointerStackOffset !== false) {
+            program.addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_L, opts.selfPointerStackOffset);
         }
         if (procExpression === t.LEXEME_SUPER) {
             program.addCommand(

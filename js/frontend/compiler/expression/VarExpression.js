@@ -23,11 +23,13 @@ exports.assertRecord = function(opts) {
 
 exports.VarExpression = class {
     constructor(opts) {
-        this._scope          = opts.scope;
-        this._program        = opts.program;
-        this._compiler       = opts.compiler;
-        this._lastRecordType = null;
-        this._lastProcField  = null;
+        this._scope                  = opts.scope;
+        this._program                = opts.program;
+        this._compiler               = opts.compiler;
+        this._lastRecordType         = null;
+        this._lastProcField          = null;
+        this._selfPointerStackOffset = false;
+        this._methodCall             = false;
     }
 
     assertArray(identifier, token) {
@@ -192,6 +194,13 @@ exports.VarExpression = class {
         return field;
     }
 
+    /**
+     * Check it the expression end with ")" (this._methodCall) and the identifier type is an object...
+    **/
+    getMakeMethodCall(identifier) {
+        return identifier.getType && (identifier.getType().type instanceof Objct) && this._methodCall;
+    }
+
     findIdentifier(token) {
         let identifier = this._scope.findIdentifier(token.lexeme);
         if (!identifier) {
@@ -353,11 +362,12 @@ exports.VarExpression = class {
         let CompileCall = require('../compiler/CompileCall').CompileCall;
         iterator.skipWhiteSpace().next();
         new CompileCall({compiler: this._compiler, program: this._program, scope: scope}).compile({
-            iterator:       iterator,
-            proc:           opts.identifier,
-            procExpression: null,
-            procIdentifier: opts.identifier,
-            callMethod:     opts.callMethod
+            iterator:               iterator,
+            proc:                   opts.identifier,
+            procExpression:         null,
+            procIdentifier:         opts.identifier,
+            callMethod:             opts.callMethod,
+            selfPointerStackOffset: this._selfPointerStackOffset
         });
         this.setStackOffsetToPtr();
         this.assignToPtr($.CMD_SET, $.T_NUM_G, $.REG_RET);
@@ -474,9 +484,11 @@ exports.VarExpression = class {
                     this._lastProcField = opts.identifier.getProc();
                     if (opts.selfPointerStackOffset !== false) {
                         // It's a method to call then save the self pointer on the stack!
+                        // This command may not be optimized away!!!
                         program
                             .nextBlockId()
-                            .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
+                            .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg)
+                            .nextBlockId();
                     }
                 }
                 if (opts.reg === $.REG_PTR) {
@@ -565,9 +577,11 @@ exports.VarExpression = class {
                 opts.index++;
                 if ((opts.selfPointerStackOffset !== false) && (opts.index === lastToken)) {
                     // It's a method to call then save the self pointer on the stack!
+                    // This command may not be optimized away!!!
                     program
                         .nextBlockId()
-                        .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
+                        .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg)
+                        .nextBlockId();
                 }
                 let typePointer = opts.identifierType.typePointer;
                 // Get the next field from the expression...
@@ -592,10 +606,10 @@ exports.VarExpression = class {
                             opts.dereferencedPointer = false;
                             program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
                         } else if (opts.selfPointerStackOffset === false) {
-                          program.addCommand(
-                              $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
-                              $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
-                          );
+                            program.addCommand(
+                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
+                            );
                         } else {
                             program.addCommand(
                                 $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
@@ -619,9 +633,12 @@ exports.VarExpression = class {
     }
 
     compileExpressionToRegister(identifier, expression, reg, forWriting, selfPointerStackOffset) {
-        this._lastRecordType = null;
-        this._lastProcField  = null;
+        this._lastRecordType         = null;
+        this._lastProcField          = null;
+        this._selfPointerStackOffset = false;
+        this._methodCall             = expression.tokens[expression.tokens.length - 1].is(t.LEXEME_PARENTHESIS_CLOSE);
         let program = this._program;
+        let scope   = this._scope;
         let result  = {type: t.LEXEME_NUMBER, fullArrayAddress: true};
         let opts    = {
                 index:                  1,
@@ -657,6 +674,21 @@ exports.VarExpression = class {
             }
         }
         result.type = identifier;
-        return this.compileComplexTypeToRegister(opts, result);
+        if ((selfPointerStackOffset === false) && this.getMakeMethodCall(identifier)) {
+            // It's a method call...
+            scope.incStackOffset();
+            // Save the self pointer of the object on the stack.
+            // This value is passed to CompileCall.compile from the compileProcCall method in this class.
+            this._selfPointerStackOffset = scope.getStackOffset();
+            program
+                .nextBlockId()
+                .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, reg)
+                .nextBlockId();
+            result = this.compileComplexTypeToRegister(opts, result);
+            scope.decStackOffset();
+        } else {
+            result = this.compileComplexTypeToRegister(opts, result);
+        }
+        return result;
     }
 };
