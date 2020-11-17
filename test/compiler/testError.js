@@ -474,21 +474,6 @@ describe(
                     ],
                     'Error: #' + errors.POINTER_TYPE_EXPECTED + ' Pointer type expected.'
                 );
-                // Todo:
-                // A testError(
-                // B     it,
-                // C     'Should throw TYPE_MISMATCH',
-                // D     [
-                // E         'record Point',
-                // F         '    number x',
-                // G         'end',
-                // H         'Point p[8]',
-                // I         'proc main()',
-                // J         '    p = p[0]',
-                // K         'end'
-                // L     ],
-                // M     'Error: #' + errors.TYPE_MISMATCH + ' Type mismatch.'
-                // N );
                 testError(
                     it,
                     'Should throw SYNTAX_ERROR_BRACKET_OPEN_EXPECTED',
@@ -502,17 +487,6 @@ describe(
                     ],
                     'Error: #' + errors.SYNTAX_ERROR_BRACKET_OPEN_EXPECTED + ' "[" Expected.'
                 );
-                // A testError(
-                // B     it,
-                // C     'Should throw INVALID_OPERATION',
-                // D     [
-                // E         'proc main()',
-                // F         '    string a, b',
-                // G         '    a = b * 2',
-                // H         'end',
-                // I     ],
-                // J     'Error: #' + errors.INVALID_OPERATION + ' Invalid operation.'
-                // K );
             }
         );
         describe(

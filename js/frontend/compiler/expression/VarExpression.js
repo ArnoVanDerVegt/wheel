@@ -162,7 +162,8 @@ exports.VarExpression = class {
                 // Check if it's an extended object...
                 let parentScope = type2;
                 while (parentScope) {
-                    if (parentScope === type1) {
+                    // Check the name, the instance can be cloned for immutability...
+                    if (parentScope.getName() === type1.getName()) {
                         return true;
                     }
                     parentScope = parentScope.getParentScope();
