@@ -234,17 +234,17 @@ describe(
                 );
                 testError(
                     it,
-                    'Should throw TYPE_MISMATCH',
+                    'Should throw ARRAY_TYPE_EXPECTED',
                     [
-                        'string s[8] = ["none", "black", "blue", "green", "yellow", "red", "white", "brown"]',
-                        'proc printS(string ^s)',
+                        'record Point',
+                        '    number x',
                         'end',
+                        'Point p[8]',
                         'proc main()',
-                        '    number i',
-                        '    printS(s[i])',
+                        '    p = p[0]',
                         'end'
                     ],
-                    'Error: #' + errors.PARAM_TYPE_MISMATCH + ' Parameter type mismatch.'
+                    'Error: #' + errors.ARRAY_TYPE_EXPECTED + ' Array type expected.'
                 );
             }
         );
@@ -579,7 +579,7 @@ describe(
             }
         );
         describe(
-            'Module call',
+            'Parameter type mismatch',
             () => {
                 testError(
                     it,
@@ -610,6 +610,20 @@ describe(
                         'Point p',
                         'proc main()',
                         '    test(1)',
+                        'end'
+                    ],
+                    'Error: #' + errors.PARAM_TYPE_MISMATCH + ' Parameter type mismatch.'
+                );
+                testError(
+                    it,
+                    'Should throw PARAM_TYPE_MISMATCH',
+                    [
+                        'string s[8] = ["none", "black", "blue", "green", "yellow", "red", "white", "brown"]',
+                        'proc printS(string ^s)',
+                        'end',
+                        'proc main()',
+                        '    number i',
+                        '    printS(s[i])',
                         'end'
                     ],
                     'Error: #' + errors.PARAM_TYPE_MISMATCH + ' Parameter type mismatch.'
