@@ -121,11 +121,21 @@ exports.CompileObjct = class {
                     if (field.getUnionId() !== 0) { // Only initialize the first union part!
                         return;
                     }
+                    if (field.getPointer() || field.getType().typePointer) {
+                        return; // Don't call constructor on pointer!
+                    }
+                    if (!(field.getType().type instanceof Record)) {
+                        return; // Only check Record or Objct...
+                    }
                     let arraySize = field.getArraySize() || 1;
-                    if ((field.getType().type instanceof Objct) && !field.getPointer() && !field.getType().typePointer) {
-                        this.compileConstructorCall(local, baseOffset + offset + field.getOffset(), field);
-                    } else if (field.getType().type instanceof Record) {
-                        compileRecordFields(field.getType().type, offset + field.getOffset());
+                    if (field.getType().type instanceof Objct) {
+                        for (let i = 0; i < arraySize; i++) {
+                            this.compileConstructorCall(local, baseOffset + offset + field.getOffset() + field.getSize() * i, field);
+                        }
+                    } else {
+                        for (let i = 0; i < arraySize; i++) {
+                            compileRecordFields(field.getType().type, offset + field.getOffset() + field.getSize() * i);
+                        }
                     }
                 });
             };
