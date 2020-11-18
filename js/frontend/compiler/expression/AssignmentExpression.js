@@ -118,15 +118,10 @@ exports.AssignmentExpression = class {
         if ((srcType instanceof Objct) && (destType instanceof Objct)) {
             if (!this._varExpression.getObjectsShareParent(srcType, destType)) {
                 throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
-            } else {
-                // Todo: check object assignment.
             }
         } else if ((srcType instanceof Record) && (destType instanceof Record)) {
             if (srcType.getName() !== destType.getName()) {
-                // Todo: check (opts.srcInfo.arrayIndex !== opts.destInfo.arrayIndex)
-                if (opts.destInfo.dataSize !== opts.srcInfo.dataSize) {
-                    throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
-                }
+                throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
             }
         }
         return this;

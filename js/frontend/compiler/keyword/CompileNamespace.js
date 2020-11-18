@@ -8,7 +8,6 @@ const CompileBlock = require('../compiler/CompileBlock').CompileBlock;
 
 exports.CompileNamespace = class extends CompileBlock {
     compile(iterator) {
-        // !this.checkNotInGlobalScope(iterator);
         let namespaceExpression = iterator.nextUntilLexeme([t.LEXEME_NEWLINE]);
         if (namespaceExpression.tokens.length) {
             let tokens    = namespaceExpression.tokens;

@@ -2,23 +2,25 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const t           = require('../tokenizer/tokenizer');
-const uppercase   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const lowercase   = 'abcdefghijklmnopqrstuvwxyz';
-const numbers     = '0123456789';
-const alphaNum    = uppercase + lowercase + numbers;
-const all         = uppercase + lowercase + numbers + '_';
+const t                 = require('../tokenizer/tokenizer');
 
-const TYPE_TO_STR = ['Whitespace', 'Tab', 'Var', 'Param', 'Field', 'Proc', 'Record', 'Object', 'Define'];
-const WHITE_SPACE = 0;
-const TAB         = 1;
-const VAR         = 2;
-const PARAM       = 3;
-const FIELD       = 4;
-const PROC        = 5;
-const RECORD      = 6;
-const OBJECT      = 7;
-const DEFINE      = 8;
+const uppercase         = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const lowercase         = 'abcdefghijklmnopqrstuvwxyz';
+const numbers           = '0123456789';
+const alphaNum          = uppercase + lowercase + numbers;
+const alphaNumNamespace = uppercase + lowercase + numbers + '~';
+const all               = uppercase + lowercase + numbers + '_';
+
+const TYPE_TO_STR       = ['Whitespace', 'Tab', 'Var', 'Param', 'Field', 'Proc', 'Record', 'Object', 'Define'];
+const WHITE_SPACE       = 0;
+const TAB               = 1;
+const VAR               = 2;
+const PARAM             = 3;
+const FIELD             = 4;
+const PROC              = 5;
+const RECORD            = 6;
+const OBJECT            = 7;
+const DEFINE            = 8;
 
 exports.TYPE_TO_STR = TYPE_TO_STR;
 exports.WHITE_SPACE = WHITE_SPACE;
@@ -144,19 +146,19 @@ exports.Linter = class {
                 this.addMessage(procName.objectNameToken, this.toUCamelCase(procName.objectNameToken.origLexeme), OBJECT);
             }
         }
-        if (!this.checkString(procName.name, lowercase, alphaNum)) {
+        if (!this.checkString(procName.name, lowercase, alphaNumNamespace)) {
             this.addMessage(procName.nameToken, this.toCamelCase(procName.nameToken.origLexeme), PROC);
         }
     }
 
     addObject(token) {
-        if (!this.checkString(token.origLexeme, uppercase, alphaNum)) {
+        if (!this.checkString(token.origLexeme, uppercase, alphaNumNamespace)) {
             this.addMessage(token, this.toUCamelCase(token.origLexeme), OBJECT);
         }
     }
 
     addRecord(token) {
-        if (!this.checkString(token.origLexeme, uppercase, alphaNum)) {
+        if (!this.checkString(token.origLexeme, uppercase, alphaNumNamespace)) {
             this.addMessage(token, this.toUCamelCase(token.origLexeme), RECORD);
         }
     }

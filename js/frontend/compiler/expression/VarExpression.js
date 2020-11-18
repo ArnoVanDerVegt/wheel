@@ -23,11 +23,13 @@ exports.assertRecord = function(opts) {
 
 exports.VarExpression = class {
     constructor(opts) {
-        this._scope          = opts.scope;
-        this._program        = opts.program;
-        this._compiler       = opts.compiler;
-        this._lastRecordType = null;
-        this._lastProcField  = null;
+        this._scope                  = opts.scope;
+        this._program                = opts.program;
+        this._compiler               = opts.compiler;
+        this._lastRecordType         = null;
+        this._lastProcField          = null;
+        this._selfPointerStackOffset = false;
+        this._methodCall             = false;
     }
 
     assertArray(identifier, token) {
@@ -160,7 +162,8 @@ exports.VarExpression = class {
                 // Check if it's an extended object...
                 let parentScope = type2;
                 while (parentScope) {
-                    if (parentScope === type1) {
+                    // Check the name, the instance can be cloned for immutability...
+                    if (parentScope.getName() === type1.getName()) {
                         return true;
                     }
                     parentScope = parentScope.getParentScope();
@@ -190,6 +193,13 @@ exports.VarExpression = class {
             throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
         }
         return field;
+    }
+
+    /**
+     * Check it the expression end with ")" (this._methodCall) and the identifier type is an object...
+    **/
+    getMakeMethodCall(identifier) {
+        return identifier.getType && (identifier.getType().type instanceof Objct) && this._methodCall;
     }
 
     findIdentifier(token) {
@@ -353,11 +363,12 @@ exports.VarExpression = class {
         let CompileCall = require('../compiler/CompileCall').CompileCall;
         iterator.skipWhiteSpace().next();
         new CompileCall({compiler: this._compiler, program: this._program, scope: scope}).compile({
-            iterator:       iterator,
-            proc:           opts.identifier,
-            procExpression: null,
-            procIdentifier: opts.identifier,
-            callMethod:     opts.callMethod
+            iterator:               iterator,
+            proc:                   opts.identifier,
+            procExpression:         null,
+            procIdentifier:         opts.identifier,
+            callMethod:             opts.callMethod,
+            selfPointerStackOffset: this._selfPointerStackOffset
         });
         this.setStackOffsetToPtr();
         this.assignToPtr($.CMD_SET, $.T_NUM_G, $.REG_RET);
@@ -474,9 +485,11 @@ exports.VarExpression = class {
                     this._lastProcField = opts.identifier.getProc();
                     if (opts.selfPointerStackOffset !== false) {
                         // It's a method to call then save the self pointer on the stack!
+                        // This command may not be optimized away!!!
                         program
                             .nextBlockId()
-                            .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
+                            .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg)
+                            .nextBlockId();
                     }
                 }
                 if (opts.reg === $.REG_PTR) {
@@ -522,6 +535,29 @@ exports.VarExpression = class {
     }
 
     /**
+     * Check if it's a method call.
+     * If so then create a stack entry and save the self pointer on the stack.
+    **/
+    compileMethodCallSelfPointer(opts) {
+        if ((opts.selfPointerStackOffset !== false) || !this.getMakeMethodCall(opts.identifier)) {
+            return;
+        }
+        // It's a method call...
+        this._scope.incStackOffset();
+        // Save the self pointer of the object on the stack.
+        // This value is passed to CompileCall.compile from the compileProcCall method in this class.
+        if (this._selfPointerStackOffset === false) {
+            this._scope.incStackOffset();
+            this._selfPointerStackOffset = this._scope.getStackOffset();
+        }
+        // This code may not be optimized away!!!
+        this._program
+            .nextBlockId()
+            .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, opts.reg)
+            .nextBlockId();
+    }
+
+    /**
      * Compile a record or array or combination of both...
     **/
     compileComplexTypeToRegister(opts, result) {
@@ -544,6 +580,8 @@ exports.VarExpression = class {
             if (opts.identifier.getType) {
                 this.setLastRecordType(opts.identifier.getType().type);
             }
+            // Check if it's an object, a method call and if the self pointer needs to be saved on the stack...
+            this.compileMethodCallSelfPointer(opts);
             if (opts.token.cls === t.TOKEN_BRACKET_OPEN) {
                 result.arrayIndex = true;
                 opts              = this.compileArrayIndex(opts, result);
@@ -565,9 +603,11 @@ exports.VarExpression = class {
                 opts.index++;
                 if ((opts.selfPointerStackOffset !== false) && (opts.index === lastToken)) {
                     // It's a method to call then save the self pointer on the stack!
+                    // This command may not be optimized away!!!
                     program
                         .nextBlockId()
-                        .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg);
+                        .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg)
+                        .nextBlockId();
                 }
                 let typePointer = opts.identifierType.typePointer;
                 // Get the next field from the expression...
@@ -592,10 +632,10 @@ exports.VarExpression = class {
                             opts.dereferencedPointer = false;
                             program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
                         } else if (opts.selfPointerStackOffset === false) {
-                          program.addCommand(
-                              $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
-                              $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
-                          );
+                            program.addCommand(
+                                $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
+                                $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset()
+                            );
                         } else {
                             program.addCommand(
                                 $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0,
@@ -619,9 +659,12 @@ exports.VarExpression = class {
     }
 
     compileExpressionToRegister(identifier, expression, reg, forWriting, selfPointerStackOffset) {
-        this._lastRecordType = null;
-        this._lastProcField  = null;
+        this._lastRecordType         = null;
+        this._lastProcField          = null;
+        this._selfPointerStackOffset = false;
+        this._methodCall             = expression.tokens[expression.tokens.length - 1].is(t.LEXEME_PARENTHESIS_CLOSE);
         let program = this._program;
+        let scope   = this._scope;
         let result  = {type: t.LEXEME_NUMBER, fullArrayAddress: true};
         let opts    = {
                 index:                  1,
@@ -657,6 +700,22 @@ exports.VarExpression = class {
             }
         }
         result.type = identifier;
-        return this.compileComplexTypeToRegister(opts, result);
+        if ((selfPointerStackOffset === false) && this.getMakeMethodCall(identifier)) {
+            // It's a method call...
+            scope.incStackOffset();
+            // Save the self pointer of the object on the stack.
+            // This value is passed to CompileCall.compile from the compileProcCall method in this class.
+            this._selfPointerStackOffset = scope.getStackOffset();
+            // This code may not be optimized away!!!
+            program
+                .nextBlockId()
+                .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, reg)
+                .nextBlockId();
+        }
+        result = this.compileComplexTypeToRegister(opts, result);
+        if (this._selfPointerStackOffset !== false) {
+            scope.decStackOffset();
+        }
+        return result;
     }
 };

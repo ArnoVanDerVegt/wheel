@@ -234,17 +234,17 @@ describe(
                 );
                 testError(
                     it,
-                    'Should throw TYPE_MISMATCH',
+                    'Should throw ARRAY_TYPE_EXPECTED',
                     [
-                        'string s[8] = ["none", "black", "blue", "green", "yellow", "red", "white", "brown"]',
-                        'proc printS(string ^s)',
+                        'record Point',
+                        '    number x',
                         'end',
+                        'Point p[8]',
                         'proc main()',
-                        '    number i',
-                        '    printS(s[i])',
+                        '    p = p[0]',
                         'end'
                     ],
-                    'Error: #' + errors.PARAM_TYPE_MISMATCH + ' Parameter type mismatch.'
+                    'Error: #' + errors.ARRAY_TYPE_EXPECTED + ' Array type expected.'
                 );
             }
         );
@@ -474,21 +474,6 @@ describe(
                     ],
                     'Error: #' + errors.POINTER_TYPE_EXPECTED + ' Pointer type expected.'
                 );
-                // Todo:
-                // A testError(
-                // B     it,
-                // C     'Should throw TYPE_MISMATCH',
-                // D     [
-                // E         'record Point',
-                // F         '    number x',
-                // G         'end',
-                // H         'Point p[8]',
-                // I         'proc main()',
-                // J         '    p = p[0]',
-                // K         'end'
-                // L     ],
-                // M     'Error: #' + errors.TYPE_MISMATCH + ' Type mismatch.'
-                // N );
                 testError(
                     it,
                     'Should throw SYNTAX_ERROR_BRACKET_OPEN_EXPECTED',
@@ -502,17 +487,6 @@ describe(
                     ],
                     'Error: #' + errors.SYNTAX_ERROR_BRACKET_OPEN_EXPECTED + ' "[" Expected.'
                 );
-                // A testError(
-                // B     it,
-                // C     'Should throw INVALID_OPERATION',
-                // D     [
-                // E         'proc main()',
-                // F         '    string a, b',
-                // G         '    a = b * 2',
-                // H         'end',
-                // I     ],
-                // J     'Error: #' + errors.INVALID_OPERATION + ' Invalid operation.'
-                // K );
             }
         );
         describe(
@@ -605,7 +579,7 @@ describe(
             }
         );
         describe(
-            'Module call',
+            'Parameter type mismatch',
             () => {
                 testError(
                     it,
@@ -636,6 +610,20 @@ describe(
                         'Point p',
                         'proc main()',
                         '    test(1)',
+                        'end'
+                    ],
+                    'Error: #' + errors.PARAM_TYPE_MISMATCH + ' Parameter type mismatch.'
+                );
+                testError(
+                    it,
+                    'Should throw PARAM_TYPE_MISMATCH',
+                    [
+                        'string s[8] = ["none", "black", "blue", "green", "yellow", "red", "white", "brown"]',
+                        'proc printS(string ^s)',
+                        'end',
+                        'proc main()',
+                        '    number i',
+                        '    printS(s[i])',
                         'end'
                     ],
                     'Error: #' + errors.PARAM_TYPE_MISMATCH + ' Parameter type mismatch.'
