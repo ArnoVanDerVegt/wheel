@@ -57,14 +57,14 @@
 <span class="comment">; @proc                   Show the form.</span>
 <span class="comment">; @ret                    The handle to the form.</span>
 <span class="keyword">proc</span> <span class="variable">showLabelForm</span><span class="operator">(</span><span class="operator">)</span>
-    <span class="keyword">ret</span> <span class="variable">components.form.show</span><span class="operator">(</span><span class="string">"label.wfrm"</span><span class="operator">)</span>
+    <span class="keyword">ret</span> <span class="variable">components</span><span class="operator">.</span><span class="variable">form</span><span class="operator">.</span><span class="variable">show</span><span class="operator">(</span><span class="string">"label.wfrm"</span><span class="operator">)</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="variable">windowHandle</span> <span class="operator">=</span> <span class="variable">showLabelForm</span><span class="operator">(</span><span class="operator">)</span>
     <span class="keyword">repeat</span>
         <span class="variable">count</span><span class="operator">+</span><span class="operator">+</span>
-        <span class="variable">components.label.setNumber</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">LABEL_COUNT</span><span class="operator">,</span> <span class="variable">count</span><span class="operator">)</span>
+        <span class="variable">components</span><span class="operator">.</span><span class="variable">label</span><span class="operator">.</span><span class="variable">setNumber</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">LABEL_COUNT</span><span class="operator">,</span> <span class="variable">count</span><span class="operator">)</span>
         <span class="proc">sleep</span><span class="operator">(</span><span class="number">500</span><span class="operator">)</span>
     <span class="keyword">end</span>
 <span class="keyword">end</span>

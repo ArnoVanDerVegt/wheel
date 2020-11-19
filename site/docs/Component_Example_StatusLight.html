@@ -57,13 +57,13 @@
 <span class="comment">; @proc                   Show the form.</span>
 <span class="comment">; @ret                    The handle to the form.</span>
 <span class="keyword">proc</span> <span class="variable">showStatusLightForm</span><span class="operator">(</span><span class="operator">)</span>
-    <span class="keyword">ret</span> <span class="variable">components.form.show</span><span class="operator">(</span><span class="string">"statusLight.wfrm"</span><span class="operator">)</span>
+    <span class="keyword">ret</span> <span class="variable">components</span><span class="operator">.</span><span class="variable">form</span><span class="operator">.</span><span class="variable">show</span><span class="operator">(</span><span class="string">"statusLight.wfrm"</span><span class="operator">)</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">windowHandle</span> <span class="operator">=</span> <span class="variable">showStatusLightForm</span><span class="operator">(</span><span class="operator">)</span>
     <span class="keyword">repeat</span>
-        <span class="variable">components.statusLight.setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">STATUS_LIGHT_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">colors</span><span class="operator">[</span><span class="variable">color</span><span class="operator">]</span><span class="operator">)</span>
+        <span class="variable">components</span><span class="operator">.</span><span class="variable">statusLight</span><span class="operator">.</span><span class="variable">setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">STATUS_LIGHT_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">colors</span><span class="operator">[</span><span class="variable">color</span><span class="operator">]</span><span class="operator">)</span>
         <span class="variable">color</span> <span class="operator">=</span> <span class="variable">remainder</span><span class="operator">(</span><span class="variable">color</span> <span class="operator">+</span> <span class="number">1</span><span class="operator">,</span> <span class="number">3</span><span class="operator">)</span>
         <span class="proc">sleep</span><span class="operator">(</span><span class="number">1000</span><span class="operator">)</span>
     <span class="keyword">end</span>

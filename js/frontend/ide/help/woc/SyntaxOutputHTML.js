@@ -2,35 +2,16 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const keywords  = require('./wheelSyntaxTokens').keywords;
-const registers = require('./wheelSyntaxTokens').registers;
-const types     = require('./wheelSyntaxTokens').types;
-const sign      = require('./wheelSyntaxTokens').sign;
-const meta      = require('./wheelSyntaxTokens').meta;
-const proc      = require('./wheelSyntaxTokens').proc;
-const defines   = require('./wheelSyntaxTokens').defines;
+const keywords     = require('./wheelSyntaxTokens').keywords;
+const registers    = require('./wheelSyntaxTokens').registers;
+const types        = require('./wheelSyntaxTokens').types;
+const sign         = require('./wheelSyntaxTokens').sign;
+const meta         = require('./wheelSyntaxTokens').meta;
+const proc         = require('./wheelSyntaxTokens').proc;
+const defines      = require('./wheelSyntaxTokens').defines;
+const SyntaxOutput = require('./SyntaxOutput');
 
-class SyntaxLineOutputHTML {
-    constructor(opts) {
-        this._syntaxOtutput = opts.syntaxOtutput;
-        this._defines       = opts.defines;
-        this._records       = opts.records;
-        this._output        = '';
-        this._word          = '';
-        this._comment       = '';
-    }
-
-    grabNextWord(line, i) {
-        let j = i;
-        while ((j < line.length) && (line[j] === ' ')) {
-            j++;
-        }
-        while ((j < line.length) && (line[j] !== ' ')) {
-            j++;
-        }
-        return line.substr(i, j - i).trim();
-    }
-
+class SyntaxLineOutputHTML extends SyntaxOutput.SyntaxLineOutput {
     addWord(line, i, w) {
         w = w || this._word;
         if (isNaN(w)) {
@@ -67,22 +48,6 @@ class SyntaxLineOutputHTML {
         this._word = '';
     }
 
-    getWord() {
-        return this._word;
-    }
-
-    addToWord(c) {
-        this._word += c;
-    }
-
-    getOutput() {
-        return this._output;
-    }
-
-    addToOutput(output) {
-        this._output += output;
-    }
-
     addString(s) {
         this._output += '<span class="string">' + s + '</span>';
     }
@@ -97,33 +62,13 @@ class SyntaxLineOutputHTML {
         this._output += ' ';
     }
 
-    setComment(comment) {
-        this._comment = comment;
-    }
-
     finishLine() {
         this._syntaxOtutput.addOutput(this._output);
     }
 }
 
-exports.SyntaxOutputHTML = class {
-    constructor() {
-        this.clear();
-    }
-
-    clear() {
-        this._output = '';
-    }
-
+exports.SyntaxOutputHTML = class extends SyntaxOutput.SyntaxOutput {
     getLineOutput(opts) {
         return new SyntaxLineOutputHTML(opts);
-    }
-
-    getOutput() {
-        return this._output;
-    }
-
-    addOutput(output) {
-        this._output += output + '\n';
     }
 };

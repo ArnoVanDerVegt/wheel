@@ -56,14 +56,14 @@
                 A namespace is usually declared at the beginning of a file.
                 In the following examples the same procedure <i>setX</i> is used in two different namespaces:
             </p>
-            <pre class="wheel"><span class="keyword">namespace</span> <span class="variable">components.button</span>
+            <pre class="wheel"><span class="keyword">namespace</span> <span class="variable">components</span><span class="operator">.</span><span class="proc">button</span>
 
 <span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
     <span class="keyword">addr</span> <span class="variable">windowHandle</span>
     <span class="keyword">mod</span>  <span class="variable">MODULE_COMPONENT_BUTTON</span><span class="operator">,</span> <span class="variable">BUTTON_COMPONENT_SET_X</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="wheel"><span class="keyword">namespace</span> <span class="variable">components.panel</span>
+            <pre class="wheel"><span class="keyword">namespace</span> <span class="variable">components</span><span class="operator">.</span><span class="variable">panel</span>
 
 <span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
     <span class="keyword">addr</span> <span class="variable">windowHandle</span>
@@ -77,9 +77,9 @@
             </p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span>
     <span class="comment">; Call setX in the components.panel namespace:</span>
-    <span class="variable">components.panel.setX</span><span class="operator">(</span><span class="number">10</span><span class="operator">)</span>
+    <span class="variable">components</span><span class="operator">.</span><span class="variable">panel</span><span class="operator">.</span><span class="variable">setX</span><span class="operator">(</span><span class="number">10</span><span class="operator">)</span>
     <span class="comment">; Call setX in the components.button namespace:</span>
-    <span class="variable">components.button.setX</span><span class="operator">(</span><span class="number">55</span><span class="operator">)</span>
+    <span class="variable">components</span><span class="operator">.</span><span class="proc">button</span><span class="operator">.</span><span class="variable">setX</span><span class="operator">(</span><span class="number">55</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
             <a id="Insideanamespace"></a>
@@ -87,7 +87,7 @@
             <p>
                 When calling a procedure or using a record inside a namespace it's not necessary to use the <i>namespace</i> prefix.
             </p>
-            <pre class="wheel"><span class="keyword">namespace</span> <span class="variable">components.panel</span>
+            <pre class="wheel"><span class="keyword">namespace</span> <span class="variable">components</span><span class="operator">.</span><span class="variable">panel</span>
 
 <span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
     <span class="keyword">addr</span> <span class="variable">windowHandle</span>

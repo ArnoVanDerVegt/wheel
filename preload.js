@@ -290,6 +290,7 @@ require('./js/frontend/ide/help/woc/WhlFileProcessor');
 require('./js/frontend/ide/help/woc/WocFileProcessor');
 require('./js/frontend/ide/help/woc/Woc');
 require('./js/frontend/ide/help/woc/wheelSyntaxTokens');
+require('./js/frontend/ide/help/woc/SyntaxOutput');
 require('./js/frontend/ide/help/woc/SyntaxOutputHTML');
 require('./js/frontend/ide/help/woc/SyntaxOutputSVG');
 require('./js/frontend/ide/help/woc/WheelSyntax');

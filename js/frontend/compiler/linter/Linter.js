@@ -8,7 +8,6 @@ const uppercase         = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const lowercase         = 'abcdefghijklmnopqrstuvwxyz';
 const numbers           = '0123456789';
 const alphaNum          = uppercase + lowercase + numbers;
-const alphaNumNamespace = uppercase + lowercase + numbers + '~';
 const all               = uppercase + lowercase + numbers + '_';
 
 const TYPE_TO_STR       = ['Whitespace', 'Tab', 'Var', 'Param', 'Field', 'Proc', 'Record', 'Object', 'Define'];
@@ -48,6 +47,21 @@ exports.Linter = class {
         }
         for (let i = 0; i < s.length; i++) {
             if (chars.indexOf(s[i]) === -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    checkNamespacedString(s, namespaceFirstChar, namespaceChars, firstChar, chars) {
+        let items = s.split('~');
+        for (let i = 0, j = items.length - 1; i <= j; i++) {
+            let item = items[i];
+            if (i === j) {
+                if (!this.checkString(items[i], firstChar, chars)) {
+                    return false;
+                }
+            } else if (!this.checkString(item, namespaceFirstChar, namespaceChars)) {
                 return false;
             }
         }
@@ -146,19 +160,19 @@ exports.Linter = class {
                 this.addMessage(procName.objectNameToken, this.toUCamelCase(procName.objectNameToken.origLexeme), OBJECT);
             }
         }
-        if (!this.checkString(procName.name, lowercase, alphaNumNamespace)) {
+        if (!this.checkNamespacedString(procName.name, lowercase, alphaNum, lowercase, alphaNum)) {
             this.addMessage(procName.nameToken, this.toCamelCase(procName.nameToken.origLexeme), PROC);
         }
     }
 
     addObject(token) {
-        if (!this.checkString(token.origLexeme, uppercase, alphaNumNamespace)) {
+        if (!this.checkNamespacedString(token.origLexeme, lowercase, alphaNum, uppercase, alphaNum)) {
             this.addMessage(token, this.toUCamelCase(token.origLexeme), OBJECT);
         }
     }
 
     addRecord(token) {
-        if (!this.checkString(token.origLexeme, uppercase, alphaNumNamespace)) {
+        if (!this.checkNamespacedString(token.origLexeme, lowercase, alphaNum, uppercase, alphaNum)) {
             this.addMessage(token, this.toUCamelCase(token.origLexeme), RECORD);
         }
     }
