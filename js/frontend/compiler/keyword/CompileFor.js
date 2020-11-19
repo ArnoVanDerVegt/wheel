@@ -27,7 +27,13 @@ exports.CompileFor = class extends CompileLoop {
             if (tokens[0].cls === t.TOKEN_NUMBER) {
                 program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, tokens[0].value);
             } else {
-                this._varExpression.compileExpressionToRegister(scope.findIdentifier(tokens[0].lexeme), {tokens: tokens}, $.REG_PTR, false, false);
+                this._varExpression.compileExpressionToRegister({
+                    identifier:             scope.findIdentifier(tokens[0].lexeme),
+                    expression:             {tokens: tokens},
+                    reg:                    $.REG_PTR,
+                    forWriting:             false,
+                    selfPointerStackOffset: false
+                });
                 program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_P, 0);
             }
         } else {
@@ -54,7 +60,13 @@ exports.CompileFor = class extends CompileLoop {
         let scope   = this._scope;
         let program = this._program;
         program.nextBlockId(this._indexTokens[0], scope);
-        this._varExpression.compileExpressionToRegister(this._indexIdentifier, this._indexExpression, $.REG_PTR, false, false);
+        this._varExpression.compileExpressionToRegister({
+            identifier:             this._indexIdentifier,
+            expression:             this._indexExpression,
+            reg:                    $.REG_PTR,
+            forWriting:             false,
+            selfPointerStackOffset: false
+        });
         program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_P, 0);
     }
 
@@ -72,7 +84,13 @@ exports.CompileFor = class extends CompileLoop {
         let scope   = this._scope;
         let program = this._program;
         program.nextBlockId(this._indexTokens[0], scope);
-        this._varExpression.compileExpressionToRegister(this._indexIdentifier, {tokens: this._indexTokens}, $.REG_PTR, false, false);
+        this._varExpression.compileExpressionToRegister({
+            identifier:             this._indexIdentifier,
+            expression:             {tokens: this._indexTokens},
+            reg:                    $.REG_PTR,
+            forWriting:             false,
+            selfPointerStackOffset: false
+        });
         let counterCmd = this._direction ? $.CMD_ADD : $.CMD_SUB;
         this._compareFlag = this._direction ? $.FLAG_LESS_EQUAL : $.FLAG_GREATER_EQUAL;
         if (this._step) {
@@ -86,7 +104,13 @@ exports.CompileFor = class extends CompileLoop {
         let scope   = this._scope;
         let program = this._program;
         program.nextBlockId(this._indexTokens[0], scope);
-        this._varExpression.compileExpressionToRegister(this._indexIdentifier, {tokens: this._indexTokens}, $.REG_PTR, false, false);
+        this._varExpression.compileExpressionToRegister({
+            identifier:             this._indexIdentifier,
+            expression:             {tokens: this._indexTokens},
+            reg:                    $.REG_PTR,
+            forWriting:             false,
+            selfPointerStackOffset: false
+        });
         program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_P, 0);
         // Check if the max or min value is reached...
         this.compileExpressionTokensToStack(this._toTokens, true);

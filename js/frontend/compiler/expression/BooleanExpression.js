@@ -78,7 +78,13 @@ class BooleanExpressionNode {
                 $.CMD_SETF, $.T_NUM_L, stackOffset, $.T_NUM_C, 1 << operator
             );
         } else {
-            this._varExpression.compileExpressionToRegister(scope.findIdentifier(value[0].lexeme), {tokens: value}, $.REG_PTR, false, false);
+            this._varExpression.compileExpressionToRegister({
+                identifier:             scope.findIdentifier(value[0].lexeme),
+                expression:             {tokens: value},
+                reg:                    $.REG_PTR,
+                forWriting:             false,
+                selfPointerStackOffset: false
+            });
             program.addCommand(
                 $.CMD_SET,  $.T_NUM_G, $.REG_SRC,              $.T_NUM_P, 0,
                 $.CMD_CMP,  $.T_NUM_G, $.REG_SRC,              $.T_NUM_C, 0,

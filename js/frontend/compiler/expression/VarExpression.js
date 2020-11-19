@@ -658,49 +658,42 @@ exports.VarExpression = class {
         return result;
     }
 
-    compileExpressionToRegister(identifier, expression, reg, forWriting, selfPointerStackOffset) {
+    compileExpressionToRegister(opts) {
+        opts.index                   = 1;
+        opts.identifierType          = null;
+        opts.token                   = null;
         this._lastRecordType         = null;
         this._lastProcField          = null;
         this._selfPointerStackOffset = false;
-        this._methodCall             = expression.tokens[expression.tokens.length - 1].is(t.LEXEME_PARENTHESIS_CLOSE);
+        this._methodCall             = opts.expression.tokens[opts.expression.tokens.length - 1].is(t.LEXEME_PARENTHESIS_CLOSE);
         let program = this._program;
         let scope   = this._scope;
         let result  = {type: t.LEXEME_NUMBER, fullArrayAddress: true};
-        let opts    = {
-                index:                  1,
-                forWriting:             forWriting,
-                reg:                    reg,
-                expression:             expression,
-                identifier:             identifier,
-                identifierType:         null,
-                token:                  null,
-                selfPointerStackOffset: selfPointerStackOffset
-            };
-        if (expression.tokens.length === 1) {
+        if (opts.expression.tokens.length === 1) {
             return this.compileSingleTokenToRegister(opts, result);
         }
-        if (identifier instanceof Proc) {
+        if (opts.identifier instanceof Proc) {
             opts.identifierType = {type: t.LEXEME_NUMBER, typePointer: false};
         } else {
-            this.assertIdentifier(identifier, expression);
-            opts.identifierType = identifier.getType();
+            this.assertIdentifier(opts.identifier, opts.expression);
+            opts.identifierType = opts.identifier.getType();
             this.setLastRecordType(opts.identifierType.type);
-            this.setReg(reg, $.T_NUM_C, identifier.getOffset());
+            this.setReg(opts.reg, $.T_NUM_C, opts.identifier.getOffset());
             // If it's a "with" field then the offset is relative to the pointer on the stack not to the stack register itself!
             if (opts.identifier.getWithOffset() !== null) {
-                this.addToReg(reg, $.T_NUM_L, opts.identifier.getWithOffset());
-            } else if (!identifier.getGlobal()) {
-                this.addToReg(reg, $.T_NUM_G, $.REG_STACK);
+                this.addToReg(opts.reg, $.T_NUM_L, opts.identifier.getWithOffset());
+            } else if (!opts.identifier.getGlobal()) {
+                this.addToReg(opts.reg, $.T_NUM_G, $.REG_STACK);
             }
-            if (identifier.getPointer()) {
-                if (reg !== $.REG_PTR) {
-                    program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, reg);
+            if (opts.identifier.getPointer()) {
+                if (opts.reg !== $.REG_PTR) {
+                    program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg);
                 }
-                program.addCommand($.CMD_SET, $.T_NUM_G, reg, $.T_NUM_P, 0);
+                program.addCommand($.CMD_SET, $.T_NUM_G, opts.reg, $.T_NUM_P, 0);
             }
         }
-        result.type = identifier;
-        if ((selfPointerStackOffset === false) && this.getMakeMethodCall(identifier)) {
+        result.type = opts.identifier;
+        if ((opts.selfPointerStackOffset === false) && this.getMakeMethodCall(opts.identifier)) {
             // It's a method call...
             scope.incStackOffset();
             // Save the self pointer of the object on the stack.
@@ -709,7 +702,7 @@ exports.VarExpression = class {
             // This code may not be optimized away!!!
             program
                 .nextBlockId()
-                .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, reg)
+                .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, opts.reg)
                 .nextBlockId();
         }
         result = this.compileComplexTypeToRegister(opts, result);

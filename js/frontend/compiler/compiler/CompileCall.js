@@ -63,7 +63,12 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let program  = this._program;
         let codeUsed = program.getCodeUsed();
         program.setCodeUsed(false);
-        this._varExpression.compileExpressionToRegister(procIdentifier, procExpression, $.REG_PTR, false, true);
+        this._varExpression.compileExpressionToRegister({
+            identifier:             procIdentifier,
+            expression:             procExpression,
+            reg:                    $.REG_PTR,
+            selfPointerStackOffset: true
+        });
         program.setCodeUsed(codeUsed);
         return this._varExpression.getLastProcField();
     }
@@ -178,13 +183,11 @@ exports.CompileCall = class CompileCall extends CompileScope {
             }).compile({tokens: tokens}, this._compiler.getPass());
         let done               = false;
         if (mathExpressionNode.getValue()) {
-            vrOrType = varExpression.compileExpressionToRegister(
-                scope.findIdentifier(tokens[0].lexeme),
-                {tokens: mathExpressionNode.getValue()},
-                $.REG_PTR,
-                false,
-                false
-            ).type;
+            vrOrType = varExpression.compileExpressionToRegister({
+                identifier: scope.findIdentifier(tokens[0].lexeme),
+                expression: {tokens: mathExpressionNode.getValue()},
+                reg:        $.REG_PTR
+            }).type;
             // If the parameter is a pointer then check if an address or pointer value is given...
             if (vr && vr.getPointer() && !(address || vrOrType.getPointer())) {
                 throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
@@ -366,13 +369,12 @@ exports.CompileCall = class CompileCall extends CompileScope {
         } else if (proc === t.LEXEME_PROC) {
             if (!opts.callMethod) {
                 // When callMethod is true then this function is called from VarExpression and the address setup is already done!
-                let vrOrType = this._varExpression.compileExpressionToRegister(
-                        procIdentifier,
-                        procExpression,
-                        $.REG_PTR,
-                        false,
-                        selfPointerStackOffset
-                    ).type;
+                let vrOrType = this._varExpression.compileExpressionToRegister({
+                        identifier:             procIdentifier,
+                        expression:             procExpression,
+                        reg:                    $.REG_PTR,
+                        selfPointerStackOffset: selfPointerStackOffset
+                    }).type;
             }
             program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getSize() + callStackSize);
         } else {
