@@ -58,13 +58,13 @@
 <span class="comment">; @param windowHandle     The handle to the active window.</span>
 <span class="comment">; @param value            New active button.</span>
 <span class="keyword">proc</span> <span class="variable">onSelectButtonSelectButtonChange</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
-    <span class="variable">components.statusLight.setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">SELECT_BUTTON_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">buttonToColor</span><span class="operator">[</span><span class="variable">value</span><span class="operator">]</span><span class="operator">)</span>
+    <span class="variable">components</span><span class="operator">.</span><span class="variable">statusLight</span><span class="operator">.</span><span class="variable">setColor</span><span class="operator">(</span><span class="variable">windowHandle</span><span class="operator">,</span> <span class="define">SELECT_BUTTON_STATUS_LIGHT</span><span class="operator">,</span> <span class="variable">buttonToColor</span><span class="operator">[</span><span class="variable">value</span><span class="operator">]</span><span class="operator">)</span>
 <span class="keyword">end</span>
 
 <span class="comment">; @proc                   Show the form.</span>
 <span class="comment">; @ret                    The handle to the form.</span>
 <span class="keyword">proc</span> <span class="variable">showSelectButtonForm</span><span class="operator">(</span><span class="operator">)</span>
-    <span class="keyword">ret</span> <span class="variable">components.form.show</span><span class="operator">(</span><span class="string">"selectButton.wfrm"</span><span class="operator">)</span>
+    <span class="keyword">ret</span> <span class="variable">components</span><span class="operator">.</span><span class="variable">form</span><span class="operator">.</span><span class="variable">show</span><span class="operator">(</span><span class="string">"selectButton.wfrm"</span><span class="operator">)</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>

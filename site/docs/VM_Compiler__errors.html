@@ -248,7 +248,7 @@
 </pre>
             <pre class="error">Error #21 Undefined identifier "y".</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
-    <span class="keyword">addr</span> <span class="variable">line.p</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="variable">.x</span>
+    <span class="keyword">addr</span> <span class="variable">line</span><span class="operator">.</span><span class="variable">p</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">.</span><span class="variable">x</span>
 <span class="keyword">end</span>
 </pre>
             <pre class="error">Error #21 Undefined identifier "line".</pre>
@@ -278,7 +278,7 @@
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="record">Rec</span> <span class="variable">r</span>
-    <span class="variable">r.g</span> <span class="operator">=</span> <span class="number">1</span>
+    <span class="variable">r</span><span class="operator">.</span><span class="variable">g</span> <span class="operator">=</span> <span class="number">1</span>
 <span class="keyword">end</span>
 </pre>
             <pre class="error">Error #22 Undefined field "g".</pre>
@@ -376,7 +376,7 @@
             <h4 class="">RECORD_TYPE_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span>
-    <span class="variable">n.a</span> <span class="operator">=</span> <span class="number">10</span>
+    <span class="variable">n</span><span class="operator">.</span><span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>
 <span class="keyword">end</span>
 </pre>
             <pre class="error">Error #27 Record type expected.</pre>

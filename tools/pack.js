@@ -404,6 +404,7 @@ const files = [
         './js/frontend/ide/help/woc/WocFileProcessor',
         './js/frontend/ide/help/woc/Woc',
         './js/frontend/ide/help/woc/wheelSyntaxTokens',
+        './js/frontend/ide/help/woc/SyntaxOutput',
         './js/frontend/ide/help/woc/SyntaxOutputHTML',
         './js/frontend/ide/help/woc/SyntaxOutputSVG',
         './js/frontend/ide/help/woc/WheelSyntax',

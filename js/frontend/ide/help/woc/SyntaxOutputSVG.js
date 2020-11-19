@@ -2,38 +2,22 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const keywords  = require('./wheelSyntaxTokens').keywords;
-const registers = require('./wheelSyntaxTokens').registers;
-const types     = require('./wheelSyntaxTokens').types;
-const sign      = require('./wheelSyntaxTokens').sign;
-const meta      = require('./wheelSyntaxTokens').meta;
-const proc      = require('./wheelSyntaxTokens').proc;
-const defines   = require('./wheelSyntaxTokens').defines;
+const keywords     = require('./wheelSyntaxTokens').keywords;
+const registers    = require('./wheelSyntaxTokens').registers;
+const types        = require('./wheelSyntaxTokens').types;
+const sign         = require('./wheelSyntaxTokens').sign;
+const meta         = require('./wheelSyntaxTokens').meta;
+const proc         = require('./wheelSyntaxTokens').proc;
+const defines      = require('./wheelSyntaxTokens').defines;
+const SyntaxOutput = require('./SyntaxOutput');
 
 const CHAR_WIDTH  = 8.4;
 const LINE_HEIGHT = 22;
 
-class SyntaxLineOutputSVG {
+class SyntaxLineOutputSVG extends SyntaxOutput.SyntaxLineOutput {
     constructor(opts) {
-        this._syntaxOtutput = opts.syntaxOtutput;
-        this._defines       = opts.defines;
-        this._records       = opts.records;
-        this._output        = '';
-        this._line          = '';
-        this._word          = '';
-        this._comment       = '';
-        this._x             = 16;
-    }
-
-    grabNextWord(line, i) {
-        let j = i;
-        while ((j < line.length) && (line[j] === ' ')) {
-            j++;
-        }
-        while ((j < line.length) && (line[j] !== ' ')) {
-            j++;
-        }
-        return line.substr(i, j - i).trim();
+        super(opts);
+        this._x = 16;
     }
 
     addOutputText(className, text) {
@@ -80,22 +64,6 @@ class SyntaxLineOutputSVG {
         this._word = '';
     }
 
-    getWord() {
-        return this._word;
-    }
-
-    addToWord(c) {
-        this._word += c;
-    }
-
-    getOutput() {
-        return this._output;
-    }
-
-    addToOutput(output) {
-        this._output += output;
-    }
-
     addString(s) {
         this._line += s;
         this.addOutputText('string', s);
@@ -117,20 +85,12 @@ class SyntaxLineOutputSVG {
         this._line += ' ';
     }
 
-    setComment(comment) {
-        this._comment = comment;
-    }
-
     finishLine() {
         this._syntaxOtutput.addOutput(this._output, this._line);
     }
 }
 
-exports.SyntaxOutputSVG = class {
-    constructor() {
-        this.clear();
-    }
-
+exports.SyntaxOutputSVG = class extends SyntaxOutput.SyntaxOutput {
     clear() {
         this._output   = '';
         this._y        = LINE_HEIGHT;

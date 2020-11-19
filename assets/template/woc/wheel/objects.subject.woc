@@ -18,9 +18,9 @@ object Animal
     number x, y
 end
 
-proc Animal.setPosition(number xx, number yy)
-    x = xx
-    y = yy
+proc Animal.setPosition(number x, number y)
+    self.x = x
+    self.y = y
 end
 
 proc Animal.logPosition()
@@ -45,9 +45,9 @@ object Animal
     number x, y
 end
 
-proc Animal.setPosition(number xx, number yy)
-    x = xx
-    y = yy
+proc Animal.setPosition(number x, number y)
+    self.x = x
+    self.y = y
 end
 
 proc Animal.logPosition()
@@ -79,9 +79,9 @@ object Animal
     number x, y
 end
 
-proc Animal.setPosition(number xx, number yy)
-    x = xx
-    y = yy
+proc Animal.setPosition(number x, number y)
+    self.x = x
+    self.y = y
 end
 
 proc Animal.logPosition()
@@ -123,9 +123,9 @@ object Animal
     number x, y
 end
 
-proc Animal.setPosition(number xx, number yy)
-    x = xx
-    y = yy
+proc Animal.setPosition(number x, number y)
+    self.x = x
+    self.y = y
 end
 
 proc Animal.logPosition()

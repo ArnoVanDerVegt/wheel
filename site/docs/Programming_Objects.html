@@ -49,20 +49,20 @@
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Animal.setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
     <span class="variable">x</span> <span class="operator">=</span> <span class="variable">xx</span>
     <span class="variable">y</span> <span class="operator">=</span> <span class="variable">yy</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Animal.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">x</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">y</span><span class="operator">)</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="record">Animal</span> <span class="variable">animal</span>
-    <span class="variable">animal.setPosition</span><span class="operator">(</span><span class="number">146</span><span class="operator">,</span> <span class="number">381</span><span class="operator">)</span>
-    <span class="variable">animal.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="number">146</span><span class="operator">,</span> <span class="number">381</span><span class="operator">)</span>
+    <span class="variable">animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
             <a id="Extendingobjects"></a>
@@ -77,12 +77,12 @@
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Animal.setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
     <span class="variable">x</span> <span class="operator">=</span> <span class="variable">xx</span>
     <span class="variable">y</span> <span class="operator">=</span> <span class="variable">yy</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Animal.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">x</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">y</span><span class="operator">)</span>
 <span class="keyword">end</span>
@@ -92,8 +92,8 @@
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="record">Bird</span> <span class="variable">bird</span>
-    <span class="variable">bird.setPosition</span><span class="operator">(</span><span class="number">146</span><span class="operator">,</span> <span class="number">381</span><span class="operator">)</span>
-    <span class="variable">bird.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">bird</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="number">146</span><span class="operator">,</span> <span class="number">381</span><span class="operator">)</span>
+    <span class="variable">bird</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
             <p>
@@ -113,12 +113,12 @@
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Animal.setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
     <span class="variable">x</span> <span class="operator">=</span> <span class="variable">xx</span>
     <span class="variable">y</span> <span class="operator">=</span> <span class="variable">yy</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Animal.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">x</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">y</span><span class="operator">)</span>
 <span class="keyword">end</span>
@@ -126,15 +126,15 @@
 <span class="keyword">object</span> <span class="record">Bird</span> <span class="variable">extends</span> <span class="record">Animal</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Bird.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Bird</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printS</span><span class="operator">(</span><span class="string">"The bird is flew to:"</span><span class="operator">)</span>
     <span class="variable">super</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="record">Bird</span> <span class="variable">bird</span>
-    <span class="variable">bird.setPosition</span><span class="operator">(</span><span class="number">146</span><span class="operator">,</span> <span class="number">381</span><span class="operator">)</span>
-    <span class="variable">bird.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="variable">bird</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="number">146</span><span class="operator">,</span> <span class="number">381</span><span class="operator">)</span>
+    <span class="variable">bird</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
             <p>
@@ -159,12 +159,12 @@
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Animal.setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
     <span class="variable">x</span> <span class="operator">=</span> <span class="variable">xx</span>
     <span class="variable">y</span> <span class="operator">=</span> <span class="variable">yy</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Animal.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">x</span><span class="operator">)</span>
     <span class="proc">printN</span><span class="operator">(</span><span class="variable">y</span><span class="operator">)</span>
 <span class="keyword">end</span>
@@ -172,7 +172,7 @@
 <span class="keyword">object</span> <span class="record">Bird</span> <span class="variable">extends</span> <span class="record">Animal</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Bird.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Bird</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printS</span><span class="operator">(</span><span class="string">"The bird is flew to:"</span><span class="operator">)</span>
     <span class="variable">super</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
@@ -180,7 +180,7 @@
 <span class="keyword">object</span> <span class="record">Fish</span> <span class="variable">extends</span> <span class="record">Animal</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="variable">Fish.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">proc</span> <span class="record">Fish</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
     <span class="proc">printS</span><span class="operator">(</span><span class="string">"The fish swam to:"</span><span class="operator">)</span>
     <span class="variable">super</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
@@ -188,8 +188,8 @@
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="record">Bird</span> <span class="variable">bird</span>
     <span class="record">Fish</span> <span class="variable">fish</span>
-    <span class="variable">bird.setPosition</span><span class="operator">(</span><span class="number">146</span><span class="operator">,</span> <span class="number">381</span><span class="operator">)</span>
-    <span class="variable">fish.setPosition</span><span class="operator">(</span><span class="number">586</span><span class="operator">,</span> <span class="number">95</span><span class="operator">)</span>
+    <span class="variable">bird</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="number">146</span><span class="operator">,</span> <span class="number">381</span><span class="operator">)</span>
+    <span class="variable">fish</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="number">586</span><span class="operator">,</span> <span class="number">95</span><span class="operator">)</span>
 
     <span class="operator">^</span><span class="record">Animal</span> <span class="variable">animals</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span>
     <span class="variable">animals</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">@</span><span class="variable">bird</span>
@@ -198,7 +198,7 @@
     <span class="type">number</span> <span class="variable">i</span>
 
     <span class="keyword">for</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span> <span class="keyword">to</span> <span class="number">1</span>
-        <span class="variable">animals</span><span class="operator">[</span><span class="variable">i</span><span class="operator">]</span><span class="variable">.logPosition</span><span class="operator">(</span><span class="operator">)</span>
+        <span class="variable">animals</span><span class="operator">[</span><span class="variable">i</span><span class="operator">]</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>

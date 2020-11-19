@@ -62,6 +62,7 @@ exports.WheelSyntax = class {
                 case '/':
                 case '%':
                 case '|':
+                case '.':
                     (lineOutput.getWord() === '') || lineOutput.addWord(line, i, lineOutput.getWord());
                     lineOutput.addWord(line, i, c);
                     break;
