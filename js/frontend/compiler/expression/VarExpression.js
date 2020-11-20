@@ -282,6 +282,38 @@ exports.VarExpression = class {
     }
 
     /**
+     * Multiply the index with the array size and add to the register...
+    **/
+    compileCalculateAndAddIndexToReg(opts) {
+        let program = this._program;
+        let scope   = this._scope;
+        scope.incStackOffset();
+        if (this._compiler.getRangeCheck()) {
+            // Compile with range checking...
+            program
+                .addCommand(
+                    $.CMD_SET, $.T_NUM_L, scope.getStackOffset(), opts.paramType, opts.indexIdentifier.getOffset(),
+                    $.CMD_SET, $.T_NUM_G, $.REG_RANGE0,           $.T_NUM_C,      opts.maxArraySize,
+                    $.CMD_SET, $.T_NUM_G, $.REG_RANGE1,           $.T_NUM_L,      scope.getStackOffset(),
+                    $.CMD_MOD, $.T_NUM_C, 0,                      $.T_NUM_C,      0
+                )
+                .addInfoToLastCommand({token: opts.indexToken, scope: this._scope})
+                .addCommand(
+                    $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, opts.arraySize,
+                    $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L, scope.getStackOffset()
+                );
+        } else {
+            // Add to offset: offset = [local] * arraySize
+            program.addCommand(
+                $.CMD_SET, $.T_NUM_L, scope.getStackOffset(), opts.paramType, opts.indexIdentifier.getOffset(),
+                $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C,      opts.arraySize,
+                $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L,      scope.getStackOffset()
+            );
+        }
+        scope.decStackOffset();
+    }
+
+    /**
      * Compile the index of an array and add the offset to a register
     **/
     compileArrayIndexToReg(opts) {
@@ -309,39 +341,16 @@ exports.VarExpression = class {
             } else if (indexToken.cls === t.TOKEN_IDENTIFIER) {
                 opts.indexIdentifier = this.findIdentifier(indexToken);
                 opts.paramType       = opts.indexIdentifier.getGlobal() ? $.T_NUM_G : $.T_NUM_L;
+                opts.indexToken      = indexToken;
                 if (opts.arraySize === 1) {
                     if (opts.identifierSize === 1) {
-                        opts.indexToken = indexToken;
-                        opts            = this.compileAddIndexIdentifierToReg(opts);
+                        opts = this.compileAddIndexIdentifierToReg(opts);
                     } else {
                         this.addVarIndexToReg(opts);
                     }
                 } else if (opts.identifierSize === 1) {
-                    // It's a multi dimensional array index...
-                    scope.incStackOffset();
-                    if (this._compiler.getRangeCheck()) {
-                        // Compile with range checking...
-                        program
-                            .addCommand(
-                                $.CMD_SET, $.T_NUM_L, scope.getStackOffset(), opts.paramType, opts.indexIdentifier.getOffset(),
-                                $.CMD_SET, $.T_NUM_G, $.REG_RANGE0,           $.T_NUM_C,      opts.maxArraySize,
-                                $.CMD_SET, $.T_NUM_G, $.REG_RANGE1,           $.T_NUM_L,      scope.getStackOffset(),
-                                $.CMD_MOD, $.T_NUM_C, 0,                      $.T_NUM_C,      0
-                            )
-                            .addInfoToLastCommand({token: indexToken, scope: this._scope})
-                            .addCommand(
-                                $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, opts.arraySize,
-                                $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L, scope.getStackOffset()
-                            );
-                    } else {
-                        // Add to offset: offset = [local] * arraySize
-                        program.addCommand(
-                            $.CMD_SET, $.T_NUM_L, scope.getStackOffset(), opts.paramType, opts.indexIdentifier.getOffset(),
-                            $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C,      opts.arraySize,
-                            $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L,      scope.getStackOffset()
-                        );
-                    }
-                    scope.decStackOffset();
+                    // Calculate the array offset...
+                    this.compileCalculateAndAddIndexToReg(opts);
                 } else {
                     this.addVarIndexToReg(opts);
                 }
