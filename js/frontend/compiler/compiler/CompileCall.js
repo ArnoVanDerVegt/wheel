@@ -65,10 +65,10 @@ exports.CompileCall = class CompileCall extends CompileScope {
         let codeUsed = program.getCodeUsed();
         program.setCodeUsed(false);
         this._varExpression.compileExpressionToRegister({
-            identifier:             procIdentifier,
-            expression:             procExpression,
-            reg:                    $.REG_PTR,
-            selfPointerStackOffset: true
+            identifier: procIdentifier,
+            expression: procExpression,
+            reg:        $.REG_PTR
+            //selfPointerStackOffset: true
         });
         program.setCodeUsed(codeUsed);
         return this._varExpression.getLastProcField();
@@ -301,31 +301,32 @@ exports.CompileCall = class CompileCall extends CompileScope {
     }
 
     compile(opts) {
-        let iterator               = opts.iterator;
-        let proc                   = opts.proc           || null;
-        let procExpression         = opts.procExpression || null;
-        let procIdentifier         = opts.procIdentifier || null;
-        let token                  = iterator.next();
-        let program                = this._program;
-        let scope                  = this._scope;
+        opts.selfPointerStackOffset = ('selfPointerStackOffset' in opts) ? opts.selfPointerStackOffset : false;
+        let iterator                = opts.iterator;
+        let proc                    = opts.proc           || null;
+        let procExpression          = opts.procExpression || null;
+        let procIdentifier          = opts.procIdentifier || null;
+        let token                   = iterator.next();
+        let program                 = this._program;
+        let scope                   = this._scope;
         let callProc;
         let callProcVars;
         let callMethod;
         if (opts.callMethod) {
             // This function is called from VarExpression!
-            callProc               = procIdentifier.getProc();
-            callProcVars           = procIdentifier.getProc().getVars();
-            callMethod             = true;
-            proc                   = t.LEXEME_PROC;
+            callProc                = procIdentifier.getProc();
+            callProcVars            = procIdentifier.getProc().getVars();
+            callMethod              = true;
+            proc                    = t.LEXEME_PROC;
         } else {
-            callProc               = this.getProc(token, proc, procExpression, procIdentifier);
-            callProcVars           = this.getProcVars(callProc, procExpression, procIdentifier);
-            callMethod             = callProc && callProc.getMethod();
+            callProc                = this.getProc(token, proc, procExpression, procIdentifier);
+            callProcVars            = this.getProcVars(callProc, procExpression, procIdentifier);
+            callMethod              = callProc && callProc.getMethod();
         }
-        let callStackSize          = callMethod ? 3 : 2;
-        let returnStackOffset      = scope.getStackOffset();
-        let selfPointerStackOffset = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
-        let done                   = false;
+        let callStackSize           = callMethod ? 3 : 2;
+        let returnStackOffset       = scope.getStackOffset();
+        let selfPointerStackOffset  = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
+        let done                    = false;
         this.skipUntilParenthesisOpen(iterator, token);
         this._parameterIndex  = callStackSize;
         this._parameterOffset = callStackSize;

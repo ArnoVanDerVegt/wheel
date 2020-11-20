@@ -121,11 +121,9 @@ class MathExpressionNode {
                     }
                 }
                 this._varExpression.compileExpressionToRegister({
-                    identifier:             identifier,
-                    expression:             {tokens: value},
-                    reg:                    $.REG_PTR,
-                    forWriting:             false,
-                    selfPointerStackOffset: false
+                    identifier: identifier,
+                    expression: {tokens: value},
+                    reg:        $.REG_PTR
                 });
                 this._program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_P, 0);
             }

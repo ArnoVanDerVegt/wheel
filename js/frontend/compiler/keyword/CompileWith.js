@@ -28,11 +28,9 @@ exports.CompileWith = class extends CompileBlock {
         }
         program.nextBlockId(token, scope);
         this._varExpression.compileExpressionToRegister({
-            identifier:             identifier,
-            expression:             withExpression,
-            reg:                    $.REG_PTR,
-            forWriting:             false,
-            selfPointerStackOffset: false
+            identifier: identifier,
+            expression: withExpression,
+            reg:        $.REG_PTR
         });
         let lastRecordType = this._varExpression.getLastRecordType();
         if (!(lastRecordType instanceof Record)) {

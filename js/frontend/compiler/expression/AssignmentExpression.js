@@ -197,11 +197,9 @@ exports.AssignmentExpression = class {
         } else {
             let srcIdentifier = this._scope.findIdentifier(token.lexeme);
             result      = varExpression.compileExpressionToRegister({
-                    identifier:             srcIdentifier,
-                    expression:             opts.srcExpression,
-                    reg:                    $.REG_PTR,
-                    forWriting:             false,
-                    selfPointerStackOffset: false
+                    identifier: srcIdentifier,
+                    expression: opts.srcExpression,
+                    reg:        $.REG_PTR
                 });
             srcVrOrType = result.type;
             switch (helper.getTypeFromIdentifier(srcVrOrType)) {
@@ -298,11 +296,10 @@ exports.AssignmentExpression = class {
     **/
     compileArrayConstantAssignment(opts) {
         let destVrOrType = this._varExpression.compileExpressionToRegister({
-                identifier:             opts.destIdentifier,
-                expression:             opts.destExpression,
-                reg:                    $.REG_PTR,
-                forWriting:             true,
-                selfPointerStackOffset: false
+                identifier: opts.destIdentifier,
+                expression: opts.destExpression,
+                reg:        $.REG_PTR,
+                forWriting: true
             }).type;
         if (destVrOrType.getArraySize() === false) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
@@ -404,11 +401,10 @@ exports.AssignmentExpression = class {
         }
         mathExpressionNode.compile(opts.srcVrOrType);
         opts.destVrOrType = this._varExpression.compileExpressionToRegister({
-            identifier:             opts.destIdentifier,
-            expression:             opts.destExpression,
-            reg:                    $.REG_PTR,
-            forWriting:             true,
-            selfPointerStackOffset: false
+            identifier: opts.destIdentifier,
+            expression: opts.destExpression,
+            reg:        $.REG_PTR,
+            forWriting: true
         }).type;
         if (!helper.getTypesEqual(opts.srcVrOrType, opts.destVrOrType)) {
             throw errors.createError(err.TYPE_MISMATCH, destExpression.tokens[0], 'Type mismatch.');
@@ -436,11 +432,10 @@ exports.AssignmentExpression = class {
     compileDataAssignment(opts) {
         opts.srcInfo      = this.compileSourceExpression(opts);
         opts.destInfo     = this._varExpression.compileExpressionToRegister({
-            identifier:             opts.destIdentifier,
-            expression:             opts.destExpression,
-            reg:                    $.REG_PTR,
-            forWriting:             true,
-            selfPointerStackOffset: false
+            identifier: opts.destIdentifier,
+            expression: opts.destExpression,
+            reg:        $.REG_PTR,
+            forWriting: true
         });
         opts.srcVrOrType  = opts.srcInfo.type;
         opts.destVrOrType = opts.destInfo.type;

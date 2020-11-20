@@ -79,11 +79,9 @@ class BooleanExpressionNode {
             );
         } else {
             this._varExpression.compileExpressionToRegister({
-                identifier:             scope.findIdentifier(value[0].lexeme),
-                expression:             {tokens: value},
-                reg:                    $.REG_PTR,
-                forWriting:             false,
-                selfPointerStackOffset: false
+                identifier: scope.findIdentifier(value[0].lexeme),
+                expression: {tokens: value},
+                reg:        $.REG_PTR
             });
             program.addCommand(
                 $.CMD_SET,  $.T_NUM_G, $.REG_SRC,              $.T_NUM_P, 0,

@@ -27,11 +27,9 @@ exports.CompileRet = class extends CompileScope {
                    program.addCommand($.CMD_RET, $.T_NUM_C, token.value, 0, 0);
                 } else {
                     this._varExpression.compileExpressionToRegister({
-                        identifier:             scope.findIdentifier(retExpression.tokens[0].lexeme),
-                        expression:             {tokens: mathExpressionNode.getValue()},
-                        reg:                    $.REG_PTR,
-                        forWriting:             false,
-                        selfPointerStackOffset: false
+                        identifier: scope.findIdentifier(retExpression.tokens[0].lexeme),
+                        expression: {tokens: mathExpressionNode.getValue()},
+                        reg:        $.REG_PTR
                     });
                     program.addCommand($.CMD_RET, $.T_NUM_P, 0, 0, 0);
                 }

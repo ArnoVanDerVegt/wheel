@@ -19,11 +19,9 @@ exports.CompileAddr = class extends CompileScope {
         }
         this._program.nextBlockId(token, this._scope);
         this._varExpression.compileExpressionToRegister({
-            identifier:             identifier,
-            expression:             addrExpression,
-            reg:                    $.REG_SRC,
-            forWriting:             false,
-            selfPointerStackOffset: false
+            identifier: identifier,
+            expression: addrExpression,
+            reg:        $.REG_SRC
         });
     }
 };

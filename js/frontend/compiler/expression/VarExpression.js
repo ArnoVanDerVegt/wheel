@@ -570,6 +570,8 @@ exports.VarExpression = class {
     }
 
     compileExpressionToRegister(opts) {
+        opts.selfPointerStackOffset  = ('selfPointerStackOffset' in opts) ? opts.selfPointerStackOffset : false;
+        opts.forWriting              = !!opts.forWriting;
         opts.index                   = 1;
         opts.identifierType          = null;
         opts.token                   = null;

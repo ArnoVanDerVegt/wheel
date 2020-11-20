@@ -201,11 +201,10 @@ class CompileBlock extends CompileScope {
                                 let procExpression = iterator.nextUntilTokenCls([t.TOKEN_PARENTHESIS_OPEN]);
                                 iterator.setIndexToToken(procExpression.lastToken);
                                 new CompileCall(opts).compile({
-                                    iterator:               iterator,
-                                    proc:                   t.LEXEME_PROC,
-                                    procExpression:         procExpression,
-                                    procIdentifier:         identifier,
-                                    selfPointerStackOffset: false
+                                    iterator:       iterator,
+                                    proc:           t.LEXEME_PROC,
+                                    procExpression: procExpression,
+                                    procIdentifier: identifier
                                 });
                             } else {
                                 destExpression = iterator.nextUntilLexeme([
@@ -228,10 +227,9 @@ class CompileBlock extends CompileScope {
                         let proc = scope.findProc(token.lexeme);
                         if (proc) {
                             new CompileCall(opts).compile({
-                                iterator:               iterator,
-                                proc:                   proc,
-                                procExpression:         null,
-                                selfPointerStackOffset: false
+                                iterator:       iterator,
+                                proc:           proc,
+                                procExpression: null
                             });
                         } else {
                             throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
