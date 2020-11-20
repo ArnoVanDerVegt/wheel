@@ -140,7 +140,7 @@ describe(
         );
         testLogs(
             it,
-            'Should create a container object and add points',
+            'Should create a container object with records and add points',
             [
                 'object Point',
                 '   number x, y',
@@ -185,7 +185,6 @@ describe(
                 9841
             ]
         );
-/*
         testLogs(
             it,
             'Should create a container object and add points',
@@ -230,6 +229,5 @@ describe(
                 9841
             ]
         );
-*/
     }
 );
