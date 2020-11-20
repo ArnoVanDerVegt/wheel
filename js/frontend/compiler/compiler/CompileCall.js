@@ -68,7 +68,6 @@ exports.CompileCall = class CompileCall extends CompileScope {
             identifier: procIdentifier,
             expression: procExpression,
             reg:        $.REG_PTR
-            //selfPointerStackOffset: true
         });
         program.setCodeUsed(codeUsed);
         return this._varExpression.getLastProcField();
