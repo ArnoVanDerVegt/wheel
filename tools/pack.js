@@ -211,6 +211,7 @@ const files = [
         './js/frontend/compiler/types/Proc',
         './js/frontend/compiler/types/Namespace',
         './js/frontend/compiler/compiler/CompileData',
+        './js/frontend/compiler/expression/helper',
         './js/frontend/compiler/expression/MathExpression',
         './js/frontend/compiler/expression/VarExpression',
         './js/frontend/compiler/expression/AssignmentExpression',

@@ -14,6 +14,7 @@ const Objct          = require('../types/Objct').Objct;
 const Proc           = require('../types/Proc').Proc;
 const MathExpression = require('./MathExpression').MathExpression;
 const VarExpression  = require('./VarExpression');
+const helper         = require('./helper');
 
 exports.compileToTempStackValue = function(compiler, program, scope, expression) {
     let varExpression = new VarExpression.VarExpression({compiler: compiler, program: program, scope: scope});
@@ -61,7 +62,7 @@ exports.checkType = function(type, expression) {
                 expectIdentifier = true;
                 break;
             case t.TOKEN_IDENTIFIER:
-                VarExpression.assertRecord({identifierType: {type: type}, token: token});
+                helper.assertRecord({identifierType: {type: type}, token: token});
                 let identifier = type.findIdentifier(token.lexeme);
                 if (identifier === null) {
                     throw errors.createError(errors.errors.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
@@ -192,7 +193,7 @@ exports.AssignmentExpression = class {
         let srcVrOrType;
         if (token.cls === t.TOKEN_STRING) {
             result.type = t.LEXEME_STRING;
-            varExpression.saveStringInLocalVar(token.lexeme);
+            helper.saveStringInLocalVar(this._program, this._scope, token.lexeme);
         } else {
             let srcIdentifier = this._scope.findIdentifier(token.lexeme);
             result      = varExpression.compileExpressionToRegister({
@@ -206,24 +207,24 @@ exports.AssignmentExpression = class {
             switch (varExpression.getTypeFromIdentifier(srcVrOrType)) {
                 case t.LEXEME_STRING:
                     if (opts.address || !result.fullArrayAddress) {
-                        varExpression.savePtrValueInLocalVar();
+                        helper.savePtrValueInLocalVar(this._program, this._scope);
                     } else if (srcVrOrType.getPointer && srcVrOrType.getPointer()) {
-                        varExpression.savePtrInLocalVar();
+                        helper.savePtrInLocalVar(this._program, this._scope);
                     } else {
-                        varExpression.savePtrValueInLocalVar();
+                        helper.savePtrValueInLocalVar(this._program, this._scope);
                     }
                     break;
                 case t.LEXEME_NUMBER:
                     if (srcVrOrType.getPointer && srcVrOrType.getPointer()) {
-                        varExpression.savePtrPointerValueInLocalVar();
+                        helper.savePtrPointerValueInLocalVar(this._program, this._scope);
                     } else if (opts.address || !result.fullArrayAddress) {
-                        varExpression.savePtrInLocalVar();
+                        helper.savePtrInLocalVar(this._program, this._scope);
                     } else {
-                        varExpression.savePtrValueInLocalVar();
+                        helper.savePtrValueInLocalVar(this._program, this._scope);
                     }
                     break;
                 default:
-                    varExpression.savePtrInLocalVar();
+                    helper.savePtrInLocalVar(this._program, this._scope);
                     break;
             }
         }
@@ -276,7 +277,7 @@ exports.AssignmentExpression = class {
         } else {
             let varExpression = this._varExpression;
             let token         = opts.destExpression.lastToken;
-            varExpression.assignToPtr(varExpression.assignmentTokenToCmd(token), $.T_NUM_L, this._scope.getStackOffset());
+            helper.assignToPtr(this._program, varExpression.assignmentTokenToCmd(token), $.T_NUM_L, this._scope.getStackOffset());
             this._program.addInfoToLastCommand({token: token, scope: this._scope});
         }
         return 0;

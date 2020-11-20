@@ -110,6 +110,7 @@ require('./js/frontend/compiler/types/Objct');
 require('./js/frontend/compiler/types/Proc');
 require('./js/frontend/compiler/types/Namespace');
 require('./js/frontend/compiler/compiler/CompileData');
+require('./js/frontend/compiler/expression/helper');
 require('./js/frontend/compiler/expression/MathExpression');
 require('./js/frontend/compiler/expression/VarExpression');
 require('./js/frontend/compiler/expression/AssignmentExpression');
