@@ -23,9 +23,9 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    59',
-                        '0001|0001 mul     [stack + 0],    [10]',
-                        '0002|0001 set     [9],            [stack + 0]'
+                        '0000|0000 set     [stack],        59',
+                        '0001|0001 mul     [stack],        [10]',
+                        '0002|0001 set     [9],            [stack]'
                     ],
                     false
                 );
@@ -40,9 +40,9 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    47',
+                        '0000|0000 set     [stack],        47',
                         '0001|0001 set     [stack + 1],    [10]',
-                        '0002|0001 div     [stack + 1],    [stack + 0]',
+                        '0002|0001 div     [stack + 1],    [stack]',
                         '0003|0001 set     [9],            [stack + 1]'
                     ],
                     false
@@ -59,9 +59,9 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [11]',
-                        '0001|0001 mul     [stack + 0],    [10]',
-                        '0002|0001 set     [9],            [stack + 0]'
+                        '0000|0000 set     [stack],        [11]',
+                        '0001|0001 mul     [stack],        [10]',
+                        '0002|0001 set     [9],            [stack]'
                     ],
                     false
                 );
@@ -113,11 +113,11 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    13',
+                        '0000|0000 set     [stack],        13',
                         '0001|0001 set     [stack + 1],    56',
                         '0002|0002 mul     [stack + 1],    [10]',
-                        '0003|0002 add     [stack + 0],    [stack + 1]',
-                        '0004|0002 set     [9],            [stack + 0]'
+                        '0003|0002 add     [stack],        [stack + 1]',
+                        '0004|0002 set     [9],            [stack]'
                     ],
                     false
                 );
@@ -133,11 +133,11 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [11]',
+                        '0000|0000 set     [stack],        [11]',
                         '0001|0001 set     [stack + 1],    85',
                         '0002|0002 mul     [stack + 1],    [10]',
-                        '0003|0002 add     [stack + 0],    [stack + 1]',
-                        '0004|0002 set     [9],            [stack + 0]'
+                        '0003|0002 add     [stack],        [stack + 1]',
+                        '0004|0002 set     [9],            [stack]'
                     ],
                     false
                 );
@@ -193,14 +193,14 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    7',
+                        '0000|0000 set     [stack],        7',
                         '0001|0000 set     ptr,            9',
                         '0002|0001 set     [stack + 2],    6',
                         '0003|0001 set     range1,         15',
                         '0004|0001 set     range2,         [stack + 2]',
                         '0005|0001 mod     0,              0',
                         '0006|0001 add     ptr,            [stack + 2]',
-                        '0007|0001 set     [ptr + 0],      [stack + 0]'
+                        '0007|0001 set     [ptr],          [stack]'
                     ],
                     [
                         24, 0, 0, 15, 8, 0, 0, 15, 6, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 6

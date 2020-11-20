@@ -337,7 +337,7 @@ describe(
                         '0000|0000 ret     15',
                         '0001|0001 ret     0',
                         '0002|0002 call    0000,           4',
-                        '0003|0002 set     [stack + 0],    return',
+                        '0003|0002 set     [stack],        return',
                         '0004|0003 set     src,            0',
                         '0005|0003 add     src,            stack',
                         '0006|0004 mod     0,              1'

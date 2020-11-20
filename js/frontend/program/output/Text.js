@@ -28,10 +28,10 @@ exports.Text = class {
                         }
                         break;
                     case $.T_NUM_L:
-                        p = '[stack + ' + param.getValue() + ']';
+                        p = (param.getValue() === 0) ? '[stack]' : ('[stack + ' + param.getValue() + ']');
                         break;
                     case $.T_NUM_P:
-                        p = '[ptr + ' + param.getValue() + ']';
+                        p = (param.getValue() === 0) ? '[ptr]' : ('[ptr + ' + param.getValue() + ']');
                         break;
                 }
                 return p;

@@ -410,20 +410,20 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    0',
+                        '0000|0000 set     [stack],        0',
                         '0001|0001 set     [stack + 1],    56',
                         '0002|0001 set     ptr,            9',
-                        '0003|0001 set     [stack + 2],    [stack + 0]',
+                        '0003|0001 set     [stack + 2],    [stack]',
                         '0004|0001 set     range1,         2',
                         '0005|0001 set     range2,         [stack + 2]',
                         '0006|0001 mod     0,              0',
                         '0007|0001 mul     [stack + 2],    2',
                         '0008|0001 add     ptr,            [stack + 2]',
                         '0009|0001 set     range1,         2',
-                        '0010|0001 set     range2,         [stack + 0]',
+                        '0010|0001 set     range2,         [stack]',
                         '0011|0001 mod     0,              0',
-                        '0012|0001 add     ptr,            [stack + 0]',
-                        '0013|0001 set     [ptr + 0],      [stack + 1]'
+                        '0012|0001 add     ptr,            [stack]',
+                        '0013|0001 set     [ptr],          [stack + 1]'
                     ],
                     false
                 );
@@ -439,14 +439,14 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    0',
+                        '0000|0000 set     [stack],        0',
                         '0001|0001 set     [stack + 1],    56',
                         '0002|0001 set     ptr,            9',
-                        '0003|0001 set     [stack + 2],    [stack + 0]',
+                        '0003|0001 set     [stack + 2],    [stack]',
                         '0004|0001 mul     [stack + 2],    2',
                         '0005|0001 add     ptr,            [stack + 2]',
-                        '0006|0001 add     ptr,            [stack + 0]',
-                        '0007|0001 set     [ptr + 0],      [stack + 1]'
+                        '0006|0001 add     ptr,            [stack]',
+                        '0007|0001 set     [ptr],          [stack + 1]'
                     ],
                     false
                 );

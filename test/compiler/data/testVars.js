@@ -37,7 +37,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    13'
+                        '0000|0000 set     [stack],        13'
                     ],
                     [
                         9, 0, 0, 0, 1, 0, 0, 0, 0, 13
@@ -69,7 +69,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [9],            [stack + 0]'
+                        '0000|0000 set     [9],            [stack]'
                     ],
                     false
                 );
@@ -84,7 +84,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [9]'
+                        '0000|0000 set     [stack],        [9]'
                     ],
                     false
                 );
