@@ -65,10 +65,11 @@ exports.VarExpression = class {
     }
 
     addVarIndexToReg(opts) {
+        let program = this._program;
         let offset  = this._scope.getStackOffset() + 1;
         let type    = opts.indexIdentifier.getGlobal() ? $.T_NUM_G : $.T_NUM_L;
         if (this._compiler.getRangeCheck()) {
-            this._program
+            program
                 .addCommand(
                     $.CMD_SET, $.T_NUM_G, $.REG_RANGE0, $.T_NUM_C, opts.maxArraySize,
                     $.CMD_SET, $.T_NUM_G, $.REG_RANGE1, type,      opts.indexIdentifier.getOffset(),
@@ -77,13 +78,13 @@ exports.VarExpression = class {
                 .addInfoToLastCommand({token: opts.token, scope: this._scope});
         }
         if (opts.indexIdentifier.getWithOffset() === null) {
-            this._program.addCommand(
+            program.addCommand(
                 $.CMD_SET, $.T_NUM_L, offset, type,      opts.indexIdentifier.getOffset(),
                 $.CMD_MUL, $.T_NUM_L, offset, $.T_NUM_C, opts.identifier.getType().type.getSize() * opts.arraySize
             );
         } else {
             // Get the "with" offset:
-            this._program.addCommand(
+            program.addCommand(
                 $.CMD_SET, $.T_NUM_L, offset + 1, $.T_NUM_G, $.REG_PTR,     // Save the pointer register....
                 $.CMD_SET, $.T_NUM_G, $.REG_PTR,  $.T_NUM_L, opts.indexIdentifier.getWithOffset(),
                 $.CMD_ADD, $.T_NUM_G, $.REG_PTR,  $.T_NUM_C, opts.indexIdentifier.getOffset(),
@@ -231,6 +232,7 @@ exports.VarExpression = class {
                 }
             }
         } else {
+            // The index is a math expression...
             let lastRecordType     = this._lastRecordType;
             let mathExpressionNode = new MathExpression({
                     varExpression: this,
@@ -403,11 +405,7 @@ exports.VarExpression = class {
                     this._lastProcField = opts.identifier.getProc();
                     if (opts.selfPointerStackOffset !== false) {
                         // It's a method to call then save the self pointer on the stack!
-                        // This command may not be optimized away!!!
-                        program
-                            .nextBlockId()
-                            .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg)
-                            .nextBlockId();
+                        helper.saveSelfPointerToLocal(program, opts.selfPointerStackOffset, opts.reg);
                     }
                 }
                 if (opts.reg === $.REG_PTR) {
@@ -468,36 +466,21 @@ exports.VarExpression = class {
             this._scope.incStackOffset();
             this._selfPointerStackOffset = this._scope.getStackOffset();
         }
-        // This code may not be optimized away!!!
-        this._program
-            .nextBlockId()
-            .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, opts.reg)
-            .nextBlockId();
-    }
-
-    /**
-     * It's a method to call, save the self pointer on the stack!
-    **/
-    compileSaveSelfPointerToStack(opts) {
-        // This command may not be optimized away!!!
-        this._program
-            .nextBlockId()
-            .addCommand($.CMD_SET, $.T_NUM_L, opts.selfPointerStackOffset, $.T_NUM_G, opts.reg)
-            .nextBlockId();
+        helper.saveSelfPointerToLocal(this._program, this._selfPointerStackOffset, opts.reg);
     }
 
     compileAddFieldOffsetToReg(opts) {
         let program = this._program;
         if ((opts.identifier.getOffset() !== 0)  && !opts.typePointer) {
             if (opts.saveSelfPointer) {
-                this.compileSaveSelfPointerToStack(opts);
+                helper.saveSelfPointerToLocal(program, opts.selfPointerStackOffset, opts.reg);
                 opts.saveSelfPointer = false;
             }
             helper.addToReg(this._program, opts.reg, $.T_NUM_C, opts.identifier.getOffset());
         }
         if (opts.identifier.getPointer()) {
             if (opts.saveSelfPointer) {
-                this.compileSaveSelfPointerToStack(opts);
+                helper.saveSelfPointerToLocal(program, opts.selfPointerStackOffset, opts.reg);
             }
             // It's a pointer like: number ^n
             // When writing the last field then we don't dereference the pointer...
@@ -514,14 +497,14 @@ exports.VarExpression = class {
                 if (opts.dereferencedPointer) {
                     opts.dereferencedPointer = false;
                     program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
-                    opts.saveSelfPointer && this.compileSaveSelfPointerToStack(opts);
+                    opts.saveSelfPointer && helper.saveSelfPointerToLocal(program, opts.selfPointerStackOffset, opts.reg);
                 } else if (opts.selfPointerStackOffset === false) {
                     program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
-                    opts.saveSelfPointer && this.compileSaveSelfPointerToStack(opts);
+                    opts.saveSelfPointer && helper.saveSelfPointerToLocal(program, opts.selfPointerStackOffset, opts.reg);
                     program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
                 } else {
                     program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
-                    opts.saveSelfPointer && this.compileSaveSelfPointerToStack(opts);
+                    opts.saveSelfPointer && helper.saveSelfPointerToLocal(program, opts.selfPointerStackOffset, opts.reg);
                     program.addCommand($.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, opts.identifier.getOffset());
                 }
                 if (opts.reg !== $.REG_PTR) {
@@ -531,7 +514,7 @@ exports.VarExpression = class {
                 opts = this.compileDerefecencePointer(opts);
             }
         } else if (opts.saveSelfPointer) {
-            this.compileSaveSelfPointerToStack(opts);
+            helper.saveSelfPointerToLocal(program, opts.selfPointerStackOffset, opts.reg);
         }
         return opts;
     }
@@ -627,11 +610,7 @@ exports.VarExpression = class {
             // Save the self pointer of the object on the stack.
             // This value is passed to CompileCall.compile from the compileProcCall method in this class.
             this._selfPointerStackOffset = scope.getStackOffset();
-            // This code may not be optimized away!!!
-            program
-                .nextBlockId()
-                .addCommand($.CMD_SET, $.T_NUM_L, this._selfPointerStackOffset, $.T_NUM_G, opts.reg)
-                .nextBlockId();
+            helper.saveSelfPointerToLocal(program, this._selfPointerStackOffset, opts.reg);
         }
         result = this.compileComplexTypeToRegister(opts, result);
         if (this._selfPointerStackOffset !== false) {

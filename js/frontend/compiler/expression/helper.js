@@ -75,6 +75,14 @@ exports.saveStringInLocalVar = (program, scope, s) => {
     program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, program.addConstantString(s));
 };
 
+exports.saveSelfPointerToLocal = (program, selfPointerStackOffset, reg) => {
+    // This command may not be optimized away!!!
+    program
+        .nextBlockId()
+        .addCommand($.CMD_SET, $.T_NUM_L, selfPointerStackOffset, $.T_NUM_G, reg)
+        .nextBlockId();
+};
+
 exports.getIdentifierSize = (type) => {
     return ([t.LEXEME_NUMBER, t.LEXEME_STRING, t.LEXEME_PROC].indexOf(type) !== -1) ? 1 : type.getSize();
 };
