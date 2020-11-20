@@ -235,6 +235,53 @@ exports.VarExpression = class {
     }
 
     /**
+     * Add the value of the index identifier to the register.
+     * This happens when the index identifier is a single token and the array element size is 1.
+    **/
+    compileAddIndexIdentifierToReg(opts) {
+        let program = this._program;
+        let scope   = this._scope;
+        if (opts.indexIdentifier.getWithOffset() === null) {
+            if (this._compiler.getRangeCheck()) {
+                program
+                    .addCommand(
+                        $.CMD_SET, $.T_NUM_G, $.REG_RANGE0, $.T_NUM_C,      opts.maxArraySize,
+                        $.CMD_SET, $.T_NUM_G, $.REG_RANGE1, opts.paramType, opts.indexIdentifier.getOffset(),
+                        $.CMD_MOD, $.T_NUM_C, 0,            $.T_NUM_C,      0
+                    )
+                    .addInfoToLastCommand({token: opts.indexToken, scope: this._scope});
+            }
+            // It's a single dimensional array or the last array of a multidemensional array...
+            this.addToReg(opts.reg, opts.paramType, opts.indexIdentifier.getOffset());
+            if (!opts.identifier.getPointer() && opts.identifier.getType().typePointer &&
+                !opts.forWriting && (opts.selfPointerStackOffset === false)) {
+                opts = this.compileDerefecencePointer(opts);
+            }
+            return opts;
+        }
+        // It's a self pointer or a field of a "with" record...
+        if (opts.reg === $.REG_PTR) {
+            // Todo: add range check...
+            program.addCommand(
+                $.CMD_SET, $.T_NUM_L, scope.getStackOffset() + 1, $.T_NUM_G, $.REG_PTR,                     // Save ptr on stack...
+                $.CMD_SET, $.T_NUM_G, $.REG_PTR,                  $.T_NUM_L, opts.indexIdentifier.getWithOffset(),
+                $.CMD_ADD, $.T_NUM_G, $.REG_PTR,                  $.T_NUM_C, opts.indexIdentifier.getOffset(),
+                $.CMD_SET, $.T_NUM_L, scope.getStackOffset() + 2, $.T_NUM_P, 0,
+                $.CMD_SET, $.T_NUM_G, $.REG_PTR,                  $.T_NUM_L, scope.getStackOffset() + 1,
+                $.CMD_ADD, $.T_NUM_G, $.REG_PTR,                  $.T_NUM_L, scope.getStackOffset() + 2     // Restore the ptr...
+            );
+        } else {
+            // Todo: add range check...
+            program.addCommand(
+                $.CMD_SET, $.T_NUM_G, $.REG_PTR,                  $.T_NUM_L, opts.indexIdentifier.getWithOffset(),
+                $.CMD_ADD, $.T_NUM_G, $.REG_PTR,                  $.T_NUM_C, opts.indexIdentifier.getOffset(),
+                $.CMD_ADD, $.T_NUM_G, reg,                        $.T_NUM_P, 0
+            );
+        }
+        return opts;
+    }
+
+    /**
      * Compile the index of an array and add the offset to a register
     **/
     compileArrayIndexToReg(opts) {
@@ -261,57 +308,42 @@ exports.VarExpression = class {
                 }
             } else if (indexToken.cls === t.TOKEN_IDENTIFIER) {
                 opts.indexIdentifier = this.findIdentifier(indexToken);
-                let paramType       = opts.indexIdentifier.getGlobal() ? $.T_NUM_G : $.T_NUM_L;
+                opts.paramType       = opts.indexIdentifier.getGlobal() ? $.T_NUM_G : $.T_NUM_L;
                 if (opts.arraySize === 1) {
                     if (opts.identifierSize === 1) {
-                        if (this._compiler.getRangeCheck()) {
-                            program
-                                .addCommand(
-                                    $.CMD_SET, $.T_NUM_G, $.REG_RANGE0, $.T_NUM_C, opts.maxArraySize,
-                                    $.CMD_SET, $.T_NUM_G, $.REG_RANGE1, paramType, opts.indexIdentifier.getOffset(),
-                                    $.CMD_MOD, $.T_NUM_C, 0,            $.T_NUM_C, 0
-                                )
-                                .addInfoToLastCommand({token: indexToken, scope: this._scope});
-                        }
-                        // It's a single dimensional array or the last array of a multidemensional array...
-                        this.addToReg(opts.reg, paramType, opts.indexIdentifier.getOffset());
-                        if (!opts.identifier.getPointer() && opts.identifier.getType().typePointer &&
-                            !opts.forWriting && (opts.selfPointerStackOffset === false)) {
-                            opts = this.compileDerefecencePointer(opts);
-                        }
+                        opts.indexToken = indexToken;
+                        opts            = this.compileAddIndexIdentifierToReg(opts);
                     } else {
                         this.addVarIndexToReg(opts);
                     }
-                } else {
+                } else if (opts.identifierSize === 1) {
                     // It's a multi dimensional array index...
-                    if (opts.identifierSize === 1) {
-                        scope.incStackOffset();
-                        if (this._compiler.getRangeCheck()) {
-                            // Compile with range checking...
-                            program
-                                .addCommand(
-                                    $.CMD_SET, $.T_NUM_L, scope.getStackOffset(), paramType, opts.indexIdentifier.getOffset(),
-                                    $.CMD_SET, $.T_NUM_G, $.REG_RANGE0,           $.T_NUM_C, opts.maxArraySize,
-                                    $.CMD_SET, $.T_NUM_G, $.REG_RANGE1,           $.T_NUM_L, scope.getStackOffset(),
-                                    $.CMD_MOD, $.T_NUM_C, 0,                      $.T_NUM_C, 0
-                                )
-                                .addInfoToLastCommand({token: indexToken, scope: this._scope})
-                                .addCommand(
-                                    $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, opts.arraySize,
-                                    $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L, scope.getStackOffset()
-                                );
-                        } else {
-                            // Add to offset: offset = [local] * arraySize
-                            program.addCommand(
-                                $.CMD_SET, $.T_NUM_L, scope.getStackOffset(), paramType, opts.indexIdentifier.getOffset(),
+                    scope.incStackOffset();
+                    if (this._compiler.getRangeCheck()) {
+                        // Compile with range checking...
+                        program
+                            .addCommand(
+                                $.CMD_SET, $.T_NUM_L, scope.getStackOffset(), opts.paramType, opts.indexIdentifier.getOffset(),
+                                $.CMD_SET, $.T_NUM_G, $.REG_RANGE0,           $.T_NUM_C,      opts.maxArraySize,
+                                $.CMD_SET, $.T_NUM_G, $.REG_RANGE1,           $.T_NUM_L,      scope.getStackOffset(),
+                                $.CMD_MOD, $.T_NUM_C, 0,                      $.T_NUM_C,      0
+                            )
+                            .addInfoToLastCommand({token: indexToken, scope: this._scope})
+                            .addCommand(
                                 $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, opts.arraySize,
                                 $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L, scope.getStackOffset()
                             );
-                        }
-                        scope.decStackOffset();
                     } else {
-                        this.addVarIndexToReg(opts);
+                        // Add to offset: offset = [local] * arraySize
+                        program.addCommand(
+                            $.CMD_SET, $.T_NUM_L, scope.getStackOffset(), opts.paramType, opts.indexIdentifier.getOffset(),
+                            $.CMD_MUL, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C,      opts.arraySize,
+                            $.CMD_ADD, $.T_NUM_G, opts.reg,               $.T_NUM_L,      scope.getStackOffset()
+                        );
                     }
+                    scope.decStackOffset();
+                } else {
+                    this.addVarIndexToReg(opts);
                 }
             }
         } else {

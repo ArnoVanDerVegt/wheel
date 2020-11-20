@@ -2,7 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const testLogs = require('../../utils').testLogs;
+const testCodeAndMemory = require('../../utils').testCodeAndMemory;
+const testLogs          = require('../../utils').testLogs;
 
 describe(
     'Test list',
@@ -137,5 +138,98 @@ describe(
                 3667
             ]
         );
+        testLogs(
+            it,
+            'Should create a container object and add points',
+            [
+                'object Point',
+                '   number x, y',
+                'end',
+                'proc Point.setXY(number x, number y)',
+                '    self.x = x',
+                '    self.y = y',
+                'end',
+                'proc Point.log()',
+                '    addr x',
+                '    mod 0, 1',
+                '    addr y',
+                '    mod 0, 1',
+                'end',
+                'record PointItem',
+                '    Point ^point',
+                'end',
+                'object Shape',
+                '   number count',
+                '   PointItem points[5]',
+                'end',
+                'proc Shape.init()',
+                '    count = 0',
+                'end',
+                'proc Shape.addPoint(Point ^point)',
+                '    points[count].point = point',
+                'end',
+                'proc Shape.testPoint(number index)',
+                '    points[index].point.log()',
+                'end',
+                'Shape shape',
+                'Point testPoint0',
+                'proc main()',
+                '    shape.init()',
+                '    testPoint0.setXY(2451, 9841)',
+                '    shape.addPoint(@testPoint0)',
+                '    shape.testPoint(0)',
+                'end'
+            ],
+            [
+                2451,
+                9841
+            ]
+        );
+/*
+        testLogs(
+            it,
+            'Should create a container object and add points',
+            [
+                'object Point',
+                '   number x, y',
+                'end',
+                'proc Point.setXY(number x, number y)',
+                '    self.x = x',
+                '    self.y = y',
+                'end',
+                'proc Point.log()',
+                '    addr x',
+                '    mod 0, 1',
+                '    addr y',
+                '    mod 0, 1',
+                'end',
+                'object Shape',
+                '   number count',
+                '   ^Point points[5]',
+                'end',
+                'proc Shape.init()',
+                '    count = 0',
+                'end',
+                'proc Shape.addPoint(Point ^point)',
+                '    points[count] = point',
+                'end',
+                'proc Shape.testPoint(number index)',
+                '    points[index].log()',
+                'end',
+                'Shape shape',
+                'Point testPoint0',
+                'proc main()',
+                '    shape.init()',
+                '    testPoint0.setXY(2451, 9841)',
+                '    shape.addPoint(@testPoint0)',
+                '    shape.testPoint(0)',
+                'end'
+            ],
+            [
+                2451,
+                9841
+            ]
+        );
+*/
     }
 );
