@@ -7,6 +7,7 @@ const errors         = require('../errors');
 const err            = require('../errors').errors;
 const t              = require('../tokenizer/tokenizer');
 const MathExpression = require('../expression/MathExpression').MathExpression;
+const helper         = require('../expression/helper');
 const Record         = require('../types/Record').Record;
 const Var            = require('../types/Var').Var;
 const Proc           = require('../types/Proc').Proc;
@@ -214,13 +215,13 @@ exports.CompileCall = class CompileCall extends CompileScope {
         }
         let pointer = false;
         let size    = false;
-        let type    = varExpression.getTypeFromIdentifier(vrOrType);
+        let type    = helper.getTypeFromIdentifier(vrOrType);
         if ([t.LEXEME_NUMBER, t.LEXEME_PROC, t.LEXEME_STRING].indexOf(type) !== -1) {
             size = this.compilePrimitiveParameter(token, address, vr, type, vrOrType);
         } else {
             if (vr) {
                 // The type of parameter is known...
-                if (varExpression.getTypeFromIdentifier(vr) !== varExpression.getTypeFromIdentifier(vrOrType)) {
+                if (helper.getTypeFromIdentifier(vr) !== helper.getTypeFromIdentifier(vrOrType)) {
                     throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
                 }
                 pointer = vr.getPointer();

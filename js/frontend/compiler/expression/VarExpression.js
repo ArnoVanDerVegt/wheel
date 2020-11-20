@@ -26,6 +26,44 @@ exports.VarExpression = class {
         this._methodCall             = false;
     }
 
+    getLastRecordType() {
+        return this._lastRecordType;
+    }
+
+    setLastRecordType(lastRecordType) {
+        if (lastRecordType instanceof Record) {
+            this._lastRecordType = lastRecordType;
+        }
+    }
+
+    getLastProcField() {
+        return this._lastProcField;
+    }
+
+    getFieldFromIndexToken(opts) {
+        let token = opts.expression.tokens[opts.index];
+        let field = opts.identifierType.type.findVar(token.lexeme);
+        if (!field) {
+            throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
+        }
+        return field;
+    }
+
+    /**
+     * Check it the expression end with ")" (this._methodCall) and the identifier type is an object...
+    **/
+    getMakeMethodCall(identifier) {
+        return identifier.getType && (identifier.getType().type instanceof Objct) && this._methodCall;
+    }
+
+    findIdentifier(token) {
+        let identifier = this._scope.findIdentifier(token.lexeme);
+        if (!identifier) {
+            throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
+        }
+        return identifier;
+    }
+
     addVarIndexToReg(opts) {
         let offset  = this._scope.getStackOffset() + 1;
         let type    = opts.indexIdentifier.getGlobal() ? $.T_NUM_G : $.T_NUM_L;
@@ -55,106 +93,6 @@ exports.VarExpression = class {
             );
         }
         helper.addToReg(this._program, opts.reg, $.T_NUM_L, offset);
-    }
-
-    getLastRecordType() {
-        return this._lastRecordType;
-    }
-
-    setLastRecordType(lastRecordType) {
-        if (lastRecordType instanceof Record) {
-            this._lastRecordType = lastRecordType;
-        }
-    }
-
-    getLastProcField() {
-        return this._lastProcField;
-    }
-
-    getIdentifierSize(type) {
-        return ([t.LEXEME_NUMBER, t.LEXEME_STRING, t.LEXEME_PROC].indexOf(type) !== -1) ? 1 : type.getSize();
-    }
-
-    getTypeFromIdentifier(identifier) {
-        if ([t.LEXEME_NUMBER, t.LEXEME_PROC].indexOf(identifier) !== -1) {
-            return identifier;
-        }
-        if (identifier.getType) {
-            identifier = identifier.getType().type;
-        }
-        if (identifier instanceof Proc) {
-            identifier = t.LEXEME_NUMBER;
-        }
-        if (identifier.getName) {
-            identifier = identifier.getName();
-        }
-        return identifier;
-    }
-
-    /**
-     * Check if the given types share the same parent...
-    **/
-    getObjectsShareParent(type1, type2) {
-        const checkScopeWithParentScope = (type1, type2) => {
-                // Check if it's an extended object...
-                let parentScope = type2;
-                while (parentScope) {
-                    // Check the name, the instance can be cloned for immutability...
-                    if (parentScope.getName() === type1.getName()) {
-                        return true;
-                    }
-                    parentScope = parentScope.getParentScope();
-                }
-                return false;
-            };
-        return checkScopeWithParentScope(type1, type2) || checkScopeWithParentScope(type2, type1);
-    }
-
-    getTypesEqual(vrOrType1, vrOrType2) {
-        let type1 = this.getTypeFromIdentifier(vrOrType1);
-        let type2 = this.getTypeFromIdentifier(vrOrType2);
-        if (type1 === type2) {
-            return true;
-        }
-        if ((vrOrType1.getType && (vrOrType1.getType().type instanceof Objct)) &&
-            (vrOrType2.getType && (vrOrType2.getType().type instanceof Objct))) {
-            return this.getObjectsShareParent(vrOrType1.getType().type, vrOrType2.getType().type);
-        }
-        return false;
-    }
-
-    getFieldFromIndexToken(opts) {
-        let token = opts.expression.tokens[opts.index];
-        let field = opts.identifierType.type.findVar(token.lexeme);
-        if (!field) {
-            throw errors.createError(err.UNDEFINED_FIELD, token, 'Undefined field "' + token.lexeme + '".');
-        }
-        return field;
-    }
-
-    /**
-     * Check it the expression end with ")" (this._methodCall) and the identifier type is an object...
-    **/
-    getMakeMethodCall(identifier) {
-        return identifier.getType && (identifier.getType().type instanceof Objct) && this._methodCall;
-    }
-
-    findIdentifier(token) {
-        let identifier = this._scope.findIdentifier(token.lexeme);
-        if (!identifier) {
-            throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
-        }
-        return identifier;
-    }
-
-    assignmentTokenToCmd(token) {
-        switch (token.lexeme) {
-            case t.LEXEME_ASSIGN_ADD: return $.CMD_ADD;
-            case t.LEXEME_ASSIGN_SUB: return $.CMD_SUB;
-            case t.LEXEME_ASSIGN_MUL: return $.CMD_MUL;
-            case t.LEXEME_ASSIGN_DIV: return $.CMD_DIV;
-        }
-        return $.CMD_SET;
     }
 
     compileDerefecencePointer(opts) {
@@ -366,7 +304,7 @@ exports.VarExpression = class {
         let arraySize      = identifier.getArraySize();
         // Check if it's a number, string or pointer then the size is 1.
         // If it's a record then it's the size of the record...
-        let identifierSize = (identifier.getType().typePointer || identifier.getPointer()) ? 1 : this.getIdentifierSize(identifier.getType().type);
+        let identifierSize = (identifier.getType().typePointer || identifier.getPointer()) ? 1 : helper.getIdentifierSize(identifier.getType().type);
         if (typeof arraySize === 'number') {
             // It's a single dimensional array...
             opts.index++;

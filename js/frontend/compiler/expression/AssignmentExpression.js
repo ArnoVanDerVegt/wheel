@@ -38,7 +38,7 @@ exports.compileToTempStackValue = function(compiler, program, scope, expression)
                     expression: expression,
                     reg:        $.REG_PTR
                 }).type;
-            if (varExpression.getTypeFromIdentifier(vrOrType) === t.LEXEME_NUMBER) {
+            if (helper.getTypeFromIdentifier(vrOrType) === t.LEXEME_NUMBER) {
                 program.addCommand($.CMD_SET, $.T_NUM_L, stackOffset, $.T_NUM_P, 0);
             } else {
                 throw errors.createError(err.NUMBER_TYPE_EXPECTED, tokens[0], 'Number type expected.');
@@ -100,7 +100,7 @@ exports.AssignmentExpression = class {
     }
 
     validateTypes(opts) {
-        if (!this._varExpression.getTypesEqual(opts.srcVrOrType, opts.destVrOrType)) {
+        if (!helper.getTypesEqual(opts.srcVrOrType, opts.destVrOrType)) {
             throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
         }
         return this;
@@ -121,7 +121,7 @@ exports.AssignmentExpression = class {
         let srcType  = opts.srcVrOrType.getType  ? opts.srcVrOrType.getType().type  : opts.srcVrOrType;
         let destType = opts.destVrOrType.getType ? opts.destVrOrType.getType().type : opts.destVrOrType;
         if ((srcType instanceof Objct) && (destType instanceof Objct)) {
-            if (!this._varExpression.getObjectsShareParent(srcType, destType)) {
+            if (!helper.getObjectsShareParent(srcType, destType)) {
                 throw errors.createError(err.TYPE_MISMATCH, opts.destExpression.tokens[0], 'Type mismatch.');
             }
         } else if ((srcType instanceof Record) && (destType instanceof Record)) {
@@ -204,7 +204,7 @@ exports.AssignmentExpression = class {
                     selfPointerStackOffset: false
                 });
             srcVrOrType = result.type;
-            switch (varExpression.getTypeFromIdentifier(srcVrOrType)) {
+            switch (helper.getTypeFromIdentifier(srcVrOrType)) {
                 case t.LEXEME_STRING:
                     if (opts.address || !result.fullArrayAddress) {
                         helper.savePtrValueInLocalVar(this._program, this._scope);
@@ -275,9 +275,8 @@ exports.AssignmentExpression = class {
                 );
             }
         } else {
-            let varExpression = this._varExpression;
-            let token         = opts.destExpression.lastToken;
-            helper.assignToPtr(this._program, varExpression.assignmentTokenToCmd(token), $.T_NUM_L, this._scope.getStackOffset());
+            let token = opts.destExpression.lastToken;
+            helper.assignToPtr(this._program, helper.getAssignmentTokenFromCmd(token), $.T_NUM_L, this._scope.getStackOffset());
             this._program.addInfoToLastCommand({token: token, scope: this._scope});
         }
         return 0;
@@ -403,19 +402,18 @@ exports.AssignmentExpression = class {
                 }
             }
         }
-        let varExpression = this._varExpression;
         mathExpressionNode.compile(opts.srcVrOrType);
-        opts.destVrOrType = varExpression.compileExpressionToRegister({
+        opts.destVrOrType = this._varExpression.compileExpressionToRegister({
             identifier:             opts.destIdentifier,
             expression:             opts.destExpression,
             reg:                    $.REG_PTR,
             forWriting:             true,
             selfPointerStackOffset: false
         }).type;
-        if (!varExpression.getTypesEqual(opts.srcVrOrType, opts.destVrOrType)) {
+        if (!helper.getTypesEqual(opts.srcVrOrType, opts.destVrOrType)) {
             throw errors.createError(err.TYPE_MISMATCH, destExpression.tokens[0], 'Type mismatch.');
         }
-        switch (varExpression.getTypeFromIdentifier(opts.srcVrOrType)) {
+        switch (helper.getTypeFromIdentifier(opts.srcVrOrType)) {
             case t.LEXEME_STRING:
                 this.compileStringAssignment(opts);
                 break;
@@ -451,7 +449,7 @@ exports.AssignmentExpression = class {
             .validateTypes(opts)
             .validateDataSize(opts);
         let copySize = 0;
-        let type     = this._varExpression.getTypeFromIdentifier(opts.srcVrOrType);
+        let type     = helper.getTypeFromIdentifier(opts.srcVrOrType);
         if (opts.srcVrOrType.getPointer  && opts.srcVrOrType.getPointer() && opts.destVrOrType.getPointer &&
             (opts.destVrOrType.getPointer() || opts.destVrOrType.getType().typePointer)) {
             this._program.addCommand($.CMD_SET, $.T_NUM_P, 0, $.T_NUM_L, this._scope.getStackOffset());

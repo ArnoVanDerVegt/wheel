@@ -7,6 +7,8 @@ const errors = require('../errors');
 const err    = require('../errors').errors;
 const t      = require('../tokenizer/tokenizer');
 const Record = require('../types/Record').Record;
+const Objct  = require('../types/Objct').Objct;
+const Proc   = require('../types/Proc').Proc;
 
 exports.assertRecord = (opts) => {
     if (opts.identifierType.type instanceof Record) {
@@ -71,4 +73,66 @@ exports.savePtrInLocalVar = (program, scope) => {
 
 exports.saveStringInLocalVar = (program, scope, s) => {
     program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_C, program.addConstantString(s));
+};
+
+exports.getIdentifierSize = (type) => {
+    return ([t.LEXEME_NUMBER, t.LEXEME_STRING, t.LEXEME_PROC].indexOf(type) !== -1) ? 1 : type.getSize();
+};
+
+exports.getTypeFromIdentifier = (identifier) => {
+    if ([t.LEXEME_NUMBER, t.LEXEME_PROC].indexOf(identifier) !== -1) {
+        return identifier;
+    }
+    if (identifier.getType) {
+        identifier = identifier.getType().type;
+    }
+    if (identifier instanceof Proc) {
+        identifier = t.LEXEME_NUMBER;
+    }
+    if (identifier.getName) {
+        identifier = identifier.getName();
+    }
+    return identifier;
+};
+
+exports.getAssignmentTokenFromCmd = (token) => {
+    switch (token.lexeme) {
+        case t.LEXEME_ASSIGN_ADD: return $.CMD_ADD;
+        case t.LEXEME_ASSIGN_SUB: return $.CMD_SUB;
+        case t.LEXEME_ASSIGN_MUL: return $.CMD_MUL;
+        case t.LEXEME_ASSIGN_DIV: return $.CMD_DIV;
+    }
+    return $.CMD_SET;
+};
+
+/**
+ * Check if the given types share the same parent...
+**/
+exports.getObjectsShareParent = (type1, type2) => {
+    const checkScopeWithParentScope = (type1, type2) => {
+            // Check if it's an extended object...
+            let parentScope = type2;
+            while (parentScope) {
+                // Check the name, the instance can be cloned for immutability...
+                if (parentScope.getName() === type1.getName()) {
+                    return true;
+                }
+                parentScope = parentScope.getParentScope();
+            }
+            return false;
+        };
+    return checkScopeWithParentScope(type1, type2) || checkScopeWithParentScope(type2, type1);
+};
+
+exports.getTypesEqual = (vrOrType1, vrOrType2) => {
+    let type1 = exports.getTypeFromIdentifier(vrOrType1);
+    let type2 = exports.getTypeFromIdentifier(vrOrType2);
+    if (type1 === type2) {
+        return true;
+    }
+    if ((vrOrType1.getType && (vrOrType1.getType().type instanceof Objct)) &&
+        (vrOrType2.getType && (vrOrType2.getType().type instanceof Objct))) {
+        return exports.getObjectsShareParent(vrOrType1.getType().type, vrOrType2.getType().type);
+    }
+    return false;
 };
