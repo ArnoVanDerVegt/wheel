@@ -144,3 +144,11 @@ exports.getTypesEqual = (vrOrType1, vrOrType2) => {
     }
     return false;
 };
+
+exports.findIdentifier = (scope, token) => {
+    let identifier = scope.findIdentifier(token.lexeme);
+    if (!identifier) {
+        throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
+    }
+    return identifier;
+};

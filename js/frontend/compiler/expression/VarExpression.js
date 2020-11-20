@@ -56,14 +56,6 @@ exports.VarExpression = class {
         return identifier.getType && (identifier.getType().type instanceof Objct) && this._methodCall;
     }
 
-    findIdentifier(token) {
-        let identifier = this._scope.findIdentifier(token.lexeme);
-        if (!identifier) {
-            throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
-        }
-        return identifier;
-    }
-
     addVarIndexToReg(opts) {
         let program = this._program;
         let offset  = this._scope.getStackOffset() + 1;
@@ -215,7 +207,7 @@ exports.VarExpression = class {
                     opts = this.compileDerefecencePointer(opts);
                 }
             } else if (indexToken.cls === t.TOKEN_IDENTIFIER) {
-                opts.indexIdentifier = this.findIdentifier(indexToken);
+                opts.indexIdentifier = helper.findIdentifier(this._scope, indexToken);
                 opts.paramType       = opts.indexIdentifier.getGlobal() ? $.T_NUM_G : $.T_NUM_L;
                 opts.indexToken      = indexToken;
                 if (opts.arraySize === 1) {
