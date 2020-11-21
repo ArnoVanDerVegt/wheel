@@ -237,7 +237,7 @@ exports.MotorModule = class extends VMModule {
                 this.waitForQueue();
                 motor = vmData.getRecordFromSrcOffset(['layer', 'bits']);
                 value = 1;
-                if ((motor.layer >= 0) && (motor.layer <= 3)) {
+                if ((motor.layer >= 0) && (motor.layer < this._device().getLayerCount())) {
                     let bit = 1;
                     for (let id = 0; id < 4; id++) {
                         motor.id = id;
