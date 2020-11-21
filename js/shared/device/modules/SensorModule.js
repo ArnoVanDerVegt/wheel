@@ -73,7 +73,7 @@ exports.SensorModule = class extends DeviceModule {
     }
 
     getSensor(layer, id) {
-        return this._layers[layer][id] || null;
+        return (this._layers[layer] && this._layers[layer][id]) ? this._layers[layer][id] : null;
     }
 
     run(commandId, data) {
