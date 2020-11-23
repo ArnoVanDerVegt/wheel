@@ -26,14 +26,28 @@
 #define MATH_SQRT       14
 #define MATH_LOG        15
 #define MATH_POW        16
-#define MATH_ODD        19
-#define MATH_EVEN       20
+#define MATH_ODD        17
+#define MATH_EVEN       18
+#define MATH_IK_RAD     19
+#define MATH_IK_DEG     20
 
 ; @const Pi
 #define PI          3.14159265359
 
 ; @const Tau
 #define TAU         6.283185307179586
+
+; Inverse kinematics data
+record IkData
+    number angle1       ; The calculated first angle
+    number angle2       ; The calculated second angle
+    number deltaX       ; The horizontal distance from the connection
+    number deltaY       ; The vertical distance from the connection
+    number len1         ; The length of the first segment
+    number len2         ; The length of the second segment
+end
+
+IkData ikData
 
 ; @proc             Round a number.
 ; @param n          The number to round.
@@ -189,4 +203,18 @@ end
 proc even(number value)
     addr value
     mod  MODULE_MATH, MATH_EVEN
+end
+
+; @proc             Calculate the inverse kinimatic angles in radians based on the `ikData` record.
+;                   This procedure is only supported in the IDE.
+proc ikRad()
+    addr ikData
+    mod  MODULE_MATH, MATH_IK_RAD
+end
+
+; @proc             Calculate the inverse kinimatic angles in degrees based on the `ikData` record.
+;                   This procedure is only supported in the IDE.
+proc ikDeg()
+    addr ikData
+    mod  MODULE_MATH, MATH_IK_DEG
 end
