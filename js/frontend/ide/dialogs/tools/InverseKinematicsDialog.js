@@ -260,7 +260,7 @@ exports.InverseKinematicsDialog = class extends Dialog {
         }
     }
 
-    drawAngle(opts) {//x, y, len, angle0, angle1, c) {
+    drawAngle(opts) {
         let x        = opts.x + gridSizeX * sizeX2 + 4;
         let y        = opts.y + gridSizeY * sizeY2 + 4;
         let ctx      = this._resultCtx;
@@ -310,7 +310,7 @@ exports.InverseKinematicsDialog = class extends Dialog {
                 angle0: angles.angle1,
                 angle1: angles.angle1 * 0.5,
                 angle2: angles.angle1,
-                angle3: 0,
+                angle3: 0
             });
             this.drawAngle({
                 x:      x2,
