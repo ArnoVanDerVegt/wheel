@@ -84,7 +84,7 @@ exports.saveSelfPointerToLocal = (program, selfPointerStackOffset, reg) => {
 };
 
 exports.getIdentifierSize = (type) => {
-    return ([t.LEXEME_NUMBER, t.LEXEME_STRING, t.LEXEME_PROC].indexOf(type) !== -1) ? 1 : type.getSize();
+    return ([t.LEXEME_NUMBER, t.LEXEME_STRING, t.LEXEME_PROC].indexOf(type) !== -1) ? 1 : type.getTotalSize();
 };
 
 exports.getTypeFromIdentifier = (identifier) => {

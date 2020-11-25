@@ -466,7 +466,7 @@ exports.AssignmentExpression = class {
         } else if (type === t.LEXEME_NUMBER) {
             copySize = this.compileNumberAssignment(opts);
         } else {
-            copySize = opts.srcVrOrType.getTotalSize ? opts.srcVrOrType.getTotalSize() : opts.srcVrOrType.getSize();
+            copySize = opts.srcVrOrType.getTotalSize();
         }
         if (copySize) {
             this._program.addCommand(

@@ -37,10 +37,10 @@ exports.Compiler = class extends CompileBlock {
         this._scope     = new Scope(null, 'global', true, this._namespace);
         this._loopStack = [];
         this._eventInfo = this._useInfo.setEventInfo(this.getEventInfo());
-        this._scope.setSize($.REG_TO_STR.length);
+        this._scope.setOffset($.REG_TO_STR.length);
         this._namespace.reset();
         this.compileBlock(iterator, null);
-        this._program.setGlobalSize(this._scope.getSize());
+        this._program.setGlobalSize($.REG_TO_STR.length + this._scope.getTotalSize());
     }
 
     buildTokens(tokens) {
@@ -53,10 +53,9 @@ exports.Compiler = class extends CompileBlock {
         this.compile(tokens);
         dispatcher.dispatch('Compiler.Database', this._scope);
         this._program.reset(this._pass);
+        this.saveObjctSize()
         this._pass = 1;
-        this
-            .saveObjctSize()
-            .compile(tokens);
+        this.compile(tokens);
         this._program.setEventInfo(this._eventInfo);
         if (this._scope.getEntryPoint() === null) {
             throw errors.createError(err.MISSING_MAIN_PROC, tokens[tokens.length - 1], 'Missing main proc.');
@@ -71,12 +70,12 @@ exports.Compiler = class extends CompileBlock {
     }
 
     /**
-     * This function saves the object sizes WITHOUT the super object size!
+     * This function saves the object sizes WITH the super object size!
     **/
     saveObjctSize() {
         this._scope.getRecords().forEach((record) => {
             if (record instanceof Objct) {
-                this._objctSize[record.getName()] = record.getSize();
+                this._objctSize[record.getName()] = record.getTotalSize();
             }
         });
         return this;

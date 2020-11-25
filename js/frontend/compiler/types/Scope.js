@@ -16,7 +16,7 @@ exports.Scope = class {
         this._parentScope       = parentScope;
         this._entryPoint        = null;
         this._name              = name;
-        this._size              = 0;
+        this._offset            = 0;
         this._global            = !!global;
         this._namespace         = namespace;
         this._varsLocked        = false;
@@ -48,7 +48,7 @@ exports.Scope = class {
         let tokenizer    = require('../tokenizer/tokenizer');
         if ((type === tokenizer.LEXEME_STRING) && !pointer) {
             stringsAdded.push({
-                offset:    this._size,
+                offset:    this._offset,
                 arraySize: arraySize
             });
             return;
@@ -58,7 +58,7 @@ exports.Scope = class {
             return;
         }
         let offsets     = [];
-        let offset      = this._size;
+        let offset      = this._offset;
         let checkRecord = (record) => {
                 let vars = record.getVars();
                 vars.forEach((vr) => {
@@ -102,7 +102,7 @@ exports.Scope = class {
                     pointer:     pointer,
                     unionId:     this._unionId,
                     global:      this._global,
-                    offset:      ('offset' in opts) ? opts.offset : this._size
+                    offset:      ('offset' in opts) ? opts.offset : this._offset
                 });
         this._varsByName[opts.name] = vr;
         this._vars.push(vr);
@@ -113,7 +113,7 @@ exports.Scope = class {
             this.addVarString(opts.type, arraySize, pointer);
         }
         let size = vr.getTotalSize();
-        this._size        += size;
+        this._offset      += size;
         this._stackOffset += size;
         return vr;
     }
@@ -255,21 +255,17 @@ exports.Scope = class {
         return this._global;
     }
 
-    setSize(size) {
-        this._size = size;
+    setOffset(offset) {
+        this._offset = offset;
         return this;
-    }
-
-    getSize() {
-        return this._size;
     }
 
     setVarsLocked(scope) {
         this._varsLocked   = true;
         this._vars         = scope.getVars();
         this._varsByName   = scope.getVarsByName();
-        this._size         = scope.getTotalSize();
-        this._stackOffset  = this._size;
+        this._offset       = scope.getTotalSize();
+        this._stackOffset  = this._offset;
         this._stringsAdded = scope.getStringsAdded();
         this._stringsAdded.forEach((stringAdded) => {
             stringAdded.done = false;
@@ -356,7 +352,9 @@ exports.Scope = class {
     getTotalSize() {
         let totalSize = 0;
         this._vars.forEach((vr) => {
-            totalSize += vr.getTotalSize();
+            if (vr.getUnionId() === 0) {
+                totalSize += vr.getTotalSize();
+            }
         });
         return totalSize;
     }

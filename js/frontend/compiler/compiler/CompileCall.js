@@ -226,7 +226,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
                 pointer = vr.getPointer();
             }
             if (!address && !pointer) {
-                size = vrOrType.getTotalSize ? vrOrType.getTotalSize() : vrOrType.getSize();
+                size = vrOrType.getTotalSize();
             }
         }
         if (address || pointer) {
@@ -324,7 +324,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
         }
         let callStackSize           = callMethod ? 3 : 2;
         let returnStackOffset       = scope.getStackOffset();
-        let selfPointerStackOffset  = scope.addStackOffset(scope.getSize() + callStackSize).getStackOffset();
+        let selfPointerStackOffset  = scope.addStackOffset(scope.getTotalSize() + callStackSize).getStackOffset();
         let done                    = false;
         this.skipUntilParenthesisOpen(iterator, token);
         this._parameterIndex  = callStackSize;
@@ -364,8 +364,8 @@ exports.CompileCall = class CompileCall extends CompileScope {
         if (procExpression === t.LEXEME_SUPER) {
             program.addCommand(
                 $.CMD_SET,  $.T_NUM_G, $.REG_PTR,                               $.T_NUM_L, 0,
-                $.CMD_SET,  $.T_NUM_L, returnStackOffset + scope.getSize() + 3, $.T_NUM_G, $.REG_PTR,
-                $.CMD_CALL, $.T_NUM_C, scope.getSuper().getCodeOffset() - 1,    $.T_NUM_C, returnStackOffset + scope.getSize() + 3
+                $.CMD_SET,  $.T_NUM_L, returnStackOffset + scope.getTotalSize() + 3, $.T_NUM_G, $.REG_PTR,
+                $.CMD_CALL, $.T_NUM_C, scope.getSuper().getCodeOffset() - 1,    $.T_NUM_C, returnStackOffset + scope.getTotalSize() + 3
             );
         } else if (proc === t.LEXEME_PROC) {
             if (!opts.callMethod) {
@@ -377,9 +377,9 @@ exports.CompileCall = class CompileCall extends CompileScope {
                         selfPointerStackOffset: selfPointerStackOffset
                     }).type;
             }
-            program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getSize() + callStackSize);
+            program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getTotalSize() + callStackSize);
         } else {
-            program.addCommand($.CMD_CALL, $.T_NUM_C, proc.getEntryPoint() - 1, $.T_NUM_C, returnStackOffset + scope.getSize() + 2);
+            program.addCommand($.CMD_CALL, $.T_NUM_C, proc.getEntryPoint() - 1, $.T_NUM_C, returnStackOffset + scope.getTotalSize() + 2);
         }
         scope.setStackOffset(returnStackOffset);
     }

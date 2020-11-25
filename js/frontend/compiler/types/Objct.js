@@ -34,29 +34,23 @@ exports.Objct = class extends Record {
         return this;
     }
 
-    getSize() {
-        let compiler = this._compiler;
-        if (!compiler.getPass()) {
-            return super.getSize();
-        }
-        let size        = this._size;
-        let parentScope = this._parentScope;
-        while (parentScope && (parentScope instanceof exports.Objct)) {
-            size += compiler.getObjctSize(parentScope.getName());
-            parentScope = parentScope.getParentScope();
-        }
-        return size;
+    getTotalSize() {
+        let totalSize = this._parentScope ? this._parentScope.getTotalSize() : 0;
+        this._vars.forEach((vr) => {
+            totalSize += vr.getTotalSize();
+        });
+        return totalSize;
     }
 
     extend(dataType) {
         // The size can be set to 0 here because extend is only called when there are no fields in this scope!
-        this._size        = 0;
+        this._offset      = 0;
         this._parentScope = dataType;
         let compiler   = this._compiler;
         let superObjct = dataType;
         if (superObjct && compiler.getPass()) {
             // We only know the actual size in the second pass...
-            this._size = superObjct.getSize();
+            this._offset = superObjct.getTotalSize();
         }
     }
 
