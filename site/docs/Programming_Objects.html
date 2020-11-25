@@ -43,15 +43,15 @@
                 <br/>
                 In the following example an object named <i>Animal</i> is declared and the methods <i>setPosition</i> and <i>logPosition</i> are added:
             </p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
 
 <span class="keyword">object</span> <span class="record">Animal</span>
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
-    <span class="variable">x</span> <span class="operator">=</span> <span class="variable">xx</span>
-    <span class="variable">y</span> <span class="operator">=</span> <span class="variable">yy</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
+    <span class="keyword">self</span><span class="operator">.</span><span class="variable">x</span> <span class="operator">=</span> <span class="variable">x</span>
+    <span class="keyword">self</span><span class="operator">.</span><span class="variable">y</span> <span class="operator">=</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
@@ -71,15 +71,15 @@
                 By extending an object you create a new object which <i>inherits</i> the fields and methods from another object.
                 In the next example a new object named <i>Bird</i> is declared which extends the <i>Animal</i> object:
             </p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
 
 <span class="keyword">object</span> <span class="record">Animal</span>
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
-    <span class="variable">x</span> <span class="operator">=</span> <span class="variable">xx</span>
-    <span class="variable">y</span> <span class="operator">=</span> <span class="variable">yy</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
+    <span class="keyword">self</span><span class="operator">.</span><span class="variable">x</span> <span class="operator">=</span> <span class="variable">x</span>
+    <span class="keyword">self</span><span class="operator">.</span><span class="variable">y</span> <span class="operator">=</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
@@ -107,15 +107,15 @@
             <p>
                 At this point the <i>Bird</i> object still behaves the same way the <i>Animal</i> object does but we can modify its behaviour:
             </p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
 
 <span class="keyword">object</span> <span class="record">Animal</span>
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
-    <span class="variable">x</span> <span class="operator">=</span> <span class="variable">xx</span>
-    <span class="variable">y</span> <span class="operator">=</span> <span class="variable">yy</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
+    <span class="keyword">self</span><span class="operator">.</span><span class="variable">x</span> <span class="operator">=</span> <span class="variable">x</span>
+    <span class="keyword">self</span><span class="operator">.</span><span class="variable">y</span> <span class="operator">=</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
@@ -153,15 +153,15 @@
                 When the <i>logPosition</i> is called then the behaviour changes bases on the type of object but all calls are made in the same way.
                 This is called <i>polymorphism</i>.
             </p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
 
 <span class="keyword">object</span> <span class="record">Animal</span>
     <span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
-<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">xx</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">yy</span><span class="operator">)</span>
-    <span class="variable">x</span> <span class="operator">=</span> <span class="variable">xx</span>
-    <span class="variable">y</span> <span class="operator">=</span> <span class="variable">yy</span>
+<span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">setPosition</span><span class="operator">(</span><span class="type">number</span> <span class="variable">x</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
+    <span class="keyword">self</span><span class="operator">.</span><span class="variable">x</span> <span class="operator">=</span> <span class="variable">x</span>
+    <span class="keyword">self</span><span class="operator">.</span><span class="variable">y</span> <span class="operator">=</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 
 <span class="keyword">proc</span> <span class="record">Animal</span><span class="operator">.</span><span class="variable">logPosition</span><span class="operator">(</span><span class="operator">)</span>
