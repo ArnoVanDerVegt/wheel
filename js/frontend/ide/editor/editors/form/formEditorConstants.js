@@ -227,7 +227,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= INPUT COMPONENTS ================================= */
     BUTTON: {
-        component:  'lib/modules/components/Button',
+        component:  'lib/components/Button',
         include:    'lib/modules/components/button.whl',
         canCopy:    true,
         properties: [
@@ -306,7 +306,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     SELECTBUTTON: {
-        component:  'lib/modules/components/ToolOptions',
+        component:  'lib/components/ToolOptions',
         include:    'lib/modules/components/selectButton.whl',
         canCopy:    true,
         properties: [
@@ -357,7 +357,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     CHECKBOX: {
-        component:  'lib/modules/components/CheckboxAndLabel',
+        component:  'lib/components/CheckboxAndLabel',
         include:    'lib/modules/components/checkbox.whl',
         canCopy:    true,
         properties: [
@@ -407,7 +407,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     RADIO: {
-        component:  'lib/modules/components/Radio',
+        component:  'lib/components/Radio',
         include:    'lib/modules/components/radio.whl',
         canCopy:    true,
         properties: [
@@ -459,7 +459,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     DROPDOWN: {
-        component:  'lib/modules/components/Dropdown',
+        component:  'lib/components/Dropdown',
         include:    'lib/modules/components/dropdown.whl',
         canCopy:    true,
         properties: [
@@ -510,7 +510,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TEXTINPUT: {
-        component:  'lib/modules/components/TextInput',
+        component:  'lib/components/TextInput',
         include:    'lib/modules/components/textInput.whl',
         canCopy:    true,
         properties: [
@@ -561,7 +561,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     SLIDER: {
-        component:  'lib/modules/components/Slider',
+        component:  'lib/components/Slider',
         include:    'lib/modules/components/slider.whl',
         canCopy:    true,
         properties: [
@@ -613,7 +613,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= TEXT COMPONENTS ================================= */
     LABEL: {
-        component:  'lib/modules/components/Label',
+        component:  'lib/components/Label',
         include:    'lib/modules/components/label.whl',
         canCopy:    true,
         properties: [
@@ -635,7 +635,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TITLE: {
-        component:  'lib/modules/components/Title',
+        component:  'lib/components/Title',
         include:    'lib/modules/components/title.whl',
         canCopy:    true,
         properties: [
@@ -654,7 +654,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TEXT: {
-        component:  'lib/modules/components/Text',
+        component:  'lib/components/Text',
         include:    'lib/modules/components/text.whl',
         canCopy:    true,
         properties: [
@@ -675,7 +675,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     LISTITEMS: {
-        component:  'lib/modules/components/ListItems',
+        component:  'lib/components/ListItems',
         include:    'lib/modules/components/listItems.whl',
         canCopy:    true,
         properties: [
@@ -695,7 +695,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= GRAPHICS COMPONENTS ================================= */
     RECTANGLE: {
-        component:  'lib/modules/components/Rectangle',
+        component:  'lib/components/Rectangle',
         include:    'lib/modules/components/rectangle.whl',
         canCopy:    true,
         properties: [
@@ -764,7 +764,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     CIRCLE: {
-        component:  'lib/modules/components/Circle',
+        component:  'lib/components/Circle',
         include:    'lib/modules/components/circle.whl',
         canCopy:    true,
         properties: [
@@ -831,7 +831,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     IMAGE: {
-        component:  'lib/modules/components/Image',
+        component:  'lib/components/Image',
         include:    'lib/modules/components/image.whl',
         canCopy:    true,
         properties: [
@@ -898,7 +898,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     ICON: {
-        component:  'lib/modules/components/Icon',
+        component:  'lib/components/Icon',
         include:    'lib/modules/components/icon.whl',
         canCopy:    true,
         properties: [
@@ -963,7 +963,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= STATUS COMPONENTS ================================= */
     STATUSLIGHT: {
-        component:  'lib/modules/components/StatusLight',
+        component:  'lib/components/StatusLight',
         include:    'lib/modules/components/statusLight.whl',
         canCopy:    true,
         properties: [
@@ -983,7 +983,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     PROGRESSBAR: {
-        component:  'lib/modules/components/ProgressBar',
+        component:  'lib/components/ProgressBar',
         include:    'lib/modules/components/progressBar.whl',
         canCopy:    true,
         properties: [
@@ -1001,7 +1001,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     LOADINGDOTS: {
-        component:  'lib/modules/components/LoadingDots',
+        component:  'lib/components/LoadingDots',
         include:    'lib/modules/components/loadingDots.whl',
         canCopy:    true,
         properties: [
@@ -1020,7 +1020,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= PANEL COMPONENTS ================================= */
     PANEL: {
-        component:  'lib/modules/components/Panel',
+        component:  'lib/components/Panel',
         include:    'lib/modules/components/panel.whl',
         canCopy:    false,
         properties: [
@@ -1042,7 +1042,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TABS: {
-        component:  'lib/modules/components/TabPanel',
+        component:  'lib/components/TabPanel',
         include:    'lib/modules/components/tabs.whl',
         canCopy:    false,
         properties: [
@@ -1095,7 +1095,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= DEVICE DISPLAY COMPONENTS ================================= */
     PUDEVICE: {
-        component:  'lib/modules/components/io/PoweredUpDevice',
+        component:  'lib/components/io/PoweredUpDevice',
         include:    'lib/modules/components/poweredUpDevice.whl',
         canCopy:    true,
         properties: [
@@ -1141,7 +1141,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     EV3MOTOR: {
-        component:  'lib/modules/components/io/EV3Motor',
+        component:  'lib/components/io/EV3Motor',
         include:    'lib/modules/components/ev3Motor.whl',
         canCopy:    true,
         properties: [
@@ -1181,7 +1181,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     EV3SENSOR: {
-        component:  'lib/modules/components/io/EV3Sensor',
+        component:  'lib/components/io/EV3Sensor',
         include:    'lib/modules/components/ev3Sensor.whl',
         canCopy:    true,
         properties: [
@@ -1226,7 +1226,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= DIALOG COMPONENTS ================================= */
     ALERTDIALOG: {
-        component:  'lib/modules/components/nonvisual/AlertDialog',
+        component:  'lib/components/nonvisual/AlertDialog',
         include:    'lib/modules/components/alertDialog.whl',
         canCopy:    true,
         properties: [
@@ -1244,7 +1244,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     CONFIRMDIALOG: {
-        component:  'lib/modules/components/nonvisual/ConfirmDialog',
+        component:  'lib/components/nonvisual/ConfirmDialog',
         include:    'lib/modules/components/confirmDialog.whl',
         canCopy:    true,
         properties: [
@@ -1283,7 +1283,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= NON VISUAL COMPONENTS ================================= */
     INTERVAL: {
-        component:  'lib/modules/components/nonvisual/Interval',
+        component:  'lib/components/nonvisual/Interval',
         include:    'lib/modules/components/interval.whl',
         canCopy:    true,
         properties: [
@@ -1309,7 +1309,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TIMEOUT: {
-        component:  'lib/modules/components/nonvisual/Timeout',
+        component:  'lib/components/nonvisual/Timeout',
         include:    'lib/modules/components/timeout.whl',
         canCopy:    true,
         properties: [
