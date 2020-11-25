@@ -325,6 +325,7 @@ exports.FormEditorState = class extends Emitter {
             this.changeTabs(component, value);
         }
         if (property === 'name') {
+            let oldName = component[property];
             component[property] = value;
             if (id === this._formId) {
                 this._componentList.getList().forEach(
@@ -340,7 +341,7 @@ exports.FormEditorState = class extends Emitter {
                 (component.type === 'form') ? 'RenameForm' : 'RenameComponent',
                 {
                     components:   this._componentList.getList(),
-                    oldName:      component[property],
+                    oldName:      oldName,
                     newName:      value,
                     renameEvents: renameEvents
                 }
