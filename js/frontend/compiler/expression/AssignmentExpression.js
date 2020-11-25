@@ -445,8 +445,8 @@ exports.AssignmentExpression = class {
             .validateDataSize(opts);
         let copySize = 0;
         let type     = helper.getTypeFromIdentifier(opts.srcVrOrType);
-        if (opts.srcVrOrType.getPointer  && opts.srcVrOrType.getPointer() && opts.destVrOrType.getPointer &&
-            (opts.destVrOrType.getPointer() || opts.destVrOrType.getType().typePointer)) {
+        if (opts.srcVrOrType.getPointer  && (opts.srcVrOrType.getPointer()  || opts.srcVrOrType.getType().typePointer) &&
+            opts.destVrOrType.getPointer && (opts.destVrOrType.getPointer() || opts.destVrOrType.getType().typePointer)) {
             this._program.addCommand($.CMD_SET, $.T_NUM_P, 0, $.T_NUM_L, this._scope.getStackOffset());
         } else if (opts.address) {
             // Check if it's a data type like: number ^a[10]

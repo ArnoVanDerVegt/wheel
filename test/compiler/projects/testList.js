@@ -219,14 +219,60 @@ describe(
                 'Point testPoint0',
                 'proc main()',
                 '    shape.init()',
-                '    testPoint0.setXY(2451, 9841)',
+                '    testPoint0.setXY(4451, 5841)',
                 '    shape.addPoint(@testPoint0)',
                 '    shape.testPoint(0)',
                 'end'
             ],
             [
-                2451,
-                9841
+                4451,
+                5841
+            ]
+        );
+        testLogs(
+            it,
+            'Should create a container object and add points',
+            [
+                'object Point',
+                '   number x, y',
+                'end',
+                'proc Point.setXY(number x, number y)',
+                '    self.x = x',
+                '    self.y = y',
+                'end',
+                'proc Point.log()',
+                '    addr x',
+                '    mod 0, 1',
+                '    addr y',
+                '    mod 0, 1',
+                'end',
+                'object Shape',
+                '   number count',
+                '   ^Point points[5]',
+                'end',
+                'proc Shape.init()',
+                '    count = 0',
+                'end',
+                'proc Shape.addPoint(Point ^point)',
+                '    points[count] = point',
+                'end',
+                'proc Shape.testPoint(number index)',
+                '    Point ^p',
+                '    p = points[index]',
+                '    p.log()',
+                'end',
+                'Shape shape',
+                'Point testPoint0',
+                'proc main()',
+                '    shape.init()',
+                '    testPoint0.setXY(3451, 3841)',
+                '    shape.addPoint(@testPoint0)',
+                '    shape.testPoint(0)',
+                'end'
+            ],
+            [
+                3451,
+                3841
             ]
         );
     }
