@@ -2,12 +2,12 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "Tabs example"
 
-#include "lib/standard.whl"
-#include "lib/components/component.whl"
-#include "lib/components/form.whl"
-#include "lib/components/tabs.whl"
-#include "lib/components/button.whl"
-#include "lib/components/label.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/components/component.whl"
+#include "lib/modules/components/form.whl"
+#include "lib/modules/components/tabs.whl"
+#include "lib/modules/components/button.whl"
+#include "lib/modules/components/label.whl"
 
 #define TABS_BUTTON 0x0CDEA28A
 #define TABS_LABEL  0x20043D38

@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/textInput.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/textInput.whl';
 
 describe(
     'Test Text input component module',

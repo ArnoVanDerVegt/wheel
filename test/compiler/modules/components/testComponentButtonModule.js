@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/button.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/button.whl';
 
 describe(
     'Test Button component module',

@@ -4,7 +4,7 @@
 ; "Local vars" console view var demo
 #project "Console string debug demo"
 
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 
 string s[8] = ["none", "black", "blue", "green", "yellow", "red", "white", "brown"]
 

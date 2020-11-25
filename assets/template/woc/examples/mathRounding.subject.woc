@@ -9,8 +9,8 @@ the value, the rounded down and rounderd up value in the console.
 @example
 #project "Math rounding example"
 
-#include "lib/standard.whl"
-#include "lib/math.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
 
 proc main()
     clearConsole()

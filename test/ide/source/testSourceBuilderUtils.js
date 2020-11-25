@@ -89,14 +89,14 @@ describe(
                 assert.deepStrictEqual(
                     includes,
                     [
-                        'lib/components/button.whl',
-                        'lib/components/checkbox.whl',
-                        'lib/components/form.whl',
-                        'lib/components/label.whl',
-                        'lib/components/panel.whl',
-                        'lib/components/selectButton.whl',
-                        'lib/components/statusLight.whl',
-                        'lib/components/tabs.whl'
+                        'lib/modules/components/button.whl',
+                        'lib/modules/components/checkbox.whl',
+                        'lib/modules/components/form.whl',
+                        'lib/modules/components/label.whl',
+                        'lib/modules/components/panel.whl',
+                        'lib/modules/components/selectButton.whl',
+                        'lib/modules/components/statusLight.whl',
+                        'lib/modules/components/tabs.whl'
                     ]
                 );
             }
@@ -122,13 +122,13 @@ describe(
             () => {
                 assert.deepEqual(
                     sourceBuilderUtils.removeDuplicateEmptyLines([
-                        '#include "lib/standard.whl',
+                        '#include "lib/modules/standard.whl',
                         '',
                         '',
                         'proc test()'
                     ]),
                     [
-                        '#include "lib/standard.whl',
+                        '#include "lib/modules/standard.whl',
                         '',
                         'proc test()'
                     ]
@@ -140,14 +140,14 @@ describe(
             () => {
                 assert.deepEqual(
                     sourceBuilderUtils.removeDuplicateEmptyLines([
-                        '#include "lib/standard.whl',
+                        '#include "lib/modules/standard.whl',
                         '',
                         'proc test()',
                         '',
                         ''
                     ]),
                     [
-                        '#include "lib/standard.whl',
+                        '#include "lib/modules/standard.whl',
                         '',
                         'proc test()',
                         ''
@@ -162,7 +162,7 @@ describe(
                         {type: formEditorConstants.COMPONENT_TYPE_BUTTON},
                         {type: formEditorConstants.COMPONENT_TYPE_CHECKBOX}
                     ]);
-                assert.deepEqual(includes, ['lib/components/button.whl', 'lib/components/checkbox.whl']);
+                assert.deepEqual(includes, ['lib/modules/components/button.whl', 'lib/modules/components/checkbox.whl']);
             }
         );
         it(
@@ -204,13 +204,13 @@ describe(
                                 ]
                             }
                         );
-                        assert.deepEqual(['#include "lib/components/button.whl"'], lines);
+                        assert.deepEqual(['#include "lib/modules/components/button.whl"'], lines);
                     }
                 );
                 it(
                     'Should ignore existing include',
                     () => {
-                        let lines = ['#include "lib/components/button.whl"'];
+                        let lines = ['#include "lib/modules/components/button.whl"'];
                         sourceBuilderUtils.updateLinesWithIncludes(
                             lines,
                             {
@@ -219,13 +219,13 @@ describe(
                                 ]
                             }
                         );
-                        assert.deepEqual(['#include "lib/components/button.whl"'], lines);
+                        assert.deepEqual(['#include "lib/modules/components/button.whl"'], lines);
                     }
                 );
                 it(
                     'Should add to existing includes',
                     () => {
-                        let lines = ['#include "lib/components/button.whl"'];
+                        let lines = ['#include "lib/modules/components/button.whl"'];
                         sourceBuilderUtils.updateLinesWithIncludes(
                             lines,
                             {
@@ -237,8 +237,8 @@ describe(
                         assert.deepEqual(
                             lines,
                             [
-                                '#include "lib/components/button.whl"',
-                                '#include "lib/components/checkbox.whl"'
+                                '#include "lib/modules/components/button.whl"',
+                                '#include "lib/modules/components/checkbox.whl"'
                             ]
                         );
                     }
@@ -273,12 +273,12 @@ describe(
                             sourceBuilderUtils.createProjectFile({
                                 filename:     'testProject.whlp',
                                 description:  'Basic project',
-                                includeFiles: ['lib/standard.whl']
+                                includeFiles: ['lib/modules/standard.whl']
                             }),
                             [
                                 '#project "Basic project"',
                                 '',
-                                '#include "lib/standard.whl"',
+                                '#include "lib/modules/standard.whl"',
                                 '',
                                 'proc main()',
                                 'end'
@@ -299,9 +299,9 @@ describe(
                             [
                                 '#project "Basic project"',
                                 '',
-                                '#include "lib/components/component.whl"',
-                                '#include "lib/components/form.whl"',
-                                '#include "lib/standard.whl"',
+                                '#include "lib/modules/components/component.whl"',
+                                '#include "lib/modules/components/form.whl"',
+                                '#include "lib/modules/standard.whl"',
                                 '',
                                 '#resource "testProject.wfrm"',
                                 '',
@@ -326,15 +326,15 @@ describe(
                             sourceBuilderUtils.createProjectFile({
                                 filename:     'testProject.whlp',
                                 description:  'Basic project',
-                                includeFiles: ['lib/standard.whl'],
+                                includeFiles: ['lib/modules/standard.whl'],
                                 createForm:   true
                             }),
                             [
                                 '#project "Basic project"',
                                 '',
-                                '#include "lib/components/component.whl"',
-                                '#include "lib/components/form.whl"',
-                                '#include "lib/standard.whl"',
+                                '#include "lib/modules/components/component.whl"',
+                                '#include "lib/modules/components/form.whl"',
+                                '#include "lib/modules/standard.whl"',
                                 '',
                                 '#resource "testProject.wfrm"',
                                 '',
@@ -359,16 +359,16 @@ describe(
                             sourceBuilderUtils.createProjectFile({
                                 filename:     'testProject.whlp',
                                 description:  'Basic project',
-                                includeFiles: ['lib/math.whl'],
+                                includeFiles: ['lib/modules/math.whl'],
                                 createForm:   true
                             }),
                             [
                                 '#project "Basic project"',
                                 '',
-                                '#include "lib/components/component.whl"',
-                                '#include "lib/components/form.whl"',
-                                '#include "lib/math.whl"',
-                                '#include "lib/standard.whl"',
+                                '#include "lib/modules/components/component.whl"',
+                                '#include "lib/modules/components/form.whl"',
+                                '#include "lib/modules/math.whl"',
+                                '#include "lib/modules/standard.whl"',
                                 '',
                                 '#resource "testProject.wfrm"',
                                 '',
@@ -403,7 +403,7 @@ describe(
                                 ]
                             }),
                             [
-                                '#include "lib/components/form.whl"',
+                                '#include "lib/modules/components/form.whl"',
                                 '',
                                 '#resource "test.wfrm"',
                                 '',
@@ -428,9 +428,9 @@ describe(
                             [
                                 '#project "test"',
                                 '',
-                                '#include "lib/standard.whl"',
-                                '#include "lib/components/component.whl"',
-                                '#include "lib/components/form.whl"',
+                                '#include "lib/modules/standard.whl"',
+                                '#include "lib/modules/components/component.whl"',
+                                '#include "lib/modules/components/form.whl"',
                                 '',
                                 '#resource "test.wfrm"',
                                 '',
@@ -460,9 +460,9 @@ describe(
                             [
                                 '#project "test"',
                                 '',
-                                '#include "lib/standard.whl"',
-                                '#include "lib/components/component.whl"',
-                                '#include "lib/components/form.whl"',
+                                '#include "lib/modules/standard.whl"',
+                                '#include "lib/modules/components/component.whl"',
+                                '#include "lib/modules/components/form.whl"',
                                 '',
                                 '#resource "test.wfrm"',
                                 '',
@@ -495,10 +495,10 @@ describe(
                             [
                                 '#project "test"',
                                 '',
-                                '#include "lib/standard.whl"',
-                                '#include "lib/components/component.whl"',
-                                '#include "lib/components/button.whl"',
-                                '#include "lib/components/form.whl"',
+                                '#include "lib/modules/standard.whl"',
+                                '#include "lib/modules/components/component.whl"',
+                                '#include "lib/modules/components/button.whl"',
+                                '#include "lib/modules/components/form.whl"',
                                 '',
                                 '#define TEST_BTN1 75',
                                 '',
@@ -1082,7 +1082,7 @@ describe(
                     'Should not remove existing define, get insert position',
                     () => {
                         let lines = [
-                                '#include "lib/standard.whl',
+                                '#include "lib/modules/standard.whl',
                                 ''
                             ];
                         let insertPosition = sourceBuilderUtils.removeExistingDefines({
@@ -1095,7 +1095,7 @@ describe(
                         assert.deepEqual(
                             lines,
                             [
-                                '#include "lib/standard.whl',
+                                '#include "lib/modules/standard.whl',
                                 ''
                             ]
                         );

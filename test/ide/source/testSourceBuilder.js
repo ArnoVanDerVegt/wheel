@@ -37,9 +37,9 @@ describe(
                     [
                         '#project "Test project"',
                         '',
-                        '#include "lib/components/form.whl"',
-                        '#include "lib/components/checkbox.whl"',
-                        '#include "lib/components/button.whl"',
+                        '#include "lib/modules/components/form.whl"',
+                        '#include "lib/modules/components/checkbox.whl"',
+                        '#include "lib/modules/components/button.whl"',
                         '',
                         '#define MY_FORM_BUTTON1  0x913',
                         '#define MY_FORM_CHECKBOX 0x005'
@@ -55,9 +55,9 @@ describe(
                         .setSource([
                             '#project "Test project"',
                             '',
-                            '#include "lib/components/form.whl"',
-                            '#include "lib/components/button.whl"',
-                            '#include "lib/components/radio.whl"',
+                            '#include "lib/modules/components/form.whl"',
+                            '#include "lib/modules/components/button.whl"',
+                            '#include "lib/modules/components/radio.whl"',
                             '',
                             '#define MY_FORM_BUTTON1  0x913',
                             '#define MY_FORM_RADIO2   0x418'
@@ -76,10 +76,10 @@ describe(
                     [
                         '#project "Test project"',
                         '',
-                        '#include "lib/components/form.whl"',
-                        '#include "lib/components/button.whl"',
-                        '#include "lib/components/radio.whl"',
-                        '#include "lib/components/checkbox.whl"',
+                        '#include "lib/modules/components/form.whl"',
+                        '#include "lib/modules/components/button.whl"',
+                        '#include "lib/modules/components/radio.whl"',
+                        '#include "lib/modules/components/checkbox.whl"',
                         '',
                         '#define MY_FORM_BUTTON1  0x913',
                         '#define MY_FORM_CHECKBOX 0x005',

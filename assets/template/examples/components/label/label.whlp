@@ -2,10 +2,10 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "Label example"
 
-#include "lib/standard.whl"
-#include "lib/components/component.whl"
-#include "lib/components/form.whl"
-#include "lib/components/label.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/components/component.whl"
+#include "lib/modules/components/form.whl"
+#include "lib/modules/components/label.whl"
 
 #define LABEL_COUNT 0x5EF685C3
 #define LABEL_LABEL 0x3B44B2E3

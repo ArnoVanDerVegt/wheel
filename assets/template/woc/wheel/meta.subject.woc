@@ -9,7 +9,7 @@ Meta commands are parsed by the preprocessor.
 With the `#include` command you can import an existing file like a library.
 
 @example
-#include "lib/screen.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     drawNumber(10, 5, 90)
@@ -21,7 +21,7 @@ end
 With the `#define` command you can create constants, the constants are replaced with the defined value by the preprocessor.
 
 @example
-#include "lib/screen.whl"
+#include "lib/modules/screen.whl"
 
 #define MY_NUMBER 55
 

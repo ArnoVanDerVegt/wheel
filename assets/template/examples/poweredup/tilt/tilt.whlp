@@ -5,8 +5,8 @@
 ; This example displays the tilt values in the console.
 ; The Move Hub returns the x and y values and the Technic Hub returns the x, y and z values.
 
-#include "lib/standard.whl"
-#include "lib/poweredUp.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/poweredUp.whl"
 
 proc main()
     ; Start reading the Powered Up sensors...

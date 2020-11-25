@@ -6,10 +6,10 @@ With the motor module you can control motors.
 @example
 #project "Motor demo"
 
-#include "lib/standard.whl"
-#include "lib/screen.whl"
-#include "lib/button.whl"
-#include "lib/motor.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/screen.whl"
+#include "lib/modules/button.whl"
+#include "lib/modules/motor.whl"
 
 number active     = 0       ; The last active motor
 number lastActive = 0       ; The last known motor position

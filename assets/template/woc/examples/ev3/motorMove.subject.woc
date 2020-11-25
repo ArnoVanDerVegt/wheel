@@ -9,11 +9,11 @@ This example shows how to turn the EV3 motors on or off and control the directio
 @example
 #project "Motor move demo"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/screen.whl"
-#include "lib/button.whl"
-#include "lib/motor.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/screen.whl"
+#include "lib/modules/button.whl"
+#include "lib/modules/motor.whl"
 
 #display "EV3, EV3 Motors"
 

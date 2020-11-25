@@ -2,9 +2,9 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "Sound tone example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/sound.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/sound.whl"
 
 #display "EV3"
 

@@ -13,10 +13,10 @@ and a basic motor which has no tacho counter.
 @example
 #project "Powered Up Hub motor example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/motor.whl"
-#include "lib/poweredUp.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/motor.whl"
+#include "lib/modules/poweredUp.whl"
 
 #display "Hub"
 

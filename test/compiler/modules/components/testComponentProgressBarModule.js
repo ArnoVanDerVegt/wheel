@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/progressBar.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/progressBar.whl';
 
 describe(
     'Test Progress bar component module',

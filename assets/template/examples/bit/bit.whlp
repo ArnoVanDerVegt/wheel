@@ -5,9 +5,9 @@
 ; This example gets a random number greater or equal then 0 and less than 256
 ; and converts the number using the bitAnd function.
 
-#include "lib/standard.whl"
-#include "lib/math.whl"
-#include "lib/bit.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/bit.whl"
 
 proc main()
     number n = random(0, 255)

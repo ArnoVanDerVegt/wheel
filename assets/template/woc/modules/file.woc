@@ -4,9 +4,9 @@
 The openFile procedure returns a file handle which can be used to access a file.
 
 @example
-#include "lib/standard.whl"
-#include "lib/file.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/file.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     number handle
@@ -21,9 +21,9 @@ The simulator contains a `test.rtf` file with the following values:
 45, 99, "Hello world", 15
 
 @example
-#include "lib/standard.whl"
-#include "lib/file.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/file.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     ; Open the file:
@@ -50,9 +50,9 @@ end
 This demo shows how to write values to a file and read them back.
 
 @example
-#include "lib/standard.whl"
-#include "lib/file.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/file.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     ; Open the file:

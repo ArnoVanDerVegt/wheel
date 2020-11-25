@@ -39,12 +39,12 @@ describe(
                 assert.deepEqual(
                     includeFilesState.getIncludeFiles('EV3'),
                     [
-                        {file: 'lib/button.whl', type: 'EV3', description: 'Read EV3 buttons'},
-                        {file: 'lib/file.whl',   type: 'EV3', description: 'Read and write files'},
-                        {file: 'lib/light.whl',  type: 'EV3', description: 'Control the EV3 light'},
-                        {file: 'lib/screen.whl', type: 'EV3', description: 'Drawing functions'},
-                        {file: 'lib/sound.whl',  type: 'EV3', description: 'Play tones and samples'},
-                        {file: 'lib/system.whl', type: 'EV3', description: 'Access to EV3 system functions'}
+                        {file: 'lib/modules/button.whl', type: 'EV3', description: 'Read EV3 buttons'},
+                        {file: 'lib/modules/file.whl',   type: 'EV3', description: 'Read and write files'},
+                        {file: 'lib/modules/light.whl',  type: 'EV3', description: 'Control the EV3 light'},
+                        {file: 'lib/modules/screen.whl', type: 'EV3', description: 'Drawing functions'},
+                        {file: 'lib/modules/sound.whl',  type: 'EV3', description: 'Play tones and samples'},
+                        {file: 'lib/modules/system.whl', type: 'EV3', description: 'Access to EV3 system functions'}
                     ]
                 );
             }
@@ -113,7 +113,7 @@ describe(
                 dispatcher.dispatch('Settings.Set.IncludeFile.Description', {description: 'description', index: 1});
                 assert.deepEqual(
                     includeFilesState.toJSON()[1],
-                    {file: 'lib/button.whl', type: 'EV3', description: 'description'}
+                    {file: 'lib/modules/button.whl', type: 'EV3', description: 'description'}
                 );
             }
         );
@@ -145,8 +145,8 @@ describe(
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
                 let length            = includeFilesState.toJSON().length;
                 includeFilesState.load([
-                    {file: 'lib/button1.whl', type: 'EV3', description: 'description1'},
-                    {file: 'lib/button2.whl',              description: 'description2'}
+                    {file: 'lib/modules/button1.whl', type: 'EV3', description: 'description1'},
+                    {file: 'lib/modules/button2.whl',              description: 'description2'}
                 ]);
                 assert.equal(includeFilesState.toJSON().length, length + 2);
             }

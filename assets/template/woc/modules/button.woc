@@ -4,8 +4,8 @@
 With the button module you can read the state of the EV3 buttons.
 
 @example
-#include "lib/button.whl"
-#include "lib/screen.whl"
+#include "lib/modules/button.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     number b

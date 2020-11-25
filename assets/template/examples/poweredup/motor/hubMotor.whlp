@@ -5,10 +5,10 @@
 ; This example shows how to select the Hub device in the simulator and move the motor
 ; to a given angle.
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/motor.whl"
-#include "lib/poweredUp.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/motor.whl"
+#include "lib/modules/poweredUp.whl"
 
 #display "Hub"
 

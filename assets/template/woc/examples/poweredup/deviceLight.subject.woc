@@ -15,9 +15,9 @@ depending on the type of device you are using.
 @example
 #project "Powered Up Light example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/light.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/light.whl"
 
 #display "Hub"
 

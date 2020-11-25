@@ -5,9 +5,9 @@
 ; An image will be saved in the output direcory when this file is compiled.
 #project "Screen image example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/screen.whl"
 
 #display "EV3"
 

@@ -27,7 +27,7 @@ There are three methods defined in the `Standard` module: `printN`, `printS` and
 The `printN` procedure prints a number, the `printS` procedure prints a string and `clearConsole` empties the console.
 
 @example
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 
 proc main()
     printS("Hello console") ; Print a string...

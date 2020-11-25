@@ -13,10 +13,10 @@ on, `motorStop` turns the light off.
 @example
 #project "Powered Up Leds light example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/poweredUp.whl"
-#include "lib/motor.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/poweredUp.whl"
+#include "lib/modules/motor.whl"
 
 proc main()
     ; Select the Powered Up device in the IDE...

@@ -19,8 +19,8 @@ This demo only works on a real device, the simulator does not support changing `
 @example
 #project "Powered Up tilt sensor example"
 
-#include "lib/standard.whl"
-#include "lib/poweredUp.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/poweredUp.whl"
 
 proc main()
     ; Start reading the Powered Up sensors...

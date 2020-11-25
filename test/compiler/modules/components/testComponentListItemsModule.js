@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/listItems.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/listItems.whl';
 
 describe(
     'Test List items component module',

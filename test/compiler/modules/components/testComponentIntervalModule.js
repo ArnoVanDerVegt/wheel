@@ -10,7 +10,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/interval.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/interval.whl';
 
 describe(
     'Test Interval module',

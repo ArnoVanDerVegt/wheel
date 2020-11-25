@@ -8,8 +8,8 @@ This demo declares a string and converts it to upper and lower case.
 @example
 #project "String Uppercase, lowercase example"
 
-#include "lib/standard.whl"
-#include "lib/string.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/string.whl"
 
 proc main()
     clearConsole()

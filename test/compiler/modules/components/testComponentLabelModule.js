@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/label.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/label.whl';
 
 describe(
     'Test Label component module',

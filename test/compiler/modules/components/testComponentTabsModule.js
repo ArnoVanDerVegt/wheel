@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/tabs.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/tabs.whl';
 
 describe(
     'Test Tabs component module',

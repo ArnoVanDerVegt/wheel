@@ -12,9 +12,9 @@ When you upload this file to your EV3 device then the sample will also be upload
 @example
 #project "Sound sample example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/sound.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/sound.whl"
 
 ; Include the sample as resource:
 #resource "resources/sounds/information/start.rsf"

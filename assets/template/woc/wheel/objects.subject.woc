@@ -12,7 +12,7 @@ You can add methods to an object and objects can be extended.
 
 In the following example an object named `Animal` is declared and the methods `setPosition` and `logPosition` are added:
 @example
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 
 object Animal
     number x, y
@@ -39,7 +39,7 @@ end
 By extending an object you create a new object which `inherits` the fields and methods from another object.
 In the next example a new object named `Bird` is declared which extends the `Animal` object:
 @example
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 
 object Animal
     number x, y
@@ -73,7 +73,7 @@ The `Bird` object is a `sub` object from `Animal` and the `Animal` object is cal
 @section Super
 At this point the `Bird` object still behaves the same way the `Animal` object does but we can modify its behaviour:
 @example
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 
 object Animal
     number x, y
@@ -117,7 +117,7 @@ When the `logPosition` is called then the behaviour changes bases on the type of
 This is called `polymorphism`.
 
 @example
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 
 object Animal
     number x, y

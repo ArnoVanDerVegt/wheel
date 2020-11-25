@@ -2,8 +2,8 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "String charCode example"
 
-#include "lib/standard.whl"
-#include "lib/string.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/string.whl"
 
 proc main()
     clearConsole();

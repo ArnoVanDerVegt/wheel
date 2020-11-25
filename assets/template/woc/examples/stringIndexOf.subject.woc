@@ -9,8 +9,8 @@ Then the index of the needle in the haystack is printed in the console.
 @example
 #project "String indexOf example"
 
-#include "lib/standard.whl"
-#include "lib/string.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/string.whl"
 
 proc main()
     ; Declare a string and print it in the console:

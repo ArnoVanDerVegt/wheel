@@ -12,11 +12,11 @@ This example expects the remote to be connected as the first layer `INPUT_1`.
 @example
 #project "Powered Up Remote control example"
 
-#include "lib/standard.whl"
-#include "lib/sensor.whl"
-#include "lib/device.whl"
-#include "lib/bit.whl"
-#include "lib/button.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/sensor.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/bit.whl"
+#include "lib/modules/button.whl"
 
 #display "Hub"
 

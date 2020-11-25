@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/ev3Motor.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/ev3Motor.whl';
 
 describe(
     'Test EV3Motor component module',

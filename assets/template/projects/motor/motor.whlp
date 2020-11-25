@@ -1,10 +1,10 @@
 #project "Control motors"
 
-#include "lib/button.whl"
-#include "lib/motor.whl"
-#include "lib/screen.whl"
-#include "lib/standard.whl"
-#include "lib/math.whl"
+#include "lib/modules/button.whl"
+#include "lib/modules/motor.whl"
+#include "lib/modules/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
 
 #resource "projects/motor/images/arrowUpDot.rgf"
 #resource "projects/motor/images/arrowUpFill.rgf"

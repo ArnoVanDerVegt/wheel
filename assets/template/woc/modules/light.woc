@@ -4,8 +4,8 @@
 With the light module you can control the EV3 light.
 
 @example
-#include "lib/standard.whl"
-#include "lib/light.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/light.whl"
 
 proc main()
     ; Turn the red light on and wait 1 second...

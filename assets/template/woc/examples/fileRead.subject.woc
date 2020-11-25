@@ -8,8 +8,8 @@ This example shows how to create a file with meta commands and read strings and 
 @example
 #project "File read example"
 
-#include "lib/standard.whl"
-#include "lib/file.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/file.whl"
 
 ; Declare a file named "fruit.rtf" and add data to it:
 #text "fruit.rtf"

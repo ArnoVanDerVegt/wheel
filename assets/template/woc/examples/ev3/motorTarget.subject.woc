@@ -9,8 +9,8 @@ This example shows how to turn the EV3 motors to a given angle and wait until th
 @example
 #project "Motor target and readyBits example"
 
-#include "lib/motor.whl"
-#include "lib/standard.whl"
+#include "lib/modules/motor.whl"
+#include "lib/modules/standard.whl"
 
 #display "EV3 Motors"
 

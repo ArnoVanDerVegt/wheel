@@ -93,7 +93,7 @@ A meta command starts with the "#" character and must be the first command on th
 With the `include` command you can import an existing file like a library.
 
 @example
-#include "lib/screen.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     drawNumber(10, 5, 90)

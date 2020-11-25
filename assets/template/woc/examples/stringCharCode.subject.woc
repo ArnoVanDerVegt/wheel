@@ -8,9 +8,9 @@ This example declares a string and changes the charCode of the characters in the
 @example
 #project "String charCode example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/string.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/string.whl"
 
 proc main()
     clearConsole();
