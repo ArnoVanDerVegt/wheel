@@ -48,16 +48,22 @@ exports.MotorModule = class extends VMModule {
     }
 
     getMotorReady(motor) {
-        let port   = this.getMotorPort(motor);
-        let result = false;
+        let port = this.getMotorPort(motor);
         if (port.ready) {
-            result = true;
-        } else if (port.startDegrees < port.targetDegrees) {
-            result = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15);
-        } else {
-            result = (port.degrees <= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15);
+            return 1;
         }
-        return result ? 1 : 0;
+        if ((port.startDegrees === undefined) || (port.targetDegrees === undefined) || (port.degrees === undefined)) {
+            console.error('PORT READY ERROR:', motor.layer, motor.id, 'start:', port.startDegrees, 'target:', port.targetDegrees, 'degrees:', port.degrees);
+            console.log(JSON.parse(JSON.stringify(port)));
+            port.ready = 1;
+            return;
+        }
+        if (port.startDegrees < port.targetDegrees) {
+            port.ready = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
+        } else {
+            port.ready = (port.degrees <= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
+        }
+        return port.ready;
     }
 
     resetMotorPosition(motor) {
