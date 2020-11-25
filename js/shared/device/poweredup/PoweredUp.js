@@ -505,11 +505,17 @@ exports.PoweredUp = class extends BasicDevice {
             for (let id = 0; id < 4; id++) {
                 let port        = layers[layer].ports[id];
                 let motorDevice = port.motorDevice;
-                if (motorDevice && port.moving && (Math.abs(port.endDegrees - port.degrees) <= port.threshold)) {
-                    port.moving = false;
-                    motorDevice.setPower(0);
-                    motorDevice.setBrakingStyle(HOLD);
-                    motorDevice.brake();
+                if (motorDevice && port.moving) {
+                    // Check if in range of the threshold...
+                    if ((Math.abs(port.endDegrees - port.degrees) <= port.threshold) ||
+                        // Or if the motor overshoots the target...
+                        ((port.endDegrees > port.startDegrees) && (port.degrees >= port.endDegrees)) ||
+                        ((port.endDegrees < port.startDegrees) && (port.degrees <= port.endDegrees))) {
+                        port.moving = false;
+                        motorDevice.setPower(0);
+                        motorDevice.setBrakingStyle(HOLD);
+                        motorDevice.brake();
+                    }
                 }
             }
         }
