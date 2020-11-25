@@ -67,6 +67,9 @@ exports.Objct = class extends Record {
                 }
             };
         findVar(this);
-        return result || this._parentScope.findIdentifier(name);
+        if (result) {
+            return result;
+        }
+        return this._parentScope ? this._parentScope.findIdentifier(name) : null;
     }
 };
