@@ -53,7 +53,7 @@ exports.Compiler = class extends CompileBlock {
         this.compile(tokens);
         dispatcher.dispatch('Compiler.Database', this._scope);
         this._program.reset(this._pass);
-        this.saveObjctSize()
+        this.saveObjctSize();
         this._pass = 1;
         this.compile(tokens);
         this._program.setEventInfo(this._eventInfo);
