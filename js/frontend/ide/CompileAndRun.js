@@ -562,8 +562,8 @@ exports.CompileAndRun = class extends DOMUtils {
         this._vm.stop();
         this._motors && this._motors.reset();
         let ev3Plugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID);
-        this._ev3.stopAllMotors();
-        this._poweredUp.stopAllMotors();
+        this._ev3.stopAllMotors(this._settings.getDaisyChainMode());
+        this._poweredUp.stopAllMotors(this._settings.getDeviceCount());
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();
