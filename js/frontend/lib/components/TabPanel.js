@@ -53,6 +53,9 @@ exports.TabPanel = class extends Component {
         let style = this._style || {};
         style.width  = this._width  + 'px';
         style.height = this._height + 'px';
+        if (this._zIndex !== false) {
+            style.zIndex = this._zIndex;
+        }
         this.create(
             parentNode,
             {
@@ -139,6 +142,7 @@ exports.TabPanel = class extends Component {
         if ('tab' in opts) {
             this.onAddTabComponent(opts.tab);
         }
+console.log(opts);
         super.onEvent(opts);
     }
 
