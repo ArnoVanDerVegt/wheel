@@ -42,6 +42,7 @@ const FormGridSizeDialog             = require('./dialogs/form/FormGridSizeDialo
 const OpenFormDialog                 = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
 const ConnectedDialog                = require('./dialogs/hint/ConnectedDialog').ConnectedDialog;
 const GearRatioCalculatorDialog      = require('./dialogs/tools/GearRatioCalculatorDialog').GearRatioCalculatorDialog;
+const InverseKinematicsDialog        = require('./dialogs/tools/InverseKinematicsDialog').InverseKinematicsDialog;
 const WheelToSVGDialog               = require('./dialogs/tools/WheelToSVGDialog').WheelToSVGDialog;
 const IDEEvents                      = require('./IDEEvents').IDEEvents;
 
@@ -87,6 +88,7 @@ exports.IDEDialogs = class extends IDEEvents {
         new ExploreDialog                 ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         new DownloadDialog                ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
         new GearRatioCalculatorDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new InverseKinematicsDialog       ({getImage: getImage, ui: this._ui, settings: this._settings});
         new WheelToSVGDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, ide: this});
         return this;
     }

@@ -389,9 +389,11 @@ exports.MainMenu = class extends MainMenu {
     initToolsMenu() {
         this._toolsMenu = this.addMenu({
             title: '^Tools',
-            width: '192px',
+            width: '256px',
             items: [
                 {title: 'Gear ratio calculator',                                  dispatch: 'Dialog.GearRatioCalculator.Show'},
+                {title: 'Inverse kinematics calculator',                          dispatch: 'Dialog.InverseKinematics.Show'},
+                {title: '-'},
                 {title: 'Wheel to SVG',                                           dispatch: 'Dialog.WheelToSVG.Show'}
             ]
         });

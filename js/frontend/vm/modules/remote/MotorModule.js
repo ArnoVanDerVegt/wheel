@@ -52,12 +52,6 @@ exports.MotorModule = class extends VMModule {
         if (port.ready) {
             return 1;
         }
-        if ((port.startDegrees === undefined) || (port.targetDegrees === undefined) || (port.degrees === undefined)) {
-            console.error('PORT READY ERROR:', motor.layer, motor.id, 'start:', port.startDegrees, 'target:', port.targetDegrees, 'degrees:', port.degrees);
-            console.log(JSON.parse(JSON.stringify(port)));
-            port.ready = 1;
-            return;
-        }
         if (port.startDegrees < port.targetDegrees) {
             port.ready = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
         } else {

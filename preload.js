@@ -386,6 +386,7 @@ require('./js/frontend/ide/dialogs/tools/components/GearSettings');
 require('./js/frontend/ide/dialogs/tools/components/GearList');
 require('./js/frontend/ide/dialogs/tools/components/GearResult');
 require('./js/frontend/ide/dialogs/tools/GearRatioCalculatorDialog');
+require('./js/frontend/ide/dialogs/tools/InverseKinematicsDialog');
 require('./js/frontend/ide/menu/HelpOption');
 require('./js/frontend/ide/menu/MainMenu');
 require('./js/frontend/ide/editor/editors/Clipboard');

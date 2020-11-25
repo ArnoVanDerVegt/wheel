@@ -99,6 +99,9 @@ exports.Dropdown = class extends Component {
         this._tabIndex     = opts.tabIndex;
         this._onChange     = opts.onChange;
         this.initDOM(opts.parentNode);
+        if ('value' in opts) {
+            this.setValue(opts.value);
+        }
     }
 
     initListItems() {
