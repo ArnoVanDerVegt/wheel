@@ -304,6 +304,47 @@ describe(
                         3851
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should call constructors of nested objects',
+                    [
+                        'object Test1',
+                        'end',
+                        'proc Test1.init1()',
+                        'end',
+                        'object Test2',
+                        '    Test1 test1',
+                        'end',
+                        'proc Test2.init2()',
+                        '    with test1',
+                        '        init1()',
+                        '    end',
+                        'end',
+                        'proc Test2.init()',
+                        '    init2()',
+                        'end',
+                        'object Test3',
+                        '    Test2 test2',
+                        'end',
+                        'proc Test3.init()',
+                        '    test2.init()',
+                        'end',
+                        'Test3 test3',
+                        'proc main()',
+                        '    number n = 8351',
+                        '    addr n',
+                        '    mod 0, 1',
+                        '    test3.init()',
+                        '    n = 3553',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        8351,
+                        3553
+                    ]
+                );
             }
         );
     }

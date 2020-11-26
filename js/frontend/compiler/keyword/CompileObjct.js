@@ -64,6 +64,7 @@ exports.CompileObjct = class extends CompileRecord {
             // The offset relative to the self pointer and the method offset will be set when the main procedure is found!
             program.addCommand($.CMD_SET, $.T_NUM_P, 0, $.T_NUM_C, 0);
         }
+        program.addCommand($.CMD_RET, $.T_NUM_C, 0, 0, 0);
     }
 
     compile(iterator) {

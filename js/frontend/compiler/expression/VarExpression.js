@@ -72,7 +72,7 @@ exports.VarExpression = class {
         if (opts.indexIdentifier.getWithOffset() === null) {
             program.addCommand(
                 $.CMD_SET, $.T_NUM_L, offset, type,      opts.indexIdentifier.getOffset(),
-                $.CMD_MUL, $.T_NUM_L, offset, $.T_NUM_C, opts.identifier.getType().type.getTotalSize() * opts.arraySize
+                $.CMD_MUL, $.T_NUM_L, offset, $.T_NUM_C, opts.identifier.getType().type.getElementSize() * opts.arraySize
             );
         } else {
             // Get the "with" offset:
@@ -81,7 +81,7 @@ exports.VarExpression = class {
                 $.CMD_SET, $.T_NUM_G, $.REG_PTR,  $.T_NUM_L, opts.indexIdentifier.getWithOffset(),
                 $.CMD_ADD, $.T_NUM_G, $.REG_PTR,  $.T_NUM_C, opts.indexIdentifier.getOffset(),
                 $.CMD_SET, $.T_NUM_L, offset,     $.T_NUM_P, 0,
-                $.CMD_MUL, $.T_NUM_L, offset,     $.T_NUM_C, opts.identifier.getType().type.getTotalSize() * opts.arraySize,
+                $.CMD_MUL, $.T_NUM_L, offset,     $.T_NUM_C, opts.identifier.getType().type.getElementSize() * opts.arraySize,
                 $.CMD_SET, $.T_NUM_G, $.REG_PTR,  $.T_NUM_L, offset + 1     // Restore the pointer register...
             );
         }

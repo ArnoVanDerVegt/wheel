@@ -359,6 +359,10 @@ exports.Scope = class {
         return totalSize;
     }
 
+    getElementSize() {
+        return this.getTotalSize();
+    }
+
     getTempVarIndex() {
         return this._tempVarIndex++;
     }

@@ -130,11 +130,12 @@ exports.CompileObjct = class {
                     let arraySize = field.getArraySize() || 1;
                     if (field.getType().type instanceof Objct) {
                         for (let i = 0; i < arraySize; i++) {
-                            this.compileConstructorCall(local, baseOffset + offset + field.getOffset() + field.getTotalSize() * i, field);
+                            this.compileConstructorCall(local, baseOffset + offset + field.getOffset() + field.getElementSize() * i, field);
+                            compileRecordFields(field.getType().type, offset + field.getOffset() + field.getElementSize() * i);
                         }
                     } else {
                         for (let i = 0; i < arraySize; i++) {
-                            compileRecordFields(field.getType().type, offset + field.getOffset() + field.getTotalSize() * i);
+                            compileRecordFields(field.getType().type, offset + field.getOffset() + field.getElementSize() * i);
                         }
                     }
                 });
