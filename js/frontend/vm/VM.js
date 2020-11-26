@@ -96,13 +96,14 @@ class VM {
         let data           = vmData.getData();
         let regOffsetStack = data[$.REG_STACK];
         let regOffsetPtr   = data[$.REG_PTR];
+        let cmd            = command.getCmd();
         let param1         = command.getParam1();
         let param2         = command.getParam2();
         let v1             = this.getParamValue(data, regOffsetStack, regOffsetPtr, param1);
         let v2             = this.getParamValue(data, regOffsetStack, regOffsetPtr, param2);
         let v;
         this._lastCommand = command;
-        switch (command.getCmd()) {
+        switch (cmd) {
             case $.CMD_COPY:
                 let size          = v2;
                 let regOffsetSrc  = data[$.REG_SRC];
@@ -164,7 +165,7 @@ class VM {
                 break;
             default:
                 let result = null;
-                switch (command.getCmd()) {
+                switch (cmd) {
                     case $.CMD_SET: result = v2;       break;
                     case $.CMD_ADD: result = v1 + v2;  break;
                     case $.CMD_SUB: result = v1 - v2;  break;
