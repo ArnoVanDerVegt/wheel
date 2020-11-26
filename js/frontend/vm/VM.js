@@ -272,33 +272,66 @@ class VM {
     }
 
     runInterval(onFinished) {
-        let commands = this._commands;
-        let vmData   = this._vmData;
-        let data     = vmData.getData();
-        let count    = 0;
-        while ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped && !this._breakpoint && !this._runningEvent) {
-            dispatcher.dispatch('VM.Step', this);
-            if (this._sleepContinueTime === null) {
-                let command    = commands[vmData.getGlobalNumber($.REG_CODE)];
-                let breakpoint = command.getBreakpoint();
-                if (breakpoint) {
-                    breakpoint.vm    = this;
-                    this._breakpoint = command;
-                    dispatcher.dispatch('VM.Breakpoint', this, breakpoint);
-                } else {
-                    this.runCommand(command);
-                    vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
+        let vmData       = this._vmData;
+        let data         = vmData.getData();
+        let commands     = this._commands;
+        let commandCount = commands.length;
+        let commandIndex = vmData.getGlobalNumber($.REG_CODE);
+        if (!this._runningEvent) {
+            for (let count = 0; count < 1024; count++) {
+                if (this._stopped || (commandIndex >= commandCount)) {
+                    break;
                 }
-            } else if (Date.now() > this._sleepContinueTime) {
-                this._sleepContinueTime = null;
-            }
-            count++;
-            if (count > 512) {
-                break;
+                if (this._sleepContinueTime === null) {
+                    this.runCommand(commands[commandIndex]);
+                    commandIndex     = vmData.getGlobalNumber($.REG_CODE) + 1;
+                    data[$.REG_CODE] = commandIndex;
+                } else if (Date.now() > this._sleepContinueTime) {
+                    this._sleepContinueTime = null;
+                }
             }
         }
-        if ((vmData.getGlobalNumber($.REG_CODE) < commands.length) && !this._stopped) {
-            this._runTimeout = setTimeout(this.runInterval.bind(this, onFinished), 1);
+        if ((vmData.getGlobalNumber($.REG_CODE) < commandCount) && !this._stopped) {
+            this._runTimeout = setTimeout(this.runInterval.bind(this, onFinished), 2);
+        } else {
+            this._stopped    = true;
+            this._runTimeout = null;
+            onFinished();
+            dispatcher.dispatch('VM.Stop', this);
+        }
+    }
+
+    runIntervalWithBreakpoint(onFinished) {
+        let vmData       = this._vmData;
+        let data         = vmData.getData();
+        let commands     = this._commands;
+        let commandCount = commands.length;
+        let commandIndex = vmData.getGlobalNumber($.REG_CODE);
+        if (!this._runningEvent) {
+            for (let count = 0; count < 1024; count++) {
+                if (this._stopped || this._breakpoint || (commandIndex >= commandCount)) {
+                    break;
+                }
+                dispatcher.dispatch('VM.Step', this);
+                if (this._sleepContinueTime === null) {
+                    let command    = commands[commandIndex];
+                    let breakpoint = command.getBreakpoint();
+                    if (breakpoint) {
+                        breakpoint.vm    = this;
+                        this._breakpoint = command;
+                        dispatcher.dispatch('VM.Breakpoint', this, breakpoint);
+                    } else {
+                        this.runCommand(command);
+                        commandIndex     = vmData.getGlobalNumber($.REG_CODE) + 1;
+                        data[$.REG_CODE] = commandIndex;
+                    }
+                } else if (Date.now() > this._sleepContinueTime) {
+                    this._sleepContinueTime = null;
+                }
+            }
+        }
+        if ((vmData.getGlobalNumber($.REG_CODE) < commandCount) && !this._stopped) {
+            this._runTimeout = setTimeout(this.runIntervalWithBreakpoint.bind(this, onFinished), 2);
         } else {
             this._stopped    = true;
             this._runTimeout = null;
@@ -323,6 +356,7 @@ class VM {
         this._stopped           = false;
         this._vmData.setGlobalNumber($.REG_CODE, this._entryPoint);
         this.runInterval(onFinished);
+        // Todo: if code has breakpoints then start: this.runIntervalWithBreakpoint(onFinished);
         dispatcher.dispatch('VM.Start', this);
     }
 }
