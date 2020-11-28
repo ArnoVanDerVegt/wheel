@@ -91,21 +91,106 @@ class VM {
         return this._breakpoint;
     }
 
+    runOptimizedCommand(command) {
+        let data = this._vmData.getData();
+        switch (command.getCmd()) {
+            case 16: /* Set const  const  */                                                                                                       return;
+            case 17: /* Set const  global */                                                                                                       return;
+            case 18: /* Set const  local  */                                                                                                       return;
+            case 19: /* Set const  ptr    */                                                                                                       return;
+            case 20: /* Set global const  */ data[command._param1._value                    ] =       command._param2._value;                      return;
+            case 21: /* Set global global */ data[command._param1._value                    ] =  data[command._param2._value                    ]; return;
+            case 22: /* Set global local  */ data[command._param1._value                    ] =  data[command._param2._value + data[$.REG_STACK]]; return;
+            case 23: /* Set global ptr    */ data[command._param1._value                    ] =  data[command._param2._value + data[$.REG_PTR]  ]; return;
+            case 24: /* Set local  const  */ data[command._param1._value + data[$.REG_STACK]] =       command._param2._value;                      return;
+            case 25: /* Set local  global */ data[command._param1._value + data[$.REG_STACK]] =  data[command._param2._value                    ]; return;
+            case 26: /* Set local  local  */ data[command._param1._value + data[$.REG_STACK]] =  data[command._param2._value + data[$.REG_STACK]]; return;
+            case 27: /* Set local  ptr    */ data[command._param1._value + data[$.REG_STACK]] =  data[command._param2._value + data[$.REG_PTR]  ]; return;
+            case 28: /* Set ptr    const  */ data[command._param1._value + data[$.REG_PTR]  ] =       command._param2._value;                      return;
+            case 29: /* Set ptr    global */ data[command._param1._value + data[$.REG_PTR]  ] =  data[command._param2._value                    ]; return;
+            case 30: /* Set ptr    local  */ data[command._param1._value + data[$.REG_PTR]  ] =  data[command._param2._value + data[$.REG_STACK]]; return;
+            case 31: /* Set ptr    ptr    */ data[command._param1._value + data[$.REG_PTR]  ] =  data[command._param2._value + data[$.REG_PTR]  ]; return;
+            case 32: /* Add const  const  */                                                                                                       return;
+            case 33: /* Add const  global */                                                                                                       return;
+            case 34: /* Add const  local  */                                                                                                       return;
+            case 35: /* Add const  ptr    */                                                                                                       return;
+            case 36: /* Add global const  */ data[command._param1._value                    ] +=      command._param2._value;                      return;
+            case 37: /* Add global global */ data[command._param1._value                    ] += data[command._param2._value                    ]; return;
+            case 38: /* Add global local  */ data[command._param1._value                    ] += data[command._param2._value + data[$.REG_STACK]]; return;
+            case 39: /* Add global ptr    */ data[command._param1._value                    ] += data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 40: /* Add local  const  */ data[command._param1._value + data[$.REG_STACK]] +=      command._param2._value;                      return;
+            case 41: /* Add local  global */ data[command._param1._value + data[$.REG_STACK]] += data[command._param2._value                    ]; return;
+            case 42: /* Add local  local  */ data[command._param1._value + data[$.REG_STACK]] += data[command._param2._value + data[$.REG_STACK]]; return;
+            case 43: /* Add local  ptr    */ data[command._param1._value + data[$.REG_STACK]] += data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 44: /* Add ptr    const  */ data[command._param1._value + data[$.REG_PTR  ]] +=      command._param2._value;                      return;
+            case 45: /* Add ptr    global */ data[command._param1._value + data[$.REG_PTR  ]] += data[command._param2._value                    ]; return;
+            case 46: /* Add ptr    local  */ data[command._param1._value + data[$.REG_PTR  ]] += data[command._param2._value + data[$.REG_STACK]]; return;
+            case 47: /* Add ptr    ptr    */ data[command._param1._value + data[$.REG_PTR  ]] += data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 48: /* Sub const  const  */                                                                                                       return;
+            case 49: /* Sub const  global */                                                                                                       return;
+            case 50: /* Sub const  local  */                                                                                                       return;
+            case 51: /* Sub const  ptr    */                                                                                                       return;
+            case 52: /* Sub global const  */ data[command._param1._value                    ] -=      command._param2._value;                      return;
+            case 53: /* Sub global global */ data[command._param1._value                    ] -= data[command._param2._value                    ]; return;
+            case 54: /* Sub global local  */ data[command._param1._value                    ] -= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 55: /* Sub global ptr    */ data[command._param1._value                    ] -= data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 56: /* Sub local  const  */ data[command._param1._value + data[$.REG_STACK]] -=      command._param2._value;                      return;
+            case 57: /* Sub local  global */ data[command._param1._value + data[$.REG_STACK]] -= data[command._param2._value                    ]; return;
+            case 58: /* Sub local  local  */ data[command._param1._value + data[$.REG_STACK]] -= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 59: /* Sub local  ptr    */ data[command._param1._value + data[$.REG_STACK]] -= data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 60: /* Sub ptr    const  */ data[command._param1._value + data[$.REG_PTR  ]] -=      command._param2._value;                      return;
+            case 61: /* Sub ptr    global */ data[command._param1._value + data[$.REG_PTR  ]] -= data[command._param2._value                    ]; return;
+            case 62: /* Sub ptr    local  */ data[command._param1._value + data[$.REG_PTR  ]] -= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 63: /* Sub ptr    ptr    */ data[command._param1._value + data[$.REG_PTR  ]] -= data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 64: /* Mul const  const  */                                                                                                       return;
+            case 65: /* Mul const  global */                                                                                                       return;
+            case 66: /* Mul const  local  */                                                                                                       return;
+            case 67: /* Mul const  ptr    */                                                                                                       return;
+            case 68: /* Mul global const  */ data[command._param1._value                    ] *=      command._param2._value;                      return;
+            case 69: /* Mul global global */ data[command._param1._value                    ] *= data[command._param2._value                    ]; return;
+            case 70: /* Mul global local  */ data[command._param1._value                    ] *= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 71: /* Mul global ptr    */ data[command._param1._value                    ] *= data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 72: /* Mul local  const  */ data[command._param1._value + data[$.REG_STACK]] *=      command._param2._value;                      return;
+            case 73: /* Mul local  global */ data[command._param1._value + data[$.REG_STACK]] *= data[command._param2._value                    ]; return;
+            case 74: /* Mul local  local  */ data[command._param1._value + data[$.REG_STACK]] *= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 75: /* Mul local  ptr    */ data[command._param1._value + data[$.REG_STACK]] *= data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 76: /* Mul ptr    const  */ data[command._param1._value + data[$.REG_PTR  ]] *=      command._param2._value;                      return;
+            case 77: /* Mul ptr    global */ data[command._param1._value + data[$.REG_PTR  ]] *= data[command._param2._value                    ]; return;
+            case 78: /* Mul ptr    local  */ data[command._param1._value + data[$.REG_PTR  ]] *= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 79: /* Mul ptr    ptr    */ data[command._param1._value + data[$.REG_PTR  ]] *= data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 80: /* Div const  const  */                                                                                                       return;
+            case 81: /* Div const  global */                                                                                                       return;
+            case 82: /* Div const  local  */                                                                                                       return;
+            case 83: /* Div const  ptr    */                                                                                                       return;
+            case 84: /* Div global const  */ data[command._param1._value                    ] /=      command._param2._value;                      return;
+            case 85: /* Div global global */ data[command._param1._value                    ] /= data[command._param2._value                    ]; return;
+            case 86: /* Div global local  */ data[command._param1._value                    ] /= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 87: /* Div global ptr    */ data[command._param1._value                    ] /= data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 88: /* Div local  const  */ data[command._param1._value + data[$.REG_STACK]] /=      command._param2._value;                      return;
+            case 89: /* Div local  global */ data[command._param1._value + data[$.REG_STACK]] /= data[command._param2._value                    ]; return;
+            case 90: /* Div local  local  */ data[command._param1._value + data[$.REG_STACK]] /= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 91: /* Div local  ptr    */ data[command._param1._value + data[$.REG_STACK]] /= data[command._param2._value + data[$.REG_PTR  ]]; return;
+            case 92: /* Div ptr    const  */ data[command._param1._value + data[$.REG_PTR  ]] /=      command._param2._value;                      return;
+            case 93: /* Div ptr    global */ data[command._param1._value + data[$.REG_PTR  ]] /= data[command._param2._value                    ]; return;
+            case 94: /* Div ptr    local  */ data[command._param1._value + data[$.REG_PTR  ]] /= data[command._param2._value + data[$.REG_STACK]]; return;
+            case 95: /* Div ptr    ptr    */ data[command._param1._value + data[$.REG_PTR  ]] /= data[command._param2._value + data[$.REG_PTR  ]]; return;
+        }
+    }
+
     runCommand(command) {
-        let vmData         = this._vmData;
-        let data           = vmData.getData();
+        let data           = this._vmData.getData();
         let regOffsetStack = data[$.REG_STACK];
         let regOffsetPtr   = data[$.REG_PTR];
         let cmd            = command.getCmd();
-        let param1         = command.getParam1();
-        let param2         = command.getParam2();
-        let v1             = this.getParamValue(data, regOffsetStack, regOffsetPtr, param1);
-        let v2             = this.getParamValue(data, regOffsetStack, regOffsetPtr, param2);
+        let offset;
+        let param1;
+        let param2;
+        let v1;
+        let v2;
         let v;
-        this._lastCommand = command;
         switch (cmd) {
             case $.CMD_COPY:
-                let size          = v2;
+                let size          = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
                 let regOffsetSrc  = data[$.REG_SRC];
                 let regOffsetDest = data[$.REG_DEST];
                 for (let i = 0; i < size; i++) {
@@ -113,10 +198,13 @@ class VM {
                 }
                 break;
             case $.CMD_JMPC:
-                let regFlags = data[$.REG_FLAGS];
-                ((regFlags & v1) === v1) && (data[$.REG_CODE] = v2 - 1);
+                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                ((data[$.REG_FLAGS] & v1) === v1) && (data[$.REG_CODE] = v2 - 1);
                 break;
             case $.CMD_CMP:
+                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
                 let flags = 0;
                 (v1 === v2) && (flags |= $.FLAG_EQUAL);
                 (v1 !== v2) && (flags |= $.FLAG_NOT_EQUAL);
@@ -127,6 +215,8 @@ class VM {
                 data[$.REG_FLAGS] = flags;
                 break;
             case $.CMD_MOD:
+                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
                 let modules = this._modules;
                 if (modules[v1]) {
                     modules[v1].run(v2);
@@ -135,61 +225,123 @@ class VM {
                 }
                 break;
             case $.CMD_CALL:
+                v1     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                v2     = command.getParam2().getValue();
+                offset = regOffsetStack + v2;
                 data[$.REG_STACK] += v2;
-                data[regOffsetStack + v2 - 2] = regOffsetStack;
-                data[regOffsetStack + v2 - 1] = data[$.REG_CODE];
-                data[$.REG_CODE             ] = v1;
+                data[offset - 2] = regOffsetStack;
+                data[offset - 1] = data[$.REG_CODE];
+                data[$.REG_CODE] = v1;
                 break;
             case $.CMD_RET:
-                if (!vmData.keepRet()) {
+                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                if (!this._vmData.keepRet()) {
                     data[$.REG_RET] = v1;
                 }
                 data[$.REG_STACK] = data[regOffsetStack - 2];
                 data[$.REG_CODE ] = data[regOffsetStack - 1];
                 break;
             case $.CMD_SETF: // Set flags
+                param1 = command.getParam1();
+                v1     = this.getParamValue(data, regOffsetStack, regOffsetPtr, param1);
+                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
                 let flagValue = ((data[$.REG_FLAGS] & v2) === v2) ? 1 : 0;
-                v = param1.getValue();
                 switch (param1.getType()) {
-                    case $.T_NUM_L: data[v + regOffsetStack] = flagValue; break;
+                    case $.T_NUM_L: data[param1.getValue() + regOffsetStack] = flagValue; break;
                     // The following cases are not generated by the compiler:
                     // Case $.T_NUM_G: data[v]                  = flagValue; break;
                     // Case $.T_NUM_P: data[v + regOffsetPtr]   = flagValue; break;
                 }
                 break;
             case $.CMD_ADDS: // Add string
-                vmData.getStringList()[v1] += vmData.getStringList()[v2];
+                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                this._vmData.getStringList()[v1] += this._vmData.getStringList()[v2];
                 break;
             case $.CMD_SETS: // Set string
-                vmData.getStringList()[v1] = vmData.getStringList()[v2];
+                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                this._vmData.getStringList()[v1] = this._vmData.getStringList()[v2];
                 break;
-            default:
-                let result = null;
-                switch (cmd) {
-                    case $.CMD_SET: result = v2;       break;
-                    case $.CMD_ADD: result = v1 + v2;  break;
-                    case $.CMD_SUB: result = v1 - v2;  break;
-                    case $.CMD_MUL: result = v1 * v2;  break;
-                    case $.CMD_AND: result = v1 && v2; break;
-                    case $.CMD_OR:  result = v1 || v2; break;
-                    case $.CMD_DIV:
-                        if (v2 === 0) {
-                            dispatcher.dispatch('VM.Error.DivisionByZero', this.getLastCommand());
-                            this.stop();
-                            return;
-                        }
-                        result = v1 / v2;
-                        break;
-                }
-                v = param1.getValue();
+            case $.CMD_SET:
+                param1 = command.getParam1();
+                v1     = param1.getValue();
+                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
                 switch (param1.getType()) {
-                    case $.T_NUM_G: data[v]                  = result; break;
-                    case $.T_NUM_L: data[v + regOffsetStack] = result; break;
-                    case $.T_NUM_P: data[v + regOffsetPtr]   = result; break;
+                    case $.T_NUM_G: data[v1                 ] = v2; break;
+                    case $.T_NUM_L: data[v1 + regOffsetStack] = v2; break;
+                    case $.T_NUM_P: data[v1 + regOffsetPtr  ] = v2; break;
                 }
+                break;
+            case $.CMD_ADD:
+                param1 = command.getParam1();
+                v1     = param1.getValue();
+                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                switch (param1.getType()) {
+                    case $.T_NUM_G: data[v1                 ] += v2; break;
+                    case $.T_NUM_L: data[v1 + regOffsetStack] += v2; break;
+                    case $.T_NUM_P: data[v1 + regOffsetPtr  ] += v2; break;
+                }
+                break;
+            case $.CMD_SUB:
+                param1 = command.getParam1();
+                v1     = param1.getValue();
+                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                switch (param1.getType()) {
+                    case $.T_NUM_G: data[v1                 ] -= v2; break;
+                    case $.T_NUM_L: data[v1 + regOffsetStack] -= v2; break;
+                    case $.T_NUM_P: data[v1 + regOffsetPtr  ] -= v2; break;
+                }
+                break;
+            case $.CMD_MUL:
+                param1 = command.getParam1();
+                v1     = param1.getValue();
+                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                switch (param1.getType()) {
+                    case $.T_NUM_G: data[v1                 ] *= v2; break;
+                    case $.T_NUM_L: data[v1 + regOffsetStack] *= v2; break;
+                    case $.T_NUM_P: data[v1 + regOffsetPtr  ] *= v2; break;
+                }
+                break;
+            case $.CMD_DIV:
+                param1 = command.getParam1();
+                v1     = param1.getValue();
+                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                if (v2 === 0) {
+                    dispatcher.dispatch('VM.Error.DivisionByZero', this.getLastCommand());
+                    this.stop();
+                    return;
+                }
+                switch (param1.getType()) {
+                    case $.T_NUM_G: data[v1                 ] /= v2; break;
+                    case $.T_NUM_L: data[v1 + regOffsetStack] /= v2; break;
+                    case $.T_NUM_P: data[v1 + regOffsetPtr  ] /= v2; break;
+                }
+                break;
+            case $.CMD_AND:
+                param1 = command.getParam1();
+                v1     = param1.getValue();
+                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                switch (param1.getType()) {
+                    case $.T_NUM_G: offset = v1;                  break;
+                    case $.T_NUM_L: offset = v1 + regOffsetStack; break;
+                    case $.T_NUM_P: offset = v1 + regOffsetPtr;   break;
+                }
+                data[offset] = data[offset] && v2;
+                break;
+            case $.CMD_OR:
+                param1 = command.getParam1();
+                v1     = param1.getValue();
+                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                switch (param1.getType()) {
+                    case $.T_NUM_G: offset = v1;                  break;
+                    case $.T_NUM_L: offset = v1 + regOffsetStack; break;
+                    case $.T_NUM_P: offset = v1 + regOffsetPtr;   break;
+                }
+                data[offset] = data[offset] || v2;
                 break;
         }
-        if (vmData.getHeapOverflow()) {
+        if (this._vmData.getHeapOverflow()) {
             dispatcher.dispatch('VM.Error.HeapOverflow');
             this.stop();
         }
@@ -222,10 +374,10 @@ class VM {
         let vmData   = this._vmData;
         let data     = vmData.getData();
         let commands = this._commands;
-        vmData.setGlobalNumber($.REG_CODE, this._entryPoint);
-        while (vmData.getGlobalNumber($.REG_CODE) < commands.length) {
-            this.runCommand(commands[vmData.getGlobalNumber($.REG_CODE)]);
-            vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
+        data[$.REG_CODE] = this._entryPoint;
+        while (data[$.REG_CODE] < commands.length) {
+            this.runCommand(commands[data[$.REG_CODE]]);
+            data[$.REG_CODE]++;
         }
         dispatcher.dispatch('VM.Run', this);
     }
@@ -245,7 +397,7 @@ class VM {
         params.forEach(function(param, index) {
             data[regOffsetStack + callStackSize + index + 2] = param;
         });
-        vmData.setGlobalNumber($.REG_CODE, entryPoint);
+        data[$.REG_CODE] = entryPoint;
         let run = (function() { // This function runs a maximum of 1024 VM commands...
                 if (!this.running()) {
                     return;
@@ -254,9 +406,14 @@ class VM {
                     vmData.setRegisters(runningRegisters); // Restore the event registers.
                 }
                 let commandCount = 0;
-                while (vmData.getGlobalNumber($.REG_CODE) < commands.length) {
-                    this.runCommand(commands[vmData.getGlobalNumber($.REG_CODE)]);
-                    vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
+                while (data[$.REG_CODE] < commands.length) {
+                    this._lastCommand = commands[vmData.getGlobalNumber($.REG_CODE)];
+                    if (this._lastCommand.getCmd() < 16) {
+                        this.runCommand(this._lastCommand);
+                    } else {
+                        this.runOptimizedCommand(this._lastCommand);
+                    }
+                    data[$.REG_CODE]++;
                     commandCount++;
                     if (commandCount > 1024) {
                         runningRegisters = vmData.getRegisters();
@@ -276,22 +433,25 @@ class VM {
         let data         = vmData.getData();
         let commands     = this._commands;
         let commandCount = commands.length;
-        let commandIndex = vmData.getGlobalNumber($.REG_CODE);
         if (!this._runningEvent) {
             for (let count = 0; count < 1024; count++) {
-                if (this._stopped || (commandIndex >= commandCount)) {
+                if (this._stopped || (data[$.REG_CODE] >= commandCount)) {
                     break;
                 }
                 if (this._sleepContinueTime === null) {
-                    this.runCommand(commands[commandIndex]);
-                    commandIndex     = vmData.getGlobalNumber($.REG_CODE) + 1;
-                    data[$.REG_CODE] = commandIndex;
+                    this._lastCommand = commands[data[$.REG_CODE]];
+                    if (this._lastCommand.getCmd() < 16) {
+                        this.runCommand(this._lastCommand);
+                    } else {
+                        this.runOptimizedCommand(this._lastCommand);
+                    }
+                    data[$.REG_CODE]++;
                 } else if (Date.now() > this._sleepContinueTime) {
                     this._sleepContinueTime = null;
                 }
             }
         }
-        if ((vmData.getGlobalNumber($.REG_CODE) < commandCount) && !this._stopped) {
+        if ((data[$.REG_CODE] < commandCount) && !this._stopped) {
             this._runTimeout = setTimeout(this.runInterval.bind(this, onFinished), 2);
         } else {
             this._stopped    = true;
@@ -306,31 +466,34 @@ class VM {
         let data         = vmData.getData();
         let commands     = this._commands;
         let commandCount = commands.length;
-        let commandIndex = vmData.getGlobalNumber($.REG_CODE);
         if (!this._runningEvent) {
             for (let count = 0; count < 1024; count++) {
-                if (this._stopped || this._breakpoint || (commandIndex >= commandCount)) {
+                if (this._stopped || this._breakpoint || (data[$.REG_CODE] >= commandCount)) {
                     break;
                 }
                 dispatcher.dispatch('VM.Step', this);
                 if (this._sleepContinueTime === null) {
-                    let command    = commands[commandIndex];
+                    let command    = commands[data[$.REG_CODE]];
                     let breakpoint = command.getBreakpoint();
                     if (breakpoint) {
                         breakpoint.vm    = this;
                         this._breakpoint = command;
                         dispatcher.dispatch('VM.Breakpoint', this, breakpoint);
                     } else {
-                        this.runCommand(command);
-                        commandIndex     = vmData.getGlobalNumber($.REG_CODE) + 1;
-                        data[$.REG_CODE] = commandIndex;
+                        this._lastCommand = commands[data[$.REG_CODE]];
+                        if (this._lastCommand.getCmd() < 16) {
+                            this.runCommand(this._lastCommand);
+                        } else {
+                            this.runOptimizedCommand(this._lastCommand);
+                        }
+                        data[$.REG_CODE]++;
                     }
                 } else if (Date.now() > this._sleepContinueTime) {
                     this._sleepContinueTime = null;
                 }
             }
         }
-        if ((vmData.getGlobalNumber($.REG_CODE) < commandCount) && !this._stopped) {
+        if ((data[$.REG_CODE] < commandCount) && !this._stopped) {
             this._runTimeout = setTimeout(this.runIntervalWithBreakpoint.bind(this, onFinished), 2);
         } else {
             this._stopped    = true;
@@ -344,19 +507,41 @@ class VM {
         if (this._breakpoint) {
             let vmData = this._vmData;
             let data   = vmData.getData();
-            this.runCommand(this._breakpoint);
-            vmData.setGlobalNumber($.REG_CODE, vmData.getGlobalNumber($.REG_CODE) + 1);
+            this._lastCommand = this._breakpoint;
+            if (this._lastCommand.getCmd() < 16) {
+                this.runCommand(this._lastCommand);
+            } else {
+                this.runOptimizedCommand(this._lastCommand);
+            }
+            data[$.REG_CODE]++;
         }
         this._breakpoint = false;
         dispatcher.dispatch('VM.Continue', this);
     }
 
     startRunInterval(onFinished) {
-        this._sleepContinueTime = null;
-        this._stopped           = false;
-        this._vmData.setGlobalNumber($.REG_CODE, this._entryPoint);
-        this.runInterval(onFinished);
-        // Todo: if code has breakpoints then start: this.runIntervalWithBreakpoint(onFinished);
+        let count         = 0;
+        let hasBreakpoint = false;
+        this._commands.forEach((command) => {
+            if (command.getBreakpoint()) {
+                hasBreakpoint = true;
+            }
+            switch (command.getCmd()) {
+                case $.CMD_SET: command._cmd = 16 + command.getParam1().getType() * 4 + command.getParam2().getType(); count++; break;
+                case $.CMD_ADD: command._cmd = 32 + command.getParam1().getType() * 4 + command.getParam2().getType(); count++; break;
+                case $.CMD_SUB: command._cmd = 48 + command.getParam1().getType() * 4 + command.getParam2().getType(); count++; break;
+                case $.CMD_MUL: command._cmd = 64 + command.getParam1().getType() * 4 + command.getParam2().getType(); count++; break;
+                case $.CMD_DIV: command._cmd = 80 + command.getParam1().getType() * 4 + command.getParam2().getType(); count++; break;
+            }
+        });
+        this._sleepContinueTime            = null;
+        this._stopped                      = false;
+        this._vmData.getData()[$.REG_CODE] = this._entryPoint;
+        if (hasBreakpoint) {
+            this.runIntervalWithBreakpoint(onFinished);
+        } else {
+            this.runInterval(onFinished);
+        }
         dispatcher.dispatch('VM.Start', this);
     }
 }
