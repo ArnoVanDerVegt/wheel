@@ -221,7 +221,7 @@ exports.MotorModule = class extends VMModule {
                 motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 value = 0;
                 if (this.getLayerAndIdValid(motor)) {
-                    value = this.getMotorPort(motor).degrees;
+                    value = this.getMotorPort(motor).degrees || 0;
                 }
                 vmData.setNumberAtRet(value);
                 break;
