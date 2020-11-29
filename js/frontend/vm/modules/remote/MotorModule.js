@@ -65,7 +65,7 @@ exports.MotorModule = class extends VMModule {
         let vm     = this._vm;
         device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_RESET, motor);
         let callback = () => {
-                vm.sleep(50);
+                vm.sleepForProcess(50);
                 if (!device.getQueueLength()) {
                     let port = this.getMotorPort(motor);
                     if (port.degrees === 0) {
@@ -88,13 +88,13 @@ exports.MotorModule = class extends VMModule {
     waitForQueue() {
         let device = this._device();
         let vm     = this._vm;
-        vm.sleep(1000);
+        vm.sleepForProcess(1000);
         const callback = () => {
                 if (device.getQueueLength()) {
-                    vm.sleep(1000);
+                    vm.sleepForProcess(1000);
                     setTimeout(callback, 1);
                 } else {
-                    vm.sleep(0);
+                    vm.sleepForProcess(0);
                 }
             };
         callback();

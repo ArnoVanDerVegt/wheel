@@ -8,19 +8,20 @@ const VMData     = require('./VMData').VMData;
 
 class VM {
     constructor(opts) {
-        this._runningEvent      = false;
-        this._stopped           = true;
-        this._sleepContinueTime = null;
-        this._breakpoint        = false;
-        this._runTimeout        = null;
-        this._entryPoint        = opts.entryPoint || 0;
-        this._lastCommand       = null;
-        this._commands          = null;
-        this._maxCallStackSize  = 2;
-        this._modules           = [];
-        this._outputPath        = '';
-        this._sortedFiles       = opts.sortedFiles;
-        this._vmData            = new VMData({
+        this._runningEvent             = false;
+        this._stopped                  = true;
+        this._sleepContinueTime        = null;
+        this._sleepProcessContinueTime = null;
+        this._breakpoint               = false;
+        this._runTimeout               = null;
+        this._entryPoint               = opts.entryPoint || 0;
+        this._lastCommand              = null;
+        this._commands                 = null;
+        this._maxCallStackSize         = 2;
+        this._modules                  = [];
+        this._outputPath               = '';
+        this._sortedFiles              = opts.sortedFiles;
+        this._vmData                   = new VMData({
             globalSize: opts.globalSize,
             constants:  opts.constants,
             stringList: opts.stringList
@@ -361,7 +362,7 @@ class VM {
     }
 
     sleeping() {
-        return (this._sleepContinueTime !== null);
+        return (this._sleepContinueTime !== null) || (this._sleepProcessContinueTime !== null);
     }
 
     sleep(time) {
@@ -369,8 +370,17 @@ class VM {
         return this;
     }
 
+    /**
+     * A module can also pause the VM execution, this may not interfere with the standard sleep function...
+    **/
+    sleepForProcess(time) {
+        this._sleepProcessContinueTime = Date.now() + time;
+        return this;
+    }
+
     run() {
-        this._sleepContinueTime = null;
+        this._sleepContinueTime        = null;
+        this._sleepProcessContinueTime = null;
         let vmData   = this._vmData;
         let data     = vmData.getData();
         let commands = this._commands;
@@ -438,7 +448,7 @@ class VM {
                 if (this._stopped || (data[$.REG_CODE] >= commandCount)) {
                     break;
                 }
-                if (this._sleepContinueTime === null) {
+                if ((this._sleepContinueTime === null) && (this._sleepProcessContinueTime === null)) {
                     this._lastCommand = commands[data[$.REG_CODE]];
                     if (this._lastCommand.getCmd() < 16) {
                         this.runCommand(this._lastCommand);
@@ -446,8 +456,14 @@ class VM {
                         this.runOptimizedCommand(this._lastCommand);
                     }
                     data[$.REG_CODE]++;
-                } else if (Date.now() > this._sleepContinueTime) {
-                    this._sleepContinueTime = null;
+                } else {
+                    let time = Date.now();
+                    if ((this._sleepContinueTime !== null) && (time > this._sleepContinueTime)) {
+                        this._sleepContinueTime = null;
+                    }
+                    if ((this._sleepProcessContinueTime !== null) && (time > this._sleepProcessContinueTime)) {
+                        this._sleepProcessContinueTime = null;
+                    }
                 }
             }
         }
@@ -472,7 +488,7 @@ class VM {
                     break;
                 }
                 dispatcher.dispatch('VM.Step', this);
-                if (this._sleepContinueTime === null) {
+                if ((this._sleepContinueTime === null) && (this._sleepProcessContinueTime === null)) {
                     let command    = commands[data[$.REG_CODE]];
                     let breakpoint = command.getBreakpoint();
                     if (breakpoint) {
@@ -488,8 +504,14 @@ class VM {
                         }
                         data[$.REG_CODE]++;
                     }
-                } else if (Date.now() > this._sleepContinueTime) {
-                    this._sleepContinueTime = null;
+                } else {
+                    let time = Date.now();
+                    if ((this._sleepContinueTime !== null) && (time > this._sleepContinueTime)) {
+                        this._sleepContinueTime = null;
+                    }
+                    if ((this._sleepProcessContinueTime !== null) && (time > this._sleepProcessContinueTime)) {
+                        this._sleepProcessContinueTime = null;
+                    }
                 }
             }
         }
@@ -535,6 +557,7 @@ class VM {
             }
         });
         this._sleepContinueTime            = null;
+        this._sleepProcessContinueTime     = null;
         this._stopped                      = false;
         this._vmData.getData()[$.REG_CODE] = this._entryPoint;
         if (hasBreakpoint) {
