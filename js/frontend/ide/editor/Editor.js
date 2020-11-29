@@ -172,24 +172,20 @@ exports.Editor = class {
     }
 
     getValue(callback, activeEditor) {
-        let editors;
+        let editors = this._editorsState.getProjectEditors();
         let editor;
         if (activeEditor) { // Compile in the background, return the active source...
-            editor = this._editors.getActiveEditor();
-            if (!editor) {
-                return;
+            if (editors.length === 1) {
+                editor = editors[0];
+                callback({
+                    filename: path.join(editor.getPath(), editor.getFilename()),
+                    source:   editor.getValue()
+                });
+            } else {
+                callback(false);
             }
-            let filename = editor.getFilename();
-            if (path.getExtension(filename) !== '.whlp') {
-                return;
-            }
-            callback({
-                filename: path.join(editor.getPath(), filename),
-                source:   editor.getValue()
-            });
             return;
         }
-        editors = this._editorsState.getProjectEditors();
         switch (editors.length) {
             case 0:
                 dispatcher.dispatch(

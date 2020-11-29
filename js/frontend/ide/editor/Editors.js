@@ -287,6 +287,9 @@ exports.Editors = class extends DOMNode {
         });
         this.onClickTab(opts.filename, opts.path);
         dispatcher.dispatch('Editors.OpenEditor', this.getDispatchInfo(editor));
+        if (path.getExtension(opts.filename) === '.whl') {
+            dispatcher.dispatch('Compile.Silent');
+        }
     }
 
     addForm(opts) {

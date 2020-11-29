@@ -322,9 +322,11 @@ exports.IDEEvents = class extends CompileAndRun {
     onGetSource(callback) {
         this._editor.getValue(
             (info) => {
-                this._projectFilename = info.filename;
-                this._source          = info.source;
-                callback();
+                if (info) {
+                    this._projectFilename = info.filename;
+                    this._source          = info.source;
+                }
+                callback(!!info);
             },
             this._compileSilent
         );

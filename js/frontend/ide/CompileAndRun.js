@@ -478,8 +478,8 @@ exports.CompileAndRun = class extends DOMUtils {
             }
             this._title     = title;
             this._compiling = false;
-            this.simulatorLoaded();
             if (!this._compileSilent) {
+                this.simulatorLoaded();
                 dispatcher.dispatch('Compile.Compiled', this._vm);
             }
         } catch (error) {
@@ -506,7 +506,11 @@ exports.CompileAndRun = class extends DOMUtils {
         this._changedWhileRunning = false;
         title || (title = 'Simulator');
         this.stop();
-        this.onGetSource(() => {
+        this.onGetSource((success) => {
+            if (!success) {
+                this._compiling = false;
+                return;
+            }
             this.onBeforeCompile();
             this._simulatorModules.reset();
             try {
