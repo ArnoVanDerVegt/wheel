@@ -769,6 +769,7 @@ exports.Program = class {
         if (this.getSecondPass()) {
             this._commands[index].getParam2().setValue(value);
         }
+        return this;
     }
 
     getTitle() {

@@ -27,6 +27,7 @@ exports.Compiler = class extends CompileBlock {
         this._eventInfo     = {};
         this._depth         = 0;
         this._objctSize     = {};
+        this._tokenHint     = {};
     }
 
     compile(tokens) {
@@ -193,5 +194,16 @@ exports.Compiler = class extends CompileBlock {
             return null;
         }
         return loopStack.length ? loopStack[loopStack.length - 1] : null;
+    }
+
+    getTokenHint(index) {
+        return (this._pass === 0) ? null : (this._tokenHint[index] || null);
+    }
+
+    setTokenHint(index, tokenHint) {
+        if (this._pass === 1) {
+            return;
+        }
+        this._tokenHint[index] = tokenHint;
     }
 };
