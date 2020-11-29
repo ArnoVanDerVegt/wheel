@@ -69,7 +69,6 @@ class MenuOption extends DOMNode {
     }
 
     apply(event) {
-        console.log('apply:', event);
         if (this._enabled) {
             this._dispatch && dispatcher.dispatch(this._dispatch, event);
             this._onClick  && this._onClick(event);
