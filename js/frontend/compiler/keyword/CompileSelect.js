@@ -24,7 +24,6 @@ exports.CompileSelect = class extends CompileBlock {
         let doneCase      = false;
         let doneDefault   = false;
         let tokens;
-
         scope.incStackOffset();
         AssignmentExpression.compileToTempStackValue(this._compiler, program, scope, iterator.nextUntilLexeme([t.LEXEME_NEWLINE]));
         scope.incStackOffset();
