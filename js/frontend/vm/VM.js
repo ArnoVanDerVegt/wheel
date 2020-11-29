@@ -188,7 +188,6 @@ class VM {
         let param2;
         let v1;
         let v2;
-        let v;
         switch (cmd) {
             case $.CMD_COPY:
                 let size          = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());

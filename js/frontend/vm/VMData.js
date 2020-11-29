@@ -33,10 +33,13 @@ exports.VMData = class {
 
     setHeap(heap) {
         this._heap = heap;
+        for (let i = 8; i < heap; i++) {
+            this._data[i] = 0;
+        }
     }
 
     getHeapOverflow() {
-        return (this._data.length >= this._heap);
+        return (this._data.length > this._heap);
     }
 
     getData() {
