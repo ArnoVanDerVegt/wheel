@@ -68,10 +68,11 @@ class MenuOption extends DOMNode {
         );
     }
 
-    apply() {
+    apply(event) {
+        console.log('apply:', event);
         if (this._enabled) {
-            this._dispatch && dispatcher.dispatch(this._dispatch);
-            this._onClick  && this._onClick();
+            this._dispatch && dispatcher.dispatch(this._dispatch, event);
+            this._onClick  && this._onClick(event);
         }
     }
 
@@ -158,7 +159,7 @@ class MenuOption extends DOMNode {
         key = String.fromCharCode(event.keyCode).toUpperCase();
         if (this._hotkey[1].toUpperCase() === key) {
             dispatcher.dispatch('Global.HotKey.Clear');
-            this.apply();
+            this.apply(event);
         }
     }
 }

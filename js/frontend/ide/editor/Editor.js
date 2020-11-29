@@ -360,9 +360,9 @@ exports.Editor = class {
         activeEditor && this._editors.onEditorClose(activeEditor.getPathAndFilename());
     }
 
-    callActiveEditor(func) {
+    callActiveEditor(func, event) {
         let activeEditor = this.getActiveEditor();
-        activeEditor && activeEditor[func] && activeEditor[func]();
+        activeEditor && activeEditor[func] && activeEditor[func](event);
     }
 
     findEditor(path, filename) {

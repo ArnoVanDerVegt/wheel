@@ -298,8 +298,8 @@ exports.FormEditorState = class extends Emitter {
         }
         clipboard.owner    = owner;
         clipboard.parentId = parentId;
-        clipboard.x += 32;
-        clipboard.y += 32;
+        clipboard.x = parseInt(clipboard.x, 10) + 32; // Force value to integer before adding 32!
+        clipboard.y = parseInt(clipboard.y, 10) + 32;
         this.addComponent(clipboard);
     }
 
