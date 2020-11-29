@@ -830,6 +830,9 @@ exports.Program = class {
     }
 
     getEventInfo(event) {
+        if (event === undefined) {
+            return this._eventInfo;
+        }
         return this._eventInfo[event] || null;
     }
 
