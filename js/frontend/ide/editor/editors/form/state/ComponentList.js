@@ -100,7 +100,7 @@ exports.ComponentList = class {
             items.push({
                 toString:    function() { return this.nameAndType; },
                 value:       component.id,
-                title:       component.name + ' <i>' + component.type + '</i>',
+                title:       component.name + '&nbsp;<i>' + component.type + '</i>',
                 nameAndType: component.name + '_' + component.type
             });
         }
