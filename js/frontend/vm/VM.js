@@ -108,10 +108,10 @@ class VM {
             case 25: /* Set local  global */ data[command._param1._value + data[$.REG_STACK]] =  data[command._param2._value                    ]; return;
             case 26: /* Set local  local  */ data[command._param1._value + data[$.REG_STACK]] =  data[command._param2._value + data[$.REG_STACK]]; return;
             case 27: /* Set local  ptr    */ data[command._param1._value + data[$.REG_STACK]] =  data[command._param2._value + data[$.REG_PTR]  ]; return;
-            case 28: /* Set ptr    const  */ data[command._param1._value + data[$.REG_PTR]  ] =       command._param2._value;                      return;
-            case 29: /* Set ptr    global */ data[command._param1._value + data[$.REG_PTR]  ] =  data[command._param2._value                    ]; return;
-            case 30: /* Set ptr    local  */ data[command._param1._value + data[$.REG_PTR]  ] =  data[command._param2._value + data[$.REG_STACK]]; return;
-            case 31: /* Set ptr    ptr    */ data[command._param1._value + data[$.REG_PTR]  ] =  data[command._param2._value + data[$.REG_PTR]  ]; return;
+            case 28: /* Set ptr    const  */ data[command._param1._value + data[$.REG_PTR  ]] =       command._param2._value;                      return;
+            case 29: /* Set ptr    global */ data[command._param1._value + data[$.REG_PTR  ]] =  data[command._param2._value                    ]; return;
+            case 30: /* Set ptr    local  */ data[command._param1._value + data[$.REG_PTR  ]] =  data[command._param2._value + data[$.REG_STACK]]; return;
+            case 31: /* Set ptr    ptr    */ data[command._param1._value + data[$.REG_PTR  ]] =  data[command._param2._value + data[$.REG_PTR]  ]; return;
             case 32: /* Add const  const  */                                                                                                       return;
             case 33: /* Add const  global */                                                                                                       return;
             case 34: /* Add const  local  */                                                                                                       return;

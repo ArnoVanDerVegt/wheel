@@ -229,7 +229,8 @@ exports.testCodeAndMemory = function(it, message, source, code, memory) {
             let data       = vm.getVMData().getData();
             let dataMemory = [];
             for (let i = 0; i < memory.length; i++) {
-                dataMemory.push(data[i] || 0);
+                dataMemory.push((data[i] || 0).toFixed(5));
+                memory[i] = memory[i].toFixed(5);
             }
             if (memory === true) {
                 console.log(data);
@@ -331,11 +332,11 @@ exports.testCompile = function(source, linter) {
             entryPoint: program.getEntryPoint(),
             globalSize: program.getGlobalSize(),
             constants:  program.getConstants(),
-            stringList: program.getStringList()
+            stringList: program.getStringList(),
+            heap:       program.getHeap()
         });
     let modules = createModules(vm, createMocks());
     vm.setModules(modules);
-    vm.getVMData().setHeap(program.getHeap());
     return {
         vm:       vm,
         modules:  modules,
