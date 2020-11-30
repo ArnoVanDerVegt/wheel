@@ -142,7 +142,6 @@ exports.TabPanel = class extends Component {
         if ('tab' in opts) {
             this.onAddTabComponent(opts.tab);
         }
-console.log(opts);
         super.onEvent(opts);
     }
 
