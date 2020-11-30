@@ -357,7 +357,6 @@ exports.SettingsState = class extends Emitter {
     }
 
     getValidatedDeviceCount(deviceCount) {
-
         return ((deviceCount >= 1) && (deviceCount <= poweredUpModuleConstants.POWERED_UP_LAYER_COUNT)) ? deviceCount : 1;
     }
 

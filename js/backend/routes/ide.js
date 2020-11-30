@@ -55,14 +55,32 @@ exports.ideRoutes = {
                 this._saveSettings();
                 break;
             case 'move':
+                data = data.data;
+                if (!('x' in data) || !('y' in data)) {
+                    return;
+                }
                 if (!settings.windowPosition) {
                     settings.windowPosition = {};
                 }
-                if (!data.data.x && !data.data.y) {
+                settings.windowPosition.x = data.x || 0;
+                settings.windowPosition.y = data.y || 0;
+                this._saveSettings();
+                break;
+            case 'resize':
+                data = data.data;
+                if (!('x' in data) || !('y' in data)) {
                     return;
                 }
-                settings.windowPosition.x = data.data.x;
-                settings.windowPosition.y = data.data.y;
+                if (!settings.windowPosition) {
+                    settings.windowPosition = {};
+                }
+                if (!settings.windowSize) {
+                    settings.windowSize = {};
+                }
+                settings.windowPosition.x = data.x || 0;
+                settings.windowPosition.y = data.y || 0;
+                settings.windowSize.width = Math.max(data.x, 800);
+                settings.windowSize.heigh = Math.max(data.y, 640);
                 this._saveSettings();
                 break;
         }
