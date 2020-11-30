@@ -189,7 +189,8 @@ exports.CompileCall = class CompileCall extends CompileScope {
                 reg:        $.REG_PTR
             }).type;
             // If the parameter is a pointer then check if an address or pointer value is given...
-            if (vr && vr.getPointer() && !(address || vrOrType.getPointer())) {
+            if (vr && vr.getPointer() &&
+                !(address || vrOrType.getPointer() || (vrOrType.getType && vrOrType.getType().typePointer))) {
                 throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
             }
             // "number" or "string" types don't have a getName function!

@@ -298,7 +298,7 @@ exports.VarExpression = class {
         let arraySize      = identifier.getArraySize();
         // Check if it's a number, string or pointer then the size is 1.
         // If it's a record then it's the size of the record...
-        let identifierSize = (identifier.getType().typePointer || identifier.getPointer()) ? 1 : helper.getIdentifierSize(identifier.getType().type);
+        let identifierSize = identifier.getType().typePointer ? 1 : helper.getIdentifierSize(identifier.getType().type);
         if (typeof arraySize === 'number') {
             // It's a single dimensional array...
             opts.index++;
@@ -361,9 +361,11 @@ exports.VarExpression = class {
                     $.CMD_SET, $.T_NUM_G, opts.reg,  $.T_NUM_G, $.REG_PTR
                 );
             } else {
-                program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
+                if (!opts.dereferencedPointer && !opts.dereferencedPointerForWriting) {
+                    program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_P, 0);
+                }
+                opts.dereferencedPointerForWriting = false;
             }
-
             opts.dereferencedPointer = true;
         }
         return opts;
@@ -595,6 +597,7 @@ exports.VarExpression = class {
                     program.addCommand($.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, opts.reg);
                 }
                 program.addCommand($.CMD_SET, $.T_NUM_G, opts.reg, $.T_NUM_P, 0);
+                opts.dereferencedPointerForWriting = opts.forWriting;
             }
         }
         result.type = opts.identifier;

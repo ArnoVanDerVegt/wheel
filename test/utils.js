@@ -226,16 +226,15 @@ exports.testCodeAndMemory = function(it, message, source, code, memory) {
                 });
             vm.setModules(createModules(vm, createMocks()));
             vm.setCommands(program.getCommands()).run();
-            let data = vm.getVMData().getData();
-            for (let i = 0; i < data.length; i++) {
-                if (!data[i]) {
-                    data[i] = 0;
-                }
+            let data       = vm.getVMData().getData();
+            let dataMemory = [];
+            for (let i = 0; i < memory.length; i++) {
+                dataMemory.push(data[i] || 0);
             }
             if (memory === true) {
                 console.log(data);
             } else {
-                assert.deepEqual(data, memory);
+                assert.deepEqual(dataMemory, memory);
             }
         }
     );

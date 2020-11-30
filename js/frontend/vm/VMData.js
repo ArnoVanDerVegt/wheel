@@ -6,18 +6,17 @@ const $ = require('../program/commands');
 
 exports.VMData = class {
     constructor(opts) {
-        let data = [];
-        for (let i = 0; i < 8; i++) {
-            data[i] = 0;
-        }
+        this._data          = [0, 0, 0, 0, 0, 0, 0];
+        this._constantsSize = 8;
+        let data = this._data;
         data[$.REG_STACK] = opts.globalSize;
         opts.constants.forEach((constant) => {
             for (let i = 0; i < constant.data.length; i++) {
                 data[constant.offset + i] = constant.data[i];
             }
+            this._constantsSize = Math.max(this._constantsSize, constant.offset, constant.data.length);
         });
-        this._data       = data;
-        this._heap       = opts.heap       || 1024;
+        this.setHeap(opts.heap || 1024);
         this._stringList = opts.stringList || [];
         this._keepRet    = false; // When a module sets the return value then the return statement will not change it!
     }
@@ -32,9 +31,13 @@ exports.VMData = class {
     }
 
     setHeap(heap) {
-        this._heap = heap;
+        this._heap        = heap;
+        this._data.length = heap;
+        let data = this._data;
         for (let i = 8; i < heap; i++) {
-            this._data[i] = 0;
+            if (data[i] === undefined) {
+                data[i] = 0;
+            }
         }
     }
 

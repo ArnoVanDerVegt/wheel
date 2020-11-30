@@ -96,6 +96,7 @@ exports.Scope = class {
                     compiler:    opts.compiler,
                     token:       opts.token,
                     name:        opts.name,
+                    isParam:     opts.isParam,
                     type:        opts.type,
                     typePointer: typePointer,
                     arraySize:   arraySize,
