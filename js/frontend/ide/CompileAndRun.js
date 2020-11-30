@@ -423,14 +423,14 @@ exports.CompileAndRun = class extends DOMUtils {
                 globalSize:  program.getGlobalSize(),
                 constants:   program.getConstants(),
                 stringList:  program.getStringList(),
-                sortedFiles: this._sortedFiles
+                sortedFiles: this._sortedFiles,
+                heap:        program.getHeap()
             });
         let modules = this.getModules(vm);
         vm
             .setModules(modules)
             .setCommands(program.getCommands())
-            .setOutputPath(this._outputPath)
-            .getVMData().setHeap(program.getHeap());
+            .setOutputPath(this._outputPath);
         this._simulatorModules.setupModules({
             vm:        vm,
             simulator: this._simulator,

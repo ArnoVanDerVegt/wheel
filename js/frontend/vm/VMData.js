@@ -6,19 +6,20 @@ const $ = require('../program/commands');
 
 exports.VMData = class {
     constructor(opts) {
-        this._data          = [0, 0, 0, 0, 0, 0, 0];
-        this._constantsSize = 8;
+        this._stringList = opts.stringList || [];
+        this._keepRet    = false; // When a module sets the return value then the return statement will not change it!
+        this._heap       = opts.heap || 1024;
+        this._data       = [];
         let data = this._data;
+        for (let i = 0; i < this._heap; i++) {
+            data[i] = 0;
+        }
         data[$.REG_STACK] = opts.globalSize;
         opts.constants.forEach((constant) => {
             for (let i = 0; i < constant.data.length; i++) {
                 data[constant.offset + i] = constant.data[i];
             }
-            this._constantsSize = Math.max(this._constantsSize, constant.offset, constant.data.length);
         });
-        this.setHeap(opts.heap || 1024);
-        this._stringList = opts.stringList || [];
-        this._keepRet    = false; // When a module sets the return value then the return statement will not change it!
     }
 
     allocateString() {
@@ -28,17 +29,6 @@ exports.VMData = class {
 
     releaseString() {
         this._stringList.pop();
-    }
-
-    setHeap(heap) {
-        this._heap        = heap;
-        this._data.length = heap;
-        let data = this._data;
-        for (let i = 8; i < heap; i++) {
-            if (data[i] === undefined) {
-                data[i] = 0;
-            }
-        }
     }
 
     getHeapOverflow() {

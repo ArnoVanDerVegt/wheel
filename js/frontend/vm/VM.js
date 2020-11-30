@@ -24,7 +24,8 @@ class VM {
         this._vmData                   = new VMData({
             globalSize: opts.globalSize,
             constants:  opts.constants,
-            stringList: opts.stringList
+            stringList: opts.stringList,
+            heap:       opts.heap
         });
     }
 
