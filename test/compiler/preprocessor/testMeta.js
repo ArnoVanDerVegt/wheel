@@ -171,6 +171,41 @@ describe(
             }
         );
         describe(
+            'Test #datatype errors',
+            () => {
+                testError(
+                    it,
+                    'Should throw NUMBER_FLOAT_OR_INT_EXPECTED',
+                    [
+                        '#datatype "wrong"',
+                        'proc main()',
+                        'end'
+                    ],
+                    'Error: #' + errors.NUMBER_FLOAT_OR_INT_EXPECTED + ' "number", "float" or "int" expected.'
+                );
+                testError(
+                    it,
+                    'Should throw STRING_CONSTANT_EXPECTED',
+                    [
+                        '#datatype 1',
+                        'proc main()',
+                        'end'
+                    ],
+                    'Error: #' + errors.STRING_CONSTANT_EXPECTED + ' String constant expected.'
+                );
+                testError(
+                    it,
+                    'Should throw UNEXPECTED_CODE_AFTER_META',
+                    [
+                        '#datatype "number", 1',
+                        'proc main()',
+                        'end'
+                    ],
+                    'Error: #' + errors.UNEXPECTED_CODE_AFTER_META + ' Unexpected code after "#datatype".'
+                );
+            }
+        );
+        describe(
             'Test #project error',
             () => {
                 testError(

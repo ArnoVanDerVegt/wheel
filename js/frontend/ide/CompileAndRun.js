@@ -424,7 +424,8 @@ exports.CompileAndRun = class extends DOMUtils {
                 constants:   program.getConstants(),
                 stringList:  program.getStringList(),
                 sortedFiles: this._sortedFiles,
-                heap:        program.getHeap()
+                heap:        program.getHeap(),
+                dataType:    program.getDataType()
             });
         let modules = this.getModules(vm);
         vm

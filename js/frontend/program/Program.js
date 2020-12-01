@@ -4,6 +4,14 @@
 **/
 const $ = require('./commands');
 
+const PROGRAM_DATA_TYPE_NUMBER = 'number';
+const PROGRAM_DATA_TYPE_FLOAT  = 'float';
+const PROGRAM_DATA_TYPE_INT    = 'int';
+
+exports.PROGRAM_DATA_TYPE_NUMBER = PROGRAM_DATA_TYPE_NUMBER;
+exports.PROGRAM_DATA_TYPE_FLOAT  = PROGRAM_DATA_TYPE_FLOAT;
+exports.PROGRAM_DATA_TYPE_INT    = PROGRAM_DATA_TYPE_INT;
+
 class Param {
     constructor(type, value) {
         this._type  = type;
@@ -72,6 +80,7 @@ exports.Program = class {
         this._pass         = pass;
         this._commands     = [];
         this._heap         = 1024;
+        this._dataType     = PROGRAM_DATA_TYPE_NUMBER;
         this._entryPoint   = 0;
         this._globalSize   = $.REG_TO_STR.length;
         this._constants    = [];
@@ -705,12 +714,20 @@ exports.Program = class {
         this._optimize = optimize;
     }
 
-    getHeap(heap) {
+    getHeap() {
         return this._heap;
     }
 
     setHeap(heap) {
         this._heap = heap;
+    }
+
+    getDataType() {
+        return this._dataType;
+    }
+
+    setDataType(dataType) {
+        this._dataType = dataType;
     }
 
     getEntryPoint() {

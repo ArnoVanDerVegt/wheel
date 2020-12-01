@@ -25,7 +25,8 @@ class VM {
             globalSize: opts.globalSize,
             constants:  opts.constants,
             stringList: opts.stringList,
-            heap:       opts.heap
+            heap:       opts.heap,
+            dataType:   opts.dataType
         });
     }
 

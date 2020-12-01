@@ -107,6 +107,20 @@ class CompileBlock extends CompileScope {
                 }
                 this.checkRestTokens(iterator, 'heap');
                 break;
+
+            case '#datatype':
+                token = iterator.skipWhiteSpace().next();
+                if (token.cls === t.TOKEN_STRING) {
+                    if (['"number"', '"float"', '"int"'].indexOf(token.lexeme) === -1) {
+                        throw errors.createError(err.NUMBER_FLOAT_OR_INT_EXPECTED, token, '"number", "float" or "int" expected.');
+                    } else {
+                        this._program.setDataType(token.lexeme);
+                    }
+                } else {
+                    throw errors.createError(err.STRING_CONSTANT_EXPECTED, token, 'String constant expected.');
+                }
+                this.checkRestTokens(iterator, 'datatype');
+                break;
             case '#stringlength':
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls !== t.TOKEN_NUMBER) {
