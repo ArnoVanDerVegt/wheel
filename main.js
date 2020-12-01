@@ -66,20 +66,30 @@ const createWindow = function() {
         }
         // And load the index.html of the app.
         mainWindow.loadFile('electron.html');
-        let moveDebounce = null;
         mainWindow.on(
             'move',
-            function(event) {
+            (event) => {
                 let position = mainWindow.getPosition();
-                if (moveDebounce) {
-                    clearTimeout(moveDebounce);
-                }
-                moveDebounce = setTimeout(
-                    function() {
-                        moveDebounce = null;
-                        mainWindow.webContents.send('postMessage', JSON.stringify({message: 'move', data: {x: position[0], y: position[1]}}));
-                    },
-                    100
+                mainWindow.webContents.send(
+                    'postMessage',
+                    JSON.stringify({
+                        message: 'move',
+                        data:    {x: position[0], y: position[1]}
+                    })
+                );
+            }
+        );
+        mainWindow.on(
+            'resized',
+            (event) => {
+                let position = mainWindow.getPosition();
+                let size     = mainWindow.getSize();
+                mainWindow.webContents.send(
+                    'postMessage',
+                    JSON.stringify({
+                        message: 'resize',
+                        data:    {x: position[0], y: position[1], width: size[0], height: size[1]}
+                    })
                 );
             }
         );
@@ -116,7 +126,7 @@ const createWindow = function() {
                             mainWindow.setPosition(settings.windowPosition.x, settings.windowPosition.y);
                         }
                         if ('windowSize' in settings) {
-                            mainWindow.setSize(settings.windowSize.width, settings.windowSize.height);
+                            mainWindow.setSize(Math.max(settings.windowSize.width, 800), Math.max(settings.windowSize.height, 640));
                         }
                         event.reply(
                             'postMessage',
