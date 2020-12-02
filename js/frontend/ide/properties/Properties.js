@@ -17,24 +17,27 @@ const ColorProperty     = require('./types/ColorProperty').ColorProperty;
 const RgbProperty       = require('./types/RgbProperty').RgbProperty;
 const IconProperty      = require('./types/IconProperty').IconProperty;
 const Event             = require('./Event').Event;
+const Form              = require('./Form').Form;
 const Components        = require('./Components').Components;
 
 exports.Properties = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts           = opts;
-        this._ui             = opts.ui;
-        this._settings       = opts.settings;
-        this._value          = opts.value;
-        this._properties     = [];
-        this._propertyByName = {};
-        this._events         = [];
-        this._eventByName    = {};
+        this._opts                    = opts;
+        this._ui                      = opts.ui;
+        this._settings                = opts.settings;
+        this._value                   = opts.value;
+        this._activeProperties        = null;
+        this._properties              = [];
+        this._propertyByName          = {};
+        this._events                  = [];
+        this._eventByName             = {};
+        this._changeComponentDebounce = null;
         this.initDOM(opts.parentNode);
         dispatcher
             .on('Properties.Clear',             this, this.onClear)
             .on('Properties.Select.Properties', this, this.onSelectProperties)
-            .on('Properties.Select.Events',     this, this.onSelectEvents)
+            .on('Properties.Select.Events',     this, this.onSelectEvent)
             .on('Properties.ChangePosition',    this, this.onChangePosition)
             .on('Properties.ComponentList',     this, this.onChangeComponentList);
     }
@@ -60,11 +63,15 @@ exports.Properties = class extends DOMNode {
                         uiId: 1,
                         tabs: [
                             {
-                                title:   'Properties',
-                                onClick: this.onClickProperties.bind(this)
+                                title:   'Form',
+                                onClick: this.onClickForm.bind(this)
                             },
                             {
-                                title:   'Events',
+                                title:   'Property',
+                                onClick: this.onClickProperty.bind(this)
+                            },
+                            {
+                                title:   'Event',
                                 onClick: this.onClickEvents.bind(this)
                             },
                             {
@@ -79,8 +86,12 @@ exports.Properties = class extends DOMNode {
                         innerHTML: '0x00000000'
                     },
                     {
-                        ref:       this.setRef('propertiesContainer'),
-                        className: 'abs max-w properties-container visible',
+                        ref:       this.setRef('formContainer'),
+                        type:      Form
+                    },
+                    {
+                        ref:       this.setRef('propertyContainer'),
+                        className: 'abs max-w property-container',
                         children:  [
                             {
                                 className: 'abs max-h property-separator'
@@ -88,8 +99,8 @@ exports.Properties = class extends DOMNode {
                         ]
                     },
                     {
-                        ref:       this.setRef('eventsContainer'),
-                        className: 'abs max-w events-container',
+                        ref:       this.setRef('eventContainer'),
+                        className: 'abs max-w event-container',
                         children:  [
                             {
                                 className: 'abs max-h event-separator'
@@ -141,43 +152,60 @@ exports.Properties = class extends DOMNode {
         this._events.push(event);
     }
 
-    onClickProperties() {
+    onClickForm() {
         let refs = this._refs;
-        refs.propertiesContainer.style.display = 'block';
-        refs.eventsContainer.style.display     = 'none';
+        refs.propertyContainer.style.display = 'none';
+        refs.eventContainer.style.display    = 'none';
+        refs.formContainer.setVisible(true);
+        refs.componentsContainer.setVisible(false);
+    }
+
+    onClickProperty() {
+        let refs = this._refs;
+        refs.propertyContainer.style.display = 'block';
+        refs.eventContainer.style.display    = 'none';
+        refs.formContainer.setVisible(false);
         refs.componentsContainer.setVisible(false);
     }
 
     onClickEvents() {
         let refs = this._refs;
-        refs.propertiesContainer.style.display = 'none';
-        refs.eventsContainer.style.display     = 'block';
+        refs.propertyContainer.style.display = 'none';
+        refs.eventContainer.style.display    = 'block';
+        refs.formContainer.setVisible(false);
         refs.componentsContainer.setVisible(false);
     }
 
     onClickComponents() {
         let refs = this._refs;
-        refs.propertiesContainer.style.display = 'none';
-        refs.eventsContainer.style.display     = 'none';
+        refs.propertyContainer.style.display = 'none';
+        refs.eventContainer.style.display    = 'none';
+        refs.formContainer.setVisible(false);
         refs.componentsContainer.setVisible(true);
     }
 
     onSelectProperties(propertyList, formEditorState) {
-        let propertiesContainer = this._refs.propertiesContainer;
-        let id                  = propertyList.getComponentId();
-        let propertyByName      = {};
-        let component           = formEditorState.getComponentById(id);
-        let tab                 = tabIndex.PROPERTIES_CONTAINER;
+        this.onClickProperty();
+        if (this._activeProperties === propertyList.getComponentUid()) {
+            return;
+        }
+        let propertyContainer = this._refs.propertyContainer;
+        let id                = propertyList.getComponentId();
+        let propertyByName    = {};
+        let component         = formEditorState.getComponentById(id);
+        let tab               = tabIndex.PROPERTIES_CONTAINER;
+        this._refs.tabs.setActiveTab('Property');
         this._refs.componentUid.innerHTML = propertyList.getComponentUid() || '0x00000000';
+        this._activeProperties            = propertyList.getComponentUid();
         this._properties.length           = 0;
-        this.clear(propertiesContainer);
+        this.clear(propertyContainer);
         propertyList.getList().forEach((property) => {
             if (!property || (property.name === null)) {
                 return;
             }
             let propertyConstructor = null;
             let opts                = {
-                    parentNode:    propertiesContainer,
+                    parentNode:    propertyContainer,
                     properties:    this,
                     ui:            this._ui,
                     name:          property.name,
@@ -208,14 +236,14 @@ exports.Properties = class extends DOMNode {
         this._propertyByName = propertyByName;
     }
 
-    onSelectEvents(eventList, formEditorState) {
+    onSelectEvent(eventList, formEditorState) {
         this._refs.componentUid.innerHTML = eventList.getComponentUid() || '0x00000000';
         this._events.length               = 0;
-        let eventsContainer = this._refs.eventsContainer;
-        let id              = eventList.getComponentId();
-        let eventByName     = {};
-        let component       = formEditorState.getComponentById(id);
-        this.clear(eventsContainer);
+        let eventContainer = this._refs.eventContainer;
+        let id             = eventList.getComponentId();
+        let eventByName    = {};
+        let component      = formEditorState.getComponentById(id);
+        this.clear(eventContainer);
         eventList.getList().forEach(
             function(event) {
                 if (!event) {
@@ -224,7 +252,7 @@ exports.Properties = class extends DOMNode {
                 }
                 eventByName[event.name] = new Event({
                     eventList:     eventList,
-                    parentNode:    eventsContainer,
+                    parentNode:    eventContainer,
                     properties:    this,
                     ui:            this._ui,
                     name:          event.name,
@@ -249,20 +277,30 @@ exports.Properties = class extends DOMNode {
     }
 
     onChangeComponentList(opts) {
-        if (opts.value === null) {
-            this.onClear();
+        if (this._changeComponentDebounce) {
+            clearTimeout(this._changeComponentDebounce);
         }
-        if (this._settings.getAutoSelectProperties()) {
-            this.onClickProperties();
-            this._refs.tabs.setActiveTab('Properties');
-        }
+        this._changeComponentDebounce = setTimeout(
+            () => {
+                this._changeComponentDebounce = null;
+                if (opts.value === null) {
+                    this.onClear();
+                }
+                if (this._settings.getAutoSelectProperties()) {
+                    this.onClickProperty();
+                    this._refs.tabs.setActiveTab('Property');
+                }
+                this._refs.formContainer.setItems(opts.items);
+            },
+            25
+        );
     }
 
     onClear() {
         let refs = this._refs;
         refs.componentUid.innerHTML = '0x00000000';
         this
-            .clear(refs.propertiesContainer)
-            .clear(refs.eventsContainer);
+            .clear(refs.propertyContainer)
+            .clear(refs.eventContainer);
     }
 };

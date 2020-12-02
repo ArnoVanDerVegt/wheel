@@ -498,6 +498,9 @@ exports.ideRoutes = {
         let result       = {success: true};
         let data         = req.body.settings;
         let documentPath = this._node ? this._documentPath : data.documentPath;
+        if (!documentPath) {
+            return;
+        }
         if (this._documentPath !== genericPath(documentPath)) {
             this.directoryWatcher = new DirectoryWatcher(genericPath(documentPath));
         }

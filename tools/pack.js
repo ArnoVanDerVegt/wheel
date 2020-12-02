@@ -578,6 +578,7 @@ const files = [
         './js/frontend/ide/console/FindResults',
         './js/frontend/ide/console/Console',
         './js/frontend/ide/properties/PropertiesToolbar',
+        './js/frontend/ide/properties/Form',
         './js/frontend/ide/properties/Property',
         './js/frontend/ide/properties/Event',
         './js/frontend/ide/properties/types/BooleanProperty',

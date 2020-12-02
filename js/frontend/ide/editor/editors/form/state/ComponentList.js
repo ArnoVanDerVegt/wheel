@@ -96,12 +96,16 @@ exports.ComponentList = class {
         let componentsById = this._componentsById;
         let items          = [];
         for (let id in componentsById) {
-            let component = componentsById[id];
+            let component = this.getComponentClone(id);
+            component.toString = function() {
+                return ('0000000' + (this.parentId || '0')).substr(-7) + component.name;
+            };
             items.push({
                 toString:    function() { return this.nameAndType; },
                 value:       component.id,
                 title:       component.name + '&nbsp;<i>' + component.type + '</i>',
-                nameAndType: component.name + '_' + component.type
+                nameAndType: component.name + '_' + component.type,
+                component:   component
             });
         }
         items.sort();
