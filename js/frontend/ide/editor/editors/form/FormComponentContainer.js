@@ -202,7 +202,7 @@ exports.FormComponentContainer = class extends DOMNode {
         dispatcher
             .dispatch('Properties.Select.Properties', opts.propertyList, this._formEditorState)
             .dispatch('Properties.Select.Events',     opts.eventList,    this._formEditorState)
-            .dispatch('Properties.ComponentList', {value: opts.id});
+            .dispatch('Properties.ComponentList',     {value: opts.id});
     }
 
     onAddComponent(opts) {

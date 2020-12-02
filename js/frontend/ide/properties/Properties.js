@@ -39,7 +39,8 @@ exports.Properties = class extends DOMNode {
             .on('Properties.Select.Properties', this, this.onSelectProperties)
             .on('Properties.Select.Events',     this, this.onSelectEvent)
             .on('Properties.ChangePosition',    this, this.onChangePosition)
-            .on('Properties.ComponentList',     this, this.onChangeComponentList);
+            .on('Properties.ComponentList',     this, this.onChangeComponentList)
+            .on('Properties.ShowForm',          this, this.onShowForm);
     }
 
     initDOM(parentNode) {
@@ -290,13 +291,21 @@ exports.Properties = class extends DOMNode {
                     this.onClickProperty();
                     this._refs.tabs.setActiveTab('Property');
                 }
-                this._refs.formContainer.setItems(opts.items);
+                if ('items' in opts) {
+                    this._refs.formContainer.setItems(opts.items);
+                }
             },
             25
         );
     }
 
+    onShowForm(opts) {
+        this.onChangeComponentList(opts);
+        this.onClickForm();
+    }
+
     onClear() {
+        this._activeProperties = null;
         let refs = this._refs;
         refs.componentUid.innerHTML = '0x00000000';
         this

@@ -28,18 +28,22 @@ exports.Form = class extends DOMNode {
         element.addEventListener('click',       this.onClickComponent.bind(this, component));
         element.addEventListener('mouseup',     this.onCancelEvent.bind(this));
         element.addEventListener('mousedown',   this.onCancelEvent.bind(this));
+        element.addEventListener('keydown',     this.onKeyDown.bind(this, component));
         // | element.addEventListener('contextmenu', this.onContextMenu.bind(this));
-        // | element.addEventListener('keydown',     this.onKeyDown.bind(this));
         // | element.addEventListener('focus',       this.onFocus.bind(this));
         // | element.addEventListener('blur',        this.onBlur.bind(this));
     }
 
     initTree(root) {
+        let tab  = tabIndex.PROPERTIES_CONTAINER;
         let tree = {
                 className: 'flt max-w',
                 children:  []
             };
         const addNode = (node, depth) => {
+                if (node.component.uid) {
+                    tab++;
+                }
                 tree.children.push({
                     className: 'flt max-w component',
                     style: {
@@ -58,6 +62,7 @@ exports.Form = class extends DOMNode {
                                 className: 'name flt' + (('hidden' in node.component) && node.component.hidden ? ' hidden' : ''),
                                 id:        this.initNode.bind(this, node.component),
                                 innerHTML: node.component.name,
+                                tabIndex:  tab,
                                 style: {
                                     maxWidth: (256 - depth) + 'px'
                                 }
@@ -123,5 +128,11 @@ exports.Form = class extends DOMNode {
     onClickComponent(component, event) {
         this.onCancelEvent(event);
         dispatcher.dispatch('Properties.SelectComponent', component.id);
+    }
+
+    onKeyDown(component, event) {
+        if (event.keyCode === 13) { // Enter...
+            dispatcher.dispatch('Properties.SelectComponent', component.id);
+        }
     }
 };

@@ -378,9 +378,14 @@ body.ide.no-properties div.properties {
     border-radius:                  12px;
     border:                         1px solid transparent;
     cursor:                         pointer;
+    outline:                        none;
+    user-select:                    none;
 }
 .properties .form-container .component a.name.hidden {
     opacity:                        0.5;
+}
+.properties .form-container .component a.name:focus {
+    border:                         var(--focus-border-dotted);
 }
 .properties .form-container .component a.name:hover {
     background-color:               var(--files-hover-background);
