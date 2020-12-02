@@ -56,16 +56,6 @@ class VM {
         return this._vmData;
     }
 
-    getParamValue(data, regOffsetStack, regOffsetPtr, param) {
-        let p = param.getValue();
-        switch (param.getType()) {
-            case $.T_NUM_G: return data[p];
-            case $.T_NUM_L: return data[p + regOffsetStack];
-            case $.T_NUM_P: return data[p + regOffsetPtr];
-        }
-        return p;
-    }
-
     getLastCommand() {
         if (this._lastCommand && this._lastCommand.info) {
             this._lastCommand.info.vm = this;
@@ -192,7 +182,7 @@ class VM {
         let v2;
         switch (cmd) {
             case $.CMD_COPY:
-                let size          = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                let size          = command.getParamValue2(data);
                 let regOffsetSrc  = data[$.REG_SRC];
                 let regOffsetDest = data[$.REG_DEST];
                 for (let i = 0; i < size; i++) {
@@ -200,13 +190,13 @@ class VM {
                 }
                 break;
             case $.CMD_JMPC:
-                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
-                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v1 = command.getParamValue1(data);
+                v2 = command.getParamValue2(data);
                 ((data[$.REG_FLAGS] & v1) === v1) && (data[$.REG_CODE] = v2 - 1);
                 break;
             case $.CMD_CMP:
-                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
-                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v1 = command.getParamValue1(data);
+                v2 = command.getParamValue2(data);
                 let flags = 0;
                 (v1 === v2) && (flags |= $.FLAG_EQUAL);
                 (v1 !== v2) && (flags |= $.FLAG_NOT_EQUAL);
@@ -217,8 +207,8 @@ class VM {
                 data[$.REG_FLAGS] = flags;
                 break;
             case $.CMD_MOD:
-                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
-                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v1 = command.getParamValue1(data);
+                v2 = command.getParamValue2(data);
                 let modules = this._modules;
                 if (modules[v1]) {
                     modules[v1].run(v2);
@@ -227,7 +217,7 @@ class VM {
                 }
                 break;
             case $.CMD_CALL:
-                v1     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                v1     = command.getParamValue1(data);
                 v2     = command.getParam2().getValue();
                 offset = regOffsetStack + v2;
                 data[$.REG_STACK] += v2;
@@ -236,7 +226,7 @@ class VM {
                 data[$.REG_CODE] = v1;
                 break;
             case $.CMD_RET:
-                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
+                v1 = command.getParam1().getParamValue(data);
                 if (!this._vmData.keepRet()) {
                     data[$.REG_RET] = v1;
                 }
@@ -245,8 +235,8 @@ class VM {
                 break;
             case $.CMD_SETF: // Set flags
                 param1 = command.getParam1();
-                v1     = this.getParamValue(data, regOffsetStack, regOffsetPtr, param1);
-                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v1     = param1.getParamValue(data);
+                v2     = command.getParamValue2(data);
                 let flagValue = ((data[$.REG_FLAGS] & v2) === v2) ? 1 : 0;
                 switch (param1.getType()) {
                     case $.T_NUM_L: data[param1.getValue() + regOffsetStack] = flagValue; break;
@@ -256,19 +246,19 @@ class VM {
                 }
                 break;
             case $.CMD_ADDS: // Add string
-                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
-                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v1 = command.getParamValue1(data);
+                v2 = command.getParamValue2(data);
                 this._vmData.getStringList()[v1] += this._vmData.getStringList()[v2];
                 break;
             case $.CMD_SETS: // Set string
-                v1 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam1());
-                v2 = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v1 = command.getParamValue1(data);
+                v2 = command.getParamValue2(data);
                 this._vmData.getStringList()[v1] = this._vmData.getStringList()[v2];
                 break;
             case $.CMD_SET:
                 param1 = command.getParam1();
                 v1     = param1.getValue();
-                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v2     = command.getParamValue2(data);
                 switch (param1.getType()) {
                     case $.T_NUM_G: data[v1                 ] = v2; break;
                     case $.T_NUM_L: data[v1 + regOffsetStack] = v2; break;
@@ -278,7 +268,7 @@ class VM {
             case $.CMD_ADD:
                 param1 = command.getParam1();
                 v1     = param1.getValue();
-                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v2     = command.getParamValue2(data);
                 switch (param1.getType()) {
                     case $.T_NUM_G: data[v1                 ] += v2; break;
                     case $.T_NUM_L: data[v1 + regOffsetStack] += v2; break;
@@ -288,7 +278,7 @@ class VM {
             case $.CMD_SUB:
                 param1 = command.getParam1();
                 v1     = param1.getValue();
-                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v2     = command.getParamValue2(data);
                 switch (param1.getType()) {
                     case $.T_NUM_G: data[v1                 ] -= v2; break;
                     case $.T_NUM_L: data[v1 + regOffsetStack] -= v2; break;
@@ -298,7 +288,7 @@ class VM {
             case $.CMD_MUL:
                 param1 = command.getParam1();
                 v1     = param1.getValue();
-                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v2     = command.getParamValue2(data);
                 switch (param1.getType()) {
                     case $.T_NUM_G: data[v1                 ] *= v2; break;
                     case $.T_NUM_L: data[v1 + regOffsetStack] *= v2; break;
@@ -308,7 +298,7 @@ class VM {
             case $.CMD_DIV:
                 param1 = command.getParam1();
                 v1     = param1.getValue();
-                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v2     = command.getParamValue2(data);
                 if (v2 === 0) {
                     dispatcher.dispatch('VM.Error.DivisionByZero', this.getLastCommand());
                     this.stop();
@@ -323,7 +313,7 @@ class VM {
             case $.CMD_AND:
                 param1 = command.getParam1();
                 v1     = param1.getValue();
-                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v2     = command.getParamValue2(data);
                 switch (param1.getType()) {
                     case $.T_NUM_G: offset = v1;                  break;
                     case $.T_NUM_L: offset = v1 + regOffsetStack; break;
@@ -334,7 +324,7 @@ class VM {
             case $.CMD_OR:
                 param1 = command.getParam1();
                 v1     = param1.getValue();
-                v2     = this.getParamValue(data, regOffsetStack, regOffsetPtr, command.getParam2());
+                v2     = command.getParamValue2(data);
                 switch (param1.getType()) {
                     case $.T_NUM_G: offset = v1;                  break;
                     case $.T_NUM_L: offset = v1 + regOffsetStack; break;

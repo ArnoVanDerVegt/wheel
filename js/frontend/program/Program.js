@@ -29,6 +29,23 @@ class Param {
     setValue(value) {
         this._value = value;
     }
+
+    getParamValue(data) {
+        switch (this._type) {
+            case $.T_NUM_G: return data[this._value                    ];
+            case $.T_NUM_L: return data[this._value + data[$.REG_STACK]];
+            case $.T_NUM_P: return data[this._value + data[$.REG_PTR  ]];
+        }
+        return this._value;
+    }
+
+    setParamValue(data, value) {
+        switch (this._type) {
+            case $.T_NUM_G: data[this._value                    ] = value; return;
+            case $.T_NUM_L: data[this._value + data[$.REG_STACK]] = value; return;
+            case $.T_NUM_P: data[this._value + data[$.REG_PTR  ]] = value; return;
+        }
+    }
 }
 
 class Command {
@@ -56,8 +73,16 @@ class Command {
         return this._param1;
     }
 
+    getParamValue1(data) {
+        return this._param1.getParamValue(data);
+    }
+
     getParam2() {
         return this._param2;
+    }
+
+    getParamValue2(data) {
+        return this._param2.getParamValue(data);
     }
 
     getBlockId() {
