@@ -3,7 +3,6 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
-const DOMNode    = require('../../../lib/dom').DOMNode;
 const tabIndex   = require('../../tabIndex');
 const Event      = require('./Event').Event;
 const Container  = require('./Container').Container;
