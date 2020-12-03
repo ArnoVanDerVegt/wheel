@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Dropdown = require('../../../lib/components/Dropdown').Dropdown;
+const Dropdown = require('../../../../lib/components/Dropdown').Dropdown;
+const getImage = require('../../../data/images').getImage;
 const Property = require('../Property').Property;
-const getImage = require('../../data/images').getImage;
 
 exports.DropdownProperty = class extends Property {
     initPropertyName() {

@@ -2,16 +2,12 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../lib/dispatcher').dispatcher;
-const DOMNode    = require('../../lib/dom').DOMNode;
-const tabIndex   = require('../tabIndex');
+const dispatcher = require('../../../lib/dispatcher').dispatcher;
+const DOMNode    = require('../../../lib/dom').DOMNode;
+const tabIndex   = require('../../tabIndex');
+const Container  = require('./Container').Container;
 
-exports.Form = class extends DOMNode {
-    constructor(opts) {
-        super(opts);
-        this.initDOM(opts.parentNode);
-    }
-
+exports.Form = class extends Container {
     initDOM(parentNode) {
         this.create(
             parentNode,
@@ -85,19 +81,6 @@ exports.Form = class extends DOMNode {
             };
         addNode(root, 8);
         this.create(this._refs.container, tree);
-    }
-
-    clear() {
-        let childNodes = this._refs.container.childNodes;
-        while (childNodes.length) {
-            let childNode = childNodes[childNodes.length - 1];
-            childNode.parentNode.removeChild(childNode);
-        }
-        return this;
-    }
-
-    setVisible(visible) {
-        this._refs.container.style.display = visible ? 'block' : 'none';
     }
 
     setItems(items) {

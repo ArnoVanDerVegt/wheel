@@ -2,22 +2,22 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode = require('../../lib/dom').DOMNode;
-const Button  = require('../../lib/components/Button').Button;
+const DOMNode = require('../../../lib/dom').DOMNode;
+const Button  = require('../../../lib/components/Button').Button;
 
 exports.Event = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts          = opts;
-        this._eventList     = opts.eventList;
-        this._options       = opts.options || {};
-        this._ui            = opts.ui;
-        this._settings      = opts.settings;
-        this._name          = opts.name;
-        this._value         = opts.value;
-        this._onChange      = opts.onChange;
-        this._properties    = opts.properties;
-        this._properties.addEvent(this);
+        this._opts      = opts;
+        this._options   = opts.options || {};
+        this._ui        = opts.ui;
+        this._settings  = opts.settings;
+        this._name      = opts.name;
+        this._value     = opts.value;
+        this._onChange  = opts.onChange;
+        this._eventList = opts.eventList;
+        this._events    = opts.events;
+        this._events.addEvent(this);
         this.initDOM(opts.parentNode);
     }
 
@@ -84,7 +84,7 @@ exports.Event = class extends DOMNode {
 
     onClick(event) {
         if (event.target.nodeName !== 'INPUT') {
-            this._properties.focusEvent(this);
+            this._events.focusEvent(this);
         }
     }
 
@@ -104,7 +104,7 @@ exports.Event = class extends DOMNode {
 
     onFocus() {
         this._eventElement.className = 'flt max-w event focus';
-        this._properties.focusEvent(this);
+        this._events.focusEvent(this);
     }
 
     onBlur() {

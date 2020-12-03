@@ -2,29 +2,29 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const IconSelect = require('../../../lib/components/IconSelect').IconSelect;
-const getImage   = require('../../data/images').getImage;
+const IconSelect = require('../../../../lib/components/IconSelect').IconSelect;
+const getImage   = require('../../../data/images').getImage;
 const Property   = require('../Property').Property;
 
-exports.ColorProperty = class extends Property {
+exports.HAlignProperty = class extends Property {
     initPropertyValue() {
         return {
             className: 'property-value',
             children: [
                 {
                     type:     IconSelect,
-                    ref:      this.setRef('colorList'),
+                    ref:      this.setRef('alignList'),
                     ui:       this._ui,
+                    uiId:     1,
+                    tabIndex: this._tabIndex,
                     value:    this._value,
                     onChange: this.onChange.bind(this),
                     onFocus:  this.onFocus.bind(this),
                     onBlur:   this.onBlur.bind(this),
                     options: [
-                        {value: 'gray',   icon: getImage('images/constants/colorGray.svg')},
-                        {value: 'yellow', icon: getImage('images/constants/colorYellow.svg')},
-                        {value: 'green',  icon: getImage('images/constants/colorGreen.svg')},
-                        {value: 'blue',   icon: getImage('images/constants/colorBlue.svg')},
-                        {value: 'red',    icon: getImage('images/constants/colorRed.svg')}
+                        {value: 'left',   icon: getImage('images/constants/alignLeft.svg')},
+                        {value: 'center', icon: getImage('images/constants/alignCenter.svg')},
+                        {value: 'right',  icon: getImage('images/constants/alignRight.svg')}
                     ]
                 }
             ]
@@ -33,7 +33,7 @@ exports.ColorProperty = class extends Property {
 
     setValue(value) {
         this._value = value;
-        this._refs.colorList.setValue(value);
+        this._refs.alignList.setValue(value);
     }
 
     onChange(value) {
@@ -42,7 +42,7 @@ exports.ColorProperty = class extends Property {
     }
 
     onClick(event) {
-        this._refs.colorList.focus();
+        this._refs.alignList.focus();
         this._properties.focusProperty(this);
     }
 };
