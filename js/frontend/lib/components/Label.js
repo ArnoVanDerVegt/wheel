@@ -9,9 +9,10 @@ exports.Label = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'label';
         super(opts);
-        this._text   = opts.text   || '';
-        this._value  = opts.value  || '';
-        this._halign = opts.halign || 'left';
+        this._text     = opts.text     || '';
+        this._value    = opts.value    || '';
+        this._halign   = opts.halign   || 'left';
+        this._fontSize = opts.fontSize || 16;
         this.initDOM(opts.parentNode);
     }
 
