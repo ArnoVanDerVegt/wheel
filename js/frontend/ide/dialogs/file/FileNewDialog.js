@@ -14,7 +14,7 @@ exports.FileNewDialog = class extends FileDialog {
         this._formWidth  = 400;
         this._formHeight = 320;
         this.initWindow({
-            width:     600,
+            width:     700,
             height:    464,
             className: 'file-new-dialog',
             title:     'Confirm'
