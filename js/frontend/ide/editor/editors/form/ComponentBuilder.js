@@ -123,6 +123,7 @@ exports.ComponentBuilder = class {
             .addInfoToComponent(component, formEditorConstants.COMPONENT_TYPE_LABEL)
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Label'))
             .addProperty(component, 'zIndex',       0)
+            .addProperty(component, 'fontSize',     16)
             .addProperty(component, 'text',         component.text || component.name)
             .addProperty(component, 'halign',       'left');
         return component;

@@ -18,6 +18,7 @@ exports.ComponentLabelModule = class extends VMModule {
             case componentLabelModuleConstants.LABEL_SET_HIDDEN:       property = 'hidden';                            break;
             case componentLabelModuleConstants.LABEL_SET_X:            property = 'x';                                 break;
             case componentLabelModuleConstants.LABEL_SET_Y:            property = 'y';                                 break;
+            case componentLabelModuleConstants.LABEL_SET_FONT_SIZE:    property = 'fontSize';                          break;
             case componentLabelModuleConstants.LABEL_SET_TEXT:         property = 'text';     propertyType = 'string'; break;
             case componentLabelModuleConstants.LABEL_SET_VALUE_NUMBER: property = 'value';                             break;
             case componentLabelModuleConstants.LABEL_SET_VALUE_STRING: property = 'value';    propertyType = 'string'; break;

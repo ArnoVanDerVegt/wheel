@@ -626,6 +626,7 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',         name: 'x',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'zIndex',       options: {validator: posNumberValidator,             type: 'number'}},
+            {type: 'text',         name: 'fontSize',     options: {validator: posNumberValidatorWithMin(5),   type: 'number'}},
             {type: 'text',         name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
             {type: 'halign',       name: 'halign'},
             {type: 'text',         name: 'text'},

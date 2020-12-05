@@ -11,14 +11,16 @@ namespace components.label
 #define LABEL_COMPONENT_SET_HIDDEN        0
 #define LABEL_COMPONENT_SET_X             1
 #define LABEL_COMPONENT_SET_Y             2
-#define LABEL_COMPONENT_SET_TEXT          3
-#define LABEL_COMPONENT_SET_VALUE_NUMBER  4
-#define LABEL_COMPONENT_SET_VALUE_STRING  5
+#define LABEL_COMPONENT_SET_FONT_SIZE     3
+#define LABEL_COMPONENT_SET_TEXT          4
+#define LABEL_COMPONENT_SET_VALUE_NUMBER  5
+#define LABEL_COMPONENT_SET_VALUE_STRING  6
 
 ; @property name   string  The component name.
 ; @property hidden boolean Hide the component.
 ; @property x      number  The left position of the component inside the parent component.
 ; @property y      number  The top position of the component inside the parent component.
+; @property y      number  The font size.
 ; @property zIndex number  The depth of the component related to other components in the parent.
 ; @property width  number  The label width.
 ; @property halign halign  The horizontal alignment of the text which can be: `left`, `center` or `right`.
@@ -50,6 +52,15 @@ end
 proc setY(number windowHandle, number componentHandle, number y)
     addr windowHandle
     mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_Y
+end
+
+; @proc                   Set the font size of the label text.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param fontSize         The font size in pixels, the default value is 16.
+proc setFontSize(number windowHandle, number componentHandle, number fontSize)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LABEL, LABEL_COMPONENT_SET_FONT_SIZE
 end
 
 ; @proc                   Set label text.

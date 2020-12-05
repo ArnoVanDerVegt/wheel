@@ -20,6 +20,9 @@ exports.Label = class extends Component {
         if (this._width && (parseInt(this._width, 10) >= 20)) {
             style.width = this._width + 'px';
         }
+        if (this._fontSize && (parseInt(this._fontSize, 10) >= 5)) {
+            style.fontSize = this._fontSize + 'px';
+        }
         style.textAlign = this._halign;
         this.create(
             parentNode,
@@ -49,6 +52,10 @@ exports.Label = class extends Component {
                 text += ' ' + this._value;
             }
             this._element.innerHTML = text;
+        }
+        if ('fontSize' in opts) {
+            this._fontSize                = opts.fontSize;
+            this._element.style.fontSize  = this._fontSize + 'px';
         }
         if ('halign' in opts) {
             this._halign                  = opts.halign;
