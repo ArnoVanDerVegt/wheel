@@ -26,9 +26,7 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Buttons
     onButtonCompile() {
-        this._compileSilent = false;
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath(), '');
+        this.compile({});
     }
 
     onButtonContinue() {
@@ -87,13 +85,14 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Compile menu...
     onMenuCompileCompile() {
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath());
+        this.compile({});
     }
 
     onMenuCompileCompileAndRun() {
-        this._compileAndRun = true;
-        this.compile(this._settings.getDocumentPath());
+        this.compile({
+            compileAndRun: true,
+            documentPath:  this._settings.getDocumentPath()
+        });
     }
 
     onMenuCompileCompileAndInstall() {
@@ -209,11 +208,12 @@ exports.IDEEvents = class extends CompileAndRun {
         }
     }
 
-    onCompileSilent() {
+    onCompileSilent(finishedCallback) {
         // Compile silent, don't show any messages...
-        this._compileSilent = true;
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath());
+        this.compile({
+            compileSilent:    true,
+            finishedCallback: finishedCallback
+        });
     }
 
     onShowForm(data) {

@@ -181,23 +181,25 @@ exports.CompileAndRun = class extends DOMUtils {
         let settings  = opts.settings;
         let ev3       = opts.ev3;
         let poweredUp = opts.poweredUp;
-        this._ev3                 = ev3;
-        this._poweredUp           = poweredUp;
-        this._settings            = opts.settings;
-        this._outputPath          = '';
-        this._projectFilename     = '';
-        this._source              = '';
-        this._simulator           = null;
-        this._sortedFiles         = null;
-        this._tokens              = null;
-        this._preProcessor        = null;
-        this._program             = null;
-        this._vm                  = null;
-        this._changedWhileRunning = false;
-        this._localModules        = true;
-        this._compileSilent       = false;
-        this._compiling           = false;
-        this._simulatorModules    = new SimulatorModules({settings: this._settings, ide: this});
+        this._ev3                     = ev3;
+        this._poweredUp               = poweredUp;
+        this._settings                = opts.settings;
+        this._outputPath              = '';
+        this._projectFilename         = '';
+        this._source                  = '';
+        this._simulator               = null;
+        this._sortedFiles             = null;
+        this._tokens                  = null;
+        this._preProcessor            = null;
+        this._program                 = null;
+        this._vm                      = null;
+        this._changedWhileRunning     = false;
+        this._localModules            = true;
+        this._compileAndRun           = false;
+        this._compileSilent           = false;
+        this._compiling               = false;
+        this._compileFinishedCallback = false;
+        this._simulatorModules        = new SimulatorModules({settings: this._settings, ide: this});
         // EV3 events...
         ev3
             .addEventListener('EV3.Connected',    this, this.onDeviceConnected)
@@ -448,6 +450,15 @@ exports.CompileAndRun = class extends DOMUtils {
         this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).getDisplay().drawLoaded(this._title);
     }
 
+    finishCompiling() {
+        this._compiling     = false;
+        this._compileSilent = false;
+        if (typeof this._compileFinishedCallback === 'function') {
+            this._compileFinishedCallback();
+            this._compileFinishedCallback = false;
+        }
+    }
+
     onGetFileData(filename, token, callback) {
         callback('');
     }
@@ -458,8 +469,7 @@ exports.CompileAndRun = class extends DOMUtils {
 
     onFilesProcessed(title, filesDone, preProcessorError) {
         if (preProcessorError) {
-            this._compiling     = false;
-            this._compileSilent = false;
+            this.finishCompiling();
             return;
         }
         let compiler = new Compiler({linter: this.getLinter()});
@@ -477,14 +487,12 @@ exports.CompileAndRun = class extends DOMUtils {
             if ((title === 'Simulator') && (this._program.getTitle() !== '')) {
                 title = this._program.getTitle();
             }
-            this._title     = title;
-            this._compiling = false;
+            this._title = title;
             if (!this._compileSilent) {
                 this.simulatorLoaded();
                 dispatcher.dispatch('Compile.Compiled', this._vm);
             }
         } catch (error) {
-            this._compiling = false;
             if (this._compileSilent) {
                 // Compile failed but try to use what we've got for the code completion...
                 dispatcher.dispatch('Compiler.Database', compiler.getScope());
@@ -493,23 +501,22 @@ exports.CompileAndRun = class extends DOMUtils {
                 this.onCompilerError(error);
             }
         }
-        this._compileSilent = false;
+        this.finishCompiling();
     }
 
-    compile(documentPath, title) {
+    compile(opts) {
         if (this._compiling) {
             return;
         }
-        this._compiling = true;
-        if (documentPath === undefined) {
-            documentPath = '';
-        }
-        this._changedWhileRunning = false;
-        title || (title = 'Simulator');
+        this._compileAndRun           = !!opts.compileAndRun;
+        this._compileSilent           = !!opts.compileSilent;
+        this._compileFinishedCallback = (typeof opts.finishedCallback === 'function') ? opts.finishedCallback : false;
+        this._compiling               = true;
+        this._changedWhileRunning     = false;
         this.stop();
         this.onGetSource((success) => {
             if (!success) {
-                this._compiling = false;
+                this.finishCompiling();
                 return;
             }
             this.onBeforeCompile();
@@ -520,13 +527,13 @@ exports.CompileAndRun = class extends DOMUtils {
                     linter.reset();
                 }
                 this._preProcessor = new PreProcessor({
-                    documentPath:        documentPath,
                     linter:              linter,
+                    documentPath:        this._settings.getDocumentPath() || '',
                     projectFilename:     this._projectFilename,
                     onGetFileData:       this.onGetFileData.bind(this),
                     onGetEditorFileData: this.onGetEditorFileData.bind(this),
                     onError:             this.onCompilerError.bind(this),
-                    onFinished:          this.onFilesProcessed.bind(this, title),
+                    onFinished:          this.onFilesProcessed.bind(this, opts.title || 'Simulator'),
                     setImage:            this.onSetImage.bind(this)
                 });
                 this.onCreatedPreProcessor(this._preProcessor);

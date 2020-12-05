@@ -51,7 +51,12 @@ exports.Events = class extends Container {
                     name:          event.name,
                     value:         component[event.name] || '',
                     onChange: function(value) {
-                        dispatcher.dispatch('Properties.Event.Change', id, event.name, value);
+                        dispatcher.dispatch(
+                            'Compile.Silent',
+                            () => {
+                                dispatcher.dispatch('Properties.Event.Change', id, event.name, value);
+                            }
+                        );
                     }
                 });
             },
