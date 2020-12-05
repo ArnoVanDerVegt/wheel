@@ -58,6 +58,7 @@ exports.Form = class extends Container {
                                 className: 'name flt' + (('hidden' in node.component) && node.component.hidden ? ' hidden' : ''),
                                 id:        this.initNode.bind(this, node.component),
                                 innerHTML: node.component.name,
+                                title:     node.component.name,
                                 tabIndex:  tab,
                                 style: {
                                     maxWidth: (256 - depth) + 'px'
