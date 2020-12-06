@@ -1058,5 +1058,31 @@ describe(
             [
             ]
         );
+        describe(
+            'Test if nested in select',
+            () => {
+                testLogs(
+                    it,
+                    'Should evaluate if in select',
+                    [
+                        'proc main()',
+                        '    number i',
+                        '    select i',
+                        '        case 5:',
+                        '            if (i == 2)',
+                        '                i = 1',
+                        '            elseif not (i == 3)',
+                        '                i = 2',
+                        '            end',
+                        '        case 6:',
+                        '            i = 3',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                    ]
+                );
+            }
+        );
     }
 );

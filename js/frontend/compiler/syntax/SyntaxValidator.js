@@ -115,7 +115,7 @@ blockScope[t.LEXEME_ASSIGN_DIV] = function() { return [numericAssignOperateScope
 let ifScope = {
         name:      'if',
         tokens:    blockScopeTokens(),
-        endLexeme: [t.LEXEME_END],
+        endLexeme: [t.LEXEME_END, t.LEXEME_ELSEIF],
         scope:     blockScope
     };
 let ifConditionScope = {
