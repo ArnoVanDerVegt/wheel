@@ -26,7 +26,7 @@ exports.Iterator = class {
         if (this._index < this._tokens.length) {
             return this._tokens[this._index++];
         }
-        if (this._compiler.getDepth() > 0) {
+        if (this._compiler && (this._compiler.getDepth() > 0)) {
             throw errors.createError(err.UNEXPECTED_END_OF_FILE, this._tokens[this._tokens.length - 1], 'Unexpected end of file.');
         }
         return null;

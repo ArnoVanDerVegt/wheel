@@ -484,6 +484,7 @@ exports.Editors = class extends DOMNode {
         let canUndo     = false;
         let canCopy     = false;
         let canPaste    = false;
+        let canFormat   = false;
         let canCompile  = this._editorsState.hasCompilableFile();
         if (activeEditor) {
             canSave     = (['.whl', '.whlp', '.rgf', '.rsf', '.wfrm'].indexOf(path.getExtension(activeEditor.getFilename())) !== -1);
@@ -492,6 +493,7 @@ exports.Editors = class extends DOMNode {
             canUndo     = activeEditor.getCanUndo();
             canCopy     = activeEditor.getCanCopy();
             canPaste    = activeEditor.getCanPaste();
+            canFormat   = activeEditor.getCanFormat();
         }
         return {
             openFiles:    this._editorsState.getLength(),
@@ -501,6 +503,7 @@ exports.Editors = class extends DOMNode {
             canUndo:      canUndo,
             canCopy:      canCopy,
             canPaste:     canPaste,
+            canFormat:    canFormat,
             canCompile:   canCompile,
             activeEditor: activeEditor
         };

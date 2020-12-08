@@ -418,6 +418,7 @@ const files = [
         './js/frontend/ide/editor/editors/form/state/ComponentList',
         './js/frontend/ide/source/sourceBuilderUtils',
         './js/frontend/ide/source/SourceBuilder',
+        './js/frontend/ide/source/SourceFormatter',
         './js/frontend/ide/editor/editors/form/ComponentBuilder',
         './js/frontend/ide/editor/editors/form/state/UndoStack',
         './js/frontend/ide/editor/editors/form/state/FormEditorToolbarState',

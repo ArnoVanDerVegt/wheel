@@ -646,6 +646,14 @@ exports.ImageEditor = class extends Editor {
         return this._value ? this._value.height : 0;
     }
 
+    getCanResize() {
+        return true;
+    }
+
+    getCanCrop() {
+        return (this._imageEditorState.getTool() === 'select') && this._selectionCopyElement.getData();
+    }
+
     crop() {
         let data = this._selectionCopyElement.getData();
         if (!data) {
@@ -672,14 +680,6 @@ exports.ImageEditor = class extends Editor {
             })
             .setCropValue(this._image.getResizedImage(width, height))
             .updateElements();
-    }
-
-    canCrop() {
-        return (this._imageEditorState.getTool() === 'select') && this._selectionCopyElement.getData();
-    }
-
-    canResize() {
-        return true;
     }
 
     addUndo(undo) {

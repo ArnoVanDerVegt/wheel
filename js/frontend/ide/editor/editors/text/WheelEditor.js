@@ -163,6 +163,10 @@ exports.WheelEditor = class extends Editor {
         return true;
     }
 
+    getCanFormat() {
+        return true;
+    }
+
     getBreakpoints() {
         let breakpoints = [];
         for (let b in this._wheelEditorState.getBreakpoints()) {

@@ -7,6 +7,7 @@ const dispatcher      = require('../lib/dispatcher').dispatcher;
 const path            = require('../lib/path');
 const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
 const Rtf             = require('../program/output/Rtf').Rtf;
+const SourceFormatter = require('./source/SourceFormatter').SourceFormatter;
 const SettingsState   = require('./settings/SettingsState');
 const CompileAndRun   = require('./CompileAndRun').CompileAndRun;
 const FormDialog      = require('./dialogs/form/FormDialog').FormDialog;
@@ -61,8 +62,15 @@ exports.IDEEvents = class extends CompileAndRun {
     // Edit menu...
     onResize() {
         let activeEditor = this._editor.getActiveEditor();
-        if (activeEditor && activeEditor.canResize && activeEditor.canResize()) {
+        if (activeEditor && activeEditor.getCanResize && activeEditor.getCanResize()) {
             dispatcher.dispatch('Dialog.Image.Resize.Show', activeEditor.getWidth(), activeEditor.getHeight());
+        }
+    }
+
+    onFormatCode() {
+        let activeEditor = this._editor.getActiveEditor();
+        if (activeEditor && activeEditor.getCanFormat && activeEditor.getCanFormat()) {
+            new SourceFormatter().format(activeEditor.getValue());
         }
     }
 

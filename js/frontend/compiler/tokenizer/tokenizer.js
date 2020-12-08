@@ -314,7 +314,7 @@
         addToken(lexeme) {
             arguments.length || (lexeme = this._lexeme);
             if (lexeme === '') {
-                return;
+                return null;
             }
             let token = makeToken({
                     lexeme:     lexeme,
@@ -382,6 +382,7 @@
             this._lexeme = '';
             token.index  = this._tokens.length;
             this._tokens.push(token);
+            return token;
         }
 
         addMinusToken() {
@@ -606,7 +607,8 @@
                         break;
                     case LEXEME_SEMICOLON:
                         this.addToken();
-                        let comment = '';
+                        let commentToken = null;
+                        let comment      = '';
                         while (c !== null) {
                             c = this.readChar();
                             if (c === LEXEME_NEWLINE) {
@@ -614,12 +616,24 @@
                                     this._lastNonWhiteSpaceToken.tag = this.parseTag(comment.trim());
                                     this._lastNonWhiteSpaceToken     = null;
                                 }
-                                this.addToken(c);
+                                commentToken = this.addToken(c);
                                 this._index--;
                                 this._lineNum++;
                                 break;
-                            } else {
+                            } else if (c) {
                                 comment += c;
+                            }
+                        }
+                        if (commentToken) {
+                            commentToken.comment = comment;
+                        } else {
+                            let i = this._tokens.length - 1;
+                            while (i > 0) {
+                                if (this._tokens[i].cls !== TOKEN_WHITE_SPACE) {
+                                    this._tokens[i].comment = comment;
+                                    break;
+                                }
+                                i--;
                             }
                         }
                         break;
