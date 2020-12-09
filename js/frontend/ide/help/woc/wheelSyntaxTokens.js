@@ -92,6 +92,8 @@ exports.sign = [
     ];
 
 exports.meta = [
+        'format',
+        'noformat',
         '#project',
         '#define',
         '#include',

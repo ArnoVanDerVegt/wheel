@@ -16,8 +16,30 @@ const IGNORE_WHEN_START_LEXEMES = [
         t.LEXEME_BREAK,
         t.LEXEME_CASE,
         t.LEXEME_UNION,
+        t.LEXEME_WITH,
         '#',
         ';'
+    ];
+
+const META_COMMANDS = [
+        t.LEXEME_META_PROJECT,
+        t.LEXEME_META_INCLUDE,
+        t.LEXEME_META_DEFINE,
+        t.LEXEME_META_IMAGE,
+        t.LEXEME_META_TEXT,
+        t.LEXEME_META_RESOURCE,
+        t.LEXEME_META_DATA,
+        t.LEXEME_META_LINE,
+        t.LEXEME_META_FORMAT,
+        t.LEXEME_META_NOFORMAT,
+        t.LEXEME_META_DISPLAY,
+        t.LEXEME_META_HEAP,
+        t.LEXEME_META_OPTIMIZER,
+        t.LEXEME_META_RANGECHECK,
+        t.LEXEME_META_DATATYPE,
+        t.LEXEME_META_STRINGLENGTH,
+        t.LEXEME_META_STRINGCOUNT,
+        t.LEXEME_META_BREAK
     ];
 
 exports.SourceFormatter = class {
@@ -130,7 +152,7 @@ exports.SourceFormatter = class {
         s = s.trim();
         for (let i = 0; i < items.length; i++) {
             if (s.indexOf(items[i]) === 0) {
-                return true;
+                return items[i];
             }
         }
         return false;
@@ -205,6 +227,21 @@ exports.SourceFormatter = class {
         return !!this.splitAssignement(s);
     }
 
+    hasProcCall(s) {
+        let lineAndComment = this.splitComment(s);
+        if (lineAndComment) {
+            s = lineAndComment.line;
+        }
+        let i = 1;
+        while (i < s.length) {
+            if ((s[i] === '(') && ('0123456789abcdefghijklmnopqrstuvwxyz_'.indexOf(s[i - 1]) !== -1)) {
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
+
     formatExpressionUntilEol(iterator, token) {
         let line = '';
         let lastToken;
@@ -226,6 +263,9 @@ exports.SourceFormatter = class {
                     break;
                 case t.TOKEN_COMMA:
                     line += token.lexeme + ' ';
+                    break;
+                case t.TOKEN_KEYWORD:
+                    line += ' ' + token.lexeme + ' ';
                     break;
                 default:
                     if (token.cls !== t.TOKEN_WHITE_SPACE) {
@@ -423,6 +463,7 @@ exports.SourceFormatter = class {
             case t.LEXEME_RET:     this.formatTokenAndExpression         (iterator, token); break;
             case t.LEXEME_ADDR:    this.formatTokenAndExpression         (iterator, token); break;
             case t.LEXEME_BREAK:   this.formatTokenAndExpression         (iterator, token); break;
+            case t.LEXEME_SUPER:   this.formatTokenAndExpression         (iterator, token); break;
             case t.LEXEME_ELSEIF:  this.formatElseifToken                (iterator, token); break;
             case t.LEXEME_SELECT:  this.formatSelectToken                (iterator, token); break;
             case t.LEXEME_CASE:    this.formatCaseToken                  (iterator, token); break;
@@ -430,6 +471,7 @@ exports.SourceFormatter = class {
             case t.LEXEME_FOR:     this.formatForToken                   (iterator, token); break;
             case t.LEXEME_END:     this.formatEndToken                   (iterator, token); break;
             default:
+                this.addLineToOutput(token.lexeme + ' ' + this.formatExpressionUntilEol(iterator, token));
                 console.error('Unsupported keyword token:', token.lexeme);
                 break;
         }
@@ -511,8 +553,8 @@ exports.SourceFormatter = class {
         }
         parts.forEach((part, index) => {
             output[firstLine + index] = (meta + ' ' +
-                this.toLength(part.p1, maxLength1) + ' ' +
-                this.toLength(part.p2, maxLength2) + ' ' +
+                (maxLength1 ? (this.toLength(part.p1, maxLength1) + ' ') : '') +
+                (maxLength2 ? (this.toLength(part.p2, maxLength2) + ' ') : '') +
                 (part.comment ? ('; ' + part.comment) : '')).trim();
         });
         return i;
@@ -551,8 +593,11 @@ exports.SourceFormatter = class {
                 indent += ' ';
                 i++;
             }
-            output[firstLine + index] = indent + (this.toLength(part.p0, maxLength0) + ' ' +
-                this.toLength(part.p1, maxLength1) + ' ' + (part.comment ? ('; ' + part.comment) : '')).trim();
+            output[firstLine + index] = indent + (
+                (maxLength0 ? (this.toLength(part.p0, maxLength0) + ' ') : '') +
+                (maxLength1 ? (this.toLength(part.p1, maxLength1) + ' ') : '') +
+                (part.comment ? ('; ' + part.comment) : '')
+            ).trim();
         });
         return i;
     }
@@ -584,9 +629,12 @@ exports.SourceFormatter = class {
                 indent += ' ';
                 i++;
             }
-            output[firstLine + index] = indent + (this.toLength(part.dest, maxLength1) + ' ' +
+            output[firstLine + index] = indent + (
+                (maxLength1 ? (this.toLength(part.dest, maxLength1) + ' ') : '') +
                 (part.assignment + ' ').substr(0, assignmentLength) + ' ' +
-                this.toLength(part.source, maxLength0) + ' ' + (part.comment ? ('; ' + part.comment) : '')).trim();
+                (maxLength0 ? (this.toLength(part.source, maxLength0) + ' ') : '') +
+                (part.comment ? ('; ' + part.comment) : '')
+            ).trim();
         });
         return i;
     }
@@ -595,23 +643,67 @@ exports.SourceFormatter = class {
         let output = this._output;
         let i      = 0;
         while (i < output.length) {
-            let line = output[i];
-            if (line.trim().indexOf('#define') === 0) {
-                i = this.formatMeta('#define', i);
-            } else if (line.trim().indexOf('#include') === 0) {
-                i = this.formatMeta('#include', i);
-            } else if (line.trim().indexOf('#data') === 0) {
-                i = this.formatMeta('#data', i);
-            } else if (line.trim().indexOf('#line') === 0) {
-                i = this.formatMeta('#line', i);
-            } else if ((line.trim().indexOf('record') === 0) || (line.trim().indexOf('object') === 0)) {
+            let line      = output[i];
+            let startMeta = this.startsWith(line, META_COMMANDS);
+            if (startMeta) {
+                i = this.formatMeta(startMeta, i);
+            } else if ((line.trim().indexOf(t.LEXEME_RECORD) === 0) || (line.trim().indexOf(t.LEXEME_OBJECT) === 0)) {
                 i = this.formatVars(i + 1);
             } else if (this.hasAssignment(line)) {
                 i = this.formatAssignment(i);
-            } else if (!this.startsWith(line, IGNORE_WHEN_START_LEXEMES) && (this.splitAtSpaceFilrered(line, 2).length >= 2)) {
+            } else if (!this.startsWith(line, IGNORE_WHEN_START_LEXEMES) && !this.hasProcCall(line) &&
+                (this.splitAtSpaceFilrered(line, 2).length >= 2)) {
                 i = this.formatVars(i);
             }
             i++;
+        }
+    }
+
+    formatNoFormat(iterator, token) {
+        let line = token.lexeme;
+        let done = false;
+        while (!done) {
+            let token = iterator.next();
+            if (!token) {
+                this.addLineToOutput(line);
+                break;
+            }
+            switch (token.cls) {
+                case t.TOKEN_WHITE_SPACE:
+                    if (token.lexeme === t.LEXEME_NEWLINE) {
+                        if (token.comment) {
+                            line += ';' + token.comment;
+                        }
+                        this.addLineToOutput(line);
+                        line = '';
+                    } else {
+                        line += token.lexeme;
+                    }
+                    break;
+                case t.TOKEN_META:
+                    if (token.lexeme === t.LEXEME_META_FORMAT) {
+                        if (line !== '') {
+                            this.addLineToOutput(line);
+                        }
+                        line = token.lexeme;
+                        iterator.skipWhiteSpaceWithoutNewline();
+                        token = iterator.peek();
+                        if (token && (token.lexeme === t.LEXEME_NEWLINE)) {
+                            if (token.comment) {
+                                line += ' ; ' + token.comment.trim();
+                            }
+                            iterator.next();
+                        }
+                        this.addLineToOutput(line);
+                        done = true;
+                    } else {
+                        line += token.lexeme;
+                    }
+                    break;
+                default:
+                    line += token.lexeme;
+                    break;
+            }
         }
     }
 
@@ -646,21 +738,25 @@ exports.SourceFormatter = class {
                     this.formatIdentifierToken(iterator, token);
                     break;
                 case t.TOKEN_META:
-                    line      = token.lexeme;
-                    lastToken = null;
-                    while (token && (token.lexeme !== t.LEXEME_NEWLINE)) {
-                        token = iterator.next();
-                        if (token && (token.cls !== t.TOKEN_WHITE_SPACE)) {
-                            lastToken = token;
-                            line += ' ' + token.lexeme;
+                    if (token.lexeme === t.LEXEME_META_NOFORMAT) {
+                        this.formatNoFormat(iterator, token);
+                    } else {
+                        line      = token.lexeme;
+                        lastToken = null;
+                        while (token && (token.lexeme !== t.LEXEME_NEWLINE)) {
+                            token = iterator.next();
+                            if (token && (token.cls !== t.TOKEN_WHITE_SPACE)) {
+                                lastToken = token;
+                                line += ' ' + token.lexeme;
+                            }
                         }
+                        if (lastToken && lastToken.comment) {
+                            line += ' ; ' + lastToken.comment.trim();
+                        } else if (token && token.comment) {
+                            line += ' ; ' + token.comment.trim();
+                        }
+                        this.addLineToOutput(line);
                     }
-                    if (lastToken && lastToken.comment) {
-                        line += ' ; ' + lastToken.comment.trim();
-                    } else if (token && token.comment) {
-                        line += ' ; ' + token.comment.trim();
-                    }
-                    this.addLineToOutput(line);
                     break;
                 case t.TOKEN_KEYWORD:
                     this.formatKeywordToken(iterator, token);

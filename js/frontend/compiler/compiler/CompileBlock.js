@@ -49,10 +49,12 @@ class CompileBlock extends CompileScope {
 
     compileMeta(iterator, token) {
         switch (token.lexeme) {
-            case '#break':
+            case t.LEXEME_META_BREAK:
+            case t.LEXEME_META_NOFORMAT:
+            case t.LEXEME_META_FORMAT:
                 // Ignore...
                 break;
-            case '#project':
+            case t.LEXEME_META_PROJECT:
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
                     this._program.setTitle(token.lexeme.substr(1, token.lexeme.length - 2));
@@ -61,7 +63,7 @@ class CompileBlock extends CompileScope {
                 }
                 this.checkRestTokens(iterator, 'project');
                 break;
-            case '#display':
+            case t.LEXEME_META_DISPLAY:
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
                     token.lexeme.substr(1, token.lexeme.length - 2).split(',').forEach((name) => {
@@ -72,7 +74,7 @@ class CompileBlock extends CompileScope {
                 }
                 this.checkRestTokens(iterator, 'display');
                 break;
-            case '#optimizer':
+            case t.LEXEME_META_OPTIMIZER:
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
                     if (['"on"', '"off"'].indexOf(token.lexeme) === -1) {
@@ -85,7 +87,7 @@ class CompileBlock extends CompileScope {
                 }
                 this.checkRestTokens(iterator, 'optimizer');
                 break;
-            case '#rangecheck':
+            case t.LEXEME_META_RANGECHECK:
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
                     if (['"on"', '"off"'].indexOf(token.lexeme) === -1) {
@@ -98,7 +100,7 @@ class CompileBlock extends CompileScope {
                 }
                 this.checkRestTokens(iterator, 'optimizer');
                 break;
-            case '#heap':
+            case t.LEXEME_META_HEAP:
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_NUMBER) {
                     this._program.setHeap(Math.round(token.value));
@@ -108,7 +110,7 @@ class CompileBlock extends CompileScope {
                 this.checkRestTokens(iterator, 'heap');
                 break;
 
-            case '#datatype':
+            case t.LEXEME_META_DATATYPE:
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
                     if (['"number"', '"float"', '"int"'].indexOf(token.lexeme) === -1) {
@@ -121,7 +123,7 @@ class CompileBlock extends CompileScope {
                 }
                 this.checkRestTokens(iterator, 'datatype');
                 break;
-            case '#stringlength':
+            case t.LEXEME_META_STRINGLENGTH:
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls !== t.TOKEN_NUMBER) {
                     throw errors.createError(err.NUMBER_CONSTANT_EXPECTED, token, 'Number constant expected.');
@@ -131,7 +133,7 @@ class CompileBlock extends CompileScope {
                 }
                 this._program.setStringLength(token.value);
                 break;
-            case '#stringcount':
+            case t.LEXEME_META_STRINGCOUNT:
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls !== t.TOKEN_NUMBER) {
                     throw errors.createError(err.NUMBER_CONSTANT_EXPECTED, token, 'Number constant expected.');

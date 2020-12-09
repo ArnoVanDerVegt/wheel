@@ -70,7 +70,7 @@ exports.IDEEvents = class extends CompileAndRun {
     onFormatCode() {
         let activeEditor = this._editor.getActiveEditor();
         if (activeEditor && activeEditor.getCanFormat && activeEditor.getCanFormat()) {
-            new SourceFormatter().format(activeEditor.getValue());
+            activeEditor.setValue(new SourceFormatter().format(activeEditor.getValue()));
         }
     }
 

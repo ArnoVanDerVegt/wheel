@@ -108,7 +108,7 @@ describe(
                             ].join('\n'));
                         let s2 = [
                                 '#optimizer "on"',
-                                '#optimizer "off" ; With comment...',
+                                '#optimizer "off"  ; With comment...',
                                 ''
                             ].join('\n');
                         assert.equal(s1, s2);
@@ -140,7 +140,7 @@ describe(
                             ].join('\n'));
                         let s2 = [
                                 '#rangecheck "on"',
-                                '#rangecheck "off" ; With comment...',
+                                '#rangecheck "off"  ; With comment...',
                                 ''
                             ].join('\n');
                         assert.equal(s1, s2);
@@ -171,7 +171,7 @@ describe(
                                 '#stringlength        100'
                             ].join('\n'));
                         let s2 = [
-                                '#stringlength 50 ; With comment...',
+                                '#stringlength 50  ; With comment...',
                                 '#stringlength 100',
                                 ''
                             ].join('\n');
@@ -188,9 +188,9 @@ describe(
                                 '#include     "lib/sensor.whl"      ; With comment...'
                             ].join('\n'));
                         let s2 = [
-                                '#include "lib/standard.whl"   ; Include.',
+                                '#include "lib/standard.whl"  ; Include.',
                                 '#include "lib/motor.whl"',
-                                '#include "lib/sensor.whl"     ; With comment...',
+                                '#include "lib/sensor.whl"    ; With comment...',
                                 ''
                             ].join('\n');
                         assert.equal(s1, s2);
@@ -237,7 +237,7 @@ describe(
                         let s2 = [
                                 '#image "test.rfg"',
                                 '#data "01010101011"',
-                                '#data "11101000011"   ; This is a pixel row',
+                                '#data "11101000011"  ; This is a pixel row',
                                 '#data "00011111000"',
                                 ''
                             ].join('\n');
@@ -257,8 +257,8 @@ describe(
                         let s2 = [
                                 '#text "test.rtf"',
                                 '#line "The quick"',
-                                '#line "brown fox jumped"          ; This is a text line',
-                                '#line "over the lazy dogs back"   ; Another line',
+                                '#line "brown fox jumped"         ; This is a text line',
+                                '#line "over the lazy dogs back"  ; Another line',
                                 ''
                             ].join('\n');
                         assert.equal(s1, s2);
@@ -710,6 +710,47 @@ describe(
                                 'union ; Test union comment...',
                                 '    ^RecA     f1[10]   ; First comment',
                                 '    LongerRec ^f123456 ; Second comment',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test object',
+            () => {
+                it(
+                    'Should format object',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  object   Obj',
+                                '     number    n',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'object Obj',
+                                '    number n',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format extended object',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  object   Obj    extends     SuperObj',
+                                '     number    n',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'object Obj extends SuperObj',
+                                '    number n',
                                 'end',
                                 ''
                             ].join('\n');
@@ -1354,7 +1395,7 @@ describe(
                                 '            while j',
                                 '                j = 90',
                                 '            end',
-                                '        default:  ; This is a default comment',
+                                '        default: ; This is a default comment',
                                 '            repeat',
                                 '                j = 0',
                                 '            end',
@@ -1445,6 +1486,116 @@ describe(
                         let s2 = [
                                 'proc test()',
                                 '    ret x.y.z ; This is a comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test nested statements',
+            () => {
+                it(
+                    'Should for and with',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'for i =   0  to  2',
+                                '    with                      robotConfig.motors[i]',
+                                '        motorLayerSetSpeed(layer,    port,     resetDir * speeds[i])',
+                                '        motorLayerOn(layer,       port)',
+                                '    end',
+                                'end',
+                            ].join('\n'));
+                        let s2 = [
+                                'for i = 0 to 2',
+                                '    with robotConfig.motors[i]',
+                                '        motorLayerSetSpeed(layer, port, resetDir * speeds[i])',
+                                '        motorLayerOn(layer, port)',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test #noformat',
+            () => {
+                it(
+                    'Should disable formatting',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc Robot1.initMoveToConveyorList()',
+                                '    with moveToConveyorList',
+                                '        initList()',
+                                '#noformat',
+                                '        add(99,  0,       NO_MOVE, NO_MOVE, NO_MOVE)    ; Move to conveyor',
+                                '        add(99,  NO_MOVE, 1325,    -1825,   NO_MOVE)    ; Drop car',
+                                '        add(99,  NO_MOVE, 2200,    -2650,   NO_MOVE)    ; Drop car',
+                                '        add(99,  950,     NO_MOVE, NO_MOVE, NO_MOVE)    ; Release car',
+                                '        add(99,  NO_MOVE, 1030,    -1400,   NO_MOVE)    ; Move up',
+                                '        add(99,  0,       0,       0,       NO_MOVE)    ; Reset',
+                                '#format',
+                                '    end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc Robot1.initMoveToConveyorList()',
+                                '    with moveToConveyorList',
+                                '        initList()',
+                                '#noformat',
+                                '        add(99,  0,       NO_MOVE, NO_MOVE, NO_MOVE)    ; Move to conveyor',
+                                '        add(99,  NO_MOVE, 1325,    -1825,   NO_MOVE)    ; Drop car',
+                                '        add(99,  NO_MOVE, 2200,    -2650,   NO_MOVE)    ; Drop car',
+                                '        add(99,  950,     NO_MOVE, NO_MOVE, NO_MOVE)    ; Release car',
+                                '        add(99,  NO_MOVE, 1030,    -1400,   NO_MOVE)    ; Move up',
+                                '        add(99,  0,       0,       0,       NO_MOVE)    ; Reset',
+                                '#format',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should disable formatting with comment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc Robot1.initMoveToConveyorList()',
+                                '    with moveToConveyorList',
+                                '        initList()',
+                                '#noformat',
+                                '        add(99,  0,       NO_MOVE, NO_MOVE, NO_MOVE)    ; Move to conveyor',
+                                '        add(99,  NO_MOVE, 1325,    -1825,   NO_MOVE)    ; Drop car',
+                                '        add(99,  NO_MOVE, 2200,    -2650,   NO_MOVE)    ; Drop car',
+                                '        add(99,  950,     NO_MOVE, NO_MOVE, NO_MOVE)    ; Release car',
+                                '        add(99,  NO_MOVE, 1030,    -1400,   NO_MOVE)    ; Move up',
+                                '        add(99,  0,       0,       0,       NO_MOVE)    ; Reset',
+                                '#format ; This is a comment...',
+                                '    end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc Robot1.initMoveToConveyorList()',
+                                '    with moveToConveyorList',
+                                '        initList()',
+                                '#noformat',
+                                '        add(99,  0,       NO_MOVE, NO_MOVE, NO_MOVE)    ; Move to conveyor',
+                                '        add(99,  NO_MOVE, 1325,    -1825,   NO_MOVE)    ; Drop car',
+                                '        add(99,  NO_MOVE, 2200,    -2650,   NO_MOVE)    ; Drop car',
+                                '        add(99,  950,     NO_MOVE, NO_MOVE, NO_MOVE)    ; Release car',
+                                '        add(99,  NO_MOVE, 1030,    -1400,   NO_MOVE)    ; Move up',
+                                '        add(99,  0,       0,       0,       NO_MOVE)    ; Reset',
+                                '#format ; This is a comment...',
+                                '    end',
                                 'end',
                                 ''
                             ].join('\n');
