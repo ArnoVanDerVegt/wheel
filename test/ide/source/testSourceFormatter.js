@@ -757,6 +757,24 @@ describe(
                         assert.equal(s1, s2);
                     }
                 );
+                it(
+                    'Should format super',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '     proc         Test.testProc()',
+                                '      super ()',
+                                '   end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc Test.testProc()',
+                                '    super()',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
             }
         );
         describe(
@@ -982,6 +1000,26 @@ describe(
                         let s2 = [
                                 'proc test()',
                                 '    if i == 0',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format if not',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '    if   not    i',
+                                '    end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    if not i',
                                 '    end',
                                 'end',
                                 ''
@@ -1456,6 +1494,25 @@ describe(
             () => {
                 it(
                     'Should format ret',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc test()',
+                                '     ret',
+                                '    end',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    ret',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format ret with value',
                     () => {
                         let sf = new SourceFormatter({});
                         let s1 = sf.format([
