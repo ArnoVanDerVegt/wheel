@@ -800,6 +800,86 @@ describe(
                     }
                 );
                 it(
+                    'Should format record assignment with single dest dot and assignment operator',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      r.i   =   jjjjj',
+                                '       rec.aaa   +=   b',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    r.i     =  jjjjj',
+                                '    rec.aaa += b',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record assignment with single source dot and assignment operator',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      r   =   jjjjj.i',
+                                '       rec   +=   b.aaa',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    r   =  jjjjj.i',
+                                '    rec += b.aaa',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record assignment with double dest dots and assignment operator',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      r.i.x   =   jjjjj',
+                                '       rec.aaa.y   +=   b',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    r.i.x     =  jjjjj',
+                                '    rec.aaa.y += b',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record assignment with double source dots and assignment operator',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      r   =   jjjjj.i.x',
+                                '       rec   +=   b.aaa.y',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    r   =  jjjjj.i.x',
+                                '    rec += b.aaa.y',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
                     'Should format assignment and assignment operator with comments',
                     () => {
                         let sf = new SourceFormatter({});

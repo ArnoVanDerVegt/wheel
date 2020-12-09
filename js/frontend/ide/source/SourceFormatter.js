@@ -207,8 +207,10 @@ exports.SourceFormatter = class {
 
     formatExpressionUntilEol(iterator, token) {
         let line = '';
+        let lastToken;
         while (token.lexeme !== t.LEXEME_NEWLINE) {
-            token = iterator.next();
+            lastToken = token;
+            token     = iterator.next();
             if (!token) {
                 break;
             }
@@ -447,6 +449,9 @@ exports.SourceFormatter = class {
                     break;
                 case t.TOKEN_ASSIGNMENT_OPERATOR:
                     line += ' ' + token.lexeme + ' ';
+                    break;
+                case t.TOKEN_DOT:
+                    line += token.lexeme;
                     break;
                 default:
                     line += ' ' + token.lexeme;
