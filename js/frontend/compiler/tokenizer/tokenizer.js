@@ -484,6 +484,44 @@
             };
         }
 
+        parseComment(c) {
+            let tokens       = this._tokens;
+            let commentToken = null;
+            let comment      = '';
+            while (c !== null) {
+                c = this.readChar();
+                if (c === LEXEME_NEWLINE) {
+                    if (this._lastNonWhiteSpaceToken) {
+                        this._lastNonWhiteSpaceToken.tag = this.parseTag(comment.trim());
+                        this._lastNonWhiteSpaceToken     = null;
+                    }
+                    commentToken = this.addToken(c);
+                    this._index--;
+                    this._lineNum++;
+                    break;
+                } else if (c) {
+                    comment += c;
+                }
+            }
+            if (commentToken) {
+                commentToken.comment = comment;
+            } else {
+                let i     = this._tokens.length - 1;
+                let found = false;
+                while (i > 0) {
+                    if (tokens[i].cls !== TOKEN_WHITE_SPACE) {
+                        tokens[i].comment = comment;
+                        found                   = true;
+                        break;
+                    }
+                    i--;
+                }
+                if (!found) {
+                    tokens[tokens.length - 1].comment = comment;
+                }
+            }
+        }
+
         tokenize(line) {
             line = this.removeTrailingSpaces(line);
             this.reset();
@@ -607,35 +645,7 @@
                         break;
                     case LEXEME_SEMICOLON:
                         this.addToken();
-                        let commentToken = null;
-                        let comment      = '';
-                        while (c !== null) {
-                            c = this.readChar();
-                            if (c === LEXEME_NEWLINE) {
-                                if (this._lastNonWhiteSpaceToken) {
-                                    this._lastNonWhiteSpaceToken.tag = this.parseTag(comment.trim());
-                                    this._lastNonWhiteSpaceToken     = null;
-                                }
-                                commentToken = this.addToken(c);
-                                this._index--;
-                                this._lineNum++;
-                                break;
-                            } else if (c) {
-                                comment += c;
-                            }
-                        }
-                        if (commentToken) {
-                            commentToken.comment = comment;
-                        } else {
-                            let i = this._tokens.length - 1;
-                            while (i > 0) {
-                                if (this._tokens[i].cls !== TOKEN_WHITE_SPACE) {
-                                    this._tokens[i].comment = comment;
-                                    break;
-                                }
-                                i--;
-                            }
-                        }
+                        this.parseComment(c);
                         break;
                     default:
                         this._lexeme += c;
