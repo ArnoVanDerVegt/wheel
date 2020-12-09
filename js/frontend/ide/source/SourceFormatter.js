@@ -478,7 +478,6 @@ exports.SourceFormatter = class {
             case t.LEXEME_WITH:    this.formatTokenAndExpressionIncIndent(iterator, token); break;
             case t.LEXEME_RET:     this.formatTokenAndExpression         (iterator, token); break;
             case t.LEXEME_ADDR:    this.formatTokenAndExpression         (iterator, token); break;
-            case t.LEXEME_BREAK:   this.formatTokenAndExpression         (iterator, token); break;
             case t.LEXEME_SUPER:   this.formatSuperToken                 (iterator, token); break;
             case t.LEXEME_ELSEIF:  this.formatElseifToken                (iterator, token); break;
             case t.LEXEME_SELECT:  this.formatSelectToken                (iterator, token); break;
@@ -516,7 +515,7 @@ exports.SourceFormatter = class {
                     break;
             }
         }
-        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token))
+        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token));
     }
 
     formatPointerIdentifierToken(iterator, token) {
@@ -543,7 +542,7 @@ exports.SourceFormatter = class {
                     break;
             }
         }
-        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token))
+        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token));
     }
 
     formatMeta(meta, firstLine) {
