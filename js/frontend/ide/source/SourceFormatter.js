@@ -27,6 +27,19 @@ exports.SourceFormatter = class {
             }
             let part = '';
             while ((i < s.length) && (s[i] !== ' ')) {
+                if (s[i] === '"') { // Check if it's a string...
+                    part += s[i];
+                    i++;
+                    while ((i < s.length) && (s[i] !== '"')) {
+                        part += s[i];
+                        i++;
+                    }
+                    part += s[i];
+                    i++;
+                    if (i >= s.length) {
+                        break;
+                    }
+                }
                 part += s[i];
                 i++;
             }
@@ -280,13 +293,13 @@ exports.SourceFormatter = class {
         this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token))
     }
 
-    formatDefines(firstLine) {
+    formatMeta(meta, firstLine) {
         let i          = firstLine;
         let output     = this._output;
         let parts      = [];
         let maxLength1 = 0;
         let maxLength2 = 0;
-        while ((i < output.length) && (output[i].trim().indexOf('#define') === 0)) {
+        while ((i < output.length) && (output[i].trim().indexOf(meta) === 0)) {
             let line    = output[i];
             let comment = '';
             let j       = line.indexOf(';');
@@ -294,14 +307,15 @@ exports.SourceFormatter = class {
                 comment = line.substr(j + 1 - line.length).trim();
                 line    = line.substr(0, j);
             }
-            let p = this.split(line, 3).filter((part) => part.length);
-            parts.push({p1: p[1], p2: p[2], comment: comment});
-            maxLength1 = Math.max(p[1].length, maxLength1);
-            maxLength2 = Math.max(p[2].length, maxLength2);
+            let p    = this.split(line, 3).filter((part) => part.length);
+            let part = {p1: p[1] || '', p2: p[2] || '', comment: comment};
+            parts.push(part);
+            maxLength1 = Math.max(part.p1.length, maxLength1);
+            maxLength2 = Math.max(part.p2.length, maxLength2);
             i++;
         }
         parts.forEach((part, index) => {
-            output[firstLine + index] = ('#define ' +
+            output[firstLine + index] = (meta + ' ' +
                 this.toLength(part.p1, maxLength1) + ' ' +
                 this.toLength(part.p2, maxLength2) + ' ' +
                 (part.comment ? ('; ' + part.comment) : '')).trim();
@@ -315,7 +329,13 @@ exports.SourceFormatter = class {
         while (i < output.length) {
             let line = output[i];
             if (line.trim().indexOf('#define') === 0) {
-                i = this.formatDefines(i);
+                i = this.formatMeta('#define', i);
+            } else if (line.trim().indexOf('#include') === 0) {
+                i = this.formatMeta('#include', i);
+            } else if (line.trim().indexOf('#data') === 0) {
+                i = this.formatMeta('#data', i);
+            } else if (line.trim().indexOf('#line') === 0) {
+                i = this.formatMeta('#line', i);
             } else if (line.trim().indexOf('record') === 0) {
             }
             i++;
@@ -327,6 +347,7 @@ exports.SourceFormatter = class {
         let tokens   = new t.Tokenizer().tokenize(source).getTokens();
         let iterator = new Iterator({tokens: tokens});
         let line;
+        // console.log(tokens);
         while (true) {
             let token = iterator.next();
             if (!token) {
@@ -336,10 +357,12 @@ exports.SourceFormatter = class {
                 case t.TOKEN_WHITE_SPACE:
                     if (token.lexeme === t.LEXEME_NEWLINE) {
                         if (token.comment) {
-                            this.addLineToOutput('; ' + this.rtrim(token.comment));
+                            this.addLineToOutput(';' + this.rtrim(token.comment));
                         } else if (this.getLastLine() !== '') {
                             this.addLineToOutput('');
                         }
+                    } else if (token.comment) {
+                        this.addLineToOutput(';' + this.rtrim(token.comment));
                     }
                     break;
                 case t.TOKEN_TYPE:
@@ -356,7 +379,9 @@ exports.SourceFormatter = class {
                         }
                     }
                     if (lastToken && lastToken.comment) {
-                        line += '; ' + lastToken.comment.trim();
+                        line += ' ; ' + lastToken.comment.trim();
+                    } else if (token && token.comment) {
+                        line += ' ; ' + token.comment.trim();
                     }
                     this.addLineToOutput(line);
                     break;
@@ -369,6 +394,6 @@ exports.SourceFormatter = class {
             }
         }
         this.formatOutput();
-        return this._output.join('\n');
+        return this._output.join('\n') + '\n';
     }
 };
