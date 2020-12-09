@@ -40,7 +40,7 @@ describe(
                         let s1 = sf.format([
                                 '     ; This is a test comment',
                                 '  ; One more comment...',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 '; This is a test comment',
@@ -87,7 +87,7 @@ describe(
                                 '     ; This is a test project',
                                 '  ; One more comment...',
                                 '    #project       "My test project"',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 '; This is a test project',
@@ -276,7 +276,7 @@ describe(
                         let s1 = sf.format([
                                 '  proc myProc()',
                                 '    end',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc myProc()',
@@ -293,7 +293,7 @@ describe(
                         let s1 = sf.format([
                                 '  proc myProc() ; With a comment',
                                 '    end',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc myProc() ; With a comment',
@@ -310,7 +310,7 @@ describe(
                         let s1 = sf.format([
                                 '  proc myProc()',
                                 '    end      ;   With a comment',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc myProc()',
@@ -330,7 +330,7 @@ describe(
                                 '',
                                 '  proc myProc2()     ; Start a new proc..',
                                 '    end     ;     With another comment',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc myProc1()',
@@ -338,7 +338,7 @@ describe(
                                 '',
                                 'proc myProc2() ; Start a new proc..',
                                 'end ; With another comment',
-                                '',
+                                ''
                             ].join('\n');
                         assert.equal(s1, s2);
                     }
@@ -1038,7 +1038,7 @@ describe(
                                 '       else',
                                 '             i      =     10',
                                 '    end',
-                                'end',
+                                'end'
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1066,7 +1066,7 @@ describe(
                                 '       else',
                                 '             i      =     10',
                                 '    end',
-                                'end',
+                                'end'
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1096,7 +1096,7 @@ describe(
                                 '       else',
                                 '             i      =     10',
                                 '    end',
-                                'end',
+                                'end'
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1126,7 +1126,7 @@ describe(
                                 '       else ;      Else comment...',
                                 '             i      =     10',
                                 '    end',
-                                'end',
+                                'end'
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1156,7 +1156,7 @@ describe(
                                 '       else ;      Else comment...',
                                 '             i      =     10',
                                 '    end',
-                                'end',
+                                'end'
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1457,7 +1457,7 @@ describe(
                                 '  proc test()',
                                 '     addr x.y.z',
                                 '    end',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1476,7 +1476,7 @@ describe(
                                 '  proc test()',
                                 '     addr x.y.z     ;  This is a comment... ',
                                 '    end',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1500,7 +1500,7 @@ describe(
                                 '  proc test()',
                                 '     ret',
                                 '    end',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1519,7 +1519,7 @@ describe(
                                 '  proc test()',
                                 '     ret x.y.z',
                                 '    end',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1538,7 +1538,7 @@ describe(
                                 '  proc test()',
                                 '     ret x.y.z     ;  This is a comment... ',
                                 '    end',
-                                '',
+                                ''
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
@@ -1564,7 +1564,7 @@ describe(
                                 '        motorLayerSetSpeed(layer,    port,     resetDir * speeds[i])',
                                 '        motorLayerOn(layer,       port)',
                                 '    end',
-                                'end',
+                                'end'
                             ].join('\n'));
                         let s2 = [
                                 'for i = 0 to 2',

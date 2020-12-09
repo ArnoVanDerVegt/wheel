@@ -46,7 +46,7 @@ describe(
                         '0001  set     [9],                21',
                         '0002  mod     0,                  1',
                         '#PROC',
-                        '    0',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -90,7 +90,7 @@ describe(
                         '0004  set     src,                9',
                         '0005  mod     0,                  2',
                         '#PROC',
-                        '    0',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -136,7 +136,7 @@ describe(
                         '0004  set     src,                9',
                         '0005  mod     0,                  1',
                         '#PROC',
-                        '    0',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -191,7 +191,7 @@ describe(
                         '0011  set     src,                10',
                         '0012  mod     0,                  1',
                         '#PROC',
-                        '    0',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -257,7 +257,7 @@ describe(
                         '0015  cmp     [stack + 3],        1',
                         '0016  jmpc    flags.neq,          0016',
                         '#PROC',
-                        '    0',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -303,7 +303,7 @@ describe(
                         '0002  set     src,                14',
                         '0003  mod     0,                  1',
                         '#PROC',
-                        '    0',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
