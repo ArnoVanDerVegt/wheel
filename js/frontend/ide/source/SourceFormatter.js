@@ -75,22 +75,29 @@ exports.SourceFormatter = class {
 
     getIndentSpace() {
         let space = '';
-        this._indentStack.forEach((popCount) => {
-            for (let i = 0; i < popCount; i++) {
+        this._indentStack.forEach((item) => {
+            for (let i = 0; i < item.popCount; i++) {
                 space += '    ';
             }
         });
         return space;
     }
 
-    incIndent(popCount) {
-        this._indentStack.push(popCount);
+    incIndent(popCount, isProc) {
+        let indentStack = this._indentStack;
+        if (isProc !== undefined) {
+            indentStack.push({popCount: popCount, isProc: isProc});
+        } else if (indentStack.length > 0) {
+            indentStack.push({popCount: popCount, isProc: indentStack[indentStack.length - 1].isProc});
+        } else {
+            indentStack.push({popCount: popCount, isProc: false});
+        }
         return this;
     }
 
     decIndent() {
         if (this._indentStack.length) {
-            let popCount = this._indentStack.pop();
+            let popCount = this._indentStack.pop().popCount;
             if (popCount > 1) {
                 this._indentStack.pop();
             }
@@ -129,12 +136,20 @@ exports.SourceFormatter = class {
                     break;
             }
         }
+        if (token && token.comment) {
+            line += ' ; ' + token.comment.trim();
+        }
         return line;
     }
 
     formatProcToken(iterator, token) {
-        let line       = token.lexeme + ' ';
-        let expectType = true;
+        let indentStack = this._indentStack;
+        let line        = token.lexeme + ' ';
+        let expectType  = true;
+        if (indentStack.length && indentStack[indentStack.length - 1].isProc) {
+            this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token));
+            return;
+        }
         iterator.skipWhiteSpace();
         token = iterator.next();
         line += token.lexeme;
@@ -176,9 +191,12 @@ exports.SourceFormatter = class {
                     break;
             }
         }
+        if (token && token.comment) {
+            line += ' ; ' + token.comment.trim();
+        }
         this
             .addLineToOutput(line)
-            .incIndent(1);
+            .incIndent(1, true);
     }
 
     formatRepeatToken(iterator, token) {
@@ -240,6 +258,12 @@ exports.SourceFormatter = class {
         let popCount = 0;
         if (this._indentStack.length) {
             let popCount = this._indentStack.pop();
+        }
+        iterator.skipWhiteSpaceWithoutNewline();
+        token = iterator.peek();
+        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
+            line += ' ; ' + token.comment.trim();
+            token.comment = false;
         }
         this.addLineToOutput(this.getIndentSpace() + line);
         if (popCount > 1) {

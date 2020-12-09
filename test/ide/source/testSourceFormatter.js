@@ -266,5 +266,142 @@ describe(
                 );
             }
         );
+        describe(
+            'Test proc',
+            () => {
+                it(
+                    'Should format proc',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc myProc()',
+                                '    end',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc myProc()',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format proc with comment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc myProc() ; With a comment',
+                                '    end',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc myProc() ; With a comment',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format proc with comment after end',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc myProc()',
+                                '    end      ;   With a comment',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc myProc()',
+                                'end ; With a comment',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format two proc with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc myProc1()',
+                                '    end ; With a comment',
+                                '',
+                                '  proc myProc2()     ; Start a new proc..',
+                                '    end     ;     With another comment',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc myProc1()',
+                                'end ; With a comment',
+                                '',
+                                'proc myProc2() ; Start a new proc..',
+                                'end ; With another comment',
+                                '',
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format method proc',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc Objct.myProc()',
+                                '    end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc Objct.myProc()',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format method proc with comment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc Objct.myProc()     ; This is a method comment',
+                                '    end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc Objct.myProc() ; This is a method comment',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format a proc with a proc var',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc myProc()',
+                                '      proc procVar',
+                                '    end',
+                                '',
+                                '  proc Objct.myMethod()',
+                                '      proc procVar2    ;  With a comment...',
+                                '    end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc myProc()',
+                                '    proc procVar',
+                                'end',
+                                '',
+                                'proc Objct.myMethod()',
+                                '    proc procVar2 ; With a comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
     }
 );
