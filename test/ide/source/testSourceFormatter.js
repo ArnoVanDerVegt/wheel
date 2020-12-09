@@ -561,5 +561,162 @@ describe(
                 );
             }
         );
+        describe(
+            'Test record field',
+            () => {
+                it(
+                    'Should format record fields',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'record Rec',
+                                '      number    f1',
+                                '        number    f123',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'record Rec',
+                                '    number f1',
+                                '    number f123',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record fields with record type',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'record Rec',
+                                '      RecA    f1',
+                                '        LongerRec    f123',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'record Rec',
+                                '    RecA      f1',
+                                '    LongerRec f123',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record fields with record type and pointers',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'record Rec',
+                                '      ^RecA    f1',
+                                '        LongerRec    ^f123',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'record Rec',
+                                '    ^RecA     f1',
+                                '    LongerRec ^f123',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record fields with record type and pointers and array',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'record Rec',
+                                '      ^RecA    f1[10]',
+                                '        LongerRec    ^f123',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'record Rec',
+                                '    ^RecA     f1[10]',
+                                '    LongerRec ^f123',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record fields and comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'record Rec',
+                                '      ^RecA    f1[10]   ;    First comment',
+                                '        LongerRec    ^f123456   ;  Second comment',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'record Rec',
+                                '    ^RecA     f1[10]   ; First comment',
+                                '    LongerRec ^f123456 ; Second comment',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record fields with a union',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'record Rec',
+                                '      number    f1',
+                                '        number    f123',
+                                '   union',
+                                '      number    ab1',
+                                '        number    abc123',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'record Rec',
+                                '    number f1',
+                                '    number f123',
+                                'union',
+                                '    number ab1',
+                                '    number abc123',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record fields with pointers, array, union and comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'record Rec',
+                                '  number f1 ; Hello world',
+                                '    number    f123 ; Hello hello world',
+                                '  union   ; Test union comment...',
+                                '      ^RecA    f1[10]   ;          First comment',
+                                '        LongerRec    ^f123456   ;        Second comment',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'record Rec',
+                                '    number f1   ; Hello world',
+                                '    number f123 ; Hello hello world',
+                                'union ; Test union comment...',
+                                '    ^RecA     f1[10]   ; First comment',
+                                '    LongerRec ^f123456 ; Second comment',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
     }
 );

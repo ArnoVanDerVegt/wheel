@@ -267,7 +267,11 @@ exports.SourceFormatter = class {
 
     formatUnionToken(iterator, token) {
         let line = token.lexeme;
-        iterator.skipWhiteSpace();
+        iterator.skipWhiteSpaceWithoutNewline();
+        token = iterator.next();
+        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
+            line += ' ; ' + token.comment.trim();
+        }
         this
             .decIndent()
             .addLineToOutput(this.getIndentSpace() + line)
@@ -402,7 +406,7 @@ exports.SourceFormatter = class {
         let maxLength0 = 0;
         let maxLength1 = 0;
         while ((i < output.length) && (this.splitAtSpaceFilrered(output[i], 3).length >= 2)) {
-            if (this.startsWith(output[i], ['end', 'proc', '#', ';'])) {
+            if (this.startsWith(output[i], ['end', 'union', 'proc', '#', ';'])) {
                 break;
             }
             let line    = output[i];
@@ -447,8 +451,8 @@ exports.SourceFormatter = class {
                 i = this.formatMeta('#data', i);
             } else if (line.trim().indexOf('#line') === 0) {
                 i = this.formatMeta('#line', i);
-            } else if (line.trim().indexOf('record') === 0) {
-                // Todo
+            } else if ((line.trim().indexOf('record') === 0) || (line.trim().indexOf('object') === 0)) {
+                i = this.formatVars(i + 1);
             } else if (!this.startsWith(line, ['end', 'proc', '#', ';']) && (this.splitAtSpaceFilrered(line, 3).length >= 2)) {
                 i = this.formatVars(i);
             }
@@ -461,7 +465,6 @@ exports.SourceFormatter = class {
         let tokens   = new t.Tokenizer().tokenize(source).getTokens();
         let iterator = new Iterator({tokens: tokens});
         let line;
-        // console.log(tokens);
         while (true) {
             let token = iterator.next();
             if (!token) {
