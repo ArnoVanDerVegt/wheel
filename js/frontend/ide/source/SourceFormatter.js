@@ -55,6 +55,60 @@ exports.SourceFormatter = class {
         return this.splitAtSpace(s, count).filter((part) => part.length);
     }
 
+    splitComment(s) {
+        let i = 0;
+        while (i < s.length) {
+            if (s[i] === ';') {
+                return {
+                    line:    s.substr(0, i),
+                    comment: s.substr(i + 1 - s.length).trim()
+                };
+            } else if (s[i] === '"') {
+                i++;
+                while ((i < s.length - 2) && (s[i] !== '"')) {
+                    i++;
+                }
+            }
+            i++;
+        }
+        return false;
+    }
+
+    splitAssignement(s) {
+        if (s.trim().substr(0, 3) === t.LEXEME_FOR) {
+            return false;
+        }
+        let assignments = [
+                t.LEXEME_ASSIGN,
+                t.LEXEME_ASSIGN_ADD,
+                t.LEXEME_ASSIGN_SUB,
+                t.LEXEME_ASSIGN_MUL,
+                t.LEXEME_ASSIGN_DIV
+            ];
+        let i = 1;
+        while (i < s.length - 2) {
+            if (s[i] === '"') {
+                i++;
+                while ((i < s.length - 2) && (s[i] !== '"')) {
+                    i++;
+                }
+            } else {
+                for (let j = 0; j < assignments.length; j++) {
+                    let assignment = assignments[j];
+                    if (s.substr(i, assignment.length) === assignment) {
+                        return {
+                            assignment: assignment,
+                            dest:       s.substr(0, i).trim(),
+                            source:     s.substr(i - s.length + assignment.length).trim()
+                        };
+                    }
+                }
+            }
+            i++;
+        }
+        return false;
+    }
+
     startsWith(s, items) {
         s = s.trim();
         for (let i = 0; i < items.length; i++) {
@@ -124,6 +178,14 @@ exports.SourceFormatter = class {
             s = s.substr(0, s.length - 1);
         }
         return s;
+    }
+
+    hasAssignment(s) {
+        let lineAndComment = this.splitComment(s);
+        if (lineAndComment) {
+            s = lineAndComment.line;
+        }
+        return !!this.splitAssignement(s);
     }
 
     formatExpressionUntilEol(iterator, token) {
@@ -376,12 +438,12 @@ exports.SourceFormatter = class {
         let maxLength1 = 0;
         let maxLength2 = 0;
         while ((i < output.length) && (output[i].trim().indexOf(meta) === 0)) {
-            let line    = output[i];
-            let comment = '';
-            let j       = line.indexOf(';');
-            if (j !== -1) {
-                comment = line.substr(j + 1 - line.length).trim();
-                line    = line.substr(0, j);
+            let line           = output[i];
+            let comment        = '';
+            let lineAndComment = this.splitComment(line);
+            if (lineAndComment) {
+                comment = lineAndComment.comment;
+                line    = lineAndComment.line;
             }
             let p    = this.splitAtSpaceFilrered(line, 3);
             let part = {p1: p[1] || '', p2: p[2] || '', comment: comment};
@@ -405,18 +467,18 @@ exports.SourceFormatter = class {
         let parts      = [];
         let maxLength0 = 0;
         let maxLength1 = 0;
-        while ((i < output.length) && (this.splitAtSpaceFilrered(output[i], 3).length >= 2)) {
+        while ((i < output.length) && (this.splitAtSpaceFilrered(output[i], 2).length >= 2)) {
             if (this.startsWith(output[i], ['end', 'union', 'proc', '#', ';'])) {
                 break;
             }
-            let line    = output[i];
-            let comment = '';
-            let j       = line.indexOf(';');
-            if (j !== -1) {
-                comment = line.substr(j + 1 - line.length).trim();
-                line    = line.substr(0, j);
+            let line           = output[i];
+            let comment        = '';
+            let lineAndComment = this.splitComment(line);
+            if (lineAndComment) {
+                comment = lineAndComment.comment;
+                line    = lineAndComment.line;
             }
-            let p    = this.splitAtSpaceFilrered(line, 3);
+            let p    = this.splitAtSpaceFilrered(line, 2);
             let part = {p0: p[0] || '', p1: p[1] || '', comment: comment};
             parts.push(part);
             maxLength0 = Math.max(part.p0.length, maxLength0);
@@ -438,6 +500,40 @@ exports.SourceFormatter = class {
         return i;
     }
 
+    formatAssignment(firstLine) {
+        let i                = firstLine;
+        let output           = this._output;
+        let parts            = [];
+        let maxLength0       = 0;
+        let maxLength1       = 0;
+        let assignmentLength = 1;
+        while ((i < output.length) && this.hasAssignment(output[i])) {
+            let line           = output[i];
+            let lineAndComment = this.splitComment(line);
+            let assignment     = this.splitAssignement(lineAndComment ? lineAndComment.line : line);
+            assignment.comment = lineAndComment ? lineAndComment.comment : false;
+            parts.push(assignment);
+            maxLength1       = Math.max(assignment.dest.length,       maxLength1);
+            maxLength0       = Math.max(assignment.source.length,     maxLength0);
+            assignmentLength = Math.max(assignment.assignment.length, assignmentLength);
+            i++;
+        }
+        parts.forEach((part, index) => {
+            // Keep the original indentation...
+            let line   = output[firstLine + index];
+            let indent = '';
+            let i      = 0;
+            while ((i < line.length) && (line[i] === ' ')) {
+                indent += ' ';
+                i++;
+            }
+            output[firstLine + index] = indent + (this.toLength(part.dest, maxLength1) + ' ' +
+                (part.assignment + ' ').substr(0, assignmentLength) + ' ' +
+                this.toLength(part.source, maxLength0) + ' ' + (part.comment ? ('; ' + part.comment) : '')).trim();
+        });
+        return i;
+    }
+
     formatOutput() {
         let output = this._output;
         let i      = 0;
@@ -453,7 +549,9 @@ exports.SourceFormatter = class {
                 i = this.formatMeta('#line', i);
             } else if ((line.trim().indexOf('record') === 0) || (line.trim().indexOf('object') === 0)) {
                 i = this.formatVars(i + 1);
-            } else if (!this.startsWith(line, ['end', 'proc', '#', ';']) && (this.splitAtSpaceFilrered(line, 3).length >= 2)) {
+            } else if (this.hasAssignment(line)) {
+                i = this.formatAssignment(i);
+            } else if (!this.startsWith(line, ['end', 'proc', '#', ';']) && (this.splitAtSpaceFilrered(line, 2).length >= 2)) {
                 i = this.formatVars(i);
             }
             i++;

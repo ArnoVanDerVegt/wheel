@@ -718,5 +718,132 @@ describe(
                 );
             }
         );
+        describe(
+            'Test assignment',
+            () => {
+                it(
+                    'Should format assignment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      i   =   j',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    i = j',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format assignments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      i   =   jjjjj',
+                                '       aaa   =   b',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    i   = jjjjj',
+                                '    aaa = b',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format assignments with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      i   =   jjjjj ; With first comment....',
+                                '       aaa   =   b      ; And second comment',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    i   = jjjjj ; With first comment....',
+                                '    aaa = b     ; And second comment',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format assignment and assignment operator',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      i   =   jjjjj',
+                                '       aaa   +=   b',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    i   =  jjjjj',
+                                '    aaa += b',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format assignment and assignment operator with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      i   =   jjjjj     ; With first comment....',
+                                '       aaa   +=   b  ; And second comment',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    i   =  jjjjj ; With first comment....',
+                                '    aaa += b     ; And second comment',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format assignments followed by for statement',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '      i   =   jjjjj     ; With first comment....',
+                                '       aaa   +=   b  ; And second comment',
+                                '   for    counter     =    0   to   10',
+                                '  end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    i   =  jjjjj ; With first comment....',
+                                '    aaa += b     ; And second comment',
+                                '    for counter = 0 to 10',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
     }
 );
