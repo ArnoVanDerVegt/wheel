@@ -5,6 +5,19 @@
 const t        = require('../../compiler/tokenizer/tokenizer');
 const Iterator = require('../../compiler/tokenizer/TokenIterator').Iterator;
 
+const IGNORE_WHEN_START_LEXEMES = [
+        t.LEXEME_END,
+        t.LEXEME_PROC,
+        t.LEXEME_IF,
+        t.LEXEME_ELSEIF,
+        t.LEXEME_FOR,
+        t.LEXEME_WHILE,
+        t.LEXEME_REPEAT,
+        t.LEXEME_BREAK,
+        '#',
+        ';'
+    ];
+
 exports.SourceFormatter = class {
     constructor() {
         this._indentStack = [];
@@ -75,14 +88,8 @@ exports.SourceFormatter = class {
     }
 
     splitAssignement(s) {
-        let ignoreLexemes = [
-                t.LEXEME_FOR,
-                t.LEXEME_IF,
-                t.LEXEME_ELSEIF,
-                t.LEXEME_WHILE
-            ];
-        for (let i = 0; i < ignoreLexemes.length; i++) {
-            if (s.trim().substr(0, ignoreLexemes[i].length) === ignoreLexemes[i]) {
+        for (let i = 0; i < IGNORE_WHEN_START_LEXEMES.length; i++) {
+            if (s.trim().substr(0, IGNORE_WHEN_START_LEXEMES[i].length) === IGNORE_WHEN_START_LEXEMES[i]) {
                 return false;
             }
         }
@@ -290,14 +297,6 @@ exports.SourceFormatter = class {
             .incIndent(1, true);
     }
 
-    formatRepeatToken(iterator, token) {
-        let line = token.lexeme;
-        this
-            .addLineToOutput(this.getIndentSpace() + line)
-            .incIndent(1);
-        iterator.next();
-    }
-
     formatTokenAndExpression(iterator, token) {
         this.addLineToOutput(this.getIndentSpace() + token.lexeme + ' ' + this.formatExpressionUntilEol(iterator, token));
     }
@@ -356,6 +355,28 @@ exports.SourceFormatter = class {
             .incIndent(1);
     }
 
+    formatRepeatToken(iterator, token) {
+        let line = token.lexeme;
+        iterator.skipWhiteSpaceWithoutNewline();
+        token = iterator.next();
+        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
+            line += ' ; ' + token.comment.trim();
+        }
+        this
+            .addLineToOutput(this.getIndentSpace() + line)
+            .incIndent(1);
+    }
+
+    formatBreakToken(iterator, token) {
+        let line = token.lexeme;
+        iterator.skipWhiteSpaceWithoutNewline();
+        token = iterator.next();
+        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
+            line += ' ; ' + token.comment.trim();
+        }
+        this.addLineToOutput(this.getIndentSpace() + line);
+    }
+
     formatEndToken(iterator, token) {
         let line     = token.lexeme;
         let popCount = 0;
@@ -377,10 +398,11 @@ exports.SourceFormatter = class {
 
     formatKeywordToken(iterator, token) {
         switch (token.lexeme) {
+            case t.LEXEME_PROC:   this.formatProcToken                  (iterator, token); break;
             case t.LEXEME_UNION:  this.formatSingleToken                (iterator, token); break;
             case t.LEXEME_ELSE:   this.formatSingleToken                (iterator, token); break;
-            case t.LEXEME_PROC:   this.formatProcToken                  (iterator, token); break;
             case t.LEXEME_REPEAT: this.formatRepeatToken                (iterator, token); break;
+            case t.LEXEME_BREAK:  this.formatBreakToken                 (iterator, token); break;
             case t.LEXEME_OBJECT: this.formatTokenAndExpressionIncIndent(iterator, token); break;
             case t.LEXEME_RECORD: this.formatTokenAndExpressionIncIndent(iterator, token); break;
             case t.LEXEME_WHILE:  this.formatTokenAndExpressionIncIndent(iterator, token); break;
@@ -569,8 +591,7 @@ exports.SourceFormatter = class {
                 i = this.formatVars(i + 1);
             } else if (this.hasAssignment(line)) {
                 i = this.formatAssignment(i);
-            } else if (!this.startsWith(line, [t.LEXEME_END, t.LEXEME_PROC, t.LEXEME_IF, t.LEXEME_ELSEIF, t.LEXEME_WHILE, '#', ';']) &&
-                (this.splitAtSpaceFilrered(line, 2).length >= 2)) {
+            } else if (!this.startsWith(line, IGNORE_WHEN_START_LEXEMES) && (this.splitAtSpaceFilrered(line, 2).length >= 2)) {
                 i = this.formatVars(i);
             }
             i++;

@@ -1016,5 +1016,147 @@ describe(
                 );
             }
         );
+        describe(
+            'Test repeat',
+            () => {
+                it(
+                    'Should format repeat',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '  repeat',
+                                '      end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    repeat',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format repeat with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '  repeat    ;    First comment...',
+                                '      end      ;  Second comment...',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    repeat ; First comment...',
+                                '    end ; Second comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format repeat with nested if and comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '  repeat    ;    First comment...',
+                                '     if i    !=   1',
+                                '       break    ;   Break',
+                                '  end',
+                                '      end      ;  Second comment...',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    repeat ; First comment...',
+                                '        if i != 1',
+                                '            break ; Break',
+                                '        end',
+                                '    end ; Second comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test while',
+            () => {
+                it(
+                    'Should format while',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '   while    i',
+                                '      end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    while i',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format while with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '   while    i      ;     First comment...',
+                                '      end    ;     Second comment...   ',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    while i ; First comment...',
+                                '    end ; Second comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format while with nested if and comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '   while    i      ;     First comment...',
+                                ' if i > 3',
+                                '    break  ;    Break',
+                                '    end',
+                                '      end    ;     Second comment...   ',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    while i ; First comment...',
+                                '        if i > 3',
+                                '            break ; Break',
+                                '        end',
+                                '    end ; Second comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
     }
 );
