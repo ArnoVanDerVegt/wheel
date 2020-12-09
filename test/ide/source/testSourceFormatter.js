@@ -845,5 +845,176 @@ describe(
                 );
             }
         );
+        describe(
+            'Test if',
+            () => {
+                it(
+                    'Should format if',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '    if       i   ==  0',
+                                '    end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    if i == 0',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format if...else',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '       if      i        ==         0',
+                                '            i      =  5',
+                                '       else',
+                                '             i      =     10',
+                                '    end',
+                                'end',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    if i == 0',
+                                '        i = 5',
+                                '    else',
+                                '        i = 10',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format if...elseif...else',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '       if      i        ==         0',
+                                '            i      =  5',
+                                '       elseif   i   == 7',
+                                '               i    = 3',
+                                '       else',
+                                '             i      =     10',
+                                '    end',
+                                'end',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    if i == 0',
+                                '        i = 5',
+                                '    elseif i == 7',
+                                '        i = 3',
+                                '    else',
+                                '        i = 10',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format if...elseif...else with boolean operator',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '       if      i        ==         0   or j != 4',
+                                '            i      =  5',
+                                '       elseif   i   == 7    and j    !=   2',
+                                '               i    = 3',
+                                '       else',
+                                '             i      =     10',
+                                '    end',
+                                'end',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    if i == 0 or j != 4',
+                                '        i = 5',
+                                '    elseif i == 7 and j != 2',
+                                '        i = 3',
+                                '    else',
+                                '        i = 10',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format if...elseif...else with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '       if      i        ==         0      ;    If comment...',
+                                '            i      =  5',
+                                '       elseif   i   == 7      ;    Elseif comment...',
+                                '               i    = 3',
+                                '       else ;      Else comment...',
+                                '             i      =     10',
+                                '    end',
+                                'end',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    if i == 0 ; If comment...',
+                                '        i = 5',
+                                '    elseif i == 7 ; Elseif comment...',
+                                '        i = 3',
+                                '    else ; Else comment...',
+                                '        i = 10',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format if...elseif...else with boolean operator and comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '       if      i        ==         0    or    j < 4   ;    If comment...',
+                                '            i      =  5',
+                                '       elseif   i   == 7    and j  >   10   ;    Elseif comment...',
+                                '               i    = 3',
+                                '       else ;      Else comment...',
+                                '             i      =     10',
+                                '    end',
+                                'end',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    if i == 0 or j < 4 ; If comment...',
+                                '        i = 5',
+                                '    elseif i == 7 and j > 10 ; Elseif comment...',
+                                '        i = 3',
+                                '    else ; Else comment...',
+                                '        i = 10',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
     }
 );
