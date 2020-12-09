@@ -18,7 +18,7 @@ exports.SourceFormatter = class {
         return s;
     }
 
-    split(s, count) {
+    splitAtSpace(s, count) {
         let parts = [];
         let i     = 0;
         while ((i < s.length) && (parts.length < count - 1)) {
@@ -49,6 +49,20 @@ exports.SourceFormatter = class {
             parts.push(s.substr(i - s.length).trim());
         }
         return parts;
+    }
+
+    splitAtSpaceFilrered(s, count) {
+        return this.splitAtSpace(s, count).filter((part) => part.length);
+    }
+
+    startsWith(s, items) {
+        s = s.trim();
+        for (let i = 0; i < items.length; i++) {
+            if (s.indexOf(items[i]) === 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     addToOutput(s) {
@@ -114,8 +128,11 @@ exports.SourceFormatter = class {
 
     formatExpressionUntilEol(iterator, token) {
         let line = '';
-        while (token && (token.lexeme !== t.LEXEME_NEWLINE)) {
+        while (token.lexeme !== t.LEXEME_NEWLINE) {
             token = iterator.next();
+            if (!token) {
+                break;
+            }
             switch (token.cls) {
                 case t.TOKEN_NUMERIC_OPERATOR:
                     line += ' ' + token.lexeme + ' ';
@@ -137,7 +154,11 @@ exports.SourceFormatter = class {
             }
         }
         if (token && token.comment) {
-            line += ' ; ' + token.comment.trim();
+            if (line.trim() === '') {
+                line = ' ; ' + this.rtrim(token.comment);
+            } else {
+                line = this.rtrim(line) + ' ; ' + token.comment.trim();
+            }
         }
         return line;
     }
@@ -317,6 +338,33 @@ exports.SourceFormatter = class {
         this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token))
     }
 
+    formatPointerIdentifierToken(iterator, token) {
+        let line = token.lexeme;
+        iterator.skipWhiteSpace();
+        token = iterator.next();
+        if (token) {
+            line += token.lexeme;
+            token = iterator.next();
+        }
+        if (token) {
+            switch (token.cls) {
+                case t.TOKEN_PARENTHESIS_OPEN:
+                    line += token.lexeme;
+                    break;
+                case t.LEXEME_BRACKET_OPEN:
+                    line += token.lexeme;
+                    break;
+                case t.TOKEN_ASSIGNMENT_OPERATOR:
+                    line += ' ' + token.lexeme + ' ';
+                    break;
+                default:
+                    line += ' ' + token.lexeme;
+                    break;
+            }
+        }
+        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token))
+    }
+
     formatMeta(meta, firstLine) {
         let i          = firstLine;
         let output     = this._output;
@@ -331,7 +379,7 @@ exports.SourceFormatter = class {
                 comment = line.substr(j + 1 - line.length).trim();
                 line    = line.substr(0, j);
             }
-            let p    = this.split(line, 3).filter((part) => part.length);
+            let p    = this.splitAtSpaceFilrered(line, 3);
             let part = {p1: p[1] || '', p2: p[2] || '', comment: comment};
             parts.push(part);
             maxLength1 = Math.max(part.p1.length, maxLength1);
@@ -343,6 +391,45 @@ exports.SourceFormatter = class {
                 this.toLength(part.p1, maxLength1) + ' ' +
                 this.toLength(part.p2, maxLength2) + ' ' +
                 (part.comment ? ('; ' + part.comment) : '')).trim();
+        });
+        return i;
+    }
+
+    formatVars(firstLine) {
+        let i          = firstLine;
+        let output     = this._output;
+        let parts      = [];
+        let maxLength0 = 0;
+        let maxLength1 = 0;
+        while ((i < output.length) && (this.splitAtSpaceFilrered(output[i], 3).length >= 2)) {
+            if (this.startsWith(output[i], ['end', 'proc', '#', ';'])) {
+                break;
+            }
+            let line    = output[i];
+            let comment = '';
+            let j       = line.indexOf(';');
+            if (j !== -1) {
+                comment = line.substr(j + 1 - line.length).trim();
+                line    = line.substr(0, j);
+            }
+            let p    = this.splitAtSpaceFilrered(line, 3);
+            let part = {p0: p[0] || '', p1: p[1] || '', comment: comment};
+            parts.push(part);
+            maxLength0 = Math.max(part.p0.length, maxLength0);
+            maxLength1 = Math.max(part.p1.length, maxLength1);
+            i++;
+        }
+        parts.forEach((part, index) => {
+            // Keep the original indentation...
+            let line   = output[firstLine + index];
+            let indent = '';
+            let i      = 0;
+            while ((i < line.length) && (line[i] === ' ')) {
+                indent += ' ';
+                i++;
+            }
+            output[firstLine + index] = indent + (this.toLength(part.p0, maxLength0) + ' ' +
+                this.toLength(part.p1, maxLength1) + ' ' + (part.comment ? ('; ' + part.comment) : '')).trim();
         });
         return i;
     }
@@ -361,6 +448,9 @@ exports.SourceFormatter = class {
             } else if (line.trim().indexOf('#line') === 0) {
                 i = this.formatMeta('#line', i);
             } else if (line.trim().indexOf('record') === 0) {
+                // Todo
+            } else if (!this.startsWith(line, ['end', 'proc', '#', ';']) && (this.splitAtSpaceFilrered(line, 3).length >= 2)) {
+                i = this.formatVars(i);
             }
             i++;
         }
@@ -411,6 +501,9 @@ exports.SourceFormatter = class {
                     break;
                 case t.TOKEN_KEYWORD:
                     this.formatKeywordToken(iterator, token);
+                    break;
+                case t.TOKEN_POINTER:
+                    this.formatPointerIdentifierToken(iterator, token);
                     break;
                 case t.TOKEN_IDENTIFIER:
                     this.formatIdentifierToken(iterator, token);

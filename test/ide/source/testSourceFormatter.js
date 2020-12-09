@@ -23,9 +23,9 @@ describe(
                     'Should split into parts',
                     () => {
                         let sourceFormatter = new SourceFormatter({});
-                        assert.deepEqual(sourceFormatter.split('a b c', 3), ['a', 'b', 'c']);
-                        assert.deepEqual(sourceFormatter.split('a b c d', 3), ['a', 'b', 'c d']);
-                        assert.deepEqual(sourceFormatter.split('a b c d', 2), ['a', 'b c d']);
+                        assert.deepEqual(sourceFormatter.splitAtSpace('a b c', 3), ['a', 'b', 'c']);
+                        assert.deepEqual(sourceFormatter.splitAtSpace('a b c d', 3), ['a', 'b', 'c d']);
+                        assert.deepEqual(sourceFormatter.splitAtSpace('a b c d', 2), ['a', 'b c d']);
                     }
                 );
             }
@@ -395,6 +395,164 @@ describe(
                                 '',
                                 'proc Objct.myMethod()',
                                 '    proc procVar2 ; With a comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test global var',
+            () => {
+                it(
+                    'Should format var',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '     number    n'
+                            ].join('\n'));
+                        let s2 = [
+                                'number n',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format var with comment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '     number    n  ;    With comment...'
+                            ].join('\n'));
+                        let s2 = [
+                                'number n ; With comment...',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record vars',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '     Record    r',
+                                '  LongerName lN'
+                            ].join('\n'));
+                        let s2 = [
+                                'Record     r',
+                                'LongerName lN',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record vars with array',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '     Record    r [ 10 ]',
+                                '  LongerName lN'
+                            ].join('\n'));
+                        let s2 = [
+                                'Record     r[10]',
+                                'LongerName lN',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record vars with pointers',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '     ^Record    r [ 10 ]',
+                                '  LongerName ^ lN'
+                            ].join('\n'));
+                        let s2 = [
+                                '^Record    r[10]',
+                                'LongerName ^lN',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format record vars with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '     Record    r [ 10 ] ; First comment',
+                                '  LongerName lN ; Second comment'
+                            ].join('\n'));
+                        let s2 = [
+                                'Record     r[10] ; First comment',
+                                'LongerName lN    ; Second comment',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test local var',
+            () => {
+                it(
+                    'Should format local var',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '     number    n',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    number n',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format local var with comment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '     number    n  ;    With comment...',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    number n ; With comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format local record vars with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '     Record    r [ 10 ] ; First comment',
+                                '  LongerName lN ; Second comment',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    Record     r[10] ; First comment',
+                                '    LongerName lN    ; Second comment',
                                 'end',
                                 ''
                             ].join('\n');
