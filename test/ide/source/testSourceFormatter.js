@@ -1117,12 +1117,14 @@ describe(
                         let s1 = sf.format([
                                 'proc test()',
                                 '   while    i      ;     First comment...',
+                                ';This is a nested comment...',
                                 '      end    ;     Second comment...   ',
                                 'end'
                             ].join('\n'));
                         let s2 = [
                                 'proc test()',
                                 '    while i ; First comment...',
+                                '        ; This is a nested comment...',
                                 '    end ; Second comment...',
                                 'end',
                                 ''
@@ -1150,6 +1152,219 @@ describe(
                                 '            break ; Break',
                                 '        end',
                                 '    end ; Second comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test select',
+            () => {
+                it(
+                    'Should format select',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '   select    i',
+                                '  case    5:',
+                                '    j = 3',
+                                '  case    15:',
+                                '    j = 90',
+                                '      default:',
+                                ' j = 0',
+                                '      end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    select i',
+                                '        case 5:',
+                                '            j = 3',
+                                '        case 15:',
+                                '            j = 90',
+                                '        default:',
+                                '            j = 0',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format select with nested statements',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '   select    i',
+                                '  case    5:',
+                                '    if  j    ==   1',
+                                '    j = 3',
+                                ' end',
+                                '  case    15:',
+                                '     while        j',
+                                '    j = 90',
+                                ' end',
+                                '      default:',
+                                '     repeat',
+                                '    j = 0',
+                                '    end',
+                                '      end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    select i',
+                                '        case 5:',
+                                '            if j == 1',
+                                '                j = 3',
+                                '            end',
+                                '        case 15:',
+                                '            while j',
+                                '                j = 90',
+                                '            end',
+                                '        default:',
+                                '            repeat',
+                                '                j = 0',
+                                '            end',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format select with nested statements and comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '   select    i    ;     This is a select comment',
+                                '  case    5:    ;     This is a case comment',
+                                ' ; This is a nested comment...',
+                                '    if  j    ==   1',
+                                '    j = 3',
+                                ' end',
+                                '  case    15:',
+                                '     while        j',
+                                '    j = 90',
+                                ' end',
+                                '      default:   ;      This is a default comment',
+                                '     repeat',
+                                '    j = 0',
+                                '    end',
+                                '      end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    select i ; This is a select comment',
+                                '        case 5: ; This is a case comment',
+                                '            ; This is a nested comment...',
+                                '            if j == 1',
+                                '                j = 3',
+                                '            end',
+                                '        case 15:',
+                                '            while j',
+                                '                j = 90',
+                                '            end',
+                                '        default:  ; This is a default comment',
+                                '            repeat',
+                                '                j = 0',
+                                '            end',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test addr',
+            () => {
+                it(
+                    'Should format addr',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc test()',
+                                '     addr x.y.z',
+                                '    end',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    addr x.y.z',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format addr with comment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc test()',
+                                '     addr x.y.z     ;  This is a comment... ',
+                                '    end',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    addr x.y.z ; This is a comment...',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test ret',
+            () => {
+                it(
+                    'Should format ret',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc test()',
+                                '     ret x.y.z',
+                                '    end',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    ret x.y.z',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should format ret with comment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '  proc test()',
+                                '     ret x.y.z     ;  This is a comment... ',
+                                '    end',
+                                '',
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    ret x.y.z ; This is a comment...',
                                 'end',
                                 ''
                             ].join('\n');

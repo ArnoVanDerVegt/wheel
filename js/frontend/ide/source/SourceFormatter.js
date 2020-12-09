@@ -14,6 +14,8 @@ const IGNORE_WHEN_START_LEXEMES = [
         t.LEXEME_WHILE,
         t.LEXEME_REPEAT,
         t.LEXEME_BREAK,
+        t.LEXEME_CASE,
+        t.LEXEME_UNION,
         '#',
         ';'
     ];
@@ -329,6 +331,14 @@ exports.SourceFormatter = class {
         this.addLineToOutput(indent + token.lexeme + ' ' + this.formatExpressionUntilEol(iterator, token));
     }
 
+    formatDefaultToken(iterator, token) {
+        let indent = this.getIndentSpace();
+        if (indent.length >= 4) {
+            indent = indent.substr(4, indent.length - 4);
+        }
+        this.addLineToOutput(indent + token.lexeme + this.formatExpressionUntilEol(iterator, token));
+    }
+
     formatForToken(iterator, token) {
         let line = token.lexeme;
         while (token && (token.lexeme !== t.LEXEME_NEWLINE)) {
@@ -355,6 +365,16 @@ exports.SourceFormatter = class {
             .incIndent(1);
     }
 
+    formatBreakToken(iterator, token) {
+        let line = token.lexeme;
+        iterator.skipWhiteSpaceWithoutNewline();
+        token = iterator.next();
+        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
+            line += ' ; ' + token.comment.trim();
+        }
+        this.addLineToOutput(this.getIndentSpace() + line);
+    }
+
     formatRepeatToken(iterator, token) {
         let line = token.lexeme;
         iterator.skipWhiteSpaceWithoutNewline();
@@ -365,16 +385,6 @@ exports.SourceFormatter = class {
         this
             .addLineToOutput(this.getIndentSpace() + line)
             .incIndent(1);
-    }
-
-    formatBreakToken(iterator, token) {
-        let line = token.lexeme;
-        iterator.skipWhiteSpaceWithoutNewline();
-        token = iterator.next();
-        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
-            line += ' ; ' + token.comment.trim();
-        }
-        this.addLineToOutput(this.getIndentSpace() + line);
     }
 
     formatEndToken(iterator, token) {
@@ -398,23 +408,25 @@ exports.SourceFormatter = class {
 
     formatKeywordToken(iterator, token) {
         switch (token.lexeme) {
-            case t.LEXEME_PROC:   this.formatProcToken                  (iterator, token); break;
-            case t.LEXEME_UNION:  this.formatSingleToken                (iterator, token); break;
-            case t.LEXEME_ELSE:   this.formatSingleToken                (iterator, token); break;
-            case t.LEXEME_REPEAT: this.formatRepeatToken                (iterator, token); break;
-            case t.LEXEME_BREAK:  this.formatBreakToken                 (iterator, token); break;
-            case t.LEXEME_OBJECT: this.formatTokenAndExpressionIncIndent(iterator, token); break;
-            case t.LEXEME_RECORD: this.formatTokenAndExpressionIncIndent(iterator, token); break;
-            case t.LEXEME_WHILE:  this.formatTokenAndExpressionIncIndent(iterator, token); break;
-            case t.LEXEME_IF:     this.formatTokenAndExpressionIncIndent(iterator, token); break;
-            case t.LEXEME_WITH:   this.formatTokenAndExpressionIncIndent(iterator, token); break;
-            case t.LEXEME_RET:    this.formatTokenAndExpression         (iterator, token); break;
-            case t.LEXEME_BREAK:  this.formatTokenAndExpression         (iterator, token); break;
-            case t.LEXEME_ELSEIF: this.formatElseifToken                (iterator, token); break;
-            case t.LEXEME_SELECT: this.formatSelectToken                (iterator, token); break;
-            case t.LEXEME_CASE:   this.formatCaseToken                  (iterator, token); break;
-            case t.LEXEME_FOR:    this.formatForToken                   (iterator, token); break;
-            case t.LEXEME_END:    this.formatEndToken                   (iterator, token); break;
+            case t.LEXEME_PROC:    this.formatProcToken                  (iterator, token); break;
+            case t.LEXEME_UNION:   this.formatSingleToken                (iterator, token); break;
+            case t.LEXEME_ELSE:    this.formatSingleToken                (iterator, token); break;
+            case t.LEXEME_REPEAT:  this.formatRepeatToken                (iterator, token); break;
+            case t.LEXEME_BREAK:   this.formatBreakToken                 (iterator, token); break;
+            case t.LEXEME_OBJECT:  this.formatTokenAndExpressionIncIndent(iterator, token); break;
+            case t.LEXEME_RECORD:  this.formatTokenAndExpressionIncIndent(iterator, token); break;
+            case t.LEXEME_WHILE:   this.formatTokenAndExpressionIncIndent(iterator, token); break;
+            case t.LEXEME_IF:      this.formatTokenAndExpressionIncIndent(iterator, token); break;
+            case t.LEXEME_WITH:    this.formatTokenAndExpressionIncIndent(iterator, token); break;
+            case t.LEXEME_RET:     this.formatTokenAndExpression         (iterator, token); break;
+            case t.LEXEME_ADDR:    this.formatTokenAndExpression         (iterator, token); break;
+            case t.LEXEME_BREAK:   this.formatTokenAndExpression         (iterator, token); break;
+            case t.LEXEME_ELSEIF:  this.formatElseifToken                (iterator, token); break;
+            case t.LEXEME_SELECT:  this.formatSelectToken                (iterator, token); break;
+            case t.LEXEME_CASE:    this.formatCaseToken                  (iterator, token); break;
+            case t.LEXEME_DEFAULT: this.formatDefaultToken               (iterator, token); break;
+            case t.LEXEME_FOR:     this.formatForToken                   (iterator, token); break;
+            case t.LEXEME_END:     this.formatEndToken                   (iterator, token); break;
             default:
                 console.error('Unsupported keyword token:', token.lexeme);
                 break;
@@ -508,7 +520,7 @@ exports.SourceFormatter = class {
         let maxLength0 = 0;
         let maxLength1 = 0;
         while ((i < output.length) && (this.splitAtSpaceFilrered(output[i], 2).length >= 2)) {
-            if (this.startsWith(output[i], ['end', 'union', 'proc', '#', ';'])) {
+            if (this.startsWith(output[i], IGNORE_WHEN_START_LEXEMES)) {
                 break;
             }
             let line           = output[i];
@@ -610,14 +622,19 @@ exports.SourceFormatter = class {
             }
             switch (token.cls) {
                 case t.TOKEN_WHITE_SPACE:
+                    let commentToken = null;
                     if (token.lexeme === t.LEXEME_NEWLINE) {
                         if (token.comment) {
-                            this.addLineToOutput(';' + this.rtrim(token.comment));
+                            commentToken = token;
                         } else if (this.getLastLine() !== '') {
                             this.addLineToOutput('');
                         }
                     } else if (token.comment) {
-                        this.addLineToOutput(';' + this.rtrim(token.comment));
+                        commentToken = token;
+                    }
+                    if (commentToken) {
+                        let comment = this.rtrim(token.comment);
+                        this.addLineToOutput(this.getIndentSpace() + ';' + ((comment.substr(0, 1) === ' ') ? '' : ' ') + comment);
                     }
                     break;
                 case t.TOKEN_TYPE:
