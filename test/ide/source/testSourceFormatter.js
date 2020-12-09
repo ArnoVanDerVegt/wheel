@@ -50,6 +50,30 @@ describe(
                         assert.equal(s1, s2);
                     }
                 );
+                it(
+                    'Should not remove spaces at beginning of comment',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                '; This is a table',
+                                '; Id | Value',
+                                '; ----------',
+                                ';  0 | Ab',
+                                ';  5 | Cde',
+                                '; 15 | Fghi'
+                            ].join('\n'));
+                        let s2 = [
+                                '; This is a table',
+                                '; Id | Value',
+                                '; ----------',
+                                ';  0 | Ab',
+                                ';  5 | Cde',
+                                '; 15 | Fghi',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
             }
         );
         describe(

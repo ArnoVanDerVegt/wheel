@@ -503,23 +503,10 @@
                     comment += c;
                 }
             }
-            if (commentToken) {
-                commentToken.comment = comment;
-            } else {
-                let i     = this._tokens.length - 1;
-                let found = false;
-                while (i > 0) {
-                    if (tokens[i].cls !== TOKEN_WHITE_SPACE) {
-                        tokens[i].comment = comment;
-                        found                   = true;
-                        break;
-                    }
-                    i--;
-                }
-                if (!found) {
-                    tokens[tokens.length - 1].comment = comment;
-                }
+            if (c === null) {
+                commentToken = this.addToken(LEXEME_NEWLINE);
             }
+            commentToken.comment = comment;
         }
 
         tokenize(line) {
