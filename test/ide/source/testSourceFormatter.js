@@ -364,11 +364,11 @@ describe(
                     () => {
                         let sf = new SourceFormatter({});
                         let s1 = sf.format([
-                                '  proc Objct.myProc()     ; This is a method comment',
+                                '  proc Objct.myProc(  Rec    ^rec  )     ; This is a method comment',
                                 '    end'
                             ].join('\n'));
                         let s2 = [
-                                'proc Objct.myProc() ; This is a method comment',
+                                'proc Objct.myProc(Rec ^rec) ; This is a method comment',
                                 'end',
                                 ''
                             ].join('\n');
@@ -380,7 +380,7 @@ describe(
                     () => {
                         let sf = new SourceFormatter({});
                         let s1 = sf.format([
-                                '  proc myProc()',
+                                '  proc myProc(number   p,    number  pp  [4])',
                                 '      proc procVar',
                                 '    end',
                                 '',
@@ -389,7 +389,7 @@ describe(
                                 '    end'
                             ].join('\n'));
                         let s2 = [
-                                'proc myProc()',
+                                'proc myProc(number p, number pp[4])',
                                 '    proc procVar',
                                 'end',
                                 '',
