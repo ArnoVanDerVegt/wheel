@@ -41,7 +41,6 @@ exports.addToReg = (program, reg, type2, value2) => {
 
 exports.setReg = (program, reg, type2, value2) => {
     program.addCommand($.CMD_SET, $.T_NUM_G, reg, type2, value2);
-    return this;
 };
 
 exports.setStackOffsetToPtr = (program, scope) => {
@@ -49,7 +48,6 @@ exports.setStackOffsetToPtr = (program, scope) => {
         $.CMD_SET, $.T_NUM_G, $.REG_PTR, $.T_NUM_G, $.REG_STACK,
         $.CMD_ADD, $.T_NUM_G, $.REG_PTR, $.T_NUM_C, scope.getStackOffset()
     );
-    return this;
 };
 
 exports.assignToPtr = (program, cmd, type2, value2) => {
