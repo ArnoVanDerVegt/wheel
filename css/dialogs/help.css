@@ -294,9 +294,16 @@
     width:                          100%;
     margin:                         0 0 16px 0;
 }
-.dialog-background.help-dialog .help-file .link-box .link {
+.dialog-background.help-dialog .help-file .link-box .link,
+.dialog-background.help-dialog .help-file .link-box .link:hover,
+.dialog-background.help-dialog .help-file .link-box .link:visited,
+.dialog-background.help-dialog .help-file .link-box a,
+.dialog-background.help-dialog .help-file .link-box a:hover,
+.dialog-background.help-dialog .help-file .link-box a:visited {
     color:                          #3498DB;
+    text-decoration:                none;
 }
+.dialog-background.help-dialog .help-file .link-box a:hover,
 .dialog-background.help-dialog .help-file .link-box .link:hover {
     text-decoration:                underline;
 }
