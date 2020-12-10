@@ -368,6 +368,7 @@ exports.IDE = class extends IDEDOM {
                             }
                         );
                     }
+                    callback(null);
                     return;
                 }
                 callback(data.data);

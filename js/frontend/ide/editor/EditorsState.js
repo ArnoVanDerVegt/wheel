@@ -13,13 +13,14 @@ exports.EditorsState = class extends Emitter {
 
     hasCompilableFile() {
         let editors = this._editors;
+        let found   = 0;
         for (let i = 0; i < editors.length; i++) {
             let editor = editors[i];
             if (path.getExtension(editor.getFilename()) === '.whlp') {
-                return true;
+                found++;
             }
         }
-        return false;
+        return found;
     }
 
     showEditorByPathAndFilename(path, filename) {

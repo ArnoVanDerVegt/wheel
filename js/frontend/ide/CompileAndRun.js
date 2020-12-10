@@ -450,11 +450,11 @@ exports.CompileAndRun = class extends DOMUtils {
         this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).getDisplay().drawLoaded(this._title);
     }
 
-    finishCompiling() {
+    finishCompiling(success) {
         this._compiling     = false;
         this._compileSilent = false;
         if (typeof this._compileFinishedCallback === 'function') {
-            this._compileFinishedCallback();
+            this._compileFinishedCallback(success);
             this._compileFinishedCallback = false;
         }
     }
@@ -463,17 +463,22 @@ exports.CompileAndRun = class extends DOMUtils {
         callback('');
     }
 
+    onGetFileDataError() {
+        this.finishCompiling(false);
+    }
+
     onGetEditorFileData(filename, callback) {
         callback(null);
     }
 
     onFilesProcessed(title, filesDone, preProcessorError) {
         if (preProcessorError) {
-            this.finishCompiling();
+            this.finishCompiling(false);
             return;
         }
         let compiler = new Compiler({linter: this.getLinter()});
         let tokens   = this._preProcessor.getDefinedConcatTokens();
+        let success  = false;
         this._tokens      = tokens;
         this._sortedFiles = this._preProcessor.getSortedFiles();
         try {
@@ -492,6 +497,7 @@ exports.CompileAndRun = class extends DOMUtils {
                 this.simulatorLoaded();
                 dispatcher.dispatch('Compile.Compiled', this._vm);
             }
+            success = true;
         } catch (error) {
             if (this._compileSilent) {
                 // Compile failed but try to use what we've got for the code completion...
@@ -501,7 +507,7 @@ exports.CompileAndRun = class extends DOMUtils {
                 this.onCompilerError(error);
             }
         }
-        this.finishCompiling();
+        this.finishCompiling(success);
     }
 
     compile(opts) {
@@ -516,7 +522,7 @@ exports.CompileAndRun = class extends DOMUtils {
         this.stop();
         this.onGetSource((success) => {
             if (!success) {
-                this.finishCompiling();
+                this.finishCompiling(false);
                 return;
             }
             this.onBeforeCompile();
@@ -531,6 +537,7 @@ exports.CompileAndRun = class extends DOMUtils {
                     documentPath:        this._settings.getDocumentPath() || '',
                     projectFilename:     this._projectFilename,
                     onGetFileData:       this.onGetFileData.bind(this),
+                    onGetFileDataError:  this.onGetFileDataError.bind(this),
                     onGetEditorFileData: this.onGetEditorFileData.bind(this),
                     onError:             this.onCompilerError.bind(this),
                     onFinished:          this.onFilesProcessed.bind(this, opts.title || 'Simulator'),

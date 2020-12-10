@@ -364,4 +364,8 @@ exports.Editor = class {
     findEditor(path, filename) {
         return this._editorsState.findByPathAndFilename(path, filename);
     }
+
+    hasCompilableFile() {
+        return this._editorsState.hasCompilableFile();
+    }
 };

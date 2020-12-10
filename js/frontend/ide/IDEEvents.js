@@ -68,10 +68,36 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onFormatCode() {
-        let activeEditor = this._editor.getActiveEditor();
-        if (activeEditor && activeEditor.getCanFormat && activeEditor.getCanFormat()) {
-            activeEditor.setValue(new SourceFormatter().format(activeEditor.getValue()));
+        const formatCode = () => {
+                let activeEditor = this._editor.getActiveEditor();
+                if (activeEditor && activeEditor.getCanFormat && activeEditor.getCanFormat()) {
+                    activeEditor.setValue(new SourceFormatter().format(activeEditor.getValue()));
+                }
+            };
+        if (this._editor.hasCompilableFile() > 1) {
+            formatCode();
+            return;
         }
+        const confirmFormatCode = () => {
+                dispatcher.dispatch(
+                    'Dialog.Confirm.Show',
+                    {
+                        title:         'Your project does not compile',
+                        lines:         ['Are you sure you format the code of this file?'],
+                        applyCallback: formatCode
+                    }
+                );
+            };
+        dispatcher.dispatch(
+            'Compile.Silent',
+            (success) => {
+                if (success) {
+                    formatCode();
+                } else {
+                    confirmFormatCode();
+                }
+            }
+        );
     }
 
     // Find menu...
@@ -336,7 +362,7 @@ exports.IDEEvents = class extends CompileAndRun {
                 }
                 callback(!!info);
             },
-            this._compileSilent
+            this._compileSilent // If compiling silent then the select project dialog will be suppresed!
         );
     }
 

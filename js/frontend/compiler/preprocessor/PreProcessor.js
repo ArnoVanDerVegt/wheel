@@ -25,6 +25,7 @@ exports.PreProcessor = class PreProcessor {
         this._projectPath         = path.getPathAndFilename(opts.projectFilename || '').path;
         this._linter              = opts.linter;
         this._onGetFileData       = opts.onGetFileData;
+        this._onGetFileDataError  = opts.onGetFileDataError;
         this._onGetEditorFileData = opts.onGetEditorFileData;
         this._onError             = opts.onError;
         this._onFinished          = opts.onFinished;
@@ -138,6 +139,10 @@ exports.PreProcessor = class PreProcessor {
     }
 
     onFileData(fileItem, includeNode, data) {
+        if (data === null) {
+            this._onGetFileDataError && this._onGetFileDataError(fileItem);
+            return;
+        }
         this._fileCount--;
         if (fileItem.tokens === null) {
             this.processIncludes(fileItem, data);
