@@ -4,6 +4,7 @@
 **/
 const mathModuleConstants = require('../../../../shared/vm/modules/mathModuleConstants');
 const VMModule            = require('./../VMModule').VMModule;
+const RAD_TO_REG          = 180 / Math.PI;
 
 exports.MathModule = class extends VMModule {
     run(commandId) {
@@ -70,6 +71,30 @@ exports.MathModule = class extends VMModule {
             case mathModuleConstants.MATH_EVEN:
                 vmData.setNumberAtRet(((~~vmData.getRecordFromSrcOffset(['value']).value & 1) === 0) ? 1 : 0);
                 break;
+            case mathModuleConstants.MATH_IK_RAD:
+                let ikRad = vmData.getRecordFromSrcOffset(['result1', 'result2', 'deltaX', 'deltaY', 'len1', 'len2']);
+                this.inverseKinematic(ikRed);
+                setNumberAtRegOffset(ikRad.result1, 0);
+                setNumberAtRegOffset(ikRad.result2, 1);
+                break;
+            case mathModuleConstants.MATH_IK_DEG:
+                let ikDeg = vmData.getRecordFromSrcOffset(['result1', 'result2', 'deltaX', 'deltaY', 'len1', 'len2']);
+                this.inverseKinematic(ikRed);
+                setNumberAtRegOffset(ikDeg.result1 * RAD_TO_REG, 0);
+                setNumberAtRegOffset(ikDeg.result2 * RAD_TO_REG, 1);
+                break;
         }
+    }
+
+    inverseKinematic(opts) {
+        let deltaX = opts.deltaX;
+        let deltaY = opts.deltaY;
+        let lenA   = opts.len1;
+        let lenB   = opts.len2;
+        let dist2  = deltaX * deltaX + deltaY * deltaY;
+        let lenA2  = lenA * lenA;
+        let lenB2  = lenB * lenB;
+        opts.result1 = Math.min(Math.max((dist2 + lenA2 - lenB2) / (2 * lenA * Math.sqrt(dist2)), -1), 1);
+        opts.result2 = Math.min(Math.max((dist2 - lenA2 - lenB2) / (2 * lenA * lenB), -1), 1);
     }
 };

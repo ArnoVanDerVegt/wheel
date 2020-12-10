@@ -35,7 +35,7 @@ exports.SensorModule = class extends VMModule {
                 sensor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 device.module(sensorModuleConstants.MODULE_SENSOR, sensorModuleConstants.SENSOR_READ, sensor);
                 let state = device.getLayerState(sensor.layer);
-                if (state) {
+                if (state && state.getSensors) {
                     let sensors = state.getSensors() || [];
                     let value   = sensors[sensor.id];
                     vmData.setNumberAtRet(value);

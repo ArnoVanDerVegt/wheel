@@ -7,6 +7,7 @@ const dispatcher      = require('../lib/dispatcher').dispatcher;
 const path            = require('../lib/path');
 const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
 const Rtf             = require('../program/output/Rtf').Rtf;
+const SourceFormatter = require('./source/SourceFormatter').SourceFormatter;
 const SettingsState   = require('./settings/SettingsState');
 const CompileAndRun   = require('./CompileAndRun').CompileAndRun;
 const FormDialog      = require('./dialogs/form/FormDialog').FormDialog;
@@ -26,9 +27,7 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Buttons
     onButtonCompile() {
-        this._compileSilent = false;
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath(), '');
+        this.compile({});
     }
 
     onButtonContinue() {
@@ -63,9 +62,42 @@ exports.IDEEvents = class extends CompileAndRun {
     // Edit menu...
     onResize() {
         let activeEditor = this._editor.getActiveEditor();
-        if (activeEditor && activeEditor.canResize && activeEditor.canResize()) {
+        if (activeEditor && activeEditor.getCanResize && activeEditor.getCanResize()) {
             dispatcher.dispatch('Dialog.Image.Resize.Show', activeEditor.getWidth(), activeEditor.getHeight());
         }
+    }
+
+    onFormatCode() {
+        const formatCode = () => {
+                let activeEditor = this._editor.getActiveEditor();
+                if (activeEditor && activeEditor.getCanFormat && activeEditor.getCanFormat()) {
+                    activeEditor.setValue(new SourceFormatter().format(activeEditor.getValue()));
+                }
+            };
+        if (this._editor.hasCompilableFile() > 1) {
+            formatCode();
+            return;
+        }
+        const confirmFormatCode = () => {
+                dispatcher.dispatch(
+                    'Dialog.Confirm.Show',
+                    {
+                        title:         'Your project does not compile',
+                        lines:         ['Are you sure you format the code of this file?'],
+                        applyCallback: formatCode
+                    }
+                );
+            };
+        dispatcher.dispatch(
+            'Compile.Silent',
+            (success) => {
+                if (success) {
+                    formatCode();
+                } else {
+                    confirmFormatCode();
+                }
+            }
+        );
     }
 
     // Find menu...
@@ -87,13 +119,14 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Compile menu...
     onMenuCompileCompile() {
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath());
+        this.compile({});
     }
 
     onMenuCompileCompileAndRun() {
-        this._compileAndRun = true;
-        this.compile(this._settings.getDocumentPath());
+        this.compile({
+            compileAndRun: true,
+            documentPath:  this._settings.getDocumentPath()
+        });
     }
 
     onMenuCompileCompileAndInstall() {
@@ -209,11 +242,12 @@ exports.IDEEvents = class extends CompileAndRun {
         }
     }
 
-    onCompileSilent() {
+    onCompileSilent(finishedCallback) {
         // Compile silent, don't show any messages...
-        this._compileSilent = true;
-        this._compileAndRun = false;
-        this.compile(this._settings.getDocumentPath());
+        this.compile({
+            compileSilent:    true,
+            finishedCallback: finishedCallback
+        });
     }
 
     onShowForm(data) {
@@ -322,11 +356,13 @@ exports.IDEEvents = class extends CompileAndRun {
     onGetSource(callback) {
         this._editor.getValue(
             (info) => {
-                this._projectFilename = info.filename;
-                this._source          = info.source;
-                callback();
+                if (info) {
+                    this._projectFilename = info.filename;
+                    this._source          = info.source;
+                }
+                callback(!!info);
             },
-            this._compileSilent
+            this._compileSilent // If compiling silent then the select project dialog will be suppresed!
         );
     }
 

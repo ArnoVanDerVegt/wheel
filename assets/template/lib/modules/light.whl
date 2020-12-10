@@ -1,0 +1,56 @@
+; @module Light
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @description
+; This file contains a procedures to control the `EV3` or `Powered Up` light.
+
+; @const The light module.
+#define MODULE_LIGHT           3
+
+; @const Module call to control the light.
+#define LIGHT_UPDATE           0
+
+; @const Light colors.
+#define LIGHT_OFF              0
+#define LIGHT_GREEN            1
+#define LIGHT_RED              2
+#define LIGHT_ORANGE           3
+
+#define LIGHT_OFF              0
+#define LIGHT_GREEN            1
+#define LIGHT_RED              2
+#define LIGHT_ORANGE           3
+#define LIGHT_GREEN_FLASH      4
+#define LIGHT_RED_FLASH        5
+#define LIGHT_ORANGE_FLASH     6
+#define LIGHT_GREEN_PULSE      7
+#define LIGHT_RED_PULSE        8
+#define LIGHT_ORANGE_PULSE     9
+
+#define LIGHT_PU_BLACK         0
+#define LIGHT_PU_PINK          1
+#define LIGHT_PU_PURPLE        2
+#define LIGHT_PU_BLUE          3
+#define LIGHT_PU_LIGHT_BLUE    4
+#define LIGHT_PU_CYAN          5
+#define LIGHT_PU_GREEN         6
+#define LIGHT_PU_YELLOW        7
+#define LIGHT_PU_ORANGE        8
+#define LIGHT_PU_RED           9
+#define LIGHT_PU_WHITE        10
+#define LIGHT_PU_NONE        255
+
+; @proc          Turn the light on or off.
+; @param layer   The layer, only applies to Powered Up.
+; @param mode    The color and pattern.
+proc lightLayer(number layer, number mode)
+    addr layer
+    mod  MODULE_LIGHT, LIGHT_UPDATE
+end
+
+; @proc          Turn the light on or off.
+; @param mode    The color and pattern.
+proc light(number mode)
+    lightLayer(0, mode)
+end

@@ -1,0 +1,46 @@
+; @module Component/Timeout
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.timeout
+
+; @const The timeout component module.
+#define MODULE_COMPONENT_TIMEOUT   133  ; `image:images/buttons/timerBlack.svg`
+
+; @const Module calls for timeout component functions.
+#define TIMEOUT_COMPONENT_SET_TIME   0
+#define TIMEOUT_COMPONENT_START      1
+#define TIMEOUT_COMPONENT_CANCEL     2
+
+; @property name string The component name.
+; @property x    number The left position of the component icon, this only applies to the icon in design mode.
+; @property y    number The top position of the component icon, this only applies to the icon in design mode.
+; @property time number The timeout time in milliseconds.
+
+; @event onTimeout    Called when timeout time is expired.
+; @param windowHandle number The handle of the parent window of the timeout component.
+
+; @proc                   Set the timeout time.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param time             The timeout time in milli seconds.
+proc setTime(number windowHandle, number componentHandle, number time)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TIMEOUT, TIMEOUT_COMPONENT_SET_TIME
+end
+
+; @proc                   Start the timeout.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc start(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TIMEOUT, TIMEOUT_COMPONENT_START
+end
+
+; @proc                   Cancel the timeout.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc cancel(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_TIMEOUT, TIMEOUT_COMPONENT_CANCEL
+end

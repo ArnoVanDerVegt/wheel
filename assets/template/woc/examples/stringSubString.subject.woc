@@ -8,8 +8,8 @@ This demo declares a string with a value, takes two sub strings and prints them 
 @example
 #project "String indexOf example"
 
-#include "lib/standard.whl"
-#include "lib/string.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/string.whl"
 
 proc main()
     string s = "The quick brown fox jumped..."

@@ -4,8 +4,8 @@
 
 ; When you run this example then a file named `furniture.rtf` will be written in the `examples/file/output`.
 
-#include "lib/standard.whl"
-#include "lib/file.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/file.whl"
 
 proc main()
     if fileExists("furniture.rtf")

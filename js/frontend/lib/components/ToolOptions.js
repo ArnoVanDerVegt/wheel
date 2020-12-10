@@ -27,6 +27,7 @@ exports.ToolOptions = class extends DOMNode {
         this._className     = opts.className     || '';
         this._elements      = [];
         this.initDOM();
+        (typeof opts.id === 'function') && opts.id(this);
     }
 
     remove() {

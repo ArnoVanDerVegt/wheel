@@ -99,6 +99,9 @@ exports.Dropdown = class extends Component {
         this._tabIndex     = opts.tabIndex;
         this._onChange     = opts.onChange;
         this.initDOM(opts.parentNode);
+        if ('value' in opts) {
+            this.setValue(opts.value);
+        }
     }
 
     initListItems() {
@@ -261,11 +264,11 @@ exports.Dropdown = class extends Component {
             } else {
                 refs.valueImg.style.display = 'none';
             }
-            refs.valueImgWrapper.style.backgroundColor = foundItem.color || 'transparent';
-            refs.valueTitle.innerHTML                  = foundItem.title || '';
+            refs.valueImgWrapper.style.backgroundColor = foundItem.color    || 'transparent';
+            refs.valueTitle.innerHTML                  = foundItem.title    || '';
             refs.valueSubTitle.innerHTML               = foundItem.subTitle || '';
         } else {
-            this._refs.dropdownValue.innerHTML = foundItem.title;
+            this._refs.dropdownValue.innerHTML = foundItem.title || '';
         }
         return this;
     }

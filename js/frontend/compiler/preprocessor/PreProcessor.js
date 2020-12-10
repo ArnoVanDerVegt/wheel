@@ -25,6 +25,7 @@ exports.PreProcessor = class PreProcessor {
         this._projectPath         = path.getPathAndFilename(opts.projectFilename || '').path;
         this._linter              = opts.linter;
         this._onGetFileData       = opts.onGetFileData;
+        this._onGetFileDataError  = opts.onGetFileDataError;
         this._onGetEditorFileData = opts.onGetEditorFileData;
         this._onError             = opts.onError;
         this._onFinished          = opts.onFinished;
@@ -77,11 +78,11 @@ exports.PreProcessor = class PreProcessor {
             switch (token.cls) {
                 case t.TOKEN_META:
                     switch (token.lexeme) {
-                        case '#include':  this.compileInclude(iterator, token, fileItem.filename, includes); break;
-                        case '#define':   metaCompiler.compileDefine  (iterator, token, fileItem.filename);  break;
-                        case '#image':    metaCompiler.compileImage   (iterator, token, fileItem.filename);  break;
-                        case '#text':     metaCompiler.compileText    (iterator, token, fileItem.filename);  break;
-                        case '#resource': metaCompiler.compileResource(iterator, token, fileItem.filename);  break;
+                        case t.LEXEME_META_INCLUDE:  this.compileInclude(iterator, token, fileItem.filename, includes); break;
+                        case t.LEXEME_META_DEFINE:   metaCompiler.compileDefine  (iterator, token, fileItem.filename);  break;
+                        case t.LEXEME_META_IMAGE:    metaCompiler.compileImage   (iterator, token, fileItem.filename);  break;
+                        case t.LEXEME_META_TEXT:     metaCompiler.compileText    (iterator, token, fileItem.filename);  break;
+                        case t.LEXEME_META_RESOURCE: metaCompiler.compileResource(iterator, token, fileItem.filename);  break;
                     }
                     break;
             }
@@ -138,6 +139,10 @@ exports.PreProcessor = class PreProcessor {
     }
 
     onFileData(fileItem, includeNode, data) {
+        if (data === null) {
+            this._onGetFileDataError && this._onGetFileDataError(fileItem);
+            return;
+        }
         this._fileCount--;
         if (fileItem.tokens === null) {
             this.processIncludes(fileItem, data);

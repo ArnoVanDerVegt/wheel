@@ -63,6 +63,7 @@ exports.Component = class extends DOMNode {
         this._color         = ('color'    in opts) ? opts.color    : 'green';
         this._width         = ('width'    in opts) ? opts.width    : 0;
         this._height        = ('height'   in opts) ? opts.height   : 0;
+        this._zIndex        = ('zIndex'   in opts) ? opts.zIndex   : false;
         this._style         = opts.style || {};
         this._className     = opts.className     || '';
         this._baseClassName = opts.baseClassName || '';

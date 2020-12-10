@@ -2,8 +2,8 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "Math abs/neg example"
 
-#include "lib/standard.whl"
-#include "lib/math.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
 
 proc main()
     clearConsole()

@@ -1,13 +1,13 @@
 #project "Powered up device example"
 
-#include "lib/standard.whl"
-#include "lib/poweredUp.whl"
-#include "lib/math.whl"
-#include "lib/components/component.whl"
-#include "lib/components/form.whl"
-#include "lib/components/poweredUpDevice.whl"
-#include "lib/components/button.whl"
-#include "lib/components/checkbox.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/poweredUp.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/components/component.whl"
+#include "lib/modules/components/form.whl"
+#include "lib/modules/components/poweredUpDevice.whl"
+#include "lib/modules/components/button.whl"
+#include "lib/modules/components/checkbox.whl"
 
 #define PUB_DEVICE_BUTTON_BASIC_MOTOR      0x542DC532
 #define PUB_DEVICE_BUTTON_BOOST_DISTANCE   0xCA72F645

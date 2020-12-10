@@ -12,7 +12,7 @@ exports.SoundModule = class extends VMModule {
         switch (commandId) {
             case soundModuleConstants.SOUND_PLAY_TONE:
                 let playTone = vmData.getRecordFromSrcOffset(['frequency', 'duration', 'volume']);
-                vm.sleep(playTone.duration);
+                vm.sleepForProcess(playTone.duration);
                 this.emit('Sound.PlayTone', playTone);
                 break;
             case soundModuleConstants.SOUND_PLAY_SAMPLE:

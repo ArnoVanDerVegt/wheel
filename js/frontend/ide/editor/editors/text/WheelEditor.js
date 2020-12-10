@@ -150,13 +150,20 @@ exports.WheelEditor = class extends Editor {
     }
 
     setValue(value, reset) {
+        let codeMirror = this._codeMirror;
+        let cursor     = codeMirror.getCursor();
         if (value !== this.getValue()) {
-            this._codeMirror.setValue(value);
+            codeMirror.setValue(value);
+            codeMirror.setCursor(cursor);
         }
-        reset && this._codeMirror.clearHistory();
+        reset && codeMirror.clearHistory();
     }
 
     getCanFind() {
+        return true;
+    }
+
+    getCanFormat() {
         return true;
     }
 

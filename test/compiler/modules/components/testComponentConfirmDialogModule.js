@@ -10,7 +10,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/confirmDialog.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/confirmDialog.whl';
 
 describe(
     'Test Confirm dialog module',

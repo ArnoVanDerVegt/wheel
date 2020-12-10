@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/loadingDots.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/loadingDots.whl';
 
 describe(
     'Test Loading dots component module',

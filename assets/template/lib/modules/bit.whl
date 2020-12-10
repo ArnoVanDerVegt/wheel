@@ -1,0 +1,69 @@
+; @module Bit
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @description
+; This file contains a procedures for bitwise operations.
+
+; @const The bit module.
+#define MODULE_BIT     11
+
+; @const Module calls for bit functions.
+#define BIT_BIT_OR      0
+#define BIT_BIT_AND     1
+#define BIT_TO_BIT      2
+#define BIT_TO_BIT_NOT  3
+#define BIT_SHL         4
+#define BIT_SHR         5
+
+; @proc             Get the bitwise or value.
+; @param value      The value.
+; @param orValue    The or value.
+; @return           The or value.
+proc bitOr(number value, number orValue)
+    addr value
+    mod  MODULE_BIT, BIT_BIT_OR
+end
+
+; @proc             Get the bitwise and value.
+; @param value      The value.
+; @param orValue    The and value.
+; @return           The and value.
+proc bitAnd(number value, number andValue)
+    addr value
+    mod  MODULE_BIT, BIT_BIT_AND
+end
+
+; @proc             Return 1 if not 0 else return 0
+; @param value      The value.
+; @return           0 or 1.
+proc toBit(number value)
+    addr value
+    mod  MODULE_BIT, BIT_TO_BIT
+end
+
+; @proc             Return 1 if 0 else return 0
+; @param value      The value.
+; @return           0 or 1.
+proc toBitNot(number value)
+    addr value
+    mod  MODULE_BIT, BIT_TO_BIT_NOT
+end
+
+; @proc             Shift value left.
+; @param value      The value.
+; @param shift      Number of bits to shift left.
+; @return           The shifted value.
+proc shl(number value)
+    addr value
+    mod  MODULE_BIT, BIT_SHL
+end
+
+; @proc             Shift value righ.
+; @param value      The value.
+; @param shift      Number of bits to shift right.
+; @return           The shifted value.
+proc shr(number value)
+    addr value
+    mod  MODULE_BIT, BIT_SHR
+end

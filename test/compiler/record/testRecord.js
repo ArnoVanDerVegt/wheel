@@ -106,7 +106,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [9],            [stack + 0]'
+                        '0000|0000 set     [9],            [stack]'
                     ],
                     false
                 );
@@ -144,7 +144,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [10],           [stack + 0]'
+                        '0000|0000 set     [10],           [stack]'
                     ],
                     false
                 );
@@ -167,7 +167,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    23'
+                        '0000|0000 set     [stack],        23'
                     ],
                     [
                         9, 0, 0, 0, 1, 0, 0, 0, 0, 23
@@ -207,7 +207,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    31',
+                        '0000|0000 set     [stack],        31',
                         '0001|0001 set     [stack + 1],    32'
                     ],
                     [
@@ -229,7 +229,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [9]'
+                        '0000|0000 set     [stack],        [9]'
                     ],
                     false
                 );
@@ -247,7 +247,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [stack + 2]'
+                        '0000|0000 set     [stack],        [stack + 2]'
                     ],
                     false
                 );
@@ -409,7 +409,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [9]'
+                        '0000|0000 set     [stack],        [9]'
                     ],
                     false
                 );
@@ -432,7 +432,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [10]'
+                        '0000|0000 set     [stack],        [10]'
                     ],
                     false
                 );
@@ -455,7 +455,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [11]'
+                        '0000|0000 set     [stack],        [11]'
                     ],
                     false
                 );
@@ -478,7 +478,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [12]'
+                        '0000|0000 set     [stack],        [12]'
                     ],
                     false
                 );
@@ -546,7 +546,7 @@ describe(
                         '0002|0000 set     range2,         [21]',
                         '0003|0000 mod     0,              0',
                         '0004|0000 add     ptr,            [21]',
-                        '0005|0000 set     [19],           [ptr + 0]'
+                        '0005|0000 set     [19],           [ptr]'
                     ],
                     false
                 );
@@ -571,7 +571,7 @@ describe(
                         '0002|0000 set     range2,         [21]',
                         '0003|0000 mod     0,              0',
                         '0004|0000 add     ptr,            [21]',
-                        '0005|0000 set     [20],           [ptr + 0]'
+                        '0005|0000 set     [20],           [ptr]'
                     ],
                     false
                 );
@@ -615,7 +615,7 @@ describe(
                         '0002|0000 set     range2,         [21]',
                         '0003|0000 mod     0,              0',
                         '0004|0000 add     ptr,            [21]',
-                        '0005|0000 set     [20],           [ptr + 0]'
+                        '0005|0000 set     [20],           [ptr]'
                     ],
                     false
                 );
@@ -715,7 +715,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 5],    [stack + 0]'
+                        '0000|0000 set     [stack + 5],    [stack]'
                     ],
                     false
                 );
@@ -759,7 +759,7 @@ describe(
                         '0002|0000 set     range2,         [stack + 8]',
                         '0003|0000 mod     0,              0',
                         '0004|0000 add     ptr,            [stack + 8]',
-                        '0005|0000 set     [stack + 6],    [ptr + 0]'
+                        '0005|0000 set     [stack + 6],    [ptr]'
                     ],
                     false
                 );
@@ -784,7 +784,7 @@ describe(
                         '0002|0000 set     range2,         [stack + 5]',
                         '0003|0000 mod     0,              0',
                         '0004|0000 add     ptr,            [stack + 5]',
-                        '0005|0000 set     [stack + 6],    [ptr + 0]',
+                        '0005|0000 set     [stack + 6],    [ptr]',
                         '0006|0001 set     ptr,            stack',
                         '0007|0002 set     [ptr + 4],      [stack + 6]'
                     ],
@@ -832,7 +832,7 @@ describe(
                         '0002|0000 set     range2,         [stack + 6]',
                         '0003|0000 mod     0,              0',
                         '0004|0000 add     ptr,            [stack + 6]',
-                        '0005|0000 set     [stack + 7],    [ptr + 0]',
+                        '0005|0000 set     [stack + 7],    [ptr]',
                         '0006|0001 set     ptr,            stack',
                         '0007|0002 set     [ptr + 5],      [stack + 7]'
                     ],
@@ -853,7 +853,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    [stack + 10]'
+                        '0000|0000 set     [stack],        [stack + 10]'
                     ],
                     false
                 );
@@ -873,7 +873,7 @@ describe(
                     ],
                     [
                         '0000|0000 set     ptr,            stack',
-                        '0001|0001 set     [stack + 0],    [ptr + 6]'
+                        '0001|0001 set     [stack],        [ptr + 6]'
                     ],
                     false
                 );
@@ -1046,13 +1046,13 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    91',
+                        '0000|0000 set     [stack],        91',
                         '0001|0000 set     ptr,            9',
                         '0002|0000 set     range1,         10',
                         '0003|0000 set     range2,         [19]',
                         '0004|0000 mod     0,              0',
                         '0005|0000 add     ptr,            [19]',
-                        '0006|0000 set     [ptr + 0],      [stack + 0]'
+                        '0006|0000 set     [ptr],          [stack]'
                     ],
                     false
                 );
@@ -1120,7 +1120,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    61',
+                        '0000|0000 set     [stack],        61',
                         '0001|0000 set     ptr,            9',
                         '0002|0000 set     range1,         10',
                         '0003|0000 set     range2,         [29]',
@@ -1128,7 +1128,7 @@ describe(
                         '0005|0000 set     [stack + 1],    [29]',
                         '0006|0000 mul     [stack + 1],    2',
                         '0007|0000 add     ptr,            [stack + 1]',
-                        '0008|0000 set     [ptr + 0],      [stack + 0]'
+                        '0008|0000 set     [ptr],          [stack]'
                     ],
                     false
                 );
@@ -1196,7 +1196,7 @@ describe(
                         'end'
                     ],
                     [
-                        '0000|0000 set     [stack + 0],    78',
+                        '0000|0000 set     [stack],        78',
                         '0001|0000 set     ptr,            9',
                         '0002|0000 set     range1,         10',
                         '0003|0000 set     range2,         [29]',
@@ -1204,7 +1204,7 @@ describe(
                         '0005|0000 set     [stack + 1],    [29]',
                         '0006|0000 mul     [stack + 1],    2',
                         '0007|0000 add     ptr,            [stack + 1]',
-                        '0008|0000 set     [ptr + 0],      [stack + 0]'
+                        '0008|0000 set     [ptr],          [stack]'
                     ],
                     false
                 );

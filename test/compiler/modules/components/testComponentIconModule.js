@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/icon.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/icon.whl';
 
 describe(
     'Test Icon component module',

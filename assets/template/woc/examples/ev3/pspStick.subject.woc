@@ -9,11 +9,11 @@ This example shows how to use the Mindsensors PSP device to read left and right 
 @example
 #project "PSP stick demo"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/sensor.whl"
-#include "lib/screen.whl"
-#include "lib/psp.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/sensor.whl"
+#include "lib/modules/screen.whl"
+#include "lib/modules/psp.whl"
 
 #display "EV3, PSP"
 

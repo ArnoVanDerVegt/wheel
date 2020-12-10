@@ -28,10 +28,10 @@ exports.Text = class {
                         }
                         break;
                     case $.T_NUM_L:
-                        p = '[stack + ' + param.getValue() + ']';
+                        p = (param.getValue() === 0) ? '[stack]' : ('[stack + ' + param.getValue() + ']');
                         break;
                     case $.T_NUM_P:
-                        p = '[ptr + ' + param.getValue() + ']';
+                        p = (param.getValue() === 0) ? '[ptr]' : ('[ptr + ' + param.getValue() + ']');
                         break;
                 }
                 return p;
@@ -104,6 +104,9 @@ exports.Text = class {
         }
     }
 
+    /**
+     * The unit tests don't use the full output to validate the program.
+    **/
     getOutput(full) {
         let program     = this._progam;
         let text        = '';
@@ -159,6 +162,16 @@ exports.Text = class {
             },
             this
         );
+        if (full) {
+            let eventInfo = program.getEventInfo();
+            text += '#PROC\n';
+            text += '    ' + Object.keys(eventInfo).length + '\n';
+            for (let event in eventInfo) {
+                text += '    proc:   "' + event + '"\n';
+                text += '    offset: ' + eventInfo[event] + '\n';
+            }
+            text += '\n';
+        }
         return text;
     }
 };

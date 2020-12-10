@@ -9,9 +9,9 @@ This example shows how draw black and white, filled and line circles.
 @example
 #project "Screen circle example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/screen.whl"
 
 #display "EV3"
 

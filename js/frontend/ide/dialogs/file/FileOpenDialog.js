@@ -157,7 +157,7 @@ exports.FileOpenDialog = class extends FileDialog {
                     .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
                 this.getFiles(
                     false,
-                    path,
+                    opts.path || this._settings.getDocumentPath(),
                     (path, files) => {
                         this._refs.files.onShowFiles(path, files);
                     }

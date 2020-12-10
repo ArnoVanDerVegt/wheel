@@ -26,13 +26,11 @@ exports.CompileRet = class extends CompileScope {
                 if (token.cls === t.TOKEN_NUMBER) {
                    program.addCommand($.CMD_RET, $.T_NUM_C, token.value, 0, 0);
                 } else {
-                    this._varExpression.compileExpressionToRegister(
-                        scope.findIdentifier(retExpression.tokens[0].lexeme),
-                        {tokens: mathExpressionNode.getValue()},
-                        $.REG_PTR,
-                        false,
-                        false
-                    );
+                    this._varExpression.compileExpressionToRegister({
+                        identifier: scope.findIdentifier(retExpression.tokens[0].lexeme),
+                        expression: {tokens: mathExpressionNode.getValue()},
+                        reg:        $.REG_PTR
+                    });
                     program.addCommand($.CMD_RET, $.T_NUM_P, 0, 0, 0);
                 }
             } else {

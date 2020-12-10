@@ -485,34 +485,6 @@ exports.PoweredUp = class extends BasicDevice {
         return brake ? poweredUpConstants.BrakingStyle.HOLD : poweredUpConstants.BrakingStyle.FLOAT;
     }
 
-    setDirection(port, direction, gain) {
-        let motorDevice = port.motorDevice;
-        if (!motorDevice) {
-            return;
-        }
-        if (port.currentDirection !== direction) {
-            if (motorDevice.setDecelerationTime) {
-                motorDevice.setDecelerationTime(0);
-            }
-            let speed = Math.max(Math.abs(port.speed) * gain, 50);
-            switch (direction) {
-                case DIRECTION_REVERSE:
-                    motorDevice.setPower(-speed);
-                    break;
-                case DIRECTION_FORWARD:
-                    motorDevice.setPower(speed);
-                    break;
-                case DIRECTION_NONE:
-                    port.moving = false;
-                    motorDevice.setPower(0);
-                    motorDevice.setBrakingStyle(HOLD);
-                    motorDevice.brake();
-                    break;
-            }
-            port.currentDirection = direction;
-        }
-    }
-
     motorReset(layer, motor) {
         let hHub = this.getHHubByLayer(layer);
         if (!hHub) {
@@ -533,28 +505,16 @@ exports.PoweredUp = class extends BasicDevice {
             for (let id = 0; id < 4; id++) {
                 let port        = layers[layer].ports[id];
                 let motorDevice = port.motorDevice;
-                if (motorDevice) {
-                    if (port.moving) {
-                        if ((Math.abs(port.endDegrees - port.degrees) <= port.threshold) ||
-                            ((port.startDegrees < port.endDegrees) && (port.degrees >= port.endDegrees)) ||
-                            ((port.startDegrees > port.endDegrees) && (port.degrees <= port.endDegrees))) {
-                            if (Math.abs(port.degrees - port.endDegrees) > port.threshold) {
-                                port.startDegrees = port.degrees;
-                                if (port.degrees < port.endDegrees) {
-                                    this.setDirection(port, DIRECTION_FORWARD, 0.5);
-                                } else {
-                                    this.setDirection(port, DIRECTION_REVERSE, 0.5);
-                                }
-                            } else {
-                                this.setDirection(port, DIRECTION_NONE, 0);
-                            }
-                        } else if (port.degrees < port.endDegrees) {
-                            this.setDirection(port, DIRECTION_FORWARD, 1);
-                        } else {
-                            this.setDirection(port, DIRECTION_REVERSE, 1);
-                        }
-                    } else {
-                        this.setDirection(port, DIRECTION_NONE, 0);
+                if (motorDevice && port.moving) {
+                    // Check if in range of the threshold...
+                    if ((Math.abs(port.endDegrees - port.degrees) <= port.threshold) ||
+                        // Or if the motor overshoots the target...
+                        ((port.endDegrees > port.startDegrees) && (port.degrees >= port.endDegrees)) ||
+                        ((port.endDegrees < port.startDegrees) && (port.degrees <= port.endDegrees))) {
+                        port.moving = false;
+                        motorDevice.setPower(0);
+                        motorDevice.setBrakingStyle(HOLD);
+                        motorDevice.brake();
                     }
                 }
             }
@@ -574,13 +534,22 @@ exports.PoweredUp = class extends BasicDevice {
         }
         if (motorDevice.rotateByDegrees) {
             let port = this.getLayerPort(layer, motor);
-            this.setDirection(port, DIRECTION_NONE);
-            port.motorDevice      = motorDevice;
-            port.moving           = true;
-            port.startDegrees     = port.degrees;
-            port.endDegrees       = port.degrees + degrees;
-            port.speed            = speed;
-            port.currentDirection = DIRECTION_NONE;
+            port.motorDevice  = motorDevice;
+            port.moving       = true;
+            port.startDegrees = port.degrees;
+            port.endDegrees   = port.degrees + degrees;
+            port.speed        = speed;
+            if (port.degrees < port.endDegrees) {
+                port.currentDirection = DIRECTION_FORWARD;
+            } else {
+                port.currentDirection = DIRECTION_REVERSE;
+            }
+            speed = Math.abs(speed);
+            if (degrees < 0) {
+                motorDevice.rotateByDegrees(Math.abs(degrees), -speed);
+            } else {
+                motorDevice.rotateByDegrees(degrees, speed);
+            }
         }
         callback && callback();
     }

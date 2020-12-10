@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/radio.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/radio.whl';
 
 describe(
     'Test Radio component module',

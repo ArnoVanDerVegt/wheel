@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/slider.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/slider.whl';
 
 describe(
     'Test Slider component module',

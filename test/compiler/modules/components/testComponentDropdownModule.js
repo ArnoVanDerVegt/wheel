@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/dropdown.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/dropdown.whl';
 
 describe(
     'Test Dropdown component module',

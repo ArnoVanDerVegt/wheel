@@ -4,7 +4,7 @@
 ; "Local vars" console view var demo
 #project "Console array debug demo"
 
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 
 record Demo
     number x[25], y[25]

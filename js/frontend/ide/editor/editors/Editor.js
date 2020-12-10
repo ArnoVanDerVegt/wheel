@@ -99,6 +99,10 @@ exports.Editor = class extends DOMNode {
         return false;
     }
 
+    getCanFormat() {
+        return false;
+    }
+
     getEditor() {
         return null;
     }
@@ -180,7 +184,9 @@ exports.Editor = class extends DOMNode {
                 } else {
                     this.showSaveError(data.error || 'Unknown error.');
                 }
-                callback && callback();
+                if (typeof callback === 'function') {
+                    callback();
+                }
             }
         );
     }

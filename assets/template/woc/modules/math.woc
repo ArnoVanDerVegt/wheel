@@ -4,9 +4,9 @@
 Round a value to the closest integer value.
 
 @example
-#include "lib/standard.whl"
-#include "lib/math.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     number a
@@ -31,9 +31,9 @@ end
 Round a value down to the closest integer value.
 
 @example
-#include "lib/standard.whl"
-#include "lib/math.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     number a
@@ -58,9 +58,9 @@ end
 Round a value up to the closest integer value.
 
 @example
-#include "lib/standard.whl"
-#include "lib/math.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     number a
@@ -85,9 +85,9 @@ end
 Get the absolute value.
 
 @example
-#include "lib/standard.whl"
-#include "lib/math.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     number a
@@ -112,9 +112,9 @@ end
 Get the negative value.
 
 @example
-#include "lib/standard.whl"
-#include "lib/math.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     number a

@@ -264,16 +264,16 @@ exports.createProjectFile = (opts) => {
     if (opts.createForm) {
         formFilename = path.replaceExtension(path.getPathAndFilename(opts.filename).filename, '.wfrm');
         formName     = path.replaceExtension(formFilename, '');
-        addToIncludeFiles('lib/standard.whl');
-        addToIncludeFiles('lib/components/component.whl');
-        addToIncludeFiles('lib/components/form.whl');
+        addToIncludeFiles('lib/modules/standard.whl');
+        addToIncludeFiles('lib/modules/components/component.whl');
+        addToIncludeFiles('lib/modules/components/form.whl');
     }
     if (opts.poweredUp) {
-        addToIncludeFiles('lib/device.whl');
-        addToIncludeFiles('lib/poweredUp.whl');
-        addToIncludeFiles('lib/motor.whl');
-        addToIncludeFiles('lib/sensor.whl');
-        addToIncludeFiles('lib/light.whl');
+        addToIncludeFiles('lib/modules/device.whl');
+        addToIncludeFiles('lib/modules/poweredUp.whl');
+        addToIncludeFiles('lib/modules/motor.whl');
+        addToIncludeFiles('lib/modules/sensor.whl');
+        addToIncludeFiles('lib/modules/light.whl');
     }
     addIncludes(lines, includeFiles);
     if (opts.createForm) {
@@ -355,8 +355,8 @@ exports.generateSourceFromComponents = (opts) => {
         lines.push(
             '#project "' + formName + '"',
             '',
-            '#include "lib/standard.whl"',
-            '#include "lib/components/component.whl"'
+            '#include "lib/modules/standard.whl"',
+            '#include "lib/modules/components/component.whl"'
         );
     }
     includes.forEach((include) => {

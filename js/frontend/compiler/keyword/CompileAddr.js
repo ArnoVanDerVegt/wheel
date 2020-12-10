@@ -18,6 +18,10 @@ exports.CompileAddr = class extends CompileScope {
             throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
         }
         this._program.nextBlockId(token, this._scope);
-        this._varExpression.compileExpressionToRegister(identifier, addrExpression, $.REG_SRC, false, false);
+        this._varExpression.compileExpressionToRegister({
+            identifier: identifier,
+            expression: addrExpression,
+            reg:        $.REG_SRC
+        });
     }
 };

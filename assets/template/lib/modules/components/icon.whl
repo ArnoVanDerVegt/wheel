@@ -1,0 +1,62 @@
+; @module Component/Icon
+; @device I
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+namespace components.icon
+
+; @const The form component module.
+#define MODULE_COMPONENT_ICON     99    ; `image:images/buttons/iconBlack.svg`
+
+; @const Module calls for the icon component functions.
+#define ICON_COMPONENT_SET_HIDDEN  0
+#define ICON_COMPONENT_SET_X       1
+#define ICON_COMPONENT_SET_Y       2
+
+; @property name   string  The component name.
+; @property hidden boolean Hide the component.
+; @property x      number  The left position of the component inside the parent component.
+; @property y      number  The top position of the component inside the parent component.
+; @property zIndex number  The depth of the component related to other components in the parent.
+; @property icon   icon    An icon image which is selectable from a list in the editor.
+
+; @event onClick             Called when the icon is clicked.
+; @param windowHandle number The handle of the parent window of the icon.
+
+; @event onMouseDown         Called when the mouse is pressed on the icon.
+; @param windowHandle number The handle of the parent window of the icon.
+
+; @event onMouseUp           Called when the mouse is released on the icon.
+; @param windowHandle number The handle of the parent window of the icon.
+
+; @event onMouseMove         Called when the mouse moves over the icon.
+; @param windowHandle number The handle of the parent window of the icon.
+
+; @event onMouseOut           Called when the mouse moves out of the icon.
+; @param windowHandle number The handle of the parent window of the icon.
+
+; @proc                   Hide the icon.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param hidden           Hidden `TRUE` or `FALSE`.
+proc setHidden(number windowHandle, number componentHandle, number hidden)
+    addr windowHandle
+    mod  MODULE_COMPONENT_ICON, ICON_COMPONENT_SET_HIDDEN
+end
+
+; @proc                   Set the x position of the icon.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param x                The x position in pixels.
+proc setX(number windowHandle, number componentHandle, number x)
+    addr windowHandle
+    mod  MODULE_COMPONENT_ICON, ICON_COMPONENT_SET_X
+end
+
+; @proc                   Set the y position of the icon.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+; @param y                The y position in pixels.
+proc setY(number windowHandle, number componentHandle, number y)
+    addr windowHandle
+    mod  MODULE_COMPONENT_ICON, ICON_COMPONENT_SET_Y
+end

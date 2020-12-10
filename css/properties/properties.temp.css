@@ -1,0 +1,556 @@
+body.ide.no-properties div.properties {
+    display:                        none;
+}
+.properties {
+    right:                          0;
+    top:                            40px;
+    width:                          304px;
+    height:                         calc(100% - 24px);
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+    border-width:                   0 0 0 1px;
+    z-index:                        1;
+}
+.properties .tabs {
+    top:                            48px;
+    z-index:                        100;
+}
+.properties .properties-options {
+    height:                         40px;
+    margin:                         0;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+    background-color:               var(--ui-background2);
+}
+.properties .properties-options .close-button {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+}
+.properties .properties-options .dropdown {
+    float:                          right;
+    margin:                         8px 8px 0 0;
+    width:                          calc(100% - 140px);
+}
+.properties .component-uid {
+    left:                           0;
+    top:                            calc(40px + 47px);
+    height:                         32px;
+    line-height:                    32px;
+    text-align:                     center;
+    border:                         var(--ui-border1);
+    border-width:                   1px 0 1px 0;
+    color:                          var(--ui-text1);
+    font-size:                      12px;
+    font-family:                    monospace;
+}
+/* Properties, events */
+.properties .property-container,
+.properties .event-container,
+.properties .components-container,
+.properties .form-container {
+    left:                           0;
+    top:                            calc(40px + 47px + 32px);
+    height:                         calc(100% - 56px - 47px - 32px);
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+    display:                        none;
+    z-index:                        50;
+}
+.properties .property-container.visible {
+    display:                        block;
+}
+.properties .event-container.visible {
+    display:                        block;
+}
+.properties .components-container.visible {
+    display:                        block;
+}
+.properties .property-container .property-separator,
+.properties .event-container .event-separator {
+    top:                            0;
+    border:                         var(--ui-border1);
+    border-width:                   0 1px 0 0;
+    border-style:                   dotted;
+    width:                          50%;
+    pointer-events:                 none;
+    z-index:                        5;
+}
+.properties .property-container .property,
+.properties .event-container .event {
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+    border-style:                   dotted;
+    cursor:                         pointer;
+}
+.properties .property-container .property.focus,
+.properties .event-container .event.focus {
+    background-color:               var(--ui-background2);
+}
+.properties .property-container .property .property-name.image-dropdown,
+.properties .property-container .property .property-value.image-dropdown {
+    height:                         52px;
+}
+.properties .property-container .property .property-name,
+.properties .property-container .property .property-value,
+.properties .event-container .event .event-name,
+.properties .event-container .event .event-value {
+    float:                          left;
+    width:                          50%;
+    height:                         28px;
+    font-size:                      15px;
+    line-height:                    28px;
+    padding:                        0;
+}
+.properties .property-container .property .property-name.image-dropdown,
+.properties .property-container .property .property-value.image-dropdown {
+    height:                         52px;
+}
+.properties .property-container .property .property-name,
+.properties .event-container .event .event-name {
+    padding:                        0 0 0 8px;
+    position:                       relative;
+    -webkit-user-select:            none;
+}
+/* Text input */
+.properties .property-container .property .property-value .text-input,
+.properties .property-container .property .property-value .text-area {
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    border:                         1px solid transparent;
+    padding:                        0 0 0 8px;
+    line-height:                    26px;
+    outline:                        none;
+    font-size:                      15px;
+    background-color:               transparent;
+}
+.properties .property-container .property .property-value .text-input:focus,
+.properties .property-container .property .property-value .text-area:focus {
+    border:                         var(--focus-border-dotted);
+}
+.properties .property-container .property .property-value .text-input:focus.invalid,
+.properties .property-container .property .property-value .text-input.invalid,
+.properties .property-container .property .property-value .text-area:focus.invalid,
+.properties .property-container .property .property-value .text-area.invalid {
+    border:                         var(--text-input-invalid-border);
+}
+/* Text area */
+.properties .property-container .property .property-name.text-area {
+    width:                          302px;
+    height:                         28px;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 1px 0;
+}
+.properties .property-container .property .property-name.text-area.focus {
+    background-color:               var(--ui-background2);
+}
+.properties .property-container .property .property-value.text-area {
+    width:                          302px;
+    height:                         100px;
+}
+.properties .property-container .property .property-value .text-area {
+    position:                       absolute;
+    height:                         100px;
+    resize:                         none;
+    background-color:               var(--text-input-background);
+    z-index:                        10;
+    line-height:                    20px;
+}
+/* Icon select */
+.properties .property-container .property .property-value .icon-select,
+.properties .property-container .property .property-value .checkbox {
+    float:                          left;
+    position:                       relative;
+}
+.properties .property-container .property .property-value a {
+    outline:                        none;
+}
+.properties .property-container .property .property-value a.icon-select img {
+    position:                       relative;
+    top:                            -2px;
+}
+.properties .property-container .property .property-value a.icon-select {
+    margin:                         1px 0 0 6px;
+}
+/* Icon, button */
+.properties .property-container .property .property-value .button.green {
+    margin:                         1px 0 0 8px;
+}
+/* Boolean */
+.properties .property-container .property .property-value .checkbox {
+    margin:                         3px 0 0 6px;
+}
+.properties .property-container .property .property-value .dropdown {
+    margin:                         2px 0 0 6px;
+    width:                          calc(100% - 12px);
+}
+/* List */
+.properties .property-container .property .property-name.list-focus,
+.properties .property-container .property .property-value.list-focus {
+    height:                         156px;
+}
+.properties .property-container .property .property-value a.list-selected,
+.properties .property-container .property .property-value a.list-selected:visited {
+    outline:                        none;
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    padding:                        0 0 0 8px;
+    text-decoration:                none;
+    color:                          var(--ui-text1);
+}
+.properties .property-container .property .property-value a.list-selected {
+    width:                          calc(100% - 40px);
+}
+.properties .property-container .property .property-name .list-content {
+    display:                        none;
+    position:                       absolute;
+    width:                          303px;
+    height:                         calc(100% - 28px);
+    left:                           0px;
+    top:                            28px;
+}
+.properties .property-container .property .property-name.list-focus .list-content {
+    display:                        block;
+    background-color:               var(--ui-background2);
+    border:                         var(--ui-border1);
+    border-width:                   1px 0 0 0;
+    border-style:                   dotted;
+    overflow:                       hidden;
+    overflow-y:                     scroll;
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item {
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+    line-height:                    26px;
+    font-size:                      15px;
+    padding:                        0 0 0 8px;
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item:hover {
+    background-color:               var(--files-hover-background);
+    color:                          var(--files-hover-color);
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item.active,
+.properties .property-container .property .property-name.list-focus .list-content .list-item.active:hover {
+    background-color:               var(--files-selected-background);
+    color:                          var(--files-hover-color);
+}
+.properties .property-container .property a.list-item-button.add,
+.properties .property-container .property .property-name.list-focus .list-content .list-item a.list-item-button {
+    float:                          right;
+    width:                          24px;
+    height:                         28px;
+    text-align:                     center;
+    color:                          inherit;
+    text-decoration:                none;
+    opacity:                        0.25;
+}
+.properties .property-container .property a.list-item-button.add {
+    font-weight:                    bold;
+    font-size:                      20px;
+}
+.properties .property-container .property .property-name.list-focus .list-content.remove-last .list-item a.list-item-button.delete {
+    visibility:                     hidden;
+}
+.properties .property-container .property .property-name.list-focus .list-content.remove-last .list-item:last-child a.list-item-button.delete {
+    visibility:                     visible;
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item:first-child a.list-item-button.up,
+.properties .property-container .property .property-name.list-focus .list-content .list-item:last-child a.list-item-button.down {
+    visibility:                     hidden;
+}
+.properties .property-container .property a.list-item-button.add,
+.properties .property-container .property .property-name.list-focus .list-content .list-item a.list-item-button.delete {
+    margin-right:                   16px;
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item.active a,
+.properties .property-container .property .property-name.list-focus .list-content .list-item:hover a {
+    opacity:                        1;
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item span.list-item-title {
+    float:                          left;
+    width:                          calc(100% - 90px);
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item input[type="text"].list-item-input {
+    float:                          left;
+    width:                          calc(100% - 90px);
+    outline:                        none;
+    border:                         0;
+    height:                         24px;
+    line-height:                    24px;
+    font-size:                      15px;
+    margin:                         2px 0 0 0;
+    display:                        none;
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item.active input[type="text"].list-item-input {
+    display:                        block;
+}
+.properties .property-container .property .property-name.list-focus .list-content .list-item.active span.list-item-title {
+    display:                        none;
+}
+/* Rgb */
+.properties .property-container .property .property-value.rgb {
+    overflow:                       hidden;
+}
+.properties .property-container .property .property-name.color-focus,
+.properties .property-container .property .property-value.color-focus {
+    height:                         120px;
+}
+.properties .property-container .property .property-value .color-row {
+    float:                          left;
+    width:                          100%;
+    height:                         28px;
+}
+.properties .property-container .property .property-value .color-row .color-label,
+.properties .property-container .property .property-value .color-row .color {
+    float:                          left;
+}
+.properties .property-container .property .property-value .color-row .color-label {
+    width:                          44px;
+    height:                         28px;
+    line-height:                    28px;
+}
+.properties .property-container .property .property-value .color-row .color-label.small {
+    font-size:                      11px;
+    padding:                        0 0 0 8px;
+}
+.properties .property-container .property .property-value .color-row .color {
+    width:                          20px;
+    height:                         20px;
+    border:                         var(--ui-border1);
+    margin:                         4px 4px 0 4px;
+    border-radius:                  2px;
+}
+.properties .property-container .property .property-value .color-row .text-input {
+    float:                          right;
+    width:                          calc(100% - 80px);
+    height:                         28px;
+    border:                         1px solid transparent;
+    padding:                        0 0 0 8px;
+    line-height:                    26px;
+    outline:                        none;
+    font-size:                      15px;
+    background-color:               transparent;
+}
+/* Events */
+.properties .event-container .event .event-value .button {
+    margin:                         2px 0 0 8px;
+    width:                          28px;
+
+}
+.properties .event-container .event .event-value .current-value {
+    float:                          right;
+    width:                          calc(100% - 42px);
+    height:                         100%;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    direction:                      rtl;
+    padding:                        0 8px 0 0;
+}
+/* Form */
+.properties .form-container .component {
+    height:                         24px;
+}
+.properties .form-container .component span,
+.properties .form-container .component a {
+    height:                         24px;
+    line-height:                    24px;
+    white-space:                    nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    font-size:                      16px;
+}
+.properties .form-container .component span.icon {
+    width:                          24px;
+    height:                         24px;
+    margin-right:                   8px;
+    background-repeat:              no-repeat;
+    background-size:                24px 24px;
+    background-position:            0 0;
+    background-color:               transparent;
+}
+.properties .form-container .component a.name {
+    padding:                        0 12px 0 8px;
+    border-radius:                  12px;
+    border:                         1px solid transparent;
+    cursor:                         pointer;
+    outline:                        none;
+    user-select:                    none;
+}
+.properties .form-container .component a.name.hidden {
+    opacity:                        0.5;
+}
+.properties .form-container .component a.name:focus {
+    border:                         var(--focus-border-dotted);
+}
+.properties .form-container .component a.name:hover {
+    background-color:               var(--files-hover-background);
+    border:                         var(--files-hover-border);
+    color:                          var(--files-hover-color);
+}
+.properties .form-container .component span.icon.component-button {
+    background-image:               url('images/buttons/buttonBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-button {
+    background-image:               url('images/buttons/buttonWhite.svg');
+}
+.properties .form-container .component span.icon.component-selectbutton {
+    background-image:               url('images/buttons/selectButtonBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-selectbutton {
+    background-image:               url('images/buttons/selectButtonWhite.svg');
+}
+.properties .form-container .component span.icon.component-textinput {
+    background-image:               url('images/buttons/textInputBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-textinput {
+    background-image:               url('images/buttons/textInputWhite.svg');
+}
+.properties .form-container .component span.icon.component-statuslight {
+    background-image:               url('images/buttons/statusLightBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-statuslight {
+    background-image:               url('images/buttons/statusLightWhite.svg');
+}
+.properties .form-container .component span.icon.component-panel {
+    background-image:               url('images/buttons/panelBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-panel {
+    background-image:               url('images/buttons/panelWhite.svg');
+}
+.properties .form-container .component span.icon.component-tabs {
+    background-image:               url('images/buttons/tabsBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-tabs {
+    background-image:               url('images/buttons/tabsWhite.svg');
+}
+.properties .form-container .component span.icon.component-slider {
+    background-image:               url('images/buttons/sliderBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-slider {
+    background-image:               url('images/buttons/sliderWhite.svg');
+}
+.properties .form-container .component span.icon.component-label {
+    background-image:               url('images/buttons/labelBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-label {
+    background-image:               url('images/buttons/labelWhite.svg');
+}
+.properties .form-container .component span.icon.component-checkbox {
+    background-image:               url('images/buttons/checkboxBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-checkbox {
+    background-image:               url('images/buttons/checkboxWhite.svg');
+}
+.properties .form-container .component span.icon.component-rect {
+    background-image:               url('images/buttons/rectStripeBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-rect {
+    background-image:               url('images/buttons/rectStripeWhite.svg');
+}
+.properties .form-container .component span.icon.component-circle {
+    background-image:               url('images/buttons/circleStripeBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-circle {
+    background-image:               url('images/buttons/circleStripeWhite.svg');
+}
+.properties .form-container .component span.icon.component-image {
+    background-image:               url('images/buttons/imageBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-image {
+    background-image:               url('images/buttons/imageWhite.svg');
+}
+.properties .form-container .component span.icon.component-pudevice {
+    background-image:               url('images/buttons/puDeviceBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-pudevice {
+    background-image:               url('images/buttons/puDeviceWhite.svg');
+}
+.properties .form-container .component span.icon.component-ev3sensor {
+    background-image:               url('images/buttons/ev3SensorBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-ev3sensor {
+    background-image:               url('images/buttons/ev3SensorWhite.svg');
+}
+.properties .form-container .component span.icon.component-ev3motor {
+    background-image:               url('images/buttons/ev3MotorBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-ev3motor {
+    background-image:               url('images/buttons/ev3MotorWhite.svg');
+}
+.properties .form-container .component span.icon.component-radio {
+    background-image:               url('images/buttons/radioBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-radio {
+    background-image:               url('images/buttons/radioWhite.svg');
+}
+.properties .form-container .component span.icon.component-loading {
+    background-image:               url('images/buttons/loadingBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-loading {
+    background-image:               url('images/buttons/loadingWhite.svg');
+}
+.properties .form-container .component span.icon.component-progress {
+    background-image:               url('images/buttons/progressBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-progress {
+    background-image:               url('images/buttons/progressWhite.svg');
+}
+.properties .form-container .component span.icon.component-text {
+    background-image:               url('images/buttons/textBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-text {
+    background-image:               url('images/buttons/textWhite.svg');
+}
+.properties .form-container .component span.icon.component-title {
+    background-image:               url('images/buttons/headerBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-title {
+    background-image:               url('images/buttons/headerWhite.svg');
+}
+.properties .form-container .component span.icon.component-dropdown {
+    background-image:               url('images/buttons/dropdownBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-dropdown {
+    background-image:               url('images/buttons/dropdownWhite.svg');
+}
+.properties .form-container .component span.icon.component-listitems {
+    background-image:               url('images/buttons/listItemsBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-listitems {
+    background-image:               url('images/buttons/listItemsWhite.svg');
+}
+.properties .form-container .component span.icon.component-timeout {
+    background-image:               url('images/buttons/timerBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-timeout {
+    background-image:               url('images/buttons/timerWhite.svg');
+}
+.properties .form-container .component span.icon.component-interval {
+    background-image:               url('images/buttons/clockBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-interval {
+    background-image:               url('images/buttons/clockWhite.svg');
+}
+.properties .form-container .component span.icon.component-alertdialog {
+    background-image:               url('images/buttons/alertDialogBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-alertdialog {
+    background-image:               url('images/buttons/alertDialogWhite.svg');
+}
+.properties .form-container .component span.icon.component-confirmdialog {
+    background-image:               url('images/buttons/confirmDialogBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-confirmdialog {
+    background-image:               url('images/buttons/confirmDialogWhite.svg');
+}
+.properties .form-container .component span.icon.component-icon {
+    background-image:               url('images/buttons/iconBlack.svg');
+}
+body.ide.dark .properties .form-container .component span.icon.component-icon {
+    background-image:               url('images/buttons/iconWhite.svg');
+}

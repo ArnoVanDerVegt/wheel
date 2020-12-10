@@ -22,11 +22,11 @@ used to change the color of the status light with the `components.statusLight.se
 @example
 #project "Buttons example"
 
-#include "lib/standard.whl"
-#include "lib/components/component.whl"
-#include "lib/components/form.whl"
-#include "lib/components/button.whl"
-#include "lib/components/statusLight.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/components/component.whl"
+#include "lib/modules/components/form.whl"
+#include "lib/modules/components/button.whl"
+#include "lib/modules/components/statusLight.whl"
 
 #define BUTTONS_BUTTON_BLUE  0x780ACFDE
 #define BUTTONS_BUTTON_GREEN 0x4F7DB0F4

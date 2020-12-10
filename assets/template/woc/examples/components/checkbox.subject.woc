@@ -17,11 +17,11 @@ can be used to address the status light.
 @example
 #project "Checkbox example"
 
-#include "lib/standard.whl"
-#include "lib/components/component.whl"
-#include "lib/components/form.whl"
-#include "lib/components/checkbox.whl"
-#include "lib/components/statusLight.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/components/component.whl"
+#include "lib/modules/components/form.whl"
+#include "lib/modules/components/checkbox.whl"
+#include "lib/modules/components/statusLight.whl"
 
 #define CHECKBOX_FORM_CHECKBOX     0xFD9D281F
 #define CHECKBOX_FORM_STATUS_LIGHT 0x112F9C00

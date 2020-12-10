@@ -144,6 +144,14 @@ end
 @end
 Error 13 "on" or "off" expected.
 
+@section NUMBER_FLOAT_OR_INT_EXPECTED
+@example
+#datatype "wrong"
+proc main()
+end
+@end
+Error 14 "number", "float" or "int" expected.
+
 @section SYNTAX_ERROR_DOT_EXPECTED
 @example
 record Rec
@@ -155,7 +163,7 @@ proc main()
 end
 @end
 @error
-Error #15 "." Expected got "(".
+Error #16 "." Expected got "(".
 @end
 
 @section SYNTAX_ERROR_BRACKET_OPEN_EXPECTED
@@ -168,7 +176,7 @@ proc main()
 end
 @end
 @error
-Error #16 "[" Expected.
+Error #17 "[" Expected.
 @end
 
 @section SYNTAX_ERROR_BRACKET_CLOSE_EXPECTED
@@ -180,7 +188,7 @@ proc main()
 end
 @end
 @error
-Error #17 "]" Expected.
+Error #18 "]" Expected.
 @end
 
 @example
@@ -191,7 +199,7 @@ proc main()
 end
 @end
 @error
-Error #17 "]" Expected.
+Error #18 "]" Expected.
 @end
 
 @section SYNTAX_ERROR_NUMBER_CONSTANT_EXPECTED
@@ -203,7 +211,7 @@ proc main()
 end
 @end
 @error
-Error #18 Number constant expected, got "x".
+Error #19 Number constant expected, got "x".
 @end
 
 @example
@@ -217,7 +225,7 @@ proc main()
 end
 @end
 @error
-Error #18 Number constant expected, got ""wrong"".
+Error #19 Number constant expected, got ""wrong"".
 @end
 
 @example
@@ -226,7 +234,7 @@ proc main()
 end
 @end
 @error
-Error #18 Number constant expected, got "a".
+Error #19 Number constant expected, got "a".
 @end
 
 @section SYNTAX_ERROR_STRING_CONSTANT_EXPECTED
@@ -238,7 +246,7 @@ proc main()
 end
 @end
 @error
-Error #19 String constant expected, got "1".
+Error #20 String constant expected, got "1".
 @end
 
 <!--
@@ -256,7 +264,7 @@ proc main()
 end
 @end
 @error
-Error #19 String constant expected, got "1".
+Error #20 String constant expected, got "1".
 @end
 
 @example
@@ -265,7 +273,7 @@ proc main()
 end
 @end
 @error
-Error #19 String constant expected, got "0".
+Error #20 String constant expected, got "0".
 @end
 
 @section UNDEFINED_IDENTIFIER
@@ -275,7 +283,7 @@ proc main()
 end
 @end
 @error
-Error #21 Undefined identifier "x".
+Error #22 Undefined identifier "x".
 @end
 
 @example
@@ -286,7 +294,7 @@ proc main()
 end
 @end
 @error
-Error #21 Undefined identifier "y".
+Error #22 Undefined identifier "y".
 @end
 
 @example
@@ -295,7 +303,7 @@ proc main()
 end
 @end
 @error
-Error #21 Undefined identifier "line".
+Error #22 Undefined identifier "line".
 @end
 
 @example
@@ -305,7 +313,7 @@ proc main()
 end
 @end
 @error
-Error #21 Undefined identifier "x".
+Error #22 Undefined identifier "x".
 @end
 
 @example
@@ -315,7 +323,7 @@ proc main()
 end
 @end
 @error
-Error #21 Undefined identifier "b".
+Error #22 Undefined identifier "b".
 @end
 
 @example
@@ -326,7 +334,7 @@ proc main()
 end
 @end
 @error
-Error #21 Undefined identifier "x".
+Error #22 Undefined identifier "x".
 @end
 
 @section UNDEFINED_FIELD
@@ -340,7 +348,7 @@ proc main()
 end
 @end
 @error
-Error #22 Undefined field "g".
+Error #23 Undefined field "g".
 @end
 
 @section UNEXPECTED_END_OF_FILE
@@ -348,7 +356,7 @@ Error #22 Undefined field "g".
 proc main()
 @end
 @error
-Error #23 Unexpected end of file.
+Error #24 Unexpected end of file.
 @end
 
 @section UNEXPECTED_CODE_AFTER_META
@@ -358,7 +366,7 @@ proc main()
 end
 @end
 @error
-Error #24 Unexpected code after "#include".
+Error #25 Unexpected code after "#include".
 @end
 
 @example
@@ -367,7 +375,7 @@ proc main()
 end
 @end
 @error
-Error #24 Unexpected code after "#define".
+Error #25 Unexpected code after "#define".
 @end
 
 @example
@@ -376,7 +384,7 @@ proc main()
 end
 @end
 @error
-Error #24 Unexpected code after "#heap".
+Error #25 Unexpected code after "#heap".
 @end
 
 @example
@@ -385,7 +393,7 @@ proc main()
 end
 @end
 @error
-Error #24 Unexpected code after "#optimizer".
+Error #25 Unexpected code after "#optimizer".
 @end
 
 @section DUPLICATE_IDENTIFIER
@@ -396,7 +404,7 @@ proc main()
 end
 @end
 @error
-Error #25 Duplicate identifier "n".
+Error #26 Duplicate identifier "n".
 @end
 
 @example
@@ -408,7 +416,7 @@ proc main()
 end
 @end
 @error
-Error #25 Duplicate identifier.
+Error #26 Duplicate identifier.
 @end
 
 @section TYPE_MISMATCH
@@ -420,7 +428,7 @@ proc main()
 end
 @end
 @error
-Error #26 Type mismatch.
+Error #27 Type mismatch.
 @end
 
 @example
@@ -431,7 +439,7 @@ proc main()
 end
 @end
 @error
-Error #26 Type mismatch.
+Error #27 Type mismatch.
 @end
 
 @example
@@ -445,7 +453,7 @@ proc main()
 end
 @end
 @error
-Error 26 Type mismatch.
+Error 27 Type mismatch.
 @end
 
 @example
@@ -456,7 +464,7 @@ proc main()
 end
 @end
 @error
-Error #26 Type mismatch.
+Error #27 Type mismatch.
 @end
 
 @example
@@ -467,7 +475,7 @@ proc main()
 end
 @end
 @error
-Error #26 Type mismatch.
+Error #27 Type mismatch.
 @end
 
 @example
@@ -478,7 +486,7 @@ proc main()
 end
 @end
 @error
-Error #26 Type mismatch.
+Error #27 Type mismatch.
 @end
 
 @section RECORD_TYPE_EXPECTED
@@ -489,7 +497,7 @@ proc main()
 end
 @end
 @error
-Error #27 Record type expected.
+Error #28 Record type expected.
 @end
 
 @section ARRAY_TYPE_EXPECTED
@@ -502,7 +510,7 @@ proc main()
 end
 @end
 @error
-Error #28 Array type expected.
+Error #30 Array type expected.
 @end
 
 @example
@@ -512,7 +520,7 @@ proc main()
 end
 @end
 @error
-Error #28 Array type expected.
+Error #30 Array type expected.
 @end
 
 @section ARRAY_SIZE_MISMATCH
@@ -525,7 +533,7 @@ proc main()
 end
 @end
 @error
-Error #29 Array size mismatch.
+Error #31 Array size mismatch.
 @end
 
 @example
@@ -536,7 +544,7 @@ proc main()
 end
 @end
 @error
-Error #29 Array size mismatch.
+Error #31 Array size mismatch.
 @end
 
 @section ARRAY_INDEX_OUT_OF_RANGE
@@ -547,7 +555,7 @@ proc main()
 end
 @end
 @error
-Error #30 Array index out of range.
+Error #32 Array index out of range.
 @end
 
 @section STRING_CONSTANT_EXPECTED
@@ -557,7 +565,7 @@ proc main()
 end
 @end
 @error
-Error #31 String constant expected.
+Error #33 String constant expected.
 @end
 
 @example
@@ -566,7 +574,7 @@ proc main()
 end
 @end
 @error
-Error #31 String constant expected.
+Error #33 String constant expected.
 @end
 
 @example
@@ -575,7 +583,7 @@ proc main()
 end
 @end
 @error
-Error #31 String constant expected.
+Error #33 String constant expected.
 @end
 
 @section NUMBER_OR_STRING_CONSTANT_EXPECTED
@@ -585,7 +593,7 @@ proc main()
 end
 @end
 @error
-Error #32 Number or string constant expected.
+Error #34 Number or string constant expected.
 @end
 
 @section NUMBER_CONSTANT_EXPECTED
@@ -595,7 +603,7 @@ proc main()
 end
 @end
 @error
-Error #33 Number constant expected.
+Error #35 Number constant expected.
 @end
 
 @example
@@ -604,7 +612,7 @@ proc main()
 end
 @end
 @error
-Error #33 Number constant expected.
+Error #35 Number constant expected.
 @end
 
 @example
@@ -613,7 +621,7 @@ proc main()
 end
 @end
 @error
-Error #33 Number constant expected.
+Error #35 Number constant expected.
 @end
 
 @section NUMBER_TYPE_EXPECTED
@@ -625,7 +633,7 @@ proc main()
 end
 @end
 @error
-Error #34 Number type expected.
+Error #36 Number type expected.
 @end
 
 @section POINTER_TYPE_EXPECTED
@@ -638,7 +646,7 @@ proc main()
 end
 @end
 @error
-Error #35 Pointer type expected.
+Error #37 Pointer type expected.
 @end
 
 @example
@@ -649,7 +657,7 @@ proc main()
 end
 @end
 @error
-Error #35 Pointer type expected.
+Error #37 Pointer type expected.
 @end
 
 @example
@@ -660,7 +668,7 @@ proc main()
 end
 @end
 @error
-Error #35 Pointer type expected.
+Error #37 Pointer type expected.
 @end
 
 @example
@@ -674,7 +682,7 @@ proc main()
 end
 @end
 @error
-Error #35 Pointer type expected.
+Error #37 Pointer type expected.
 @end
 
 @section IDENTIFIER_EXPECTED
@@ -684,7 +692,7 @@ proc main()
 end
 @end
 @error
-Error #36 Identifier expected.
+Error #38 Identifier expected.
 @end
 
 @section BREAK_WITHOUT_LOOP
@@ -694,7 +702,7 @@ proc main()
 end
 @end
 @error
-Error #37 Break without loop.
+Error #39 Break without loop.
 @end
 
 @section MISSING_MAIN_PROC
@@ -703,7 +711,7 @@ proc test()
 end
 @end
 @error
-Error #38 Missing main proc.
+Error #40 Missing main proc.
 @end
 
 @section MAIN_PROC_ALREADY_DEFINED
@@ -714,7 +722,7 @@ proc main()
 end
 @end
 @error
-Error #39 Main proc already defined.
+Error #41 Main proc already defined.
 @end
 
 @section NO_LOCAL_PROC_SUPPORTED
@@ -725,7 +733,7 @@ proc main()
 end
 @end
 @error
-Error #40 No local proc allowed.
+Error #42 No local proc allowed.
 @end
 
 @section PARAM_COUNT_MISMATCH
@@ -737,7 +745,7 @@ proc main()
 end
 @end
 @error
-Error #41 Parameter count mismatch.
+Error #43 Parameter count mismatch.
 @end
 
 @example
@@ -748,7 +756,7 @@ proc main()
 end
 @end
 @error
-Error #41 Parameter count mismatch.
+Error #43 Parameter count mismatch.
 @end
 
 @section PARAM_TYPE_MISMATCH
@@ -764,7 +772,7 @@ proc main()
 end
 @end
 @error
-Error #42 Parameter type mismatch.
+Error #44 Parameter type mismatch.
 @end
 
 @example
@@ -780,7 +788,7 @@ proc main()
 end
 @end
 @error
-Error #42 Parameter type mismatch.
+Error #44 Parameter type mismatch.
 @end
 
 @section ITEM_COUNT_MISMATCH
@@ -790,7 +798,7 @@ proc main()
 end
 @end
 @error
-Error #43 Item count mismatch.
+Error #45 Item count mismatch.
 @end
 
 @section INVALID_CONSTANT
@@ -803,7 +811,7 @@ proc main()
 end
 @end
 @error
-Error #44 Invalid constant.
+Error #46 Invalid constant.
 @end
 
 @section INVALID_ARRAY_SIZE
@@ -815,7 +823,7 @@ proc main()
 end
 @end
 @error
-Error #45 Invalid array size.
+Error #47 Invalid array size.
 @end
 
 @section INVALID_ARRAY_INDEX
@@ -826,7 +834,7 @@ proc main()
 end
 @end
 @error
-Error #46 Invalid array index.
+Error #48 Invalid array index.
 @end
 
 @section INVALID_OPERATION
@@ -837,7 +845,7 @@ proc main()
 end
 @end
 @error
-Error #47 Invalid operation.
+Error #49 Invalid operation.
 @end
 
 @example
@@ -847,7 +855,7 @@ proc main()
 end
 @end
 @error
-Error #47 Invalid operation.
+Error #49 Invalid operation.
 @end
 
 @section INVALID_STATEMENT_IN_SCOPE
@@ -855,14 +863,14 @@ Error #47 Invalid operation.
 ret
 @end
 @error
-Error #49 Invalid statement in scope.
+Error #51 Invalid statement in scope.
 @end
 
 @example
 break
 @end
 @error
-Error #48 Invalid statement in scope.
+Error #51 Invalid statement in scope.
 @end
 
 @section INVALID_CONSTANT_IN_SCOPE
@@ -874,7 +882,7 @@ proc main()
 end
 @end
 @error
-Error #49 Invalid constant value in scope.
+Error #51 Invalid constant value in scope.
 @end
 
 @example
@@ -883,7 +891,7 @@ proc main()
 end
 @end
 @error
-Error #49 Invalid constant value in scope.
+Error #51 Invalid constant value in scope.
 @end
 
 <!--

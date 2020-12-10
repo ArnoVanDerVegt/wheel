@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/selectButton.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/selectButton.whl';
 
 describe(
     'Test SelectButton component module',

@@ -2,8 +2,8 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "EV3 Light example"
 
-#include "lib/standard.whl"
-#include "lib/light.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/light.whl"
 
 #display "EV3"
 

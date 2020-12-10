@@ -9,9 +9,10 @@ exports.Label = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'label';
         super(opts);
-        this._text   = opts.text   || '';
-        this._value  = opts.value  || '';
-        this._halign = opts.halign || 'left';
+        this._text     = opts.text     || '';
+        this._value    = opts.value    || '';
+        this._halign   = opts.halign   || 'left';
+        this._fontSize = opts.fontSize || 16;
         this.initDOM(opts.parentNode);
     }
 
@@ -19,6 +20,9 @@ exports.Label = class extends Component {
         let style = this._style || {};
         if (this._width && (parseInt(this._width, 10) >= 20)) {
             style.width = this._width + 'px';
+        }
+        if (this._fontSize && (parseInt(this._fontSize, 10) >= 5)) {
+            style.fontSize = this._fontSize + 'px';
         }
         style.textAlign = this._halign;
         this.create(
@@ -49,6 +53,10 @@ exports.Label = class extends Component {
                 text += ' ' + this._value;
             }
             this._element.innerHTML = text;
+        }
+        if ('fontSize' in opts) {
+            this._fontSize                = opts.fontSize;
+            this._element.style.fontSize  = this._fontSize + 'px';
         }
         if ('halign' in opts) {
             this._halign                  = opts.halign;

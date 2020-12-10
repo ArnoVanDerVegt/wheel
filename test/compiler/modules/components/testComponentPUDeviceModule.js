@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/poweredUpDevice.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/poweredUpDevice.whl';
 
 describe(
     'Test PUDevice component module',

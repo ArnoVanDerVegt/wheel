@@ -48,16 +48,16 @@ exports.MotorModule = class extends VMModule {
     }
 
     getMotorReady(motor) {
-        let port   = this.getMotorPort(motor);
-        let result = false;
+        let port = this.getMotorPort(motor);
         if (port.ready) {
-            result = true;
-        } else if (port.startDegrees < port.targetDegrees) {
-            result = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15);
-        } else {
-            result = (port.degrees <= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15);
+            return 1;
         }
-        return result ? 1 : 0;
+        if (port.startDegrees < port.targetDegrees) {
+            port.ready = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
+        } else {
+            port.ready = (port.degrees <= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
+        }
+        return port.ready;
     }
 
     resetMotorPosition(motor) {
@@ -65,7 +65,7 @@ exports.MotorModule = class extends VMModule {
         let vm     = this._vm;
         device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_RESET, motor);
         let callback = () => {
-                vm.sleep(50);
+                vm.sleepForProcess(50);
                 if (!device.getQueueLength()) {
                     let port = this.getMotorPort(motor);
                     if (port.degrees === 0) {
@@ -88,13 +88,13 @@ exports.MotorModule = class extends VMModule {
     waitForQueue() {
         let device = this._device();
         let vm     = this._vm;
-        vm.sleep(1000);
+        vm.sleepForProcess(1000);
         const callback = () => {
                 if (device.getQueueLength()) {
-                    vm.sleep(1000);
+                    vm.sleepForProcess(1000);
                     setTimeout(callback, 1);
                 } else {
-                    vm.sleep(0);
+                    vm.sleepForProcess(0);
                 }
             };
         callback();
@@ -221,7 +221,7 @@ exports.MotorModule = class extends VMModule {
                 motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 value = 0;
                 if (this.getLayerAndIdValid(motor)) {
-                    value = this.getMotorPort(motor).degrees;
+                    value = this.getMotorPort(motor).degrees || 0;
                 }
                 vmData.setNumberAtRet(value);
                 break;
@@ -237,7 +237,7 @@ exports.MotorModule = class extends VMModule {
                 this.waitForQueue();
                 motor = vmData.getRecordFromSrcOffset(['layer', 'bits']);
                 value = 1;
-                if ((motor.layer >= 0) && (motor.layer <= 3)) {
+                if ((motor.layer >= 0) && (motor.layer < this._device().getLayerCount())) {
                     let bit = 1;
                     for (let id = 0; id < 4; id++) {
                         motor.id = id;

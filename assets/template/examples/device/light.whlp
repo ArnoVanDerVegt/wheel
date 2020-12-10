@@ -2,9 +2,9 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "Device light example"
 
-#include "lib/standard.whl"
-#include "lib/light.whl"
-#include "lib/device.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/light.whl"
+#include "lib/modules/device.whl"
 
 #display "EV3, Hub"
 

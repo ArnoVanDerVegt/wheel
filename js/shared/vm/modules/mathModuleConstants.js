@@ -23,3 +23,5 @@ exports.MATH_LOG        = 15;
 exports.MATH_POW        = 16;
 exports.MATH_ODD        = 17;
 exports.MATH_EVEN       = 18;
+exports.MATH_IK_RAD     = 19;
+exports.MATH_IK_DEG     = 20;

@@ -4,6 +4,14 @@
 **/
 const $ = require('./commands');
 
+const PROGRAM_DATA_TYPE_NUMBER = 'number';
+const PROGRAM_DATA_TYPE_FLOAT  = 'float';
+const PROGRAM_DATA_TYPE_INT    = 'int';
+
+exports.PROGRAM_DATA_TYPE_NUMBER = PROGRAM_DATA_TYPE_NUMBER;
+exports.PROGRAM_DATA_TYPE_FLOAT  = PROGRAM_DATA_TYPE_FLOAT;
+exports.PROGRAM_DATA_TYPE_INT    = PROGRAM_DATA_TYPE_INT;
+
 class Param {
     constructor(type, value) {
         this._type  = type;
@@ -20,6 +28,23 @@ class Param {
 
     setValue(value) {
         this._value = value;
+    }
+
+    getParamValue(data) {
+        switch (this._type) {
+            case $.T_NUM_G: return data[this._value                    ];
+            case $.T_NUM_L: return data[this._value + data[$.REG_STACK]];
+            case $.T_NUM_P: return data[this._value + data[$.REG_PTR  ]];
+        }
+        return this._value;
+    }
+
+    setParamValue(data, value) {
+        switch (this._type) {
+            case $.T_NUM_G: data[this._value                    ] = value; return;
+            case $.T_NUM_L: data[this._value + data[$.REG_STACK]] = value; return;
+            case $.T_NUM_P: data[this._value + data[$.REG_PTR  ]] = value; return;
+        }
     }
 }
 
@@ -48,8 +73,16 @@ class Command {
         return this._param1;
     }
 
+    getParamValue1(data) {
+        return this._param1.getParamValue(data);
+    }
+
     getParam2() {
         return this._param2;
+    }
+
+    getParamValue2(data) {
+        return this._param2.getParamValue(data);
     }
 
     getBlockId() {
@@ -72,6 +105,7 @@ exports.Program = class {
         this._pass         = pass;
         this._commands     = [];
         this._heap         = 1024;
+        this._dataType     = PROGRAM_DATA_TYPE_NUMBER;
         this._entryPoint   = 0;
         this._globalSize   = $.REG_TO_STR.length;
         this._constants    = [];
@@ -705,12 +739,20 @@ exports.Program = class {
         this._optimize = optimize;
     }
 
-    getHeap(heap) {
+    getHeap() {
         return this._heap;
     }
 
     setHeap(heap) {
         this._heap = heap;
+    }
+
+    getDataType() {
+        return this._dataType;
+    }
+
+    setDataType(dataType) {
+        this._dataType = dataType;
     }
 
     getEntryPoint() {
@@ -769,6 +811,7 @@ exports.Program = class {
         if (this.getSecondPass()) {
             this._commands[index].getParam2().setValue(value);
         }
+        return this;
     }
 
     getTitle() {
@@ -829,6 +872,9 @@ exports.Program = class {
     }
 
     getEventInfo(event) {
+        if (event === undefined) {
+            return this._eventInfo;
+        }
         return this._eventInfo[event] || null;
     }
 

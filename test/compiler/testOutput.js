@@ -44,7 +44,9 @@ describe(
                         '#CODE',
                         '0000  set     src,                9',
                         '0001  set     [9],                21',
-                        '0002  mod     0,                  1'
+                        '0002  mod     0,                  1',
+                        '#PROC',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -86,7 +88,9 @@ describe(
                         '0002  mod     10,                 0',
                         '0003  sets    [9],                0',
                         '0004  set     src,                9',
-                        '0005  mod     0,                  2'
+                        '0005  mod     0,                  2',
+                        '#PROC',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -126,11 +130,13 @@ describe(
                         '    10',
                         '#CODE',
                         '0000  set     [9],                99',
-                        '0001  set     [stack + 0],        [9]',
-                        '0002  cmp     [stack + 0],        99',
+                        '0001  set     [stack],            [9]',
+                        '0002  cmp     [stack],            99',
                         '0003  jmpc    flags.neq,          0005',
                         '0004  set     src,                9',
-                        '0005  mod     0,                  1'
+                        '0005  mod     0,                  1',
+                        '#PROC',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -175,15 +181,17 @@ describe(
                         '0001  set     [10],               7',
                         '0002  set     src,                [9]',
                         '0003  cmp     src,                0',
-                        '0004  setf    [stack + 0],        flags.neq',
+                        '0004  setf    [stack],            flags.neq',
                         '0005  set     src,                [10]',
                         '0006  cmp     src,                0',
                         '0007  setf    [stack + 1],        flags.neq',
-                        '0008  and     [stack + 0],        [stack + 1]',
-                        '0009  cmp     [stack + 0],        0',
+                        '0008  and     [stack],            [stack + 1]',
+                        '0009  cmp     [stack],            0',
                         '0010  jmpc    flags.eq,           0012',
                         '0011  set     src,                10',
-                        '0012  mod     0,                  1'
+                        '0012  mod     0,                  1',
+                        '#PROC',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -231,8 +239,8 @@ describe(
                         '#REG_STACK',
                         '    9',
                         '#CODE',
-                        '0000  set     [stack + 0],        1',
-                        '0001  set     [stack + 3],        [stack + 0]',
+                        '0000  set     [stack],            1',
+                        '0001  set     [stack + 3],        [stack]',
                         '0002  cmp     [stack + 3],        0',
                         '0003  jmpc    flags.neq,          0014',
                         '0004  set     [stack + 1],        0',
@@ -247,7 +255,9 @@ describe(
                         '0013  jump    0005',
                         '0014  jump    0017',
                         '0015  cmp     [stack + 3],        1',
-                        '0016  jmpc    flags.neq,          0016'
+                        '0016  jmpc    flags.neq,          0016',
+                        '#PROC',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }
@@ -291,7 +301,9 @@ describe(
                         '0000  set     src,                10',
                         '0001  mod     0,                  1',
                         '0002  set     src,                14',
-                        '0003  mod     0,                  1'
+                        '0003  mod     0,                  1',
+                        '#PROC',
+                        '    0'
                     ].join('\n');
                 assert.equal(output.trim(), expect.trim());
             }

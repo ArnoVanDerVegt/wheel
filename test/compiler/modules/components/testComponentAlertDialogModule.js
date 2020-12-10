@@ -10,7 +10,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/alertDialog.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/alertDialog.whl';
 
 describe(
     'Test Alert dialog module',

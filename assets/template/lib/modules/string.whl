@@ -1,0 +1,103 @@
+; @module String
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @description
+; This file contains procedures to handle strings.
+
+; @const The string module.
+#define MODULE_STRING              10
+
+; @const System module calls.
+#define STRING_NUMBER_TO_STRING     3
+#define STRING_STRING_TO_NUMBER     4
+#define STRING_INDEX_OF             5
+#define STRING_SUB_STRING           6
+#define STRING_LENGTH               7
+#define STRING_EQUAL                8
+#define STRING_TO_UPPER_CASE        9
+#define STRING_TO_LOWER_CASE       10
+#define STRING_GET_CHAR_CODE_AT    11
+#define STRING_SET_CHAR_CODE_AT    12
+
+; @proc             Convert a number to a string.
+; @param n          The number to convert.
+; @param s          The string in which the number is stored.
+proc numberToString(number n, string s)
+    addr n
+    mod  MODULE_STRING, STRING_NUMBER_TO_STRING
+end
+
+; @proc             Convert a number to a string.
+; @param s          The string to convert.
+; @param n          The number.
+proc stringToNumber(string s)
+    addr s
+    mod  MODULE_STRING, STRING_STRING_TO_NUMBER
+end
+
+; @proc             Find one string in another string.
+; @param haystack   The haystack string.
+; @param needle     The string to find in the haystack.
+; @param startIndex From which character to start searching
+; @return           The position of the needle in the haystack, -1 if not found.
+proc indexOf(string haystack, string needle, number startIndex)
+    addr haystack
+    mod  MODULE_STRING, STRING_INDEX_OF
+end
+
+; @proc             Copy part of a string to another string.
+; @param s          The source string.
+; @param start      The start index in the source string.
+; @param length     The length of the part of the string to copy.
+; @param result     The result string.
+proc subString(string s, number start, number length, string result)
+    addr s
+    mod  MODULE_STRING, STRING_SUB_STRING
+end
+
+; @proc             Get the length of a string.
+; @param s          The string.
+; @return           The length.
+proc length(string s)
+    addr s
+    mod  MODULE_STRING, STRING_LENGTH
+end
+
+; @proc             Compare two strings.
+; @param s1         A string.
+; @param s2         A string.
+; @return           0 if not equal.
+proc compare(string s1, string s2)
+    addr s1
+    mod  MODULE_STRING, STRING_EQUAL
+end
+
+; @proc             Upper case a string.
+proc toUpperCase(string s)
+    addr s
+    mod  MODULE_STRING, STRING_TO_UPPER_CASE
+end
+
+; @proc             Lower case a string.
+proc toLowerCase(string s)
+    addr s
+    mod  MODULE_STRING, STRING_TO_LOWER_CASE
+end
+
+; @proc             Get a char code from an index in a string.
+; @param s          The string.
+; @return           The char code.
+proc getCharCodeAt(string s, number index)
+    addr s
+    mod  MODULE_STRING, STRING_GET_CHAR_CODE_AT
+end
+
+; @proc             Set a char code in a string.
+; @param s          The string.
+; @param index      The index in the string.
+; @param charCode   The char code.
+proc setCharCodeAt(string s, number index, number charCode)
+    addr s
+    mod  MODULE_STRING, STRING_SET_CHAR_CODE_AT
+end

@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/statusLight.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/statusLight.whl';
 
 describe(
     'Test Status light component module',

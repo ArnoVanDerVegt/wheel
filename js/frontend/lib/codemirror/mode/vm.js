@@ -14,7 +14,7 @@ CodeMirror.defineMode(
         }
         let keywords  = words('copy jmpc cmp mod set setf sets add adds sub mul div and or call ret jump');
         let registers = words('stack src dest ptr code return range1 range2 flags eq neq l le g ge');
-        let meta      = words('#NAME #LAYERS #CODE #VERSION #STRINGS #CONSTANTS #HEAP #REG_CODE #REG_STACK');
+        let meta      = words('#NAME #LAYERS #CODE #PROC #VERSION #STRINGS #CONSTANTS #HEAP #REG_CODE #REG_STACK');
 
         function tokenBase(stream, state) {
             let ch = stream.next();

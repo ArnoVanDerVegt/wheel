@@ -7,11 +7,11 @@
 ; - Ultrasonic
 #project "Sensor value demo"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/math.whl"
-#include "lib/screen.whl"
-#include "lib/sensor.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/screen.whl"
+#include "lib/modules/sensor.whl"
 
 #display "EV3, EV3 Sensors"
 

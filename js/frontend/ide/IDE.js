@@ -76,6 +76,7 @@ exports.IDE = class extends IDEDOM {
             .on('Menu.File.Exit',                     this, this.onExit)
             .on('Menu.File.Setup',                    this, this.onMenuFileSetup)
             .on('Menu.Edit.Resize',                   this, this.onResize)
+            .on('Menu.Edit.FormatCode',               this, this.onFormatCode)
             .on('Menu.Find.Find',                     this, this.onFindFind)
             .on('Menu.Find.FindNext',                 this, this.onFindFindNext)
             .on('Menu.Find.Replace',                  this, this.onFindReplace)
@@ -367,6 +368,7 @@ exports.IDE = class extends IDEDOM {
                             }
                         );
                     }
+                    callback(null);
                     return;
                 }
                 callback(data.data);

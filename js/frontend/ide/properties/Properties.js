@@ -7,36 +7,27 @@ const Tabs              = require('../../lib/components/Tabs').Tabs;
 const DOMNode           = require('../../lib/dom').DOMNode;
 const tabIndex          = require('../tabIndex');
 const PropertiesToolbar = require('./PropertiesToolbar').PropertiesToolbar;
-const BooleanProperty   = require('./types/BooleanProperty').BooleanProperty;
-const DropdownProperty  = require('./types/DropdownProperty').DropdownProperty;
-const TextProperty      = require('./types/TextProperty').TextProperty;
-const TextAreaProperty  = require('./types/TextAreaProperty').TextAreaProperty;
-const TextListProperty  = require('./types/TextListProperty').TextListProperty;
-const HAlignProperty    = require('./types/HAlignProperty').HAlignProperty;
-const ColorProperty     = require('./types/ColorProperty').ColorProperty;
-const RgbProperty       = require('./types/RgbProperty').RgbProperty;
-const IconProperty      = require('./types/IconProperty').IconProperty;
-const Event             = require('./Event').Event;
-const Components        = require('./Components').Components;
+const Events            = require('./components/Events').Events;
+const Properties        = require('./components/Properties').Properties;
+const Form              = require('./components/Form').Form;
+const Components        = require('./components/Components').Components;
 
 exports.Properties = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._opts           = opts;
-        this._ui             = opts.ui;
-        this._settings       = opts.settings;
-        this._value          = opts.value;
-        this._properties     = [];
-        this._propertyByName = {};
-        this._events         = [];
-        this._eventByName    = {};
+        this._opts                    = opts;
+        this._ui                      = opts.ui;
+        this._settings                = opts.settings;
+        this._value                   = opts.value;
+        this._activeProperties        = null;
+        this._changeComponentDebounce = null;
         this.initDOM(opts.parentNode);
         dispatcher
             .on('Properties.Clear',             this, this.onClear)
             .on('Properties.Select.Properties', this, this.onSelectProperties)
-            .on('Properties.Select.Events',     this, this.onSelectEvents)
-            .on('Properties.ChangePosition',    this, this.onChangePosition)
-            .on('Properties.ComponentList',     this, this.onChangeComponentList);
+            .on('Properties.Select.Events',     this, this.onSelectEvent)
+            .on('Properties.ComponentList',     this, this.onChangeComponentList)
+            .on('Properties.ShowForm',          this, this.onShowForm);
     }
 
     initDOM(parentNode) {
@@ -60,16 +51,20 @@ exports.Properties = class extends DOMNode {
                         uiId: 1,
                         tabs: [
                             {
-                                title:   'Properties',
-                                onClick: this.onClickProperties.bind(this)
+                                title:   'Form',
+                                onClick: this.setPanelVisible.bind(this, 0)
                             },
                             {
-                                title:   'Events',
-                                onClick: this.onClickEvents.bind(this)
+                                title:   'Property',
+                                onClick: this.setPanelVisible.bind(this, 1)
+                            },
+                            {
+                                title:   'Event',
+                                onClick: this.setPanelVisible.bind(this, 2)
                             },
                             {
                                 title:   'Components',
-                                onClick: this.onClickComponents.bind(this)
+                                onClick: this.setPanelVisible.bind(this, 3)
                             }
                         ]
                     },
@@ -79,28 +74,26 @@ exports.Properties = class extends DOMNode {
                         innerHTML: '0x00000000'
                     },
                     {
-                        ref:       this.setRef('propertiesContainer'),
-                        className: 'abs max-w properties-container visible',
-                        children:  [
-                            {
-                                className: 'abs max-h property-separator'
-                            }
-                        ]
+                        ref:       this.setRef('formContainer'),
+                        type:      Form
                     },
                     {
-                        ref:       this.setRef('eventsContainer'),
-                        className: 'abs max-w events-container',
-                        children:  [
-                            {
-                                className: 'abs max-h event-separator'
-                            }
-                        ]
+                        type:      Properties,
+                        ref:       this.setRef('propertyContainer'),
+                        ui:        this._ui,
+                        uiId:      this._uiId
                     },
                     {
-                        type: Components,
-                        ref:  this.setRef('componentsContainer'),
-                        ui:   this._ui,
-                        uiId: this._uiId
+                        type:      Events,
+                        ref:       this.setRef('eventContainer'),
+                        ui:        this._ui,
+                        uiId:      this._uiId
+                    },
+                    {
+                        type:      Components,
+                        ref:       this.setRef('componentsContainer'),
+                        ui:        this._ui,
+                        uiId:      this._uiId
                     }
                 ]
             }
@@ -108,161 +101,72 @@ exports.Properties = class extends DOMNode {
         dispatcher.dispatch('Settings.UpdateViewSettings');
     }
 
-    focusProperty(property) {
-        this._properties.forEach((p) => {
-            if ((p !== property) && p.setFocus) {
-                p.setFocus(false);
-            }
+    setPanelVisible(panelIndex) {
+        let refs = this._refs;
+        [refs.formContainer, refs.propertyContainer, refs.eventContainer, refs.componentsContainer].forEach((container, index) => {
+            container.setVisible(panelIndex === index);
         });
     }
 
-    focusEvent(event) {
-        this._events.forEach((e) => {
-            if ((e !== event) && e.setFocus) {
-                e.setFocus(false);
-            }
-        });
-    }
-
-    clear(container) {
-        let childNodes = container.childNodes;
-        while (childNodes.length > 1) {
-            let childNode = childNodes[childNodes.length - 1];
-            childNode.parentNode.removeChild(childNode);
+    selectPropertiesTab() {
+        if (['Properties', 'Event'].indexOf(this._refs.tabs.getActiveTab().title) === -1) {
+            this.setPanelVisible(1);
+            this._refs.tabs.setActiveTab('Property');
         }
-        return this;
     }
 
-    addProperty(property) {
-        this._properties.push(property);
-    }
-
-    addEvent(event) {
-        this._events.push(event);
-    }
-
-    onClickProperties() {
+    onSelectEvent(eventList, formEditorState) {
         let refs = this._refs;
-        refs.propertiesContainer.style.display = 'block';
-        refs.eventsContainer.style.display     = 'none';
-        refs.componentsContainer.setVisible(false);
-    }
-
-    onClickEvents() {
-        let refs = this._refs;
-        refs.propertiesContainer.style.display = 'none';
-        refs.eventsContainer.style.display     = 'block';
-        refs.componentsContainer.setVisible(false);
-    }
-
-    onClickComponents() {
-        let refs = this._refs;
-        refs.propertiesContainer.style.display = 'none';
-        refs.eventsContainer.style.display     = 'none';
-        refs.componentsContainer.setVisible(true);
+        refs.componentUid.innerHTML = eventList.getComponentUid() || '0x00000000';
+        refs.eventContainer.initEvents(eventList, formEditorState);
+        this.selectPropertiesTab();
     }
 
     onSelectProperties(propertyList, formEditorState) {
-        let propertiesContainer = this._refs.propertiesContainer;
-        let id                  = propertyList.getComponentId();
-        let propertyByName      = {};
-        let component           = formEditorState.getComponentById(id);
-        let tab                 = tabIndex.PROPERTIES_CONTAINER;
-        this._refs.componentUid.innerHTML = propertyList.getComponentUid() || '0x00000000';
-        this._properties.length           = 0;
-        this.clear(propertiesContainer);
-        propertyList.getList().forEach((property) => {
-            if (!property || (property.name === null)) {
-                return;
-            }
-            let propertyConstructor = null;
-            let opts                = {
-                    parentNode:    propertiesContainer,
-                    properties:    this,
-                    ui:            this._ui,
-                    name:          property.name,
-                    options:       property.options,
-                    value:         propertyList.getProperty(property.name),
-                    componentList: propertyList.getComponentList(),
-                    component:     component,
-                    onChange:      dispatcher.dispatch.bind(dispatcher, 'Properties.Property.Change', id, property.name),
-                    tabIndex:      tab
-                };
-            switch (property.type) {
-                case 'boolean':  propertyConstructor = BooleanProperty;  break;
-                case 'text':     propertyConstructor = TextProperty;     break;
-                case 'textarea': propertyConstructor = TextAreaProperty; break;
-                case 'textList': propertyConstructor = TextListProperty; break;
-                case 'halign':   propertyConstructor = HAlignProperty;   break;
-                case 'color':    propertyConstructor = ColorProperty;    break;
-                case 'rgb':      propertyConstructor = RgbProperty;      break;
-                case 'dropdown': propertyConstructor = DropdownProperty; break;
-                case 'icon':     propertyConstructor = IconProperty;     break;
-            }
-            if (propertyConstructor) {
-                let propertyComponent = new propertyConstructor(opts);
-                propertyByName[property.name] = propertyComponent;
-                tab += propertyComponent.getTabCount();
-            }
-        });
-        this._propertyByName = propertyByName;
-    }
-
-    onSelectEvents(eventList, formEditorState) {
-        this._refs.componentUid.innerHTML = eventList.getComponentUid() || '0x00000000';
-        this._events.length               = 0;
-        let eventsContainer = this._refs.eventsContainer;
-        let id              = eventList.getComponentId();
-        let eventByName     = {};
-        let component       = formEditorState.getComponentById(id);
-        this.clear(eventsContainer);
-        eventList.getList().forEach(
-            function(event) {
-                if (!event) {
-                    console.warn('Warning invalid event:', event, 'eventList:', eventList);
-                    return;
-                }
-                eventByName[event.name] = new Event({
-                    eventList:     eventList,
-                    parentNode:    eventsContainer,
-                    properties:    this,
-                    ui:            this._ui,
-                    name:          event.name,
-                    value:         component[event.name] || '',
-                    onChange: function(value) {
-                        dispatcher.dispatch('Properties.Event.Change', id, event.name, value);
-                    }
-                });
-            },
-            this
-        );
-        this._eventByName = eventByName;
-    }
-
-    onChangePosition(position) {
-        if (this._propertyByName.x) {
-            this._propertyByName.x.setValue(position.x);
+        if (this._activeProperties === propertyList.getComponentUid()) {
+            return;
         }
-        if (this._propertyByName.y) {
-            this._propertyByName.y.setValue(position.y);
-        }
+        let refs = this._refs;
+        refs.componentUid.innerHTML = propertyList.getComponentUid() || '0x00000000';
+        this._activeProperties      = propertyList.getComponentUid();
+        refs.propertyContainer.initProperties(propertyList, formEditorState);
+        this.selectPropertiesTab();
     }
 
     onChangeComponentList(opts) {
-        if (opts.value === null) {
-            this.onClear();
+        if (this._changeComponentDebounce) {
+            clearTimeout(this._changeComponentDebounce);
         }
-        if (this._settings.getAutoSelectProperties()) {
-            this.onClickProperties();
-            this._refs.tabs.setActiveTab('Properties');
-        }
+        this._changeComponentDebounce = setTimeout(
+            () => {
+                this._changeComponentDebounce = null;
+                if (opts.value === null) {
+                    this.onClear();
+                }
+                if (this._settings.getAutoSelectProperties()) {
+                    this.selectPropertiesTab();
+                }
+                if ('items' in opts) {
+                    this._refs.formContainer.setItems(opts.items);
+                }
+            },
+            25
+        );
+        return this;
+    }
+
+    onShowForm(opts) {
+        this
+            .onChangeComponentList(opts)
+            .onClickForm();
     }
 
     onClear() {
+        this._activeProperties = null;
         let refs = this._refs;
         refs.componentUid.innerHTML = '0x00000000';
-        this
-            .clear(refs.propertiesContainer)
-            .clear(refs.eventsContainer);
+        refs.propertyContainer.clear();
+        refs.eventContainer.clear();
+        refs.formContainer.clear();
     }
 };

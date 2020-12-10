@@ -2,12 +2,28 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const $ = require('../program/commands');
+const $       = require('../program/commands');
+const Program = require('../program/Program');
 
 exports.VMData = class {
     constructor(opts) {
-        let data = [];
-        for (let i = 0; i < 8; i++) {
+        this._stringList = opts.stringList || [];
+        this._keepRet    = false; // When a module sets the return value then the return statement will not change it!
+        this._heap       = opts.heap     || 1024;
+        this._dataType   = opts.dataType || Program.PROGRAM_DATA_TYPE_NUMBER;
+        switch (this._dataType) {
+            case Program.PROGRAM_DATA_TYPE_FLOAT:
+                this._data = new Float32Array(this._heap);
+                break;
+            case Program.PROGRAM_DATA_TYPE_INT:
+                this._data = new Int32Array(this._heap);
+                break;
+            default:
+                this._data = [];
+                break;
+        }
+        let data = this._data;
+        for (let i = 0; i < this._heap; i++) {
             data[i] = 0;
         }
         data[$.REG_STACK] = opts.globalSize;
@@ -16,10 +32,6 @@ exports.VMData = class {
                 data[constant.offset + i] = constant.data[i];
             }
         });
-        this._data       = data;
-        this._heap       = opts.heap       || 1024;
-        this._stringList = opts.stringList || [];
-        this._keepRet    = false; // When a module sets the return value then the return statement will not change it!
     }
 
     allocateString() {
@@ -31,12 +43,8 @@ exports.VMData = class {
         this._stringList.pop();
     }
 
-    setHeap(heap) {
-        this._heap = heap;
-    }
-
     getHeapOverflow() {
-        return (this._data.length >= this._heap);
+        return (this._data[$.REG_STACK] + 64 > this._heap);
     }
 
     getData() {

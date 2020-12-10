@@ -13,9 +13,9 @@ The VM on the brick can only flash while the IDE can flash or pulse.
 @example
 #project "EV3 Light example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/light.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/light.whl"
 
 #display "EV3"
 

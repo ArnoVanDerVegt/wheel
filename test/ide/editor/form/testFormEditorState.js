@@ -700,6 +700,7 @@ describe(
                                         name:       'Label2',
                                         zIndex:     0,
                                         text:       'Label2',
+                                        fontSize:   16,
                                         halign:     'left',
                                         x:          10,
                                         y:          20
@@ -736,6 +737,7 @@ describe(
                                         name:       'Label2',
                                         zIndex:     0,
                                         text:       'Label2',
+                                        fontSize:   16,
                                         halign:     'left',
                                         x:          20,
                                         y:          30

@@ -219,7 +219,9 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Paste',                        hotkey: ['command', 'V'], dispatch: 'Editor.Paste'},
                 {title: '-'},
                 {title: 'Crop',                                                   dispatch: 'Editor.Crop'},
-                {title: 'Resize',                       hotkey: ['command', 'R'], dispatch: 'Menu.Edit.Resize'}
+                {title: 'Resize',                       hotkey: ['command', 'R'], dispatch: 'Menu.Edit.Resize'},
+                {title: '-'},
+                {title: 'Format code',                                            dispatch: 'Menu.Edit.FormatCode'}
             ]
         });
         let menuOptions = this._editMenu.getMenu().getMenuOptions();
@@ -228,6 +230,7 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[2].setEnabled(false); // Paste
         menuOptions[3].setEnabled(false); // Crop
         menuOptions[4].setEnabled(false); // Resize
+        menuOptions[5].setEnabled(false); // Format code
         return this;
     }
 
@@ -389,9 +392,11 @@ exports.MainMenu = class extends MainMenu {
     initToolsMenu() {
         this._toolsMenu = this.addMenu({
             title: '^Tools',
-            width: '192px',
+            width: '256px',
             items: [
                 {title: 'Gear ratio calculator',                                  dispatch: 'Dialog.GearRatioCalculator.Show'},
+                {title: 'Inverse kinematics calculator',                          dispatch: 'Dialog.InverseKinematics.Show'},
+                {title: '-'},
                 {title: 'Wheel to SVG',                                           dispatch: 'Dialog.WheelToSVG.Show'}
             ]
         });
@@ -428,6 +433,7 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[0].setEnabled(info.canUndo);                            // Undo
         menuOptions[1].setEnabled(info.canCopy);                            // Copy
         menuOptions[2].setEnabled(info.canPaste);                           // Paste
+        menuOptions[5].setEnabled(info.canFormat);                          // Format code
         return this;
     }
 
@@ -537,13 +543,13 @@ exports.MainMenu = class extends MainMenu {
         let menuOptionReplaceNext = findMenuOptions[4];
         let menuOptionReplaceAll  = findMenuOptions[5];
         if (info.activeEditor) {
-            if (info.activeEditor.canCrop && info.activeEditor.canCrop()) {
-                menuOptionCrop.setEnabled(info.activeEditor.canCrop());
+            if (info.activeEditor.getCanCrop && info.activeEditor.getCanCrop()) {
+                menuOptionCrop.setEnabled(info.activeEditor.getCanCrop());
             } else {
                 menuOptionCrop.setEnabled(false);
             }
-            if (info.activeEditor.canResize && info.activeEditor.canResize()) {
-                menuOptionResize.setEnabled(info.activeEditor.canResize());
+            if (info.activeEditor.getCanResize && info.activeEditor.getCanResize()) {
+                menuOptionResize.setEnabled(info.activeEditor.getCanResize());
             } else {
                 menuOptionResize.setEnabled(false);
             }

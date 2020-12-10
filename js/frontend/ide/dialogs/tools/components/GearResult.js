@@ -56,13 +56,13 @@ exports.GearResult = class extends DOMNode {
             let f1 = to / from;
             let f2 = from / to;
             if (f1 >= 1) {
-                info = 'The gear ratio is <b>' + to + ':' + from + '</b><br/>' +
+                info = 'The gear ratio is <b>' + dialog.toFixed(to / from, 3) + ':1</b><br/>' +
                     'The speed is decreased ' + dialog.toFixed(f1, 3) + ' times.<br/>' +
                     'The torque is increased ' + dialog.toFixed(f1, 3) + ' times.<br/>' +
                     'The follower gear rotates ' + dialog.toFixed(f2, 3) + ' time per each revolution of the driver gear.<br/>';
             } else {
                 f1 = 1 / f1;
-                info = 'The gear ratio is <b>' + to + ':' + from + '</b><br/>' +
+                info = 'The gear ratio is <b>' + dialog.toFixed(to / from, 3) + ':1</b><br/>' +
                     'The speed is increased ' + dialog.toFixed(f1, 3) + ' times.<br/>' +
                     'The torque is decreased ' + dialog.toFixed(f1, 3) + ' times.<br/>' +
                     'The follower gear rotates ' + dialog.toFixed(f2, 3) + ' time per each revolution of the driver gear.<br/>';

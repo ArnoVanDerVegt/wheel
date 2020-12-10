@@ -148,7 +148,11 @@ exports.FormEditor = class extends Editor {
         dispatcher.dispatch('Editor.Changed', this._editors.getDispatchInfo(this));
     }
 
-    onCopy() {
+    onCopy(event) {
+        if (event && (event.target.nodeName === 'INPUT')) {
+            // If the active dom element is an input then don't copy the component!
+            return;
+        }
         if (this._formEditorState.copy()) {
             dispatcher.dispatch('Editor.Changed', this._editors.getDispatchInfo(this));
             this.updateElements();

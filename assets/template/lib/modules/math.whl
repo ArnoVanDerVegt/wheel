@@ -1,0 +1,220 @@
+; @module Math
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @description
+; This file contains a math functions.
+
+; @const The math module.
+#define MODULE_MATH      1
+
+; @const Module calls for math functions.
+#define MATH_ROUND       0
+#define MATH_FLOOR       1
+#define MATH_CEIL        2
+#define MATH_ABS         3
+#define MATH_NEG         4
+#define MATH_RANDOM      5
+#define MATH_SIN         6
+#define MATH_COS         7
+#define MATH_TAN         8
+#define MATH_ASIN        9
+#define MATH_ACOS       10
+#define MATH_ATAN       11
+#define MATH_REMAINDER  12
+#define MATH_EXP        13
+#define MATH_SQRT       14
+#define MATH_LOG        15
+#define MATH_POW        16
+#define MATH_ODD        17
+#define MATH_EVEN       18
+#define MATH_IK_RAD     19
+#define MATH_IK_DEG     20
+
+; @const Pi
+#define PI          3.14159265359
+
+; @const Tau
+#define TAU         6.283185307179586
+
+; Inverse kinematics data
+record IkData
+    number angle1       ; The calculated first angle
+    number angle2       ; The calculated second angle
+    number deltaX       ; The horizontal distance from the connection
+    number deltaY       ; The vertical distance from the connection
+    number len1         ; The length of the first segment
+    number len2         ; The length of the second segment
+end
+
+IkData ikData
+
+; @proc             Round a number.
+; @param n          The number to round.
+; @return           The rounded number.
+proc round(number n)
+    addr n
+    mod  MODULE_MATH,  MATH_ROUND
+end
+
+; @proc             Round a number down.
+; @param n          The number to round down.
+; @return           The rounded number.
+proc floor(number n)
+    addr n
+    mod  MODULE_MATH,  MATH_FLOOR
+end
+
+; @proc             Round a number up.
+; @param n          The number to round up.
+; @return           The rounded number.
+proc ceil(number n)
+    addr n
+    mod  MODULE_MATH, MATH_CEIL
+end
+
+; @proc             Make a number positive.
+; @param n          The number to make positive.
+; @return           The positive number.
+proc abs(number n)
+    addr n
+    mod  MODULE_MATH, MATH_ABS
+end
+
+; @proc             Make a number negative.
+; @param n          The number to make negative.
+; @return           The negative number.
+proc neg(number n)
+    addr n
+    mod  MODULE_MATH, MATH_NEG
+end
+
+; @proc             Get a random number.
+; @param min        The minimum value.
+; @param max        The maximum value, the random value is always less than the maximum value.
+; @return           A randum integer number.
+proc random(number min, number max)
+    number n
+    addr min
+    mod  MODULE_MATH, MATH_RANDOM
+end
+
+; @proc             Get the sine value for an angle in radians.
+; @param angle      The angle.
+; @return           The sine value.
+proc sin(number angle)
+    addr angle
+    mod  MODULE_MATH, MATH_SIN
+end
+
+; @proc             Get the cosine value for an angle in radians.
+; @param angle      The angle.
+; @return           The cosine value.
+proc cos(number angle)
+    addr angle
+    mod  MODULE_MATH, MATH_COS
+end
+
+; @proc             Return tangent geometry value in radians.
+; @param value      The value.
+; @return           The tangent value.
+proc tan(number value)
+    addr value
+    mod  MODULE_MATH, MATH_TAN
+end
+
+; @proc             Get the arcsine value for a value.
+; @param value      The value.
+; @return           The arcsine value in radians.
+proc asin(number value)
+    addr value
+    mod  MODULE_MATH, MATH_ASIN
+end
+
+; @proc             Get the arccosine value for a value.
+; @param value      The value.
+; @return           The arccosine value in radians.
+proc acos(number value)
+    addr value
+    mod  MODULE_MATH, MATH_ACOS
+end
+
+; @proc             Get the arctan value for a value.
+; @param value      The value.
+; @return           The arctan value in radians.
+proc atan(number value)
+    addr value
+    mod  MODULE_MATH, MATH_ATAN
+end
+
+; @proc             Get the remainder (modulo) of a value.
+; @param value      The value.
+; @param remainder  The remainder.
+; @return           The module value.
+proc remainder(number value, number remainder)
+    addr value
+    mod  MODULE_MATH, MATH_REMAINDER
+end
+
+; @proc             Get the exp value of a value.
+; @param value      The value.
+; @return           The exp value.
+proc exp(number value)
+    addr value
+    mod  MODULE_MATH, MATH_EXP
+end
+
+; @proc             Get the square root value of a value.
+; @param value      The value.
+; @return           The square root value.
+proc sqrt(number value)
+    addr value
+    mod  MODULE_MATH, MATH_SQRT
+end
+
+; @proc             Get the logarithm value of a value.
+; @param value      The value.
+; @return           The logarithm value.
+proc log(number value)
+    addr value
+    mod  MODULE_MATH, MATH_LOG
+end
+
+; @proc             Get base to the exponent power.
+; @param base       The base value.
+; @param exponent   The exponent value.
+; @return           The base to the exponent value.
+proc pow(number base, number exponent)
+    addr base
+    mod  MODULE_MATH, MATH_POW
+end
+
+; @proc             Check if a number is odd.
+; @param value      The value to check.
+; @return           Return 1 if odd, 0 if even.
+proc odd(number value)
+    addr value
+    mod  MODULE_MATH, MATH_ODD
+end
+
+; @proc             Check if a number is even.
+; @param value      The value to check.
+; @return           Return 1 if even, 0 if odd.
+proc even(number value)
+    addr value
+    mod  MODULE_MATH, MATH_EVEN
+end
+
+; @proc             Calculate the inverse kinimatic angles in radians based on the `ikData` record.
+;                   This procedure is only supported in the IDE.
+proc ikRad()
+    addr ikData
+    mod  MODULE_MATH, MATH_IK_RAD
+end
+
+; @proc             Calculate the inverse kinimatic angles in degrees based on the `ikData` record.
+;                   This procedure is only supported in the IDE.
+proc ikDeg()
+    addr ikData
+    mod  MODULE_MATH, MATH_IK_DEG
+end

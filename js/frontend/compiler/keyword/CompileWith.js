@@ -27,7 +27,11 @@ exports.CompileWith = class extends CompileBlock {
             iterator.skipWhiteSpace().next();
         }
         program.nextBlockId(token, scope);
-        this._varExpression.compileExpressionToRegister(identifier, withExpression, $.REG_PTR, false, false);
+        this._varExpression.compileExpressionToRegister({
+            identifier: identifier,
+            expression: withExpression,
+            reg:        $.REG_PTR
+        });
         let lastRecordType = this._varExpression.getLastRecordType();
         if (!(lastRecordType instanceof Record)) {
             throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Type mismatch, record type expected.');

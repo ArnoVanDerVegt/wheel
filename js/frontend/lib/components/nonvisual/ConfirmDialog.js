@@ -24,7 +24,6 @@ exports.ConfirmDialog = class extends NonVisualComponent {
 
     onEvent(opts) {
         if ('show' in opts) {
-            console.log(this._okTitle, this._cancelTitle);
             dispatcher.dispatch(
                 'Dialog.Confirm.Show',
                 {

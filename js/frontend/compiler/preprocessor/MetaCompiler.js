@@ -63,9 +63,9 @@ exports.MetaCompiler = class {
             throw errors.createError(err.RGF_EXTENSION_EXPECTED, token, '".rgf" Extension expected.');
         }
         let p = iterator.skipWhiteSpace().peek();
-        if ((p.cls !== t.TOKEN_META) || (p.lexeme !== '#data')) {
+        if ((p.cls !== t.TOKEN_META) || (p.lexeme !== t.LEXEME_META_DATA)) {
             token.filename = tokenFilename;
-            throw errors.createError(err.DATA_EXPECTED, token, '"#data" Expected.');
+            throw errors.createError(err.DATA_EXPECTED, token, '"' + t.LEXEME_META_DATA + '" Expected.');
         }
         let hasData   = true;
         let dataWidth = null;
@@ -99,7 +99,7 @@ exports.MetaCompiler = class {
                 dataLine.push(dataString[i] === '0' ? 0 : 1);
             }
             image.data.push(dataLine);
-            hasData = (iterator.skipWhiteSpace().peek().lexeme === '#data');
+            hasData = (iterator.skipWhiteSpace().peek().lexeme === t.LEXEME_META_DATA);
         }
         this._resources.add(image.filename, image.data, token);
     }
@@ -118,9 +118,9 @@ exports.MetaCompiler = class {
             throw errors.createError(err.RTF_EXTENSION_EXPECTED, token, '".rtf" Extension expected.');
         }
         let p = iterator.skipWhiteSpace().peek();
-        if ((p.cls !== t.TOKEN_META) || (p.lexeme !== '#line')) {
+        if ((p.cls !== t.TOKEN_META) || (p.lexeme !== t.LEXEME_META_LINE)) {
             token.filename = tokenFilename;
-            throw errors.createError(err.LINE_EXPECTED, token, '"#line" Expected.');
+            throw errors.createError(err.LINE_EXPECTED, token, '"' + t.LEXEME_META_LINE + '" Expected.');
         }
         let hasLines = true;
         let text     = {filename: filename, lines: []};
@@ -134,7 +134,7 @@ exports.MetaCompiler = class {
             }
             token.done = true;
             text.lines.push(removePadding(token.lexeme));
-            hasLines = (iterator.skipWhiteSpace().peek().lexeme === '#line');
+            hasLines = (iterator.skipWhiteSpace().peek().lexeme === t.LEXEME_META_LINE);
         }
         this._resources.add(text.filename, text.lines.join(String.fromCharCode(0x0D)), token);
     }

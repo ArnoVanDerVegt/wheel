@@ -39,7 +39,7 @@
             <p>
                 <a id="Themathmodule."></a>
                 <div>The math module.<br/></div>
-                <div class="source-location">Source: lib/math.whl, line: 9<br/></div>
+                <div class="source-location">Source: lib/modules/math.whl, line: 9<br/></div>
                 <table class="help-table constants">
                     <tr><td>MODULE_MATH</td><td>1</td></tr>
                 </table>
@@ -47,7 +47,7 @@
             <p>
                 <a id="Modulecallsformathfunctions."></a>
                 <div>Module calls for math functions.<br/></div>
-                <div class="source-location">Source: lib/math.whl, line: 12<br/></div>
+                <div class="source-location">Source: lib/modules/math.whl, line: 12<br/></div>
                 <table class="help-table constants">
                     <tr><td>MATH_ROUND</td><td>0</td></tr>
                     <tr><td>MATH_FLOOR</td><td>1</td></tr>
@@ -66,14 +66,16 @@
                     <tr><td>MATH_SQRT</td><td>14</td></tr>
                     <tr><td>MATH_LOG</td><td>15</td></tr>
                     <tr><td>MATH_POW</td><td>16</td></tr>
-                    <tr><td>MATH_ODD</td><td>19</td></tr>
-                    <tr><td>MATH_EVEN</td><td>20</td></tr>
+                    <tr><td>MATH_ODD</td><td>17</td></tr>
+                    <tr><td>MATH_EVEN</td><td>18</td></tr>
+                    <tr><td>MATH_IK_RAD</td><td>19</td></tr>
+                    <tr><td>MATH_IK_DEG</td><td>20</td></tr>
                 </table>
             </p>
             <p>
                 <a id="Pi"></a>
                 <div>Pi<br/></div>
-                <div class="source-location">Source: lib/math.whl, line: 33<br/></div>
+                <div class="source-location">Source: lib/modules/math.whl, line: 35<br/></div>
                 <table class="help-table constants">
                     <tr><td>PI</td><td>3.14159265359</td></tr>
                 </table>
@@ -81,7 +83,7 @@
             <p>
                 <a id="Tau"></a>
                 <div>Tau<br/></div>
-                <div class="source-location">Source: lib/math.whl, line: 36<br/></div>
+                <div class="source-location">Source: lib/modules/math.whl, line: 38<br/></div>
                 <table class="help-table constants">
                     <tr><td>TAU</td><td>6.283185307179586</td></tr>
                 </table>
@@ -90,7 +92,7 @@
             <h4 class="">Procedures</h4>
             <a id="Roundanumber."></a>
             <h5 class="title-with-source">round</h5>
-            <div class="source-location">Source: lib/math.whl, line: 39<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 53<br/></div>
             <p>Round a number.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">round</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
@@ -101,9 +103,9 @@
             </table>
             <div><b>Return:</b> The rounded number.<br/><br/></div>
             <p>Round a value to the closest integer value.</p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">a</span>
@@ -127,7 +129,7 @@
             <hr/>
             <a id="Roundanumberdown."></a>
             <h5 class="title-with-source">floor</h5>
-            <div class="source-location">Source: lib/math.whl, line: 47<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 61<br/></div>
             <p>Round a number down.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">floor</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
@@ -138,9 +140,9 @@
             </table>
             <div><b>Return:</b> The rounded number.<br/><br/></div>
             <p>Round a value down to the closest integer value.</p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">a</span>
@@ -164,7 +166,7 @@
             <hr/>
             <a id="Roundanumberup."></a>
             <h5 class="title-with-source">ceil</h5>
-            <div class="source-location">Source: lib/math.whl, line: 55<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 69<br/></div>
             <p>Round a number up.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">ceil</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
@@ -175,9 +177,9 @@
             </table>
             <div><b>Return:</b> The rounded number.<br/><br/></div>
             <p>Round a value up to the closest integer value.</p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">a</span>
@@ -201,7 +203,7 @@
             <hr/>
             <a id="Makeanumberpositive."></a>
             <h5 class="title-with-source">abs</h5>
-            <div class="source-location">Source: lib/math.whl, line: 63<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 77<br/></div>
             <p>Make a number positive.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">abs</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
@@ -212,9 +214,9 @@
             </table>
             <div><b>Return:</b> The positive number.<br/><br/></div>
             <p>Get the absolute value.</p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">a</span>
@@ -238,7 +240,7 @@
             <hr/>
             <a id="Makeanumbernegative."></a>
             <h5 class="title-with-source">neg</h5>
-            <div class="source-location">Source: lib/math.whl, line: 71<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 85<br/></div>
             <p>Make a number negative.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">neg</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
@@ -249,9 +251,9 @@
             </table>
             <div><b>Return:</b> The negative number.<br/><br/></div>
             <p>Get the negative value.</p>
-            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/standard.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/math.whl"</span>
-<span class="meta">#include</span> <span class="string">"lib/screen.whl"</span>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/standard.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/math.whl"</span>
+<span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">a</span>
@@ -275,7 +277,7 @@
             <hr/>
             <a id="Getarandomnumber."></a>
             <h5 class="title-with-source">random</h5>
-            <div class="source-location">Source: lib/math.whl, line: 79<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 93<br/></div>
             <p>Get a random number.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">random</span><span class="operator">(</span><span class="type">number</span> <span class="variable">min</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">max</span><span class="operator">)</span>
 </pre>
@@ -289,7 +291,7 @@
             <hr/>
             <a id="Getthesinevalueforanangleinradians."></a>
             <h5 class="title-with-source">sin</h5>
-            <div class="source-location">Source: lib/math.whl, line: 89<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 103<br/></div>
             <p>Get the sine value for an angle in radians.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">sin</span><span class="operator">(</span><span class="type">number</span> <span class="variable">angle</span><span class="operator">)</span>
 </pre>
@@ -302,7 +304,7 @@
             <hr/>
             <a id="Getthecosinevalueforanangleinradians."></a>
             <h5 class="title-with-source">cos</h5>
-            <div class="source-location">Source: lib/math.whl, line: 97<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 111<br/></div>
             <p>Get the cosine value for an angle in radians.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">cos</span><span class="operator">(</span><span class="type">number</span> <span class="variable">angle</span><span class="operator">)</span>
 </pre>
@@ -315,7 +317,7 @@
             <hr/>
             <a id="Returntangentgeometryvalueinradians."></a>
             <h5 class="title-with-source">tan</h5>
-            <div class="source-location">Source: lib/math.whl, line: 105<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 119<br/></div>
             <p>Return tangent geometry value in radians.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">tan</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -328,7 +330,7 @@
             <hr/>
             <a id="Getthearcsinevalueforavalue."></a>
             <h5 class="title-with-source">asin</h5>
-            <div class="source-location">Source: lib/math.whl, line: 113<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 127<br/></div>
             <p>Get the arcsine value for a value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">asin</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -341,7 +343,7 @@
             <hr/>
             <a id="Getthearccosinevalueforavalue."></a>
             <h5 class="title-with-source">acos</h5>
-            <div class="source-location">Source: lib/math.whl, line: 121<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 135<br/></div>
             <p>Get the arccosine value for a value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">acos</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -354,7 +356,7 @@
             <hr/>
             <a id="Getthearctanvalueforavalue."></a>
             <h5 class="title-with-source">atan</h5>
-            <div class="source-location">Source: lib/math.whl, line: 129<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 143<br/></div>
             <p>Get the arctan value for a value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">atan</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -367,7 +369,7 @@
             <hr/>
             <a id="Gettheremainder(modulo)ofavalue."></a>
             <h5 class="title-with-source">remainder</h5>
-            <div class="source-location">Source: lib/math.whl, line: 137<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 151<br/></div>
             <p>Get the remainder (modulo) of a value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">remainder</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">remainder</span><span class="operator">)</span>
 </pre>
@@ -381,7 +383,7 @@
             <hr/>
             <a id="Gettheexpvalueofavalue."></a>
             <h5 class="title-with-source">exp</h5>
-            <div class="source-location">Source: lib/math.whl, line: 146<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 160<br/></div>
             <p>Get the exp value of a value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">exp</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -394,7 +396,7 @@
             <hr/>
             <a id="Getthesquarerootvalueofavalue."></a>
             <h5 class="title-with-source">sqrt</h5>
-            <div class="source-location">Source: lib/math.whl, line: 154<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 168<br/></div>
             <p>Get the square root value of a value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">sqrt</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -407,7 +409,7 @@
             <hr/>
             <a id="Getthelogarithmvalueofavalue."></a>
             <h5 class="title-with-source">log</h5>
-            <div class="source-location">Source: lib/math.whl, line: 162<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 176<br/></div>
             <p>Get the logarithm value of a value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">log</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -420,7 +422,7 @@
             <hr/>
             <a id="Getbasetotheexponentpower."></a>
             <h5 class="title-with-source">pow</h5>
-            <div class="source-location">Source: lib/math.whl, line: 170<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 184<br/></div>
             <p>Get base to the exponent power.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">pow</span><span class="operator">(</span><span class="type">number</span> <span class="variable">base</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">exponent</span><span class="operator">)</span>
 </pre>
@@ -434,7 +436,7 @@
             <hr/>
             <a id="Checkifanumberisodd."></a>
             <h5 class="title-with-source">odd</h5>
-            <div class="source-location">Source: lib/math.whl, line: 179<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 193<br/></div>
             <p>Check if a number is odd.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">odd</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -447,7 +449,7 @@
             <hr/>
             <a id="Checkifanumberiseven."></a>
             <h5 class="title-with-source">even</h5>
-            <div class="source-location">Source: lib/math.whl, line: 187<br/></div>
+            <div class="source-location">Source: lib/modules/math.whl, line: 201<br/></div>
             <p>Check if a number is even.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">even</span><span class="operator">(</span><span class="type">number</span> <span class="variable">value</span><span class="operator">)</span>
 </pre>
@@ -457,6 +459,24 @@
                 <tr><td>value</td><td>number</td><td>The value to check.</td></tr>
             </table>
             <div><b>Return:</b> Return 1 if even, 0 if odd.<br/><br/></div>
+            <hr/>
+            <a id="Calculatetheinversekinimaticanglesinradiansbasedonthe`ikData`record.
+ThisprocedureisonlysupportedintheIDE."></a>
+            <h5 class="title-with-source">ikRad</h5>
+            <div class="source-location">Source: lib/modules/math.whl, line: 209<br/></div>
+            <p>Calculate the inverse kinimatic angles in radians based on the `ikData` record.
+                   This procedure is only supported in the IDE.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">ikRad</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <hr/>
+            <a id="Calculatetheinversekinimaticanglesindegreesbasedonthe`ikData`record.
+ThisprocedureisonlysupportedintheIDE."></a>
+            <h5 class="title-with-source">ikDeg</h5>
+            <div class="source-location">Source: lib/modules/math.whl, line: 216<br/></div>
+            <p>Calculate the inverse kinimatic angles in degrees based on the `ikData` record.
+                   This procedure is only supported in the IDE.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">ikDeg</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
             <hr/>
         </div>
         <div class="footer">

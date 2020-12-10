@@ -13,23 +13,23 @@ exports.Record = class extends Scope {
     union() {
         this._unionId++;
         if (this._unionSize === 0) {
-            this._unionSize = this._size;
-            this._size      = 0;
+            this._unionSize = this.getTotalSize();
+            this._offset    = 0;
             return true;
         }
-        let result = (this._size === this._unionSize);
-        this._size = 0;
+        let result = (this._offset === this._unionSize);
+        this._offset = 0;
         return result;
     }
 
     checkUnion() {
-        return (this._unionSize === 0) || (this._unionSize === this._size);
+        return (this._unionSize === 0) || (this._unionSize === this._offset);
     }
 
     _getWithRecord(record, parentScope, withOffset) {
         let withRecord = new exports.Record(parentScope, record.getName(), record.getGlobal(), record.getNamespace());
         if (parentScope) {
-            withRecord.setSize(parentScope ? (parentScope.getSize() + 1) : 0);
+            withRecord.setOffset(parentScope ? (parentScope.getTotalSize() + 1) : 0);
         }
         record.getVars().forEach((vr) => {
             withRecord

@@ -141,7 +141,7 @@ describe(
                 );
             }
         );
-          describe(
+        describe(
             'Test return value',
             () => {
                 testLogs(
@@ -228,6 +228,121 @@ describe(
                     [
                         9551,
                         1281
+                    ]
+                );
+            }
+        );
+        describe(
+            'Test an object with an object property',
+            () => {
+                testLogs(
+                    it,
+                    'Should set the value in an object property',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.setY(number y)',
+                        '    self.y = y',
+                        'end',
+                        'object Shape',
+                        '    Point point',
+                        'end',
+                        'proc Shape.init()',
+                        '    point.setY(5345)',
+                        'end',
+                        'Shape shape',
+                        'proc main()',
+                        '    shape.init()',
+                        '    number n',
+                        '    n = shape.point.y',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        5345
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should set the values in an extended object property',
+                    [
+                        'object Point2D',
+                        '    number x, y',
+                        'end',
+                        'proc Point2D.setY(number y)',
+                        '    self.y = y',
+                        'end',
+                        'object Point3D extends Point2D',
+                        '    number z',
+                        'end',
+                        'proc Point3D.setZ(number z)',
+                        '    self.z = z',
+                        'end',
+                        'object Shape',
+                        '    Point3D point',
+                        'end',
+                        'proc Shape.init()',
+                        '    point.setY(8153)',
+                        '    point.setZ(3851)',
+                        'end',
+                        'Shape shape',
+                        'proc main()',
+                        '    shape.init()',
+                        '    number n',
+                        '    n = shape.point.y',
+                        '    addr n',
+                        '    mod 0, 1',
+                        '    n = shape.point.z',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        8153,
+                        3851
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should call constructors of nested objects',
+                    [
+                        'object Test1',
+                        'end',
+                        'proc Test1.init1()',
+                        'end',
+                        'object Test2',
+                        '    Test1 test1',
+                        'end',
+                        'proc Test2.init2()',
+                        '    with test1',
+                        '        init1()',
+                        '    end',
+                        'end',
+                        'proc Test2.init()',
+                        '    init2()',
+                        'end',
+                        'object Test3',
+                        '    Test2 test2',
+                        'end',
+                        'proc Test3.init()',
+                        '    test2.init()',
+                        'end',
+                        'Test3 test3',
+                        'proc main()',
+                        '    number n = 8351',
+                        '    addr n',
+                        '    mod 0, 1',
+                        '    test3.init()',
+                        '    n = 3553',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        8351,
+                        3553
                     ]
                 );
             }

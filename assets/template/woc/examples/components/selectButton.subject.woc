@@ -9,11 +9,11 @@ This example shows how to use the selectButton component.
 @example
 #project "SelectButton example"
 
-#include "lib/standard.whl"
-#include "lib/components/component.whl"
-#include "lib/components/form.whl"
-#include "lib/components/selectButton.whl"
-#include "lib/components/statusLight.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/components/component.whl"
+#include "lib/modules/components/form.whl"
+#include "lib/modules/components/selectButton.whl"
+#include "lib/modules/components/statusLight.whl"
 
 #define SELECT_BUTTON_SELECT_BUTTON 0xF121D096
 #define SELECT_BUTTON_STATUS_LIGHT  0x8FBC7C0A

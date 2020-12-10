@@ -1,0 +1,20 @@
+.dialog-background.inverse-kinematics-dialog canvas {
+    border-radius:                  2px;
+    padding:                        4px;
+    font-family:                    open_sansregular, Helvetica, Arial, sans-serif;
+    cursor:                         crosshair;
+}
+.dialog-background.inverse-kinematics-dialog canvas.grid {
+    background-color:               var(--ui-background1);
+    border:                         var(--ui-border1);
+}
+.dialog-background.inverse-kinematics-dialog .buttons .dropdown {
+    float:                          right;
+    width:                          64px;
+    margin:                         0 0 0 8px;
+}
+.dialog-background.inverse-kinematics-dialog .buttons .label {
+    margin:                         0 0 0 40px;
+    height:                         24px;
+    line-height:                    24px;
+}

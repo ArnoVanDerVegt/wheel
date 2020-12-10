@@ -71,7 +71,7 @@ exports.Var = class {
             ([t.LEXEME_NUMBER, t.LEXEME_PROC, t.LEXEME_STRING].indexOf(this._type.type) !== -1);
     }
 
-    getSize() {
+    getElementSize() {
         let compiler = this._compiler;
         // In the second pass we know the exact object size including the virtual methods!
         if (compiler.getPass() && !this._type.typePointer && !this._pointer) {
@@ -80,7 +80,7 @@ exports.Var = class {
                 return this._compiler.getObjctSize(this._type.type.getName());
             }
         }
-        return this.getPrimitiveType() ? 1 : this._type.type.getSize();
+        return this.getPrimitiveType() ? 1 : this._type.type.getTotalSize();
     }
 
     getTotalSize() {
@@ -93,7 +93,7 @@ exports.Var = class {
                 arraySize *= this._arraySize[i];
             }
         }
-        return this.getSize() * arraySize;
+        return this.getElementSize() * arraySize;
     }
 
     getWithOffset() {

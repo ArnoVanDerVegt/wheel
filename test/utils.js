@@ -194,6 +194,22 @@ const createModules = (vm, mocks) => {
 exports.createMocks   = createMocks;
 exports.createModules = createModules;
 
+const updateNumbers = (numbers) => {
+        for (let i = 0; i < numbers.length; i++) {
+            if (typeof numbers[i] === 'number') {
+                if (numbers[i] > 1000) {
+                    numbers[i] = Math.round(numbers[i] / numbers[i]); // For Math.exp test...
+                } else {
+                    let s = numbers[i] + '';
+                    let j = s.indexOf('.');
+                    if (j !== -1) {
+                        numbers[i] = s.substr(0, j + 3);
+                    }
+                }
+            }
+        }
+    };
+
 exports.testCodeAndMemory = function(it, message, source, code, memory) {
     it(
         message,
@@ -222,20 +238,22 @@ exports.testCodeAndMemory = function(it, message, source, code, memory) {
                     entryPoint: program.getEntryPoint(),
                     globalSize: program.getGlobalSize(),
                     constants:  program.getConstants(),
-                    stringList: program.getStringList()
+                    stringList: program.getStringList(),
+                    heap:       10240
                 });
             vm.setModules(createModules(vm, createMocks()));
             vm.setCommands(program.getCommands()).run();
-            let data = vm.getVMData().getData();
-            for (let i = 0; i < data.length; i++) {
-                if (!data[i]) {
-                    data[i] = 0;
-                }
+            let data       = vm.getVMData().getData();
+            let dataMemory = [];
+            for (let i = 0; i < memory.length; i++) {
+                dataMemory.push(data[i] || 0);
             }
+            updateNumbers(dataMemory);
+            updateNumbers(memory);
             if (memory === true) {
                 console.log(data);
             } else {
-                assert.deepEqual(data, memory);
+                assert.deepEqual(dataMemory, memory);
             }
         }
     );
@@ -252,7 +270,8 @@ exports.testLogs = function(it, message, source, logs, callback) {
                     entryPoint: program.getEntryPoint(),
                     globalSize: program.getGlobalSize(),
                     constants:  program.getConstants(),
-                    stringList: program.getStringList()
+                    stringList: program.getStringList(),
+                    heap:       10240
                 });
             let logsReceived = [];
             let modules      = createModules(vm, createMocks());
@@ -261,6 +280,8 @@ exports.testLogs = function(it, message, source, logs, callback) {
             });
             vm.setModules(modules);
             vm.setCommands(program.getCommands()).run();
+            updateNumbers(logs);
+            updateNumbers(logsReceived);
             assert.deepEqual(logsReceived, logs);
             callback && callback(vm);
         }
@@ -332,11 +353,11 @@ exports.testCompile = function(source, linter) {
             entryPoint: program.getEntryPoint(),
             globalSize: program.getGlobalSize(),
             constants:  program.getConstants(),
-            stringList: program.getStringList()
+            stringList: program.getStringList(),
+            heap:       program.getHeap()
         });
     let modules = createModules(vm, createMocks());
     vm.setModules(modules);
-    vm.getVMData().setHeap(program.getHeap());
     return {
         vm:       vm,
         modules:  modules,

@@ -23,6 +23,9 @@ exports.Button = class extends Component.Component {
         if (this._height && (parseInt(this._height, 10) >= 20)) {
             style.height = this._height + 'px';
         }
+        if (this._zIndex !== false) {
+            style.zIndex = this._zIndex;
+        }
         this.create(
             parentNode,
             {

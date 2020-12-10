@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/circle.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/circle.whl';
 
 describe(
     'Test Circle component module',

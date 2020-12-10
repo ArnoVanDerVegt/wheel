@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/checkbox.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/checkbox.whl';
 
 describe(
     'Test Checkbox component module',

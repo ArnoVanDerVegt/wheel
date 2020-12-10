@@ -10,8 +10,8 @@ This gets a random value between -5 and +5 and prints the value, the absolute an
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "Math abs/neg example"
 
-#include "lib/standard.whl"
-#include "lib/math.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
 
 proc main()
     clearConsole()

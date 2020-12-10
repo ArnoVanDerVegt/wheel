@@ -120,7 +120,11 @@ class MathExpressionNode {
                         throw errors.createError(err.TYPE_MISMATCH, value[0], 'Type mismatch.');
                     }
                 }
-                this._varExpression.compileExpressionToRegister(identifier, {tokens: value}, $.REG_PTR, false, false);
+                this._varExpression.compileExpressionToRegister({
+                    identifier: identifier,
+                    expression: {tokens: value},
+                    reg:        $.REG_PTR
+                });
                 this._program.addCommand($.CMD_SET, $.T_NUM_L, scope.getStackOffset(), $.T_NUM_P, 0);
             }
         } else {

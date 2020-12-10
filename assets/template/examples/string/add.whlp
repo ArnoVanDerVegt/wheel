@@ -2,7 +2,7 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "String add example"
 
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 
 proc main()
     clearConsole()

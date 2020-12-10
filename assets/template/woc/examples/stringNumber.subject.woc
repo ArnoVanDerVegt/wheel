@@ -8,8 +8,8 @@ This shows how to convert a number to a string and a string to a number.
 @example
 #project "String number example"
 
-#include "lib/standard.whl"
-#include "lib/string.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/string.whl"
 
 proc main()
     clearConsole()

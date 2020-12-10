@@ -5,6 +5,7 @@
     top:                            0;
     width:                          calc(100% - 2px);
     height:                         calc(100% - 2px);
+    min-height:                     22px;
     background:                     var(--design-background);
     border:                         var(--design-border);
     content:                        ' ';

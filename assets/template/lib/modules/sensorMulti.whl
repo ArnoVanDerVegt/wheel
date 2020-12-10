@@ -1,0 +1,92 @@
+; @module Sensor multi
+; @device E,M
+; Wheel, copyright (c) 2019 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @description
+; This module adds support for connecting a Mindsensors sensor multiplexer to a port.
+; http://www.mindsensors.com/ev3-and-nxt/31-psp-nx-v4-ref-combo-with-wireless-controller
+; This module only reads touch sensor values!
+
+; @const The sensor multiplexer module.
+#define MODULE_SENSOR_MULTI                    33
+
+; @const The sensor type for the multiplexer. Setting the type displays the multiplexer in the simulator for the given port.
+#define SENSOR_TYPE_MULTIPLEXER                64
+
+; @const Module calls for sensor multiplexer functions.
+#define MODULE_SENSOR_MULTI_SET_WRITE_OFFSET    0
+#define MODULE_SENSOR_MULTI_START               1
+#define MODULE_SENSOR_MULTI_STOP                2
+#define MODULE_SENSOR_MULTI_STOP_ALL            3
+
+; The multi touch sensor values for four ports...
+number msTouch0[3]
+number msTouch1[3]
+number msTouch2[3]
+number msTouch3[3]
+
+; @proc             Start updating touch sensors on the given port.
+proc msStart(number port)
+    addr port
+    mod  MODULE_SENSOR_MULTI, MODULE_SENSOR_MULTI_START
+    number layer = 0
+    number p     = port
+    number type  = SENSOR_TYPE_MULTIPLEXER
+    addr layer
+    mod  7, 0 ; MODULE_SENSOR, SENSOR_SET_TYPE
+end
+
+; @proc             Start updating touch sensors on port 0.
+proc msStart0()
+    addr msTouch0
+    mod  MODULE_SENSOR_MULTI, MODULE_SENSOR_MULTI_SET_WRITE_OFFSET
+    msStart(0)
+end
+
+; @proc             Start updating touch sensors on port 1.
+proc msStart1()
+    addr msTouch1
+    mod  MODULE_SENSOR_MULTI, MODULE_SENSOR_MULTI_SET_WRITE_OFFSET
+    msStart(1)
+end
+
+; @proc             Start updating touch sensors on port 2.
+proc msStart2()
+    addr msTouch2
+    mod  MODULE_SENSOR_MULTI, MODULE_SENSOR_MULTI_SET_WRITE_OFFSET
+    msStart(2)
+end
+
+; @proc             Start updating touch sensors on port 3.
+proc msStart3()
+    addr msTouch3
+    mod  MODULE_SENSOR_MULTI, MODULE_SENSOR_MULTI_SET_WRITE_OFFSET
+    msStart(3)
+end
+
+; @proc             Stop updating touch sensors on the given port.
+proc msStop(number port)
+    addr port
+    mod  MODULE_SENSOR_MULTI, MODULE_SENSOR_MULTI_STOP
+end
+
+; @proc             Stop updating touch sensors on port 0.
+proc msStop0()
+    msStop(0)
+end
+
+; @proc             Stop updating touch sensors on port 1.
+proc msStop1()
+    msStop(1)
+end
+
+; @proc             Stop updating touch sensors on port 2.
+proc msStop2()
+    msStop(2)
+end
+
+; @proc             Stop updating touch sensors on port 3.
+proc msStop3()
+    msStop(3)
+end

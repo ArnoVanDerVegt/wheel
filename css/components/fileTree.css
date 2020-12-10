@@ -49,6 +49,7 @@ body.ide.no-file-tree div.file-tree-wrapper {
     color:                          var(--ui-text1);
     border:                         1px solid transparent;
     -webkit-user-select:            none;
+    font-size:                      16px;
 }
 .file-tree-wrapper .files .file a.name.focus {
     border:                         var(--focus-border-dotted);

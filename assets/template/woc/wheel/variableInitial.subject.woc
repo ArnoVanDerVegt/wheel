@@ -33,7 +33,7 @@ end
 @section Constant array paramters
 A constant array can also be passed as a `parameter` to a procedure.
 @example
-#include "lib/standard.whl"
+#include "lib/modules/standard.whl"
 ; This procedure prints the contents of an array with four numbers...
 proc printMyArray(number a[4])
     number i

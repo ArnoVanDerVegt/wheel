@@ -7,8 +7,8 @@ The following demo draws black and white circles with and without a border:
 @example
 #project "Circle demo"
 
-#include "lib/standard.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     ; Draw two black filled rectangles at the left/top and right/bottom...
@@ -42,8 +42,8 @@ end
 Draw a text with the active fill and color settings.
 
 @example
-#include "lib/standard.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     number n
@@ -64,8 +64,8 @@ end
 Draw a text with the active fill and color settings.
 
 @example
-#include "lib/standard.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     ; Draw a small black text at the left top of the screen...
@@ -93,8 +93,8 @@ The following demo creates black and white lines:
 @example
 #project "Line demo"
 
-#include "lib/standard.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     ; Fill half the screen black...
@@ -128,8 +128,8 @@ The following demo draws black and white pixels:
 @example
 #project "Pixel demo"
 
-#include "lib/standard.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     ; Fill half the screen black...
@@ -170,8 +170,8 @@ The following demo draws black and white rectangles with and without a border:
 @example
 #project "Rectangle demo"
 
-#include "lib/standard.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/screen.whl"
 
 proc main()
     ; Draw two black filled rectangles at the left/top and right/bottom...
@@ -203,8 +203,8 @@ end
 
 @for drawImage
 @example
-#include "lib/standard.whl"
-#include "lib/screen.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/screen.whl"
 
 #image "test.rgf"
 #data  "011111110"

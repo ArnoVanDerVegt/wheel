@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/rectangle.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/rectangle.whl';
 
 describe(
     'Test Rectangle component module',

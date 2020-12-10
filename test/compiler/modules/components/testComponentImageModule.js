@@ -9,7 +9,7 @@ afterEach(() => {
     dispatcher.reset();
 });
 
-const LIB_FILENAME = 'assets/template/lib/components/image.whl';
+const LIB_FILENAME = 'assets/template/lib/modules/components/image.whl';
 
 describe(
     'Test Image component module',

@@ -45,7 +45,7 @@ exports.FormNewDialog = class extends ImageNewDialog {
                 'Create.File',
                 {
                     filename: whlFilename,
-                    value:    ['#include "lib/components/form.whl"', ''].
+                    value:    ['#include "lib/modules/components/form.whl"', ''].
                         concat(sourceBuilderUtils.getFormCode(this._filename)).join('\n')
                 }
             )

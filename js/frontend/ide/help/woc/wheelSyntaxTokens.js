@@ -92,16 +92,18 @@ exports.sign = [
     ];
 
 exports.meta = [
+        'format',
+        'noformat',
         '#project',
         '#define',
         '#include',
         '#heap',
+        '#datatype',
         '#optimizer',
         '#rangecheck',
         '#image',
         '#break',
         '#data',
-        '#heap',
         '#display',
         '#resource',
         '#text',

@@ -2,11 +2,11 @@
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 #project "Powered Up Light and color sensor example"
 
-#include "lib/standard.whl"
-#include "lib/device.whl"
-#include "lib/poweredUp.whl"
-#include "lib/light.whl"
-#include "lib/sensor.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/poweredUp.whl"
+#include "lib/modules/light.whl"
+#include "lib/modules/sensor.whl"
 
 #display "Hub"
 

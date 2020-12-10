@@ -87,6 +87,10 @@ updateCssImages(
     '../css/ide/components.css'
 );
 updateCssImages(
+    '../css/properties/properties.temp.css',
+    '../css/properties/properties.css'
+);
+updateCssImages(
     '../css/ide/icon.temp.css',
     '../css/ide/icon.css'
 );

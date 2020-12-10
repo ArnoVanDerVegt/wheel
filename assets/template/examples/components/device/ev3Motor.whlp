@@ -1,13 +1,13 @@
 #project "EV3 Motor example"
 
-#include "lib/standard.whl"
-#include "lib/motor.whl"
-#include "lib/math.whl"
-#include "lib/components/component.whl"
-#include "lib/components/ev3Motor.whl"
-#include "lib/components/form.whl"
-#include "lib/components/button.whl"
-#include "lib/components/poweredUpDevice.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/motor.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/components/component.whl"
+#include "lib/modules/components/ev3Motor.whl"
+#include "lib/modules/components/form.whl"
+#include "lib/modules/components/button.whl"
+#include "lib/modules/components/poweredUpDevice.whl"
 
 #define EV3_MOTOR_BUTTON_LARGE        0x633A40E8
 #define EV3_MOTOR_BUTTON_PORT_A       0xC567C6E5

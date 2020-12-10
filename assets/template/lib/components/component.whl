@@ -1,6 +1,0 @@
-; @const Component colors
-#define COMPONENT_COLOR_GRAY   0
-#define COMPONENT_COLOR_BLUE   2
-#define COMPONENT_COLOR_GREEN  3
-#define COMPONENT_COLOR_YELLOW 4
-#define COMPONENT_COLOR_RED    5

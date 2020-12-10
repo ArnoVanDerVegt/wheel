@@ -1,12 +1,12 @@
 #project "EV3 Sensor display example"
 
-#include "lib/standard.whl"
-#include "lib/math.whl"
-#include "lib/sensor.whl"
-#include "lib/components/component.whl"
-#include "lib/components/form.whl"
-#include "lib/components/ev3Sensor.whl"
-#include "lib/components/button.whl"
+#include "lib/modules/standard.whl"
+#include "lib/modules/math.whl"
+#include "lib/modules/sensor.whl"
+#include "lib/modules/components/component.whl"
+#include "lib/modules/components/form.whl"
+#include "lib/modules/components/ev3Sensor.whl"
+#include "lib/modules/components/button.whl"
 
 #define EV3_SENSOR_BUTTON_COLOR_SENSOR      0x0E0BB1B4
 #define EV3_SENSOR_BUTTON_GYRO_SENSOR       0x64B32E1A
