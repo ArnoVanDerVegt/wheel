@@ -1573,33 +1573,50 @@ describe(
                 );
             }
         );
-        describe(
-            'Test nested statements',
+        it(
+            'Should format nested for and with',
             () => {
-                it(
-                    'Should for and with',
-                    () => {
-                        let sf = new SourceFormatter({});
-                        let s1 = sf.format([
-                                'for i =   0  to  2',
-                                '    with                      robotConfig.motors[i]',
-                                '        motorLayerSetSpeed(layer,    port,     resetDir * speeds[i])',
-                                '        motorLayerOn(layer,       port)',
-                                '    end',
-                                'end'
-                            ].join('\n'));
-                        let s2 = [
-                                'for i = 0 to 2',
-                                '    with robotConfig.motors[i]',
-                                '        motorLayerSetSpeed(layer, port, resetDir * speeds[i])',
-                                '        motorLayerOn(layer, port)',
-                                '    end',
-                                'end',
-                                ''
-                            ].join('\n');
-                        assert.equal(s1, s2);
-                    }
-                );
+                let sf = new SourceFormatter({});
+                let s1 = sf.format([
+                        'for i =   0  to  2',
+                        '    with                      robotConfig.motors[i]',
+                        '        motorLayerSetSpeed(layer,    port,     resetDir * speeds[i])',
+                        '        motorLayerOn(layer,       port)',
+                        '    end',
+                        'end'
+                    ].join('\n'));
+                let s2 = [
+                        'for i = 0 to 2',
+                        '    with robotConfig.motors[i]',
+                        '        motorLayerSetSpeed(layer, port, resetDir * speeds[i])',
+                        '        motorLayerOn(layer, port)',
+                        '    end',
+                        'end',
+                        ''
+                    ].join('\n');
+                assert.equal(s1, s2);
+            }
+        );
+        it(
+            'Should format declaration followed by call',
+            () => {
+                let sf = new SourceFormatter({});
+                let s1 = sf.format([
+                        'proc   main()',
+                        '        Animal                  animal',
+                        '    animal.setPosition( 146,   381 )',
+                        '    animal.logPosition()',
+                        'end'
+                    ].join('\n'));
+                let s2 = [
+                        'proc main()',
+                        '    Animal animal',
+                        '    animal.setPosition(146, 381)',
+                        '    animal.logPosition()',
+                        'end',
+                        ''
+                    ].join('\n');
+                assert.equal(s1, s2);
             }
         );
         describe(

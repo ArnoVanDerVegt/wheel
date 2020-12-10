@@ -455,6 +455,7 @@ exports.SourceFormatter = class {
             case t.LEXEME_WITH:    this.formatTokenAndExpressionIncIndent(iterator, token); break;
             case t.LEXEME_RET:     this.formatTokenAndExpression         (iterator, token); break;
             case t.LEXEME_ADDR:    this.formatTokenAndExpression         (iterator, token); break;
+            case t.LEXEME_MOD:     this.formatTokenAndExpression         (iterator, token); break;
             case t.LEXEME_SUPER:   this.formatSuperToken                 (iterator, token); break;
             case t.LEXEME_ELSEIF:  this.formatElseifToken                (iterator, token); break;
             case t.LEXEME_SELECT:  this.formatSelectToken                (iterator, token); break;
@@ -559,10 +560,10 @@ exports.SourceFormatter = class {
         let maxLength0 = 0;
         let maxLength1 = 0;
         while ((i < output.length) && (this.splitAtSpaceFilrered(output[i], 2).length >= 2)) {
-            if (this.startsWith(output[i], IGNORE_WHEN_START_LEXEMES)) {
+            let line = output[i];
+            if (this.startsWith(line, IGNORE_WHEN_START_LEXEMES) || this.hasProcCall(line)) {
                 break;
             }
-            let line           = output[i];
             let comment        = '';
             let lineAndComment = this.splitComment(line);
             if (lineAndComment) {
