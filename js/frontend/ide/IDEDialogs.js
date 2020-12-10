@@ -69,7 +69,7 @@ exports.IDEDialogs = class extends IDEEvents {
         new IconDialog                    ({getImage: getImage, ui: this._ui});
         new FormNewDialog                 ({getImage: getImage, ui: this._ui});
         new FormSizeDialog                ({getImage: getImage, ui: this._ui});
-        new ListDialog                    ({getImage: getImage, ui: this._ui, signal: 'Dialog.List.Show'});
+        new ListDialog                    ({getImage: getImage, ui: this._ui, showSignal: 'Dialog.List.Show'});
         new StatisticsDialog              ({getImage: getImage, ui: this._ui});
         new VolumeDialog                  ({getImage: getImage, ui: this._ui});
         new DaisyChainDialog              ({getImage: getImage, ui: this._ui});

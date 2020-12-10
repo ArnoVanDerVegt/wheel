@@ -24,7 +24,8 @@ exports.IncludeFilesState = class extends Emitter {
             .on('Settings.Set.IncludeFileDown',         this, this._setIncludeFileDown)
             .on('Settings.Set.IncludeFile.File',        this, this._setIncludeFileFile)
             .on('Settings.Set.IncludeFile.Description', this, this._setIncludeFileDescription)
-            .on('Settings.Add.IncludeFile',             this, this._addIncludeFile);
+            .on('Settings.Add.IncludeFile',             this, this._addIncludeFile)
+            .on('Settings.Delete.IncludeFile',          this, this._deleteIncludeFile);
     }
 
     getDefaultIncludeFiles() {
@@ -151,6 +152,17 @@ exports.IncludeFilesState = class extends Emitter {
             file:        'include' + includeFiles.length + '.whl',
             description: 'Description (' + includeFiles.length + ')'
         });
+        this._settings
+            .save()
+            .emit('Settings.IncludeFiles');
+    }
+
+    _deleteIncludeFile(index) {
+        let includeFiles = this._includeFiles;
+        for (let i = index; i < includeFiles.length - 1; i++) {
+            includeFiles[i] = includeFiles[i + 1];
+        }
+        includeFiles.pop();
         this._settings
             .save()
             .emit('Settings.IncludeFiles');

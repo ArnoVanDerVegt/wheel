@@ -161,7 +161,9 @@ exports.IncludeFilesSetting = class extends DOMNode {
             {
                 title:         'Confirm delete include file',
                 lines:         ['Are you sure you want to delete the include file', '<i>' + includeFile.file + '</i> ?'],
-                applyCallback: () => {}
+                applyCallback: () => {
+                    dispatcher.dispatch('Settings.Delete.IncludeFile', index);
+                }
             }
         );
     }
