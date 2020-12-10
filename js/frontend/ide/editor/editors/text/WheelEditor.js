@@ -146,7 +146,17 @@ exports.WheelEditor = class extends Editor {
     }
 
     getValue() {
-        return this._codeMirror.getValue();
+        let value = this._codeMirror.getValue();
+        let lines = value.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            let j    = lines.length - 1;
+            while ((j >= 0) && (lines[j] === ' ')) {
+                j--;
+            }
+            lines[i] = line.substr(0, j).split('\t').join('    ');
+        }
+        return lines.join('\n');
     }
 
     setValue(value, reset) {
