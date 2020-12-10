@@ -184,13 +184,16 @@ exports.SourceFormatter = class {
         return null;
     }
 
-    getIndentSpace() {
+    getIndentSpace(back) {
         let space = '';
         this._indentStack.forEach((item) => {
             for (let i = 0; i < item.popCount; i++) {
                 space += '    ';
             }
         });
+        if (back && (space.length >= 4)) {
+            space = space.substr(4, space.length - 4);
+        }
         return space;
     }
 
@@ -246,8 +249,7 @@ exports.SourceFormatter = class {
         return false;
     }
 
-    formatExpressionUntilEol(iterator, token) {
-        let line = '';
+    formatExpressionUntilEol(iterator, token, line) {
         let lastToken;
         const lastLineCharIsSpace = () => {
                 return line.length && (line[line.length - 1] === ' ');
@@ -296,7 +298,7 @@ exports.SourceFormatter = class {
         let line        = token.lexeme + ' ';
         let expectType  = true;
         if (indentStack.length && indentStack[indentStack.length - 1].isProc) {
-            this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token));
+            this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token, ''));
             return;
         }
         iterator.skipWhiteSpace();
@@ -349,52 +351,50 @@ exports.SourceFormatter = class {
     }
 
     formatTokenAndExpression(iterator, token) {
-        let line = this.formatExpressionUntilEol(iterator, token);
+        let line = this.formatExpressionUntilEol(iterator, token, '');
         this.addLineToOutput(this.getIndentSpace() + token.lexeme + (line.length ? ' ' : '') + line);
     }
 
     formatTokenAndExpressionIncIndent(iterator, token) {
-        let line = this.formatExpressionUntilEol(iterator, token);
+        let line = this.formatExpressionUntilEol(iterator, token, '');
         this
             .addLineToOutput(this.getIndentSpace() + token.lexeme + (this.startsWithSpace(line) ? '' : ' ') + line)
             .incIndent(1);
     }
 
+    formatSingleToken(iterator, token) {
+        this
+            .decIndent()
+            .addLineToOutput(this.getIndentSpace() + this.formatExpressionUntilEol(iterator, token, token.lexeme))
+            .incIndent(1);
+    }
+
     formatSuperToken(iterator, token) {
-        this.addLineToOutput(this.getIndentSpace() + token.lexeme + this.formatExpressionUntilEol(iterator, token));
+        this.addLineToOutput(this.getIndentSpace() + token.lexeme + this.formatExpressionUntilEol(iterator, token, ''));
     }
 
     formatElseifToken(iterator, token) {
-        let indent = this.getIndentSpace();
-        if (indent.length > 4) {
-            indent = indent.substr(0, indent.length - 4);
-        }
-        let line = this.formatExpressionUntilEol(iterator, token);
+        let indent = this.getIndentSpace(true);
+        let line  = this.formatExpressionUntilEol(iterator, token, '');
         this.addLineToOutput(indent + token.lexeme + (this.startsWithSpace(line) ? '' : ' ') + line);
     }
 
     formatSelectToken(iterator, token) {
-        let line = this.formatExpressionUntilEol(iterator, token);
+        let line = this.formatExpressionUntilEol(iterator, token, '');
         this
             .addLineToOutput(this.getIndentSpace() + token.lexeme + (this.startsWithSpace(line) ? '' : ' ') + line)
             .incIndent(2);
     }
 
     formatCaseToken(iterator, token) {
-        let indent = this.getIndentSpace();
-        if (indent.length >= 4) {
-            indent = indent.substr(4, indent.length - 4);
-        }
-        let line = this.formatExpressionUntilEol(iterator, token);
+        let indent = this.getIndentSpace(true);
+        let line   = this.formatExpressionUntilEol(iterator, token, '');
         this.addLineToOutput(indent + token.lexeme + (this.startsWithSpace(line) ? '' : ' ') + line);
     }
 
     formatDefaultToken(iterator, token) {
-        let indent = this.getIndentSpace();
-        if (indent.length >= 4) {
-            indent = indent.substr(4, indent.length - 4);
-        }
-        this.addLineToOutput(indent + token.lexeme + this.formatExpressionUntilEol(iterator, token));
+        let indent = this.getIndentSpace(true);
+        this.addLineToOutput(indent + token.lexeme + this.formatExpressionUntilEol(iterator, token, ''));
     }
 
     formatForToken(iterator, token) {
@@ -410,36 +410,13 @@ exports.SourceFormatter = class {
             .incIndent(1);
     }
 
-    formatSingleToken(iterator, token) {
-        let line = token.lexeme;
-        iterator.skipWhiteSpaceWithoutNewline();
-        token = iterator.next();
-        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
-            line += ' ; ' + token.comment.trim();
-        }
-        this
-            .decIndent()
-            .addLineToOutput(this.getIndentSpace() + line)
-            .incIndent(1);
-    }
-
     formatBreakToken(iterator, token) {
-        let line = token.lexeme;
-        iterator.skipWhiteSpaceWithoutNewline();
-        token = iterator.next();
-        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
-            line += ' ; ' + token.comment.trim();
-        }
+        let line = this.rtrim(this.formatExpressionUntilEol(iterator, token, token.lexeme + ' '));
         this.addLineToOutput(this.getIndentSpace() + line);
     }
 
     formatRepeatToken(iterator, token) {
-        let line = token.lexeme;
-        iterator.skipWhiteSpaceWithoutNewline();
-        token = iterator.next();
-        if (token && (token.lexeme === t.LEXEME_NEWLINE) && token.comment) {
-            line += ' ; ' + token.comment.trim();
-        }
+        let line = this.rtrim(this.formatExpressionUntilEol(iterator, token, token.lexeme + ' '));
         this
             .addLineToOutput(this.getIndentSpace() + line)
             .incIndent(1);
@@ -486,7 +463,7 @@ exports.SourceFormatter = class {
             case t.LEXEME_FOR:     this.formatForToken                   (iterator, token); break;
             case t.LEXEME_END:     this.formatEndToken                   (iterator, token); break;
             default:
-                this.addLineToOutput(token.lexeme + ' ' + this.formatExpressionUntilEol(iterator, token));
+                this.addLineToOutput(token.lexeme + ' ' + this.formatExpressionUntilEol(iterator, token, ''));
                 console.error('Unsupported keyword token:', token.lexeme);
                 break;
         }
@@ -515,7 +492,7 @@ exports.SourceFormatter = class {
                     break;
             }
         }
-        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token));
+        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token, ''));
     }
 
     formatPointerIdentifierToken(iterator, token) {
@@ -542,7 +519,7 @@ exports.SourceFormatter = class {
                     break;
             }
         }
-        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token));
+        this.addLineToOutput(this.getIndentSpace() + line + this.formatExpressionUntilEol(iterator, token, ''));
     }
 
     formatMeta(meta, firstLine) {

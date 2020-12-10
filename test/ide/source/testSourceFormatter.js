@@ -1244,6 +1244,28 @@ describe(
                         assert.equal(s1, s2);
                     }
                 );
+                it(
+                    'Should format repeat with break and label',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc test()',
+                                '  repeat loop',
+                                '   break loop',
+                                '      end',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc test()',
+                                '    repeat loop',
+                                '        break loop',
+                                '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
             }
         );
         describe(
