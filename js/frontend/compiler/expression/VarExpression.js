@@ -280,9 +280,8 @@ exports.VarExpression = class {
             callMethod:             opts.callMethod,
             selfPointerStackOffset: this._selfPointerStackOffset
         });
-        helper
-            .setStackOffsetToPtr(this._program, this._scope)
-            .assignToPtr(this._program, $.CMD_SET, $.T_NUM_G, $.REG_RET);
+        helper.setStackOffsetToPtr(this._program, this._scope);
+        helper.assignToPtr(this._program, $.CMD_SET, $.T_NUM_G, $.REG_RET);
         opts.index      = opts.expression.tokens.length;
         result.dataSize = 1;
     }
@@ -382,9 +381,8 @@ exports.VarExpression = class {
         }
         if (opts.expression.tokens[0].cls === t.TOKEN_NUMBER) {
             program.addCommand($.CMD_SET, $.T_NUM_L, this._scope.getStackOffset(), $.T_NUM_C, opts.expression.tokens[0].value);
-            helper
-                .setReg(this._program, opts.reg, $.T_NUM_G, $.REG_STACK)
-                .addToReg(this._program, opts.reg, $.T_NUM_C, this._scope.getStackOffset());
+            helper.setReg(this._program, opts.reg, $.T_NUM_G, $.REG_STACK);
+            helper.addToReg(this._program, opts.reg, $.T_NUM_C, this._scope.getStackOffset());
         } else if (opts.identifier === null) {
             let token = opts.expression.tokens[0];
             throw errors.createError(err.UNDEFINED_IDENTIFIER, token, 'Undefined identifier "' + token.lexeme + '".');
