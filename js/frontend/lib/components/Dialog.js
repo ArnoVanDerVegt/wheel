@@ -255,6 +255,16 @@ exports.Dialog = class extends ComponentContainer {
         );
     }
 
+    hideForBreakpoint() {
+        this._ui.popUIId();
+        this._dialogElement.style.display = 'none';
+    }
+
+    showForBreakpoint() {
+        this._ui.pushUIId(this._uiId);
+        this._dialogElement.style.display = 'block';
+    }
+
     /**
      * Todo: Move this help code out of this class...
     **/

@@ -65,7 +65,7 @@ exports.Editors = class extends DOMNode {
                                 ]
                             },
                             {
-                                className: 'continue-button-wrapper',
+                                className: 'continue-button-wrapper frt',
                                 children: [
                                     {
                                         type:      Button,

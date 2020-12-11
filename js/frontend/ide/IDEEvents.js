@@ -329,6 +329,9 @@ exports.IDEEvents = class extends CompileAndRun {
     onBreakpoint(vm, breakpoint) {
         this._editor.onBreakpoint(breakpoint);
         dispatcher.dispatch('Console.Breakpoint', breakpoint);
+        this._formDialogs.forEach((dialog) => {
+            dialog.hideForBreakpoint();
+        });
     }
 
     onCompilerError(opts) {
@@ -441,6 +444,10 @@ exports.IDEEvents = class extends CompileAndRun {
     onContinue() {
         if (this._vm.getBreakpoint()) {
             this._editor.hideBreakpoint();
+            console.log(this._formDialogs);
+            this._formDialogs.forEach((dialog) => {
+                dialog.showForBreakpoint();
+            });
             if (!this._changedWhileRunning) {
                 this._program.setBreakpoints(this._editor.getBreakpoints());
             }
