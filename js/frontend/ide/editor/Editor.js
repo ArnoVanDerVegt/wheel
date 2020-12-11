@@ -125,8 +125,12 @@ exports.Editor = class {
         dispatcher
             .dispatch('Editor.Breakpoint',      breakpoint)
             .dispatch('Button.Continue.Change', {disabled: false, hidden: false});
-        let pathAndFilename = path.getPathAndFilename(sortedFiles[breakpoint.fileIndex].filename);
-        let wheelEditor     = this._editors.showEditorByPathAndFilename(pathAndFilename.path, pathAndFilename.filename);
+        let documentPath     = this._settings.getDocumentPath();
+        let localProjectPath = path.removePath(documentPath, sortedFiles[0].projectPath);
+        let sortedFile       = sortedFiles[breakpoint.fileIndex];
+        let filename         = path.join(sortedFile.projectPath, path.removePath(localProjectPath, sortedFile.filename));
+        let pathAndFilename  = path.getPathAndFilename(filename);
+        let wheelEditor      = this._editors.showEditorByPathAndFilename(pathAndFilename.path, pathAndFilename.filename);
         if (wheelEditor) {
             this._breakpoint = {
                 breakpoint:  breakpoint,
@@ -240,8 +244,11 @@ exports.Editor = class {
     getBreakpoints() {
         let sortedFiles           = this._preProcessor.getSortedFiles();
         let fileIndexBySortedFile = {};
+        let documentPath          = this._settings.getDocumentPath();
+        let localProjectPath      = path.removePath(documentPath, sortedFiles[0].projectPath);
         sortedFiles.forEach((sortedFile, index) => {
-            fileIndexBySortedFile[sortedFile.filename] = index;
+            let filename = path.join(sortedFile.projectPath, path.removePath(localProjectPath, sortedFile.filename));
+            fileIndexBySortedFile[filename] = index;
         });
         let breakpoints       = [];
         let editorBreakpoints = this._editorsState.getBreakpoints();

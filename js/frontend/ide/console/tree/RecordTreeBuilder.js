@@ -29,6 +29,9 @@ exports.RecordTreeBuilder = class {
             let arraySize = field.getArraySize();
             let o         = offset + (field.getPointer() ? this._data[field.getOffset()] : field.getOffset());
             let treeNodeChild;
+            if (field.getUnionId()) {
+                break;
+            }
             if (fieldType === 'number') {
                 if (arraySize === false) {
                     treeNodeChild = {title: getVariable(field.getName()) + getAssign() + getSpan(this.getValue(o), 'number')};
@@ -40,7 +43,8 @@ exports.RecordTreeBuilder = class {
                 }
             } else if (fieldType instanceof Record) {
                 treeNodeChild = {
-                    title: getRecord(fieldType.getName()) + getSpace() + getVariable(field.getName())
+                    title:    getRecord(fieldType.getName()) + getSpace() + getVariable(field.getName()),
+                    children: []
                 };
                 if (arraySize === false) {
                     this.initRecord(fieldType, treeNodeChild, o);
@@ -65,7 +69,7 @@ exports.RecordTreeBuilder = class {
                         let treeNodeChild = {title: getArrayIndex(i)};
                         this.initRecord(type, treeNodeChild, offset);
                         children.push(treeNodeChild);
-                        offset += type.getSize();
+                        offset += type.getElementSize();
                     }
                 } else {
                     for (let i = 0; i < arraySize[index]; i++) {
