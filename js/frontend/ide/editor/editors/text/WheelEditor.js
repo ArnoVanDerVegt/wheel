@@ -150,8 +150,8 @@ exports.WheelEditor = class extends Editor {
         let lines = value.split('\n');
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
-            let j    = line.length - 1;
-            while ((j >= 0) && (line[j] === ' ')) {
+            let j    = line.length;
+            while ((j > 0) && (line[j - 1] === ' ')) {
                 j--;
             }
             lines[i] = line.substr(0, j).split('\t').join('    ');

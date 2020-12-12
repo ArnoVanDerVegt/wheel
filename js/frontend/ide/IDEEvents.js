@@ -444,7 +444,6 @@ exports.IDEEvents = class extends CompileAndRun {
     onContinue() {
         if (this._vm.getBreakpoint()) {
             this._editor.hideBreakpoint();
-            console.log(this._formDialogs);
             this._formDialogs.forEach((dialog) => {
                 dialog.showForBreakpoint();
             });
