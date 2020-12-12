@@ -1,4 +1,4 @@
-const Component = require('../Component').Component;
+const Component = require('../component/Component').Component;
 const TreeNode  = require('./TreeNode').TreeNode;
 
 exports.Tree = class extends Component {

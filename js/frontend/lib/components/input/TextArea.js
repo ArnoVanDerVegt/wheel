@@ -20,7 +20,7 @@ exports.TextArea = class extends TextInput {
                 className:   this.getClassName(),
                 style:       this.applyStyle({}, this._style),
                 tabIndex:    this._tabIndex,
-                value:       this._value,
+                value:       this._value
             }
         );
     }

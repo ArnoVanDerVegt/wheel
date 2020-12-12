@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const BasicIODevice        = require('./BasicIODevice').BasicIODevice;
 const motorModuleConstants = require('../../../../shared/vm/modules/motorModuleConstants');
+const BasicIODevice        = require('./BasicIODevice').BasicIODevice;
 
 exports.EV3Motor = class extends BasicIODevice {
     constructor(opts) {

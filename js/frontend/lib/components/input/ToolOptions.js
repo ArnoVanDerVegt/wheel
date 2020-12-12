@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../../dispatcher').dispatcher;
-const Component  = require('./../Component');
 const DOMNode    = require('../../dom').DOMNode;
+const Component  = require('../component/Component');
 const Button     = require('./Button').Button;
 
 exports.ToolOptions = class extends Component.Component {

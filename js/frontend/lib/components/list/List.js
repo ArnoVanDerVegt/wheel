@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Component   = require('../Component').Component;
+const Component   = require('../component/Component').Component;
 const LoadingDots = require('../status/LoadingDots').LoadingDots;
 const ListItem    = require('./ListItem').ListItem;
 

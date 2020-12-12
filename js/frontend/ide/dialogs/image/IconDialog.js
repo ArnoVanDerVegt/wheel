@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../../lib/dom').DOMNode;
-const Component  = require('../../../lib/components/Component').Component;
+const Component  = require('../../../lib/components/component/Component').Component;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 
 class Icon extends Component {

@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../../dispatcher').dispatcher;
-const Component  = require('./../Component');
+const Component  = require('../component/Component');
 
 exports.Button = class extends Component.Component {
     constructor(opts) {
@@ -49,20 +49,6 @@ exports.Button = class extends Component.Component {
         if ('disabled' in opts) {
             element.disabled  = opts.disabled ? 'disabled' : '';
         }
-        // if ('width' in opts) {
-        //     if (parseInt(opts.width, 10) >= 20) {
-        //         this.setWidth(opts.width + 'px');
-        //     } else {
-        //         this.setWidth('auto');
-        //     }
-        // }
-        // if ('height' in opts) {
-        //     if (parseInt(opts.height, 10) >= 20) {
-        //         this.setHeight(opts.height + 'px');
-        //     } else {
-        //         this.setHeight('auto');
-        //     }
-        // }
         super.onEvent(opts);
         this.applyStyle(element.style, this._style);
     }

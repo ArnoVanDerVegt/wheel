@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const Slider             = require('../components/input/Slider').Slider;
-const ComponentContainer = require('./ComponentContainer').ComponentContainer;
+const ComponentContainer = require('./component/ComponentContainer').ComponentContainer;
 
 exports.Toolbar = class extends ComponentContainer {
     addFileSaved(owner) {

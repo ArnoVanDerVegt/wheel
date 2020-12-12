@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher         = require('../dispatcher').dispatcher;
-const ComponentContainer = require('./ComponentContainer').ComponentContainer;
+const ComponentContainer = require('./component/ComponentContainer').ComponentContainer;
 const Checkbox           = require('./input/Checkbox').Checkbox;
 const getHelpData        = require('../../ide/help/helpData').getHelpData;
 

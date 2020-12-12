@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../../dispatcher').dispatcher;
-const Component  = require('./../Component');
+const Component  = require('../component/Component');
 
 exports.StatusLight = class extends Component.Component {
     constructor(opts) {

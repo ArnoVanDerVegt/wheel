@@ -4,7 +4,7 @@
 **/
 const path       = require('../../path');
 const dispatcher = require('../../dispatcher').dispatcher;
-const Component  = require('./../Component').Component;
+const Component  = require('../component/Component').Component;
 
 exports.Image = class extends Component {
     constructor(opts) {

@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../../dispatcher').dispatcher;
 const DOMNode    = require('../../dom').DOMNode;
-const Component  = require('./../Component').Component;
+const Component  = require('../component/Component').Component;
 
 const ListItem = class extends DOMNode {
         constructor(opts) {

@@ -227,7 +227,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= INPUT COMPONENTS ================================= */
     BUTTON: {
-        component:  'lib/components/Button',
+        component:  'lib/components/input/Button',
         include:    'lib/modules/components/button.whl',
         canCopy:    true,
         properties: [
@@ -306,7 +306,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     SELECTBUTTON: {
-        component:  'lib/components/ToolOptions',
+        component:  'lib/components/input/ToolOptions',
         include:    'lib/modules/components/selectButton.whl',
         canCopy:    true,
         properties: [
@@ -407,7 +407,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     RADIO: {
-        component:  'lib/components/Radio',
+        component:  'lib/components/input/Radio',
         include:    'lib/modules/components/radio.whl',
         canCopy:    true,
         properties: [
@@ -459,7 +459,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     DROPDOWN: {
-        component:  'lib/components/Dropdown',
+        component:  'lib/components/input/Dropdown',
         include:    'lib/modules/components/dropdown.whl',
         canCopy:    true,
         properties: [
@@ -510,7 +510,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TEXTINPUT: {
-        component:  'lib/components/TextInput',
+        component:  'lib/components/input/TextInput',
         include:    'lib/modules/components/textInput.whl',
         canCopy:    true,
         properties: [
@@ -561,7 +561,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     SLIDER: {
-        component:  'lib/components/Slider',
+        component:  'lib/components/input/Slider',
         include:    'lib/modules/components/slider.whl',
         canCopy:    true,
         properties: [

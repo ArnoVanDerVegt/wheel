@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../dispatcher').dispatcher;
-const Component  = require('./Component').Component;
+const Component  = require('./component/Component').Component;
 const Tabs       = require('./input/Tabs').Tabs;
 
 exports.TabPanel = class extends Component {
@@ -50,12 +50,6 @@ exports.TabPanel = class extends Component {
     }
 
     initDOM(parentNode) {
-        // let style = this._style || {};
-        // style.width  = this._width  + 'px';
-        // style.height = this._height + 'px';
-        // if (this._zIndex !== false) {
-        //     style.zIndex = this._zIndex;
-        // }
         this.create(
             parentNode,
             {
@@ -121,12 +115,6 @@ exports.TabPanel = class extends Component {
     onEvent(opts) {
         let element = this._element;
         let refs    = this._refs;
-        // if ('width' in opts) {
-        //     element.style.width = Math.max(opts.width, 128) + 'px';
-        // }
-        // if ('height' in opts) {
-        //     element.style.height = Math.max(opts.height, 80) + 'px';
-        // }
         if ('tabs' in opts) {
             let tabCount = this._tabs.length;
             this._tabs = opts.tabs;

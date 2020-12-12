@@ -4,7 +4,7 @@
 **/
 const path       = require('../../path');
 const dispatcher = require('../../dispatcher').dispatcher;
-const Component  = require('./../Component').Component;
+const Component  = require('../component/Component').Component;
 
 exports.Icon = class extends Component {
     constructor(opts) {
@@ -33,7 +33,7 @@ exports.Icon = class extends Component {
             this._element.className = this.getClassName();
         }
         super.onEvent(opts);
-        this.applyStyle(this._element.style, this._style)
+        this.applyStyle(this._element.style, this._style);
     }
 };
 
