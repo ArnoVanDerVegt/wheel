@@ -55,7 +55,19 @@ exports.PreProcessor = class PreProcessor {
         }
         let filename = removePadding(token.lexeme);
         includes.push({filename: filename, token: token});
-        MetaCompiler.checkRestTokens(iterator, 'include');
+        if (this._onError) {
+            try {
+                MetaCompiler.checkRestTokens(iterator, 'include');
+            } catch (error) {
+                this._onError({
+                    type:    'Error',
+                    message: '<i class="error">Invalid tokens after include.</i>',
+                    tolen:   token
+                });
+            }
+        } else {
+            MetaCompiler.checkRestTokens(iterator, 'include');
+        }
     }
 
     processIncludes(fileItem, data) {

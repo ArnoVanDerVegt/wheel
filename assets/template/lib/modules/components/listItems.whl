@@ -11,6 +11,8 @@ namespace components.listItems
 #define LIST_ITEMS_COMPONENT_SET_HIDDEN        0
 #define LIST_ITEMS_COMPONENT_SET_X             1
 #define LIST_ITEMS_COMPONENT_SET_Y             2
+#define LIST_ITEMS_COMPONENT_CLEAR             3
+#define LIST_ITEMS_COMPONENT_ADD_ITEM          4
 
 ; @property name     string  The component name.
 ; @property tabIndex number  The tab index.
@@ -45,4 +47,20 @@ end
 proc setY(number windowHandle, number componentHandle, number y)
     addr windowHandle
     mod  MODULE_COMPONENT_LIST_ITEMS, LIST_ITEMS_COMPONENT_SET_Y
+end
+
+; @proc                   Clear the list.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc clear(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LIST_ITEMS, LIST_ITEMS_COMPONENT_CLEAR
+end
+
+; @proc                   Add an item to the list.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc addItem(number windowHandle, number componentHandle, string text)
+    addr windowHandle
+    mod  MODULE_COMPONENT_LIST_ITEMS, LIST_ITEMS_COMPONENT_ADD_ITEM
 end
