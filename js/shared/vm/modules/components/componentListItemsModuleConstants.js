@@ -7,3 +7,5 @@ exports.MODULE_LIST_ITEMS     = 83;
 exports.LIST_ITEMS_SET_HIDDEN =  0;
 exports.LIST_ITEMS_SET_X      =  1;
 exports.LIST_ITEMS_SET_Y      =  2;
+exports.LIST_ITEMS_CLEAR      =  3;
+exports.LIST_ITEMS_ADD_ITEM   =  4;

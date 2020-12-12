@@ -104,5 +104,5 @@ end
 ; @param componentHandle  The handle of the component.
 proc addItem(number windowHandle, number componentHandle, number value, string text)
     addr windowHandle
-    mod  MODULE_COMPONENT_DROPDOWN, DROPDOWN_COMPONENT_CLEAR
+    mod  MODULE_COMPONENT_DROPDOWN, DROPDOWN_COMPONENT_ADD_ITEM
 end

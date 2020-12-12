@@ -17,8 +17,8 @@ exports.ListItems = class extends Component {
         this.create(
             parentNode,
             {
-                className: this.getClassName(),
                 id:        this.setElement.bind(this),
+                className: this.getClassName(),
                 style:     this.applyStyle({}, this._style)
             }
         );
@@ -52,6 +52,13 @@ exports.ListItems = class extends Component {
     onEvent(opts) {
         if ('items' in opts) {
             this.setItems(opts.items);
+        }
+        if ('clear' in opts) {
+            this.setItems([]);
+        }
+        if ('item' in opts) {
+            this._items.push(opts.item);
+            this.setItems(this._items);
         }
         super.onEvent(opts);
         this.applyStyle(this._element.style, this._style);

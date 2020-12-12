@@ -52,9 +52,10 @@
                     <tr><td>LABEL_COMPONENT_SET_HIDDEN</td><td>0</td></tr>
                     <tr><td>LABEL_COMPONENT_SET_X</td><td>1</td></tr>
                     <tr><td>LABEL_COMPONENT_SET_Y</td><td>2</td></tr>
-                    <tr><td>LABEL_COMPONENT_SET_TEXT</td><td>3</td></tr>
-                    <tr><td>LABEL_COMPONENT_SET_VALUE_NUMBER</td><td>4</td></tr>
-                    <tr><td>LABEL_COMPONENT_SET_VALUE_STRING</td><td>5</td></tr>
+                    <tr><td>LABEL_COMPONENT_SET_FONT_SIZE</td><td>3</td></tr>
+                    <tr><td>LABEL_COMPONENT_SET_TEXT</td><td>4</td></tr>
+                    <tr><td>LABEL_COMPONENT_SET_VALUE_NUMBER</td><td>5</td></tr>
+                    <tr><td>LABEL_COMPONENT_SET_VALUE_STRING</td><td>6</td></tr>
                 </table>
             </p>
             <a id="Properties"></a>
@@ -67,6 +68,7 @@
         <tr><td>name</td><td>string</td><td>The component name.</td></tr>
         <tr><td>x</td><td>number</td><td>The left position of the component inside the parent component.</td></tr>
         <tr><td>y</td><td>number</td><td>The top position of the component inside the parent component.</td></tr>
+        <tr><td>y</td><td>number</td><td>The font size.</td></tr>
         <tr><td>zIndex</td><td>number</td><td>The depth of the component related to other components in the parent.</td></tr>
         <tr><td>width</td><td>number</td><td>The label width.</td></tr>
         <tr><td>halign</td><td>halign</td><td>The horizontal alignment of the text which can be: <i>left</i>, <i>center</i> or <i>right</i>.</td></tr>
@@ -77,7 +79,7 @@
             <h4 class="">Procedures</h4>
             <a id="Hidethelabel."></a>
             <h5 class="title-with-source">setHidden</h5>
-            <div class="source-location">Source: lib/modules/components/label.whl, line: 29<br/></div>
+            <div class="source-location">Source: lib/modules/components/label.whl, line: 31<br/></div>
             <p>Hide the label.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setHidden</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">hidden</span><span class="operator">)</span>
 </pre>
@@ -91,7 +93,7 @@
             <hr/>
             <a id="Setthexpositionofthelabel."></a>
             <h5 class="title-with-source">setX</h5>
-            <div class="source-location">Source: lib/modules/components/label.whl, line: 38<br/></div>
+            <div class="source-location">Source: lib/modules/components/label.whl, line: 40<br/></div>
             <p>Set the x position of the label.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setX</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">x</span><span class="operator">)</span>
 </pre>
@@ -105,7 +107,7 @@
             <hr/>
             <a id="Settheypositionofthelabel."></a>
             <h5 class="title-with-source">setY</h5>
-            <div class="source-location">Source: lib/modules/components/label.whl, line: 47<br/></div>
+            <div class="source-location">Source: lib/modules/components/label.whl, line: 49<br/></div>
             <p>Set the y position of the label.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setY</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">y</span><span class="operator">)</span>
 </pre>
@@ -117,9 +119,23 @@
                 <tr><td>y</td><td>number</td><td>The y position in pixels.</td></tr>
             </table>
             <hr/>
+            <a id="Setthefontsizeofthelabeltext."></a>
+            <h5 class="title-with-source">setFontSize</h5>
+            <div class="source-location">Source: lib/modules/components/label.whl, line: 58<br/></div>
+            <p>Set the font size of the label text.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setFontSize</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">fontSize</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>windowHandle</td><td>number</td><td>The handle of the window.</td></tr>
+                <tr><td>componentHandle</td><td>number</td><td>The handle of the component.</td></tr>
+                <tr><td>fontSize</td><td>number</td><td>The font size in pixels, the default value is 16.</td></tr>
+            </table>
+            <hr/>
             <a id="Setlabeltext."></a>
             <h5 class="title-with-source">setText</h5>
-            <div class="source-location">Source: lib/modules/components/label.whl, line: 56<br/></div>
+            <div class="source-location">Source: lib/modules/components/label.whl, line: 67<br/></div>
             <p>Set label text.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setText</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">text</span><span class="operator">)</span>
 </pre>
@@ -133,7 +149,7 @@
             <hr/>
             <a id="Setlabelvalueasanumber."></a>
             <h5 class="title-with-source">setValueNumber</h5>
-            <div class="source-location">Source: lib/modules/components/label.whl, line: 65<br/></div>
+            <div class="source-location">Source: lib/modules/components/label.whl, line: 76<br/></div>
             <p>Set label value as a number.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setValueNumber</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
@@ -147,7 +163,7 @@
             <hr/>
             <a id="Setlabelvalueasanumber."></a>
             <h5 class="title-with-source">setValueString</h5>
-            <div class="source-location">Source: lib/modules/components/label.whl, line: 74<br/></div>
+            <div class="source-location">Source: lib/modules/components/label.whl, line: 85<br/></div>
             <p>Set label value as a number.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">setValueString</span><span class="operator">(</span><span class="type">number</span> <span class="variable">windowHandle</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">componentHandle</span><span class="operator">,</span> <span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
 </pre>

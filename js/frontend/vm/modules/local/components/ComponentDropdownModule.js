@@ -14,6 +14,7 @@ exports.ComponentDropdownModule = class extends VMIDEModule {
         let dropdown = null;
         let opts     = {};
         let component;
+        console.log(commandId);
         switch (commandId) {
             case componentDropdownModuleConstants.DROPDOWN_SET_HIDDEN:    property = 'hidden';   break;
             case componentDropdownModuleConstants.DROPDOWN_SET_DISABLED:  property = 'disabled'; break;
@@ -32,7 +33,8 @@ exports.ComponentDropdownModule = class extends VMIDEModule {
                 break;
             case componentDropdownModuleConstants.DROPDOWN_ADD_ITEM:
                 dropdown = vmData.getRecordFromSrcOffset(['window', 'component', 'value', 'text']);
-                dispatcher.dispatch(dropdown.window + '_' + dropdown.component, {value: dropdown.value, text: vmData.getStringList()[dropdown.text]});
+                dispatcher.dispatch(dropdown.window + '_' + dropdown.component, {item: {value: dropdown.value, title: vmData.getStringList()[dropdown.text]}});
+                break;
             case componentDropdownModuleConstants.DROPDOWN_CLEAR:
                 dropdown   = vmData.getRecordFromSrcOffset(['window', 'component']);
                 opts.clear = true;

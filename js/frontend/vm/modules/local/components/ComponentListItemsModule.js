@@ -17,6 +17,15 @@ exports.ComponentListItemsModule = class extends VMModule {
             case componentListItemsModuleConstants.LIST_ITEMS_SET_HIDDEN: property = 'hidden'; break;
             case componentListItemsModuleConstants.LIST_ITEMS_SET_X:      property = 'x';      break;
             case componentListItemsModuleConstants.LIST_ITEMS_SET_Y:      property = 'y';      break;
+            case componentListItemsModuleConstants.LIST_ITEMS_ADD_ITEM:
+                listItems = vmData.getRecordFromSrcOffset(['window', 'component', 'text']);
+                dispatcher.dispatch(listItems.window + '_' + listItems.component, {item: vmData.getStringList()[listItems.text]});
+                break;
+            case componentListItemsModuleConstants.LIST_ITEMS_CLEAR:
+                listItems  = vmData.getRecordFromSrcOffset(['window', 'component']);
+                opts.clear = true;
+                dispatcher.dispatch(listItems.window + '_' + listItems.component, opts);
+                break;
         }
         if (property !== '') {
             listItems      = vmData.getRecordFromSrcOffset(['window', 'component', property]);
