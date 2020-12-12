@@ -5,9 +5,9 @@
 const DOMNode        = require('../../../../../lib/dom').DOMNode;
 const dispatcher     = require('../../../../../lib/dispatcher').dispatcher;
 const Toolbar        = require('../../../../../lib/components/Toolbar').Toolbar;
-const Button         = require('../../../../../lib/components/Button').Button;
-const Checkbox       = require('../../../../../lib/components/Checkbox').Checkbox;
-const TextInput      = require('../../../../../lib/components/TextInput').TextInput;
+const Button         = require('../../../../../lib/components/input/Button').Button;
+const Checkbox       = require('../../../../../lib/components/input/Checkbox').Checkbox;
+const TextInput      = require('../../../../../lib/components/input/TextInput').TextInput;
 const tabIndex       = require('../../../../tabIndex');
 const BluetoothState = require('./BluetoothState').BluetoothState;
 

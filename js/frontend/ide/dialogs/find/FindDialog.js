@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
-const Checkbox   = require('../../../lib/components/Checkbox').Checkbox;
+const Checkbox   = require('../../../lib/components/input/Checkbox').Checkbox;
 
 exports.FindDialog = class extends Dialog {
     addButtons(applyTitle) {

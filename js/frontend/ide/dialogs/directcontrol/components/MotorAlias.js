@@ -4,8 +4,7 @@
 **/
 const motorModuleConstants = require('../../../../../shared/vm/modules/motorModuleConstants');
 const DOMNode              = require('../../../../lib/dom').DOMNode;
-const Button               = require('../../../../lib/components/Button').Button;
-const Slider               = require('../../../../lib/components/Slider').Slider;
+const Button               = require('../../../../lib/components/input/Button').Button;
 const dispatcher           = require('../../../../lib/dispatcher').dispatcher;
 
 exports.MotorAlias = class extends DOMNode {

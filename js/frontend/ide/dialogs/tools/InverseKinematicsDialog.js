@@ -6,7 +6,7 @@ const DOMNode    = require('../../../lib/dom').DOMNode;
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const path       = require('../../../lib/path');
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
-const Dropdown   = require('../../../lib/components/Dropdown').Dropdown;
+const Dropdown   = require('../../../lib/components/input/Dropdown').Dropdown;
 
 class Point {
     constructor(opts) {

@@ -8,6 +8,8 @@ const Component  = require('./Component').Component;
 exports.Panel = class extends Component {
     constructor(opts) {
         opts.baseClassName = 'panel';
+        opts.width         = opts.width  || 128;
+        opts.height        = opts.height ||  80;
         super(opts);
         this._containerIdsForForm = opts.containerIdsForForm;
         this._settings            = opts.settings;
@@ -16,8 +18,6 @@ exports.Panel = class extends Component {
         this._getFormPath         = opts.getFormPath;
         this._panelConstructor    = opts.panelConstructor || 'div';
         this._panelOpts           = opts.panelOpts || {};
-        this._width               = opts.width     || 128;
-        this._height              = opts.height    ||  80;
         this._children            = opts.children  || [];
         this._tabs                = opts.tabs;
         this._panels              = [];
@@ -40,16 +40,13 @@ exports.Panel = class extends Component {
     }
 
     initDOM(parentNode) {
-        let style = this._style || {};
-        style.width  = this._width  + 'px';
-        style.height = this._height + 'px';
         this.create(
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                style:     style,
                 className: this.getClassName(),
-                children:  this.initPanel()
+                children:  this.initPanel(),
+                style:     this.applyStyle({}, this._style)
             }
         );
     }
@@ -67,15 +64,8 @@ exports.Panel = class extends Component {
     }
 
     onEvent(opts) {
-        let element = this._element;
-        let refs    = this._refs;
-        if ('width' in opts) {
-            element.style.width = Math.max(opts.width, 128) + 'px';
-        }
-        if ('height' in opts) {
-            element.style.height = Math.max(opts.height, 80) + 'px';
-        }
         super.onEvent(opts);
+        this.applyStyle(this._element.style, this._style);
     }
 
     getActive() {

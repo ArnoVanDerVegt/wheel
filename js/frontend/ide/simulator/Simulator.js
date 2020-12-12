@@ -4,8 +4,8 @@
 **/
 const dispatcher       = require('../../lib/dispatcher').dispatcher;
 const DOMNode          = require('../../lib/dom').DOMNode;
-const Button           = require('../../lib/components/Button').Button;
-const Checkbox         = require('../../lib/components/Checkbox').Checkbox;
+const Button           = require('../../lib/components/input/Button').Button;
+const Checkbox         = require('../../lib/components/input/Checkbox').Checkbox;
 const tabIndex         = require('../tabIndex');
 const SimulatorToolbar = require('./SimulatorToolbar').SimulatorToolbar;
 

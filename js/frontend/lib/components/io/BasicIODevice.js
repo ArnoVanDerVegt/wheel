@@ -20,13 +20,12 @@ exports.BasicIODevice = class extends Component.Component {
     }
 
     initDOM(parentNode) {
-        let style = this._style || {};
         this.create(
             parentNode,
             {
                 id:        this.setElement.bind(this),
                 className: this.getClassName(),
-                style:     style,
+                style:     this.applyStyle({}, this._style),
                 children: [
                     {
                         className: 'title',
@@ -196,5 +195,6 @@ exports.BasicIODevice = class extends Component.Component {
         if ('value' in opts) {
             this.setValue(opts.value);
         }
+        this.applyStyle(this._element.style, this._style);
     }
 };

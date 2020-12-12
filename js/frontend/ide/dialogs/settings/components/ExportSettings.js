@@ -4,8 +4,8 @@
 **/
 const DOMNode    = require('../../../../lib/dom').DOMNode;
 const dispatcher = require('../../../../lib/dispatcher').dispatcher;
-const TextArea   = require('../../../../lib/components/TextArea').TextArea;
-const Button     = require('../../../../lib/components/Button').Button;
+const TextArea   = require('../../../../lib/components/input/TextArea').TextArea;
+const Button     = require('../../../../lib/components/input/Button').Button;
 
 exports.ExportSettings = class extends DOMNode {
     constructor(opts) {

@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../dispatcher').dispatcher;
 const Component  = require('./Component').Component;
-const Checkbox   = require('./Checkbox').Checkbox;
+const Checkbox   = require('./input/Checkbox').Checkbox;
 
 exports.CheckboxAndLabel = class extends Component {
     constructor(opts) {
@@ -21,7 +21,7 @@ exports.CheckboxAndLabel = class extends Component {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                style:     this._style || {},
+                style:     this.applyStyle({}, this._style),
                 className: this.getClassName(),
                 children: [
                     {
@@ -58,6 +58,7 @@ exports.CheckboxAndLabel = class extends Component {
             refs.checkbox.setChecked(this._checked);
         }
         super.onEvent(opts);
+        this.applyStyle(element.style, this._style);
     }
 };
 

@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../lib/components/Dialog').Dialog;
-const Slider     = require('../../lib/components/Slider').Slider;
+const Slider     = require('../../lib/components/input/Slider').Slider;
 
 exports.VolumeDialog = class extends Dialog {
     constructor(opts) {

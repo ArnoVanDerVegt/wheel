@@ -4,7 +4,7 @@
 **/
 const dispatcher          = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode             = require('../../../../lib/dom').DOMNode;
-const Button              = require('../../../../lib/components/Button').Button;
+const Button              = require('../../../../lib/components/input/Button').Button;
 const Component           = require('../../../../lib/components/Component').Component;
 const getImage            = require('../../../data/images').getImage;
 const SimulatorPlugin     = require('../lib/SimulatorPlugin').SimulatorPlugin;

@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Button   = require('../../../../lib/components/Button').Button;
+const Button   = require('../../../../lib/components/input/Button').Button;
 const platform = require('../../../../lib/platform');
 const getImage = require('../../../data/images').getImage;
 const Updater  = require('../components/Updater').Updater;

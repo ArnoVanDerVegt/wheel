@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const MainMenu    = require('../../lib/components/mainmenu/MainMenu').MainMenu;
+const ProgressBar = require('../../lib/components/status/ProgressBar').ProgressBar;
+const Button      = require('../../lib/components/input/Button').Button;
 const platform    = require('../../lib/platform');
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const MainMenu    = require('../../lib/components/mainmenu/MainMenu').MainMenu;
-const ProgressBar = require('../../lib/components/ProgressBar').ProgressBar;
-const Button      = require('../../lib/components/Button').Button;
 const tabIndex    = require('../tabIndex');
 const HelpOption  = require('./HelpOption').HelpOption;
 

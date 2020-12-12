@@ -5,8 +5,8 @@
 const DOMNode     = require('../../../../../lib/dom').DOMNode;
 const dispatcher  = require('../../../../../lib/dispatcher').dispatcher;
 const Toolbar     = require('../../../../../lib/components/Toolbar').Toolbar;
-const Button      = require('../../../../../lib/components/Button').Button;
-const ToolOptions = require('../../../../../lib/components/ToolOptions').ToolOptions;
+const Button      = require('../../../../../lib/components/input/Button').Button;
+const ToolOptions = require('../../../../../lib/components/input/ToolOptions').ToolOptions;
 const tabIndex    = require('../../../../tabIndex');
 
 exports.ToolbarBottomViewer = class extends Toolbar {

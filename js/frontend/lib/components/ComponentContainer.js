@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const Button      = require('./input/Button').Button;
+const TextInput   = require('./input/TextInput').TextInput;
+const Checkbox    = require('./input/Checkbox').Checkbox;
+const ToolOptions = require('./input/ToolOptions').ToolOptions;
 const Component   = require('./Component').Component;
-const Button      = require('./Button').Button;
-const TextInput   = require('./TextInput').TextInput;
-const Checkbox    = require('./Checkbox').Checkbox;
-const ToolOptions = require('./ToolOptions').ToolOptions;
 
 exports.ComponentContainer = class extends Component {
     getUI() {

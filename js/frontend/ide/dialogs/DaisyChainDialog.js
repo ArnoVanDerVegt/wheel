@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../lib/components/Dialog').Dialog;
-const Radio      = require('../../lib/components/Radio').Radio;
+const Radio      = require('../../lib/components/input/Radio').Radio;
 
 exports.DaisyChainDialog = class extends Dialog {
     constructor(opts) {

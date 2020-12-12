@@ -16,7 +16,7 @@ exports.NonVisualComponent = class extends Component.Component {
             {
                 id:        this.setElement.bind(this),
                 className: this.getClassName(),
-                style:     this._style
+                style:     this.applyStyle({}, this._style)
             }
         );
     }
@@ -47,5 +47,10 @@ exports.NonVisualComponent = class extends Component.Component {
     onMouseOut() {
         this.hideHintDiv();
         this.onCancelEvent(event);
+    }
+
+    onEvent(opts) {
+        super.onEvent(opts);
+        this.applyStyle(this._element.style, this._style);
     }
 };

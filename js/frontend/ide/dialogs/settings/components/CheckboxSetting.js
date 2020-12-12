@@ -4,7 +4,7 @@
 **/
 const DOMNode    = require('../../../../lib/dom').DOMNode;
 const dispatcher = require('../../../../lib/dispatcher').dispatcher;
-const Checkbox   = require('../../../../lib/components/Checkbox').Checkbox;
+const Checkbox   = require('../../../../lib/components/input/Checkbox').Checkbox;
 
 exports.CheckboxSetting = class extends DOMNode {
     constructor(opts) {

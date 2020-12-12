@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Slider             = require('../components/Slider').Slider;
+const Slider             = require('../components/input/Slider').Slider;
 const ComponentContainer = require('./ComponentContainer').ComponentContainer;
 
 exports.Toolbar = class extends ComponentContainer {

@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const Step   = require('./Step').Step;
-const Slider = require('../../../../lib/components/Slider').Slider;
+const Slider = require('../../../../lib/components/input/Slider').Slider;
 
 exports.StepContrast = class extends Step {
     constructor(opts) {

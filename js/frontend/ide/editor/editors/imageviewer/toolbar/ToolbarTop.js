@@ -4,7 +4,6 @@
 **/
 const path     = require('../../../../../lib/path');
 const DOMNode  = require('../../../../../lib/dom').DOMNode;
-const Button   = require('../../../../../lib/components/Button').Button;
 const Toolbar  = require('../../../../../lib/components/Toolbar').Toolbar;
 const tabIndex = require('../../../../tabIndex');
 

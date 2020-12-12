@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const Sound            = require('../../../../../shared/lib/Sound').Sound;
-const Button           = require('../../../../lib/components/Button').Button;
+const Button           = require('../../../../lib/components/input/Button').Button;
 const dispatcher       = require('../../../../lib/dispatcher').dispatcher;
 const path             = require('../../../../lib/path');
 const Editor           = require('../Editor').Editor;

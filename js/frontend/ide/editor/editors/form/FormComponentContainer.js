@@ -250,7 +250,9 @@ exports.FormComponentContainer = class extends DOMNode {
         let formEditorState = this._formEditorState;
         let component       = formEditorState.propertiesFromComponentToOpts(opts.id, opts.propertyList, opts);
         opts.onMouseDown         = (event) => { this.onComponentMouseDown(event, element, opts); };
-        opts.style               = {position: 'absolute', left: opts.x + 'px', top: opts.y + 'px'};
+        opts.position            = 'absolute';
+        opts.left                = opts.x;
+        opts.top                 = opts.y;
         opts.getImage            = getImage;
         opts.getFormPath         = this.getFormPath.bind(this);
         opts.getDataProvider     = this._getDataProvider;

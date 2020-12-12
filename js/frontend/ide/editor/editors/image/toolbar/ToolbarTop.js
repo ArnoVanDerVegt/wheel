@@ -3,9 +3,9 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode     = require('../../../../../lib/dom').DOMNode;
-const ToolOptions = require('../../../../../lib/components/ToolOptions').ToolOptions;
 const Toolbar     = require('../../../../../lib/components/Toolbar').Toolbar;
-const Button      = require('../../../../../lib/components/Button').Button;
+const ToolOptions = require('../../../../../lib/components/input/ToolOptions').ToolOptions;
+const Button      = require('../../../../../lib/components/input/Button').Button;
 const tabIndex    = require('../../../../tabIndex');
 
 exports.ToolbarTop = class extends Toolbar {
