@@ -143,6 +143,15 @@
             <p>
                 Error 13 "on" or "off" expected.
             </p>
+            <a id="NUMBER_FLOAT_OR_INT_EXPECTED"></a>
+            <h4 class="">NUMBER_FLOAT_OR_INT_EXPECTED</h4>
+            <pre class="wheel"><span class="meta">#datatype</span> <span class="string">"wrong"</span>
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <p>
+                Error 14 "number", "float" or "int" expected.
+            </p>
             <a id="SYNTAX_ERROR_DOT_EXPECTED"></a>
             <h4 class="">SYNTAX_ERROR_DOT_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Rec</span>
@@ -153,7 +162,7 @@
     <span class="variable">r</span><span class="operator">(</span><span class="operator">)</span> <span class="operator">=</span> <span class="number">1</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #15 "." Expected got "(".</pre>
+            <pre class="error">Error #16 "." Expected got "(".</pre>
             <a id="SYNTAX_ERROR_BRACKET_OPEN_EXPECTED"></a>
             <h4 class="">SYNTAX_ERROR_BRACKET_OPEN_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Point</span>
@@ -163,7 +172,7 @@
     <span class="record">Point</span> <span class="variable">p</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">{</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">}</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #16 "[" Expected.</pre>
+            <pre class="error">Error #17 "[" Expected.</pre>
             <a id="SYNTAX_ERROR_BRACKET_CLOSE_EXPECTED"></a>
             <h4 class="">SYNTAX_ERROR_BRACKET_CLOSE_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span><span class="operator">)</span>
@@ -172,14 +181,14 @@
     <span class="variable">test</span><span class="operator">(</span><span class="operator">[</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="number">4</span><span class="operator">]</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #17 "]" Expected.</pre>
+            <pre class="error">Error #18 "]" Expected.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span><span class="operator">)</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="variable">test</span><span class="operator">(</span><span class="operator">[</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">3</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #17 "]" Expected.</pre>
+            <pre class="error">Error #18 "]" Expected.</pre>
             <a id="SYNTAX_ERROR_NUMBER_CONSTANT_EXPECTED"></a>
             <h4 class="">SYNTAX_ERROR_NUMBER_CONSTANT_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span><span class="operator">)</span>
@@ -188,7 +197,7 @@
     <span class="variable">test</span><span class="operator">(</span><span class="operator">[</span><span class="number">1</span><span class="operator">,</span> <span class="variable">x</span><span class="operator">,</span> <span class="number">3</span><span class="operator">]</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #18 Number constant expected, got "x".</pre>
+            <pre class="error">Error #19 Number constant expected, got "x".</pre>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Rec</span>
     <span class="type">number</span> <span class="variable">n</span>
 <span class="keyword">end</span>
@@ -198,12 +207,12 @@
     <span class="variable">test</span><span class="operator">(</span><span class="operator">{</span><span class="string">"wrong"</span><span class="operator">}</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #18 Number constant expected, got ""wrong"".</pre>
+            <pre class="error">Error #19 Number constant expected, got ""wrong"".</pre>
             <pre class="wheel"><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">[</span><span class="variable">a</span><span class="operator">,</span><span class="number">1</span><span class="operator">]</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #18 Number constant expected, got "a".</pre>
+            <pre class="error">Error #19 Number constant expected, got "a".</pre>
             <a id="SYNTAX_ERROR_STRING_CONSTANT_EXPECTED"></a>
             <h4 class="">SYNTAX_ERROR_STRING_CONSTANT_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span><span class="operator">)</span>
@@ -212,7 +221,7 @@
     <span class="variable">test</span><span class="operator">(</span><span class="operator">[</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">]</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #19 String constant expected, got "1".</pre>
+            <pre class="error">Error #20 String constant expected, got "1".</pre>
             <p>
                 <!--
                 SYNTAX_ERROR_MAIN_PROC_PARAMS
@@ -227,50 +236,50 @@
     <span class="variable">test</span><span class="operator">(</span><span class="operator">{</span><span class="number">1</span><span class="operator">}</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #19 String constant expected, got "1".</pre>
+            <pre class="error">Error #20 String constant expected, got "1".</pre>
             <pre class="wheel"><span class="type">string</span> <span class="variable">s</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">[</span><span class="number">0</span><span class="operator">,</span><span class="number">1</span><span class="operator">]</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #19 String constant expected, got "0".</pre>
+            <pre class="error">Error #20 String constant expected, got "0".</pre>
             <a id="UNDEFINED_IDENTIFIER"></a>
             <h4 class="">UNDEFINED_IDENTIFIER</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="variable">x</span> <span class="operator">=</span> <span class="number">12</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #21 Undefined identifier "x".</pre>
+            <pre class="error">Error #22 Undefined identifier "x".</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="operator">)</span>
     <span class="keyword">ret</span> <span class="variable">y</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #21 Undefined identifier "y".</pre>
+            <pre class="error">Error #22 Undefined identifier "y".</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="keyword">addr</span> <span class="variable">line</span><span class="operator">.</span><span class="variable">p</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">.</span><span class="variable">x</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #21 Undefined identifier "line".</pre>
+            <pre class="error">Error #22 Undefined identifier "line".</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="variable">x</span> <span class="variable">n</span><span class="operator">)</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #21 Undefined identifier "x".</pre>
+            <pre class="error">Error #22 Undefined identifier "x".</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">a</span><span class="operator">[</span><span class="number">10</span><span class="operator">]</span>
     <span class="variable">a</span><span class="operator">[</span><span class="variable">b</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">1</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #21 Undefined identifier "b".</pre>
+            <pre class="error">Error #22 Undefined identifier "b".</pre>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Rec</span>
     <span class="variable">x</span> <span class="variable">n</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #21 Undefined identifier "x".</pre>
+            <pre class="error">Error #22 Undefined identifier "x".</pre>
             <a id="UNDEFINED_FIELD"></a>
             <h4 class="">UNDEFINED_FIELD</h4>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Rec</span>
@@ -281,34 +290,34 @@
     <span class="variable">r</span><span class="operator">.</span><span class="variable">g</span> <span class="operator">=</span> <span class="number">1</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #22 Undefined field "g".</pre>
+            <pre class="error">Error #23 Undefined field "g".</pre>
             <a id="UNEXPECTED_END_OF_FILE"></a>
             <h4 class="">UNEXPECTED_END_OF_FILE</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
-            <pre class="error">Error #23 Unexpected end of file.</pre>
+            <pre class="error">Error #24 Unexpected end of file.</pre>
             <a id="UNEXPECTED_CODE_AFTER_META"></a>
             <h4 class="">UNEXPECTED_CODE_AFTER_META</h4>
             <pre class="wheel"><span class="meta">#include</span> <span class="string">"standard.whl"</span> <span class="variable">Wrong</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #24 Unexpected code after "#include".</pre>
+            <pre class="error">Error #25 Unexpected code after "#include".</pre>
             <pre class="wheel"><span class="meta">#define</span> <span class="define">CONST</span> <span class="number">1</span> <span class="variable">Wrong</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #24 Unexpected code after "#define".</pre>
+            <pre class="error">Error #25 Unexpected code after "#define".</pre>
             <pre class="wheel"><span class="meta">#heap</span> <span class="number">456</span><span class="operator">,</span> <span class="number">1</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #24 Unexpected code after "#heap".</pre>
+            <pre class="error">Error #25 Unexpected code after "#heap".</pre>
             <pre class="wheel"><span class="meta">#optimizer</span> <span class="string">"on"</span><span class="operator">,</span> <span class="number">1</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #24 Unexpected code after "#optimizer".</pre>
+            <pre class="error">Error #25 Unexpected code after "#optimizer".</pre>
             <a id="DUPLICATE_IDENTIFIER"></a>
             <h4 class="">DUPLICATE_IDENTIFIER</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
@@ -316,7 +325,7 @@
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #25 Duplicate identifier "n".</pre>
+            <pre class="error">Error #26 Duplicate identifier "n".</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="operator">)</span>
@@ -324,7 +333,7 @@
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #25 Duplicate identifier.</pre>
+            <pre class="error">Error #26 Duplicate identifier.</pre>
             <a id="TYPE_MISMATCH"></a>
             <h4 class="">TYPE_MISMATCH</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
@@ -333,14 +342,14 @@
     <span class="variable">test</span><span class="operator">(</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #26 Type mismatch.</pre>
+            <pre class="error">Error #27 Type mismatch.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="variable">test</span><span class="operator">(</span><span class="operator">{</span><span class="number">1</span><span class="operator">}</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #26 Type mismatch.</pre>
+            <pre class="error">Error #27 Type mismatch.</pre>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Rec</span>
     <span class="type">number</span> <span class="variable">i</span>
 <span class="keyword">end</span>
@@ -350,28 +359,28 @@
     <span class="variable">i</span> <span class="operator">=</span> <span class="variable">r</span> <span class="operator">*</span> <span class="number">2</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error 26 Type mismatch.</pre>
+            <pre class="error">Error 27 Type mismatch.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span>
     <span class="type">string</span> <span class="variable">p</span>
     <span class="variable">n</span> <span class="operator">=</span> <span class="variable">p</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #26 Type mismatch.</pre>
+            <pre class="error">Error #27 Type mismatch.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">string</span> <span class="variable">a</span>
     <span class="type">string</span> <span class="operator">^</span><span class="variable">b</span>
     <span class="variable">a</span> <span class="operator">=</span> <span class="variable">b</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #26 Type mismatch.</pre>
+            <pre class="error">Error #27 Type mismatch.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">string</span> <span class="variable">a</span>
     <span class="type">string</span> <span class="variable">b</span>
     <span class="variable">a</span> <span class="operator">=</span> <span class="operator">@</span><span class="variable">b</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #26 Type mismatch.</pre>
+            <pre class="error">Error #27 Type mismatch.</pre>
             <a id="RECORD_TYPE_EXPECTED"></a>
             <h4 class="">RECORD_TYPE_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
@@ -379,7 +388,7 @@
     <span class="variable">n</span><span class="operator">.</span><span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #27 Record type expected.</pre>
+            <pre class="error">Error #28 Record type expected.</pre>
             <a id="ARRAY_TYPE_EXPECTED"></a>
             <h4 class="">ARRAY_TYPE_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span><span class="operator">)</span>
@@ -389,13 +398,13 @@
     <span class="variable">test</span><span class="operator">(</span><span class="variable">x</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #28 Array type expected.</pre>
+            <pre class="error">Error #30 Array type expected.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span>
     <span class="variable">n</span><span class="operator">[</span><span class="number">5</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">10</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #28 Array type expected.</pre>
+            <pre class="error">Error #30 Array type expected.</pre>
             <a id="ARRAY_SIZE_MISMATCH"></a>
             <h4 class="">ARRAY_SIZE_MISMATCH</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span><span class="operator">)</span>
@@ -405,14 +414,14 @@
     <span class="variable">test</span><span class="operator">(</span><span class="variable">x</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #29 Array size mismatch.</pre>
+            <pre class="error">Error #31 Array size mismatch.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">a</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span>
     <span class="type">number</span> <span class="variable">b</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span>
     <span class="variable">a</span> <span class="operator">=</span> <span class="variable">b</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #29 Array size mismatch.</pre>
+            <pre class="error">Error #31 Array size mismatch.</pre>
             <a id="ARRAY_INDEX_OUT_OF_RANGE"></a>
             <h4 class="">ARRAY_INDEX_OUT_OF_RANGE</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
@@ -420,48 +429,48 @@
     <span class="variable">n</span><span class="operator">[</span><span class="number">5</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">1</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #30 Array index out of range.</pre>
+            <pre class="error">Error #32 Array index out of range.</pre>
             <a id="STRING_CONSTANT_EXPECTED"></a>
             <h4 class="">STRING_CONSTANT_EXPECTED</h4>
             <pre class="wheel"><span class="type">string</span> <span class="variable">s</span> <span class="operator">=</span> <span class="number">10</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #31 String constant expected.</pre>
+            <pre class="error">Error #33 String constant expected.</pre>
             <pre class="wheel"><span class="meta">#project</span> <span class="number">1</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #31 String constant expected.</pre>
+            <pre class="error">Error #33 String constant expected.</pre>
             <pre class="wheel"><span class="meta">#optimizer</span> <span class="number">1</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #31 String constant expected.</pre>
+            <pre class="error">Error #33 String constant expected.</pre>
             <a id="NUMBER_OR_STRING_CONSTANT_EXPECTED"></a>
             <h4 class="">NUMBER_OR_STRING_CONSTANT_EXPECTED</h4>
             <pre class="wheel"><span class="meta">#define</span> <span class="define">CONST</span> <span class="keyword">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #32 Number or string constant expected.</pre>
+            <pre class="error">Error #34 Number or string constant expected.</pre>
             <a id="NUMBER_CONSTANT_EXPECTED"></a>
             <h4 class="">NUMBER_CONSTANT_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="variable">a</span><span class="operator">]</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #33 Number constant expected.</pre>
+            <pre class="error">Error #35 Number constant expected.</pre>
             <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="string">"string"</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #33 Number constant expected.</pre>
+            <pre class="error">Error #35 Number constant expected.</pre>
             <pre class="wheel"><span class="meta">#heap</span> <span class="string">"off"</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #33 Number constant expected.</pre>
+            <pre class="error">Error #35 Number constant expected.</pre>
             <a id="NUMBER_TYPE_EXPECTED"></a>
             <h4 class="">NUMBER_TYPE_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
@@ -470,7 +479,7 @@
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #34 Number type expected.</pre>
+            <pre class="error">Error #36 Number type expected.</pre>
             <a id="POINTER_TYPE_EXPECTED"></a>
             <h4 class="">POINTER_TYPE_EXPECTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
@@ -480,21 +489,21 @@
     <span class="variable">test</span><span class="operator">(</span><span class="operator">@</span><span class="variable">x</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #35 Pointer type expected.</pre>
+            <pre class="error">Error #37 Pointer type expected.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">number</span> <span class="variable">n</span>
     <span class="type">number</span> <span class="variable">p</span>
     <span class="variable">n</span> <span class="operator">=</span> <span class="operator">@</span><span class="variable">p</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #35 Pointer type expected.</pre>
+            <pre class="error">Error #37 Pointer type expected.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">string</span> <span class="operator">^</span><span class="variable">a</span>
     <span class="type">string</span> <span class="variable">b</span>
     <span class="variable">a</span> <span class="operator">=</span> <span class="variable">b</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #35 Pointer type expected.</pre>
+            <pre class="error">Error #37 Pointer type expected.</pre>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Point</span>
     <span class="type">number</span> <span class="variable">n</span>
 <span class="keyword">end</span>
@@ -504,27 +513,27 @@
     <span class="variable">a</span> <span class="operator">=</span> <span class="operator">@</span><span class="variable">b</span>
 <span class="keyword">end</span>
 </pre>
-            <pre class="error">Error #35 Pointer type expected.</pre>
+            <pre class="error">Error #37 Pointer type expected.</pre>
             <a id="IDENTIFIER_EXPECTED"></a>
             <h4 class="">IDENTIFIER_EXPECTED</h4>
             <pre class="wheel"><span class="meta">#define</span> <span class="define">end</span> <span class="number">0</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #36 Identifier expected.</pre>
+            <pre class="error">Error #38 Identifier expected.</pre>
             <a id="BREAK_WITHOUT_LOOP"></a>
             <h4 class="">BREAK_WITHOUT_LOOP</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="keyword">break</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #37 Break without loop.</pre>
+            <pre class="error">Error #39 Break without loop.</pre>
             <a id="MISSING_MAIN_PROC"></a>
             <h4 class="">MISSING_MAIN_PROC</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #38 Missing main proc.</pre>
+            <pre class="error">Error #40 Missing main proc.</pre>
             <a id="MAIN_PROC_ALREADY_DEFINED"></a>
             <h4 class="">MAIN_PROC_ALREADY_DEFINED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
@@ -532,7 +541,7 @@
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #39 Main proc already defined.</pre>
+            <pre class="error">Error #41 Main proc already defined.</pre>
             <a id="NO_LOCAL_PROC_SUPPORTED"></a>
             <h4 class="">NO_LOCAL_PROC_SUPPORTED</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
@@ -540,7 +549,7 @@
     <span class="define">end</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #40 No local proc allowed.</pre>
+            <pre class="error">Error #42 No local proc allowed.</pre>
             <a id="PARAM_COUNT_MISMATCH"></a>
             <h4 class="">PARAM_COUNT_MISMATCH</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
@@ -549,14 +558,14 @@
     <span class="variable">test</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #41 Parameter count mismatch.</pre>
+            <pre class="error">Error #43 Parameter count mismatch.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 <span class="define">end</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="variable">test</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #41 Parameter count mismatch.</pre>
+            <pre class="error">Error #43 Parameter count mismatch.</pre>
             <a id="PARAM_TYPE_MISMATCH"></a>
             <h4 class="">PARAM_TYPE_MISMATCH</h4>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Point</span>
@@ -569,7 +578,7 @@
     <span class="variable">test</span><span class="operator">(</span><span class="variable">p</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #42 Parameter type mismatch.</pre>
+            <pre class="error">Error #44 Parameter type mismatch.</pre>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Point</span>
     <span class="type">number</span> <span class="variable">x</span>
     <span class="type">number</span> <span class="variable">y</span>
@@ -581,14 +590,14 @@
     <span class="variable">test</span><span class="operator">(</span><span class="number">1</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #42 Parameter type mismatch.</pre>
+            <pre class="error">Error #44 Parameter type mismatch.</pre>
             <a id="ITEM_COUNT_MISMATCH"></a>
             <h4 class="">ITEM_COUNT_MISMATCH</h4>
             <pre class="wheel"><span class="type">number</span> <span class="variable">n</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span> <span class="operator">=</span> <span class="operator">[</span><span class="number">0</span><span class="operator">,</span><span class="number">1</span><span class="operator">]</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #43 Item count mismatch.</pre>
+            <pre class="error">Error #45 Item count mismatch.</pre>
             <a id="INVALID_CONSTANT"></a>
             <h4 class="">INVALID_CONSTANT</h4>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">R</span>
@@ -598,7 +607,7 @@
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #44 Invalid constant.</pre>
+            <pre class="error">Error #46 Invalid constant.</pre>
             <a id="INVALID_ARRAY_SIZE"></a>
             <h4 class="">INVALID_ARRAY_SIZE</h4>
             <pre class="wheel"><span class="keyword">record</span> <span class="record">Rec</span>
@@ -607,7 +616,7 @@
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #45 Invalid array size.</pre>
+            <pre class="error">Error #47 Invalid array size.</pre>
             <a id="INVALID_ARRAY_INDEX"></a>
             <h4 class="">INVALID_ARRAY_INDEX</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
@@ -615,7 +624,7 @@
     <span class="variable">n</span><span class="operator">[</span><span class="operator">-</span><span class="number">1</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">1</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #46 Invalid array index.</pre>
+            <pre class="error">Error #48 Invalid array index.</pre>
             <a id="INVALID_OPERATION"></a>
             <h4 class="">INVALID_OPERATION</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
@@ -623,21 +632,21 @@
     <span class="variable">s</span> <span class="operator">*</span><span class="operator">=</span> <span class="variable">s</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #47 Invalid operation.</pre>
+            <pre class="error">Error #49 Invalid operation.</pre>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
     <span class="type">string</span> <span class="variable">a</span><span class="operator">,</span> <span class="variable">b</span>
     <span class="variable">a</span> <span class="operator">=</span> <span class="variable">b</span> <span class="operator">*</span> <span class="number">2</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #47 Invalid operation.</pre>
+            <pre class="error">Error #49 Invalid operation.</pre>
             <a id="INVALID_STATEMENT_IN_SCOPE"></a>
             <h4 class="">INVALID_STATEMENT_IN_SCOPE</h4>
             <pre class="wheel"><span class="keyword">ret</span>
 </pre>
-            <pre class="error">Error #49 Invalid statement in scope.</pre>
+            <pre class="error">Error #51 Invalid statement in scope.</pre>
             <pre class="wheel"><span class="keyword">break</span>
 </pre>
-            <pre class="error">Error #48 Invalid statement in scope.</pre>
+            <pre class="error">Error #51 Invalid statement in scope.</pre>
             <a id="INVALID_CONSTANT_IN_SCOPE"></a>
             <h4 class="">INVALID_CONSTANT_IN_SCOPE</h4>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">test</span><span class="operator">(</span><span class="operator">)</span>
@@ -646,12 +655,12 @@
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #49 Invalid constant value in scope.</pre>
+            <pre class="error">Error #51 Invalid constant value in scope.</pre>
             <pre class="wheel"><span class="type">number</span> <span class="variable">n</span> <span class="operator">=</span> <span class="variable">a</span>
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="define">end</span>
 </pre>
-            <pre class="error">Error #49 Invalid constant value in scope.</pre>
+            <pre class="error">Error #51 Invalid constant value in scope.</pre>
             <p>
                 <!--
                 INVALID_RESOURCE
