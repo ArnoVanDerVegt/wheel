@@ -188,6 +188,7 @@ body.ide.no-properties div.properties {
 .properties .property-container .property .property-name.list-focus,
 .properties .property-container .property .property-value.list-focus {
     height:                         156px;
+    z-index:                        100;
 }
 .properties .property-container .property .property-value a.list-selected,
 .properties .property-container .property .property-value a.list-selected:visited {
