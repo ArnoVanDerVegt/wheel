@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode    = require('../../../../lib/dom').DOMNode;
-const Dropdown   = require('../../../../lib/components/Dropdown').Dropdown;
-const Button     = require('../../../../lib/components/Button').Button;
+const Dropdown   = require('../../../../lib/components/input/Dropdown').Dropdown;
+const Button     = require('../../../../lib/components/input/Button').Button;
 const getImage   = require('../../../data/images').getImage;
 
 exports.GearSettings = class extends DOMNode {

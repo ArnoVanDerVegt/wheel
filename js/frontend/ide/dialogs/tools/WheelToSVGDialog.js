@@ -6,7 +6,7 @@ const DOMNode      = require('../../../lib/dom').DOMNode;
 const dispatcher   = require('../../../lib/dispatcher').dispatcher;
 const path         = require('../../../lib/path');
 const Dialog       = require('../../../lib/components/Dialog').Dialog;
-const TextArea     = require('../../../lib/components/TextArea').TextArea;
+const TextArea     = require('../../../lib/components/input/TextArea').TextArea;
 const WheelSyntax  = require('../..//help/woc/WheelSyntax').WheelSyntax;
 
 exports.WheelToSVGDialog = class extends Dialog {

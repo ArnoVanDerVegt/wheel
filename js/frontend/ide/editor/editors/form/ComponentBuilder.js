@@ -125,7 +125,7 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'fontSize',     16)
             .addProperty(component, 'text',         component.text || component.name)
-            .addProperty(component, 'halign',       'left');
+            .addProperty(component, 'hAlign',       'left');
         return component;
     }
 
@@ -135,7 +135,7 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'name',         this._componentList.findComponentText(component.type, 'name', 'Title'))
             .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text || component.name)
-            .addProperty(component, 'halign',       'left');
+            .addProperty(component, 'hAlign',       'left');
         return component;
     }
 
@@ -146,7 +146,7 @@ exports.ComponentBuilder = class {
             .addProperty(component, 'zIndex',       0)
             .addProperty(component, 'text',         component.text  || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fermentum, felis et aliquam malesuada, nisl ligula fringilla arcu, ac finibus augue arcu in justo. Sed convallis id sapien nec dictum. Sed metus elit, malesuada sit amet molestie in, sagittis in neque. Proin ultricies velit vitae interdum fringilla. Vivamus purus nibh, lacinia ut auctor id, auctor at est.')
             .addProperty(component, 'width',        component.width || 300)
-            .addProperty(component, 'halign',       'left');
+            .addProperty(component, 'hAlign',       'left');
         return component;
     }
 

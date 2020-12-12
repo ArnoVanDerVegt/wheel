@@ -4,9 +4,9 @@
 **/
 const DOMNode     = require('../../../../lib/dom').DOMNode;
 const dispatcher  = require('../../../../lib/dispatcher').dispatcher;
-const Button      = require('../../../../lib/components/Button').Button;
-const CloseButton = require('../../../../lib/components/CloseButton').CloseButton;
-const TextInput   = require('../../../../lib/components/TextInput').TextInput;
+const Button      = require('../../../../lib/components/input/Button').Button;
+const CloseButton = require('../../../../lib/components/input/CloseButton').CloseButton;
+const TextInput   = require('../../../../lib/components/input/TextInput').TextInput;
 
 exports.IncludeFilesSetting = class extends DOMNode {
     constructor(opts) {

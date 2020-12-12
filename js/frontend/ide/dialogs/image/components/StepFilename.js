@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const Step      = require('./Step').Step;
-const TextInput = require('../../../../lib/components/TextInput').TextInput;
+const TextInput = require('../../../../lib/components/input/TextInput').TextInput;
 const path      = require('../../../../lib/path');
 
 exports.StepFilename = class extends Step {

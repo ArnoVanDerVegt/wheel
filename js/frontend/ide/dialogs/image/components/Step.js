@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode   = require('../../../../lib/dom').DOMNode;
-const TextInput = require('../../../../lib/components/TextInput').TextInput;
-const Button    = require('../../../../lib/components/Button').Button;
+const TextInput = require('../../../../lib/components/input/TextInput').TextInput;
+const Button    = require('../../../../lib/components/input/Button').Button;
 
 exports.Step = class extends DOMNode {
     constructor(opts) {

@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const sensorModuleConstants = require('../../../../../../shared/vm/modules/sensorModuleConstants');
-const Checkbox              = require('../../../../../lib/components/Checkbox').Checkbox;
+const Checkbox              = require('../../../../../lib/components/input/Checkbox').Checkbox;
 const dispatcher            = require('../../../../../lib/dispatcher').dispatcher;
 const getImage              = require('../../../../data/images').getImage;
 const Sensor                = require('./Sensor').Sensor;

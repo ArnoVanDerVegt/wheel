@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const ProgressBar     = require('../../../../lib/components/status/ProgressBar').ProgressBar;
+const Button          = require('../../../../lib/components/input/Button').Button;
+const getDataProvider = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const DOMNode         = require('../../../../lib/dom').DOMNode;
 const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
-const Button          = require('../../../../lib/components/Button').Button;
-const ProgressBar     = require('../../../../lib/components/ProgressBar').ProgressBar;
-const getDataProvider = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const path            = require('../../../../lib/path');
 
 exports.Updater = class extends DOMNode {

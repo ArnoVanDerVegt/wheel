@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher        = require('../../lib/dispatcher').dispatcher;
-const Tabs              = require('../../lib/components/Tabs').Tabs;
+const Tabs              = require('../../lib/components/input/Tabs').Tabs;
 const DOMNode           = require('../../lib/dom').DOMNode;
 const tabIndex          = require('../tabIndex');
 const PropertiesToolbar = require('./PropertiesToolbar').PropertiesToolbar;

@@ -4,10 +4,10 @@
 **/
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
 const DOMNode     = require('../../lib/dom').DOMNode;
-const Button      = require('../../lib/components/Button').Button;
-const ToolOptions = require('../../lib/components/ToolOptions').ToolOptions;
-const Dropdown    = require('../../lib/components/Dropdown').Dropdown;
-const CloseButton = require('../../lib/components/CloseButton').CloseButton;
+const Button      = require('../../lib/components/input/Button').Button;
+const ToolOptions = require('../../lib/components/input/ToolOptions').ToolOptions;
+const Dropdown    = require('../../lib/components/input/Dropdown').Dropdown;
+const CloseButton = require('../../lib/components/input/CloseButton').CloseButton;
 const tabIndex    = require('../tabIndex');
 
 exports.SimulatorToolbar = class extends DOMNode {

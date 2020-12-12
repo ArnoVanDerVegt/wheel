@@ -4,7 +4,7 @@
 **/
 const DOMNode     = require('../../lib/dom').DOMNode;
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const TextInput   = require('../../lib/components/TextInput').TextInput;
+const TextInput   = require('../../lib/components/input/TextInput').TextInput;
 const tabIndex    = require('../tabIndex');
 const getHelpData = require('../help/helpData').getHelpData;
 

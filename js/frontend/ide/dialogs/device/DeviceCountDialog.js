@@ -5,7 +5,7 @@
 const poweredUpModuleConstants = require('../../../../shared/vm/modules/poweredUpModuleConstants');
 const dispatcher               = require('../../../lib/dispatcher').dispatcher;
 const Dialog                   = require('../../../lib/components/Dialog').Dialog;
-const Dropdown                 = require('../../../lib/components/Dropdown').Dropdown;
+const Dropdown                 = require('../../../lib/components/input/Dropdown').Dropdown;
 
 exports.DeviceCountDialog = class extends Dialog {
     constructor(opts) {

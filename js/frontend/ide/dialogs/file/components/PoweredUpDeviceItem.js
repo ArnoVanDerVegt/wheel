@@ -5,9 +5,9 @@
 const poweredUpModuleConstants = require('../../../../../shared/vm/modules/poweredUpModuleConstants');
 const dispatcher               = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode                  = require('../../../../lib/dom').DOMNode;
-const Button                   = require('../../../../lib/components/Button').Button;
-const CloseButton              = require('../../../../lib/components/CloseButton').CloseButton;
-const Dropdown                 = require('../../../../lib/components/Dropdown').Dropdown;
+const Button                   = require('../../../../lib/components/input/Button').Button;
+const CloseButton              = require('../../../../lib/components/input/CloseButton').CloseButton;
+const Dropdown                 = require('../../../../lib/components/input/Dropdown').Dropdown;
 const getImage                 = require('../../../data/images').getImage;
 
 let infoByDeviceType = {};

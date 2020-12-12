@@ -4,8 +4,8 @@
 **/
 const dispatcher   = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode      = require('../../../../lib/dom').DOMNode;
-const Button       = require('../../../../lib/components/Button').Button;
-const Dropdown     = require('../../../../lib/components/Dropdown').Dropdown;
+const Button       = require('../../../../lib/components/input/Button').Button;
+const Dropdown     = require('../../../../lib/components/input/Dropdown').Dropdown;
 const IncludeFiles = require('../../../../lib/components/IncludeFiles').IncludeFiles;
 const getImage     = require('../../../data/images').getImage;
 const Step         = require('./Step').Step;

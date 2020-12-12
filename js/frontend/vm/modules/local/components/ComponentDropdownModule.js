@@ -30,6 +30,14 @@ exports.ComponentDropdownModule = class extends VMIDEModule {
                     }
                 }
                 break;
+            case componentDropdownModuleConstants.DROPDOWN_ADD_ITEM:
+                dropdown = vmData.getRecordFromSrcOffset(['window', 'component', 'value', 'text']);
+                dispatcher.dispatch(dropdown.window + '_' + dropdown.component, {value: dropdown.value, text: vmData.getStringList()[dropdown.text]});
+            case componentDropdownModuleConstants.DROPDOWN_CLEAR:
+                dropdown   = vmData.getRecordFromSrcOffset(['window', 'component']);
+                opts.clear = true;
+                dispatcher.dispatch(dropdown.window + '_' + dropdown.component, opts);
+                break;
         }
         if (property !== '') {
             dropdown       = vmData.getRecordFromSrcOffset(['window', 'component', property]);

@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const sensorModuleConstants = require('../../../../../../shared/vm/modules/sensorModuleConstants');
-const IconSelect            = require('../../../../../lib/components/IconSelect').IconSelect;
+const IconSelect            = require('../../../../../lib/components/input/IconSelect').IconSelect;
 const getImage              = require('../../../../data/images').getImage;
 const Sensor                = require('./Sensor').Sensor;
 

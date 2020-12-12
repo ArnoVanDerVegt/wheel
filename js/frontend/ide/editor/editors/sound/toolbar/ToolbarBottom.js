@@ -4,8 +4,8 @@
 **/
 const DOMNode  = require('../../../../../lib/dom').DOMNode;
 const Toolbar  = require('../../../../../lib/components/Toolbar').Toolbar;
-const Button   = require('../../../../../lib/components/Button').Button;
-const Slider   = require('../../../../../lib/components/Slider').Slider;
+const Button   = require('../../../../../lib/components/input/Button').Button;
+const Slider   = require('../../../../../lib/components/input/Slider').Slider;
 const tabIndex = require('../../../../tabIndex');
 
 exports.ToolbarBottom = class extends Toolbar {

@@ -14,6 +14,8 @@ namespace components.dropdown
 #define DROPDOWN_COMPONENT_SET_Y          3
 #define DROPDOWN_COMPONENT_SET_VALUE      4
 #define DROPDOWN_COMPONENT_GET_VALUE      5
+#define DROPDOWN_COMPONENT_CLEAR          6
+#define DROPDOWN_COMPONENT_ADD_ITEM       7
 
 ; @property name     string  The component name.
 ; @property tabIndex number  The tab index.
@@ -87,4 +89,20 @@ end
 proc getValue(number windowHandle, number componentHandle)
     addr windowHandle
     mod  MODULE_COMPONENT_DROPDOWN, DROPDOWN_COMPONENT_GET_VALUE
+end
+
+; @proc                   Clear the dropdown list.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc clear(number windowHandle, number componentHandle)
+    addr windowHandle
+    mod  MODULE_COMPONENT_DROPDOWN, DROPDOWN_COMPONENT_CLEAR
+end
+
+; @proc                   Add an item to the dropdown list.
+; @param windowhandle     The handle of the window.
+; @param componentHandle  The handle of the component.
+proc addItem(number windowHandle, number componentHandle, number value, string text)
+    addr windowHandle
+    mod  MODULE_COMPONENT_DROPDOWN, DROPDOWN_COMPONENT_CLEAR
 end

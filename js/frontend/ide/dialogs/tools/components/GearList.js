@@ -3,9 +3,9 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode     = require('../../../../lib/dom').DOMNode;
-const Dropdown    = require('../../../../lib/components/Dropdown').Dropdown;
-const Button      = require('../../../../lib/components/Button').Button;
-const CloseButton = require('../../../../lib/components/CloseButton').CloseButton;
+const Dropdown    = require('../../../../lib/components/input/Dropdown').Dropdown;
+const Button      = require('../../../../lib/components/input/Button').Button;
+const CloseButton = require('../../../../lib/components/input/CloseButton').CloseButton;
 const getImage    = require('../../../data/images').getImage;
 
 class GearItem extends DOMNode {

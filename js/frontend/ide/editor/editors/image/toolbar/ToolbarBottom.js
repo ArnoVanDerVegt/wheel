@@ -4,11 +4,11 @@
 **/
 const DOMNode     = require('../../../../../lib/dom').DOMNode;
 const Toolbar     = require('../../../../../lib/components/Toolbar').Toolbar;
-const ToolOptions = require('../../../../../lib/components/ToolOptions').ToolOptions;
-const Button      = require('../../../../../lib/components/Button').Button;
-const Checkbox    = require('../../../../../lib/components/Checkbox').Checkbox;
-const TextInput   = require('../../../../../lib/components/TextInput').TextInput;
-const Slider      = require('../../../../../lib/components/Slider').Slider;
+const ToolOptions = require('../../../../../lib/components/input/ToolOptions').ToolOptions;
+const Button      = require('../../../../../lib/components/input/Button').Button;
+const Checkbox    = require('../../../../../lib/components/input/Checkbox').Checkbox;
+const TextInput   = require('../../../../../lib/components/input/TextInput').TextInput;
+const Slider      = require('../../../../../lib/components/input/Slider').Slider;
 const tabIndex    = require('../../../../tabIndex');
 
 exports.ToolbarBottom = class extends Toolbar {

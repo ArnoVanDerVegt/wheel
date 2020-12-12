@@ -4,7 +4,7 @@
 **/
 const DOMNode    = require('../../../lib/dom').DOMNode;
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
-const Button     = require('../../../lib/components/Button').Button;
+const Button     = require('../../../lib/components/input/Button').Button;
 const Container  = require('./Container').Container;
 
 exports.Components = class extends DOMNode {

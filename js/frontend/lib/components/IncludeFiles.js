@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode  = require('../dom').DOMNode;
-const Checkbox = require('./Checkbox').Checkbox;
+const Checkbox = require('./input/Checkbox').Checkbox;
 
 exports.IncludeFiles = class extends DOMNode {
     constructor(opts) {

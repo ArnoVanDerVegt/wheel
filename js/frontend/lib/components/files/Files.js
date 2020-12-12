@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../../dispatcher').dispatcher;
 const path       = require('../../path');
-const Component  = require('../Component').Component;
+const Component  = require('../component/Component').Component;
 const File       = require('./File').File;
 const FileDetail = require('./FileDetail').FileDetail;
 

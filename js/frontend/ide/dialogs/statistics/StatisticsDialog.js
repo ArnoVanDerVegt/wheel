@@ -4,7 +4,7 @@
 **/
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
-const Component  = require('../../../lib/components/Component').Component;
+const Component  = require('../../../lib/components/component/Component').Component;
 const getImage   = require('../../data/images').getImage;
 const $          = require('../../../program/commands');
 

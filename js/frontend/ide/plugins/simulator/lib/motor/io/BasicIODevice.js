@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const DOMNode    = require('../../../../../../lib/dom').DOMNode;
-const IconSelect = require('../../../../../../lib/components/IconSelect').IconSelect;
+const IconSelect = require('../../../../../../lib/components/input/IconSelect').IconSelect;
 const getImage   = require('../../../../../data/images').getImage;
 
 exports.BasicIODevice = class extends DOMNode {

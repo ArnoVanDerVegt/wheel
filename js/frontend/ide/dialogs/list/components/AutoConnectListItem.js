@@ -5,7 +5,7 @@
 const DOMNode    = require('../../../../lib/dom').DOMNode;
 const dispatcher = require('../../../../lib/dispatcher').dispatcher;
 const ListItem   = require('../../../../lib/components/list/ListItem').ListItem;
-const Checkbox   = require('../../../../lib/components/Checkbox').Checkbox;
+const Checkbox   = require('../../../../lib/components/input/Checkbox').Checkbox;
 
 exports.AutoConnectListItem = class extends ListItem {
     initDOM(parentNode) {

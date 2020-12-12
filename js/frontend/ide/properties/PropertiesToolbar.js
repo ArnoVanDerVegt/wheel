@@ -4,9 +4,9 @@
 **/
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
 const DOMNode     = require('../../lib/dom').DOMNode;
-const CloseButton = require('../../lib/components/CloseButton').CloseButton;
-const Button      = require('../../lib/components/Button').Button;
-const Dropdown    = require('../../lib/components/Dropdown').Dropdown;
+const CloseButton = require('../../lib/components/input/CloseButton').CloseButton;
+const Button      = require('../../lib/components/input/Button').Button;
+const Dropdown    = require('../../lib/components/input/Dropdown').Dropdown;
 const tabIndex    = require('../tabIndex');
 
 exports.PropertiesToolbar = class extends DOMNode {

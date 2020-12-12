@@ -227,7 +227,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= INPUT COMPONENTS ================================= */
     BUTTON: {
-        component:  'lib/components/Button',
+        component:  'lib/components/input/Button',
         include:    'lib/modules/components/button.whl',
         canCopy:    true,
         properties: [
@@ -306,7 +306,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     SELECTBUTTON: {
-        component:  'lib/components/ToolOptions',
+        component:  'lib/components/input/ToolOptions',
         include:    'lib/modules/components/selectButton.whl',
         canCopy:    true,
         properties: [
@@ -407,7 +407,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     RADIO: {
-        component:  'lib/components/Radio',
+        component:  'lib/components/input/Radio',
         include:    'lib/modules/components/radio.whl',
         canCopy:    true,
         properties: [
@@ -459,7 +459,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     DROPDOWN: {
-        component:  'lib/components/Dropdown',
+        component:  'lib/components/input/Dropdown',
         include:    'lib/modules/components/dropdown.whl',
         canCopy:    true,
         properties: [
@@ -510,7 +510,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TEXTINPUT: {
-        component:  'lib/components/TextInput',
+        component:  'lib/components/input/TextInput',
         include:    'lib/modules/components/textInput.whl',
         canCopy:    true,
         properties: [
@@ -561,7 +561,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     SLIDER: {
-        component:  'lib/components/Slider',
+        component:  'lib/components/input/Slider',
         include:    'lib/modules/components/slider.whl',
         canCopy:    true,
         properties: [
@@ -613,7 +613,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= TEXT COMPONENTS ================================= */
     LABEL: {
-        component:  'lib/components/Label',
+        component:  'lib/components/text/Label',
         include:    'lib/modules/components/label.whl',
         canCopy:    true,
         properties: [
@@ -628,7 +628,7 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',         name: 'zIndex',       options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'fontSize',     options: {validator: posNumberValidatorWithMin(5),   type: 'number'}},
             {type: 'text',         name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
-            {type: 'halign',       name: 'halign'},
+            {type: 'hAlign',       name: 'hAlign'},
             {type: 'text',         name: 'text'},
             {type: 'text',         name: 'value'}
         ],
@@ -636,7 +636,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TITLE: {
-        component:  'lib/components/Title',
+        component:  'lib/components/text/Title',
         include:    'lib/modules/components/title.whl',
         canCopy:    true,
         properties: [
@@ -655,7 +655,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     TEXT: {
-        component:  'lib/components/Text',
+        component:  'lib/components/text/Text',
         include:    'lib/modules/components/text.whl',
         canCopy:    true,
         properties: [
@@ -669,14 +669,14 @@ exports.PROPERTIES_BY_TYPE = {
             {type: 'text',         name: 'y',            options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'zIndex',       options: {validator: posNumberValidator,             type: 'number'}},
             {type: 'text',         name: 'width',        options: {validator: posNumberOrEmptyValidator,      type: 'number'}},
-            {type: 'halign',       name: 'halign'},
+            {type: 'hAlign',       name: 'hAlign'},
             {type: 'textarea',     name: 'text'}
         ],
         events: [
         ]
     },
     LISTITEMS: {
-        component:  'lib/components/ListItems',
+        component:  'lib/components/text/ListItems',
         include:    'lib/modules/components/listItems.whl',
         canCopy:    true,
         properties: [
@@ -696,7 +696,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= GRAPHICS COMPONENTS ================================= */
     RECTANGLE: {
-        component:  'lib/components/Rectangle',
+        component:  'lib/components/graphics/Rectangle',
         include:    'lib/modules/components/rectangle.whl',
         canCopy:    true,
         properties: [
@@ -765,7 +765,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     CIRCLE: {
-        component:  'lib/components/Circle',
+        component:  'lib/components/graphics/Circle',
         include:    'lib/modules/components/circle.whl',
         canCopy:    true,
         properties: [
@@ -832,7 +832,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     IMAGE: {
-        component:  'lib/components/Image',
+        component:  'lib/components/graphics/Image',
         include:    'lib/modules/components/image.whl',
         canCopy:    true,
         properties: [
@@ -899,7 +899,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     ICON: {
-        component:  'lib/components/Icon',
+        component:  'lib/components/graphics/Icon',
         include:    'lib/modules/components/icon.whl',
         canCopy:    true,
         properties: [
@@ -964,7 +964,7 @@ exports.PROPERTIES_BY_TYPE = {
     },
     /* ================================= STATUS COMPONENTS ================================= */
     STATUSLIGHT: {
-        component:  'lib/components/StatusLight',
+        component:  'lib/components/status/StatusLight',
         include:    'lib/modules/components/statusLight.whl',
         canCopy:    true,
         properties: [
@@ -984,7 +984,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     PROGRESSBAR: {
-        component:  'lib/components/ProgressBar',
+        component:  'lib/components/status/ProgressBar',
         include:    'lib/modules/components/progressBar.whl',
         canCopy:    true,
         properties: [
@@ -1002,7 +1002,7 @@ exports.PROPERTIES_BY_TYPE = {
         ]
     },
     LOADINGDOTS: {
-        component:  'lib/components/LoadingDots',
+        component:  'lib/components/status/LoadingDots',
         include:    'lib/modules/components/loadingDots.whl',
         canCopy:    true,
         properties: [

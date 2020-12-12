@@ -176,11 +176,9 @@ exports.FormDialog = class extends Dialog {
                 component.id                  = win.addComponent.bind(win, component.uid);
                 component.ui                  = this._ui;
                 component.uiId                = this._uiId;
-                component.style               = {
-                    position: 'absolute',
-                    left:     component.x + 'px',
-                    top:      (parseInt(component.y, 10) + ((component.parentId === mainParentId) ? 64 : 0)) + 'px'
-                };
+                component.position            = 'absolute';
+                component.left                = component.x;
+                component.top                 = (parseInt(component.y, 10) + ((component.parentId === mainParentId) ? 64 : 0));
                 let type = component.type.toUpperCase();
                 if (component.type === formEditorConstants.COMPONENT_TYPE_TABS) {
                     component.type     = TabPanel;

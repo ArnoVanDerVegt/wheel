@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const ProgressBar    = require('../../../../lib/components/ProgressBar').ProgressBar;
+const ProgressBar    = require('../../../../lib/components/status/ProgressBar').ProgressBar;
 const dispatcher     = require('../../../../lib/dispatcher').dispatcher;
 const path           = require('../../../../lib/path');
 const HomeScreenTile = require('./HomeScreenTile').HomeScreenTile;

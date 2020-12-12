@@ -3,11 +3,13 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher = require('../dispatcher').dispatcher;
-const Component  = require('./Component').Component;
-const Tabs       = require('./Tabs').Tabs;
+const Component  = require('./component/Component').Component;
+const Tabs       = require('./input/Tabs').Tabs;
 
 exports.TabPanel = class extends Component {
     constructor(opts) {
+        opts.width         = opts.width  || 128;
+        opts.height        = opts.height ||  80;
         opts.baseClassName = 'tab-panels';
         super(opts);
         this._containerIdsForForm = opts.containerIdsForForm;
@@ -18,8 +20,6 @@ exports.TabPanel = class extends Component {
         this._containerIds        = opts.containerIds;
         this._panelConstructor    = opts.panelConstructor || 'div';
         this._panelOpts           = opts.panelOpts || {};
-        this._width               = opts.width     || 128;
-        this._height              = opts.height    ||  80;
         this._children            = opts.children  || [];
         this._tabs                = opts.tabs;
         this._panels              = [];
@@ -50,17 +50,11 @@ exports.TabPanel = class extends Component {
     }
 
     initDOM(parentNode) {
-        let style = this._style || {};
-        style.width  = this._width  + 'px';
-        style.height = this._height + 'px';
-        if (this._zIndex !== false) {
-            style.zIndex = this._zIndex;
-        }
         this.create(
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                style:     style,
+                style:     this.applyStyle({}, this._style),
                 className: this.getClassName(),
                 children: [
                     {
@@ -121,12 +115,6 @@ exports.TabPanel = class extends Component {
     onEvent(opts) {
         let element = this._element;
         let refs    = this._refs;
-        if ('width' in opts) {
-            element.style.width = Math.max(opts.width, 128) + 'px';
-        }
-        if ('height' in opts) {
-            element.style.height = Math.max(opts.height, 80) + 'px';
-        }
         if ('tabs' in opts) {
             let tabCount = this._tabs.length;
             this._tabs = opts.tabs;
@@ -143,6 +131,7 @@ exports.TabPanel = class extends Component {
             this.onAddTabComponent(opts.tab);
         }
         super.onEvent(opts);
+        this.applyStyle(element.style, this._style);
     }
 
     onAddTabComponent(opts) {
