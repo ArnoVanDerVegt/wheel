@@ -86,19 +86,19 @@ describe(
             it,
             'Should check label properties',
             componentBuilder.addComponentForType({}, formEditorConstants.COMPONENT_TYPE_LABEL),
-            ['name', 'zIndex', 'text', 'halign']
+            ['name', 'zIndex', 'text', 'hAlign']
         );
         shouldContainProperties(
             it,
             'Should check title properties',
             componentBuilder.addComponentForType({}, formEditorConstants.COMPONENT_TYPE_TITLE),
-            ['name', 'zIndex', 'text', 'halign']
+            ['name', 'zIndex', 'text', 'hAlign']
         );
         shouldContainProperties(
             it,
             'Should check text properties',
             componentBuilder.addComponentForType({}, formEditorConstants.COMPONENT_TYPE_TEXT),
-            ['name', 'zIndex', 'text', 'width', 'halign']
+            ['name', 'zIndex', 'text', 'width', 'hAlign']
         );
         shouldContainProperties(
             it,

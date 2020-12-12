@@ -46,7 +46,7 @@ const FORM_WITH_ONE_COMPONENT = [
             hidden:   false,
             disabled: false,
             text:     'Count:',
-            halign:   'left'
+            hAlign:   'left'
         }
     ];
 
@@ -701,7 +701,7 @@ describe(
                                         zIndex:     0,
                                         text:       'Label2',
                                         fontSize:   16,
-                                        halign:     'left',
+                                        hAlign:     'left',
                                         x:          10,
                                         y:          20
                                     }
@@ -738,7 +738,7 @@ describe(
                                         zIndex:     0,
                                         text:       'Label2',
                                         fontSize:   16,
-                                        halign:     'left',
+                                        hAlign:     'left',
                                         x:          20,
                                         y:          30
                                     }
