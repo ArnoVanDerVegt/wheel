@@ -282,6 +282,10 @@ exports.Dropdown = class extends Component {
         return this;
     }
 
+    getItems() {
+        return this._items;
+    }
+
     setItems(items) {
         this._itemElements = [];
         this._items        = this.getUpdatedItems(items);
@@ -348,6 +352,14 @@ exports.Dropdown = class extends Component {
         }
         if ('value' in opts) {
             this.setValue(opts.value);
+        }
+        if ('clear' in opts) {
+            this.setValue(null);
+            this.setItems([]);
+        }
+        if ('item' in opts) {
+            this._items.push(opts.item);
+            this.setItems(this._items);
         }
         super.onEvent(opts);
         this.applyStyle(this._refs.dropdown.style, this._style);
