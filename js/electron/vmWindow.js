@@ -45,5 +45,5 @@ exports.createVMWindow = function() {
         }
     );
     // Open the DevTools.
-    // MainWindow.webContents.openDevTools()
+    // VmWindow.webContents.openDevTools()
 };

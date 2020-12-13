@@ -30,7 +30,8 @@ exports.VMRunner = class extends DOMNode {
         this._program                = new Program(null).load(opts.program);
         this
             .initDOM()
-            .initDialogs();
+            .initDialogs()
+            .initPoweredUp();
         dispatcher.on('Form.Show', this, this.onShowForm);
     }
 
@@ -59,7 +60,7 @@ exports.VMRunner = class extends DOMNode {
                                     {
                                         ref:       this.setRef('targetPlatform'),
                                         className: 'target-platform',
-                                        innerHTML: 'Device: Not selected'
+                                        innerHTML: 'Not device selected'
                                     },
                                     this.initButtons()
                                 ]
@@ -109,6 +110,18 @@ exports.VMRunner = class extends DOMNode {
     initDialogs() {
         new EV3ConnectListDialog      ({getImage: getImage, ui: this._ui});
         new PoweredUpConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
+        return this;
+    }
+
+    initPoweredUp() {
+        let dataProvider = getDataProvider();
+        dataProvider.getData('post', 'powered-up/disconnect-all', {},                (data) => {});
+        dataProvider.getData('post', 'powered-up/discover',       {autoConnect: []}, (data) => {});
+        return this;
+    }
+
+    getComponentFormContainer() {
+        return this._componentFormContainer;
     }
 
     getProjectFilename() {

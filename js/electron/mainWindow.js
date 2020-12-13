@@ -143,6 +143,9 @@ ipcMain.on(
                     settings:        arg.settings
                 };
                 vmWindow.createVMWindow(app);
+                if (arg.settings.closeIDEonVMRun) {
+                    mainWindow.close();
+                }
                 break;
             case 'vmProgram':
                 event.reply(

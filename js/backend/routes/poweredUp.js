@@ -26,7 +26,7 @@ exports.poweredUpRoutes = {
     deviceList(req, res) {
         let poweredUp   = getPoweredUp();
         let autoConnect = req.body.autoConnect || [];
-        let list = poweredUp.getDeviceList(autoConnect);
+        let list        = poweredUp.getDeviceList(autoConnect);
         res.send(JSON.stringify({result: true, changed: poweredUp.getChanged(), list: list}));
     },
 

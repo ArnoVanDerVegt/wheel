@@ -31,6 +31,7 @@ exports.MainMenu = class extends MainMenu {
             .addEventListener('Settings.EV3',         this, this.onUpdateEV3Menu)
             .addEventListener('Settings.PoweredUp',   this, this.onUpdatePoweredUpMenu)
             .addEventListener('Settings.Compile',     this, this.onUpdateCompileMenu)
+            .addEventListener('Settings.Run',         this, this.onUpdateRunMenu)
             .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu)
             .addEventListener('Settings.Simulator',   this, this.onUpdateSimulatorMenu);
         // EV3 events...
@@ -168,6 +169,7 @@ exports.MainMenu = class extends MainMenu {
             .initEV3Menu()
             .initPoweredUpMenu()
             .initCompileMenu()
+            .initRunMenu()
             .initViewMenu()
             .initSimulatorMenu()
             .initToolsMenu()
@@ -175,6 +177,7 @@ exports.MainMenu = class extends MainMenu {
             .onUpdateViewMenu()
             .onUpdateSimulatorMenu()
             .onUpdateCompileMenu()
+            .onUpdateRunMenu()
             .onVM()
             .onUpdateEV3Menu()
             .onUpdatePoweredUpMenu()
@@ -320,11 +323,7 @@ exports.MainMenu = class extends MainMenu {
             withCheck: true,
             items: [
                 {title: 'Compile',                                                dispatch: 'Menu.Compile.Compile'},
-                {title: 'Run',                                                    dispatch: 'Menu.Compile.Run'},
                 {title: 'Compile & run',                hotkey: ['command', 'E'], dispatch: 'Menu.Compile.CompileAndRun'},
-                {title: 'Continue',                                               dispatch: 'Menu.Compile.Continue'},
-                {title: 'Stop',                                                   dispatch: 'Menu.Compile.Stop'},
-                {title: '-'},
                 {title: 'Compile and install on EV3',                             dispatch: 'Menu.Compile.CompileAndInstall'},
                 {title: '-'},
                 {title: 'Linter',                                                 dispatch: 'Settings.Toggle.Linter'},
@@ -333,9 +332,25 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'},
                 {title: 'Clear all breakpoints',                                  dispatch: 'Menu.Compile.ClearAllBreakpoints'},
                 {title: '-'},
-                {title: 'Create VM text output',                                  dispatch: 'Settings.Toggle.CreateVMTextOutput'},
+                {title: 'Create VM text output',                                  dispatch: 'Settings.Toggle.CreateVMTextOutput'}
+            ]
+        });
+        return this;
+    }
+
+    initRunMenu() {
+        this._runMenu = this.addMenu({
+            title:     '^Run',
+            width:     '272px',
+            withCheck: true,
+            items: [
+                {title: 'Run',                                                    dispatch: 'Menu.Compile.Run'},
+                {title: 'Continue',                                               dispatch: 'Menu.Compile.Continue'},
+                {title: 'Stop',                                                   dispatch: 'Menu.Compile.Stop'},
                 {title: '-'},
-                {title: 'Run in VM window',                                       dispatch: 'Menu.Compile.RunVM'}
+                {title: 'Run in VM window',                                       dispatch: 'Menu.Compile.RunVM'},
+                {title: '-'},
+                {title: 'Close IDE on run VM window',                             dispatch: 'Settings.Toggle.CloseIDEonVMRun'}
             ]
         });
         return this;
@@ -472,23 +487,31 @@ exports.MainMenu = class extends MainMenu {
         let settings    = this._settings;
         if (info) {
             menuOptions[0].setEnabled(info.canCompile);                     // Compile
-            menuOptions[2].setEnabled(info.canCompile);                     // Compile & run
+            menuOptions[1].setEnabled(info.canCompile);                     // Compile & run
         } else {
             menuOptions[0].setEnabled(false);                               // Compile
-            menuOptions[2].setEnabled(false);                               // Compile & run
+            menuOptions[1].setEnabled(false);                               // Compile & run
         }
-        menuOptions[6].setChecked(settings.getLinter());                    // Linter
-        menuOptions[5].setEnabled(this._ev3.getConnected());                //
-        menuOptions[9].setChecked(settings.getCreateVMTextOutput());        // Create text output
+        menuOptions[2].setEnabled(this._ev3.getConnected());                // Compile and install on EV3
+        menuOptions[3].setChecked(settings.getLinter());                    // Linter
+        menuOptions[6].setChecked(settings.getCreateVMTextOutput());        // Create text output
+        return this;
+    }
+
+    onUpdateRunMenu() {
+        let menuOptions = this._runMenu.getMenu().getMenuOptions();
+        let settings    = this._settings;
+        menuOptions[4].setChecked(settings.getCloseIDEonVMRun());           // Close IDE on run VM window
         return this;
     }
 
     onVM(vm) {
-        let menuOptions = this._compileMenu.getMenu().getMenuOptions();
-        menuOptions[1].setEnabled(vm && !vm.running());                     // Run
-        menuOptions[3].setEnabled(vm && vm.getBreakpoint());                // Continue
-        menuOptions[4].setEnabled(vm && vm.running());                      // Stop
-        let connected = this._ev3.getConnected();
+        let connected   = this._ev3.getConnected();
+        let menuOptions = this._runMenu.getMenu().getMenuOptions();
+        menuOptions[0].setEnabled(vm && !vm.running());                     // Run
+        menuOptions[1].setEnabled(vm && vm.getBreakpoint());                // Continue
+        menuOptions[2].setEnabled(vm && vm.running());                      // Stop
+        menuOptions[3].setEnabled(vm);                                      // Run in VM window
         menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         menuOptions[7].setEnabled(vm && connected);                         // Install compiled files
         return this;

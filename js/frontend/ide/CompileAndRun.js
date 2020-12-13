@@ -299,14 +299,16 @@ exports.CompileAndRun = class extends DOMUtils {
     }
 
     runVM() {
+        this._poweredUp.disconnect();
+        this.stop();
         let ipcRenderer = require('electron').ipcRenderer;
         ipcRenderer.send(
             'postMessage',
             {
                 command:         'vm',
+                settings:        this._settings.getSettings(),
                 projectFilename: this._projectFilename,
                 program:         new Json(this._program).getOutput(),
-                settings:        this._settings.getSettings()
             }
         );
     }
