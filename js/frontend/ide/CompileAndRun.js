@@ -308,7 +308,7 @@ exports.CompileAndRun = class extends DOMUtils {
                 command:         'vm',
                 settings:        this._settings.getSettings(),
                 projectFilename: this._projectFilename,
-                program:         new Json(this._program).getOutput(),
+                program:         new Json(this._program).getOutput()
             }
         );
     }

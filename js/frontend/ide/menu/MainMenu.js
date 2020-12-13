@@ -501,6 +501,7 @@ exports.MainMenu = class extends MainMenu {
     onUpdateRunMenu() {
         let menuOptions = this._runMenu.getMenu().getMenuOptions();
         let settings    = this._settings;
+        menuOptions[4].setEnabled(platform.isElectron());                   // Close IDE on run VM window
         menuOptions[4].setChecked(settings.getCloseIDEonVMRun());           // Close IDE on run VM window
         return this;
     }

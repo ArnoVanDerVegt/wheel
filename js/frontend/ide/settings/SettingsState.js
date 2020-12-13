@@ -139,7 +139,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Toggle.AutoInstall',              this, this._toggleAutoInstall)
             .on('Settings.Toggle.DarkMode',                 this, this._toggleDarkMode)
             .on('Settings.Toggle.SensorAutoReset',          this, this._toggleAutoReset)
-            .on('Settings.Toggle.CloseIDEonVMRun',          this, this._toggleCloseIDEonVMRun)
+            .on('Settings.Toggle.CloseIDEonVMRun',          this, this._toggleCloseIDEonVMRun);
     }
 
     load(onLoad) {

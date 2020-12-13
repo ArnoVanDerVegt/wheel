@@ -28,6 +28,9 @@ exports.VMRunner = class extends DOMNode {
         this._ui                     = opts.ui;
         this._componentFormContainer = new ComponentFormContainer();
         this._program                = new Program(null).load(opts.program);
+        if (this._settings.getDarkMode()) {
+            document.body.className = 'ide dark';
+        }
         this
             .initDOM()
             .initDialogs()
@@ -36,6 +39,7 @@ exports.VMRunner = class extends DOMNode {
     }
 
     initDOM() {
+        let src = 'images/logos/wheel' + (this._settings.getDarkMode() ? 'White' : 'Black') + '.svg';
         this.create(
             document.body,
             {
@@ -49,7 +53,7 @@ exports.VMRunner = class extends DOMNode {
                                 children: [
                                     {
                                         type:      'img',
-                                        src:       getImage('images/logos/wheelWhite.svg'),
+                                        src:       getImage(src),
                                         width:     128,
                                         height:    128
                                     },
