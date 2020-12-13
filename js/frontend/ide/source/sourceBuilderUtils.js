@@ -310,7 +310,7 @@ exports.createProjectFile = (opts) => {
     return exports.removeDuplicateEmptyLines(lines);
 };
 
-exports.generateDefinesFromComponents = (formName, components) => {
+exports.generateDefinesFromComponents = (formName, components, database) => {
     let maxLength = 0;
     let toString  = function() {
             /* eslint-disable no-invalid-this */
@@ -332,7 +332,11 @@ exports.generateDefinesFromComponents = (formName, components) => {
     formName = exports.getConstantFromName(formName);
     components.forEach((component) => {
         if (component.type !== formEditorConstants.COMPONENT_TYPE_FORM) {
-            addDefine(formName + '_' + exports.getConstantFromName(component.name), component.uid);
+            let define = formName + '_' + exports.getConstantFromName(component.name);
+            let found  = database ? database.defines.get(define) : false;
+            if (!found) {
+                addDefine(formName + '_' + exports.getConstantFromName(component.name), component.uid);
+            }
         }
     });
     defines.sort();
