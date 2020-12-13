@@ -303,9 +303,10 @@ exports.CompileAndRun = class extends DOMUtils {
         ipcRenderer.send(
             'postMessage',
             {
-                command:  'vm',
-                program:  new Json(this._program).getOutput(),
-                settings: this._settings.getSettings()
+                command:         'vm',
+                projectFilename: this._projectFilename,
+                program:         new Json(this._program).getOutput(),
+                settings:        this._settings.getSettings()
             }
         );
     }

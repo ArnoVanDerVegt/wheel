@@ -189,7 +189,7 @@ exports.load = (vm, localModules, device, ide) => {
         modules[pspModuleConstants                   .MODULE_PSP             ] = new LocalPspModule                    ({vm: vm, device: device});
         modules[multiplexerModuleConstants           .MODULE_MULTIPLEXER     ] = new LocalMultiplexerModule            ({vm: vm, device: device});
         // Components....
-        modules[componentFormModuleConstants         .MODULE_FORM            ] = new LocalComponentFormModule          ({vm: vm, device: device});
+        modules[componentFormModuleConstants         .MODULE_FORM            ] = new LocalComponentFormModule          ({vm: vm, device: device, ide: ide});
         // Input components...
         modules[componentButtonModuleConstants       .MODULE_BUTTON          ] = new LocalComponentButtonModule        ({vm: vm, device: device, ide: ide});
         modules[componentSelectButtonModuleConstants .MODULE_SELECT_BUTTON   ] = new LocalComponentSelectButtonModule  ({vm: vm, device: device, ide: ide});
@@ -241,7 +241,7 @@ exports.load = (vm, localModules, device, ide) => {
         modules[deviceModuleConstants                .MODULE_DEVICE          ] = new RemoteDeviceModule                ({vm: vm, device: device});
         modules[poweredUpModuleConstants             .MODULE_POWERED_UP      ] = new RemotePoweredUpModule             ({vm: vm, device: device});
         // Components....
-        modules[componentFormModuleConstants         .MODULE_FORM            ] = new RemoteComponentFormModule         ({vm: vm, device: device});
+        modules[componentFormModuleConstants         .MODULE_FORM            ] = new RemoteComponentFormModule         ({vm: vm, device: device, ide: ide});
         // Input components...
         modules[componentButtonModuleConstants       .MODULE_BUTTON          ] = new RemoteComponentButtonModule       ({vm: vm, device: device, ide: ide});
         modules[componentSelectButtonModuleConstants .MODULE_SELECT_BUTTON   ] = new RemoteComponentSelectButtonModule ({vm: vm, device: device, ide: ide});

@@ -75,7 +75,6 @@ exports.ComponentFormModule = class extends VMModule {
                 );
                 vmData.setNumberAtRet(windowHandle);
                 break;
-
             case componentFormModuleConstants.BUTTON_WAIT_FOR_PRESS:
                 form = vmData.getRecordFromSrcOffset(['handle']);
                 this.emit('Form.Hide', form);

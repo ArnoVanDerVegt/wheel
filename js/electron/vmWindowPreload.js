@@ -15,12 +15,14 @@ const PoweredUpState = require('../frontend/vm/poweredup/PoweredUpState').Powere
             } catch (error) {
                 return;
             }
-            console.log('data:', data);
             const settings = new SettingsState({}).onLoad(data.settings);
             new VMRunner({
-                program:   data.program,
-                ev3:       new EV3State({layerCount: settings.getDaisyChainMode()}),
-                poweredUp: new PoweredUpState({layerCount: settings.getDaisyChainMode()})
+                projectFilename: data.projectFilename,
+                program:         data.program,
+                settings:        settings,
+                ui:              new UIState({}),
+                ev3:             new EV3State({layerCount: settings.getDaisyChainMode()}),
+                poweredUp:       new PoweredUpState({layerCount: settings.getDaisyChainMode()})
             });
         };
 

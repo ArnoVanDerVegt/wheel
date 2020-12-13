@@ -30,6 +30,16 @@ exports.createVMWindow = function(app) {
             vmWindow = null;
         }
     );
+    ipcMain.on(
+        'postMessage',
+        function(event, arg) {
+            switch (arg.command) {
+                case 'vmWindowResize':
+                    vmWindow.setSize(arg.width, arg.height);
+                    break;
+            }
+        }
+    );
     vmWindow.webContents.openDevTools();
     return vmWindow;
 };

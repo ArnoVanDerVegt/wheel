@@ -134,8 +134,9 @@ exports.createMainWindow = function(app) {
                     break;
                 case 'vm':
                     vmData = {
-                        program:  arg.program,
-                        settings: arg.settings
+                        projectFilename: arg.projectFilename,
+                        program:         arg.program,
+                        settings:        arg.settings
                     };
                     vmWindow.createVMWindow(app);
                     break;

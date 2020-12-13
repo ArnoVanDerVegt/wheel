@@ -70,6 +70,11 @@ exports.Json = class {
         return this;
     }
 
+    outputEventInfo() {
+        this._output.eventInfo = this._program.getEventInfo();
+        return this;
+    }
+
     getOutput() {
         this
             .outputName()
@@ -79,7 +84,8 @@ exports.Json = class {
             .outputConstants()
             .outputCode()
             .outputStack()
-            .outputCommands();
+            .outputCommands()
+            .outputEventInfo();
         return this._output;
     }
 };
