@@ -1,8 +1,12 @@
+const app           = require('electron').app;
 const BrowserWindow = require('electron').BrowserWindow;
 const ipcMain       = require('electron').ipcMain;
 const Menu          = require('electron').Menu;
 const path          = require('path');
 const vmWindow      = require('./vmWindow');
+
+let mainWindow = null;
+let vmData     = null;
 
 const moveToApplicationsFolder = function(app) {
         app.moveToApplicationsFolder({
@@ -20,9 +24,12 @@ const moveToApplicationsFolder = function(app) {
         });
     };
 
-exports.createMainWindow = function(app) {
-    // Create the browser window.
-    let mainWindow = new BrowserWindow({
+exports.isOpen = function() {
+    return !!mainWindow;
+};
+
+exports.createMainWindow = function() {
+    mainWindow = new BrowserWindow({
         width:  1200,
         height: 800,
         show:   false,
@@ -53,7 +60,6 @@ exports.createMainWindow = function(app) {
     } else {
         mainWindow.setMenu(null);
     }
-    // And load the index.html of the app.
     mainWindow.loadFile('html/electron.html');
     mainWindow.on(
         'move',
@@ -82,75 +88,71 @@ exports.createMainWindow = function(app) {
             );
         }
     );
-    // Open the DevTools.
-    // MainWindow.webContents.openDevTools()
-    // Emitted when the window is closed.
     mainWindow.on(
-        'closed',
-        function() {
-            // Dereference the window object, usually you would store windows
-            // In an array if your app supports multi windows, this is the time
-            // When you should delete the corresponding element.
+        'close',
+        (event) => {
+            if (!vmWindow.isOpen()) {
+                app.quit();
+            }
             mainWindow = null;
         }
     );
     // MainWindow.webContents.openDevTools();
-    let vmData = null;
-    ipcMain.on(
-        'postMessage',
-        function(event, arg) {
-            switch (arg.command) {
-                case 'documentPath': // The document path is requested from the preload file!
-                    let homedir = (process.platform === 'darwin') ? app.getPath('documents') : os.homedir();
-                    event.reply('postMessage', JSON.stringify({message: 'documentPath', data: homedir, isPackaged: app.isPackaged}));
-                    break;
-                case 'quit':
-                    app.quit();
-                    break;
-                case 'console':
-                    mainWindow.webContents.openDevTools();
-                    break;
-                case 'settings':
-                    let settings = arg.settings;
-                    if (('windowPosition' in settings) && settings.windowPosition.x && settings.windowPosition.y) {
-                        mainWindow.setPosition(settings.windowPosition.x, settings.windowPosition.y);
-                    }
-                    if ('windowSize' in settings) {
-                        mainWindow.setSize(Math.max(settings.windowSize.width, 800), Math.max(settings.windowSize.height, 640));
-                    }
-                    event.reply(
-                        'postMessage',
-                        JSON.stringify({
-                            message:                'settings',
-                            version:                app.getVersion(),
-                            isPackaged:             app.isPackaged,
-                            isInApplicationsFolder: (process.platform === 'darwin') ? app.isInApplicationsFolder() : true
-                        })
-                    );
-                    mainWindow.show();
-                    break;
-                case 'moveToApplicationsFolder':
-                    moveToApplicationsFolder(app);
-                    break;
-                case 'vm':
-                    vmData = {
-                        projectFilename: arg.projectFilename,
-                        program:         arg.program,
-                        settings:        arg.settings
-                    };
-                    vmWindow.createVMWindow(app);
-                    break;
-                case 'vmProgram':
-                    event.reply(
-                        'postMessage',
-                        JSON.stringify({
-                            message: 'vmProgram',
-                            data:    vmData
-                        })
-                    );
-                    break;
-            }
-        }
-    );
-    return mainWindow;
 };
+
+ipcMain.on(
+    'postMessage',
+    function(event, arg) {
+        switch (arg.command) {
+            case 'documentPath': // The document path is requested from the preload file!
+                let homedir = (process.platform === 'darwin') ? app.getPath('documents') : os.homedir();
+                event.reply('postMessage', JSON.stringify({message: 'documentPath', data: homedir, isPackaged: app.isPackaged}));
+                break;
+            case 'quit':
+                app.quit();
+                break;
+            case 'console':
+                mainWindow.webContents.openDevTools();
+                break;
+            case 'settings':
+                let settings = arg.settings;
+                if (('windowPosition' in settings) && settings.windowPosition.x && settings.windowPosition.y) {
+                    mainWindow.setPosition(settings.windowPosition.x, settings.windowPosition.y);
+                }
+                if ('windowSize' in settings) {
+                    mainWindow.setSize(Math.max(settings.windowSize.width, 800), Math.max(settings.windowSize.height, 640));
+                }
+                event.reply(
+                    'postMessage',
+                    JSON.stringify({
+                        message:                'settings',
+                        version:                app.getVersion(),
+                        isPackaged:             app.isPackaged,
+                        isInApplicationsFolder: (process.platform === 'darwin') ? app.isInApplicationsFolder() : true
+                    })
+                );
+                mainWindow.show();
+                break;
+            case 'moveToApplicationsFolder':
+                moveToApplicationsFolder(app);
+                break;
+            case 'vm':
+                vmData = {
+                    projectFilename: arg.projectFilename,
+                    program:         arg.program,
+                    settings:        arg.settings
+                };
+                vmWindow.createVMWindow(app);
+                break;
+            case 'vmProgram':
+                event.reply(
+                    'postMessage',
+                    JSON.stringify({
+                        message: 'vmProgram',
+                        data:    vmData
+                    })
+                );
+                break;
+        }
+    }
+);

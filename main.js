@@ -18,7 +18,7 @@ let mainWindow;
 app.on(
     'ready',
     function() {
-        mainWindow = electronMainWindow.createMainWindow(app);
+        mainWindow = electronMainWindow.createMainWindow();
     }
 );
 
@@ -40,10 +40,7 @@ app.on(
         // On macOS it's common to re-create a window in the app when the
         // Dock icon is clicked and there are no other windows open.
         if (mainWindow === null) {
-            mainWindow = electronMainWindow.createMainWindow(app);
+            mainWindow = electronMainWindow.createMainWindow();
         }
     }
 );
-
-// In this file you can include the rest of your app's specific main process
-// Code. You can also put them in separate files and require them here.
