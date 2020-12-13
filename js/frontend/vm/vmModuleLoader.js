@@ -279,4 +279,4 @@ exports.load = (vm, localModules, device, ide) => {
         modules[componentTimeoutModuleConstants      .MODULE_TIMEOUT         ] = new RemoteComponentTimeoutModule      ({vm: vm, device: device});
     }
     return modules;
-}
+};

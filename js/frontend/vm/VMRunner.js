@@ -182,7 +182,7 @@ exports.VMRunner = class extends DOMNode {
         this._vm
             .setModules(this.getModules(this._vm))
             .setCommands(program.getCommands())
-            .setOutputPath(''); // todo: this._outputPath
+            .setOutputPath(''); // Todo: this._outputPath
         this._vm.startRunInterval(this.stop.bind(this));
     }
 

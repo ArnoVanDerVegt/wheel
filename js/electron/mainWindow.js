@@ -94,7 +94,7 @@ exports.createMainWindow = function(app) {
             mainWindow = null;
         }
     );
-    // mainWindow.webContents.openDevTools();
+    // MainWindow.webContents.openDevTools();
     let vmData = null;
     ipcMain.on(
         'postMessage',
