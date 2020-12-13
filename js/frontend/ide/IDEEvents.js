@@ -74,7 +74,7 @@ exports.IDEEvents = class extends CompileAndRun {
                     activeEditor.setValue(new SourceFormatter().format(activeEditor.getValue()));
                 }
             };
-        if (this._editor.hasCompilableFile() > 1) {
+        if (this._editor.hasCompilableFile() !== 1) {
             formatCode();
             return;
         }

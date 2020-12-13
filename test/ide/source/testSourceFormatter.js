@@ -28,6 +28,26 @@ describe(
                         assert.deepEqual(sourceFormatter.splitAtSpace('a b c d', 2), ['a', 'b c d']);
                     }
                 );
+                it(
+                    'Should find proc name',
+                    () => {
+                        let sourceFormatter = new SourceFormatter({});
+                        assert.equal(sourceFormatter.splitProcCall('  a()').name, '  a');
+                        assert.equal(sourceFormatter.splitProcCall('  a.b()').name, '  a.b');
+                        assert.equal(sourceFormatter.splitProcCall('  a[5].b()').name, '  a[5].b');
+                        assert.equal(sourceFormatter.splitProcCall('  a[(5 * c)].b()').name, '  a[(5 * c)].b');
+                    }
+                );
+                it(
+                    'Should find proc name and params',
+                    () => {
+                        let sourceFormatter = new SourceFormatter({});
+                        assert.deepEqual(sourceFormatter.splitProcCall('  a(1)'), {name: '  a', params: ['1']});
+                        assert.deepEqual(sourceFormatter.splitProcCall('  a(1, 2)'), {name: '  a', params: ['1', '2']});
+                        assert.deepEqual(sourceFormatter.splitProcCall('  a((1), 2)'), {name: '  a', params: ['(1)', '2']});
+                        assert.deepEqual(sourceFormatter.splitProcCall('  a((1), (2))'), {name: '  a', params: ['(1)', '(2)']});
+                    }
+                );
             }
         );
         describe(
@@ -1692,6 +1712,87 @@ describe(
                                 '        add(99,  0,       0,       0,       NO_MOVE)    ; Reset',
                                 '#format ; This is a comment...',
                                 '    end',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+            }
+        );
+        describe(
+            'Test format params',
+            () => {
+                it(
+                    'Should align proc without params',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc Robot1.initMoveToConveyorList()',
+                                '      add()',
+                                '  add()',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc Robot1.initMoveToConveyorList()',
+                                '    add()',
+                                '    add()',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should align proc params',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc Robot1.initMoveToConveyorList()',
+                                '      add(99,  0,       NO_MOVE,NO_MOVE,NO_MOVE)',
+                                '     add(99,  NO_MOVE, 1325,-1825,NO_MOVE)',
+                                '       add(99,  NO_MOVE,2200,-2650,   NO_MOVE)',
+                                '  add(99,  950,        NO_MOVE,NO_MOVE,NO_MOVE)',
+                                'add(99, NO_MOVE, 1030,    -1400,   NO_MOVE)',
+                                '       add(99,  0,0,       0,       NO_MOVE)',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc Robot1.initMoveToConveyorList()',
+                                '    add(99, 0,       NO_MOVE, NO_MOVE, NO_MOVE)',
+                                '    add(99, NO_MOVE, 1325,    -1825,   NO_MOVE)',
+                                '    add(99, NO_MOVE, 2200,    -2650,   NO_MOVE)',
+                                '    add(99, 950,     NO_MOVE, NO_MOVE, NO_MOVE)',
+                                '    add(99, NO_MOVE, 1030,    -1400,   NO_MOVE)',
+                                '    add(99, 0,       0,       0,       NO_MOVE)',
+                                'end',
+                                ''
+                            ].join('\n');
+                        assert.equal(s1, s2);
+                    }
+                );
+                it(
+                    'Should align proc params with comments',
+                    () => {
+                        let sf = new SourceFormatter({});
+                        let s1 = sf.format([
+                                'proc Robot1.initMoveToConveyorList()',
+                                '      add(99,  0,       NO_MOVE,NO_MOVE,NO_MOVE)      ;    This is a comment',
+                                '     add(99,  NO_MOVE, 1325,-1825,NO_MOVE)',
+                                '       add(99,  NO_MOVE,2200,-2650,   NO_MOVE)  ;   Another comment?',
+                                '  add(99,  950,        NO_MOVE,NO_MOVE,NO_MOVE)',
+                                'add(99, NO_MOVE, 1030,    -1400,   NO_MOVE)',
+                                '       add(99,  0,0,       0,       NO_MOVE)',
+                                'end'
+                            ].join('\n'));
+                        let s2 = [
+                                'proc Robot1.initMoveToConveyorList()',
+                                '    add(99, 0,       NO_MOVE, NO_MOVE, NO_MOVE) ; This is a comment',
+                                '    add(99, NO_MOVE, 1325,    -1825,   NO_MOVE)',
+                                '    add(99, NO_MOVE, 2200,    -2650,   NO_MOVE) ; Another comment?',
+                                '    add(99, 950,     NO_MOVE, NO_MOVE, NO_MOVE)',
+                                '    add(99, NO_MOVE, 1030,    -1400,   NO_MOVE)',
+                                '    add(99, 0,       0,       0,       NO_MOVE)',
                                 'end',
                                 ''
                             ].join('\n');
