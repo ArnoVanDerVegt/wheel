@@ -98,6 +98,7 @@ exports.IDE = class extends IDEDOM {
             .on('Menu.Compile.Continue',              this, this.onContinue)
             .on('Menu.Compile.CompileAndInstall',     this, this.onMenuCompileCompileAndInstall)
             .on('Menu.Compile.Statistics',            this, this.onMenuCompileStatistics)
+            .on('Menu.Compile.RunVM',                 this, this.runVM)
             .on('Menu.About.Version',                 this, this.onMenuAboutVersion)
             .on('Menu.About.Website',                 this, this.onMenuAboutWebsite)
             .on('Menu.About.ReportIssue',             this, this.onMenuAboutReportIssue)

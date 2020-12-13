@@ -88,6 +88,14 @@ class Command {
     getBlockId() {
         return this._blockId;
     }
+
+    toJSON() {
+        return {
+            cmd:    this._cmd,
+            param1: {type: this._param1.getType(), value: this._param1.getValue()},
+            param2: {type: this._param2.getType(), value: this._param2.getValue()}
+        };
+    }
 }
 
 exports.Program = class {

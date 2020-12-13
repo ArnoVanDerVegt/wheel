@@ -324,6 +324,7 @@ const files = [
         './js/frontend/vm/modules/remote/PspModule',
         './js/frontend/vm/modules/remote/DeviceModule',
         './js/frontend/vm/VMData',
+        './js/frontend/vm/VMModuleLoader',
         './js/frontend/vm/VM',
         './js/frontend/ide/help/helpData',
         './js/frontend/lib/components/component/componentStyle',

@@ -2,6 +2,7 @@ const BrowserWindow = require('electron').BrowserWindow;
 const ipcMain       = require('electron').ipcMain;
 const Menu          = require('electron').Menu;
 const path          = require('path');
+const vmWindow      = require('./vmWindow');
 
 const moveToApplicationsFolder = function(app) {
         app.moveToApplicationsFolder({
@@ -21,27 +22,26 @@ const moveToApplicationsFolder = function(app) {
 
 exports.createMainWindow = function(app) {
     // Create the browser window.
-    console.log(path.join(__dirname, './preload.js'));
-    mainWindow = new BrowserWindow({
+    let mainWindow = new BrowserWindow({
         width:  1200,
         height: 800,
         show:   false,
         webPreferences: {
             enableRemoteModule: false,
             allowEval:          false,
-            preload:            path.join(__dirname, './preload.js')
+            preload:            path.join(__dirname, './mainWindowPreload.js')
         }
     });
     mainWindow.removeMenu();
     if (process.platform === 'darwin') {
-        var menu = Menu.buildFromTemplate([
+        let menu = Menu.buildFromTemplate([
                 {
                     label: 'Wheel',
                     submenu: [
                         {
                             label:'Exit',
                             click: function() {
-                                app.quit()
+                                app.quit();
                             }
                         }
                     ]
@@ -95,6 +95,7 @@ exports.createMainWindow = function(app) {
         }
     );
     // mainWindow.webContents.openDevTools();
+    let vmData = null;
     ipcMain.on(
         'postMessage',
         function(event, arg) {
@@ -130,6 +131,22 @@ exports.createMainWindow = function(app) {
                     break;
                 case 'moveToApplicationsFolder':
                     moveToApplicationsFolder(app);
+                    break;
+                case 'vm':
+                    vmData = {
+                        program:  arg.program,
+                        settings: arg.settings
+                    };
+                    vmWindow.createVMWindow(app);
+                    break;
+                case 'vmProgram':
+                    event.reply(
+                        'postMessage',
+                        JSON.stringify({
+                            message: 'vmProgram',
+                            data:    vmData
+                        })
+                    );
                     break;
             }
         }

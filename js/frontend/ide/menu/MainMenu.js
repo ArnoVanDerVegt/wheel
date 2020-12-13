@@ -333,7 +333,9 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'},
                 {title: 'Clear all breakpoints',                                  dispatch: 'Menu.Compile.ClearAllBreakpoints'},
                 {title: '-'},
-                {title: 'Create VM text output',                                  dispatch: 'Settings.Toggle.CreateVMTextOutput'}
+                {title: 'Create VM text output',                                  dispatch: 'Settings.Toggle.CreateVMTextOutput'},
+                {title: '-'},
+                {title: 'Run in VM window',                                       dispatch: 'Menu.Compile.RunVM'}
             ]
         });
         return this;
