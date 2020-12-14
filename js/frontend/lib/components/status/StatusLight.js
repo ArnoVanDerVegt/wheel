@@ -2,8 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher = require('../../dispatcher').dispatcher;
-const Component  = require('../component/Component');
+const dispatcher    = require('../../dispatcher').dispatcher;
+const Component      = require('../component/Component');
+const componentStyle = require('../component/componentStyle');
 
 exports.StatusLight = class extends Component.Component {
     constructor(opts) {
@@ -17,7 +18,7 @@ exports.StatusLight = class extends Component.Component {
     initDOM(parentNode) {
         let style = this.applyStyle({}, this._style);
         if (this._rgbColor) {
-            let color = this.getColorFromRgb(this._rgb);
+            let color = componentStyle.getColorFromRgb(this._rgb);
             style.backgroundColor = color;
             style.boxShadow       = '0px 0px 10px ' + color;
         }
@@ -52,7 +53,7 @@ exports.StatusLight = class extends Component.Component {
             setRgb    = true;
         }
         if (setRgb) {
-            let color = this.getColorFromRgb(this._rgb);
+            let color = componentStyle.getColorFromRgb(this._rgb);
             element.style.backgroundColor = color;
             element.style.boxShadow       = '0px 0px 10px ' + color;
         } else {

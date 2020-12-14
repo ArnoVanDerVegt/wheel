@@ -1,0 +1,61 @@
+.runner {
+    position:                       absolute;
+    top:                            0;
+    left:                           0;
+    width:                          100%;
+    height:                         50%;
+}
+.runner .runner-vcenter {
+    position:                       absolute;
+    left:                           0;
+    top:                            100%;
+    width:                          100%;
+    height:                         256px;
+    margin:                         -128px 0 0 0;
+}
+.runner .runner-hcenter {
+    margin:                         0 auto 0 auto;
+    width:                          480px;
+    height:                         256px;
+}
+.runner .runner-hcenter img {
+    position:                       absolute;
+    top:                            0px;
+    left:                           50%;
+    margin:                         0 0 0 -70px;
+    width:                          140px;
+    height:                         140px;
+}
+.runner .runner-hcenter .program,
+.runner .runner-hcenter .target-platform {
+    position:                       absolute;
+    width:                          480px;
+    height:                         20px;
+    line-height:                    20px;
+    text-align:                     center;
+}
+.runner .runner-hcenter .program {
+    bottom:                         80px;
+    font-size:                      17px;
+}
+.runner .runner-hcenter .target-platform {
+    bottom:                         60px;
+    font-size:                      12px;
+}
+.runner .runner-hcenter .buttons {
+    position:                       absolute;
+    bottom:                         0px;
+    width:                          480px;
+    height:                         40px;
+}
+.runner .runner-hcenter .buttons .button {
+    height:                         40px;
+}
+.runner .runner-hcenter .buttons .button.run {
+    width:                          120px;
+}
+.runner .runner-hcenter .buttons .button.connect {
+    float:                          right;
+    margin:                         0 0 0 10px;
+    width:                          170px;
+}

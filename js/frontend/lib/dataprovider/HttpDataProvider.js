@@ -10,7 +10,8 @@ const ideRoutes = require('../../../browser/routes/ide').ideRoutes;
 let poweredUpRoutes = {};
 let pathByIndex     = {};
 
-if ((typeof document === 'object') && (document.location.href.indexOf('electron.html') === -1)) {
+if ((typeof document === 'object') &&
+    ((document.location.href.indexOf('electron.html') === -1) && (document.location.href.indexOf('vm.html') === -1))) {
     poweredUpRoutes = require('../../../browser/routes/poweredUp').poweredUpRoutes;
 }
 

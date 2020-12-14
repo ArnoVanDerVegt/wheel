@@ -13,6 +13,7 @@ exports.Dialog = class extends ComponentContainer {
         if (opts.uiOwner) {
             opts.ui = opts.uiOwner.getUI();
         }
+        this._canClose       = ('canClose' in opts) ? opts.canClose : true;
         this._titleMove      = false;
         this._documentMouseX = null;
         this._documentMouseY = null;
@@ -53,11 +54,13 @@ exports.Dialog = class extends ComponentContainer {
                     innerHTML: '?'
                 } :
                 null,
-            {
-                id:        this.setCloseElement.bind(this),
-                className: 'abs dialog-close',
-                innerHTML: '&#x2716;'
-            }
+            this._canClose ?
+                {
+                    id:        this.setCloseElement.bind(this),
+                    className: 'abs dialog-close',
+                    innerHTML: '&#x2716;'
+                } :
+                null
         );
         this._dialogNode = this.create(
             null,

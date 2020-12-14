@@ -88,6 +88,14 @@ class Command {
     getBlockId() {
         return this._blockId;
     }
+
+    toJSON() {
+        return {
+            cmd:    this._cmd,
+            param1: {type: this._param1.getType(), value: this._param1.getValue()},
+            param2: {type: this._param2.getType(), value: this._param2.getValue()}
+        };
+    }
 }
 
 exports.Program = class {
@@ -118,6 +126,30 @@ exports.Program = class {
         if (pass === 0) {
             this._stringList = [];
         }
+    }
+
+    load(data) {
+        this._title      = data.name;
+        this._heap       = data.heap;
+        this._layerCount = data.layers;
+        this._entryPoint = data.regCode;
+        this._globalSize = data.regStack;
+        this._constants  = data.constants;
+        this._stringList = data.strings;
+        this._eventInfo  = data.eventInfo;
+        this._dataType   = null;
+        this._commands   = [];
+        data.commands.forEach((command, index) => {
+            this._commands.push(new Command(
+                command.cmd,
+                command.param1.type,
+                command.param1.value,
+                command.param2.type,
+                command.param2.value,
+                index
+            ));
+        });
+        return this;
     }
 
     findStringConstant(s) {

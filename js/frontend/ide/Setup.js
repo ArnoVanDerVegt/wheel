@@ -49,7 +49,7 @@ exports.Setup = class extends DOMNode {
                         children: [
                             {
                                 type: 'img',
-                                src:  getImage('images/logos/wheelBlack.svg')
+                                src:  getImage('images/logos/wheelHome.svg')
                             }
                         ]
                     },

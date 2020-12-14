@@ -9,11 +9,13 @@ const sourceBuilderUtils  = require('./sourceBuilderUtils');
 
 exports.SourceBuilder = class {
     constructor(opts) {
-        this._settings = opts.settings;
-        this._lines    = [];
-        this._database = null;
+        this._settings             = opts.settings;
+        this._lines                = [];
+        this._compilerDatabase     = null;
+        this._preProcessorDatabase = null;
         this._events   = [
-            dispatcher.on('Compiler.Database', this, this.onCompilerDatabase)
+            dispatcher.on('Compiler.Database',     this, this.onCompilerDatabase),
+            dispatcher.on('PreProcessor.Database', this, this.onPreProcessorDatabase)
         ];
     }
 
@@ -43,7 +45,7 @@ exports.SourceBuilder = class {
 
     generateEventProc(componentName, componentType, eventType, procName) {
         return sourceBuilderUtils.generateEventProc({
-            database:      this._database,
+            database:      this._compilerDatabase,
             componentName: componentName,
             componentType: componentType,
             eventType:     eventType,
@@ -76,7 +78,7 @@ exports.SourceBuilder = class {
         sourceBuilderUtils.updateLinesWithIncludes(lines, opts);
         this.generateEventsFromComponents(opts.components);
         let formName       = sourceBuilderUtils.getFormNameFromComponents(opts.components);
-        let defines        = sourceBuilderUtils.generateDefinesFromComponents(formName, opts.components);
+        let defines        = sourceBuilderUtils.generateDefinesFromComponents(formName, opts.components, this._preProcessorDatabase);
         let insertPosition = sourceBuilderUtils.removeExistingDefines({lines: lines, defines: defines});
         if (insertPosition === -1) {
             defines.list.forEach((define) => {
@@ -132,7 +134,11 @@ exports.SourceBuilder = class {
         return this.generateUpdatedSource(opts);
     }
 
-    onCompilerDatabase(database) {
-        this._database = database;
+    onCompilerDatabase(compilerDatabase) {
+        this._compilerDatabase = compilerDatabase;
+    }
+
+    onPreProcessorDatabase(preProcessorDatabase) {
+        this._preProcessorDatabase = preProcessorDatabase;
     }
 };

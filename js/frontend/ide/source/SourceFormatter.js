@@ -42,6 +42,8 @@ const META_COMMANDS = [
         t.LEXEME_META_BREAK
     ];
 
+const ALPHA_NUM = '0123456789abcdefghijklmnopqrstuvwxyz_';
+
 exports.SourceFormatter = class {
     constructor() {
         this._indentStack = [];
@@ -148,6 +150,81 @@ exports.SourceFormatter = class {
         return false;
     }
 
+    splitProcCall(s) {
+        let finished = false;
+        let i        = 0;
+        const skipChars = (openChar, closeChar) => {
+                let openCount = 1;
+                i++;
+                while ((i < s.length) && openCount) {
+                    if (s[i] === openChar) {
+                        openCount++;
+                    } else if (s[i] === closeChar) {
+                        openCount--;
+                    }
+                    i++;
+                }
+            };
+        const findProcName = () => {
+                let found        = false;
+                let lastAlphaNum = '';
+                while ((i < s.length) && !found) {
+                    let c = s[i];
+                    switch (c) {
+                        case '[':
+                            skipChars('[', ']');
+                            break;
+                        case '(':
+                            if (lastAlphaNum === null) {
+                                skipChars('(', ')');
+                            } else {
+                                found = true;
+                            }
+                            break;
+                        default:
+                            lastAlphaNum = (ALPHA_NUM.indexOf(c) === -1) ? null : c;
+                            break;
+                    }
+                    i++;
+                }
+                return s.substr(0, i - 1);
+            };
+        const findParam = () => {
+                let found = false;
+                let start = i;
+                while ((i < s.length) && !found) {
+                    let c = s[i];
+                    switch (c) {
+                        case ',':
+                        case ')':
+                            found = true;
+                            break;
+                        case '(':
+                            skipChars('(', ')');
+                            i--;
+                            break;
+                        case '[':
+                            skipChars('[', ']');
+                            i--;
+                            break;
+                    }
+                    i++;
+                }
+                return s.substr(start, i - start - 1).trim();
+            };
+        let result = {
+                name:   findProcName(),
+                params: []
+            };
+        while (!finished && (i < s.length)) {
+            let param = findParam().trim();
+            if (param !== '') {
+                result.params.push(param);
+            }
+        }
+        return result;
+    }
+
     startsWith(s, items) {
         s = s.trim();
         for (let i = 0; i < items.length; i++) {
@@ -241,7 +318,7 @@ exports.SourceFormatter = class {
         }
         let i = 1;
         while (i < s.length) {
-            if ((s[i] === '(') && ('0123456789abcdefghijklmnopqrstuvwxyz_'.indexOf(s[i - 1]) !== -1)) {
+            if ((s[i] === '(') && (ALPHA_NUM.indexOf(s[i - 1]) !== -1)) {
                 return true;
             }
             i++;
@@ -632,13 +709,72 @@ exports.SourceFormatter = class {
         return i;
     }
 
+    formatProcCall(firstLine) {
+        let output         = this._output;
+        let lineAndComment = this.splitComment(output[firstLine]);
+        let startProc      = this.splitProcCall(lineAndComment ? lineAndComment.line : output[firstLine]);
+        let lines          = [];
+        let i              = firstLine;
+        while (i < output.length) {
+            let lineAndComment = this.splitComment(output[i]);
+            let proc           = this.splitProcCall(lineAndComment ? lineAndComment.line : output[i]);
+            if (proc.name !== startProc.name) {
+                break;
+            }
+            lines.push({
+                lineAndComment: lineAndComment,
+                proc:           proc
+            });
+            i++;
+        }
+        if (lines.length <= 1) {
+            return firstLine;
+        }
+        let paramLength = [];
+        lines.forEach((line) => {
+            line.proc.params.forEach((param, index) => {
+                if (paramLength[index] === undefined) {
+                    paramLength[index] = param.length;
+                } else {
+                    paramLength[index] = Math.max(param.length, paramLength[index]);
+                }
+            });
+        });
+        let maxLength = 0;
+        lines.forEach((line, index) => {
+            let s = startProc.name + '(';
+            let j = line.proc.params.length - 1;
+            line.proc.params.forEach((param, index) => {
+                let p = param.trim() + ((index < j) ? ',' : '');
+                s += this.toLength(p, (paramLength[index] || 1) + 2);
+                maxLength = Math.max(maxLength, s.length);
+            });
+            s = this.rtrim(s) + ')';
+            output[firstLine + index] = s;
+        });
+        lines.forEach((line, index) => {
+            if (line.lineAndComment) {
+                let s = output[firstLine + index];
+                output[firstLine + index] = this.toLength(s, maxLength) + '; ' + line.lineAndComment.comment.trim();
+            }
+        });
+        return i;
+    }
+
     formatOutput() {
         let output = this._output;
         let i      = 0;
         while (i < output.length) {
             let line      = output[i];
             let startMeta = this.startsWith(line, META_COMMANDS);
-            if (startMeta) {
+            if (line.trim().indexOf(t.LEXEME_META_NOFORMAT) === 0) {
+                while (i < output.length) {
+                    if (line.trim().indexOf(t.LEXEME_META_FORMAT) === 0) {
+                        break;
+                    }
+                    i++;
+                }
+            } else if (startMeta) {
                 i = this.formatMeta(startMeta, i);
             } else if ((line.trim().indexOf(t.LEXEME_RECORD) === 0) || (line.trim().indexOf(t.LEXEME_OBJECT) === 0)) {
                 i = this.formatVars(i + 1);
@@ -647,6 +783,8 @@ exports.SourceFormatter = class {
             } else if (!this.startsWith(line, IGNORE_WHEN_START_LEXEMES) && !this.hasProcCall(line) &&
                 (this.splitAtSpaceFilrered(line, 2).length >= 2)) {
                 i = this.formatVars(i);
+            } else if (this.hasProcCall(line)) {
+                i = this.formatProcCall(i);
             }
             i++;
         }

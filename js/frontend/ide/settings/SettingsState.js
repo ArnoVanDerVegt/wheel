@@ -138,7 +138,8 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Toggle.EV3AutoConnect',           this, this._toggleEV3AutoConnect)
             .on('Settings.Toggle.AutoInstall',              this, this._toggleAutoInstall)
             .on('Settings.Toggle.DarkMode',                 this, this._toggleDarkMode)
-            .on('Settings.Toggle.SensorAutoReset',          this, this._toggleAutoReset);
+            .on('Settings.Toggle.SensorAutoReset',          this, this._toggleAutoReset)
+            .on('Settings.Toggle.CloseIDEonVMRun',          this, this._toggleCloseIDEonVMRun);
     }
 
     load(onLoad) {
@@ -232,7 +233,8 @@ exports.SettingsState = class extends Emitter {
             sourceHeaderText:      this._sourceHeaderText,
             formGridSize:          this._formGridSize,
             plugins:               this._plugins.toJSON(),
-            includeFiles:          this._includeFiles.toJSON()
+            includeFiles:          this._includeFiles.toJSON(),
+            closeIDEonVMRun:       this._closeIDEonVMRun
         };
     }
 
@@ -490,6 +492,10 @@ exports.SettingsState = class extends Emitter {
 
     getFormGridSize() {
         return this._formGridSize;
+    }
+
+    getCloseIDEonVMRun() {
+        return this._closeIDEonVMRun;
     }
 
     _setRecentProject(recentProject) {
@@ -807,6 +813,12 @@ exports.SettingsState = class extends Emitter {
         this._setSensorAutoReset(!this._sensorAutoReset);
     }
 
+    _toggleCloseIDEonVMRun() {
+        this._closeIDEonVMRun = !this._closeIDEonVMRun;
+        this._save();
+        this.emit('Settings.Run');
+    }
+
     _loadNewSettings(settings) {
         this
             .onLoad(settings)
@@ -894,6 +906,7 @@ exports.SettingsState = class extends Emitter {
         this._autoSelectProperties       = ('autoSelectProperties'  in data)             ? data.autoSelectProperties                                 : true;
         this._sourceHeaderText           = ('sourceHeaderText'      in data)             ? data.sourceHeaderText                                     : SOURCE_HEADER_TEXT;
         this._formGridSize               = ('formGridSize'          in data)             ? data.formGridSize                                         : 10;
+        this._closeIDEonVMRun            = ('closeIDEonVMRun'       in data)             ? data.closeIDEonVMRun                                      : false;
         if (this._show.simulator) {
             this._show.properties = false;
         } else if (this._show.properties) {

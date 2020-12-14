@@ -2,6 +2,13 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+exports.getColorFromRgb = (rgb) =>{
+    if (typeof rgb !== 'object') {
+        rgb = {red: 0, grn: 0, blu: 0};
+    }
+    return 'rgb(' + rgb.red + ',' + rgb.grn + ',' + rgb.blu + ')';
+};
+
 exports.init = (opts) => {
     let style = opts.style || {};
     style.width           = ('width'        in opts) ? opts.width        : null;
@@ -25,12 +32,12 @@ exports.apply = (style, opts) => {
     if (opts.radius === null) {
         if (opts.width && (parseInt(opts.width, 10) >= 20)) {
             style.width = opts.width + 'px';
-        } else if (this._allowAutoSize) {
+        } else if (opts.allowAutoSize) {
             style.width = 'auto';
         }
         if (opts.height && (parseInt(opts.height, 10) >= 20)) {
             style.height = opts.height + 'px';
-        } else if (this._allowAutoSize) {
+        } else if (opts.allowAutoSize) {
             style.height = 'auto';
         }
     } else {
@@ -45,8 +52,8 @@ exports.apply = (style, opts) => {
     if (opts.zIndex       !== null) { style.zIndex          = opts.zIndex;       }
     if (opts.hAlign       !== null) { style.textAlign       = opts.hAlign;       }
     if (opts.borderRadius !== null) { style.borderRadius    = opts.borderRadius; }
-    if (opts.borderWidth  !== null) { style.border          = opts.borderWidth + 'px solid ' + (opts.borderColor ? this.getColorFromRgb(opts.borderColor) : 'black'); }
-    if (opts.fillColor    !== null) { style.backgroundColor = this.getColorFromRgb(opts.fillColor); }
+    if (opts.borderWidth  !== null) { style.border          = opts.borderWidth + 'px solid ' + (opts.borderColor ? exports.getColorFromRgb(opts.borderColor) : 'black'); }
+    if (opts.fillColor    !== null) { style.backgroundColor = exports.getColorFromRgb(opts.fillColor); }
     return style;
 };
 

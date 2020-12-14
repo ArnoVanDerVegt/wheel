@@ -95,13 +95,6 @@ exports.Component = class extends DOMNode {
         return this._design;
     }
 
-    getColorFromRgb(rgb) {
-        if (typeof rgb !== 'object') {
-            rgb = {red: 0, grn: 0, blu: 0};
-        }
-        return 'rgb(' + rgb.red + ',' + rgb.grn + ',' + rgb.blu + ')';
-    }
-
     getClassName() {
         return (this._baseClassName + ' ' +
             this._className + ' ' +
@@ -214,6 +207,7 @@ exports.Component = class extends DOMNode {
     }
 
     applyStyle(style, opts) {
+        opts.allowAutoSize = this._allowAutoSize;
         return componentStyle.apply(style, opts);
     }
 
