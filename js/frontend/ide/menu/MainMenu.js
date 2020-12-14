@@ -353,6 +353,9 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Close IDE on run VM window',                             dispatch: 'Settings.Toggle.CloseIDEonVMRun'}
             ]
         });
+        let menuOptions = this._runMenu.getMenu().getMenuOptions();
+        menuOptions[3].setEnabled(platform.isElectron());                       // Run in VM window
+        menuOptions[4].setEnabled(platform.isElectron());                       // Close IDE on run VM window
         return this;
     }
 
@@ -501,6 +504,7 @@ exports.MainMenu = class extends MainMenu {
     onUpdateRunMenu() {
         let menuOptions = this._runMenu.getMenu().getMenuOptions();
         let settings    = this._settings;
+        menuOptions[3].setEnabled(platform.isElectron());                   // Run in VM window
         menuOptions[4].setEnabled(platform.isElectron());                   // Close IDE on run VM window
         menuOptions[4].setChecked(settings.getCloseIDEonVMRun());           // Close IDE on run VM window
         return this;
