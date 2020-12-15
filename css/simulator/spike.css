@@ -1,0 +1,91 @@
+.spike {
+    display:                        none;
+    float:                          left;
+    width:                          227px;
+    height:                         335px;
+    margin:                         8px 20px 0 20px;
+    background-color:               #FFFFFF;
+    border-radius:                  8px;
+    border:                         1px solid rgba(0, 0, 0, 0.4);
+}
+.spike.visible {
+    display:                        block;
+}
+.spike div {
+    box-sizing:                     border-box;
+}
+.spike .spike-top {
+    height:                         80px;
+    position:                       relative;
+}
+.spike .spike-top .button {
+    position:                       absolute;
+    right:                          20px;
+    top:                            20px;
+    width:                          40px;
+    height:                         40px;
+    border-radius:                  20px;
+    border:                         4px solid rgba(0, 0, 0, 0.1);
+}
+.spike .spike-middle {
+    height:                         175px;
+}
+.spike .spike-middle .ports {
+    width:                          25px;
+    height:                         175px;
+}
+.spike .spike-middle .ports .port {
+    width:                          26px;
+    height:                         33.333333%;
+    text-align:                     center;
+    font-weight:                    bold;
+    font-size:                      16px;
+    line-height:                    58px;
+    color:                          #484848;
+    opacity:                        0.5;
+}
+.spike .spike-middle .leds {
+    width:                          175px;
+    height:                         175px;
+}
+.spike .spike-middle .leds .led {
+    width:                          29px;
+    height:                         29px;
+    margin:                         3px;
+    background-color:               rgba(0, 0, 0, 0.05);
+    border-radius:                  4px;
+}
+.spike .spike-bottom {
+    height:                         80px;
+}
+.spike .spike-bottom .buttons {
+    position:                       relative;
+    width:                          175px;
+    height:                         60px;
+    margin:                         10px 0 0 26px;
+}
+.spike .spike-bottom .buttons .left-right {
+    position:                       absolute;
+    left:                           0;
+    top:                            15px;
+    width:                          175px;
+    height:                         30px;
+    border-radius:                  15px;
+    border:                         4px solid rgba(0, 0, 0, 0.1);
+}
+.spike .spike-bottom .buttons .center {
+    position:                       absolute;
+    left:                           57px;
+    top:                            0;
+    width:                          60px;
+    height:                         60px;
+    border-radius:                  60px;
+    border:                         4px solid rgba(0, 0, 0, 0.1);
+    background-color:               #FFFFFF;
+}
+.simulator .sensors.spike-sensors {
+    padding:                        0 0 0 33px;
+}
+.simulator .sensors.spike-sensors .sensor-container {
+    margin:                         0 8px 8px 0;
+}

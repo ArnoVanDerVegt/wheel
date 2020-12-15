@@ -11,7 +11,7 @@ exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
         opts.constants = sensorModuleConstants;
         super(opts);
-        this._baseClassName = 'sensors';
+        this._baseClassName = 'sensors spike-sensors';
         this._sensors       = [];
         this.initDOM(opts.parentNode);
         dispatcher
@@ -23,7 +23,7 @@ exports.Plugin = class extends SimulatorPlugin {
     initDOM(parentNode) {
         let addSensor = this.addSensor.bind(this);
         let children  = [];
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < 6; i++) {
             children.push({
                 type:      SensorContainer,
                 settings:  this._settings,
@@ -31,12 +31,12 @@ exports.Plugin = class extends SimulatorPlugin {
                 device:    this._device,
                 simulator: this._simulator,
                 sensors:   this,
-                tabIndex:  this._tabIdex + (i & 3),
-                layer:     ~~(i / 4),
-                id:        i & 3,
-                title:     (1 + (i & 3)) + '',
+                tabIndex:  this._tabIdex * (i % 6),
+                layer:     ~~(i / 6),
+                id:        i % 6,
+                title:     String.fromCharCode(65 + (i % 6)),
                 addSensor: addSensor,
-                hidden:    (i >= 4)
+                hidden:    (i >= 6)
             });
         }
         this.create(
@@ -72,7 +72,7 @@ exports.Plugin = class extends SimulatorPlugin {
     showLayer(layer) {
         let sensors = this._sensors;
         for (let i = 0; i < sensors.length; i++) {
-            sensors[i].setHidden(layer !== (i >> 2));
+            sensors[i].setHidden(layer !== Math.floor(i / 6));
         }
     }
 
@@ -93,7 +93,7 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     getSensor(layer, id) {
-        return this._sensors[layer * 4 + id] || null;
+        return this._sensors[layer * 6 + id] || null;
     }
 
     setType(opts) {

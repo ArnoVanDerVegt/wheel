@@ -17,6 +17,7 @@ const stringModuleConstants                 = require('../../shared/vm/modules/s
 const bitModuleConstants                    = require('../../shared/vm/modules/bitModuleConstants');
 const deviceModuleConstants                 = require('../../shared/vm/modules/deviceModuleConstants');
 const poweredUpModuleConstants              = require('../../shared/vm/modules/poweredUpModuleConstants');
+const spikeModuleConstants                  = require('../../shared/vm/modules/spikeModuleConstants');
 // Mindsensors...
 const pspModuleConstants                    = require('../../shared/vm/modules/pspModuleConstants');
 const multiplexerModuleConstants            = require('../../shared/vm/modules/multiplexerModuleConstants');
@@ -75,6 +76,7 @@ const LocalPspModule                        = require('./modules/local/PspModule
 const LocalMultiplexerModule                = require('./modules/local/MultiplexerModule'                      ).MultiplexerModule;
 const LocalDeviceModule                     = require('./modules/local/DeviceModule'                           ).DeviceModule;
 const LocalPoweredUpModule                  = require('./modules/local/PoweredUpModule'                        ).PoweredUpModule;
+const LocalSpikeModule                      = require('./modules/local/SpikeModule'                            ).SpikeModule;
 // Form component...
 const LocalComponentFormModule              = require('./modules/local/components/ComponentFormModule'         ).ComponentFormModule;
 // Input components...
@@ -129,6 +131,7 @@ const RemotePspModule                       = require('./modules/remote/PspModul
 const RemoteMultiplexerModule               = require('./modules/remote/MultiplexerModule'                     ).MultiplexerModule;
 const RemoteDeviceModule                    = require('./modules/remote/DeviceModule'                          ).DeviceModule;
 const RemotePoweredUpModule                 = require('./modules/remote/PoweredUpModule'                       ).PoweredUpModule;
+const RemoteSpikeModule                     = require('./modules/remote/SpikeModule'                           ).SpikeModule;
 // Form component...
 const RemoteComponentFormModule             = LocalComponentFormModule;
 // Input components...
@@ -185,6 +188,7 @@ exports.load = (vm, localModules, device, ide) => {
         modules[bitModuleConstants                   .MODULE_BIT             ] = new LocalBitModule                    ({vm: vm, device: device});
         modules[deviceModuleConstants                .MODULE_DEVICE          ] = new LocalDeviceModule                 ({vm: vm, device: device});
         modules[poweredUpModuleConstants             .MODULE_POWERED_UP      ] = new LocalPoweredUpModule              ({vm: vm, device: device});
+        modules[spikeModuleConstants                 .MODULE_SPIKE           ] = new LocalSpikeModule                  ({vm: vm, device: device});
         // Mindsensors...
         modules[pspModuleConstants                   .MODULE_PSP             ] = new LocalPspModule                    ({vm: vm, device: device});
         modules[multiplexerModuleConstants           .MODULE_MULTIPLEXER     ] = new LocalMultiplexerModule            ({vm: vm, device: device});
@@ -240,6 +244,7 @@ exports.load = (vm, localModules, device, ide) => {
         modules[bitModuleConstants                   .MODULE_BIT             ] = new RemoteBitModule                   ({vm: vm, device: device});
         modules[deviceModuleConstants                .MODULE_DEVICE          ] = new RemoteDeviceModule                ({vm: vm, device: device});
         modules[poweredUpModuleConstants             .MODULE_POWERED_UP      ] = new RemotePoweredUpModule             ({vm: vm, device: device});
+        modules[spikeModuleConstants                 .MODULE_SPIKE           ] = new RemoteSpikeModule                 ({vm: vm, device: device});
         // Components....
         modules[componentFormModuleConstants         .MODULE_FORM            ] = new RemoteComponentFormModule         ({vm: vm, device: device, ide: ide});
         // Input components...

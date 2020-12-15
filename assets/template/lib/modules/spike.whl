@@ -1,0 +1,75 @@
+; @module Spike
+; @device S
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+
+; @description
+; This file contains procedures to communicate with Spike devices
+
+; @const The Spike module.
+#define MODULE_SPIKE                           14  ; `image:images/spike/spike64.png`
+
+; @const The Spike output ports.
+#define SPIKE_OUTPUT_A                          0
+#define SPIKE_OUTPUT_B                          1
+#define SPIKE_OUTPUT_C                          2
+#define SPIKE_OUTPUT_D                          3
+#define SPIKE_OUTPUT_E                          4
+#define SPIKE_OUTPUT_F                          5
+
+; @const The Spike input ports.
+#define SPIKE_PORT_A                            0
+#define SPIKE_PORT_B                            1
+#define SPIKE_PORT_C                            2
+#define SPIKE_PORT_D                            3
+#define SPIKE_PORT_E                            4
+#define SPIKE_PORT_F                            5
+
+; @const Module calls for device functions.
+#define SPIKE_START                             0
+
+; @const Devive types.
+#define SPIKE_DEVICE_MEDIUM_MOTOR               0 ; `image:images/spike/motorMedium64.png`
+#define SPIKE_DEVICE_LARGE_MOTOR                1 ; `image:images/spike/motorLarge64.png`
+#define SPIKE_DEVICE_DISTANCE_SENSOR            2 ; `image:images/spike/distanceSensor64.png`
+#define SPIKE_DEVICE_COLOR_SENSOR               3 ; `image:images/spike/colorSensor64.png`
+#define SPIKE_DEVICE_FORCE_SENSOR               4 ; `image:images/spike/forceSensor64.png`
+
+; @record A record to contain vector data for acceleration and tilt values.
+record SpikeUpVector
+    number x, y, z
+end
+
+; @record A record for button, tilt and acceleration status data.
+record SpikeStatus
+    ; @field The device button value.
+    number          button
+    ; @field The tilt vector.
+    SpikeVector tilt
+    ; @field The acceleration vector.
+    SpikeVector accel
+end
+
+; @record The status of the Spike device for all layers.
+record SpikeDevices
+    ; @field Spike status data for all eight layers.
+    SpikeStatus layer[4]
+union
+    ; @field Spike status data for layer one.
+    SpikeStatus layer1
+    ; @field Spike status data for layer two.
+    SpikeStatus layer2
+    ; @field Spike status data for layer three.
+    SpikeStatus layer3
+    ; @field Spike status data for layer four.
+    SpikeStatus layer4
+end
+
+; @var Spike device status data.
+SpikeDevices spikeDevices
+
+; @proc             Start reading updates from the Spike devices.
+proc spikeStart()
+    addr spikeDevices
+    mod  MODULE_POWERED_UP, SPIKE_START
+end

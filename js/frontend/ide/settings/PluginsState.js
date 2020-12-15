@@ -100,6 +100,22 @@ exports.PluginsState = class extends Emitter {
                 path:    'poweredup',
                 visible: true,
                 order:   6
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_SPIKE_UUID,
+                group:   'Spike',
+                name:    'Spike',
+                path:    'spike',
+                visible: true,
+                order:   7
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_SPIKE_PORTS_UUID,
+                group:   'Spike',
+                name:    'Spike ports',
+                path:    'spikeports',
+                visible: true,
+                order:   8
             }
         ];
     }

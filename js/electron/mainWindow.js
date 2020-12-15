@@ -97,7 +97,7 @@ exports.createMainWindow = function() {
             mainWindow = null;
         }
     );
-    // MainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 };
 
 ipcMain.on(

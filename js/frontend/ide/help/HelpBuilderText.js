@@ -801,6 +801,7 @@ class HelpBuilderText {
         output.push('<div class="legend">');
         addLegendItem('e', 'EV3');
         addLegendItem('p', 'Powered Up');
+        addLegendItem('s', 'Spike');
         addLegendItem('m', 'Mindsensors');
         addLegendItem('i', 'IDE');
         output.push('</div>');

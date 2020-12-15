@@ -9,6 +9,7 @@ const Button                = require('../../../../lib/components/input/Button')
 const CloseButton           = require('../../../../lib/components/input/CloseButton').CloseButton;
 const Component             = require('../../../../lib/components/component/Component').Component;
 const getImage              = require('../../../data/images').getImage;
+const pluginUuid            = require('../../pluginUuid');
 const SimulatorPlugin       = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const CircularBuffer        = require('./io/CircularBuffer').CircularBuffer;
 const ChartDrawer           = require('./io/ChartDrawer').ChartDrawer;
@@ -292,7 +293,7 @@ exports.Plugin = class extends SimulatorPlugin {
         opts.plugin       = this;
         opts.type         = Chart;
         opts.ui           = this._ui;
-        opts.sensorPlugin = this._simulator.getPluginByUuid('b643ac7c-3886-11ea-a137-2e728ce88125'); // Sensor plugin...
+        opts.sensorPlugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_SENSORS_UUID); // Sensor plugin...
         this.create(this._refs.charts, opts);
     }
 
