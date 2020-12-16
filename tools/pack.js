@@ -504,6 +504,7 @@ const files = [
         './js/frontend/ide/dialogs/directcontrol/DirectControlDialog',
         './js/frontend/ide/dialogs/directcontrol/EV3ControlDialog',
         './js/frontend/ide/dialogs/directcontrol/PoweredUpControlDialog',
+        './js/frontend/ide/dialogs/directcontrol/SpikeControlDialog',
         './js/frontend/ide/dialogs/DaisyChainDialog',
         './js/frontend/ide/dialogs/LicenseDialog',
         './js/frontend/ide/dialogs/directory/DirectoryNewDialog',

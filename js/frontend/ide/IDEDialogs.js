@@ -11,6 +11,7 @@ const FilePoweredUpProjectDialog     = require('./dialogs/file/FilePoweredUpProj
 const ExploreDialog                  = require('./dialogs/ExploreDialog').ExploreDialog;
 const EV3ControlDialog               = require('./dialogs/directcontrol/EV3ControlDialog').EV3ControlDialog;
 const PoweredUpControlDialog         = require('./dialogs/directcontrol/PoweredUpControlDialog').PoweredUpControlDialog;
+const SpikeControlDialog             = require('./dialogs/directcontrol/SpikeControlDialog').SpikeControlDialog;
 const ConfirmDialog                  = require('./dialogs/ConfirmDialog').ConfirmDialog;
 const AlertDialog                    = require('./dialogs/AlertDialog').AlertDialog;
 const SettingsDialog                 = require('./dialogs/settings/SettingsDialog').SettingsDialog;
@@ -62,6 +63,7 @@ exports.IDEDialogs = class extends IDEEvents {
         new PoweredUpConnectListDialog    ({getImage: getImage, ui: this._ui, settings: this._settings});
         new PoweredUpAutoConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
         new PoweredUpControlDialog        ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
+        new SpikeControlDialog            ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._spike});
         new SpikeConnectListDialog        ({getImage: getImage, ui: this._ui, settings: this._settings});
         new SettingsDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
         new YesNoCancelDialog             ({getImage: getImage, ui: this._ui});

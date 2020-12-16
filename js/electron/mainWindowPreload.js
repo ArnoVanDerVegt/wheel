@@ -379,6 +379,7 @@ require('../frontend/ide/dialogs/directcontrol/components/Piano');
 require('../frontend/ide/dialogs/directcontrol/DirectControlDialog');
 require('../frontend/ide/dialogs/directcontrol/EV3ControlDialog');
 require('../frontend/ide/dialogs/directcontrol/PoweredUpControlDialog');
+require('../frontend/ide/dialogs/directcontrol/SpikeControlDialog');
 require('../frontend/ide/dialogs/DaisyChainDialog');
 require('../frontend/ide/dialogs/LicenseDialog');
 require('../frontend/ide/dialogs/directory/DirectoryNewDialog');

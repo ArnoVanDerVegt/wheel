@@ -18,6 +18,7 @@ exports.DirectControlDialog = class extends Dialog {
         super(opts);
         this._device             = opts.device;
         this._layerCount         = opts.layerCount;
+        this._portsPerLayer      = opts.portsPerLayer;
         this._withAlias          = opts.withAlias;
         this._hasSound           = opts.hasSound;
         this._layer              = 0;
@@ -25,7 +26,7 @@ exports.DirectControlDialog = class extends Dialog {
         this._motorAliasElements = [];
         this
             .initWindow({
-                width:          624,
+                width:          64 + (128 + 16) * this._portsPerLayer - 16,
                 height:         468,
                 className:      'direct-control-dialog',
                 title:          opts.title,
@@ -50,6 +51,7 @@ exports.DirectControlDialog = class extends Dialog {
                 type:           Motors,
                 motorValidator: opts.motorValidator,
                 withAlias:      this._withAlias,
+                portsPerLayer:  this._portsPerLayer,
                 settings:       this._settings,
                 ui:             this._ui,
                 uiId:           this._uiId,
@@ -119,7 +121,7 @@ exports.DirectControlDialog = class extends Dialog {
         this._layerState = [];
         for (let layer = 0; layer < this._layerCount; layer++) {
             let layerOutputs = [];
-            for (let output = 0; output < 4; output++) {
+            for (let output = 0; output < this._portsPerLayer; output++) {
                 layerOutputs.push({
                     assigned: null,
                     speed:    50,
@@ -175,7 +177,7 @@ exports.DirectControlDialog = class extends Dialog {
         let motorElements = this._motorElements;
         let layerState    = this._layerState[this._layer];
         let refs          = this._refs;
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this._portsPerLayer; i++) {
             layerState[i].speed = motorElements[i].getSpeed();
         }
         this._layer           = layer;
@@ -188,7 +190,7 @@ exports.DirectControlDialog = class extends Dialog {
             refs.volume.className = 'volume hidden';
         }
         layerState = this._layerState[layer];
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this._portsPerLayer; i++) {
             let state = layerState[i];
             motorElements[i]
                 .clearAssignedTimeout()

@@ -5,28 +5,28 @@
 const dispatcher          = require('../../../lib/dispatcher').dispatcher;
 const DirectControlDialog = require('./DirectControlDialog').DirectControlDialog;
 
-exports.EV3ControlDialog = class extends DirectControlDialog {
+exports.SpikeControlDialog = class extends DirectControlDialog {
     constructor(opts) {
         opts.layerCount     = 4;
-        opts.portsPerLayer  = 4;
-        opts.hasSound       = true;
-        opts.title          = 'EV3 Direct control';
+        opts.portsPerLayer  = 6;
+        opts.hasSound       = false;
+        opts.title          = 'Spike Direct control';
         opts.motorValidator = {
             valid:       function(assigned) { return (assigned !== null) && ([7, 8].indexOf(assigned) !== -1); },
             hasPosition: function(assigned) { return true; },
             waiting:     function(assigned) { return ([0, -1].indexOf(assigned) !== -1); }
         };
         super(opts);
-        dispatcher.on('Dialog.EV3Control.Show', this, this.onShow);
+        dispatcher.on('Dialog.SpikeControl.Show', this, this.onShow);
     }
 
     initEvents() {
         let device = this._device;
         for (let layer = 0; layer < 4; layer++) {
-            for (let output = 0; output < 4; output++) {
+            for (let output = 0; output < 6; output++) {
                 (function(layer, output) {
                     device.on(
-                        'EV3.Layer' + layer + 'Motor' + output + 'Assigned',
+                        'Spike.Layer' + layer + 'Motor' + output + 'Assigned',
                         this,
                         function(assigned) {
                             /* eslint-disable no-invalid-this */
@@ -34,7 +34,7 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
                         }
                     );
                     device.on(
-                        'EV3.Layer' + layer + 'Motor' + output + 'Changed',
+                        'Spike.Layer' + layer + 'Motor' + output + 'Changed',
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */
