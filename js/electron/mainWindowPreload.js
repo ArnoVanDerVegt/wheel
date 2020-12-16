@@ -59,6 +59,7 @@ require('../shared/device/modules/StringModule');
 require('../shared/device/modules/BitModule');
 require('../shared/device/modules/DeviceModule');
 require('../shared/device/modules/PoweredUpModule');
+require('../shared/device/modules/SpikeModule');
 require('../shared/device/ev3/messageEncoder');
 require('../shared/device/ev3/CommandQueue');
 require('../shared/device/ev3/EV3');

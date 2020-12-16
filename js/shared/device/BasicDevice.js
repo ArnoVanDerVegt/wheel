@@ -16,6 +16,7 @@ const BitModule       = require('./modules/BitModule'      ).BitModule;
 const StringModule    = require('./modules/StringModule'   ).StringModule;
 const DeviceModule    = require('./modules/DeviceModule'   ).DeviceModule;
 const PoweredUpModule = require('./modules/PoweredUpModule').PoweredUpModule;
+const SpikeModule     = require('./modules/SpikeModule'    ).SpikeUpModule;
 
 exports.BasicDevice = class {
     constructor(opts) {
@@ -42,6 +43,7 @@ exports.BasicDevice = class {
         modules[11] = new BitModule      ({device: this});
         modules[12] = new DeviceModule   ({device: this});
         modules[13] = new PoweredUpModule({device: this});
+        modules[14] = new SpikeModule    ({device: this});
     }
 
     getConnected() {}
@@ -67,6 +69,8 @@ exports.BasicDevice = class {
     module(module, command, data) {}
     getState() {}
     setMode(layer, port, mode) {}
+    clearLeds(layer) {}
+    setLed(layer, x, y, brightness) {}
     stopPolling() {}
     resumePolling() {}
 };

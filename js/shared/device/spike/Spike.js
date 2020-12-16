@@ -200,6 +200,12 @@ exports.Spike = class extends BasicDevice {
         return result;
     }
 
+    clearLeds(layer) {
+    }
+
+    setLed(layer, x, y, brightness) {
+    }
+
     stopPolling() {}
     resumePolling() {}
 };

@@ -165,6 +165,7 @@ const files = [
         './js/shared/device/modules/BitModule',
         './js/shared/device/modules/DeviceModule',
         './js/shared/device/modules/PoweredUpModule',
+        './js/shared/device/modules/SpikeModule',
         './js/shared/device/BasicDevice',
         './js/shared/device/poweredup/PoweredUp',
         './js/browser/routes/poweredUp',
