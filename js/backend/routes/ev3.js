@@ -34,15 +34,18 @@ exports.ev3Routes = {
             res.send(JSON.stringify({result: true, list: list}));
         });
     },
+
     connect: function(req, res) {
         let deviceName = req.body.deviceName;
         getEV3().connect(deviceName);
         res.send(JSON.stringify({connecting: true, deviceName: deviceName}));
     },
+
     disconnect: function(req, res) {
         getEV3().disconnect(() => {});
         res.send(JSON.stringify({}));
     },
+
     connecting: function(req, res) {
         let connected = getEV3().getConnected();
         let state     = {};
@@ -54,9 +57,11 @@ exports.ev3Routes = {
             state:     state
         }));
     },
+
     connected: function(req, res) {
         res.send(JSON.stringify({connected: getEV3().getConnected()}));
     },
+
     update: function(req, res) {
         let result = {error: false, connected: true};
         let ev3  = getEV3();
@@ -72,6 +77,7 @@ exports.ev3Routes = {
         }
         res.send(JSON.stringify(result));
     },
+
     files: function(req, res) {
         function isVirtualRoot(path) {
             if (path.substr(-1) === '/') {
@@ -131,6 +137,7 @@ exports.ev3Routes = {
             };
         update();
     },
+
     _donwloadData: function(data, remoteFilename, callback) {
         let s = '';
         if (typeof data === 'string') {
@@ -144,6 +151,7 @@ exports.ev3Routes = {
         }
         getEV3().downloadFile(remoteFilename, s, callback);
     },
+
     downloadData: function(req, res) {
         this._donwloadData(
             req.body.data,
@@ -153,6 +161,7 @@ exports.ev3Routes = {
             }
         );
     },
+
     download: function(req, res) {
         let result         = {};
         let localFilename  = req.body.localFilename;
@@ -176,6 +185,7 @@ exports.ev3Routes = {
             res.send(JSON.stringify(result));
         }
     },
+
     _createTimeoutCallback(res) {
         let done     = false;
         let timeout  = null;
@@ -193,12 +203,15 @@ exports.ev3Routes = {
         timeout = setTimeout(callback, 500);
         return callback;
     },
+
     createDir: function(req, res) {
         getEV3().createDir(req.body.path, this._createTimeoutCallback(res));
     },
+
     deleteFile: function(req, res) {
         getEV3().deleteFile(req.body.path, this._createTimeoutCallback(res));
     },
+
     stopAllMotors(req, res) {
         let result     = {success: true};
         let layerCount = req.body.layerCount;
@@ -211,14 +224,17 @@ exports.ev3Routes = {
         }
         res.send(JSON.stringify(result));
     },
+
     stopPolling(req, res) {
         getEV3().stopPolling();
         res.send(JSON.stringify({success: true}));
     },
+
     resumePolling(req, res) {
         getEV3().resumePolling();
         res.send(JSON.stringify({success: true}));
     },
+
     setMode(req, res) {
         let body = req.body;
         getEV3().setMode(body.layer, body.port, body.mode);

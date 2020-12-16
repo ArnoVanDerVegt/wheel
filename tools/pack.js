@@ -101,6 +101,7 @@ const files = [
         './js/frontend/lib/platform',
         './js/frontend/ide/plugins/pluginUuid',
         './js/browser/routes/ide',
+        './js/browser/routes/spike',
         './js/shared/vm/modules/buttonModuleConstants',
         './js/shared/vm/modules/fileModuleConstants',
         './js/shared/vm/modules/lightModuleConstants',
@@ -310,6 +311,7 @@ const files = [
         './js/frontend/vm/BasicLayerState',
         './js/frontend/vm/ev3/LayerState',
         './js/frontend/vm/poweredup/LayerState',
+        './js/frontend/vm/spike/LayerState',
         './js/frontend/vm/modules/remote/ButtonModule',
         './js/frontend/vm/modules/remote/FileModule',
         './js/frontend/vm/modules/remote/LightModule',
@@ -686,7 +688,8 @@ const files = [
         './js/frontend/ide/Setup',
         './js/frontend/lib/UIState',
         './js/frontend/vm/ev3/EV3State',
-        './js/frontend/vm/poweredup/PoweredUpState'
+        './js/frontend/vm/poweredup/PoweredUpState',
+        './js/frontend/vm/spike/SpikeState'
     ];
 
 let output = [

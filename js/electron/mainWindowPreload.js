@@ -64,6 +64,7 @@ require('../shared/device/ev3/CommandQueue');
 require('../shared/device/ev3/EV3');
 require('../shared/device/ev3/constants');
 require('../shared/device/poweredup/PoweredUp');
+require('../shared/device/spike/Spike');
 require('../backend/routes/settings');
 require('../backend/routes/ev3');
 require('../backend/routes/ide');
@@ -193,6 +194,7 @@ require('../frontend/vm/modules/local/components/ComponentConfirmDialogModule');
 require('../frontend/vm/BasicLayerState');
 require('../frontend/vm/ev3/LayerState');
 require('../frontend/vm/poweredup/LayerState');
+require('../frontend/vm/spike/LayerState');
 require('../frontend/vm/modules/remote/ButtonModule');
 require('../frontend/vm/modules/remote/FileModule');
 require('../frontend/vm/modules/remote/LightModule');
@@ -564,6 +566,7 @@ const SettingsState  = require('../frontend/ide/settings/SettingsState').Setting
 const UIState        = require('../frontend/lib/UIState').UIState;
 const EV3State       = require('../frontend/vm/ev3/EV3State').EV3State;
 const PoweredUpState = require('../frontend/vm/poweredup/PoweredUpState').PoweredUpState;
+const SpikeState     = require('../frontend/vm/spike/SpikeState').SpikeState;
 
 (function() {
     let settings;
@@ -578,8 +581,9 @@ const PoweredUpState = require('../frontend/vm/poweredup/PoweredUpState').Powere
             ide = new IDE({
                 ui:        ui,
                 settings:  settings,
-                ev3:       new EV3State({layerCount: settings.getDaisyChainMode()}),
-                poweredUp: new PoweredUpState({layerCount: settings.getDaisyChainMode()})
+                ev3:       new EV3State      ({layerCount: settings.getDaisyChainMode()}),
+                poweredUp: new PoweredUpState({layerCount: settings.getDaisyChainMode()}),
+                spike:     new SpikeState    ({layerCount: 4}) // Settings.getDaisyChainMode()})
             });
         };
 

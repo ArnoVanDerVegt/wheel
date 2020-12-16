@@ -94,6 +94,13 @@ exports.SimulatorToolbar = class extends DOMNode {
                                 dispatch: 'Button.Device.PoweredUp',
                                 event:    'Button.Device.PoweredUp.Change',
                                 value:    'Hub'
+                            },
+                            {
+                                ui:       this._ui,
+                                uiId:     2,
+                                dispatch: 'Button.Device.Spike',
+                                event:    'Button.Device.Spike.Change',
+                                value:    'Spike'
                             }
                         ]
                     }
@@ -105,7 +112,12 @@ exports.SimulatorToolbar = class extends DOMNode {
 
     getLayerCount() {
         let settings = this._settings;
-        return (settings.getActiveDevice() === 0) ? settings.getDaisyChainMode() : (settings.getDeviceCount() - 1);
+        switch (settings.getActiveDevice()) {
+            case 0: return settings.getDaisyChainMode();
+            case 1: return settings.getDeviceCount() - 1;
+            case 2: return 4;
+        }
+        return 4;
     }
 
     getLayerItems(layerCount) {

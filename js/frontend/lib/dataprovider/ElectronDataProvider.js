@@ -5,6 +5,7 @@
 const ideRoutes       = require('../../../backend/routes/ide').ideRoutes;
 const ev3Routes       = require('../../../backend/routes/ev3').ev3Routes;
 const poweredUpRoutes = require('../../../backend/routes/poweredUp').poweredUpRoutes;
+const spikeRoutes     = require('../../../backend/routes/spike').spikeRoutes;
 
 const routes = {
         // IDE...
@@ -57,20 +58,26 @@ const routes = {
         'powered-up/stop-all-motors':       poweredUpRoutes.stopAllMotors,
         'powered-up/stop-polling':          poweredUpRoutes.stopPolling,
         'powered-up/resume-polling':        poweredUpRoutes.resumePolling,
-        'powered-up/set-mode':              poweredUpRoutes.setMode
+        'powered-up/set-mode':              poweredUpRoutes.setMode,
+        // Spike...
+        'spike/device-list':                spikeRoutes.deviceList,
+        'spike/connect':                    spikeRoutes.connect,
+        'spike/disconnect':                 spikeRoutes.disconnect,
+        'spike/connecting':                 spikeRoutes.connecting,
+        'spike/connected':                  spikeRoutes.connected,
+        'spike/update':                     spikeRoutes.update,
+        'spike/stop-all-motors':            spikeRoutes.stopAllMotors,
+        'spike/stop-polling':               spikeRoutes.stopPolling,
+        'spike/resume-polling':             spikeRoutes.resumePolling,
+        'spike/set-mode':                   spikeRoutes.setMode
     };
 
 for (let i in routes) {
     switch (i.substr(0, 3)) {
-        case 'ide':
-            routes[i] = routes[i].bind(ideRoutes);
-            break;
-        case 'ev3':
-            routes[i] = routes[i].bind(ev3Routes);
-            break;
-        case 'pow':
-            routes[i] = routes[i].bind(poweredUpRoutes);
-            break;
+        case 'ide': routes[i] = routes[i].bind(ideRoutes);       break;
+        case 'ev3': routes[i] = routes[i].bind(ev3Routes);       break;
+        case 'pow': routes[i] = routes[i].bind(poweredUpRoutes); break;
+        case 'spi': routes[i] = routes[i].bind(spikeRoutes);     break;
     }
 }
 

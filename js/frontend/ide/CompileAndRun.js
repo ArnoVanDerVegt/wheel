@@ -18,8 +18,10 @@ exports.CompileAndRun = class extends DOMUtils {
         let settings  = opts.settings;
         let ev3       = opts.ev3;
         let poweredUp = opts.poweredUp;
+        let spike     = opts.spike;
         this._ev3                     = ev3;
         this._poweredUp               = poweredUp;
+        this._spike                   = spike;
         this._settings                = opts.settings;
         this._outputPath              = '';
         this._projectFilename         = '';
@@ -45,6 +47,10 @@ exports.CompileAndRun = class extends DOMUtils {
         poweredUp
             .addEventListener('PoweredUp.Connected',    this, this.onDeviceConnected)
             .addEventListener('PoweredUp.Disconnected', this, this.onDeviceDisconnected);
+        // Spike events...
+        spike
+            .addEventListener('Spike.Connected',    this, this.onDeviceConnected)
+            .addEventListener('Spike.Disconnected', this, this.onDeviceDisconnected);
         dispatcher
             .on('VM.Breakpoint',           this, this.onBreakpoint)
             .on('VM.Error.Range',          this, this.onRangeCheckError)
@@ -117,6 +123,12 @@ exports.CompileAndRun = class extends DOMUtils {
         dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green active'});
     }
 
+    onSelectDeviceSpike() {
+        dispatcher.dispatch('Settings.Set.ActiveDevice',      2);
+        dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green in-active'});
+        dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green active'});
+    }
+
     getVM() {
         return this._vm;
     }
@@ -139,7 +151,12 @@ exports.CompileAndRun = class extends DOMUtils {
 
     getModules(vm) {
         let device = () => {
-                return (this._settings.getActiveDevice() === 0) ? this._ev3 : this._poweredUp;
+                switch (this._settings.getActiveDevice()) {
+                    case 0: return this._ev3;
+                    case 1: return this._poweredUp;
+                    case 2: return this._spike;
+                }
+                return this._ev3;
             };
         this._localModules = !device().getConnected();
         return vmModuleLoader.load(vm, this._localModules, device, this);
@@ -326,6 +343,7 @@ exports.CompileAndRun = class extends DOMUtils {
         let ev3Plugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID);
         this._ev3.stopAllMotors(this._settings.getDaisyChainMode());
         this._poweredUp.stopAllMotors(this._settings.getDeviceCount());
+        this._spike.stopAllMotors(this._settings.getDeviceCount());
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();
