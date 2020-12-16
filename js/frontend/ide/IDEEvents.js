@@ -183,7 +183,7 @@ exports.IDEEvents = class extends CompileAndRun {
         dispatcher.dispatch(
             'Dialog.PoweredUpControl.Show',
             {
-                deviceCount: this._settings.getDeviceCount() - 1,
+                deviceCount: this._settings.getDeviceCount(),
                 withAlias:   true
             }
         );
@@ -315,7 +315,7 @@ exports.IDEEvents = class extends CompileAndRun {
         dispatcher.dispatch(
             'Console.Log',
             {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                 message: 'Connected to Powered Up.', className: 'ok'
             }
         );

@@ -7,6 +7,7 @@ const DirectControlDialog = require('./DirectControlDialog').DirectControlDialog
 
 exports.EV3ControlDialog = class extends DirectControlDialog {
     constructor(opts) {
+        opts.layerCount     = 4;
         opts.hasSound       = true;
         opts.title          = 'EV3 Direct control';
         opts.motorValidator = {

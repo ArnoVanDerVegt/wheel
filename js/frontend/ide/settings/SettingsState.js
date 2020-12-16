@@ -411,7 +411,7 @@ exports.SettingsState = class extends Emitter {
     }
 
     getValidatedDaisyChainMode(daisyChainMode) {
-        return ((daisyChainMode >= 0) && (daisyChainMode < 4)) ? daisyChainMode : 0;
+        return ((daisyChainMode > 0) && (daisyChainMode <= 4)) ? daisyChainMode : 1;
     }
 
     getRecentProject() {
@@ -879,7 +879,7 @@ exports.SettingsState = class extends Emitter {
         this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect                                     : false;
         this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall                                     : false;
         this._ev3.deviceName             = ('deviceName'            in this._ev3)        ? this._ev3.deviceName                                      : '';
-        this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this.getValidatedDaisyChainMode(this._ev3.daisyChainMode) : 0;
+        this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this.getValidatedDaisyChainMode(this._ev3.daisyChainMode) : 1;
         this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                                            : {};
         this._poweredUp.deviceCount      = ('deviceCount'           in this._poweredUp)  ? this.getValidatedDeviceCount(this._poweredUp.deviceCount) : 1;
         this._imageOpen                  = ('imageOpen'             in data)             ? data.imageOpen                                            : {};

@@ -566,7 +566,7 @@ const PoweredUpState = require('../frontend/vm/poweredup/PoweredUpState').Powere
                 ui:        ui,
                 settings:  settings,
                 ev3:       new EV3State({layerCount: settings.getDaisyChainMode()}),
-                poweredUp: new PoweredUpState({layerCount: settings.getDaisyChainMode()})
+                poweredUp: new PoweredUpState({layerCount: settings.getDeviceCount()})
             });
         };
 
