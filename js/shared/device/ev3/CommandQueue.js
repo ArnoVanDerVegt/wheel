@@ -16,11 +16,13 @@ const MESSAGE_TIME_OUT_TIME = 50;
 
 exports.CommandQueue = class {
     constructor(ev3, sendFunction) {
+        this._sentTime = Date.now();
+        this._sending                    = false;
+        this._lostAssigned = false;
         this._ev3                        = ev3;
         this._battery                    = 0;
         this._sendFunction               = sendFunction;
-        this._pendingCommand             = null;
-        this._pendingCount               = 0;
+        this._pending                    = {time: null, command: null};
         this._failedConnectionTypesLayer = -1;
         this._queue                      = [];
         this._id                         = 0;
@@ -28,6 +30,7 @@ exports.CommandQueue = class {
         for (let i = 0; i < 4; i++) {
             this._layers.push(this.initLayer(i));
         }
+        setInterval(this.execute.bind(this), 1);
     }
 
     initLayer(layer) {
@@ -61,6 +64,10 @@ exports.CommandQueue = class {
             });
         }
         return result;
+    }
+
+    getLostAssigned() {
+        return this._lostAssigned;
     }
 
     getMode(layer, port) {
@@ -134,12 +141,8 @@ exports.CommandQueue = class {
         return this._queue.length;
     }
 
-    getPendingCount() {
-        return this._pendingCount;
-    }
-
     getPendingCommand() {
-        return this._pendingCommand;
+        return this._pending.command;
     }
 
     getBattery() {
@@ -181,27 +184,38 @@ exports.CommandQueue = class {
         return this._failedConnectionTypesLayer;
     }
 
-    sendCommand(commandArray) {
-        this._sendFunction(commandArray.buffer);
-    }
-
     shouldChunkTranfers() {
         return false;
     }
 
     execute() {
-        let queue = this._queue;
-        if (!queue.length || this._pendingCommand) {
+        let time = Date.now();
+        if (this._sending &&  ((this._sentTime === null) || (time > this._sentTime))) {
             return;
         }
-        let command = queue.shift();
-        command.id = this.getId();
-        if (command.response) {
-            this._pendingCommand = command;
+        let pending = this._pending;
+        let queue   = this._queue;
+        if ((pending.command !== null) && (time > pending.time)) {
+            pending.command.id   = this.getId();
+            pending.command.time = time + MESSAGE_TIME_OUT_TIME;
+            queue.unshift(pending.command);
+            pending.command = null;
         }
-        this.sendCommand(messageEncoder.packMessageForSending(command.id, command.message.get()));
+        if (!queue.length || pending.command) {
+            return;
+        }
+        this._sentTime = null;
+        let command = queue.shift();
+        if (command.response) {
+            pending.time    = Date.now() + 500;
+            pending.command = command;
+            this._sending   = true;
+        } else if (command.wait) {
+            this._sending   = true;
+        }
+        this._sentTime = time + 50;
+        this._sendFunction(messageEncoder.packMessageForSending(command.id, command.message.get()));
         command.callback && command.callback();
-        setTimeout(this.execute.bind(this), 1);
     }
 
     addToCommandQueue(command) {
@@ -229,44 +243,27 @@ exports.CommandQueue = class {
         if (index !== null) {
             let layer = command.layer;
             let item  = this._layers[layer][index];
-            if (this._pendingCommand || item.sending) {
+            if (this._pending.command || item.sending) {
                 if (item.sending && (time > item.time)) { // Timeout, send next time!
                     item.sending = false;
                 }
                 return;
             }
-            item.sending  = true;
+            item.wait     = true;
             item.id       = this.getId();
-            item.layer    = command.layer;
-            item.port     = command.port;
-            item.mode     = command.mode;
-            item.message  = command.message;
-            item.type     = command.type;
-            item.response = command.response;
             item.time     = time + MESSAGE_TIME_OUT_TIME;
-            this.sendCommand(messageEncoder.packMessageForSending(item.id, command.message.get()));
-            return;
+            item.response = command.response;
+            item.mode     = command.mode;
+            item.type     = command.type;
+            item.message  = command.message;
+            item.sending  = true;
+            this._queue.push(item);
+        } else {
+            command.wait  = false;
+            command.id    = this.getId();
+            command.time  = time + MESSAGE_TIME_OUT_TIME;
+            this._queue.push(command);
         }
-        let queue = this._queue;
-        let i     = 0;
-        while (i < queue.length) {
-            if (queue[i].response && (queue[i].type === command.type)) {
-                if (time > queue[i].time) {
-                    queue.splice(i, 1);
-                    break;
-                } else {
-                    return;
-                }
-            } else {
-                i++;
-            }
-        }
-        if (this._pendingCommand && (time > this._pendingCommand.time)) {
-            this._pendingCommand = null;
-        }
-        command.time = time + 1000;
-        this._queue.push(command);
-        this.execute();
     }
 
     isValidAssignedMotor(assigned) {
@@ -327,7 +324,6 @@ exports.CommandQueue = class {
         let layerCount = this._ev3.getLayerCount();
         let found      = false;
         let time       = Date.now();
-        this._pendingCount = 0;
         for (let i = 0; i <= layerCount; i++) {
             let layer = layers[i];
             for (let j = 0; j < 8; j++) {
@@ -337,14 +333,11 @@ exports.CommandQueue = class {
                         found        = true;
                         item.sending = false; // Message timed out, reset...
                         continue;
-                    } else {
-                        this._pendingCount++;
                     }
                 }
                 if (!item.sending || (item.id !== id)) {
                     continue;
                 }
-                this._pendingCount--;
                 found = true;
                 switch (item.type) {
                     case sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH:
@@ -401,9 +394,15 @@ exports.CommandQueue = class {
                 // None, Port Error, Unknown, Initializing
                 return [0x7E, 0x7F, 0xFF, 0x7D].indexOf(assigned) === -1;
             };
-        let assignedCount = 0;
-        let hadAssignment = false;
-        let p             = this._layers[this._pendingCommand.layer || 0];
+        let assignedCount   = 0;
+        let currentAssigned = 0;
+        let hadAssignment   = false;
+        let p               = this._layers[this._pending.command.layer || 0];
+        for (let i = 0; i < 8; i++) {
+            if (p[i].assigned !== null) {
+                currentAssigned++;
+            }
+        }
         for (let i = 0; i < 4; i++) {
             let value    = inputData[5 + (i * 2)] || 0;
             let assigned = parseInt(messageEncoder.byteString(value), 16);
@@ -420,22 +419,28 @@ exports.CommandQueue = class {
             }
             p[j].assigned = value;
         }
+        if (assignedCount) {
+            this._lostAssigned = false;
+        } else if (currentAssigned) {
+            this._lostAssigned = true;
+        }
         return hadAssignment && (assignedCount === 0);
     }
 
     receiveHandler(data) {
+        this._sending = false;
         let inputData = new Uint8Array(data);
         let id        = inputData[2];
         if (this.receiveSensorData(inputData, id)) {
             return;
         }
-        if (!this._pendingCommand) {
+        if (!this._pending.command) {
             // Received Data and didn't expect it...
             return;
         }
-        let type     = this._pendingCommand.type;
-        let mode     = this._pendingCommand.mode;
-        let callback = this._pendingCommand.responseCallback;
+        let type     = this._pending.command.type;
+        let mode     = this._pending.command.mode;
+        let callback = this._pending.command.responseCallback;
         let handle   = null;
         let result   = null;
         switch (type) {
@@ -449,8 +454,8 @@ exports.CommandQueue = class {
                 result = inputData[6];
                 handle = inputData[7];
                 if (result === 0) {
-                    let filename = this._pendingCommand.filename;
-                    let data     = this._pendingCommand.data;
+                    let filename = this._pending.command.filename;
+                    let data     = this._pending.command.data;
                     this.continueDownload(messageEncoder.decimalToLittleEndianHex(handle, 2), filename, data);
                     callback && callback(false);
                 } else {
@@ -467,9 +472,9 @@ exports.CommandQueue = class {
             case constants.INPUT_DEVICE_GET_TYPE_MODE:
                 if (this.receiveTypeMode(inputData)) {
                     // Receive probably failed...
-                    console.error('Receive failed for layer:', this._pendingCommand.layer);
-                    this._failedConnectionTypesLayer = this._pendingCommand.layer;
-                } else if (this._failedConnectionTypesLayer === this._pendingCommand.layer) {
+                    console.error('Receive failed for layer:', this._pending.command.layer);
+                    this._failedConnectionTypesLayer = this._pending.command.layer;
+                } else if (this._failedConnectionTypesLayer === this._pending.command.layer) {
                     this._failedConnectionTypesLayer = -1;
                 }
                 break;
@@ -479,7 +484,6 @@ exports.CommandQueue = class {
                 }
                 break;
         }
-        this._pendingCommand = null;
-        setTimeout(this.execute.bind(this), 1);
+        this._pending.command = null;
     }
 };
