@@ -71,7 +71,7 @@ describe(
                             [
                                 '..',
                                 'bit', 'components', 'console', 'device', 'ev3',
-                                'file', 'math', 'poweredup', 'string'
+                                'file', 'math', 'poweredup', 'spike', 'string'
                             ]
                         );
                         done();
