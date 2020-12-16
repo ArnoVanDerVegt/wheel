@@ -29,7 +29,8 @@ exports.IDEDOM = class extends IDEDialogs {
                         settings:      this._settings,
                         platform:      this._settings.getOS().platform,
                         ev3:           this._ev3,
-                        poweredUp:     this._poweredUp
+                        poweredUp:     this._poweredUp,
+                        spike:         this._spike
                     },
                     {
                         type:          FileTree,

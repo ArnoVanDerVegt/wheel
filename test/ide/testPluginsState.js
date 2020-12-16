@@ -18,7 +18,7 @@ describe(
             'Should create PluginsState',
             () => {
                 let pluginsState = new PluginsState({});
-                assert.equal(pluginsState.getDefaultPlugins().length, 6);
+                assert.equal(pluginsState.getDefaultPlugins().length, 8);
             }
         );
         it(
@@ -29,7 +29,19 @@ describe(
                 pluginsState.getSortedPlugins().forEach(function(plugin) {
                     names.push(plugin.name);
                 });
-                assert.deepEqual(names, ['EV3 Motors', 'EV3', 'EV3 Sensors', 'EV3 Sensor output graph', 'PSP', 'Hub']);
+                assert.deepEqual(
+                    names,
+                    [
+                        'EV3 Motors',
+                        'EV3',
+                        'EV3 Sensors',
+                        'EV3 Sensor output graph',
+                        'PSP',
+                        'Hub',
+                        'Spike',
+                        'Spike ports'
+                    ]
+                );
             }
         );
         it(
@@ -56,7 +68,7 @@ describe(
                     visible: true,
                     order:   20
                 }]);
-                assert.equal(pluginsState.getSortedPlugins().length, 7);
+                assert.equal(pluginsState.getSortedPlugins().length, 9);
             }
         );
         it(
@@ -71,7 +83,7 @@ describe(
                     visible: true,
                     order:   20
                 }]);
-                assert.equal(pluginsState.getSortedPlugins().length, 6);
+                assert.equal(pluginsState.getSortedPlugins().length, 8);
             }
         );
         it(

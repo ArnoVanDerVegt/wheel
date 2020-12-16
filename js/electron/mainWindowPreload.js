@@ -582,8 +582,8 @@ const SpikeState     = require('../frontend/vm/spike/SpikeState').SpikeState;
                 ui:        ui,
                 settings:  settings,
                 ev3:       new EV3State      ({layerCount: settings.getDaisyChainMode()}),
-                poweredUp: new PoweredUpState({layerCount: settings.getDeviceCount()}),
-                spike:     new SpikeState    ({layerCount: 4}) // Settings.getDaisyChainMode()})
+                poweredUp: new PoweredUpState({layerCount: settings.getPoweredUpDeviceCount()}),
+                spike:     new SpikeState    ({layerCount: settings.getSpikeDeviceCount()})
             });
         };
 

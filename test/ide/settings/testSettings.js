@@ -649,21 +649,21 @@ describe(
                     'Should set device count',
                     () => {
                         let settings = new SettingsState.SettingsState({});
-                        assert.equal(settings.getDeviceCount(), 1);
-                        dispatcher.dispatch('Settings.Set.DeviceCount', 0);
-                        assert.equal(settings.getDeviceCount(), 1);
-                        dispatcher.dispatch('Settings.Set.DeviceCount', 2);
-                        assert.equal(settings.getDeviceCount(), 2);
+                        assert.equal(settings.getPoweredUpDeviceCount(), 1);
+                        dispatcher.dispatch('Settings.Set.PoweredUpDeviceCount', 0);
+                        assert.equal(settings.getPoweredUpDeviceCount(), 1);
+                        dispatcher.dispatch('Settings.Set.PoweredUpDeviceCount', 2);
+                        assert.equal(settings.getPoweredUpDeviceCount(), 2);
                     }
                 );
                 it(
                     'Should validate device count',
                     () => {
                         let settings = new SettingsState.SettingsState({});
-                        assert.equal(settings.getValidatedDeviceCount(0),  1);
-                        assert.equal(settings.getValidatedDeviceCount(1),  1);
-                        assert.equal(settings.getValidatedDeviceCount(4),  4);
-                        assert.equal(settings.getValidatedDeviceCount(11), 1);
+                        assert.equal(settings.getValidatedDeviceCount( 0, 4),  1);
+                        assert.equal(settings.getValidatedDeviceCount( 1, 4),  1);
+                        assert.equal(settings.getValidatedDeviceCount( 4, 4),  4);
+                        assert.equal(settings.getValidatedDeviceCount(11, 4), 1);
                     }
                 );
             }

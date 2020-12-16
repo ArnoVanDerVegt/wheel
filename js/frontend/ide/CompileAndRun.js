@@ -115,17 +115,20 @@ exports.CompileAndRun = class extends DOMUtils {
         dispatcher.dispatch('Settings.Set.ActiveDevice',      0);
         dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green active'});
         dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green in-active'});
+        dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green in-active'});
     }
 
     onSelectDevicePoweredUp() {
         dispatcher.dispatch('Settings.Set.ActiveDevice',      1);
         dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green in-active'});
         dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green active'});
+        dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green in-active'});
     }
 
     onSelectDeviceSpike() {
         dispatcher.dispatch('Settings.Set.ActiveDevice',      2);
-        dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green in-active'});
+        dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green in-active'});
+        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green in-active'});
         dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green active'});
     }
 
@@ -342,8 +345,8 @@ exports.CompileAndRun = class extends DOMUtils {
         this._motors && this._motors.reset();
         let ev3Plugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID);
         this._ev3.stopAllMotors(this._settings.getDaisyChainMode());
-        this._poweredUp.stopAllMotors(this._settings.getDeviceCount());
-        this._spike.stopAllMotors(this._settings.getDeviceCount());
+        this._poweredUp.stopAllMotors(this._settings.getPoweredUpDeviceCount());
+        this._spike.stopAllMotors(this._settings.getSpikeDeviceCount());
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();

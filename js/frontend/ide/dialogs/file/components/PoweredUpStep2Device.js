@@ -79,7 +79,7 @@ exports.PoweredUpStep2Device = class extends PoweredUpDeviceList {
 
     onImport() {
         this._dialog.reset();
-        for (let i = 0; i < this._settings.getDeviceCount(); i++) {
+        for (let i = 0; i < this._settings.getPoweredUpDeviceCount(); i++) {
             let layerState = this._device.getLayerState(i);
             if (layerState.getType() !== null) {
                 dispatcher.dispatch('Dialog.File.PoweredUpProject.AddDevice', layerState.getType());

@@ -2,15 +2,17 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform        = require('../lib/platform');
-const dispatcher      = require('../lib/dispatcher').dispatcher;
-const path            = require('../lib/path');
-const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
-const Rtf             = require('../program/output/Rtf').Rtf;
-const SourceFormatter = require('./source/SourceFormatter').SourceFormatter;
-const SettingsState   = require('./settings/SettingsState');
-const CompileAndRun   = require('./CompileAndRun').CompileAndRun;
-const FormDialog      = require('./dialogs/form/FormDialog').FormDialog;
+const poweredUpModuleConstants = require('../../shared/vm/modules/poweredUpModuleConstants');
+const spikeModuleConstants     = require('../../shared/vm/modules/spikeModuleConstants');
+const platform                 = require('../lib/platform');
+const dispatcher               = require('../lib/dispatcher').dispatcher;
+const path                     = require('../lib/path');
+const getDataProvider          = require('../lib/dataprovider/dataProvider').getDataProvider;
+const Rtf                      = require('../program/output/Rtf').Rtf;
+const SourceFormatter          = require('./source/SourceFormatter').SourceFormatter;
+const SettingsState            = require('./settings/SettingsState');
+const CompileAndRun            = require('./CompileAndRun').CompileAndRun;
+const FormDialog               = require('./dialogs/form/FormDialog').FormDialog;
 
 exports.IDEEvents = class extends CompileAndRun {
     onEditorChanged(info) {
@@ -144,6 +146,7 @@ exports.IDEEvents = class extends CompileAndRun {
 
     onMenuEV3DaisyChain() {
         dispatcher.dispatch('Dialog.DaisyChain.Show', this._settings.getDaisyChainMode());
+        this.onSelectDeviceEV3();
     }
 
     onMenuEV3DirectControl() {
@@ -174,8 +177,20 @@ exports.IDEEvents = class extends CompileAndRun {
         this.onSelectDevicePoweredUp();
     }
 
-    onMenuPoweredDeviceCount() {
-        dispatcher.dispatch('Dialog.DeviceCount.Show', this._settings.getDeviceCount());
+    onMenuPoweredUpDeviceCount() {
+        dispatcher.dispatch(
+            'Dialog.DeviceCount.Show',
+            {
+                deviceCount: this._settings.getPoweredUpDeviceCount(),
+                layerCount:  poweredUpModuleConstants.POWERED_UP_LAYER_COUNT,
+                title:       'Number of Powered Up devices',
+                onApply:     (deviceCount) => {
+                    dispatcher
+                        .dispatch('PoweredUp.DeviceCount',             deviceCount)
+                        .dispatch('Settings.Set.PoweredUpDeviceCount', deviceCount);
+                }
+            }
+        );
         this.onSelectDevicePoweredUp();
     }
 
@@ -183,7 +198,7 @@ exports.IDEEvents = class extends CompileAndRun {
         dispatcher.dispatch(
             'Dialog.PoweredUpControl.Show',
             {
-                deviceCount: this._settings.getDeviceCount(),
+                deviceCount: this._settings.getPoweredUpDeviceCount(),
                 withAlias:   true
             }
         );
@@ -196,6 +211,43 @@ exports.IDEEvents = class extends CompileAndRun {
                 filename:  this._projectFilename,
                 resources: this._preProcessor.getResources(),
                 program:   this._program
+            }
+        );
+    }
+
+    // Spike Menu...
+    onMenuSpikeConnect() {
+        dispatcher.dispatch('Dialog.ConnectSpike.Show');
+        this.onSelectDeviceSpike();
+    }
+
+    onMenuSpikeDisconnect() {
+        this._spike.disconnect();
+    }
+
+    onMenuSpikeDeviceCount() {
+        dispatcher.dispatch(
+            'Dialog.DeviceCount.Show',
+            {
+                deviceCount: this._settings.getSpikeDeviceCount(),
+                layerCount:  spikeModuleConstants.SPIKE_LAYER_COUNT,
+                title:       'Number of Spike devices',
+                onApply:     (deviceCount) => {
+                    dispatcher
+                        .dispatch('Spike.DeviceCount',             deviceCount)
+                        .dispatch('Settings.Set.SpikeDeviceCount', deviceCount);
+                }
+            }
+        );
+        this.onSelectDeviceSpike();
+    }
+
+    onMenuSpikeDirectControl() {
+        dispatcher.dispatch(
+            'Dialog.SpikeControl.Show',
+            {
+                deviceCount: this._settings.getSpikeDeviceCount(),
+                withAlias:   false
             }
         );
     }

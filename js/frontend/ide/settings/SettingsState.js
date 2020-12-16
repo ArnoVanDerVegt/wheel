@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const poweredUpModuleConstants        = require('../../../shared/vm/modules/poweredUpModuleConstants');
+const spikeModuleConstants            = require('../../../shared/vm/modules/spikeModuleConstants');
 const platform                        = require('../../lib/platform');
 const path                            = require('../../lib/path');
 const dispatcher                      = require('../../lib/dispatcher').dispatcher;
@@ -87,8 +88,9 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DocumentPath',                this, this._setDocumentPath)
             .on('Settings.Set.DaisyChainMode',              this, this._setDaisyChainMode)
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
-            .on('Settings.Set.DeviceCount',                 this, this._setDeviceCount)
+            .on('Settings.Set.PoweredUpDeviceCount',        this, this._setPoweedUpDeviceCount)
             .on('Settings.Set.PoweredUpAutoConnect',        this, this._setPoweredUpAutoConnect)
+            .on('Settings.Set.SpikeDeviceCount',            this, this._setSpikeDeviceCount)
             .on('Settings.Set.WindowSize',                  this, this._setWindowSize)
             .on('Settings.Set.Resizer.ConsoleSize',         this, this._setResizerConsoleSize)
             .on('Settings.Set.Resizer.FileTreeSize',        this, this._setResizerFileTreeSize)
@@ -222,6 +224,9 @@ exports.SettingsState = class extends Emitter {
                 autoConnect:       this._poweredUpAutoConnect.toJSON(),
                 deviceCount:       this._poweredUp.deviceCount
             },
+            spike: {
+                deviceCount:       this._spike.deviceCount
+            },
             imageOpen: {
                 bmp:               this._imageOpen.bmp,
                 png:               this._imageOpen.png,
@@ -350,7 +355,7 @@ exports.SettingsState = class extends Emitter {
         return this._ev3.deviceName;
     }
 
-    getDeviceCount() {
+    getPoweredUpDeviceCount() {
         return this._poweredUp.deviceCount || 1;
     }
 
@@ -358,8 +363,12 @@ exports.SettingsState = class extends Emitter {
         return this._poweredUpAutoConnect;
     }
 
-    getValidatedDeviceCount(deviceCount) {
-        return ((deviceCount >= 1) && (deviceCount <= poweredUpModuleConstants.POWERED_UP_LAYER_COUNT)) ? deviceCount : 1;
+    getSpikeDeviceCount() {
+        return this._spike.deviceCount || 1;
+    }
+
+    getValidatedDeviceCount(deviceCount, maxDeviceCount) {
+        return ((deviceCount >= 1) && (deviceCount <= maxDeviceCount)) ? deviceCount : 1;
     }
 
     getImageOpenBmp() {
@@ -535,8 +544,8 @@ exports.SettingsState = class extends Emitter {
         this._save();
     }
 
-    _setDeviceCount(deviceCount) {
-        this._poweredUp.deviceCount = this.getValidatedDeviceCount(deviceCount || 1);
+    _setPoweedUpDeviceCount(deviceCount) {
+        this._poweredUp.deviceCount = this.getValidatedDeviceCount(deviceCount || 1, poweredUpModuleConstants.POWERED_UP_LAYER_COUNT);
         this._save();
         this.emit('Settings.PoweredUp');
     }
@@ -545,6 +554,12 @@ exports.SettingsState = class extends Emitter {
         this._poweredUp.autoConnect = autoConnect;
         this._save();
         this.emit('Settings.PoweredUp');
+    }
+
+    _setSpikeDeviceCount(deviceCount) {
+        this._spike.deviceCount = this.getValidatedDeviceCount(deviceCount || 1, spikeModuleConstants.SPIKE_LAYER_COUNT);
+        this._save();
+        this.emit('Settings.Spike');
     }
 
     _setWindowSize(width, height) {
@@ -844,69 +859,73 @@ exports.SettingsState = class extends Emitter {
         if ('os' in data) {
             this._os = data.os;
         }
+        let maxPU = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
+        let maxS  = spikeModuleConstants.SPIKE_LAYER_COUNT;
         this._version                    = data.version;
         this._documentPathExists         = data.documentPathExists;
         this._documentPath               = data.documentPath;
         this._isInApplicationsFolder     = data.isInApplicationsFolder;
-        this._systemDocumentPath         = ('systemDocumentPath'    in data)             ? data.systemDocumentPath                                   : this._systemDocumentPath;
-        this._console                    = ('console'               in data)             ? data.console                                              : {};
-        this._console.visible            = ('visible'               in this._console)    ? this._console.visible                                     : true;
-        this._console.showOnLevel        = ('showOnLevel'           in this._console)    ? this.getValidatedShowOnLevel(this._console.showOnLevel)   : CONSOLE_MESSAGE_TYPE_ERROR;
-        this._console.messageCount       = ('messageCount'          in this._console)    ? this.getValidatedMessageCount(this._console.messageCount) : CONSOLE_DEFAULT_MESSAGE_COUNT;
-        this._show                       = ('show'                  in data)             ? data.show                                                 : {};
-        this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree                                       : true;
-        this._show.properties            = ('properties'            in this._show)       ? this._show.properties                                     : false;
-        this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator                                      : true;
-        this._show.quickViewMenu         = ('quickViewMenu'         in this._show)       ? this._show.quickViewMenu                                  : true;
-        this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun                                 : true;
-        this._show.ev3Tile               = ('ev3Tile'               in this._show)       ? this._show.ev3Tile                                        : true;
-        this._show.ev3ImageTile          = ('ev3ImageTile'          in this._show)       ? this._show.ev3ImageTile                                   : true;
-        this._show.poweredUpTile         = ('poweredUpTile'         in this._show)       ? this._show.poweredUpTile                                  : true;
-        this._show.newFormTile           = ('newFormTile'           in this._show)       ? this._show.newFormTile                                    : true;
-        this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                                             : {};
-        this._dontShow.themeTile         = ('themeTile'             in this._dontShow)   ? this._dontShow.themeTile                                  : false;
-        this._dontShow.openForm          = ('openForm'              in this._dontShow)   ? this._dontShow.openForm                                   : false;
-        this._dontShow.connected         = ('connected'             in this._dontShow)   ? this._dontShow.connected                                  : false;
-        this._windowSize                 = ('windowSize'            in data)             ? data.windowSize                                           : {};
-        this._windowSize.width           = ('width'                 in this._windowSize) ? this._windowSize.width                                    : 1200;
-        this._windowSize.height          = ('height'                in this._windowSize) ? this._windowSize.height                                   : 800;
-        this._windowPosition             = ('windowPosition'        in data)             ? data.windowPosition                                       : {};
-        this._windowPosition.x           = ('x'                     in data)             ? data.windowPosition.x                                     : 0;
-        this._windowPosition.y           = ('y'                     in data)             ? data.windowPosition.y                                     : 0;
-        this._darkMode                   = ('darkMode'              in data)             ? data.darkMode                                             : false;
-        this._activeDevice               = ('activeDevice'          in data)             ? data.activeDevice                                         : 1;
-        this._ev3                        = ('ev3'                   in data)             ? data.ev3                                                  : {};
-        this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect                                     : false;
-        this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall                                     : false;
-        this._ev3.deviceName             = ('deviceName'            in this._ev3)        ? this._ev3.deviceName                                      : '';
-        this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this.getValidatedDaisyChainMode(this._ev3.daisyChainMode) : 1;
-        this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                                            : {};
-        this._poweredUp.deviceCount      = ('deviceCount'           in this._poweredUp)  ? this.getValidatedDeviceCount(this._poweredUp.deviceCount) : 1;
-        this._imageOpen                  = ('imageOpen'             in data)             ? data.imageOpen                                            : {};
-        this._imageOpen.bmp              = ('bmp'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.bmp)     : 'View';
-        this._imageOpen.png              = ('png'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.png)     : 'View';
-        this._imageOpen.jpg              = ('jpg'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.jpg)     : 'View';
-        this._imageOpen.gif              = ('gif'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.gif)     : 'View';
-        this._createVMTextOutput         = ('createVMTextOutput'    in data)             ? data.createVMTextOutput                                   : false;
-        this._createEventComments        = ('createEventComments'   in data)             ? data.createEventComments                                  : true;
-        this._linter                     = ('linter'                in data)             ? data.linter                                               : true;
-        this._recentProject              = ('recentProject'         in data)             ? data.recentProject                                        : '';
-        this._recentPaths                = ('recentPaths'           in data)             ? data.recentPaths                                          : [];
-        this._recentForm                 = ('recentForm'            in data)             ? data.recentForm                                           : '';
-        this._filesDetail                = ('filesDetail'           in data)             ? data.filesDetail                                          : false;
-        this._localFilesDetail           = ('localFilesDetail'      in data)             ? data.localFilesDetail                                     : false;
-        this._remoteFilesDetail          = ('remoteFilesDetail'     in data)             ? data.remoteFilesDetail                                    : false;
-        this._lastVersionCheckDate       = ('lastVersionCheckDate') in data              ? data.lastVersionCheckDate                                 : '';
-        this._resizer                    = ('resizer'               in data)             ? data.resizer                                              : {};
-        this._resizer.consoleSize        = ('consoleSize'           in this._resizer)    ? this._resizer.consoleSize                                 : 192;
-        this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize                                : 192;
-        this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                                          : {};
-        this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias                                      : {};
-        this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset                                      : true;
-        this._autoSelectProperties       = ('autoSelectProperties'  in data)             ? data.autoSelectProperties                                 : true;
-        this._sourceHeaderText           = ('sourceHeaderText'      in data)             ? data.sourceHeaderText                                     : SOURCE_HEADER_TEXT;
-        this._formGridSize               = ('formGridSize'          in data)             ? data.formGridSize                                         : 10;
-        this._closeIDEonVMRun            = ('closeIDEonVMRun'       in data)             ? data.closeIDEonVMRun                                      : false;
+        this._systemDocumentPath         = ('systemDocumentPath'    in data)             ? data.systemDocumentPath                                          : this._systemDocumentPath;
+        this._console                    = ('console'               in data)             ? data.console                                                     : {};
+        this._console.visible            = ('visible'               in this._console)    ? this._console.visible                                            : true;
+        this._console.showOnLevel        = ('showOnLevel'           in this._console)    ? this.getValidatedShowOnLevel(this._console.showOnLevel)          : CONSOLE_MESSAGE_TYPE_ERROR;
+        this._console.messageCount       = ('messageCount'          in this._console)    ? this.getValidatedMessageCount(this._console.messageCount)        : CONSOLE_DEFAULT_MESSAGE_COUNT;
+        this._show                       = ('show'                  in data)             ? data.show                                                        : {};
+        this._show.fileTree              = ('fileTree'              in this._show)       ? this._show.fileTree                                              : true;
+        this._show.properties            = ('properties'            in this._show)       ? this._show.properties                                            : false;
+        this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator                                             : true;
+        this._show.quickViewMenu         = ('quickViewMenu'         in this._show)       ? this._show.quickViewMenu                                         : true;
+        this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun                                        : true;
+        this._show.ev3Tile               = ('ev3Tile'               in this._show)       ? this._show.ev3Tile                                               : true;
+        this._show.ev3ImageTile          = ('ev3ImageTile'          in this._show)       ? this._show.ev3ImageTile                                          : true;
+        this._show.poweredUpTile         = ('poweredUpTile'         in this._show)       ? this._show.poweredUpTile                                         : true;
+        this._show.newFormTile           = ('newFormTile'           in this._show)       ? this._show.newFormTile                                           : true;
+        this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                                                    : {};
+        this._dontShow.themeTile         = ('themeTile'             in this._dontShow)   ? this._dontShow.themeTile                                         : false;
+        this._dontShow.openForm          = ('openForm'              in this._dontShow)   ? this._dontShow.openForm                                          : false;
+        this._dontShow.connected         = ('connected'             in this._dontShow)   ? this._dontShow.connected                                         : false;
+        this._windowSize                 = ('windowSize'            in data)             ? data.windowSize                                                  : {};
+        this._windowSize.width           = ('width'                 in this._windowSize) ? this._windowSize.width                                           : 1200;
+        this._windowSize.height          = ('height'                in this._windowSize) ? this._windowSize.height                                          : 800;
+        this._windowPosition             = ('windowPosition'        in data)             ? data.windowPosition                                              : {};
+        this._windowPosition.x           = ('x'                     in data)             ? data.windowPosition.x                                            : 0;
+        this._windowPosition.y           = ('y'                     in data)             ? data.windowPosition.y                                            : 0;
+        this._darkMode                   = ('darkMode'              in data)             ? data.darkMode                                                    : false;
+        this._activeDevice               = ('activeDevice'          in data)             ? data.activeDevice                                                : 1;
+        this._ev3                        = ('ev3'                   in data)             ? data.ev3                                                         : {};
+        this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect                                            : false;
+        this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall                                            : false;
+        this._ev3.deviceName             = ('deviceName'            in this._ev3)        ? this._ev3.deviceName                                             : '';
+        this._ev3.daisyChainMode         = ('daisyChainMode'        in this._ev3)        ? this.getValidatedDaisyChainMode(this._ev3.daisyChainMode)        : 1;
+        this._poweredUp                  = ('poweredUp'             in data)             ? data.poweredUp                                                   : {};
+        this._poweredUp.deviceCount      = ('deviceCount'           in this._poweredUp)  ? this.getValidatedDeviceCount(this._poweredUp.deviceCount, maxPU) : 1;
+        this._spike                      = ('spike'                 in data)             ? data.spike                                                       : {};
+        this._spike.deviceCount          = ('deviceCount'           in this._spike)      ? this.getValidatedDeviceCount(this._spike.deviceCount, maxS)      : 1;
+        this._imageOpen                  = ('imageOpen'             in data)             ? data.imageOpen                                                   : {};
+        this._imageOpen.bmp              = ('bmp'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.bmp)            : 'View';
+        this._imageOpen.png              = ('png'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.png)            : 'View';
+        this._imageOpen.jpg              = ('jpg'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.jpg)            : 'View';
+        this._imageOpen.gif              = ('gif'                   in this._imageOpen)  ? this.getValidatedImageOpenOption(this._imageOpen.gif)            : 'View';
+        this._createVMTextOutput         = ('createVMTextOutput'    in data)             ? data.createVMTextOutput                                          : false;
+        this._createEventComments        = ('createEventComments'   in data)             ? data.createEventComments                                         : true;
+        this._linter                     = ('linter'                in data)             ? data.linter                                                      : true;
+        this._recentProject              = ('recentProject'         in data)             ? data.recentProject                                               : '';
+        this._recentPaths                = ('recentPaths'           in data)             ? data.recentPaths                                                 : [];
+        this._recentForm                 = ('recentForm'            in data)             ? data.recentForm                                                  : '';
+        this._filesDetail                = ('filesDetail'           in data)             ? data.filesDetail                                                 : false;
+        this._localFilesDetail           = ('localFilesDetail'      in data)             ? data.localFilesDetail                                            : false;
+        this._remoteFilesDetail          = ('remoteFilesDetail'     in data)             ? data.remoteFilesDetail                                           : false;
+        this._lastVersionCheckDate       = ('lastVersionCheckDate') in data              ? data.lastVersionCheckDate                                        : '';
+        this._resizer                    = ('resizer'               in data)             ? data.resizer                                                     : {};
+        this._resizer.consoleSize        = ('consoleSize'           in this._resizer)    ? this._resizer.consoleSize                                        : 192;
+        this._resizer.fileTreeSize       = ('fileTreeSize'          in this._resizer)    ? this._resizer.fileTreeSize                                       : 192;
+        this._deviceAlias                = ('deviceAlias'           in data)             ? data.deviceAlias                                                 : {};
+        this._devicePortAlias            = ('devicePortAlias'       in data)             ? data.devicePortAlias                                             : {};
+        this._sensorAutoReset            = ('sensorAutoReset'       in data)             ? data.sensorAutoReset                                             : true;
+        this._autoSelectProperties       = ('autoSelectProperties'  in data)             ? data.autoSelectProperties                                        : true;
+        this._sourceHeaderText           = ('sourceHeaderText'      in data)             ? data.sourceHeaderText                                            : SOURCE_HEADER_TEXT;
+        this._formGridSize               = ('formGridSize'          in data)             ? data.formGridSize                                                : 10;
+        this._closeIDEonVMRun            = ('closeIDEonVMRun'       in data)             ? data.closeIDEonVMRun                                             : false;
         if (this._show.simulator) {
             this._show.properties = false;
         } else if (this._show.properties) {

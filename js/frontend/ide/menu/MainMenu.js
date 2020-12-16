@@ -13,20 +13,17 @@ const HelpOption  = require('./HelpOption').HelpOption;
 exports.MainMenu = class extends MainMenu {
     constructor(opts) {
         super(opts);
-        let ev3       = opts.ev3;
-        let poweredUp = opts.poweredUp;
-        let settings  = opts.settings;
         this._ui        = opts.ui;
-        this._ev3       = ev3;
-        this._poweredUp = poweredUp;
-        this._settings  = settings;
+        this._ev3       = opts.ev3;
+        this._poweredUp = opts.poweredUp;
+        this._spike     = opts.spike;
+        this._settings  = opts.settings;
         this
             .initMenu()
             .initQuickMenu()
             .initHelp()
             .initStorage();
-        // Settings events...
-        settings
+        this._settings
             .addEventListener('Settings.View',        this, this.onUpdateViewMenu)
             .addEventListener('Settings.EV3',         this, this.onUpdateEV3Menu)
             .addEventListener('Settings.PoweredUp',   this, this.onUpdatePoweredUpMenu)
@@ -34,16 +31,19 @@ exports.MainMenu = class extends MainMenu {
             .addEventListener('Settings.Run',         this, this.onUpdateRunMenu)
             .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu)
             .addEventListener('Settings.Simulator',   this, this.onUpdateSimulatorMenu);
-        // EV3 events...
-        ev3
+        this._ev3
             .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
             .addEventListener('EV3.Connected',        this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Disconnect',       this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Disconnected',     this, this.onUpdateEV3Menu);
-        poweredUp
+        this._poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu)
             .addEventListener('PoweredUp.Disconnect', this, this.onUpdatePoweredUpMenu);
+        this._spike
+            .addEventListener('Spike.Connecting',     this, this.onSpikeConnecting)
+            .addEventListener('Spike.Connected',      this, this.onUpdateSpikeMenu)
+            .addEventListener('Spike.Disconnect',     this, this.onUpdateSpikeMenu);
         dispatcher
             .on('VM',                         this, this.onVM)
             .on('VM.Run',                     this, this.onVM)
@@ -168,6 +168,7 @@ exports.MainMenu = class extends MainMenu {
             .initFindMenu()
             .initEV3Menu()
             .initPoweredUpMenu()
+            .initSpikeMenu()
             .initCompileMenu()
             .initRunMenu()
             .initViewMenu()
@@ -181,6 +182,7 @@ exports.MainMenu = class extends MainMenu {
             .onVM()
             .onUpdateEV3Menu()
             .onUpdatePoweredUpMenu()
+            .onUpdateSpikeMenu()
             .onUpdateFileMenu();
     }
 
@@ -313,6 +315,32 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[1].setEnabled(false);                                       // Disconnect
         menuOptions[2].setEnabled(platform.isElectron() || platform.isNode());  // Autoconnect, not in browser!
         menuOptions[4].setEnabled(false);                                       // Direct control
+        return this;
+    }
+
+    initSpikeMenu() {
+        this._spikeMenu = this.addMenu({
+            title:     'Sp^ike',
+            width:     '256px',
+            className: 'spike-menu',
+            withCheck: true,
+            items: [
+                {title: 'Connect',                                                dispatch: 'Menu.Spike.Connect'},
+                {title: 'Disconnect',                                             dispatch: 'Menu.Spike.Disconnect'},
+                {title: '-'},
+                {title: 'Device count',                                           dispatch: 'Menu.Spike.DeviceCount'},
+                {title: '-'},
+                {title: 'Direct control',                                         dispatch: 'Menu.Spike.DirectControl'},
+                {title: 'Stop all motors',                                        dispatch: 'Menu.Spike.StopAllMotors'}
+            ]
+        });
+        let menuOptions = this._spikeMenu.getMenu().getMenuOptions();
+        let available   = platform.isElectron();
+        menuOptions[0].setEnabled(available);                                   // Connect
+        menuOptions[1].setEnabled(available);                                   // Disconnect
+        menuOptions[2].setEnabled(available);                                   // Devince count
+        menuOptions[3].setEnabled(available);                                   // Direct control
+        menuOptions[4].setEnabled(available);                                   // Stop all motors
         return this;
     }
 
@@ -485,6 +513,17 @@ exports.MainMenu = class extends MainMenu {
         return this;
     }
 
+    onUpdateSpikeMenu() {
+        let connected   = this._spike.getConnected();
+        let menuOptions = this._spikeMenu.getMenu().getMenuOptions();
+        let settings    = this._settings;
+        menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
+        menuOptions[1].setEnabled(connected);                               // Disconnect
+        menuOptions[3].setEnabled(connected);                               // Spike Direct control
+        menuOptions[4].setEnabled(connected);                               // Stop all motors
+        return this;
+    }
+
     onUpdateCompileMenu(info) {
         let menuOptions = this._compileMenu.getMenu().getMenuOptions();
         let settings    = this._settings;
@@ -550,7 +589,13 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onPoweredUpConnecting() {
+        let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
+        menuOptions[0].setTitle('Connecting...');
+    }
 
+    onSpikeConnecting() {
+        let menuOptions = this._spikeMenu.getMenu().getMenuOptions();
+        menuOptions[0].setTitle('Connecting...');
     }
 
     onUpdateCropDisable() {
