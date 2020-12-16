@@ -27,7 +27,7 @@ exports.Spike = class extends BasicDevice {
     constructor(opts) {
         opts.layerCount = spikeModuleConstants.SPIKE_LAYER_COUNT;
         super(opts);
-        this._spike  = new PoweredUP.PoweredUP();
+        // Todo: this._spike  = new Spike.Spike();
         this._layers = [];
         for (let i = 0; i < spikeModuleConstants.SPIKE_LAYER_COUNT; i++) {
             this._layers.push(this.initLayer());

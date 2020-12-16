@@ -8,6 +8,7 @@ const DOMNode         = require('../../../../lib/dom').DOMNode;
 const Button          = require('../../../../lib/components/input/Button').Button;
 const SettingsState   = require('../../../settings/SettingsState');
 const SimulatorPlugin = require('../lib/SimulatorPlugin').SimulatorPlugin;
+const LedMatrix       = require('./io/LedMatrix').LedMatrix;
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
@@ -34,7 +35,10 @@ exports.Plugin = class extends SimulatorPlugin {
                         className: 'spike-middle flt max-w',
                         children: [
                             this.initPorts(['A', 'C', 'E']),
-                            this.initLeds(),
+                            {
+                                ref:  this.setRef('ledMatrix'),
+                                type: LedMatrix
+                            },
                             this.initPorts(['B', 'D', 'F'])
                         ]
                     },
@@ -47,21 +51,6 @@ exports.Plugin = class extends SimulatorPlugin {
                 ]
             }
         );
-    }
-
-    initLeds() {
-        let result = {
-                className: 'flt leds',
-                children:  []
-            };
-        for (let y = 0; y < 5; y++) {
-            for (let x = 0; x < 5; x++) {
-                result.children.push({
-                    className: 'flt led'
-                });
-            }
-        }
-        return result;
     }
 
     initPorts(ports) {
@@ -99,5 +88,13 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     onPluginSettings() {
+    }
+
+    clearLeds(led) {
+        this._refs.ledMatrix.clear();
+    }
+
+    setLed(led) {
+        this._refs.ledMatrix.setLed(led.x, led.y, led.brightness);
     }
 };

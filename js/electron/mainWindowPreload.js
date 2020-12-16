@@ -519,6 +519,7 @@ require('../frontend/ide/plugins/simulator/ev3sensors/io/UltrasonicSensor');
 require('../frontend/ide/plugins/simulator/ev3sensors/io/MultiplexerSensor');
 require('../frontend/ide/plugins/simulator/ev3sensors/SensorContainer');
 require('../frontend/ide/plugins/simulator/ev3sensors/Plugin');
+require('../frontend/ide/plugins/simulator/spike/io/LedMatrix');
 require('../frontend/ide/plugins/simulator/spike/Plugin');
 require('../frontend/ide/plugins/simulator/spikeports/SensorContainer');
 require('../frontend/ide/plugins/simulator/spikeports/io/ColorSensor');

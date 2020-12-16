@@ -79,6 +79,14 @@ exports.SpikeModule = class extends LocalSpikeModule {
                     }
                 }
                 break;
+            case spikeModuleConstants.SPIKE_CLEAR_LEDS:
+                this.emit('Spike.ClearLeds', vmData.getRecordFromSrcOffset(['layer']));
+                break;
+            case spikeModuleConstants.SPIKE_SET_LED:
+                let led = vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']);
+                this.emit('Spike.SetLed', led);
+                this._device().module(spikeModuleConstants.MODULE_SPIKE, commandId, led);
+                break;
         }
     }
 };

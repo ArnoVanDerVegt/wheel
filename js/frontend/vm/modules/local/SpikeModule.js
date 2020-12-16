@@ -20,6 +20,12 @@ exports.SpikeModule = class extends VMModule {
                     vmData.setGlobalNumber(offset + i, 0);
                 }
                 break;
+            case spikeModuleConstants.SPIKE_CLEAR_LEDS:
+                this.emit('Spike.ClearLeds', vmData.getRecordFromSrcOffset(['layer']));
+                break;
+            case spikeModuleConstants.SPIKE_SET_LED:
+                this.emit('Spike.SetLed', vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']));
+                break;
         }
     }
 };

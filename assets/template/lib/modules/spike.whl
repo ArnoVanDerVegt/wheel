@@ -25,8 +25,10 @@
 #define SPIKE_PORT_E                            4
 #define SPIKE_PORT_F                            5
 
-; @const Module calls for device functions.
-#define SPIKE_START                             0
+; @const Module calls for spike functions.
+#define SPIKE_LAYER_START                       0
+#define SPIKE_LAYER_CLEAR_LEDS                  1
+#define SPIKE_LAYER_SET_LED                     2
 
 ; @const Devive types.
 #define SPIKE_DEVICE_MEDIUM_MOTOR               0 ; `image:images/spike/motorMedium64.png`
@@ -36,7 +38,7 @@
 #define SPIKE_DEVICE_FORCE_SENSOR               4 ; `image:images/spike/forceSensor64.png`
 
 ; @record A record to contain vector data for acceleration and tilt values.
-record SpikeUpVector
+record SpikeVector
     number x, y, z
 end
 
@@ -69,7 +71,24 @@ end
 SpikeDevices spikeDevices
 
 ; @proc             Start reading updates from the Spike devices.
-proc spikeStart()
+proc spikeLayerStart()
     addr spikeDevices
-    mod  MODULE_POWERED_UP, SPIKE_START
+    mod  MODULE_SPIKE, SPIKE_LAYER_START
+end
+
+; @proc             Set the brightness of a led in the matrix.
+; @param layer      The layer.
+proc spikeLayerClearLeds(number layer)
+    addr layer
+    mod  MODULE_SPIKE, SPIKE_LAYER_CLEAR_LEDS
+end
+
+; @proc             Set the brightness of a led in the matrix.
+; @param layer      The layer.
+; @param x          The column.
+; @param y          The row.
+; @param brightness The let brightness.
+proc spikeLayerSetLed(number layer, number x, number y, number brightness)
+    addr layer
+    mod  MODULE_SPIKE, SPIKE_LAYER_SET_LED
 end

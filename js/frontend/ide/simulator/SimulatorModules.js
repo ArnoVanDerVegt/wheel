@@ -13,6 +13,7 @@ const pspModuleConstants           = require('../../../shared/vm/modules/pspModu
 const multiplexerModuleConstants   = require('../../../shared/vm/modules/multiplexerModuleConstants');
 const deviceModuleConstants        = require('../../../shared/vm/modules/deviceModuleConstants');
 const poweredUpModuleConstants     = require('../../../shared/vm/modules/poweredUpModuleConstants');
+const spikeModuleConstants         = require('../../../shared/vm/modules/spikeModuleConstants');
 const componentFormModuleConstants = require('../../../shared/vm/modules/components/componentFormModuleConstants');
 const Sound                        = require('../../../shared/lib/Sound').Sound;
 const dispatcher                   = require('../../lib/dispatcher').dispatcher;
@@ -316,6 +317,22 @@ exports.SimulatorModules = class {
         return this;
     }
 
+    setupSpikeModule(vm) {
+        let spikeModule = this._modules[spikeModuleConstants.MODULE_SPIKE];
+        if (!spikeModule) {
+            return this;
+        }
+        const getSpikeDevice = () => {
+                return this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_SPIKE_UUID);
+            };
+        this._events.push(
+            spikeModule.addEventListener('Spike.Start',     this, function(readAddress) {}),
+            spikeModule.addEventListener('Spike.ClearLeds', this, function(led) { getSpikeDevice().clearLeds(led); }),
+            spikeModule.addEventListener('Spike.SetLed',    this, function(led) { getSpikeDevice().setLed(led); })
+        );
+        return this;
+    }
+
     setupComponentFormModule(vm) {
         this._modules[componentFormModuleConstants.MODULE_FORM].setIDE(this._ide);
         return this;
@@ -341,6 +358,7 @@ exports.SimulatorModules = class {
             .setupMultiplexerModule(vm)
             .setupDeviceModule(vm)
             .setupPoweredUpModule(vm)
+            .setupSpikeModule(vm)
             .setupComponentFormModule(vm);
     }
 };

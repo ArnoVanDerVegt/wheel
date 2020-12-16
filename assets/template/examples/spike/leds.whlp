@@ -1,0 +1,19 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Spike led matrix example"
+
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/spike.whl"
+
+#display "Spike"
+
+proc main()
+    ; Select the Spike device in the simulator...
+    selectDevice(DEVICE_SPIKE)
+
+    spikeLayerClearLeds(0)
+    spikeLayerSetLed(0, 0, 0, 50)
+
+    halt()
+end

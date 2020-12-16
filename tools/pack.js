@@ -638,6 +638,7 @@ const files = [
         './js/frontend/ide/plugins/simulator/ev3sensors/io/MultiplexerSensor',
         './js/frontend/ide/plugins/simulator/ev3sensors/SensorContainer',
         './js/frontend/ide/plugins/simulator/ev3sensors/Plugin',
+        './js/frontend/ide/plugins/simulator/spike/io/LedMatrix',
         './js/frontend/ide/plugins/simulator/spike/Plugin',
         './js/frontend/ide/plugins/simulator/spikeports/SensorContainer',
         './js/frontend/ide/plugins/simulator/spikeports/io/ColorSensor',
