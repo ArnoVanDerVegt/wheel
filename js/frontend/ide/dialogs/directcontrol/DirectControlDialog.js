@@ -18,14 +18,15 @@ exports.DirectControlDialog = class extends Dialog {
         super(opts);
         this._device             = opts.device;
         this._layerCount         = opts.layerCount;
+        this._withAlias          = opts.withAlias;
+        this._hasSound           = opts.hasSound;
         this._layer              = 0;
         this._motorElements      = [];
         this._motorAliasElements = [];
-        this._hasSound           = opts.hasSound;
         this
             .initWindow({
                 width:          624,
-                height:         428,
+                height:         468,
                 className:      'direct-control-dialog',
                 title:          opts.title,
                 motorValidator: opts.motorValidator
@@ -48,6 +49,7 @@ exports.DirectControlDialog = class extends Dialog {
             {
                 type:           Motors,
                 motorValidator: opts.motorValidator,
+                withAlias:      this._withAlias,
                 settings:       this._settings,
                 ui:             this._ui,
                 uiId:           this._uiId,
@@ -193,8 +195,9 @@ exports.DirectControlDialog = class extends Dialog {
                 .setAssigned(state.assigned)
                 .setPosition(state.position)
                 .setSpeed(state.speed);
-            this._motorAliasElements[i]
-                .update();
+            if (this._motorAliasElements[i]) {
+                this._motorAliasElements[i].update();
+            }
         }
     }
 
@@ -217,7 +220,7 @@ exports.DirectControlDialog = class extends Dialog {
             contentElement.style.marginTop = '-215px';
         }
         let tabs = [];
-        for (let i = 0; i <= opts.deviceCount; i++) {
+        for (let i = 0; i < opts.deviceCount; i++) {
             (function(index) {
                 tabs.push({
                     title: (i + 1).toString(),

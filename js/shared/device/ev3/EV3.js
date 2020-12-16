@@ -128,7 +128,7 @@ exports.EV3 = class extends BasicDevice {
                 case 0:
                     this.getConnectedTypes(poll.mainLayer);
                     poll.mainLayer++;
-                    if (poll.mainLayer > this._layerCount) {
+                    if (poll.mainLayer >= this._layerCount) {
                         poll.mainLayer = 0;
                     }
                     break;
@@ -144,7 +144,7 @@ exports.EV3 = class extends BasicDevice {
                         if (poll.count >= updateList.length) {
                             poll.count = 0;
                             poll.layer++;
-                            if (poll.layer > this._layerCount) {
+                            if (poll.layer >= this._layerCount) {
                                 poll.layer = 0;
                             }
                         }

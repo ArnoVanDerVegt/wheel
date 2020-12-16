@@ -483,10 +483,11 @@ describe(
                     'Should validate daisy chain mode',
                     () => {
                         let settings = new SettingsState.SettingsState({});
-                        assert.equal(settings.getValidatedDaisyChainMode(-1), 0);
-                        assert.equal(settings.getValidatedDaisyChainMode(0),  0);
+                        assert.equal(settings.getValidatedDaisyChainMode(-1), 1);
+                        assert.equal(settings.getValidatedDaisyChainMode(0),  1);
                         assert.equal(settings.getValidatedDaisyChainMode(3),  3);
-                        assert.equal(settings.getValidatedDaisyChainMode(4),  0);
+                        assert.equal(settings.getValidatedDaisyChainMode(4),  4);
+                        assert.equal(settings.getValidatedDaisyChainMode(5),  1);
                     }
                 );
                 it(

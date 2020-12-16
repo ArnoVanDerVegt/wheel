@@ -9,6 +9,7 @@ const MotorAlias = require('./MotorAlias').MotorAlias;
 exports.Motors = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._withAlias      = opts.withAlias;
         this._settings       = opts.settings;
         this._ui             = opts.ui;
         this._uiId           = opts.uiId;
@@ -20,16 +21,18 @@ exports.Motors = class extends DOMNode {
 
     initDOM(parentNode, dialog) {
         let children = [];
-        for (let i = 0; i < 4; i++) {
-            children.push({
-                id:       dialog.addMotorAliasElement.bind(dialog),
-                settings: this._settings,
-                dialog:   this._dialog,
-                device:   this._device,
-                type:     MotorAlias,
-                alias:    (i + 1) + '',
-                index:    i
-            });
+        if (this._withAlias) {
+            for (let i = 0; i < 4; i++) {
+                children.push({
+                    id:       dialog.addMotorAliasElement.bind(dialog),
+                    settings: this._settings,
+                    dialog:   this._dialog,
+                    device:   this._device,
+                    type:     MotorAlias,
+                    alias:    (i + 1) + '',
+                    index:    i
+                });
+            }
         }
         for (let i = 0; i < 4; i++) {
             children.push({

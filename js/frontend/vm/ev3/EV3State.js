@@ -9,10 +9,12 @@ const LayerState       = require('./LayerState').LayerState;
 
 exports.EV3State = class extends BasicDeviceState {
     constructor(opts) {
+        let layerCount = ('layerCount' in opts) ? opts.layerCount : 0; // This is the configured (active) layer count...
+        opts.layerCount = 4;                                           // And this is the number of layers we want in the layerState array!
         opts.LayerState = LayerState;
         super(opts);
-        // Allow dependency injection for unit tests...
-        this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider();
+        this._layerCount   = layerCount;
+        this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider(); // Allow dependency injection for unit tests...
         this._battery      = null;
         this._deviceName   = 'EV3';
         this._noTimeout    = ('noTimeout' in opts) ? opts.noTimeout : false;
@@ -103,6 +105,7 @@ exports.EV3State = class extends BasicDeviceState {
                         this._connected = false;
                         this.emit('EV3.Disconnect');
                     }
+                    this._queue.length = 0;
                 } catch (error) {
                     // Todo: show error message in IDE...
                     console.error(error);
@@ -112,7 +115,6 @@ exports.EV3State = class extends BasicDeviceState {
                 }
             }
         );
-        this._queue = [];
     }
 
     connecting() {
