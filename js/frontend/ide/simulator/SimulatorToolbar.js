@@ -135,7 +135,7 @@ exports.SimulatorToolbar = class extends DOMNode {
         let settings   = this._settings;
         let layerCount = this.getLayerCount();
         let layer      = this._simulator.getLayer();
-        if (layer > layerCount) {
+        if (layer >= layerCount) {
             dispatcher.dispatch('Button.Layer' + layerCount);
             layer = layerCount;
         }
@@ -145,7 +145,7 @@ exports.SimulatorToolbar = class extends DOMNode {
     }
 
     updateSettings() {
-        if (this._simulator.getLayer() > this.getLayerCount()) {
+        if (this._simulator.getLayer() >= this.getLayerCount()) {
             this._simulator.setLayer(0);
         }
         this.updateLayerButtons();

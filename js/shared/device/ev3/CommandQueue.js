@@ -24,7 +24,10 @@ exports.CommandQueue = class {
         this._failedConnectionTypesLayer = -1;
         this._queue                      = [];
         this._id                         = 0;
-        this._layers                     = [this.initLayer(0), this.initLayer(1), this.initLayer(2), this.initLayer(3)];
+        this._layers                     = [];
+        for (let i = 0; i < 4; i++) {
+            this._layers.push(this.initLayer(i));
+        }
     }
 
     initLayer(layer) {

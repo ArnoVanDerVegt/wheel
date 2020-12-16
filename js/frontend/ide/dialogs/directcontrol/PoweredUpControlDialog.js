@@ -27,6 +27,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
                 poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR
             ];
         opts.layerCount     = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
+        opts.withAlias      = true;
         opts.hasSound       = false;
         opts.title          = 'Powered Up Direct control';
         opts.motorValidator = {
