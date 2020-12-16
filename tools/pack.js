@@ -530,6 +530,7 @@ const files = [
         './js/frontend/ide/editor/editors/home/HomeScreenTile',
         './js/frontend/ide/editor/editors/home/HomeScreenConnectEV3Tile',
         './js/frontend/ide/editor/editors/home/HomeScreenConnectPoweredUpTile',
+        './js/frontend/ide/editor/editors/home/HomeScreenConnectSpikeTile',
         './js/frontend/ide/editor/editors/home/HomeScreenRecentProjectTile',
         './js/frontend/ide/editor/editors/home/HomeScreenRecentFormTile',
         './js/frontend/ide/editor/editors/home/HomeScreenThemeTile',

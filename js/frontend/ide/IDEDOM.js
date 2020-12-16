@@ -48,6 +48,7 @@ exports.IDEDOM = class extends IDEDialogs {
                         settings:      this._settings,
                         ev3:           this._ev3,
                         poweredUp:     this._poweredUp,
+                        spike:         this._spike,
                         editorsState:  this._editorsState
                     },
                     {

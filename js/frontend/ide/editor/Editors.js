@@ -29,6 +29,7 @@ exports.Editors = class extends DOMNode {
         this._settings     = opts.settings;
         this._ev3          = opts.ev3;
         this._poweredUp    = opts.poweredUp;
+        this._spike        = opts.spike;
         this._ideAssistant = opts.ideAssistant;
         this._editorsState = opts.editorsState;
         this._soundLoader  = new SoundLoader();
@@ -115,7 +116,8 @@ exports.Editors = class extends DOMNode {
                                         ui:        this._ui,
                                         settings:  this._settings,
                                         ev3:       this._ev3,
-                                        poweredUp: this._poweredUp
+                                        poweredUp: this._poweredUp,
+                                        spike:     this._spike
                                     }
                                 ]
                             }

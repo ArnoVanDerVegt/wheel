@@ -207,6 +207,7 @@ exports.SettingsState = class extends Emitter {
                 ev3Tile:           this._show.ev3Tile,
                 ev3ImageTile:      this._show.ev3ImageTile,
                 poweredUpTile:     this._show.poweredUpTile,
+                spikeTile:         this._show.spikeTile,
                 newFormTile:       this._show.newFormTile
             },
             dontShow:{
@@ -313,6 +314,10 @@ exports.SettingsState = class extends Emitter {
 
     getShowPoweredUpTile() {
         return this._show.poweredUpTile;
+    }
+
+    getShowSpikeTile() {
+        return this._show.spikeTile;
     }
 
     getShowNewFormTile() {
@@ -735,6 +740,12 @@ exports.SettingsState = class extends Emitter {
         this.emit('Settings.HomeScreen');
     }
 
+    _setShowSpikeTile(showSpikeTile) {
+        this._show.spikeTile = showSpikeTile;
+        this._save();
+        this.emit('Settings.HomeScreen');
+    }
+
     _setShowNewFormTile(showNewFormTile) {
         this._show.newFormTile = showNewFormTile;
         this._save();
@@ -879,6 +890,7 @@ exports.SettingsState = class extends Emitter {
         this._show.ev3Tile               = ('ev3Tile'               in this._show)       ? this._show.ev3Tile                                               : true;
         this._show.ev3ImageTile          = ('ev3ImageTile'          in this._show)       ? this._show.ev3ImageTile                                          : true;
         this._show.poweredUpTile         = ('poweredUpTile'         in this._show)       ? this._show.poweredUpTile                                         : true;
+        this._show.spikeTile             = ('spikeTile'             in this._show)       ? this._show.spikeTile                                             : true;
         this._show.newFormTile           = ('newFormTile'           in this._show)       ? this._show.newFormTile                                           : true;
         this._dontShow                   = ('dontShow'              in data)             ? data.dontShow                                                    : {};
         this._dontShow.themeTile         = ('themeTile'             in this._dontShow)   ? this._dontShow.themeTile                                         : false;

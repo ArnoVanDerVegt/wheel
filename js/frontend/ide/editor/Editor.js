@@ -23,6 +23,7 @@ exports.Editor = class {
             settings:     opts.settings,
             ev3:          opts.ev3,
             poweredUp:    opts.poweredUp,
+            spike:        opts.spike,
             parentNode:   opts.parentNode
         });
         this._selectProjectCompileCallback = null; // Which project should be compiled?

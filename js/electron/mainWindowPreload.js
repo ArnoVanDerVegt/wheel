@@ -404,6 +404,7 @@ require('../frontend/ide/editor/editors/Editor');
 require('../frontend/ide/editor/editors/home/HomeScreenTile');
 require('../frontend/ide/editor/editors/home/HomeScreenConnectEV3Tile');
 require('../frontend/ide/editor/editors/home/HomeScreenConnectPoweredUpTile');
+require('../frontend/ide/editor/editors/home/HomeScreenConnectSpikeTile');
 require('../frontend/ide/editor/editors/home/HomeScreenRecentProjectTile');
 require('../frontend/ide/editor/editors/home/HomeScreenThemeTile');
 require('../frontend/ide/editor/editors/home/HomeScreenNewProjectTile');

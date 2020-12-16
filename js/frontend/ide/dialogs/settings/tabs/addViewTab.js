@@ -107,8 +107,14 @@ exports.tab = (settingsDialog) => {
                 signal:      'Settings.Set.ShowPoweredUpTile'
             }),
             settingsDialog.addCheckboxSetting({
-                label:       'New form tile',
+                label:       'Spike connect tile',
                 tabIndex:    12,
+                getter:      'getShowSpikeTile',
+                signal:      'Settings.Set.ShowSpikeTile'
+            }),
+            settingsDialog.addCheckboxSetting({
+                label:       'New form tile',
+                tabIndex:    13,
                 getter:      'getShowNewFormTile',
                 signal:      'Settings.Set.ShowNewFormTile'
             }),

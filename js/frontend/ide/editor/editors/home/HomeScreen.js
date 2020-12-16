@@ -11,6 +11,7 @@ const tabIndex                       = require('../../../tabIndex');
 const HomeScreenTile                 = require('./HomeScreenTile').HomeScreenTile;
 const HomeScreenConnectEV3Tile       = require('./HomeScreenConnectEV3Tile').HomeScreenConnectEV3Tile;
 const HomeScreenConnectPoweredUpTile = require('./HomeScreenConnectPoweredUpTile').HomeScreenConnectPoweredUpTile;
+const HomeScreenConnectSpikeTile     = require('./HomeScreenConnectSpikeTile').HomeScreenConnectSpikeTile;
 const HomeScreenThemeTile            = require('./HomeScreenThemeTile').HomeScreenThemeTile;
 const HomeScreenRecentProjectTile    = require('./HomeScreenRecentProjectTile').HomeScreenRecentProjectTile;
 const HomeScreenRecentFormTile       = require('./HomeScreenRecentFormTile').HomeScreenRecentFormTile;
@@ -24,6 +25,7 @@ exports.HomeScreen = class extends DOMNode {
         this._settings     = opts.settings;
         this._ev3          = opts.ev3;
         this._poweredUp    = opts.poweredUp;
+        this._spike        = opts.spike;
         this._tileCount    = 0;
         this._onGlobalUIId = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this.initDOM(opts.parentNode);
@@ -120,7 +122,7 @@ exports.HomeScreen = class extends DOMNode {
                     id:             addTile(),
                     ui:             ui,
                     icon:           getImage('images/files/homeEv3.svg'),
-                    title:          'Connect to EV3 &raquo;',
+                    title:          'Connect EV3 &raquo;',
                     type:           HomeScreenConnectEV3Tile,
                     tabIndex:       tabIndex.HOME_SCREEN + 12,
                     settings:       settings,
@@ -133,7 +135,7 @@ exports.HomeScreen = class extends DOMNode {
                 id:             addTile(),
                 ui:             ui,
                 icon:           getImage('images/files/homePoweredUp.svg'),
-                title:          'Connect to Powered Up &raquo;',
+                title:          'Connect Powered Up &raquo;',
                 type:           HomeScreenConnectPoweredUpTile,
                 tabIndex:       tabIndex.HOME_SCREEN + 14,
                 settings:       settings,
@@ -155,12 +157,26 @@ exports.HomeScreen = class extends DOMNode {
                     }
                 }
             },
+            platform.isElectron() ?
+                {
+                    id:             addTile(),
+                    ui:             ui,
+                    icon:           getImage('images/files/homeSpike.svg'),
+                    title:          'Connect Spike &raquo;',
+                    type:           HomeScreenConnectSpikeTile,
+                    tabIndex:       tabIndex.HOME_SCREEN + 16,
+                    settings:       settings,
+                    settingsGetter: settings.getShowSpikeTile.bind(settings),
+                    spike:          this._spike,
+                    onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.ConnectSpike.Show')
+                } :
+                null,
             this.addHomeScreenTile({
                 id:       addTile(),
                 type:     HomeScreenDocumentationTile,
                 icon:     getImage('images/files/homeHelp.svg'),
                 title:    'Open documentation &raquo;',
-                tabIndex: tabIndex.HOME_SCREEN + 16,
+                tabIndex: tabIndex.HOME_SCREEN + 18,
                 onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Help.Show', {documentPath: settings.getDocumentPath()})
             }),
             showThemeTile ?
