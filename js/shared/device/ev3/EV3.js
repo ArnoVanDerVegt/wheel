@@ -155,20 +155,16 @@ exports.EV3 = class extends BasicDevice {
                     break;
             }
             let layer = this._commandQueue.getFailedConnectionTypesLayer();
-            if (layer === -1) {
-                poll.main      = (poll.main + 1) % 128;
+            if (this._commandQueue.getLostAssigned()) {
+                poll.main      = 0;
+            } else if (layer === -1) {
+                poll.main      = (poll.main + 1) % 2000;
             } else {
                 poll.mainLayer = layer;
                 poll.main      = 0;
             }
         }
-        let time;
-        if (this._stopPolling) {
-            time = 1000;
-        } else {
-            time = Math.ceil(20 / (this._commandQueue.getAssignedPortCount() || 1));
-        }
-        setTimeout(this._startConnectionPolling, time);
+        setTimeout(this._startConnectionPolling, this._stopPolling ? 1000 : 1);
     }
 
     onPortOpen(err) {
@@ -230,6 +226,8 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
+            type:     null,
+            response: false,
             callback: callback,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
@@ -254,9 +252,9 @@ exports.EV3 = class extends BasicDevice {
                 .addB(offset++);
         }
         this._commandQueue.addToCommandQueue({
-            layer:    layer,
             type:     constants.INPUT_DEVICE_GET_TYPE_MODE,
             response: true,
+            layer:    layer,
             message:  message
         });
     }
@@ -289,6 +287,8 @@ exports.EV3 = class extends BasicDevice {
         this._commandQueue
             .setMotorMove(layer, motor, degrees)
             .addToCommandQueue({
+                type:     null,
+                response: false,
                 callback: callback,
                 message:  new Message()
                     .addS(constants.DIRECT_COMMAND_PREFIX)
@@ -309,6 +309,8 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
+            type:     null,
+            response: false,
             callback: callback,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
@@ -325,6 +327,8 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
+            type:     null,
+            response: false,
             callback: callback,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
@@ -339,10 +343,10 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
-            layer:    layer,
-            port:     port,
             type:     sensorModuleConstants.SENSOR_TYPE_TOUCH,
             response: true,
+            layer:    layer,
+            port:     port,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_REPLY_PREFIX)
                 .addS(constants.READ_SENSOR)
@@ -372,11 +376,11 @@ exports.EV3 = class extends BasicDevice {
             }
         }
         commandQueue.addToCommandQueue({
+            type:     type,
+            response: false,
             layer:    layer,
             port:     port,
-            type:     type,
             mode:     mode,
-            response: true,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_REPLY_SENSOR_PREFIX)
                 .addS(constants.INPUT_DEVICE_READY_SI)
@@ -393,11 +397,11 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
+            type:     constants.READ_FROM_MOTOR,
+            response: false,
             layer:    layer,
             port:     port,
-            type:     constants.READ_FROM_MOTOR,
             mode:     constants.READ_MOTOR_POSITION,
-            response: true,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_REPLY_SENSOR_PREFIX)
                 .addS(constants.INPUT_DEVICE_READY_SI)
@@ -429,8 +433,9 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
-            type:    constants.UIWRITE,
-            message: new Message()
+            type:     constants.UIWRITE,
+            response: false,
+            message:  new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
                 .addS(constants.UIWRITE)
                 .addS(constants.LED)
@@ -453,10 +458,10 @@ exports.EV3 = class extends BasicDevice {
     downloadFile(filename, data, callback) {
         this._commandQueue && this._commandQueue.addToCommandQueue({
             type:             constants.BEGIN_DOWNLOAD,
-            filename:         filename,
-            data:             data,
             response:         true,
             responseCallback: callback || false,
+            filename:         filename,
+            data:             data,
             message:          new Message()
                 .addS(constants.BEGIN_DOWNLOAD)
                 .addS(messageEncoder.decimalToLittleEndianHex(data.length / 2, 8))
@@ -467,9 +472,9 @@ exports.EV3 = class extends BasicDevice {
     createDir(path, callback) {
         this._commandQueue && this._commandQueue.addToCommandQueue({
             type:             constants.SYSTEM_COMMAND,
-            path:             path,
             response:         true,
             responseCallback: callback || false,
+            path:             path,
             message:          new Message()
                 .addS(constants.CREATE_DIR)
                 .addH(path)
@@ -479,9 +484,9 @@ exports.EV3 = class extends BasicDevice {
     deleteFile(path, callback) {
         this._commandQueue && this._commandQueue.addToCommandQueue({
             type:             constants.SYSTEM_COMMAND,
-            path:             path,
             response:         true,
             responseCallback: callback || false,
+            path:             path,
             command:          constants.DELETE_FILE,
             message:          new Message()
                 .addS(constants.DELETE_FILE)
