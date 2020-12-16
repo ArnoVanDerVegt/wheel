@@ -57,7 +57,8 @@ exports.CompileAndRun = class extends DOMUtils {
             .on('VM.Error.DivisionByZero', this, this.onDivisionByZero)
             .on('VM.Error.HeapOverflow',   this, this.onHeapOverflow)
             .on('Button.Device.EV3',       this, this.onSelectDeviceEV3)
-            .on('Button.Device.PoweredUp', this, this.onSelectDevicePoweredUp);
+            .on('Button.Device.PoweredUp', this, this.onSelectDevicePoweredUp)
+            .on('Button.Device.Spike',     this, this.onSelectDeviceSpike);
     }
 
     onDeviceConnected() {
@@ -246,7 +247,6 @@ exports.CompileAndRun = class extends DOMUtils {
             }
             success = true;
         } catch (error) {
-            console.error(error);
             if (this._compileSilent) {
                 // Compile failed but try to use what we've got for the code completion...
                 dispatcher.dispatch('Compiler.Database', compiler.getScope());

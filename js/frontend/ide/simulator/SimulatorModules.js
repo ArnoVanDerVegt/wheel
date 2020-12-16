@@ -292,7 +292,7 @@ exports.SimulatorModules = class {
                 'Device.Select',
                 this,
                 function(device) {
-                    let signals = ['Button.Device.EV3', 'Button.Device.PoweredUp'];
+                    let signals = ['Button.Device.EV3', 'Button.Device.PoweredUp', 'Button.Device.Spike'];
                     if (signals[device.device]) {
                         dispatcher.dispatch(signals[device.device]);
                     }

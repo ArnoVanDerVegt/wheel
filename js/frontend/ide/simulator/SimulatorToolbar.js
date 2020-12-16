@@ -128,7 +128,6 @@ exports.SimulatorToolbar = class extends DOMNode {
     }
 
     updateLayerButtons() {
-        let settings     = this._settings;
         let layerCount   = this.getLayerCount();
         let layer        = this._simulator.getLayer();
         let activeDevice = this._settings.getActiveDevice();

@@ -68,7 +68,7 @@ exports.SpikeModule = class extends LocalSpikeModule {
         let vm     = this._vm;
         let device = this._device();
         switch (commandId) {
-            case spikeModuleConstants.SPIKE_START:
+            case spikeModuleConstants.SPIKE_LAYER_START:
                 this._writeOffset = vmData.getRegSrc();
                 this.emit('Spike.Start', {});
                 for (let i = 0; i < spikeModuleConstants.SPIKE_LAYER_COUNT; i ++) {
@@ -79,10 +79,10 @@ exports.SpikeModule = class extends LocalSpikeModule {
                     }
                 }
                 break;
-            case spikeModuleConstants.SPIKE_CLEAR_LEDS:
+            case spikeModuleConstants.SPIKE_LAYER_CLEAR_LEDS:
                 this.emit('Spike.ClearLeds', vmData.getRecordFromSrcOffset(['layer']));
                 break;
-            case spikeModuleConstants.SPIKE_SET_LED:
+            case spikeModuleConstants.SPIKE_LAYER_SET_LED:
                 let led = vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']);
                 this.emit('Spike.SetLed', led);
                 this._device().module(spikeModuleConstants.MODULE_SPIKE, commandId, led);

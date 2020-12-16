@@ -32,9 +32,9 @@ exports.LedMatrix = class extends DOMNode {
             return;
         }
         if (brightness === 0) {
-            ref.style.backgroundColor = 'rgba(0,0,0,0.05);';
+            ref.style.backgroundColor = 'rgba(0,0,0,0.05)';
         } else if ((brightness > 0) && (brightness <= 100)) {
-            ref.style.backgroundColor = 'rgba(255,255,0,' + (brightness / 100) + ');';
+            ref.style.backgroundColor = 'rgba(255,255,0,' + (brightness / 100) + ')';
         }
     }
 

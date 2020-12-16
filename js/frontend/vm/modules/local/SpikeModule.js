@@ -10,7 +10,7 @@ exports.SpikeModule = class extends VMModule {
         let vmData = this._vmData;
         let vm     = this._vm;
         switch (commandId) {
-            case spikeModuleConstants.SPIKE_UP_START:
+            case spikeModuleConstants.SPIKE_LAYER_START:
                 this.emit('Spike.Start', vmData.getRegSrc());
                 let offset = vmData.getRegSrc();
                 // Button:        1
@@ -20,10 +20,10 @@ exports.SpikeModule = class extends VMModule {
                     vmData.setGlobalNumber(offset + i, 0);
                 }
                 break;
-            case spikeModuleConstants.SPIKE_CLEAR_LEDS:
+            case spikeModuleConstants.SPIKE_LAYER_CLEAR_LEDS:
                 this.emit('Spike.ClearLeds', vmData.getRecordFromSrcOffset(['layer']));
                 break;
-            case spikeModuleConstants.SPIKE_SET_LED:
+            case spikeModuleConstants.SPIKE_LAYER_SET_LED:
                 this.emit('Spike.SetLed', vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']));
                 break;
         }
