@@ -97,7 +97,7 @@ exports.DirectControlDialog = class extends Dialog {
                             type:     Slider,
                             ui:       this._ui,
                             uiId:     this._uiId,
-                            value:    50,
+                            value:    10,
                             maxValue: 100,
                             tabIndex: 100
                         }
