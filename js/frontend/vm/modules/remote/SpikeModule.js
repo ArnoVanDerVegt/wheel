@@ -22,8 +22,9 @@ const LocalSpikeModule     = require('../local/SpikeModule').SpikeModule;
 exports.SpikeModule = class extends LocalSpikeModule {
     constructor(opts) {
         super(opts);
-        this._writeOffset = 0;
-        this._subscribed  = false;
+        this._writeOffset            = 0;
+        this._subscribed             = false;
+        this._ignoreDuplicateModules = [spikeModuleConstants.MODULE_SPIKE];
     }
 
     subscribeToTilt(device, signal, layer) {
@@ -67,6 +68,7 @@ exports.SpikeModule = class extends LocalSpikeModule {
         let vmData = this._vmData;
         let vm     = this._vm;
         let device = this._device();
+        let led;
         switch (commandId) {
             case spikeModuleConstants.SPIKE_LAYER_START:
                 this._writeOffset = vmData.getRegSrc();
@@ -80,12 +82,14 @@ exports.SpikeModule = class extends LocalSpikeModule {
                 }
                 break;
             case spikeModuleConstants.SPIKE_LAYER_CLEAR_LEDS:
-                this.emit('Spike.ClearLeds', vmData.getRecordFromSrcOffset(['layer']));
+                led = vmData.getRecordFromSrcOffset(['layer']);
+                this._device().module(spikeModuleConstants.MODULE_SPIKE, commandId, led);
+                this.emit('Spike.ClearLeds', led);
                 break;
             case spikeModuleConstants.SPIKE_LAYER_SET_LED:
-                let led = vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']);
-                this.emit('Spike.SetLed', led);
+                led = vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']);
                 this._device().module(spikeModuleConstants.MODULE_SPIKE, commandId, led);
+                this.emit('Spike.SetLed', led);
                 break;
         }
     }

@@ -1,0 +1,20 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Spike motors example"
+
+#include "lib/modules/standard.whl"
+#include "lib/modules/motor.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/spike.whl"
+
+#display "Spike"
+
+proc main()
+    ; Select the Spike device in the simulator...
+    selectDevice(DEVICE_SPIKE)
+
+    motorLayerSetType(0, SPIKE_OUTPUT_A, SPIKE_DEVICE_MEDIUM_MOTOR)
+    motorLayerSetType(0, SPIKE_OUTPUT_B, SPIKE_DEVICE_LARGE_MOTOR)
+
+    halt()
+end

@@ -10,6 +10,7 @@ const MotorState = require('./io/MotorState').MotorState;
 
 exports.Plugin = class extends Plugin {
     constructor(opts) {
+        opts.device           = opts.ev3;
         opts.motorConstructor = Motor;
         opts.stateConstructor = MotorState;
         super(opts);

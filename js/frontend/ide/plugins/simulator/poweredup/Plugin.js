@@ -26,7 +26,7 @@ exports.Plugin = class extends Plugin {
         opts.layerCount       = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         opts.motorConstructor = MotorOrSensor;
         opts.stateConstructor = MotorOrSensorState;
-        opts.ev3              = opts.poweredUp; // Todo: Hack device should be fixed!
+        opts.device           = opts.poweredUp;
         opts.constants        = poweredUpModuleConstants;
         super(opts);
         this.initEvents();

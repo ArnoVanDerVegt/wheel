@@ -9,6 +9,7 @@ const LayerState       = require('./LayerState').LayerState;
 
 exports.SpikeState = class extends BasicDeviceState {
     constructor(opts) {
+        opts.layerCount = 4; // Todo: Check with settings
         opts.LayerState = LayerState;
         super(opts);
         // Allow dependency injection for unit tests...

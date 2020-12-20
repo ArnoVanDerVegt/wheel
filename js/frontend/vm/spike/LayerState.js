@@ -9,15 +9,16 @@ exports.LayerState = class extends BasicLayerState {
     constructor(opts) {
         opts.signalPrefix = 'Spike.Layer';
         super(opts);
-        this._motors = [];
+        this._ports = [];
         for (let i = 0; i < 6; i++) {
-            this._motors.push(this.createMotor());
+            this._ports.push(this.createPort());
         }
     }
 
-    createMotor() {
+    createPort() {
         return {
             ready:         false,
+            value:         0,
             degrees:       0,
             assigned:      0,
             startDegrees:  0,
@@ -32,53 +33,27 @@ exports.LayerState = class extends BasicLayerState {
         return '';
     }
 
-    getMotorPort(port) {
-        return this._motors[port];
-    }
-
-    getMotorValues(property) {
-        let result = [];
-        for (let i = 0; i < 6; i++) {
-            result.push(this._motors[i][property]);
-        }
-        return result;
-    }
-
-    getMotors() {
-        return this.getMotorValues('degrees');
-    }
-
-    getMotorAssingments() {
-        return this.getMotorValues('assigned');
-    }
-
     resetMotor(id) {
         // Not implemented for Spike...
     }
 
-    checkMotorChange(newMotors) {
+    setState(state) {
         let device = this._device;
-        let motors = this._motors;
+        let ports  = this._ports;
         let layer  = this._layer;
         for (let i = 0; i < 6; i++) {
-            let newMotor = newMotors[i + 6];
-            let assigned = newMotor.assigned || 0;
-            let motor    = motors[i];
-            if (motor.assigned !== assigned) {
-                motor.assigned = assigned;
-                device.emit(this._signalPrefix + layer + 'Motor' + i + 'Assigned', assigned);
+            let newPort  = state.ports[i];
+            let assigned = newPort.assigned || 0;
+            let port     = ports[i];
+            if (port.assigned !== assigned) {
+                port.assigned = assigned;
+                device.emit(this._signalPrefix + layer + 'Port' + i + 'Assigned', assigned);
             }
-            let degrees = parseInt(newMotor.degrees || '0');
-            if (motor.degrees !== degrees) {
-                motor.degrees = degrees;
-                device.emit(this._signalPrefix + layer + 'Motor' + i + 'Changed', degrees);
+            let value = parseInt(newPort.value || '0');
+            if (port.value !== value) {
+                port.value = value;
+                device.emit(this._signalPrefix + layer + 'Port' + i + 'Changed', value);
             }
-            motor.ready = newMotor.ready;
         }
-    }
-
-    setState(state) {
-        this.checkSensorChange(state);
-        this.checkMotorChange(state);
     }
 };

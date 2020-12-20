@@ -101,20 +101,32 @@ exports.SimulatorModules = class {
     }
 
     getActiveDevicePlugin() {
-        let uuid = (this._settings.getActiveDevice() === 0) ?
-                pluginUuid.SIMULATOR_EV3_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+        let uuid = pluginUuid.SIMULATOR_EV3_UUID;
+        switch (this._settings.getActiveDevice()) {
+            case 0: uuid = pluginUuid.SIMULATOR_EV3_UUID;        break;
+            case 1: uuid = pluginUuid.SIMULATOR_POWERED_UP_UUID; break;
+            case 2: uuid = pluginUuid.SIMULATOR_SPIKE_UUID;      break;
+        }
         return this._simulator.getPluginByUuid(uuid);
     }
 
     getActiveMotorsPlugin() {
-        let uuid = (this._settings.getActiveDevice() === 0) ?
-                pluginUuid.SIMULATOR_EV3_MOTORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+        let uuid = pluginUuid.SIMULATOR_EV3_MOTORS_UUID;
+        switch (this._settings.getActiveDevice()) {
+            case 0: uuid = pluginUuid.SIMULATOR_EV3_MOTORS_UUID;  break;
+            case 1: uuid = pluginUuid.SIMULATOR_POWERED_UP_UUID;  break;
+            case 2: uuid = pluginUuid.SIMULATOR_SPIKE_PORTS_UUID; break;
+        }
         return this._simulator.getPluginByUuid(uuid);
     }
 
     getActiveSensorsPlugin() {
-        let uuid = (this._settings.getActiveDevice() === 0) ?
-                pluginUuid.SIMULATOR_EV3_SENSORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+        let uuid = pluginUuid.SIMULATOR_EV3_SENSORS_UUID;
+        switch (this._settings.getActiveDevice()) {
+            case 0: uuid = pluginUuid.SIMULATOR_EV3_SENSORS_UUID; break;
+            case 1: uuid = pluginUuid.SIMULATOR_POWERED_UP_UUID;  break;
+            case 2: uuid = pluginUuid.SIMULATOR_SPIKE_PORTS_UUID; break;
+        }
         return this._simulator.getPluginByUuid(uuid);
     }
 

@@ -16,9 +16,9 @@ const MESSAGE_TIME_OUT_TIME = 50;
 
 exports.CommandQueue = class {
     constructor(ev3, sendFunction) {
-        this._sentTime = Date.now();
+        this._sentTime                   = Date.now();
         this._sending                    = false;
-        this._lostAssigned = false;
+        this._lostAssigned               = false;
         this._ev3                        = ev3;
         this._battery                    = 0;
         this._sendFunction               = sendFunction;

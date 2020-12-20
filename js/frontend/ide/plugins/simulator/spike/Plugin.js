@@ -12,6 +12,7 @@ const LedMatrix       = require('./io/LedMatrix').LedMatrix;
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
+        opts.device = opts.spike;
         super(opts);
         this._baseClassName = 'spike';
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
@@ -88,6 +89,7 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     onPluginSettings() {
+        this._refs.spike.className = this.getClassName();
     }
 
     clearLeds(led) {

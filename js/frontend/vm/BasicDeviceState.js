@@ -7,13 +7,14 @@ const Emitter = require('../lib/Emitter').Emitter;
 exports.BasicDeviceState = class extends Emitter {
     constructor(opts) {
         super(opts);
-        this._queue      = [];
-        this._connecting = false;
-        this._connected  = false;
-        this._queue      = [];
-        this._layerCount = ('layerCount' in opts) ? opts.layerCount : 4;
-        this._layerState = [];
-        this._messageId  = 0;
+        this._ignoreDuplicateModules = []; // Modules which allow duplicate sequential calls
+        this._queue                  = [];
+        this._connecting             = false;
+        this._connected              = false;
+        this._queue                  = [];
+        this._layerCount             = ('layerCount' in opts) ? opts.layerCount : 4;
+        this._layerState             = [];
+        this._messageId              = 0;
         for (let i = 0; i < this._layerCount; i++) {
             this._layerState.push(new opts.LayerState({layer: i, device: this}));
         }
@@ -57,10 +58,11 @@ exports.BasicDeviceState = class extends Emitter {
         for (let i = 0; i < queue.length; i++) {
             let item     = queue[i];
             let itemData = item.data;
-            if ((item.module     === module)     &&
-                (item.command    === command)    &&
-                (item.data.layer === data.layer) &&
-                (item.data.id    === data.id)) {
+            if ((this._ignoreDuplicateModules.indexOf(module) !== -1)         &&
+                (item.module                                  === module)     &&
+                (item.command                                 === command)    &&
+                (item.data.layer                              === data.layer) &&
+                (item.data.id                                 === data.id)) {
                 queue[i] = {module: module, command: command, data: data};
                 return;
             }

@@ -16,7 +16,7 @@ const BitModule       = require('./modules/BitModule'      ).BitModule;
 const StringModule    = require('./modules/StringModule'   ).StringModule;
 const DeviceModule    = require('./modules/DeviceModule'   ).DeviceModule;
 const PoweredUpModule = require('./modules/PoweredUpModule').PoweredUpModule;
-const SpikeModule     = require('./modules/SpikeModule'    ).SpikeUpModule;
+const SpikeModule     = require('./modules/SpikeModule'    ).SpikeModule;
 
 exports.BasicDevice = class {
     constructor(opts) {

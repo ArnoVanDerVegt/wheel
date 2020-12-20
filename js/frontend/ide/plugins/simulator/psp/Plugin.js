@@ -104,6 +104,7 @@ const Joystick = class extends Component {
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
+        opts.device = opts.ev3;
         super(opts);
         this._baseClassName       = 'psp';
         this._disconnectedTimeout = null;

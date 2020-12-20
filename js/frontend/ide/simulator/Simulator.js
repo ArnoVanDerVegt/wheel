@@ -17,6 +17,7 @@ exports.Simulator = class extends DOMNode {
         this._ui        = opts.ui;
         this._ev3       = opts.ev3;
         this._poweredUp = opts.poweredUp;
+        this._spike     = opts.spike;
         this._settings  = opts.settings;
         this._layer     = 0;
         this._vm        = null;
@@ -49,16 +50,25 @@ exports.Simulator = class extends DOMNode {
                         dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', uuid, 'visible', !pluginSettings.visible);
                     }
                 );
-                children.push({
-                    type:      require('../plugins/simulator/' + this.cleanPath(plugin.path) + '/Plugin').Plugin,
-                    plugin:    plugin,
-                    ui:        this._ui,
-                    ev3:       this._ev3,
-                    poweredUp: this._poweredUp,
-                    settings:  settings,
-                    simulator: this,
-                    tabIndex:  tabIndex.SIMULATOR_PLUGINS + index * 96
-                });
+                let type;
+                try {
+                    type = require('../plugins/simulator/' + this.cleanPath(plugin.path) + '/Plugin').Plugin;
+                } catch (error) {
+                    type = null;
+                }
+                if (type) {
+                    children.push({
+                        type:      type,
+                        plugin:    plugin,
+                        ui:        this._ui,
+                        ev3:       this._ev3,
+                        poweredUp: this._poweredUp,
+                        spike:     this._spike,
+                        settings:  settings,
+                        simulator: this,
+                        tabIndex:  tabIndex.SIMULATOR_PLUGINS + index * 96
+                    });
+                }
             },
             this
         );

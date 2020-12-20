@@ -13,14 +13,14 @@ exports.HomeScreenConnectSpikeTile = class extends HomeScreenTile {
             .on('Spike.Connected',  this, this.onSpikeConnected);
     }
 
-    onPoweredUpConnecting() {
+    onSpikeConnecting() {
         let refs = this._refs;
         refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connecting...';
         refs.title.innerHTML              = 'Spike';
     }
 
-    onPoweredUpConnected() {
+    onSpikeConnected() {
         let refs           = this._refs;
         let connectedCount = 1; // Todo: this._spike.getConnectionCount();
         refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
