@@ -12,20 +12,7 @@ proc main()
     ; Select the Spike device in the simulator...
     selectDevice(DEVICE_SPIKE)
 
-    repeat
-        number i
-        number x
-        number y
-        number brightness
+    spikeLayerSetText(0, "!")
 
-        spikeLayerClearLeds(0)
-
-        x          = random(0, 4)
-        y          = random(0, 4)
-        brightness = random(0, 100)
-
-        spikeLayerSetLed(0, x, y, brightness)
-
-        sleep(100)
-    end
+    halt()
 end

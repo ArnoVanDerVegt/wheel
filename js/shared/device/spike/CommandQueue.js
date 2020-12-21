@@ -9,7 +9,8 @@ exports.CommandQueue = class {
     constructor(opts) {
         this._ready                 = 0;
         this._messageId             = 0;
-        this._sendTimeout           = null;
+        this._messageLastId         = null;
+        this._messageLastTime       = null;
         this._spike                 = opts.spike;
         this._serialPortConstructor = opts.serialPortConstructor;
         this._layer                 = opts.layer;
@@ -27,6 +28,14 @@ exports.CommandQueue = class {
         this._port.open(this.onPortOpen.bind(this));
     }
 
+    getMessageId() {
+        let messageId = ('000' + this._messageId).substr(-4);
+        this._messageLastId   = messageId;
+        this._messageLastTime = Date.now();
+        this._messageId++;
+        return messageId;
+    }
+
     onPortOpen() {
         this._layer.connecting = false;
         this._layer.connected  = true;
@@ -38,6 +47,7 @@ exports.CommandQueue = class {
         } catch (error) {
             return;
         }
+        this.sendQueue(data.i || null);
         let layer = this._layer;
         let ports = data.p;
         if (!ports) {
@@ -74,18 +84,10 @@ exports.CommandQueue = class {
         this.sendQueue();
     }
 
-    onInterval() {
-        let command = {
-                i: ('000' + (this._messageId++)).substr(-4),
-                m: 'trigger_current_state'
-            };
-        this.sendMessage(command);
-    }
-
     sendMessage(data) {
         let port = this._port;
         if (typeof data === 'object') {
-            data.i = ('000' + (this._messageId++)).substr(-4);
+            data.i = this.getMessageId();
             data   = JSON.stringify(data) + '\r\n';
         }
         port.write(this._textEncoder.encode(data), (error) => {
@@ -100,9 +102,18 @@ exports.CommandQueue = class {
         });
     }
 
-    sendQueue() {
+    sendQueue(id) {
         let queue = this._queue;
-        if (queue.length) {
+        if (!queue.length) {
+            return;
+        }
+        let messageLastId   = this._messageLastId;
+        let messageLastTime = this._messageLastTime;
+        // Only allow a message to be send when:
+        //     - It's the first message: messageLastTime === null
+        //     - The last received message has the same id as the last sent message: id === messageLastId
+        //     - There's a timeout: time > messageLastTime + 100
+        if ((messageLastTime === null) || (Date.now() > messageLastTime + 25) || (id === messageLastId)) {
             this.sendMessage(queue.shift());
         }
     }

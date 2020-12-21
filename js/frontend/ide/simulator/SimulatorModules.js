@@ -340,7 +340,8 @@ exports.SimulatorModules = class {
         this._events.push(
             spikeModule.addEventListener('Spike.Start',     this, function(readAddress) {}),
             spikeModule.addEventListener('Spike.ClearLeds', this, function(led) { getSpikeDevice().clearLeds(led); }),
-            spikeModule.addEventListener('Spike.SetLed',    this, function(led) { getSpikeDevice().setLed(led); })
+            spikeModule.addEventListener('Spike.SetLed',    this, function(led) { getSpikeDevice().setLed(led); }),
+            spikeModule.addEventListener('Spike.SetText',   this, function(led) { getSpikeDevice().setText(led); })
         );
         return this;
     }

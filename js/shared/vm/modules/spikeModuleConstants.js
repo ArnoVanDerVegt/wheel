@@ -9,6 +9,7 @@ exports.SPIKE_LAYER_COUNT            =  4;
 exports.SPIKE_LAYER_START            =  0;
 exports.SPIKE_LAYER_CLEAR_LEDS       =  1;
 exports.SPIKE_LAYER_SET_LED          =  2;
+exports.SPIKE_LAYER_SET_TEXT         =  3;
 
 exports.SPIKE_DEVICE_MEDIUM_MOTOR    =  1;
 exports.SPIKE_DEVICE_LARGE_MOTOR     =  2;

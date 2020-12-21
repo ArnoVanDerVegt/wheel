@@ -99,4 +99,8 @@ exports.Plugin = class extends SimulatorPlugin {
     setLed(led) {
         this._refs.ledMatrix.setLed(led.x, led.y, led.brightness);
     }
+
+    setText(led) {
+        this._refs.ledMatrix.setText(led.text);
+    }
 };

@@ -248,6 +248,19 @@ exports.Spike = class extends BasicDevice {
         });
     }
 
+    setText(layer, text) {
+        layer = this._layers[layer];
+        if (!layer) {
+            return;
+        }
+        layer.commandQueue.addToCommandQueue({
+            m: 'scratch.display_text',
+            p: {
+                text: text
+            }
+        });
+    }
+
     stopPolling() {}
     resumePolling() {}
 };

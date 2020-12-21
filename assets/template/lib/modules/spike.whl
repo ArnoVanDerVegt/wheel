@@ -29,6 +29,7 @@
 #define SPIKE_LAYER_START                       0
 #define SPIKE_LAYER_CLEAR_LEDS                  1
 #define SPIKE_LAYER_SET_LED                     2
+#define SPIKE_LAYER_SET_TEXT                    3
 
 ; @const Devive types.
 #define SPIKE_DEVICE_MEDIUM_MOTOR               0 ; `image:images/spike/motorMedium64.png`
@@ -91,4 +92,11 @@ end
 proc spikeLayerSetLed(number layer, number x, number y, number brightness)
     addr layer
     mod  MODULE_SPIKE, SPIKE_LAYER_SET_LED
+end
+
+; @proc             Show a text on the led matrix.
+; @param text       The text.
+proc spikeLayerSetText(number layer, string text)
+    addr layer
+    mod  MODULE_SPIKE, SPIKE_LAYER_SET_TEXT
 end

@@ -91,6 +91,12 @@ exports.SpikeModule = class extends LocalSpikeModule {
                 this._device().module(spikeModuleConstants.MODULE_SPIKE, commandId, led);
                 this.emit('Spike.SetLed', led);
                 break;
+            case spikeModuleConstants.SPIKE_LAYER_SET_TEXT:
+                led      = vmData.getRecordFromSrcOffset(['layer', 'text']);
+                led.text = vmData.getStringList()[led.text];
+                this._device().module(spikeModuleConstants.MODULE_SPIKE, commandId, led);
+                this.emit('Spike.SetText', led);
+                break;
         }
     }
 };

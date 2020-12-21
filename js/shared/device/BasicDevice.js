@@ -71,6 +71,7 @@ exports.BasicDevice = class {
     setMode(layer, port, mode) {}
     clearLeds(layer) {}
     setLed(layer, x, y, brightness) {}
+    setText(layer, text) {}
     stopPolling() {}
     resumePolling() {}
 };

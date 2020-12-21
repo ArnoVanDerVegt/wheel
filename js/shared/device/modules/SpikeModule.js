@@ -14,6 +14,9 @@ exports.SpikeModule = class extends DeviceModule {
             case spikeModuleConstants.SPIKE_LAYER_SET_LED:
                 this._device.setLed(data.layer, data.x, data.y, data.brightness);
                 break;
+            case spikeModuleConstants.SPIKE_LAYER_SET_TEXT:
+                this._device.setText(data.layer, data.text);
+                break;
         }
     }
 };
