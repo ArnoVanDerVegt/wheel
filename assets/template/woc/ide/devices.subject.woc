@@ -1,0 +1,86 @@
+@subject IDE:Supported devices
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Supported files
+With `Wheel` you can control the following devices, motors and sensors:
+
+@section EV3 interface
++-------------------------------------------+----------------------------+
+| Brick                                     | Description                |
++-------------------------------------------+----------------------------+
+| @image images/ev3/ev364.png               | The EV3 brick.             |
++-------------------------------------------+----------------------------+
+
+@section EV3 and NXT sensors
++-------------------------------------------+----------------------------+
+| Sensor                                    | Description                |
++-------------------------------------------+----------------------------+
+| @image images/ev3/nxtTouch64.png          | NXT touch sensor.          |
+| @image images/ev3/nxtLight64.png          | NXT light sensor.          |
+| @image images/ev3/nxtSound64.png          | NXT sound sensor.          |
+| @image images/ev3/nxtUltrasonic64.png     | NXT ultrasonic sensor.     |
+| @image images/ev3/touch64.png             | EV3 touch sensor.          |
+| @image images/ev3/color64.png             | EV3 color sensor.          |
+| @image images/ev3/infrared64.png          | EV3 infrared sensor.       |
+| @image images/ev3/ultrasonic64.png        | EV3 ultrasonic sensor.     |
++-------------------------------------------+----------------------------+
+
+@section EV3 and NXT motors
++-------------------------------------------+----------------------------+
+| Motor                                     | Description                |
++-------------------------------------------+----------------------------+
+| @image images/ev3/motorMedium64.png       | EV3 medium motor.          |
+| @image images/ev3/motorLarge64.png        | EV3 large motor.           |
++-------------------------------------------+----------------------------+
+
+@section Powered Up hubs
++-------------------------------------------+----------------------------+
+| Hub                                       | Description                |
++-------------------------------------------+----------------------------+
+| @image images/poweredup/hub64.png         | Hub.                       |
+| @image images/poweredup/moveHub64.png     | Move hub.                  |
+| @image images/poweredup/technicHub64.png  | Technic hub.               |
+| @image images/poweredup/remote64.png      | Remote control.            |
++-------------------------------------------+----------------------------+
+
+@section Powered Up motors and lights
++-------------------------------------------+----------------------------+
+| Motor or light                            | Description                |
++-------------------------------------------+----------------------------+
+| @image images/poweredup/motor64.png       | Basic motor.               |
+| @image images/poweredup/motorM64.png      | Medium motor.              |
+| @image images/poweredup/motorL64.png      | Large motor.               |
+| @image images/poweredup/motorXL64.png     | Extra large motor.         |
+| @image images/poweredup/train64.png       | Train motor.               |
+| @image images/poweredup/light64.png       | Lighs.                     |
++-------------------------------------------+----------------------------+
+
+@section Powered Up sensor
++-------------------------------------------+----------------------------+
+| Sensor                                    | Description                |
++-------------------------------------------+----------------------------+
+| @image images/poweredup/lightSensor64.png | Light and distance sensor. |
++-------------------------------------------+----------------------------+
+
+@section Spike hub
++-------------------------------------------+----------------------------+
+| Sensor                                    | Description                |
++-------------------------------------------+----------------------------+
+| @image images/spike/spike64.png           | Spike hub.                 |
++-------------------------------------------+----------------------------+
+
+@section Spike motors
++-------------------------------------------+----------------------------+
+| Motor                                     | Description                |
++-------------------------------------------+----------------------------+
+| @image images/spike/motorMedium64.png     | Medium motor.              |
++-------------------------------------------+----------------------------+
+
+@section Spike sensors
++-------------------------------------------+----------------------------+
+| Sensor                                    | Description                |
++-------------------------------------------+----------------------------+
+| @image images/spike/colorSensor64.png     | Color sensor.              |
+| @image images/spike/forceSensor64.png     | Force sensor.              |
+| @image images/spike/distanceSensor64.png  | Distance sensor.           |
++-------------------------------------------+----------------------------+
