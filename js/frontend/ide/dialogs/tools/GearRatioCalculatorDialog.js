@@ -27,7 +27,7 @@ const GEARS = [
         {value: 'g36',  gear: 36, image: 'images/gears/g36.png',  color: '#2ECC71', title: '36', subTitle: 'Gear'},
         {value: 'g40',  gear: 40, image: 'images/gears/g40.png',  color: '#9B59B6', title: '40', subTitle: 'Gear'},
         {value: 'g56a', gear: 56, image: 'images/gears/g56a.png', color: '#9B59B6', title: '56', subTitle: 'Gear'},
-        {value: 'g56b', gear: 56, image: 'images/gears/g56b.png', color: '#9B59B6', title: '56', subTitle: 'Differential gear'},
+        {value: 'g56b', gear: 56, image: 'images/gears/g56b.png', color: '#9B59B6', title: '56', subTitle: 'gear'},
         {value: 'd16',  gear: 16, image: 'images/gears/d16.png',  color: '#9B59B6', title: '16', subTitle: 'Differential gear'},
         {value: 'd24',  gear: 24, image: 'images/gears/d24.png',  color: '#9B59B6', title: '24', subTitle: 'Differential gear'},
         {value: 'd28a', gear: 28, image: 'images/gears/d28a.png', color: '#F1C40F', title: '28', subTitle: 'Differential gear'},
