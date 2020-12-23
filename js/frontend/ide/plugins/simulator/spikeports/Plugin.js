@@ -67,23 +67,23 @@ exports.Plugin = class extends Plugin {
     }
 
     setType(opts) {
-        console.log(opts);
-        // Todo: let sensor = this.getSensor(opts.layer, opts.id); sensor && sensor.onAssigned(opts.type, null);
+        let sensor = this.getSensor(opts.layer, opts.id);
+        sensor && sensor.onAssigned(opts.type, null);
     }
 
     getType(opts) {
-        return 0; // Todo: this.callOnSensorState(opts.layer, opts.id, 'getType');
+        return this.callOnSensorState(opts.layer, opts.id, 'getType');
     }
 
     setMode(opts) {
-        return 0; // Todo: this.callOnSensorState(opts.layer, opts.id, 'setMode', opts.mode);
+        return this.callOnSensorState(opts.layer, opts.id, 'setMode', opts.mode);
     }
 
     reset(opts) {
-        return 0; // Todo: this.callOnSensorState(opts.layer, opts.id, 'reset');
+        return this.callOnSensorState(opts.layer, opts.id, 'reset');
     }
 
     read(opts) {
-        return 0; // Todo: this.callOnSensorState(opts.layer, opts.id, 'getValue');
+        return this.callOnSensorState(opts.layer, opts.id, 'getValue');
     }
 };
