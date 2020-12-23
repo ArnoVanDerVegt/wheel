@@ -23,10 +23,15 @@ const getSpike = function() {
 
 exports.spikeRoutes = {
     deviceList: function(req, res) {
+        let spike = getSpike();
         getSerialPortConstructor().list().then((ports) => {
             let list = [];
             ports.forEach((port) => {
-                list.push(port.path);
+                list.push({
+                    title:      port.path,
+                    connected:  spike.getConnected(port.path),
+                    connecting: spike.getConnecting(port.path)
+                });
             });
             res.send(JSON.stringify({result: true, list: list}));
         });

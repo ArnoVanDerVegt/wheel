@@ -42,7 +42,7 @@ exports.MotorModule = class extends DeviceModule {
     }
 
     run(commandId, data) {
-        if ((data.layer < 0) || (data.layer >= this._device.getLayerCount()) || (data.id < 0) || (data.id > 3)) {
+        if ((data.layer < 0) || (data.layer >= this._device.getLayerCount()) || (data.id < 0) || (data.id >= this._device.getPortsPerLayer())) {
             return;
         }
         switch (commandId) {

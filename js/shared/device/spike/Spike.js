@@ -25,6 +25,7 @@ exports.Spike = class extends BasicDevice {
     initLayer() {
         let result = {
                 connected:       false,
+                connecting:      false,
                 commandQueue:    null,
                 deviceName:      '',
                 tilt:            {x: 0, y: 0, z: 0},
@@ -33,10 +34,13 @@ exports.Spike = class extends BasicDevice {
             };
         for (let i = 0; i < 6; i++) {
             result.ports.push({
-                value:    0,
-                reset:    0,
-                assigned: 0,
-                mode:     0
+                value:        0,
+                reset:        0,
+                assigned:     0,
+                mode:         0,
+                degrees:      0,
+                startDegrees: 0,
+                endDegrees:   null
             });
         }
         return result;
@@ -56,11 +60,27 @@ exports.Spike = class extends BasicDevice {
         return this._port;
     }
 
-    getConnected() {
+    getConnected(deviceName) {
         let layers = this._layers;
         for (let i = 0; i < layers.length; i++) {
-            if (layers[i].connected) {
-                return true;
+            let layer = layers[i];
+            if (layer.connected) {
+                if (deviceName === undefined) {
+                    return true;
+                } else if (layer.deviceName === deviceName) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    getConnecting(deviceName) {
+        let layers = this._layers;
+        for (let i = 0; i < layers.length; i++) {
+            let layer = layers[i];
+            if (layer.deviceName === deviceName) {
+                return layer.connecting;
             }
         }
         return false;
@@ -140,21 +160,50 @@ exports.Spike = class extends BasicDevice {
         });
     }
 
-    motorReset(layer, motor) {
-    }
-
-    motorDegrees(layer, motor, speed, degrees, brake, callback) {
-    }
-
-    motorOn(layer, motor, speed, brake, callback) {
+    motorReset(layer, id) {
         layer = this._layers[layer];
-        if (!layer || !layer.commandQueue || !(motor in INDEX_TO_PORT)) {
+        if (!layer || !layer.ports[id]) {
             return;
         }
+        let motor = layer.ports[id];
+        motor.resetDegrees = motor.value;
+    }
+
+    motorDegrees(layer, id, speed, degrees, brake, callback) {
+        layer = this._layers[layer];
+        if (!layer || !layer.ports[id]) {
+            return;
+        }
+        if (degrees < 0) {
+            degrees *= -1;
+            speed   *= -1;
+        }
+        let motor = layer.ports[id];
+        motor.startDegrees = motor.value - port.resetDegrees;
+        motor.endDegrees   = degrees;
+        layer.commandQueue.addToCommandQueue({
+            m: 'scratch.motor_run_for_degrees',
+            p: {
+                port:    INDEX_TO_PORT[id],
+                degrees: degrees,
+                speed:   speed,
+                stall:   false,
+                stop:    true
+            }
+        });
+        callback && callback();
+    }
+
+    motorOn(layer, id, speed, brake, callback) {
+        layer = this._layers[layer];
+        if (!layer || !layer.commandQueue || !(id in INDEX_TO_PORT)) {
+            return;
+        }
+        layer.ports[id].endDegrees = null;
         layer.commandQueue.addToCommandQueue({
             m: 'scratch.motor_start',
             p: {
-                port:  INDEX_TO_PORT[motor],
+                port:  INDEX_TO_PORT[id],
                 speed: speed,
                 stall: true
             }
@@ -162,8 +211,8 @@ exports.Spike = class extends BasicDevice {
         callback && callback();
     }
 
-    motorStop(layer, motor, brake, callback) {
-        this.motorOn(layer, motor, 0, brake, callback);
+    motorStop(layer, id, brake, callback) {
+        this.motorOn(layer, id, 0, brake, callback);
     }
 
     motorThreshold(layer, motor, threshold) {
@@ -172,16 +221,6 @@ exports.Spike = class extends BasicDevice {
         }
         this.getLayerPort(layer, motor).threshold = threshold;
     }
-
-    readTouchSensor(layer, port) {}
-    readSensor(layer, port, type, mode) {}
-    readMotor(layer, port) {}
-    readBattery(callback) {}
-    setLed(layer, color) {}
-    listFiles(path, callback) {}
-    downloadFile(filename, data, callback) {}
-    createDir(path, callback) {}
-    deleteFile(path, callback) {}
 
     module(module, command, data) {
         if (this._modules[module]) {
@@ -215,6 +254,13 @@ exports.Spike = class extends BasicDevice {
             };
         for (let i = 0; i < 6; i++) {
             let port = layer.ports[i];
+            if (port.endDegrees !== null) {
+                if (port.startDegrees < port.endDegrees) {
+                    port.ready = (Math.abs(port.degrees - port.endDegrees) < 45) || (port.degrees >= port.endDegrees);
+                } else {
+                    port.ready = (Math.abs(port.degrees - port.endDegrees) < 45) || (port.degrees <= port.endDegrees);
+                }
+            }
             result.ports.push({
                 value:    port.value,
                 assigned: port.assigned
@@ -263,4 +309,8 @@ exports.Spike = class extends BasicDevice {
 
     stopPolling() {}
     resumePolling() {}
+
+    getPortsPerLayer() {
+        return 6;
+    }
 };

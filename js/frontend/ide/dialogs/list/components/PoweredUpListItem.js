@@ -5,7 +5,7 @@
 const DOMNode  = require('../../../../lib/dom').DOMNode;
 const ListItem = require('../../../../lib/components/list/ListItem').ListItem;
 
-exports.ListItem = class extends ListItem {
+exports.PoweredUpListItem = class extends ListItem {
     initDOM(parentNode) {
         let item = this._item;
         if (typeof item === 'string') {

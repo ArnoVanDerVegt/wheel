@@ -4,6 +4,7 @@
 **/
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
+const SpikeListItem   = require('./components/SpikeListItem').SpikeListItem;
 const ListDialog      = require('./ListDialog').ListDialog;
 
 exports.SpikeConnectListDialog = class extends ListDialog {
@@ -14,6 +15,7 @@ exports.SpikeConnectListDialog = class extends ListDialog {
         opts.subClass   = true;
         opts.comment    = 'Don\'t forget to pair your device first!';
         opts.showSignal = 'Dialog.ConnectSpike.Show';
+        opts.ListItem   = SpikeListItem;
         super(opts);
     }
 
@@ -24,9 +26,12 @@ exports.SpikeConnectListDialog = class extends ListDialog {
     onApply() {
         let index = this._refs.list.getSelectedIndex();
         if (index >= 0) {
-            this.hide();
             let item = this._list[index];
-            dispatcher.dispatch('Spike.ConnectToDevice', item);
+            if (item.connected || item.connecting) {
+                return;
+            }
+            this.hide();
+            dispatcher.dispatch('Spike.ConnectToDevice', item.title);
         }
     }
 

@@ -74,4 +74,8 @@ exports.BasicDevice = class {
     setText(layer, text) {}
     stopPolling() {}
     resumePolling() {}
+
+    getPortsPerLayer() {
+        return 4;
+    }
 };

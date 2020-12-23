@@ -54,6 +54,7 @@ exports.LayerState = class extends BasicLayerState {
                 port.value = value;
                 device.emit(this._signalPrefix + layer + 'Port' + i + 'Changed', value);
             }
+            port.ready = newPort.ready;
         }
     }
 };

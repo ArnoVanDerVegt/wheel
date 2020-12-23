@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher      = require('../../../lib/dispatcher').dispatcher;
-const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const platform        = require('../../../lib/platform');
-const ListDialog      = require('./ListDialog').ListDialog;
-const ListItem        = require('./components/ListItem').ListItem;
+const dispatcher        = require('../../../lib/dispatcher').dispatcher;
+const getDataProvider   = require('../../../lib/dataprovider/dataProvider').getDataProvider;
+const platform          = require('../../../lib/platform');
+const ListDialog        = require('./ListDialog').ListDialog;
+const PoweredUpListItem = require('./components/PoweredUpListItem').PoweredUpListItem;
 
 exports.PoweredUpConnectListDialog = class extends ListDialog {
     constructor(opts) {
@@ -14,7 +14,7 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
         opts.help       = 'Bluetooth';
         opts.title      = 'Connect Powered Up';
         opts.applyTitle = 'Connect';
-        opts.ListItem   = ListItem;
+        opts.ListItem   = PoweredUpListItem;
         super(opts);
         this._scanTimeout = null;
         this._changed     = -1;

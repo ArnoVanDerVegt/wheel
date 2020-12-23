@@ -15,7 +15,6 @@ exports.SpikeState = class extends BasicDeviceState {
         // Allow dependency injection for unit tests...
         this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider();
         this._battery      = null;
-        this._deviceName   = 'Spike';
         this._noTimeout    = ('noTimeout' in opts) ? opts.noTimeout : false;
         dispatcher
             .on('Spike.ConnectToDevice', this, this.onConnectToDevice)
@@ -28,6 +27,10 @@ exports.SpikeState = class extends BasicDeviceState {
 
     getBattery() {
         return this._battery;
+    }
+
+    getPortsPerLayer() {
+        return 6;
     }
 
     getLayerState(layer) {
@@ -50,10 +53,9 @@ exports.SpikeState = class extends BasicDeviceState {
     }
 
     onConnectToDevice(deviceName) {
-        if (this._connecting || this._connected) {
+        if (this._connecting) {// || this._connected) {
             return;
         }
-        this._deviceName = deviceName;
         this.emit('Spike.Connecting', deviceName);
         this._dataProvider.getData(
             'post',
@@ -64,7 +66,6 @@ exports.SpikeState = class extends BasicDeviceState {
                     let json = JSON.parse(data);
                     if (json.connecting) {
                         this.connecting();
-                        this._deviceName = json.deviceName;
                         this._connecting = true;
                     }
                 } catch (error) {

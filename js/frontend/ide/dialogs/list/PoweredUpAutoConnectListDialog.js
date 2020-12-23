@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher          = require('../../../lib/dispatcher').dispatcher;
-const getDataProvider     = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const platform            = require('../../../lib/platform');
-const ListDialog          = require('./ListDialog').ListDialog;
-const AutoConnectListItem = require('./components/AutoConnectListItem').AutoConnectListItem;
+const dispatcher                   = require('../../../lib/dispatcher').dispatcher;
+const getDataProvider              = require('../../../lib/dataprovider/dataProvider').getDataProvider;
+const platform                     = require('../../../lib/platform');
+const ListDialog                   = require('./ListDialog').ListDialog;
+const PoweredUpAutoConnectListItem = require('./components/PoweredUpAutoConnectListItem').PoweredUpAutoConnectListItem;
 
 exports.PoweredUpAutoConnectListDialog = class extends ListDialog {
     constructor(opts) {
@@ -15,7 +15,7 @@ exports.PoweredUpAutoConnectListDialog = class extends ListDialog {
         opts.title       = 'Auto connect Powered Up';
         opts.applyTitle  = null;
         opts.cancelTitle = 'Close';
-        opts.ListItem    = AutoConnectListItem;
+        opts.ListItem    = PoweredUpAutoConnectListItem;
         super(opts);
     }
 

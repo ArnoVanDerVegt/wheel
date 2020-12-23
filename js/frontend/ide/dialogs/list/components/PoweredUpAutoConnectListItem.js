@@ -7,7 +7,7 @@ const dispatcher = require('../../../../lib/dispatcher').dispatcher;
 const ListItem   = require('../../../../lib/components/list/ListItem').ListItem;
 const Checkbox   = require('../../../../lib/components/input/Checkbox').Checkbox;
 
-exports.AutoConnectListItem = class extends ListItem {
+exports.PoweredUpAutoConnectListItem = class extends ListItem {
     initDOM(parentNode) {
         let item = this._item;
         if (typeof item === 'string') {
