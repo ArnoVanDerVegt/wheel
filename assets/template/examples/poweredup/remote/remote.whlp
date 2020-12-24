@@ -3,7 +3,6 @@
 #project "Powered Up Remote control example"
 
 #include "lib/modules/standard.whl"
-#include "lib/modules/sensor.whl"
 #include "lib/modules/device.whl"
 #include "lib/modules/bit.whl"
 #include "lib/modules/button.whl"
@@ -38,7 +37,7 @@ proc main()
 
     number lastButton = 0
     repeat
-        number b = buttonLayer(INPUT_1)
+        number b = buttonLayer(LAYER_1)
 
         ; Check if the button value is changed:
         if b != lastButton

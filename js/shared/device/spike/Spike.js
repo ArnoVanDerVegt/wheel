@@ -31,7 +31,8 @@ exports.Spike = class extends BasicDevice {
                 gyro:            {x: 0, y: 0, z: 0},
                 accel:           {x: 0, y: 0, z: 0},
                 pos:             {x: 0, y: 0, z: 0},
-                ports:           []
+                ports:           [],
+                button:          0
             };
         for (let i = 0; i < 6; i++) {
             result.ports.push({

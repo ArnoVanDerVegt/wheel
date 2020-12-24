@@ -12,6 +12,7 @@ exports.LayerState = class extends BasicLayerState {
         this._deviceName = '';
         this._connected  = false;
         this._connecting = false;
+        this._button     = 0;
         this._properties = {
             gyro:  {x: 0, y: 0, z: 0},
             accel: {x: 0, y: 0, z: 0},
@@ -96,6 +97,10 @@ exports.LayerState = class extends BasicLayerState {
             device
                 .emit('Spike.Connected')
                 .emit('Spike.Connected' + this._layer, this._deviceName);
+        }
+        if (this._button !== state.button) {
+            this._button = state.button;
+            device.emit('Spike.Button' + this._layer, this._button);
         }
         let ports = this._ports;
         let layer = this._layer;

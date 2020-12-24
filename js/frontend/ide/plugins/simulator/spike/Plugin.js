@@ -14,6 +14,7 @@ exports.Plugin = class extends SimulatorPlugin {
         super(opts);
         this._spike         = opts.spike;
         this._hubs          = [];
+        this._buttons       = null;
         this._baseClassName = 'spike';
         this._settings.on('Settings.Plugin', this, this.onPluginSettings);
         this.initDOM(opts.parentNode);
@@ -70,5 +71,21 @@ exports.Plugin = class extends SimulatorPlugin {
         if (this._hubs[led.layer]) {
             this._hubs[led.layer].matrixSetText(led.text);
         }
+    }
+
+    getButtons() {
+        let poweredUp = this._poweredUp;
+        if (!this._buttons) {
+            this._buttons = {
+                readButton: (layer) => {
+                    let hub = this._hubs[layer];
+                    if (hub) {
+                        return hub.getButtons();
+                    }
+                    return 0;
+                }
+            };
+        }
+        return this._buttons;
     }
 };

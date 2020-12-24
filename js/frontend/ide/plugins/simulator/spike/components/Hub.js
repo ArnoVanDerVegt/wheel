@@ -2,11 +2,12 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const DOMNode    = require('../../../../../lib/dom').DOMNode;
-const Button     = require('../../../../../lib/components/input/Button').Button;
-const dispatcher = require('../../../../../lib/dispatcher').dispatcher;
-const LedMatrix  = require('../io/LedMatrix').LedMatrix;
-const HubStatus  = require('./HubStatus').HubStatus;
+const buttonModuleConstants = require('../../../../../../shared/vm/modules/buttonModuleConstants');
+const DOMNode               = require('../../../../../lib/dom').DOMNode;
+const Button                = require('../../../../../lib/components/input/Button').Button;
+const dispatcher            = require('../../../../../lib/dispatcher').dispatcher;
+const LedMatrix             = require('../io/LedMatrix').LedMatrix;
+const HubStatus             = require('./HubStatus').HubStatus;
 
 exports.Hub = class extends DOMNode {
     constructor(opts) {
@@ -14,8 +15,10 @@ exports.Hub = class extends DOMNode {
         this._visible = opts.visible;
         this._layer   = opts.layer;
         this._spike   = opts.spike;
+        this._buttons = 0;
         opts.plugin.addHub(this);
         this.initDOM(opts.parentNode);
+        this._spike.on('Spike.Button' + opts.layer, this, this.onButtons);
     }
 
     initDOM(parentNode) {
@@ -37,7 +40,7 @@ exports.Hub = class extends DOMNode {
                             {
                                 className: 'spike-top flt max-w',
                                 children: [
-                                    this.initButton()
+                                    this.initConnectButton()
                                 ]
                             },
                             {
@@ -78,21 +81,45 @@ exports.Hub = class extends DOMNode {
         return result;
     }
 
-    initButton() {
+    initConnectButton() {
         return {
-            className: 'button'
+            className: 'connect-button abs',
+            children: [
+                {
+                    id:        this.setConnectButton.bind(this),
+                    className: 'button'
+                }
+            ]
         };
     }
 
     initButtons() {
         return {
-            className: 'flt buttons',
+            className: 'flt buttons rel',
             children: [
                 {
-                    className: 'left-right'
+                    className: 'left-right abs',
+                    children: [
+                        {
+                            id:        this.setLeftButton.bind(this),
+                            className: 'button abs',
+                            innerHTML: '&lt;'
+                        },
+                        {
+                            id:        this.setRightButton.bind(this),
+                            className: 'button right abs',
+                            innerHTML: '&gt;'
+                        }
+                    ]
                 },
                 {
-                    className: 'center'
+                    className: 'center abs',
+                    children: [
+                        {
+                            id:        this.setCenterButton.bind(this),
+                            className: 'button'
+                        }
+                    ]
                 }
             ]
         };
@@ -108,6 +135,38 @@ exports.Hub = class extends DOMNode {
         this._status.setVisible(visible);
     }
 
+    setConnectButton(element) {
+        this._connectElement = element;
+        element.addEventListener('mousedown', this.onChangeButton.bind(this, element, 'button abs pressed', buttonModuleConstants.BUTTON_CONNECT));
+        element.addEventListener('mouseup',   this.onChangeButton.bind(this, element, 'button abs',         buttonModuleConstants.BUTTON_NONE));
+        element.addEventListener('mouseout',  this.onChangeButton.bind(this, element, 'button abs',         buttonModuleConstants.BUTTON_NONE));
+    }
+
+    setLeftButton(element) {
+        this._leftElement = element;
+        element.addEventListener('mousedown', this.onChangeButton.bind(this, element, 'button abs pressed', buttonModuleConstants.BUTTON_LEFT));
+        element.addEventListener('mouseup',   this.onChangeButton.bind(this, element, 'button abs',         buttonModuleConstants.BUTTON_NONE));
+        element.addEventListener('mouseout',  this.onChangeButton.bind(this, element, 'button abs',         buttonModuleConstants.BUTTON_NONE));
+    }
+
+    setCenterButton(element) {
+        this._centerElement = element;
+        element.addEventListener('mousedown', this.onChangeButton.bind(this, element, 'button abs pressed', buttonModuleConstants.BUTTON_CENTER));
+        element.addEventListener('mouseup',   this.onChangeButton.bind(this, element, 'button abs',         buttonModuleConstants.BUTTON_NONE));
+        element.addEventListener('mouseout',  this.onChangeButton.bind(this, element, 'button abs',         buttonModuleConstants.BUTTON_NONE));
+    }
+
+    setRightButton(element) {
+        this._rightElement = element;
+        element.addEventListener('mousedown', this.onChangeButton.bind(this, element, 'button right abs pressed', buttonModuleConstants.BUTTON_RIGHT));
+        element.addEventListener('mouseup',   this.onChangeButton.bind(this, element, 'button right abs',         buttonModuleConstants.BUTTON_NONE));
+        element.addEventListener('mouseout',  this.onChangeButton.bind(this, element, 'button right abs',         buttonModuleConstants.BUTTON_NONE));
+    }
+
+    getButtons() {
+        return this._buttons;
+    }
+
     matrixClear(led) {
         this._refs.ledMatrix.clear();
     }
@@ -118,5 +177,34 @@ exports.Hub = class extends DOMNode {
 
     matrixSetText(led) {
         this._refs.ledMatrix.setText(led.text);
+    }
+
+    onChangeButton(element, className, value) {
+        element.className = className;
+        this._buttons     = value;
+    }
+
+    onButtons(buttons) {
+        this._buttons = buttons;
+        switch (buttons) {
+            case buttonModuleConstants.BUTTON_CONNECT:
+                this._connectElement.className   = 'button abs pressed';
+                break;
+            case buttonModuleConstants.BUTTON_LEFT:
+                this._leftElement.className   = 'button abs pressed';
+                break;
+            case buttonModuleConstants.BUTTON_CENTER:
+                this._centerElement.className = 'button abs pressed';
+                break;
+            case buttonModuleConstants.BUTTON_RIGHT:
+                this._rightElement.className  = 'button right abs pressed';
+                break;
+            default:
+                this._connectElement.className = 'button abs';
+                this._leftElement.className    = 'button abs';
+                this._centerElement.className  = 'button abs';
+                this._rightElement.className   = 'button right abs';
+                break;
+        }
     }
 };

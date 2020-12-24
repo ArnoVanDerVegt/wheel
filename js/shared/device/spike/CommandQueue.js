@@ -2,8 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-let constants            = require('./constants');
-let spikeModuleConstants = require('../../vm/modules/spikeModuleConstants');
+let constants             = require('./constants');
+let spikeModuleConstants  = require('../../vm/modules/spikeModuleConstants');
+let buttonModuleConstants = require('../../vm/modules/buttonModuleConstants');
 
 exports.CommandQueue = class {
     constructor(opts) {
@@ -48,15 +49,48 @@ exports.CommandQueue = class {
             return;
         }
         this.sendQueue(data.i || null);
-        let layer = this._layer;
         let ports = data.p;
         if (!ports) {
             return;
         }
+        if (data.m === 3) {
+            this
+                .readButtons(ports);
+        } else {
+            this
+                .readMotorStatus(ports)
+                .readTiltStatus(ports);
+        }
+        this.sendQueue();
+    }
+
+    readButtons(ports) {
+        if (!ports[0]) {
+            return;
+        }
+        let layer  = this._layer;
+        switch (ports[0]) {
+            case 'left':
+                layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_LEFT : buttonModuleConstants.BUTTON_NONE;
+                break;
+            case 'center':
+                layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_CENTER : buttonModuleConstants.BUTTON_NONE;
+                break;
+            case 'right':
+                layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_RIGHT : buttonModuleConstants.BUTTON_NONE;
+                break;
+            case 'connect':
+                layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_CONNECT : buttonModuleConstants.BUTTON_NONE;
+                break;
+        }
+    }
+
+    readMotorStatus(ports) {
+        let layer = this._layer;
         for (let i = 0; i < 6; i++) {
             let port     = layer.ports[i];
-            let portInfo = ports[i] || [];
-            if (portInfo[0] === undefined) {
+            let portInfo = ports[i];
+            if ((portInfo === undefined) || (portInfo[0] === undefined)) {
                 continue;
             }
             switch (portInfo[0] || 0) {
@@ -81,6 +115,11 @@ exports.CommandQueue = class {
                     break;
             }
         }
+        return this;
+    }
+
+    readTiltStatus(ports) {
+        let layer = this._layer;
         ['gyro', 'accel', 'pos'].forEach((property, index) => {
             index += 6;
             if (typeof ports[index] === 'object') {
@@ -90,7 +129,6 @@ exports.CommandQueue = class {
                 p.z = ports[index][2] || 0;
             }
         });
-        this.sendQueue();
     }
 
     sendMessage(data) {

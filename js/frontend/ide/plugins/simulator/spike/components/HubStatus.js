@@ -11,10 +11,11 @@ exports.HubStatus = class extends DOMNode {
         this._layer   = opts.layer;
         this._spike   = opts.spike;
         this.initDOM(opts.parentNode);
-        this._spike.on('Spike.Connected' + opts.layer, this, this.onConnected);
-        this._spike.on('Spike.Gyro'      + opts.layer, this, this.onGyro);
-        this._spike.on('Spike.Accel'     + opts.layer, this, this.onAccel);
-        this._spike.on('Spike.Pos'       + opts.layer, this, this.onPos);
+        this._spike
+            .on('Spike.Connected' + opts.layer, this, this.onConnected)
+            .on('Spike.Gyro'      + opts.layer, this, this.onGyro)
+            .on('Spike.Accel'     + opts.layer, this, this.onAccel)
+            .on('Spike.Pos'       + opts.layer, this, this.onPos);
         opts.id(this);
     }
 
