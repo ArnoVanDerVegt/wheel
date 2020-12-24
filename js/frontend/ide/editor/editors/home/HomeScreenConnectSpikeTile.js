@@ -22,7 +22,7 @@ exports.HomeScreenConnectSpikeTile = class extends HomeScreenTile {
 
     onSpikeConnected() {
         let refs           = this._refs;
-        let connectedCount = 1; // Todo: this._spike.getConnectionCount();
+        let connectedCount = this._spike.getConnectionCount();
         refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connected to ' + connectedCount + ' device' + (connectedCount > 1 ? 's' : '');
         refs.title.innerHTML              = 'Spike';

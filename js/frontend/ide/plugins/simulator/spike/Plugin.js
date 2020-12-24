@@ -1,91 +1,53 @@
 /**
- * Wheel, copyright (c) 2019 - present by Arno van der Vegt
+ * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform        = require('../../../../lib/platform');
-const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
-const DOMNode         = require('../../../../lib/dom').DOMNode;
-const Button          = require('../../../../lib/components/input/Button').Button;
-const SettingsState   = require('../../../settings/SettingsState');
-const SimulatorPlugin = require('../lib/SimulatorPlugin').SimulatorPlugin;
-const LedMatrix       = require('./io/LedMatrix').LedMatrix;
+const spikeModuleConstants = require('../../../../../shared/vm/modules/spikeModuleConstants');
+const platform             = require('../../../../lib/platform');
+const dispatcher           = require('../../../../lib/dispatcher').dispatcher;
+const SimulatorPlugin      = require('../lib/SimulatorPlugin').SimulatorPlugin;
+const Hub                  = require('./components/Hub').Hub;
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
         opts.device = opts.spike;
         super(opts);
+        this._spike         = opts.spike;
+        this._hubs          = [];
         this._baseClassName = 'spike';
-        opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
+        this._settings.on('Settings.Plugin', this, this.onPluginSettings);
         this.initDOM(opts.parentNode);
     }
 
     initDOM(parentNode) {
+        let children = [];
+        for (let i = 0; i < spikeModuleConstants.SPIKE_LAYER_COUNT; i++) {
+            children.push({
+                type:    Hub,
+                visible: (i === 0),
+                layer:   i,
+                plugin:  this,
+                spike:   this._spike
+            });
+        }
         this.create(
             parentNode,
             {
                 ref:       this.setRef('spike'),
                 className: this.getClassName(),
-                children: [
-                    {
-                        className: 'spike-top flt max-w',
-                        children: [
-                            this.initButton()
-                        ]
-                    },
-                    {
-                        className: 'spike-middle flt max-w',
-                        children: [
-                            this.initPorts(['A', 'C', 'E']),
-                            {
-                                ref:  this.setRef('ledMatrix'),
-                                type: LedMatrix
-                            },
-                            this.initPorts(['B', 'D', 'F'])
-                        ]
-                    },
-                    {
-                        className: 'spike-bottom flt max-w',
-                        children: [
-                            this.initButtons()
-                        ]
-                    }
-                ]
+                children:  children
             }
         );
     }
 
-    initPorts(ports) {
-        let result = {
-                className: 'flt max-h ports',
-                children: []
-            };
-        ports.forEach((port) => {
-            result.children.push({
-                className: 'flt port',
-                innerHTML: port
-            });
+    addHub(hub) {
+        this._hubs.push(hub);
+    }
+
+    showLayer(layer) {
+        this._hubs.forEach((hub, index) => {
+            hub.setVisible(index === layer);
         });
-        return result;
-    }
-
-    initButton() {
-        return {
-            className: 'button'
-        };
-    }
-
-    initButtons() {
-        return {
-            className: 'flt buttons',
-            children: [
-                {
-                    className: 'left-right'
-                },
-                {
-                    className: 'center'
-                }
-            ]
-        };
     }
 
     onPluginSettings() {
@@ -93,14 +55,20 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     clearLeds(led) {
-        this._refs.ledMatrix.clear();
+        if (this._hubs[led.layer]) {
+            this._hubs[led.layer].matrixClear();
+        }
     }
 
     setLed(led) {
-        this._refs.ledMatrix.setLed(led.x, led.y, led.brightness);
+        if (this._hubs[led.layer]) {
+            this._hubs[led.layer].matrixSetLed(led.x, led.y, led.brightness);
+        }
     }
 
     setText(led) {
-        this._refs.ledMatrix.setText(led.text);
+        if (this._hubs[led.layer]) {
+            this._hubs[led.layer].matrixSetText(led.text);
+        }
     }
 };

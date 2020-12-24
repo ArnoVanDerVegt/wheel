@@ -31,6 +31,10 @@ exports.BasicDeviceState = class extends Emitter {
         return this._connected;
     }
 
+    getBattery() {
+        return 0;
+    }
+
     getLayerCount() {
         return this._layerCount;
     }
@@ -54,7 +58,7 @@ exports.BasicDeviceState = class extends Emitter {
     }
 
     module(module, command, data) {
-        if (this._connecting || !this._connected) {
+        if (this.getConnecting() || !this.getConnected()) {
             return;
         }
         let queue = this._queue;

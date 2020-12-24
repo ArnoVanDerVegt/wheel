@@ -60,6 +60,10 @@
 .max-w {
     width:                          100%;
 }
+/* Third width */
+.third-w {
+    width:                          33.333333333%;
+}
 /* Max height */
 .max-h {
     height:                         100%;

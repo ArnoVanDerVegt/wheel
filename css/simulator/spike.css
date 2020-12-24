@@ -1,18 +1,22 @@
-.spike {
+.spike,
+.spike .spike-hub,
+.spike .hub-status {
     display:                        none;
-    float:                          left;
     width:                          227px;
-    height:                         335px;
+}
+.spike {
     margin:                         8px 20px 0 20px;
+}
+.spike.visible,
+.spike .spike-hub.visible,
+.spike .hub-status.visible {
+    display:                        block;
+}
+.spike .spike-hub {
+    height:                         335px;
     background-color:               #FFFFFF;
     border-radius:                  8px;
     border:                         1px solid rgba(0, 0, 0, 0.4);
-}
-.spike.visible {
-    display:                        block;
-}
-.spike div {
-    box-sizing:                     border-box;
 }
 .spike .spike-top {
     height:                         80px;
@@ -36,13 +40,17 @@
 }
 .spike .spike-middle .ports .port {
     width:                          26px;
-    height:                         33.333333%;
+    height:                         38px;
     text-align:                     center;
     font-weight:                    bold;
     font-size:                      16px;
-    line-height:                    58px;
+    line-height:                    32px;
     color:                          #484848;
     opacity:                        0.5;
+}
+.spike .spike-middle .ports .port:nth-child(2),
+.spike .spike-middle .ports .port:nth-child(3) {
+    margin-top:                     32px;
 }
 .spike .spike-middle .leds {
     width:                          175px;
@@ -88,4 +96,21 @@
 }
 .simulator .motors.spike-ports .motor {
     margin:                         0 8px 8px 0;
+}
+.spike .hub-status {
+    margin:                         0 0 8px 0;
+}
+.spike .hub-status .title {
+    font-size:                      14px;
+}
+.spike .hub-status .values {
+    width:                          148px;
+}
+.spike .hub-status .value {
+    font-size:                      12px;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
+    margin:                         0 0 8px 0;
+    max-width:                      100%;
 }

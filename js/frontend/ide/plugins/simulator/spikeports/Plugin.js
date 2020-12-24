@@ -39,17 +39,6 @@ exports.Plugin = class extends Plugin {
         this._refs.motors.className = this.getClassName();
     }
 
-    showLayer(layer) {
-        let sensors = this._sensors;
-        for (let i = 0; i < sensors.length; i++) {
-            sensors[i].setHidden(layer !== Math.floor(i / 6));
-        }
-    }
-
-    addSensor(sensor) {
-        this._sensors.push(sensor);
-    }
-
     callOnSensorState(layer, id, func, param) {
         let sensor = this.getSensor(layer, id);
         if (!sensor) {

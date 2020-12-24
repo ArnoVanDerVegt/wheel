@@ -13,20 +13,37 @@ exports.SpikeState = class extends BasicDeviceState {
         opts.LayerState = LayerState;
         super(opts);
         // Allow dependency injection for unit tests...
-        this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider();
-        this._battery      = null;
-        this._noTimeout    = ('noTimeout' in opts) ? opts.noTimeout : false;
+        this._dataProvider  = opts.dataProvider ? opts.dataProvider : getDataProvider();
+        this._battery       = null;
+        this._noTimeout     = ('noTimeout' in opts) ? opts.noTimeout : false;
+        this._updateTimeout = null;
         dispatcher
             .on('Spike.ConnectToDevice', this, this.onConnectToDevice)
             .on('Spike.LayerCount',      this, this.onLayerCount);
     }
 
     getConnected() {
-        return this._connected;
+        let connected = 0;
+        this._layerState.forEach((layerState) => {
+            if (layerState.getConnected()) {
+                connected++;
+            }
+        });
+        return connected;
     }
 
-    getBattery() {
-        return this._battery;
+    getConnectionCount() {
+        return this.getConnected();
+    }
+
+    getConnecting() {
+        let connecting = 0;
+        this._layerState.forEach((layerState) => {
+            if (layerState.getConnecting()) {
+                connecting++;
+            }
+        });
+        return connecting;
     }
 
     getPortsPerLayer() {
@@ -37,24 +54,18 @@ exports.SpikeState = class extends BasicDeviceState {
         return this._layerState[layer];
     }
 
-    getDeviceName() {
-        return this._deviceName;
-    }
-
-    setState(state) {
-        if (state.battery !== this._battery) {
-            this._battery = state.battery;
-            this.emit('Spike.Battery', state.battery);
-        }
-    }
+    setState(state) {}
 
     onLayerCount(layerCount) {
         this._layerCount = layerCount;
     }
 
     onConnectToDevice(deviceName) {
-        if (this._connecting) {// || this._connected) {
-            return;
+        for (let i = 0; i < this._layerState.length; i++) {
+            let layerState = this._layerState[i];
+            if (layerState.getDeviceName() === deviceName) {
+                return;
+            }
         }
         this.emit('Spike.Connecting', deviceName);
         this._dataProvider.getData(
@@ -62,22 +73,17 @@ exports.SpikeState = class extends BasicDeviceState {
             'spike/connect',
             {deviceName: deviceName},
             (data) => {
-                try {
-                    let json = JSON.parse(data);
-                    if (json.connecting) {
-                        this.connecting();
-                        this._connecting = true;
-                    }
-                } catch (error) {
-                    // Todo: show error message in IDE...
-                    console.error(error);
-                    this._connecting = false;
+                if (!this._updateTimeout) {
+                    this._updateTimeout = setTimeout(this.update.bind(this), 20);
                 }
             }
         );
     }
 
     updateLayerState(data) {
+        if (!data.state) {
+            return; // Not connected...
+        }
         this.setState(data.state);
         for (let i = 0; i < 4; i++) {
             data.state.layers[i] && this._layerState[i].setState(data.state.layers[i]);
@@ -85,9 +91,6 @@ exports.SpikeState = class extends BasicDeviceState {
     }
 
     update() {
-        if (this._connecting || !this._connected) {
-            return;
-        }
         this._dataProvider.getData(
             'post',
             'spike/update',
@@ -97,14 +100,7 @@ exports.SpikeState = class extends BasicDeviceState {
             },
             (data) => {
                 try {
-                    let json = JSON.parse(data);
-                    if (json.connected) {
-                        this._connected = true;
-                        this.updateLayerState(json);
-                    } else {
-                        this._connected = false;
-                        this.emit('Spike.Disconnect');
-                    }
+                    this.updateLayerState(JSON.parse(data));
                 } catch (error) {
                     // Todo: show error message in IDE...
                     console.error(error);
@@ -117,49 +113,16 @@ exports.SpikeState = class extends BasicDeviceState {
         this._queue = [];
     }
 
-    connecting() {
-        if (this._connecting) {
-            return;
-        }
-        let callback = () => {
-                this._dataProvider.getData(
-                    'post',
-                    'spike/connecting',
-                    {},
-                    (data) => {
-                        try {
-                            let json = JSON.parse(data);
-                            if (json.connected) {
-                                this._connected  = true;
-                                this._connecting = false;
-                                this.updateLayerState(json);
-                                this.emit('Spike.Connected');
-                                this.update();
-                            } else if (!this._noTimeout) {
-                                setTimeout(callback, 100);
-                            }
-                        } catch (error) {
-                            // Todo: show error message in IDE...
-                            console.error(error);
-                            this._connecting = false;
-                        }
-                    }
-                );
-            };
-        callback();
-    }
-
     disconnect() {
-        if (this._connecting || !this._connected) {
-            return;
-        }
         this.emit('Spike.Disconnect');
         this._dataProvider.getData(
             'post',
             'spike/disconnect',
             {},
             (data) => {
-                this._connected = false;
+                for (let i = 0; i < this._layerState.length; i++) {
+                    this._layerState[i].disconnect();
+                }
                 this.emit('Spike.Disconnected');
             }
         );

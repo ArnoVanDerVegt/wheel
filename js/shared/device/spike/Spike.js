@@ -28,8 +28,9 @@ exports.Spike = class extends BasicDevice {
                 connecting:      false,
                 commandQueue:    null,
                 deviceName:      '',
-                tilt:            {x: 0, y: 0, z: 0},
+                gyro:            {x: 0, y: 0, z: 0},
                 accel:           {x: 0, y: 0, z: 0},
+                pos:             {x: 0, y: 0, z: 0},
                 ports:           []
             };
         for (let i = 0; i < 6; i++) {
@@ -243,13 +244,13 @@ exports.Spike = class extends BasicDevice {
 
     cloneLayer(layer) {
         let result = {
-                uuid:       layer.uuid,
-                type:       layer.type,
+                deviceName: layer.deviceName,
                 connecting: layer.connecting,
                 connected:  layer.connected,
                 button:     layer.button,
-                tilt:       layer.tilt,
+                gyro:       layer.gyro,
                 accel:      layer.accel,
+                pos:        layer.pos,
                 ports:      []
             };
         for (let i = 0; i < 6; i++) {

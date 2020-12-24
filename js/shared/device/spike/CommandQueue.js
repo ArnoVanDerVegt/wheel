@@ -81,6 +81,15 @@ exports.CommandQueue = class {
                     break;
             }
         }
+        ['gyro', 'accel', 'pos'].forEach((property, index) => {
+            index += 6;
+            if (typeof ports[index] === 'object') {
+                let p = layer[property];
+                p.x = ports[index][0] || 0;
+                p.y = ports[index][1] || 0;
+                p.z = ports[index][2] || 0;
+            }
+        });
         this.sendQueue();
     }
 

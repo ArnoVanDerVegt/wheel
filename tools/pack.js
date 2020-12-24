@@ -641,6 +641,8 @@ const files = [
         './js/frontend/ide/plugins/simulator/ev3sensors/SensorContainer',
         './js/frontend/ide/plugins/simulator/ev3sensors/Plugin',
         './js/frontend/ide/plugins/simulator/spike/io/LedMatrix',
+        './js/frontend/ide/plugins/simulator/spike/components/Hub',
+        './js/frontend/ide/plugins/simulator/spike/components/HubStatus',
         './js/frontend/ide/plugins/simulator/spike/Plugin',
         './js/frontend/ide/plugins/simulator/spikeports/io/MotorOrSensorState',
         './js/frontend/ide/plugins/simulator/spikeports/io/MotorOrSensor',
