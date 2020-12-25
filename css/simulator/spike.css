@@ -140,7 +140,7 @@
     border-radius:                  26px;
 }
 .simulator .motors.spike-ports {
-    padding:                        210px;
+    width:                          210px;
 }
 .simulator .motors.spike-ports .motor {
     margin:                         0 8px 8px 0;
