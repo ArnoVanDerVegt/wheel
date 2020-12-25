@@ -1,15 +1,13 @@
 .spike,
 .spike .spike-hub,
 .spike .hub-status {
-    display:                        none;
     width:                          227px;
 }
 .spike {
-    margin:                         8px 20px 0 20px;
+    margin:                         8px 20px 0 0;
+    display:                        none;
 }
-.spike.visible,
-.spike .spike-hub.visible,
-.spike .hub-status.visible {
+.spike.visible {
     display:                        block;
 }
 .spike .spike-hub {
@@ -115,7 +113,7 @@
     border-radius:                  26px;
 }
 .simulator .motors.spike-ports {
-    padding:                        0 0 0 33px;
+    padding:                        210px;
 }
 .simulator .motors.spike-ports .motor {
     margin:                         0 8px 8px 0;
