@@ -9,7 +9,6 @@ exports.LayerState = class extends BasicLayerState {
     constructor(opts) {
         opts.signalPrefix = 'PoweredUp.Layer';
         super(opts);
-        this._connected = false;
         this._uuid      = null;
         this._uuidTime  = Date.now();
         this._type      = null;
@@ -32,14 +31,6 @@ exports.LayerState = class extends BasicLayerState {
 
     getAccel() {
         return this._accel;
-    }
-
-    getConnected() {
-        return this._connected;
-    }
-
-    setConnected(connected) {
-        this._connected = connected;
     }
 
     getType() {
@@ -75,8 +66,9 @@ exports.LayerState = class extends BasicLayerState {
             }
         }
         if (changed) {
-            this._device.emit(this._signalPrefix + this._layer + 'Tilt', tilt);
+            this._device.emit(this._signalPrefix + this._layerIndex + 'Tilt', tilt);
         }
+        return this;
     }
 
     checkAccelChange(accel) {
@@ -88,7 +80,7 @@ exports.LayerState = class extends BasicLayerState {
             }
         }
         if (changed) {
-            this._device.emit(this._signalPrefix + this._layer + 'Accel', accel);
+            this._device.emit(this._signalPrefix + this._layerIndex + 'Accel', accel);
         }
     }
 
@@ -99,6 +91,7 @@ exports.LayerState = class extends BasicLayerState {
                 this._ports[i].ready = port.ready;
             }
         }
+        return this;
     }
 
     setState(state) {
@@ -107,24 +100,22 @@ exports.LayerState = class extends BasicLayerState {
             this._uuid     = state.uuid || '';
             this._uuidTime = time;
             if (state.connected) {
-                this._device.emit(this._signalPrefix + this._layer + 'Uuid', this._uuid);
+                this._device.emit(this._signalPrefix + this._layerIndex + 'Uuid', this._uuid);
             }
         }
         if (state.type && (state.type !== this._type)) {
             this._type = state.type;
-            this._device.emit(this._signalPrefix + this._layer + 'Type', this._type);
+            this._device.emit(this._signalPrefix + this._layerIndex + 'Type', this._type);
         }
         if (('button' in state) && (state.button !== this._button)) {
             this._button = state.button;
-            this._device.emit(this._signalPrefix + this._layer + 'Button', this._button);
+            this._device.emit(this._signalPrefix + this._layerIndex + 'Button', this._button);
         }
-        this.checkReady(state.ports);
-        this.checkSensorChange(state.ports);
-        this.checkTiltChange(state.tilt);
-        this.checkAccelChange(state.accel);
-        if (state.connected) {
-            this._connected = true;
-        }
+        this
+            .checkReady(state.ports)
+            .checkSensorChange(state.ports)
+            .checkTiltChange(state.tilt)
+            .checkAccelChange(state.accel);
         // Since Powered Up ports can be a motor or sensor we copy the value to degrees...
         let ports = this._ports;
         for (let i = 0; i < 4; i++) {

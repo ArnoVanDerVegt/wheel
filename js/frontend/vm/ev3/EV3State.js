@@ -3,24 +3,21 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const dispatcher       = require('../../lib/dispatcher').dispatcher;
-const getDataProvider  = require('../../lib/dataprovider/dataProvider').getDataProvider;
 const BasicDeviceState = require('../BasicDeviceState').BasicDeviceState;
 const LayerState       = require('./LayerState').LayerState;
 
 exports.EV3State = class extends BasicDeviceState {
     constructor(opts) {
-        let layerCount = ('layerCount' in opts) ? opts.layerCount : 0; // This is the configured (active) layer count...
-        opts.layerCount = 4;                                           // And this is the number of layers we want in the layerState array!
-        opts.LayerState = LayerState;
+        let layerCount        = ('layerCount' in opts) ? opts.layerCount : 0; // This is the configured (active) layer count...
+        opts.layerCount       = 4;                                           // And this is the number of layers we want in the layerState array!
+        opts.LayerState       = LayerState;
+        opts.signalPrefix     = 'EV3';
+        opts.setModeURL       = 'ev3/set-mode';
+        opts.stopAllMotorsURL = 'ev3/stop-all-motors';
         super(opts);
-        this._layerCount   = layerCount;
-        this._dataProvider = opts.dataProvider ? opts.dataProvider : getDataProvider(); // Allow dependency injection for unit tests...
-        this._battery      = null;
-        this._deviceName   = 'EV3';
-        this._noTimeout    = ('noTimeout' in opts) ? opts.noTimeout : false;
-        dispatcher
-            .on('EV3.ConnectToDevice', this, this.onConnectToDevice)
-            .on('EV3.LayerCount',      this, this.onLayerCount);
+        this._layerCount = layerCount;
+        this._battery    = null;
+        this._deviceName = 'EV3';
     }
 
     getConnected() {
@@ -29,10 +26,6 @@ exports.EV3State = class extends BasicDeviceState {
 
     getBattery() {
         return this._battery;
-    }
-
-    getLayerState(layer) {
-        return this._layerState[layer];
     }
 
     getDeviceName() {
@@ -75,13 +68,6 @@ exports.EV3State = class extends BasicDeviceState {
                 }
             }
         );
-    }
-
-    updateLayerState(data) {
-        this.setState(data.state);
-        for (let i = 0; i < 4; i++) {
-            data.state.layers[i] && this._layerState[i].setState(data.state.layers[i]);
-        }
     }
 
     update() {
@@ -163,17 +149,6 @@ exports.EV3State = class extends BasicDeviceState {
                 this.emit('EV3.Disconnected');
             }
         );
-    }
-
-    _createResponseHandler(callback) {
-        return function(data) {
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                data = {error: true, message: 'Invalid data.'};
-            }
-            callback && callback(data);
-        };
     }
 
     downloadData(data, remoteFilename, callback) {
@@ -271,25 +246,5 @@ exports.EV3State = class extends BasicDeviceState {
             {},
             this._createResponseHandler(callback)
         );
-    }
-
-    setMode(layer, port, mode, callback) {
-        if (this._connecting || !this._connected) {
-            return;
-        }
-        this._dataProvider.getData(
-            'post',
-            'ev3/set-mode',
-            {
-                layer: layer,
-                port:  port,
-                mode:  mode
-            },
-            this._createResponseHandler(callback)
-        );
-    }
-
-    stopAllMotors(layerCount) {
-        this._dataProvider.getData('post', 'ev3/stop-all-motors', {layerCount: layerCount});
     }
 };

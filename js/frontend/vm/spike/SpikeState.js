@@ -2,70 +2,33 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher       = require('../../lib/dispatcher').dispatcher;
-const getDataProvider  = require('../../lib/dataprovider/dataProvider').getDataProvider;
-const BasicDeviceState = require('../BasicDeviceState').BasicDeviceState;
-const LayerState       = require('./LayerState').LayerState;
+const spikeModuleConstants = require('../../../shared/vm/modules/spikeModuleConstants');
+const dispatcher           = require('../../lib/dispatcher').dispatcher;
+const getDataProvider      = require('../../lib/dataprovider/dataProvider').getDataProvider;
+const BasicDeviceState     = require('../BasicDeviceState').BasicDeviceState;
+const LayerState           = require('./LayerState').LayerState;
 
 exports.SpikeState = class extends BasicDeviceState {
     constructor(opts) {
-        opts.layerCount = 4; // Todo: Check with settings
-        opts.LayerState = LayerState;
+        opts.layerCount       = 4; // Todo: Check with settings
+        opts.LayerState       = LayerState;
+        opts.signalPrefix     = 'Spike';
+        opts.updateURL        = 'spike/update';
+        opts.setModeURL       = 'spike/set-mode';
+        opts.stopAllMotorsURL = 'spike/stop-all-motors';
         super(opts);
-        // Allow dependency injection for unit tests...
-        this._dataProvider  = opts.dataProvider ? opts.dataProvider : getDataProvider();
         this._battery       = null;
-        this._noTimeout     = ('noTimeout' in opts) ? opts.noTimeout : false;
         this._updateTimeout = null;
-        this._updating      = false;
-        dispatcher
-            .on('Spike.ConnectToDevice', this, this.onConnectToDevice)
-            .on('Spike.LayerCount',      this, this.onLayerCount);
-    }
-
-    getQueueLength() {
-        return this._queue.length;
-    }
-
-    getConnected() {
-        let connected = 0;
-        this._layerState.forEach((layerState) => {
-            if (layerState.getConnected()) {
-                connected++;
-            }
-        });
-        return connected;
-    }
-
-    getConnectionCount() {
-        return this.getConnected();
-    }
-
-    getConnecting() {
-        let connecting = 0;
-        this._layerState.forEach((layerState) => {
-            if (layerState.getConnecting()) {
-                connecting++;
-            }
-        });
-        return connecting;
     }
 
     getPortsPerLayer() {
         return 6;
     }
 
-    getLayerState(layer) {
-        return this._layerState[layer];
-    }
-
-    setState(state) {}
-
-    onLayerCount(layerCount) {
-        this._layerCount = layerCount;
-    }
-
     onConnectToDevice(deviceName) {
+        if (this.getConnectionCount() >= spikeModuleConstants.POWERED_UP_LAYER_COUNT) {
+            return;
+        }
         for (let i = 0; i < this._layerState.length; i++) {
             let layerState = this._layerState[i];
             if (layerState.getDeviceName() === deviceName) {
@@ -84,74 +47,6 @@ exports.SpikeState = class extends BasicDeviceState {
             }
         );
     }
-
-    updateLayerState(data) {
-        if (!data.state) {
-            return; // Not connected...
-        }
-        this.setState(data.state);
-        for (let i = 0; i < 4; i++) {
-            data.state.layers[i] && this._layerState[i].setState(data.state.layers[i]);
-        }
-    }
-
-    update() {
-        if (this._updating) {
-            return;
-        }
-        this._updating = true;
-        let callback = () => {
-                this._dataProvider.getData(
-                    'post',
-                    'spike/update',
-                    {
-                        queue: this.updateSendQueue()
-                    },
-                    (data) => {
-                        let json = JSON.parse(data);
-                        this
-                            .updateReceivedQueue(json.messagesReceived)
-                            .updateLayerState(json);
-                        if (!this._noTimeout) {
-                            setTimeout(callback, 20);
-                        }
-                    }
-                );
-            };
-        callback();
-    }
-
-    disconnect() {
-        this.emit('Spike.Disconnect');
-        this._dataProvider.getData(
-            'post',
-            'spike/disconnect',
-            {},
-            (data) => {
-                for (let i = 0; i < this._layerState.length; i++) {
-                    this._layerState[i].disconnect();
-                }
-                this.emit('Spike.Disconnected');
-            }
-        );
-    }
-
-    _createResponseHandler(callback) {
-        return function(data) {
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                data = {error: true, message: 'Invalid data.'};
-            }
-            callback && callback(data);
-        };
-    }
-
-    downloadData(data, remoteFilename, callback) {}
-    download(localFilename, remoteFilename, callback) {}
-    upload(remoteFilename, localFilename, callback) {}
-    createDir(path, callback) {}
-    deleteFile(path, callback) {}
 
     stopPolling(callback) {
         if (this._connecting || !this._connected) {
@@ -175,25 +70,5 @@ exports.SpikeState = class extends BasicDeviceState {
             {},
             this._createResponseHandler(callback)
         );
-    }
-
-    setMode(layer, port, mode, callback) {
-        if (this._connecting || !this._connected) {
-            return;
-        }
-        this._dataProvider.getData(
-            'post',
-            'spike/set-mode',
-            {
-                layer: layer,
-                port:  port,
-                mode:  mode
-            },
-            this._createResponseHandler(callback)
-        );
-    }
-
-    stopAllMotors(layerCount) {
-        this._dataProvider.getData('post', 'spike/stop-all-motors', {layerCount: layerCount});
     }
 };

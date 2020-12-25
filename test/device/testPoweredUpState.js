@@ -204,8 +204,7 @@ describe(
             () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState._connecting = false; // Force correct state...
-                poweredUpState._connected  = true;  // Force correct state...
+                poweredUpState.getLayerState(0).setConnected(true); // Force correct state...
                 assert.equal(mockDataProvider.getStopped(),    false);
                 assert.equal(mockDataProvider.getLayerCount(), 0);
                 poweredUpState.stopAllMotors(3);
@@ -218,8 +217,7 @@ describe(
             () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState._connecting = false; // Force correct state...
-                poweredUpState._connected  = true;  // Force correct state...
+                poweredUpState.getLayerState(0).setConnected(true); // Force correct state...
                 poweredUpState.module(13, 14, {layer: 1, id: 2, hello: 'World'});
                 assert.deepEqual(poweredUpState._queue, [{module: 13, command: 14, data: {layer: 1, id: 2, hello: 'World'}}]);
             }
@@ -229,8 +227,7 @@ describe(
             () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState._connecting = false; // Force correct state...
-                poweredUpState._connected  = true;  // Force correct state...
+                poweredUpState.getLayerState(0).setConnected(true); // Force correct state...
                 poweredUpState.module(13, 14, {layer: 1, id: 2, hello: 'Hello'});
                 poweredUpState.module(13, 14, {layer: 1, id: 2, hello: 'World'});
                 assert.deepEqual(poweredUpState._queue, [{module: 13, command: 14, data: {layer: 1, id: 2, hello: 'World'}}]);

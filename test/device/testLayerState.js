@@ -4,8 +4,17 @@
 **/
 const BasicLayerState     = require('../../js/frontend/vm/BasicLayerState').BasicLayerState;
 const PoweredUpLayerState = require('../../js/frontend/vm/poweredup/LayerState').LayerState;
+const PoweredUpState      = require('../../js/frontend/vm/poweredup/PoweredUpState').PoweredUpState;
 const EV3LayerState       = require('../../js/frontend/vm/ev3/LayerState').LayerState;
 const assert              = require('assert');
+
+const testDevice = {
+        emit: () => {
+        },
+        getPortsPerLayer: () => {
+            return 4;
+        }
+    };
 
 describe(
     'Test layer state',
@@ -16,7 +25,7 @@ describe(
                 it(
                     'Should check initial port states',
                     () => {
-                        let layerState = new BasicLayerState({});
+                        let layerState = new BasicLayerState({device: testDevice});
                         assert.deepEqual(
                             layerState.getPorts(),
                             [
@@ -31,28 +40,28 @@ describe(
                 it(
                     'Should check initial sensor values',
                     () => {
-                        let layerState = new BasicLayerState({});
+                        let layerState = new BasicLayerState({device: testDevice});
                         assert.deepEqual(layerState.getSensors(), [0, 0, 0, 0]);
                     }
                 );
                 it(
                     'Should check initial motor values',
                     () => {
-                        let layerState = new BasicLayerState({});
+                        let layerState = new BasicLayerState({device: testDevice});
                         assert.deepEqual(layerState.getMotors(), [0, 0, 0, 0]);
                     }
                 );
                 it(
                     'Should check initial port assignents',
                     () => {
-                        let layerState = new BasicLayerState({});
+                        let layerState = new BasicLayerState({device: testDevice});
                         assert.deepEqual(layerState.getPortAssignments(), [0, 0, 0, 0]);
                     }
                 );
                 it(
                     'Should change sensor values',
                     () => {
-                        let layerState = new BasicLayerState({device: {emit: () => {}}});
+                        let layerState = new BasicLayerState({device: testDevice, layerIndex: 0});
                         layerState.checkSensorChange([
                             {mode: 0, assigned: 0, value: 1},
                             {mode: 0, assigned: 0, value: 2},
@@ -65,7 +74,7 @@ describe(
                 it(
                     'Should change sensor assignments',
                     () => {
-                        let layerState = new BasicLayerState({device: {emit: () => {}}});
+                        let layerState = new BasicLayerState({device: testDevice, layerIndex: 0});
                         layerState.checkSensorChange([
                             {mode: 0, assigned: 5, value: 0},
                             {mode: 0, assigned: 6, value: 0},
@@ -80,11 +89,14 @@ describe(
                     () => {
                         let changeCount = 0;
                         let layerState  = new BasicLayerState({
-                                layer:        0,
+                                layerIndex:   0,
                                 signalPrefix: 'Test',
                                 device: {
                                     emit: function(signal, assigned, mode) {
                                         changeCount++;
+                                    },
+                                    getPortsPerLayer: function() {
+                                        return 4;
                                     }
                                 }
                             });
@@ -102,11 +114,14 @@ describe(
                     () => {
                         let signals    = [];
                         let layerState = new BasicLayerState({
-                                layer:        0,
+                                layerIndex:   0,
                                 signalPrefix: 'Test',
                                 device: {
                                     emit: function(signal, assigned, mode) {
                                         signals.push(signal);
+                                    },
+                                    getPortsPerLayer: function() {
+                                        return 4;
                                     }
                                 }
                             });
@@ -135,7 +150,7 @@ describe(
                 it(
                     'Should change acceleration',
                     () => {
-                        let layerState = new PoweredUpLayerState({device: {emit: () => {}}});
+                        let layerState = new PoweredUpLayerState({device: testDevice});
                         assert.deepEqual(layerState.getAccel(), {x: 0, y: 0, z: 0});
                         layerState.checkAccelChange({x: 11, y: 12, z: 13});
                         assert.deepEqual(layerState.getAccel(), {x: 11, y: 12, z: 13});
@@ -144,7 +159,7 @@ describe(
                 it(
                     'Should change tilt',
                     () => {
-                        let layerState = new PoweredUpLayerState({device: {emit: () => {}}});
+                        let layerState = new PoweredUpLayerState({device: testDevice});
                         assert.deepEqual(layerState.getTilt(), {x: 0, y: 0, z: 0});
                         layerState.checkTiltChange({x: 111, y: 112, z: 113});
                         assert.deepEqual(layerState.getTilt(), {x: 111, y: 112, z: 113});
@@ -153,7 +168,7 @@ describe(
                 it(
                     'Should change type',
                     () => {
-                        let layerState = new PoweredUpLayerState({device: {emit: () => {}}});
+                        let layerState = new PoweredUpLayerState({device: testDevice});
                         assert.equal(layerState.getType(), null);
                         layerState.setState({type: 123, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
                         assert.equal(layerState.getType(), 123);
@@ -162,7 +177,7 @@ describe(
                 it(
                     'Should change uuid',
                     () => {
-                        let layerState = new PoweredUpLayerState({device: {emit: () => {}}});
+                        let layerState = new PoweredUpLayerState({device: testDevice});
                         assert.equal(layerState.getUUID(), '');
                         layerState.setState({uuid: 'abcde', ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
                         assert.equal(layerState.getUUID(), 'abcde');
@@ -171,7 +186,7 @@ describe(
                 it(
                     'Should change button',
                     () => {
-                        let layerState = new PoweredUpLayerState({device: {emit: () => {}}});
+                        let layerState = new PoweredUpLayerState({device: testDevice});
                         assert.equal(layerState.getButton(), 0);
                         layerState.setState({button: 541, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
                         assert.equal(layerState.getButton(), 541);
@@ -180,16 +195,16 @@ describe(
                 it(
                     'Should change connected',
                     () => {
-                        let layerState = new PoweredUpLayerState({device: {emit: () => {}}});
-                        assert.equal(layerState.getConnected(), false);
-                        layerState.setState({connected: true, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]});
-                        assert.equal(layerState.getConnected(), true);
+                        let state = new PoweredUpState({LayerState: PoweredUpLayerState});
+                        assert.equal(state.getLayerState(0).getConnected(), false);
+                        state.setState({layers: [{connected: true, ports: [{}, {}, {}, {}], ready: [{}, {}, {}, {}]}]});
+                        assert.equal(state.getLayerState(0).getConnected(), true);
                     }
                 );
                 it(
                     'Should get port values',
                     () => {
-                        let layerState = new PoweredUpLayerState({device: {emit: () => {}}});
+                        let layerState = new PoweredUpLayerState({device: testDevice});
                         assert.deepEqual(layerState.getPortValues('value'), [0, 0, 0, 0]);
                         assert.deepEqual(layerState.getPortAssignments(),   [0, 0, 0, 0]);
                         assert.deepEqual(layerState.getSensors(),           [0, 0, 0, 0]);
@@ -204,7 +219,7 @@ describe(
                 it(
                     'Should change motor assignments',
                     () => {
-                        let layerState = new EV3LayerState({device: {emit: () => {}}});
+                        let layerState = new EV3LayerState({device: testDevice});
                         assert.deepEqual(layerState.getMotorAssingments(), [0, 0, 0, 0]);
                         layerState.checkMotorChange([
                             null, null, null, null,
@@ -216,7 +231,7 @@ describe(
                 it(
                     'Should change motor degrees',
                     () => {
-                        let layerState = new EV3LayerState({device: {emit: () => {}}});
+                        let layerState = new EV3LayerState({device: testDevice});
                         assert.deepEqual(layerState.getMotorAssingments(), [0, 0, 0, 0]);
                         layerState.checkMotorChange([
                             null, null, null, null,
@@ -228,7 +243,7 @@ describe(
                 it(
                     'Should change motor ready',
                     () => {
-                        let layerState = new EV3LayerState({device: {emit: () => {}}});
+                        let layerState = new EV3LayerState({device: testDevice});
                         assert.deepEqual(layerState.getMotorValues('ready'), [false, false, false, false]);
                         layerState.checkMotorChange([
                             null, null, null, null,
@@ -242,11 +257,14 @@ describe(
                     () => {
                         let signals    = [];
                         let layerState = new EV3LayerState({
-                                layer:        0,
+                                layerIndex:   0,
                                 signalPrefix: 'Test',
                                 device: {
                                     emit: function(signal, assigned, mode) {
                                         signals.push(signal);
+                                    },
+                                    getPortsPerLayer: function() {
+                                        return 4;
                                     }
                                 }
                             });
@@ -270,11 +288,14 @@ describe(
                     () => {
                         let signals    = [];
                         let layerState = new EV3LayerState({
-                                layer:        0,
+                                layerIndex:   0,
                                 signalPrefix: 'Test',
                                 device: {
                                     emit: function(signal, assigned, mode) {
                                         signals.push(signal);
+                                    },
+                                    getPortsPerLayer() {
+                                        return 4;
                                     }
                                 }
                             });

@@ -55,28 +55,29 @@ exports.LayerState = class extends BasicLayerState {
     }
 
     checkMotorChange(newMotors) {
-        let device = this._device;
-        let motors = this._motors;
-        let layer  = this._layer;
+        let device     = this._device;
+        let motors     = this._motors;
+        let layerIndex = this._layerIndex;
         for (let i = 0; i < 4; i++) {
             let newMotor = newMotors[i + 4];
             let assigned = newMotor.assigned || 0;
             let motor    = motors[i];
             if (motor.assigned !== assigned) {
                 motor.assigned = assigned;
-                device.emit(this._signalPrefix + layer + 'Motor' + i + 'Assigned', assigned);
+                device.emit(this._signalPrefix + layerIndex + 'Motor' + i + 'Assigned', assigned);
             }
             let degrees = parseInt(newMotor.degrees || '0');
             if (motor.degrees !== degrees) {
                 motor.degrees = degrees;
-                device.emit(this._signalPrefix + layer + 'Motor' + i + 'Changed', degrees);
+                device.emit(this._signalPrefix + layerIndex + 'Motor' + i + 'Changed', degrees);
             }
             motor.ready = newMotor.ready;
         }
     }
 
     setState(state) {
-        this.checkSensorChange(state);
-        this.checkMotorChange(state);
+        this
+            .checkSensorChange(state)
+            .checkMotorChange(state);
     }
 };
