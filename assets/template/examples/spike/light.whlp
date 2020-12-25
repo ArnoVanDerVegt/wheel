@@ -1,0 +1,26 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Spike Light example"
+
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/light.whl"
+
+#display "Spike"
+
+proc main()
+    ; Select the Spike device in the IDE...
+    selectDevice(DEVICE_SPIKE)
+
+    ; Turn the red light on and wait 1 second...
+    light(LIGHT_SPIKE_RED)
+    sleep(1000)
+
+    ; Turn the blue light on and wait 1 second...
+    light(LIGHT_SPIKE_BLUE)
+    sleep(1000)
+
+    ; Turn the yellow light on and wait 1 second...
+    light(LIGHT_SPIKE_YELLOW)
+    sleep(1000)
+end

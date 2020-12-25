@@ -3,20 +3,24 @@
 #project "EV3 Light example"
 
 #include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
 #include "lib/modules/light.whl"
 
 #display "EV3"
 
 proc main()
+    ; Select the EV3 device in the IDE...
+    selectDevice(DEVICE_EV3)
+
     ; Turn the red light on and wait 1 second...
     light(LIGHT_RED)
     sleep(1000)
 
-    ; Turn the yellow light on and wait 3 seconds...
+    ; Turn the orange light on and wait 3 seconds...
     light(LIGHT_ORANGE_FLASH)
     sleep(3000)
 
-    ; Turn the yellow light on and wait 1 second...
+    ; Turn the orange light on and wait 1 second...
     light(LIGHT_ORANGE)
     sleep(1000)
 

@@ -1,0 +1,31 @@
+; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "EV3 motor example"
+
+#include "lib/modules/standard.whl"
+#include "lib/modules/motor.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/spike.whl"
+
+#display "EV3 Motors"
+
+proc main()
+    ; Select the EV3 device in the simulator...
+    selectDevice(DEVICE_EV3)
+
+    motorLayerReset(LAYER_1, OUTPUT_A)
+
+    repeat
+        motorLayerSetSpeed(LAYER_1, OUTPUT_A, 20)
+        motorLayerMoveTo(LAYER_1, OUTPUT_A, 360)
+        waitForMotors(MOTOR_BITS_A)
+
+        sleep(1000)
+
+        motorLayerSetSpeed(LAYER_1, OUTPUT_A, 20)
+        motorLayerMoveTo(LAYER_1, OUTPUT_A, -360)
+        waitForMotors(MOTOR_BITS_A)
+
+        sleep(1000)
+    end
+end

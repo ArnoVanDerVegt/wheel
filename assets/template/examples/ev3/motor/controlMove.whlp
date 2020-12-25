@@ -5,11 +5,12 @@
 #project "Motor move demo"
 
 #include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
 #include "lib/modules/screen.whl"
 #include "lib/modules/button.whl"
 #include "lib/modules/motor.whl"
 
-#display "EV3 Motors"
+#display "EV3, EV3 Motors"
 
 number active     = 0       ; The last active motor
 number lastActive = 0       ; The last known motor position
@@ -49,6 +50,9 @@ proc drawMotorPos()
 end
 
 proc main()
+    ; Select the EV3 device in the IDE...
+    selectDevice(DEVICE_EV3)
+
     drawScreen()
     drawMotorPos()
     repeat

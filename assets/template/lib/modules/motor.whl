@@ -18,23 +18,26 @@
 #define MOTOR_REVERSE         5
 #define MOTOR_MOVE_TO         6
 #define MOTOR_MOVE_TO_BITS    7
-#define MOTOR_ON              8
-#define MOTOR_TIME_ON         9
-#define MOTOR_STOP           10
-#define MOTOR_READ           11
-#define MOTOR_READY          12
-#define MOTOR_READY_BITS     13
-#define MOTOR_THRESHOLD      14
+#define MOTOR_MOVE_TO_PAIR    8
+#define MOTOR_ON              9
+#define MOTOR_TIME_ON        10
+#define MOTOR_STOP           11
+#define MOTOR_READ           12
+#define MOTOR_READY          13
+#define MOTOR_READY_BITS     14
+#define MOTOR_THRESHOLD      15
 
 ; @const Motor types.
 #define MOTOR_MEDIUM          7
 #define MOTOR_LARGE           8
 
-; @const The motor outputs.
+; @const The motor outputs, `OUTPUT_E` and `OUTPUT_F` can only be used for Spike.
 #define OUTPUT_A              0
 #define OUTPUT_B              1
 #define OUTPUT_C              2
 #define OUTPUT_D              3
+#define OUTPUT_E              4
+#define OUTPUT_F              5
 
 ; @const Bits to identify the motor combinations for ready or to move multiple motors to a given position.
 #define MOTOR_BITS_A    0b0001
@@ -116,11 +119,22 @@ proc motorLayerMoveTo(number layer, number id, number target)
     mod  MODULE_MOTOR, MOTOR_MOVE_TO
 end
 
-; @proc             Move the motor to a given target angle.
+; @proc             Move the motors to a given target angle. This procedure is not implemented in the EV3 VM.
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
 ; @param target     The target angle.
 proc motorLayerMoveToBits(number layer, number bits, number target)
+    addr layer
+    mod  MODULE_MOTOR, MOTOR_MOVE_TO_BITS
+end
+
+; @proc             Move two motors to a target angles. This procedure is not implemented in the EV3 VM.
+; @param layer      The layer, the daisy chained device. 0 is the primary brick.
+; @param id1        The first output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param target1    The first target angle.
+; @param id2        The second output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param target2    The second target angle.
+proc motorLayerMoveToPair(number layer, number id1, number target1, number id2, number target2)
     addr layer
     mod  MODULE_MOTOR, MOTOR_MOVE_TO_BITS
 end
@@ -231,11 +245,20 @@ proc motorMoveTo(number id, number target)
     motorLayerMoveTo(0, id, target)
 end
 
-; @proc             Move the motor to a given target angle.
+; @proc             Move the motor to a given target angle. This procedure is not implemented in the EV3 VM.
 ; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
 ; @param target     The target angle.
 proc motorMoveToBits(number bits, number target)
     motorLayerMoveToBits(0, bits, target)
+end
+
+; @proc             Move two motors to a target angles. This procedure is not implemented in the EV3 VM.
+; @param id1        The first output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param target1    The first target angle.
+; @param id2        The second output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
+; @param target2    The second target angle.
+proc motorMoveToPair(number id1, number target1, number id2, number target2)
+    motorLayerMoveToPair(0, id1, target1, id2, target2)
 end
 
 ; @proc             Turn the motor of the main device on.

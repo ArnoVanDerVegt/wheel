@@ -3,6 +3,7 @@
 #project "Multi sensor demo"
 
 #include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
 #include "lib/modules/screen.whl"
 #include "lib/modules/sensor.whl"
 #include "lib/modules/sensorMulti.whl"
@@ -10,6 +11,9 @@
 #display "EV3 Sensors"
 
 proc main()
+    ; Select the EV3 device in the IDE...
+    selectDevice(DEVICE_EV3)
+
     ; Set the sensor type...
     sensorSetType(INPUT_1, SENSOR_TYPE_MULTIPLEXER)
 
