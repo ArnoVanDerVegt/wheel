@@ -121,6 +121,9 @@ exports.IDE = class extends IDEDOM {
         this._poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
+        this._spike
+            .addEventListener('Spike.Connecting',     this, this.onSpikeConnecting)
+            .addEventListener('Spike.Connected',      this, this.onSpikeConnected);
         this._ideAssistant
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);

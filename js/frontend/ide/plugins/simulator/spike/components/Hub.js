@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const buttonModuleConstants = require('../../../../../../shared/vm/modules/buttonModuleConstants');
+const lightModuleConstants  = require('../../../../../../shared/vm/modules/lightModuleConstants');
 const DOMNode               = require('../../../../../lib/dom').DOMNode;
 const Button                = require('../../../../../lib/components/input/Button').Button;
 const dispatcher            = require('../../../../../lib/dispatcher').dispatcher;
@@ -16,6 +17,7 @@ exports.Hub = class extends DOMNode {
         this._layer   = opts.layer;
         this._spike   = opts.spike;
         this._buttons = 0;
+        this._light   = null;
         opts.plugin.addHub(this);
         this.initDOM(opts.parentNode);
         this._spike.on('Spike.Button' + opts.layer, this, this.onButtons);
@@ -25,17 +27,19 @@ exports.Hub = class extends DOMNode {
         this.create(
             parentNode,
             {
+                ref: this.setRef('spikeHub'),
+                style: {
+                    display: this._visible ? 'block' : 'none'
+                },
                 children: [
                     {
                         type:    HubStatus,
                         spike:   this._spike,
                         layer:   this._layer,
-                        visible: this._visible,
                         id:      this.setStatus.bind(this)
                     },
                     {
-                        ref:      this.setRef('spikeHub'),
-                        className: 'flt spike-hub' + (this._visible ? ' visible' : ''),
+                        className: 'flt spike-hub',
                         children: [
                             {
                                 className: 'spike-top flt max-w',
@@ -113,6 +117,7 @@ exports.Hub = class extends DOMNode {
                     ]
                 },
                 {
+                    ref:       this.setRef('centerButton'),
                     className: 'center abs',
                     children: [
                         {
@@ -130,9 +135,8 @@ exports.Hub = class extends DOMNode {
     }
 
     setVisible(visible) {
-        this._visible                 = visible;
-        this._refs.hubInfo.className  = 'flt hub-info'  + (visible ? ' visible' : '');
-        this._status.setVisible(visible);
+        this._visible                     = visible;
+        this._refs.spikeHub.style.display = visible ? 'block' : 'none';
     }
 
     setConnectButton(element) {
@@ -165,6 +169,36 @@ exports.Hub = class extends DOMNode {
 
     getButtons() {
         return this._buttons;
+    }
+
+    getLight() {
+        if (!this._light) {
+            let refs = this._refs;
+            this._light = {
+                setColor(color) {
+                    let className = null;
+                    switch (color) {
+                        case lightModuleConstants.LIGHT_SPIKE_PINK:   className = 'pink';   break;
+                        case lightModuleConstants.LIGHT_SPIKE_VIOLET: className = 'violet'; break;
+                        case lightModuleConstants.LIGHT_SPIKE_BLUE:   className = 'blue';   break;
+                        case lightModuleConstants.LIGHT_SPIKE_AZURE:  className = 'azure';  break;
+                        case lightModuleConstants.LIGHT_SPIKE_CYAN:   className = 'cyan';   break;
+                        case lightModuleConstants.LIGHT_SPIKE_GREEN:  className = 'green';  break;
+                        case lightModuleConstants.LIGHT_SPIKE_YELLOW: className = 'yellow'; break;
+                        case lightModuleConstants.LIGHT_SPIKE_ORANGE: className = 'orange'; break;
+                        case lightModuleConstants.LIGHT_SPIKE_RED:    className = 'red';    break;
+                        case lightModuleConstants.LIGHT_SPIKE_WHITE:  className = '';       break;
+                    }
+                    if (className !== null) {
+                        refs.centerButton.className = 'center ' + className + ' abs';
+                    }
+                },
+                off() {
+                    refs.centerButton.className = 'center abs';
+                }
+            };
+        }
+        return this._light;
     }
 
     matrixClear(led) {

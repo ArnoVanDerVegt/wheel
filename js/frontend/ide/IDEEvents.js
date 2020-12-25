@@ -368,7 +368,27 @@ exports.IDEEvents = class extends CompileAndRun {
             'Console.Log',
             {
                 type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'Connected to Powered Up.', className: 'ok'
+                message: 'Connected to Powered Up.'
+            }
+        );
+    }
+
+    onSpikeConnecting(hub) {
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
+                message: 'Connecting to Spike...'
+            }
+        );
+    }
+
+    onSpikeConnected() {
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
+                message: 'Connected to Spike.'
             }
         );
     }

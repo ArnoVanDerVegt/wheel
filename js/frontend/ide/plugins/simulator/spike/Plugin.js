@@ -15,6 +15,7 @@ exports.Plugin = class extends SimulatorPlugin {
         this._spike         = opts.spike;
         this._hubs          = [];
         this._buttons       = null;
+        this._light         = null;
         this._baseClassName = 'spike';
         this._settings.on('Settings.Plugin', this, this.onPluginSettings);
         this.initDOM(opts.parentNode);
@@ -74,7 +75,6 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     getButtons() {
-        let poweredUp = this._poweredUp;
         if (!this._buttons) {
             this._buttons = {
                 readButton: (layer) => {
@@ -87,5 +87,9 @@ exports.Plugin = class extends SimulatorPlugin {
             };
         }
         return this._buttons;
+    }
+
+    getLight(layer) {
+        return this._hubs[layer] ? this._hubs[layer].getLight() : null;
     }
 };

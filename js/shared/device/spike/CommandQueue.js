@@ -48,6 +48,18 @@ exports.CommandQueue = class {
         } catch (error) {
             return;
         }
+        if (data.e) {
+            try {
+                let message = JSON.parse(Buffer.from(data.e, 'base64').toString());
+                let lines   = message.message.split('\n');
+                console.error('Error:', message.type);
+                lines.forEach((line) => {
+                    console.log(line);
+                });
+            } catch (error) {
+            }
+            return;
+        }
         this.sendQueue(data.i || null);
         let ports = data.p;
         if (!ports) {
@@ -95,19 +107,23 @@ exports.CommandQueue = class {
             }
             switch (portInfo[0] || 0) {
                 case constants.DEVICE_TYPE_MEDIUM_MOTOR:
+                    port.isMotor  = true;
                     port.assigned = spikeModuleConstants.SPIKE_DEVICE_MEDIUM_MOTOR;
                     port.value    = portInfo[1][1];
                     break;
                 case constants.DEVICE_TYPE_COLOR_SENSOR:
                     // "BLACK", "VIOLET", "BLUE", "AZURE", "GREEN", "YELLOW", "RED", "WHITE",
+                    port.isMotor  = false;
                     port.assigned = spikeModuleConstants.SPIKE_DEVICE_COLOR_SENSOR;
                     port.value    = portInfo[1][1] || 0;
                     break;
                 case constants.DEVICE_TYPE_DISTANCE_SENSOR:
+                    port.isMotor  = false;
                     port.assigned = spikeModuleConstants.SPIKE_DEVICE_DISTANCE_SENSOR;
                     port.value    = portInfo[1][0] || -1;
                     break;
                 case constants.DEVICE_TYPE_FORCE_SENSOR:
+                    port.isMotor  = false;
                     port.assigned = spikeModuleConstants.SPIKE_DEVICE_FORCE_SENSOR;
                     break;
                 default:

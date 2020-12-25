@@ -21,10 +21,10 @@ exports.SpikeModule = class extends VMModule {
                 }
                 break;
             case spikeModuleConstants.SPIKE_LAYER_CLEAR_LEDS:
-                this.emit('Spike.ClearLeds', vmData.getRecordFromSrcOffset(['layer']));
+                this.emit('Spike.MatrixClearLeds', vmData.getRecordFromSrcOffset(['layer']));
                 break;
             case spikeModuleConstants.SPIKE_LAYER_SET_LED:
-                this.emit('Spike.SetLed', vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']));
+                this.emit('Spike.MatrixSetLed', vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']));
                 break;
         }
     }

@@ -33,7 +33,8 @@ exports.LayerState = class extends BasicLayerState {
             startDegrees:  0,
             targetDegrees: 0,
             brake:         0,
-            speed:         0
+            speed:         0,
+            reverse:       1
         };
     }
 
@@ -114,7 +115,8 @@ exports.LayerState = class extends BasicLayerState {
             }
             let value = parseInt(newPort.value || '0');
             if (port.value !== value) {
-                port.value = value;
+                port.value   = value;
+                port.degrees = value;
                 device.emit(this._signalPrefix + layer + 'Port' + i + 'Changed', value);
             }
             port.ready = newPort.ready;

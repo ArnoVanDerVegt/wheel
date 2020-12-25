@@ -17,9 +17,14 @@ exports.SpikeState = class extends BasicDeviceState {
         this._battery       = null;
         this._noTimeout     = ('noTimeout' in opts) ? opts.noTimeout : false;
         this._updateTimeout = null;
+        this._updating      = false;
         dispatcher
             .on('Spike.ConnectToDevice', this, this.onConnectToDevice)
             .on('Spike.LayerCount',      this, this.onLayerCount);
+    }
+
+    getQueueLength() {
+        return this._queue.length;
     }
 
     getConnected() {
@@ -91,26 +96,29 @@ exports.SpikeState = class extends BasicDeviceState {
     }
 
     update() {
-        this._dataProvider.getData(
-            'post',
-            'spike/update',
-            {
-                layerCount: this._layerCount,
-                queue:      this._queue
-            },
-            (data) => {
-                try {
-                    this.updateLayerState(JSON.parse(data));
-                } catch (error) {
-                    // Todo: show error message in IDE...
-                    console.error(error);
-                }
-                if (!this._noTimeout) {
-                    this._updateTimeout = setTimeout(this.update.bind(this), 20);
-                }
-            }
-        );
-        this._queue = [];
+        if (this._updating) {
+            return;
+        }
+        this._updating = true;
+        let callback = () => {
+                this._dataProvider.getData(
+                    'post',
+                    'spike/update',
+                    {
+                        queue: this.updateSendQueue()
+                    },
+                    (data) => {
+                        let json = JSON.parse(data);
+                        this
+                            .updateReceivedQueue(json.messagesReceived)
+                            .updateLayerState(json);
+                        if (!this._noTimeout) {
+                            setTimeout(callback, 20);
+                        }
+                    }
+                );
+            };
+        callback();
     }
 
     disconnect() {

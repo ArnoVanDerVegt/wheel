@@ -65,18 +65,16 @@ exports.spikeRoutes = {
     },
 
     update: function(req, res) {
-        let result = {error: false, connected: true};
-        let spike  = getSpike();
-        if (spike.getConnected()) {
-            spike.setLayerCount(req.body.layerCount);
-            let queue = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
-            queue.forEach((params) => {
-                spike.module(params.module, params.command, params.data);
-            });
-            result.state = spike.getState();
-        } else {
-            result.connected = false;
-        }
+        let result           = {error: false, connected: true};
+        let queue            = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
+        let messagesReceived = {};
+        let spike            = getSpike();
+        queue.forEach((params) => {
+            spike.module(params.module, params.command, params.data);
+            messagesReceived[params.messageId] = true;
+        });
+        result.state            = spike.getState();
+        result.messagesReceived = messagesReceived;
         res.send(JSON.stringify(result));
     },
 
@@ -102,7 +100,7 @@ exports.spikeRoutes = {
         let result     = {success: true};
         let layerCount = req.body.layerCount;
         let brake      = req.body.brake ? 1 : 0;
-        let spike        = getSpike();
+        let spike      = getSpike();
         for (let i = 0; i < layerCount; i++) {
             for (let j = 0; j < 4; j++) {
                 spike.motorStop(i, j, brake);

@@ -23,7 +23,8 @@ exports.HubStatus = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'flt hub-status' + (this._visible ? ' visible' : ''),
+                ref:       this.setRef('hubStatus'),
+                className: 'flt hub-status',
                 children: [
                     {
                         className: 'flt title',
@@ -69,11 +70,6 @@ exports.HubStatus = class extends DOMNode {
             className: 'flt max-w',
             children:  children
         };
-    }
-
-    setVisible(visible) {
-        this._visible                = visible;
-        this._refs.hubInfo.className = 'flt hub-status'  + (visible ? ' visible' : '');
     }
 
     setProperty(property, value) {

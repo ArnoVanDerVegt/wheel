@@ -9,13 +9,13 @@ exports.SpikeModule = class extends DeviceModule {
     run(commandId, data) {
         switch (commandId) {
             case spikeModuleConstants.SPIKE_LAYER_CLEAR_LEDS:
-                this._device.clearLeds(data.layer);
+                this._device.matrixClearLeds(data.layer);
                 break;
             case spikeModuleConstants.SPIKE_LAYER_SET_LED:
-                this._device.setLed(data.layer, data.x, data.y, data.brightness);
+                this._device.matrixSetLed(data.layer, data.x, data.y, data.brightness);
                 break;
             case spikeModuleConstants.SPIKE_LAYER_SET_TEXT:
-                this._device.setText(data.layer, data.text);
+                this._device.matrixSetText(data.layer, data.text);
                 break;
         }
     }

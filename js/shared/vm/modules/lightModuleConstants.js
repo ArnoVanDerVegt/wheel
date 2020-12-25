@@ -27,3 +27,14 @@ exports.LIGHT_PU_ORANGE     =   8;
 exports.LIGHT_PU_RED        =   9;
 exports.LIGHT_PU_WHITE      =  10;
 exports.LIGHT_PU_NONE       = 255;
+
+exports.LIGHT_SPIKE_PINK    =   1;
+exports.LIGHT_SPIKE_VIOLET  =   2;
+exports.LIGHT_SPIKE_BLUE    =   3;
+exports.LIGHT_SPIKE_AZURE   =   4;
+exports.LIGHT_SPIKE_CYAN    =   5;
+exports.LIGHT_SPIKE_GREEN   =   6;
+exports.LIGHT_SPIKE_YELLOW  =   7;
+exports.LIGHT_SPIKE_ORANGE  =   8;
+exports.LIGHT_SPIKE_RED     =   9;
+exports.LIGHT_SPIKE_WHITE   =  10;

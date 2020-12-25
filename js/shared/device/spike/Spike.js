@@ -40,9 +40,9 @@ exports.Spike = class extends BasicDevice {
                 reset:        0,
                 assigned:     0,
                 mode:         0,
-                degrees:      0,
                 startDegrees: 0,
-                endDegrees:   null
+                endDegrees:   null,
+                threshold:    45
             });
         }
         return result;
@@ -66,12 +66,8 @@ exports.Spike = class extends BasicDevice {
         let layers = this._layers;
         for (let i = 0; i < layers.length; i++) {
             let layer = layers[i];
-            if (layer.connected) {
-                if (deviceName === undefined) {
-                    return true;
-                } else if (layer.deviceName === deviceName) {
-                    return true;
-                }
+            if (layer.connected && ((deviceName === undefined) || (layer.deviceName === deviceName))) {
+                return true;
             }
         }
         return false;
@@ -168,27 +164,25 @@ exports.Spike = class extends BasicDevice {
             return;
         }
         let motor = layer.ports[id];
-        motor.resetDegrees = motor.value;
+        motor.reset = motor.value;
     }
 
-    motorDegrees(layer, id, speed, degrees, brake, callback) {
+    motorDegrees(layer, motor, speed, degrees, brake, callback) {
         layer = this._layers[layer];
-        if (!layer || !layer.ports[id]) {
+        if (!layer || !layer.ports[motor]) {
             return;
         }
-        if (degrees < 0) {
-            degrees *= -1;
-            speed   *= -1;
-        }
-        let motor = layer.ports[id];
-        motor.startDegrees = motor.value - port.resetDegrees;
-        motor.endDegrees   = degrees;
+        let port = layer.ports[motor];
+        port.startDegrees = port.value;
+        port.endDegrees   = port.value + degrees;
+        port.speed        = speed;
+        speed             = Math.abs(speed);
         layer.commandQueue.addToCommandQueue({
             m: 'scratch.motor_run_for_degrees',
             p: {
-                port:    INDEX_TO_PORT[id],
-                degrees: degrees,
-                speed:   speed,
+                port:    INDEX_TO_PORT[motor],
+                degrees: Math.abs(degrees),
+                speed:   (degrees < 0) ? -speed : speed,
                 stall:   false,
                 stop:    true
             }
@@ -256,22 +250,30 @@ exports.Spike = class extends BasicDevice {
             };
         for (let i = 0; i < 6; i++) {
             let port = layer.ports[i];
-            if (port.endDegrees !== null) {
-                if (port.startDegrees < port.endDegrees) {
-                    port.ready = (Math.abs(port.degrees - port.endDegrees) < 45) || (port.degrees >= port.endDegrees);
-                } else {
-                    port.ready = (Math.abs(port.degrees - port.endDegrees) < 45) || (port.degrees <= port.endDegrees);
-                }
-            }
             result.ports.push({
-                value:    port.value,
-                assigned: port.assigned
+                value:    port.value - (port.isMotor ? port.reset : 0),
+                degrees:  port.value,
+                assigned: port.assigned,
+                ready:    (port.endDegrees === null) ? true : (Math.abs(port.endDegrees - port.value) <= port.threshold)
             });
         }
         return result;
     }
 
-    clearLeds(layer) {
+    setLed(layer, color) {
+        layer = this._layers[layer];
+        if (!layer) {
+            return;
+        }
+        layer.commandQueue.addToCommandQueue({
+            m: 'scratch.center_button_lights',
+            p: {
+                color: color
+            }
+        });
+    }
+
+    matrixClearLeds(layer) {
         layer = this._layers[layer];
         if (!layer) {
             return;
@@ -281,7 +283,7 @@ exports.Spike = class extends BasicDevice {
         });
     }
 
-    setLed(layer, x, y, brightness) {
+    matrixSetLed(layer, x, y, brightness) {
         layer = this._layers[layer];
         if (!layer) {
             return;
@@ -296,7 +298,7 @@ exports.Spike = class extends BasicDevice {
         });
     }
 
-    setText(layer, text) {
+    matrixSetText(layer, text) {
         layer = this._layers[layer];
         if (!layer) {
             return;

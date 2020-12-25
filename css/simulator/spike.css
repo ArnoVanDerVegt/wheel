@@ -107,6 +107,33 @@
     border:                         4px solid rgba(0, 0, 0, 0.1);
     background-color:               #FFFFFF;
 }
+.spike .spike-bottom .buttons .center.red {
+    border:                         4px solid rgba(255, 0, 0, 0.5);
+}
+.spike .spike-bottom .buttons .center.green {
+    border:                         4px solid rgba(0, 255, 0, 0.5);
+}
+.spike .spike-bottom .buttons .center.yellow {
+    border:                         4px solid rgba(255, 255, 0, 0.5);
+}
+.spike .spike-bottom .buttons .center.blue {
+    border:                         4px solid rgba(0, 0, 255, 0.5);
+}
+.spike .spike-bottom .buttons .center.pink {
+    border:                         4px solid rgba(255, 105, 180, 0.5);
+}
+.spike .spike-bottom .buttons .center.azure {
+    border:                         4px solid rgba(0, 153, 153, 0.5);
+}
+.spike .spike-bottom .buttons .center.cyan {
+    border:                         4px solid rgba(0, 255, 255, 0.5);
+}
+.spike .spike-bottom .buttons .center.orange {
+    border:                         4px solid rgba(245, 171, 53, 0.5);
+}
+.spike .spike-bottom .buttons .center.violet {
+    border:                         4px solid rgba(127, 0, 255, 0.5);
+}
 .spike .spike-bottom .buttons .center .button {
     width:                          52px;
     height:                         52px;

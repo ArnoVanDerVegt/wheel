@@ -338,10 +338,10 @@ exports.SimulatorModules = class {
                 return this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_SPIKE_UUID);
             };
         this._events.push(
-            spikeModule.addEventListener('Spike.Start',     this, function(readAddress) {}),
-            spikeModule.addEventListener('Spike.ClearLeds', this, function(led) { getSpikeDevice().clearLeds(led); }),
-            spikeModule.addEventListener('Spike.SetLed',    this, function(led) { getSpikeDevice().setLed(led); }),
-            spikeModule.addEventListener('Spike.SetText',   this, function(led) { getSpikeDevice().setText(led); })
+            spikeModule.addEventListener('Spike.Start',           this, function(readAddress) {}),
+            spikeModule.addEventListener('Spike.MatrixClearLeds', this, function(led) { getSpikeDevice().matrixClearLeds(led); }),
+            spikeModule.addEventListener('Spike.MatrixSetLed',    this, function(led) { getSpikeDevice().matrixSetLed(led); }),
+            spikeModule.addEventListener('Spike.MatrixSetText',   this, function(led) { getSpikeDevice().matrixSetText(led); })
         );
         return this;
     }
