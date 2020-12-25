@@ -13,13 +13,13 @@ exports.Light = class {
             color--;
             let pattern = Math.floor(color / 3);
             color = color % 3;
-            this._element.className = 'ev3-light ' + ['green', 'red', 'orange'][color] + ' ' + ['', 'flash', 'pulse'][pattern];
+            this._element.className = 'abs ev3-light ' + ['green', 'red', 'orange'][color] + ' ' + ['', 'flash', 'pulse'][pattern];
         } else {
-            this._element.className = 'ev3-light off';
+            this._element.className = 'abs ev3-light off';
         }
     }
 
     off() {
-        this._element.className = 'ev3-light';
+        this._element.className = 'abs ev3-light';
     }
 };
