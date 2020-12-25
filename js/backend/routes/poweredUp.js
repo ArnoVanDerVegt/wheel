@@ -76,6 +76,7 @@ exports.poweredUpRoutes = {
         let result           = {error: false, connected: true};
         let queue            = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
         let messagesReceived = {};
+        let poweredUp        = getPoweredUp();
         queue.forEach((params) => {
             poweredUp.module(params.module, params.command, params.data);
             messagesReceived[params.messageId] = true;
