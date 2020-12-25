@@ -19,9 +19,10 @@ exports.LayerState = class extends BasicLayerState {
             assigned:      0,
             startDegrees:  0,
             targetDegrees: 0,
-            brake:         0,
+            brake:         1,
             speed:         0,
-            time:          null
+            time:          null,
+            reverse:       1
         };
     }
 

@@ -69,9 +69,9 @@ exports.BasicDevice = class {
     module(module, command, data) {}
     getState() {}
     setMode(layer, port, mode) {}
-    clearLeds(layer) {}
-    setLed(layer, x, y, brightness) {}
-    setText(layer, text) {}
+    matrixClearLeds(layer) {}
+    matrixSetLed(layer, x, y, brightness) {}
+    matrixSetText(layer, text) {}
     stopPolling() {}
     resumePolling() {}
 

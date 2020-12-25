@@ -61,10 +61,6 @@ exports.PoweredUpState = class extends BasicDeviceState {
         }
     }
 
-    getQueueLength() {
-        return this._queue.length;
-    }
-
     onConnectToDevice(hub) {
         if (hub.connecting || hub.connected) {
             return;

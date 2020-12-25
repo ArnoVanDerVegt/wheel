@@ -36,7 +36,8 @@ exports.MotorModule = class extends VMModule {
         if (this._device) {
             let device = this._device();
             if (device) {
-                return device.getLayerState(motor.layer).getMotorPort(motor.id);
+                let layerState = device.getLayerState(motor.layer);
+                return layerState ? layerState.getMotorPort(motor.id) : {};
             }
         }
         if (!this._layers[motor.layer]) {
@@ -50,9 +51,10 @@ exports.MotorModule = class extends VMModule {
 
     getMotorReady(motor) {
         let port = this.getMotorPort(motor);
-        if (port.ready) {
+        if (!port || port.ready) {
             return 1;
         }
+        // Todo: Use motor threshold...
         if (port.startDegrees < port.targetDegrees) {
             port.ready = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
         } else {
@@ -189,6 +191,9 @@ exports.MotorModule = class extends VMModule {
                     }
                     bit <<= 1;
                 }
+                break;
+            case motorModuleConstants.MOTOR_MOVE_TO_PAIR:
+                // Todo
                 break;
             case motorModuleConstants.MOTOR_ON:
                 motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
