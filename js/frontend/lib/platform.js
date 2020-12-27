@@ -15,4 +15,8 @@ exports.isNode = function() {
     return !forceWebVersion() && (typeof document === 'object') && (document.location.hostname === '127.0.0.1');
 };
 
+exports.isWeb = function() {
+    return !exports.isElectron() && !exports.isNode();
+};
+
 exports.forceWebVersion = forceWebVersion;

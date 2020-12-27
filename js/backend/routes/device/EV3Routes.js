@@ -16,7 +16,7 @@ exports.EV3Routes = class {
     }
 
     deviceList(req, res) {
-        this._serialPortConstructor.list().then((ports) => {
+        new this._serialPortConstructor().getPorts((ports) => {
             let list = [];
             ports.forEach((port) => {
                 list.push(port.path);

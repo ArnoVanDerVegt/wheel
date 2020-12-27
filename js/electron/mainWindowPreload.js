@@ -401,6 +401,8 @@ require('../frontend/ide/dialogs/tools/components/GearList');
 require('../frontend/ide/dialogs/tools/components/GearResult');
 require('../frontend/ide/dialogs/tools/GearRatioCalculatorDialog');
 require('../frontend/ide/dialogs/tools/InverseKinematicsDialog');
+require('../frontend/ide/dialogs/tools/WheelToSVGDialog');
+require('../frontend/ide/connectionHelper');
 require('../frontend/ide/menu/HelpOption');
 require('../frontend/ide/menu/MainMenu');
 require('../frontend/ide/editor/editors/Clipboard');

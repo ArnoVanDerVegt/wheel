@@ -28,7 +28,7 @@ exports.EV3 = class extends BasicDevice {
         if (this._port) {
             return this._port;
         }
-        this._port = new this._serialPortConstructor(
+        this._port = new this._serialPortConstructor.getPort(
             this._deviceName,
             {
                 baudRate:    57600,

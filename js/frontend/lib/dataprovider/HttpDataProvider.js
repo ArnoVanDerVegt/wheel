@@ -11,8 +11,10 @@ const IDERoutes = require('../../../browser/routes/IDERoutes').IDERoutes;
 const ideRoutes = new IDERoutes({});
 
 let poweredUpRoutes = {};
+let spikeRoutes     = {};
 let pathByIndex     = {};
 
+// Check if it's the web version...
 if ((typeof document === 'object') &&
     ((document.location.href.indexOf('electron.html') === -1) && (document.location.href.indexOf('vm.html') === -1))) {
     const PoweredUp       = require('../../../shared/device/poweredup/PoweredUp').PoweredUp;
@@ -23,7 +25,13 @@ if ((typeof document === 'object') &&
             poweredUpConstants:   window.PoweredUP.Consts
         })
     });
-
+    const Spike       = require('../../../shared/device/spike/Spike').Spike;
+    const SpikeRoutes = require('../../../browser/routes/device/SpikeRoutes').SpikeRoutes;
+    const WebSerial   = require('../WebSerial').WebSerial;
+    spikeRoutes = new SpikeRoutes({
+        spike:                 new Spike({serialPortConstructor: WebSerial}),
+        serialPortConstructor: WebSerial
+    });
 }
 
 const getPathByIndex = function(index) {
@@ -61,7 +69,18 @@ let routes = {
         'powered-up/stop-all-motors':       poweredUpRoutes.stopAllMotors,
         'powered-up/stop-polling':          poweredUpRoutes.stopPolling,
         'powered-up/resume-polling':        poweredUpRoutes.resumePolling,
-        'powered-up/set-mode':              poweredUpRoutes.setMode
+        'powered-up/set-mode':              poweredUpRoutes.setMode,
+        // Spike...
+        'spike/device-list':                spikeRoutes.deviceList,
+        'spike/connect':                    spikeRoutes.connect,
+        'spike/disconnect':                 spikeRoutes.disconnect,
+        'spike/connecting':                 spikeRoutes.connecting,
+        'spike/connected':                  spikeRoutes.connected,
+        'spike/update':                     spikeRoutes.update,
+        'spike/stop-all-motors':            spikeRoutes.stopAllMotors,
+        'spike/stop-polling':               spikeRoutes.stopPolling,
+        'spike/resume-polling':             spikeRoutes.resumePolling,
+        'spike/set-mode':                   spikeRoutes.setMode
     };
 
 for (let route in routes) {
@@ -69,6 +88,7 @@ for (let route in routes) {
         switch (route.substr(0, 4)) {
             case 'ide/': routes[route] = routes[route].bind(ideRoutes);       break;
             case 'powe': routes[route] = routes[route].bind(poweredUpRoutes); break;
+            case 'spik': routes[route] = routes[route].bind(spikeRoutes);     break;
         }
     }
 }
@@ -77,9 +97,13 @@ const useWebPoweredUp = function(uri) {
         return (uri.indexOf('powered-up') !== -1) && (uri in routes) && platform.forceWebVersion();
     };
 
+const useWebSpike = function(uri) {
+        return (uri.indexOf('spike') !== -1) && (uri in routes) && platform.forceWebVersion();
+    };
+
 exports.HttpDataProvider = class {
     getData(method, uri, params, callback) {
-        if (useWebPoweredUp(uri)) {
+        if (useWebPoweredUp(uri) || useWebSpike(uri)) {
             let req = {};
             let res = {
                     send: function(data) {

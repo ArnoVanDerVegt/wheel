@@ -13,6 +13,7 @@ const SourceFormatter          = require('./source/SourceFormatter').SourceForma
 const SettingsState            = require('./settings/SettingsState');
 const CompileAndRun            = require('./CompileAndRun').CompileAndRun;
 const FormDialog               = require('./dialogs/form/FormDialog').FormDialog;
+const connectionHelper         = require('./connectionHelper');
 
 exports.IDEEvents = class extends CompileAndRun {
     onEditorChanged(info) {
@@ -286,16 +287,7 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Spike Menu...
     onMenuSpikeConnect() {
-        if (this._spike.getConnectionCount() < this._settings.getSpikeDeviceCount()) {
-            dispatcher.dispatch('Dialog.ConnectSpike.Show');
-            this.onSelectDeviceSpike();
-        } else {
-            let lines = ['You\'ve reached the maximum number of connections.'];
-            if (this._spike.getConnectionCount() < spikeModuleConstants.LAYER_COUNT) {
-                lines.push('You can change this setting in the <i>Spike</i> > <i>Device count</i> menu.');
-            }
-            dispatcher.dispatch('Dialog.Alert.Show', {title: 'Maximum connections reached', lines: lines});
-        }
+        connectionHelper.connectSpike(this._settings, this._spike);
     }
 
     onMenuSpikeDisconnect() {

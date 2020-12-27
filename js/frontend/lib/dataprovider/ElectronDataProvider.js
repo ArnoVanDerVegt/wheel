@@ -11,14 +11,24 @@ const PoweredUp       = require('../../../shared/device/poweredup/PoweredUp').Po
 const Spike           = require('../../../shared/device/spike/Spike').Spike;
 const serialport      = require('serialport');
 
+class SerialPort {
+    getPorts(callback) {
+        serialport.list().then(callback);
+    }
+
+    getPort(deviceName, opts) {
+        return new serialport(deviceName, opts);
+    }
+}
+
 const ideRoutes       = new IDERoutes({});
 const ev3Routes       = new EV3Routes({
         ev3:                   new EV3({serialPortConstructor: serialport}),
-        serialPortConstructor: serialport
+        serialPortConstructor: SerialPort
     });
 const spikeRoutes     = new SpikeRoutes({
         spike:                 new Spike({serialPortConstructor: serialport}),
-        serialPortConstructor: serialport
+        serialPortConstructor: SerialPort
     });
 const poweredUpRoutes = new PoweredUpRoutes({
         poweredUp: new PoweredUp({

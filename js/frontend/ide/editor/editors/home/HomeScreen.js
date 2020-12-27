@@ -8,6 +8,7 @@ const DOMNode                        = require('../../../../lib/dom').DOMNode;
 const path                           = require('../../../../lib/path');
 const getImage                       = require('../../../data/images').getImage;
 const tabIndex                       = require('../../../tabIndex');
+const connectionHelper               = require('../../../connectionHelper');
 const HomeScreenTile                 = require('./HomeScreenTile').HomeScreenTile;
 const HomeScreenConnectEV3Tile       = require('./HomeScreenConnectEV3Tile').HomeScreenConnectEV3Tile;
 const HomeScreenConnectPoweredUpTile = require('./HomeScreenConnectPoweredUpTile').HomeScreenConnectPoweredUpTile;
@@ -157,20 +158,20 @@ exports.HomeScreen = class extends DOMNode {
                     }
                 }
             },
-            platform.isElectron() ?
-                {
-                    id:             addTile(),
-                    ui:             ui,
-                    icon:           getImage('images/files/homeSpike.svg'),
-                    title:          'Connect Spike &raquo;',
-                    type:           HomeScreenConnectSpikeTile,
-                    tabIndex:       tabIndex.HOME_SCREEN + 16,
-                    settings:       settings,
-                    settingsGetter: settings.getShowSpikeTile.bind(settings),
-                    spike:          this._spike,
-                    onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.ConnectSpike.Show')
-                } :
-                null,
+            {
+                id:             addTile(),
+                ui:             ui,
+                icon:           getImage('images/files/homeSpike.svg'),
+                title:          'Connect Spike &raquo;',
+                type:           HomeScreenConnectSpikeTile,
+                tabIndex:       tabIndex.HOME_SCREEN + 16,
+                settings:       settings,
+                settingsGetter: settings.getShowSpikeTile.bind(settings),
+                spike:          this._spike,
+                onClick:        () => {
+                    connectionHelper.connectSpike(this._settings, this._spike);
+                }
+            },
             this.addHomeScreenTile({
                 id:       addTile(),
                 type:     HomeScreenDocumentationTile,

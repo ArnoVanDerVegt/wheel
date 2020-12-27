@@ -90,7 +90,6 @@ exports.LayerState = class extends BasicLayerState {
             let port     = ports[i];
             if (port.assigned !== assigned) {
                 port.assigned = assigned;
-                console.log(this._signalPrefix + layerIndex + 'Port' + i + 'Assigned', assigned);
                 device.emit(this._signalPrefix + layerIndex + 'Port' + i + 'Assigned', assigned);
             }
             let value = parseInt(newPort.value || '0');

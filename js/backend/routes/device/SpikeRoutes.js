@@ -12,7 +12,7 @@ exports.SpikeRoutes = class {
 
     deviceList(req, res) {
         let spike = this._spike;
-        this._serialPortConstructor.list().then((ports) => {
+        new this._serialPortConstructor().getPorts((ports) => {
             let list = [];
             ports.forEach((port) => {
                 list.push({
@@ -57,7 +57,7 @@ exports.SpikeRoutes = class {
         let queue            = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
         let messagesReceived = {};
         let spike            = this._spike;
-        poweredUp.setActiveLayerCount(req.body.activeLayerCount);
+        spike.setActiveLayerCount(req.body.activeLayerCount);
         queue.forEach((params) => {
             spike.module(params.module, params.command, params.data);
             messagesReceived[params.messageId] = true;

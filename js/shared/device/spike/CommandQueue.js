@@ -18,7 +18,7 @@ exports.CommandQueue = class {
         this._layer.connecting      = true;
         this._queue                 = [];
         this._textEncoder           = new TextEncoder();
-        this._port                  = new this._serialPortConstructor(
+        this._port                  = new this._serialPortConstructor(this.onOpenError.bind(this)).getPort(
                 opts.deviceName,
                 {
                     baudRate: 115200,
@@ -35,6 +35,10 @@ exports.CommandQueue = class {
         this._messageLastTime = Date.now();
         this._messageId++;
         return messageId;
+    }
+
+    onOpenError(error) {
+        console.log('Open error!!!!', error);
     }
 
     onPortOpen() {

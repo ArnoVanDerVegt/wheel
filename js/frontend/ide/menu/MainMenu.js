@@ -342,13 +342,6 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Stop all motors',                                         dispatch: 'Menu.Spike.StopAllMotors'}
             ]
         });
-        let menuOptions = this._spikeMenu.getMenu().getMenuOptions();
-        let available   = platform.isElectron();
-        menuOptions[0].setEnabled(available);                                   // Connect
-        menuOptions[1].setEnabled(available);                                   // Disconnect
-        menuOptions[2].setEnabled(available);                                   // Devince count
-        menuOptions[3].setEnabled(available);                                   // Direct control
-        menuOptions[4].setEnabled(available);                                   // Stop all motors
         return this;
     }
 
