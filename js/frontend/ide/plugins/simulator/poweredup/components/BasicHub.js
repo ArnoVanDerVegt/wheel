@@ -126,7 +126,7 @@ exports.BasicHub = class extends DOMNode {
         dispatcher.dispatch(
             'Dialog.PoweredUpControl.Show',
             {
-                deviceCount: this._settings.getPoweredUpDeviceCount() - 1,
+                deviceCount: this._settings.getPoweredUpDeviceCount(),
                 withAlias:   true
             }
         );

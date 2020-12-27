@@ -62,8 +62,9 @@ exports.PoweredUpRoutes = class {
     }
 
     update(req, res) {
-        let result = {error: false, connected: true};
-        let queue  = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
+        let result    = {error: false, connected: true};
+        let poweredUp = this._poweredUp;
+        let queue     = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;
         queue.forEach((params) => {
             poweredUp.module(params.module, params.command, params.data);
         });

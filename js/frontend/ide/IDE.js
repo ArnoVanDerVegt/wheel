@@ -298,26 +298,7 @@ exports.IDE = class extends IDEDOM {
         if (!editor) {
             return false;
         }
-        setTimeout(
-            function() {
-                // Debug: Check for tabs...
-                let s = editor.getValue();
-                if (['.whlp', '.whl'].indexOf(path.getExtension(pathAndFilename.filename)) !== -1) {
-                    let lines = s.split('\n');
-                    s = '';
-                    for (let i = 0; i < lines.length; i++) {
-                        s += lines[i].trimRight() + '\n';
-                    }
-                    if (s.indexOf('\t') !== -1) {
-                        console.log('Tabs!!!!!');
-                        console.log(s.split('\t').join('@@@@'));
-                        s = s.split('\t').join('    ');
-                    }
-                }
-                callback(s);
-            },
-            1
-        );
+        setTimeout(() => { callback(editor.getValue()); }, 1);
         return true;
     }
 

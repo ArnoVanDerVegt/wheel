@@ -89,6 +89,14 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
     }
 
     onShow() {
+        getDataProvider().getData(
+            'post',
+            'powered-up/discover',
+            {
+                autoConnect: this._settings.getPoweredUpAutoConnect().toJSON()
+            },
+            (data) => {}
+        );
         this.show();
         this.getList();
     }

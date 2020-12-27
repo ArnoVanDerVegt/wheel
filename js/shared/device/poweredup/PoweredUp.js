@@ -73,11 +73,11 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     discover(autoConnect) {
+        this._autoConnect = autoConnect;
         if (this._discovering) {
             return;
         }
         this._discovering = true;
-        this._autoConnect = autoConnect;
         this._poweredUP.on('discover', this._addHub.bind(this));
         setInterval(this.motorMonitor.bind(this), 5);
     }
