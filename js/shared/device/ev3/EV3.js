@@ -11,12 +11,12 @@ const constants             = require('./constants');
 
 exports.EV3 = class extends BasicDevice {
     constructor(opts) {
+        opts.layerCount = 4;
         super(opts);
         this._serialPortConstructor  = opts.serialPortConstructor;
         this._port                   = null;
         this._connectionFailed       = false;
         this._commandQueue           = null;
-        this._layerCount             = 0;
         this._updateListByLayer      = [];
         this._poll                   = {count: 0, layer: 0, main: 0, mainLayer: 0};
         this._stopPolling            = false;
@@ -48,14 +48,6 @@ exports.EV3 = class extends BasicDevice {
 
     getCommandQueue() {
         return this._commandQueue;
-    }
-
-    getLayerCount() {
-        return this._layerCount;
-    }
-
-    setLayerCount(layerCount) {
-        this._layerCount = layerCount;
     }
 
     getMotorPosition(layer) {
@@ -128,7 +120,7 @@ exports.EV3 = class extends BasicDevice {
                 case 0:
                     this.getConnectedTypes(poll.mainLayer);
                     poll.mainLayer++;
-                    if (poll.mainLayer >= this._layerCount) {
+                    if (poll.mainLayer >= this._activeLayerCount) {
                         poll.mainLayer = 0;
                     }
                     break;
@@ -144,7 +136,7 @@ exports.EV3 = class extends BasicDevice {
                         if (poll.count >= updateList.length) {
                             poll.count = 0;
                             poll.layer++;
-                            if (poll.layer >= this._layerCount) {
+                            if (poll.layer >= this._activeLayerCount) {
                                 poll.layer = 0;
                             }
                         }

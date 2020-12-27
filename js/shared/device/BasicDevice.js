@@ -20,10 +20,11 @@ const SpikeModule     = require('./modules/SpikeModule'    ).SpikeModule;
 
 exports.BasicDevice = class {
     constructor(opts) {
-        this._layerCount = opts.layerCount || 4;
-        this._modules    = [];
-        this._connected  = false;
-        this._connecting = false;
+        this._layerCount       = opts.layerCount       || 4;
+        this._activeLayerCount = opts.activeLayerCount || 4;
+        this._modules          = [];
+        this._connected        = false;
+        this._connecting       = false;
         this.initModules();
     }
 
@@ -46,10 +47,22 @@ exports.BasicDevice = class {
         modules[14] = new SpikeModule    ({device: this});
     }
 
-    getConnected() {}
-    getLayerCount() {}
-    setLayerCount(layerCount) {}
     disconnect() {}
+    disconnectAll() {}
+    getConnected() {}
+
+    getLayerCount() {
+        return this._layerCount;
+    }
+
+    getActiveLayerCount() {
+        return this._activeLayerCount;
+    }
+
+    setActiveLayerCount(activeLayerCount) {
+        this._activeLayerCount = activeLayerCount;
+    }
+
     playtone(frequency, duration, volume, callback) {}
     motorReset(layer, motor) {}
     motorReverse(layer, motor) {}
@@ -78,4 +91,8 @@ exports.BasicDevice = class {
     getPortsPerLayer() {
         return 4;
     }
+
+    getConnectedTypes(layer) {}
+
+    onDisconnect(h) {}
 };

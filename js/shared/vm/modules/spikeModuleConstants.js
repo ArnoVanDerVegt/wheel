@@ -4,6 +4,7 @@
 **/
 exports.MODULE_SPIKE                 = 14;
 
+exports.LAYER_COUNT                  =  4;
 exports.SPIKE_LAYER_COUNT            =  4;
 
 exports.SPIKE_LAYER_START            =  0;

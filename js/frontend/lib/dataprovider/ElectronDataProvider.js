@@ -2,10 +2,30 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const ideRoutes       = require('../../../backend/routes/ide').ideRoutes;
-const ev3Routes       = require('../../../backend/routes/ev3').ev3Routes;
-const poweredUpRoutes = require('../../../backend/routes/poweredUp').poweredUpRoutes;
-const spikeRoutes     = require('../../../backend/routes/spike').spikeRoutes;
+const IDERoutes       = require('../../../backend/routes/IDERoutes').IDERoutes;
+const EV3Routes       = require('../../../backend/routes/device/EV3Routes').EV3Routes;
+const PoweredUpRoutes = require('../../../backend/routes/device/PoweredUpRoutes').PoweredUpRoutes;
+const SpikeRoutes     = require('../../../backend/routes/device/SpikeRoutes').SpikeRoutes;
+const EV3             = require('../../../shared/device/ev3/EV3').EV3;
+const PoweredUp       = require('../../../shared/device/poweredup/PoweredUp').PoweredUp;
+const Spike           = require('../../../shared/device/spike/Spike').Spike;
+const serialport      = require('serialport');
+
+const ideRoutes       = new IDERoutes({});
+const ev3Routes       = new EV3Routes({
+        ev3:                   new EV3({serialPortConstructor: serialport}),
+        serialPortConstructor: serialport
+    });
+const spikeRoutes     = new SpikeRoutes({
+        spike:                 new Spike({serialPortConstructor: serialport}),
+        serialPortConstructor: serialport
+    });
+const poweredUpRoutes = new PoweredUpRoutes({
+        poweredUp: new PoweredUp({
+            poweredUpConstructor: require('node-poweredup').PoweredUP,
+            poweredUpConstants:   require('node-poweredup').Consts
+        })
+    });
 
 const routes = {
         // IDE...

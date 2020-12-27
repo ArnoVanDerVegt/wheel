@@ -2,17 +2,28 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+///Users/arnovandervegt/Projects/wheel/js/frontend/lib/dataprovider/HttpDataProvider.js
 const Http      = require('../Http').Http;
 const path      = require('../path');
 const platform  = require('../platform');
-const ideRoutes = require('../../../browser/routes/ide').ideRoutes;
+const IDERoutes = require('../../../browser/routes/IDERoutes').IDERoutes;
+
+const ideRoutes = new IDERoutes({});
 
 let poweredUpRoutes = {};
 let pathByIndex     = {};
 
 if ((typeof document === 'object') &&
     ((document.location.href.indexOf('electron.html') === -1) && (document.location.href.indexOf('vm.html') === -1))) {
-    poweredUpRoutes = require('../../../browser/routes/poweredUp').poweredUpRoutes;
+    const PoweredUp       = require('../../../shared/device/poweredup/PoweredUp').PoweredUp;
+    const PoweredUpRoutes = require('../../../browser/routes/device/PoweredUpRoutes').PoweredUpRoutes;
+    poweredUpRoutes = new PoweredUpRoutes({
+        poweredUp: new PoweredUp({
+            poweredUpConstructor: window.PoweredUP.PoweredUP,
+            poweredUpConstants:   window.PoweredUP.Consts
+        })
+    });
+
 }
 
 const getPathByIndex = function(index) {
@@ -23,20 +34,20 @@ const getPathByIndex = function(index) {
         return pathByIndex[index];
     };
 
-const routes = {
-        'ide/files':                        ideRoutes.files.bind(ideRoutes),
-        'ide/file':                         ideRoutes.file.bind(ideRoutes),
-        'ide/file-save':                    ideRoutes.fileSave.bind(ideRoutes),
-        'ide/file-delete':                  ideRoutes.fileDelete.bind(ideRoutes),
-        'ide/files-in-path':                ideRoutes.filesInPath.bind(ideRoutes),
-        'ide/find-in-file':                 ideRoutes.findInFile.bind(ideRoutes),
-        'ide/settings-load':                ideRoutes.settingsLoad.bind(ideRoutes),
-        'ide/settings-save':                ideRoutes.settingsSave.bind(ideRoutes),
-        'ide/changes':                      ideRoutes.changes.bind(ideRoutes),
-        'ide/path-create':                  ideRoutes.pathCreate.bind(ideRoutes),
-        'ide/path-exists':                  ideRoutes.pathExists.bind(ideRoutes),
-        'ide/directory-create':             ideRoutes.directoryCreate.bind(ideRoutes),
-        'ide/directory-delete':             ideRoutes.directoryDelete.bind(ideRoutes),
+let routes = {
+        'ide/files':                        ideRoutes.files,
+        'ide/file':                         ideRoutes.file,
+        'ide/file-save':                    ideRoutes.fileSave,
+        'ide/file-delete':                  ideRoutes.fileDelete,
+        'ide/files-in-path':                ideRoutes.filesInPath,
+        'ide/find-in-file':                 ideRoutes.findInFile,
+        'ide/settings-load':                ideRoutes.settingsLoad,
+        'ide/settings-save':                ideRoutes.settingsSave,
+        'ide/changes':                      ideRoutes.changes,
+        'ide/path-create':                  ideRoutes.pathCreate,
+        'ide/path-exists':                  ideRoutes.pathExists,
+        'ide/directory-create':             ideRoutes.directoryCreate,
+        'ide/directory-delete':             ideRoutes.directoryDelete,
         // Powered Up...
         'powered-up/discover':              poweredUpRoutes.discover,
         'powered-up/scan':                  poweredUpRoutes.scan,
@@ -52,6 +63,15 @@ const routes = {
         'powered-up/resume-polling':        poweredUpRoutes.resumePolling,
         'powered-up/set-mode':              poweredUpRoutes.setMode
     };
+
+for (let route in routes) {
+    if (typeof routes[route] === 'function') {
+        switch (route.substr(0, 4)) {
+            case 'ide/': routes[route] = routes[route].bind(ideRoutes);       break;
+            case 'powe': routes[route] = routes[route].bind(poweredUpRoutes); break;
+        }
+    }
+}
 
 const useWebPoweredUp = function(uri) {
         return (uri.indexOf('powered-up') !== -1) && (uri in routes) && platform.forceWebVersion();

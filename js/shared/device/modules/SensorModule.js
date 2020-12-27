@@ -61,11 +61,12 @@ class Sensor {
 exports.SensorModule = class extends DeviceModule {
     constructor(opts) {
         super(opts);
-        let layerCount = this._device.getLayerCount();
+        let layerCount    = this._device.getActiveLayerCount();
+        let portsPerLayer = this._device.getPortsPerLayer();
         this._layers = [];
         for (let i = 0; i < layerCount; i++) {
             let sensors = [];
-            for (let j = 0; j < 4; j++) {
+            for (let j = 0; j < portsPerLayer; j++) {
                 sensors.push(new Sensor(i, j, this._device));
             }
             this._layers.push(sensors);

@@ -8,14 +8,12 @@ const LayerState       = require('./LayerState').LayerState;
 
 exports.EV3State = class extends BasicDeviceState {
     constructor(opts) {
-        let layerCount        = ('layerCount' in opts) ? opts.layerCount : 0; // This is the configured (active) layer count...
-        opts.layerCount       = 4;                                           // And this is the number of layers we want in the layerState array!
+        opts.layerCount       = 4;
         opts.LayerState       = LayerState;
         opts.signalPrefix     = 'EV3';
         opts.setModeURL       = 'ev3/set-mode';
         opts.stopAllMotorsURL = 'ev3/stop-all-motors';
         super(opts);
-        this._layerCount = layerCount;
         this._battery    = null;
         this._deviceName = 'EV3';
     }
@@ -37,10 +35,6 @@ exports.EV3State = class extends BasicDeviceState {
             this._battery = state.battery;
             this.emit('EV3.Battery', state.battery);
         }
-    }
-
-    onLayerCount(layerCount) {
-        this._layerCount = layerCount;
     }
 
     onConnectToDevice(deviceName) {
@@ -71,6 +65,7 @@ exports.EV3State = class extends BasicDeviceState {
     }
 
     update() {
+        this._updateTimeout = null;
         if (this._connecting || !this._connected) {
             return;
         }
@@ -78,8 +73,8 @@ exports.EV3State = class extends BasicDeviceState {
             'post',
             'ev3/update',
             {
-                layerCount: this._layerCount,
-                queue:      this._queue
+                activeLayerCount: this._activeLayerCount,
+                queue:            this._queue
             },
             (data) => {
                 try {

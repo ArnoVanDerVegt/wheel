@@ -320,11 +320,11 @@ exports.CommandQueue = class {
     }
 
     receiveSensorData(inputData, id) {
-        let layers     = this._layers;
-        let layerCount = this._ev3.getLayerCount();
-        let found      = false;
-        let time       = Date.now();
-        for (let i = 0; i <= layerCount; i++) {
+        let layers           = this._layers;
+        let activeLayerCount = this._ev3.getActiveLayerCount();
+        let found            = false;
+        let time             = Date.now();
+        for (let i = 0; i < Math.min(activeLayerCount, layers.length); i++) {
             let layer = layers[i];
             for (let j = 0; j < 8; j++) {
                 let item = layer[j];

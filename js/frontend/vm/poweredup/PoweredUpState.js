@@ -42,12 +42,18 @@ exports.PoweredUpState = class extends BasicDeviceState {
     }
 
     disconnect() {
-        this._dataProvider.getData('post', 'powered-up/disconnect-all', {});
-        let layerState = this._layerState;
-        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
-            layerState[i].setConnected(false);
-            this.emit('PoweredUp.Disconnected', i);
-        }
-        this.emit('PoweredUp.Disconnect');
+        this._dataProvider.getData(
+            'post',
+            'powered-up/disconnect-all',
+            {},
+            () => {
+                let layerState = this._layerState;
+                for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
+                    layerState[i].setConnected(false);
+                    this.emit('PoweredUp.Disconnected', i);
+                }
+                this.emit('PoweredUp.Disconnect');
+            }
+        );
     }
 };

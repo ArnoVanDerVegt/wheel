@@ -21,6 +21,10 @@ exports.SimulatorToolbar = class extends DOMNode {
             .addEventListener('Settings.EV3',       this, this.updateSettings)
             .addEventListener('Settings.PoweredUp', this, this.updateSettings)
             .addEventListener('Settings.Spike',     this, this.updateSettings);
+        dispatcher
+            .on('Button.Device.EV3',       this, this.updateSettings)
+            .on('Button.Device.PoweredUp', this, this.updateSettings)
+            .on('Button.Device.Spike',     this, this.updateSettings);
         this.updateSettings();
     }
 
@@ -128,15 +132,17 @@ exports.SimulatorToolbar = class extends DOMNode {
     }
 
     updateLayerButtons() {
-        let layerCount   = this.getLayerCount();
-        let layer        = this._simulator.getLayer();
         let activeDevice = this._settings.getActiveDevice();
         dispatcher.dispatch('Button.Device.EV3.Change',       {className: (activeDevice === 0) ? 'active' : 'in-active'});
         dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: (activeDevice === 1) ? 'active' : 'in-active'});
         dispatcher.dispatch('Button.Device.Spike.Change',     {className: (activeDevice === 2) ? 'active' : 'in-active'});
+        this.updateLayerList();
+    }
+
+    updateLayerList() {
         this._refs.layerList
-            .setItems(this.getLayerItems(layerCount))
-            .setValue(layer);
+            .setItems(this.getLayerItems(this.getLayerCount()))
+            .setValue(this._simulator.getLayer());
     }
 
     updateSettings() {

@@ -2,13 +2,15 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const MainMenu    = require('../../lib/components/mainmenu/MainMenu').MainMenu;
-const ProgressBar = require('../../lib/components/status/ProgressBar').ProgressBar;
-const Button      = require('../../lib/components/input/Button').Button;
-const platform    = require('../../lib/platform');
-const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const tabIndex    = require('../tabIndex');
-const HelpOption  = require('./HelpOption').HelpOption;
+const poweredUpModuleConstants = require('../../../shared/vm/modules/poweredUpModuleConstants');
+const spikeModuleConstants     = require('../../../shared/vm/modules/spikeModuleConstants');
+const MainMenu                 = require('../../lib/components/mainmenu/MainMenu').MainMenu;
+const ProgressBar              = require('../../lib/components/status/ProgressBar').ProgressBar;
+const Button                   = require('../../lib/components/input/Button').Button;
+const platform                 = require('../../lib/platform');
+const dispatcher               = require('../../lib/dispatcher').dispatcher;
+const tabIndex                 = require('../tabIndex');
+const HelpOption               = require('./HelpOption').HelpOption;
 
 exports.MainMenu = class extends MainMenu {
     constructor(opts) {
@@ -264,17 +266,19 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initEV3Menu() {
+        let remarkConnect   = 'No device connected';
+        let remarDaisyChain = 'Set the daisy chain mode (' + this._settings.getDaisyChainMode() + '/4)';
         this._ev3Menu = this.addMenu({
             title:     'EV^3',
             width:     '256px',
             className: 'ev3-menu',
             withCheck: true,
             items: [
-                {title: 'Connect',                                                dispatch: 'Menu.EV3.Connect'},
+                {title: 'Connect',                      remark: remarkConnect,    dispatch: 'Menu.EV3.Connect'},
                 {title: 'Disconnect',                                             dispatch: 'Menu.EV3.Disconnect'},
                 {title: 'Autoconnect',                                            dispatch: 'Settings.Toggle.EV3AutoConnect'},
                 {title: '-'},
-                {title: 'Daisy chain mode',                                       dispatch: 'Menu.EV3.DaisyChainMode'},
+                {title: 'Daisy chain mode',             remark: remarDaisyChain,  dispatch: 'Menu.EV3.DaisyChainMode'},
                 {title: '-'},
                 {title: 'EV3 File viewer',              hotkey: ['command', 'L'], dispatch: 'Dialog.Explore.Show'},
                 {title: 'Direct control',                                         dispatch: 'Menu.EV3.DirectControl'},
@@ -293,20 +297,22 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initPoweredUpMenu() {
+        let remarkConnect     = 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + this._settings.getPoweredUpDeviceCount() + '/' + poweredUpModuleConstants.LAYER_COUNT + ')';
         this._poweredUpMenu = this.addMenu({
             title:     '^PoweredUp',
-            width:     '256px',
-            className: 'ev3-menu',
+            width:     '288px',
+            className: 'powered-up-menu',
             withCheck: true,
             items: [
-                {title: 'Connect',                                                dispatch: 'Menu.PoweredUp.Connect'},
-                {title: 'Disconnect',                                             dispatch: 'Menu.PoweredUp.Disconnect'},
-                {title: 'Autoconnect',                                            dispatch: 'Menu.PoweredUp.AutoConnect'},
+                {title: 'Connect',                      remark: remarkConnect,     dispatch: 'Menu.PoweredUp.Connect'},
+                {title: 'Disconnect',                                              dispatch: 'Menu.PoweredUp.Disconnect'},
+                {title: 'Autoconnect',                                             dispatch: 'Menu.PoweredUp.AutoConnect'},
                 {title: '-'},
-                {title: 'Device count',                                           dispatch: 'Menu.PoweredUp.DeviceCount'},
+                {title: 'Device count',                 remark: remarkDeviceCount, dispatch: 'Menu.PoweredUp.DeviceCount'},
                 {title: '-'},
-                {title: 'Direct control',                                         dispatch: 'Menu.PoweredUp.DirectControl'},
-                {title: 'Stop all motors',                                        dispatch: 'Menu.PoweredUp.StopAllMotors'}
+                {title: 'Direct control',                                          dispatch: 'Menu.PoweredUp.DirectControl'},
+                {title: 'Stop all motors',                                         dispatch: 'Menu.PoweredUp.StopAllMotors'}
             ]
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
@@ -319,19 +325,21 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initSpikeMenu() {
+        let remarkConnect     = 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + this._settings.getSpikeDeviceCount() + '/' + spikeModuleConstants.LAYER_COUNT + ')';
         this._spikeMenu = this.addMenu({
             title:     'Sp^ike',
-            width:     '256px',
+            width:     '272px',
             className: 'spike-menu',
             withCheck: true,
             items: [
-                {title: 'Connect',                                                dispatch: 'Menu.Spike.Connect'},
-                {title: 'Disconnect',                                             dispatch: 'Menu.Spike.Disconnect'},
+                {title: 'Connect',                      remark: remarkConnect,     dispatch: 'Menu.Spike.Connect'},
+                {title: 'Disconnect',                                              dispatch: 'Menu.Spike.Disconnect'},
                 {title: '-'},
-                {title: 'Device count',                                           dispatch: 'Menu.Spike.DeviceCount'},
+                {title: 'Device count',                 remark: remarkDeviceCount, dispatch: 'Menu.Spike.DeviceCount'},
                 {title: '-'},
-                {title: 'Direct control',                                         dispatch: 'Menu.Spike.DirectControl'},
-                {title: 'Stop all motors',                                        dispatch: 'Menu.Spike.StopAllMotors'}
+                {title: 'Direct control',                                          dispatch: 'Menu.Spike.DirectControl'},
+                {title: 'Stop all motors',                                         dispatch: 'Menu.Spike.StopAllMotors'}
             ]
         });
         let menuOptions = this._spikeMenu.getMenu().getMenuOptions();
@@ -489,10 +497,11 @@ exports.MainMenu = class extends MainMenu {
         let connected   = this._ev3.getConnected();
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         let settings    = this._settings;
-        menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
+        menuOptions[0].setRemark(connected ? 'Connected' : 'No device connected').setChecked(connected);
         menuOptions[1].setEnabled(connected);                               // Disconnect
         menuOptions[2].setChecked(settings.getEV3AutoConnect());
         menuOptions[3].setChecked(settings.getDaisyChainMode());
+        menuOptions[3].setRemark('Set the daisy chain mode (' + settings.getDaisyChainMode() + '/4)');
         menuOptions[4].setEnabled(connected);                               // EV3 File viewer
         menuOptions[5].setEnabled(connected);                               // EV3 Direct control
         menuOptions[6].setEnabled(connected);                               // Stop all motors
@@ -502,25 +511,31 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdatePoweredUpMenu() {
-        let connected   = this._poweredUp.getConnected();
-        let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
-        let settings    = this._settings;
-        menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
-        menuOptions[1].setEnabled(connected);                               // Disconnect
-        menuOptions[2].setEnabled(connected);                               // Autoconnect
-        menuOptions[4].setEnabled(connected);                               // PoweredUp Direct control
-        menuOptions[5].setEnabled(connected);                               // Stop all motors
+        let connectionCount   = this._poweredUp.getConnectionCount();
+        let menuOptions       = this._poweredUpMenu.getMenu().getMenuOptions();
+        let settings          = this._settings;
+        let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + settings.getPoweredUpDeviceCount() + '/' + poweredUpModuleConstants.LAYER_COUNT + ')';
+        menuOptions[0].setRemark(remarkConnect).setChecked(connectionCount); // Connect
+        menuOptions[1].setEnabled(connectionCount);                          // Disconnect
+        menuOptions[2].setEnabled(connectionCount);                          // Autoconnect
+        menuOptions[3].setRemark(remarkDeviceCount);                         // Device count
+        menuOptions[4].setEnabled(connectionCount);                          // PoweredUp Direct control
+        menuOptions[5].setEnabled(connectionCount);                          // Stop all motors
         return this;
     }
 
     onUpdateSpikeMenu() {
-        let connected   = this._spike.getConnected();
-        let menuOptions = this._spikeMenu.getMenu().getMenuOptions();
-        let settings    = this._settings;
-        menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
-        menuOptions[1].setEnabled(connected);                               // Disconnect
-        menuOptions[3].setEnabled(connected);                               // Spike Direct control
-        menuOptions[4].setEnabled(connected);                               // Stop all motors
+        let connectionCount = this._spike.getConnectionCount();
+        let menuOptions     = this._spikeMenu.getMenu().getMenuOptions();
+        let settings        = this._settings;
+        let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + settings.getSpikeDeviceCount() + '/' + spikeModuleConstants.LAYER_COUNT + ')';
+        menuOptions[0].setRemark(remarkConnect).setChecked(connectionCount);
+        menuOptions[1].setEnabled(connectionCount);                          // Disconnect
+        menuOptions[2].setRemark(remarkDeviceCount);                         // Device count
+        menuOptions[3].setEnabled(connectionCount);                          // Spike Direct control
+        menuOptions[4].setEnabled(connectionCount);                          // Stop all motors
         return this;
     }
 
@@ -585,17 +600,17 @@ exports.MainMenu = class extends MainMenu {
 
     onEV3Connecting() {
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
-        menuOptions[0].setTitle('Connecting...');
+        menuOptions[0].setRemark('Connecting...');
     }
 
     onPoweredUpConnecting() {
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
-        menuOptions[0].setTitle('Connecting...');
+        menuOptions[0].setRemark('Connecting...');
     }
 
     onSpikeConnecting() {
         let menuOptions = this._spikeMenu.getMenu().getMenuOptions();
-        menuOptions[0].setTitle('Connecting...');
+        menuOptions[0].setRemark('Connecting...');
     }
 
     onUpdateCropDisable() {

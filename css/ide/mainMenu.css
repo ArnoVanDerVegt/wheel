@@ -81,15 +81,34 @@ body.ide .main-menu div.main-menu-item.visible a {
     padding:                        2px 16px 2px 16px;
     white-space:                    nowrap;
 }
+.menu .menu-option.with-remark {
+    height:                         52px;
+    padding:                        2px 16px 0 16px;
+}
 .menu .menu-option .title {
-    float: left;
+    float:                          left;
+}
+.menu .menu-option .menu-option-remark {
+    font-size:                      12px;
+    height:                         12px;
+    line-height:                    12px;
+    font-style:                     italic;
+}
+body.ide .menu .menu-option .menu-option-remark {
+    color:                          var(--color-blue);
+}
+body.ide.dark .menu .menu-option .menu-option-remark {
+    color:                          var(--color-yellow);
 }
 .menu .menu-option .hotkey {
-    float: right;
+    float:                          right;
 }
 .menu .menu-option.disabled {
     color:                          var(--main-menu-disabled-text);
     cursor:                         default;
+}
+.menu .menu-option.disabled .menu-option-remark {
+    opacity:                        0.5;
 }
 .menu .menu-option.with-check {
     padding:                        2px 16px 2px 40px;

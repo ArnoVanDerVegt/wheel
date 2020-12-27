@@ -140,13 +140,55 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // EV3 Menu...
     onMenuEV3Connect() {
-        dispatcher.dispatch('Dialog.ConnectEV3.Show');
-        this.onSelectDeviceEV3();
+        if (this._ev3.getConnected()) {
+            dispatcher.dispatch(
+                'Dialog.Alert.Show',
+                {
+                    title: 'Connected',
+                    lines: [
+                        this._ev3.getDeviceName(),
+                        'Is connected.'
+                    ]
+                }
+            );
+        } else {
+            dispatcher.dispatch('Dialog.ConnectEV3.Show');
+            this.onSelectDeviceEV3();
+        }
     }
 
     onMenuEV3DaisyChain() {
-        dispatcher.dispatch('Dialog.DaisyChain.Show', this._settings.getDaisyChainMode());
-        this.onSelectDeviceEV3();
+        const applyDeviceCount = (daisyChainMode) => {
+                dispatcher
+                    .dispatch('EV3.ActiveLayerCount', daisyChainMode)
+                    .dispatch('Settings.Set.DaisyChainMode', daisyChainMode);
+                this.onSelectDeviceEV3();
+            };
+        const selectDeviceCount = () => {
+                dispatcher.dispatch(
+                    'Dialog.DaisyChain.Show',
+                    {
+                        daisyChainMode: this._settings.getDaisyChainMode(),
+                        applyCallback:  applyDeviceCount
+                    }
+                );
+            };
+        const disconnectAndSelectDeviceCount = () => {
+                this._ev3.disconnect();
+                selectDeviceCount();
+            };
+        if (this._spike.getConnected()) {
+            dispatcher.dispatch(
+                'Dialog.Confirm.Show',
+                {
+                    title:         'EV3 is connected',
+                    lines:         ['To change the EV3 daisy chain mode you must disconnect first', 'Do you want to continue?'],
+                    applyCallback: disconnectAndSelectDeviceCount
+                }
+            );
+        } else {
+            selectDeviceCount();
+        }
     }
 
     onMenuEV3DirectControl() {
@@ -164,8 +206,16 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Powered Up Menu...
     onMenuPoweredUpConnect() {
-        dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
-        this.onSelectDevicePoweredUp();
+        if (this._poweredUp.getConnectionCount() < this._settings.getPoweredUpDeviceCount()) {
+            dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
+            this.onSelectDevicePoweredUp();
+        } else {
+            let lines = ['You\'ve reached the maximum number of connections.'];
+            if (this._poweredUp.getConnectionCount() < poweredUpModuleConstants.LAYER_COUNT) {
+                lines.push('You can change this setting in the <i>PoweredUp</i> > <i>Device count</i> menu.');
+            }
+            dispatcher.dispatch('Dialog.Alert.Show', {title: 'Maximum connections reached', lines: lines});
+        }
     }
 
     onMenuPoweredUpDisconnect() {
@@ -178,20 +228,39 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onMenuPoweredUpDeviceCount() {
-        dispatcher.dispatch(
-            'Dialog.DeviceCount.Show',
-            {
-                deviceCount: this._settings.getPoweredUpDeviceCount(),
-                layerCount:  poweredUpModuleConstants.POWERED_UP_LAYER_COUNT,
-                title:       'Number of Powered Up devices',
-                onApply:     (deviceCount) => {
-                    dispatcher
-                        .dispatch('PoweredUp.DeviceCount',             deviceCount)
-                        .dispatch('Settings.Set.PoweredUpDeviceCount', deviceCount);
+        const applyDeviceCount = (deviceCount) => {
+                dispatcher
+                    .dispatch('PoweredUp.DeviceCount',             deviceCount)
+                    .dispatch('Settings.Set.PoweredUpDeviceCount', deviceCount);
+                this.onSelectDevicePoweredUp();
+            };
+        const selectDeviceCount = () => {
+                dispatcher.dispatch(
+                    'Dialog.DeviceCount.Show',
+                    {
+                        deviceCount: this._settings.getPoweredUpDeviceCount(),
+                        layerCount:  poweredUpModuleConstants.POWERED_UP_LAYER_COUNT,
+                        title:       'Number of Powered Up devices',
+                        onApply:     applyDeviceCount
+                    }
+                );
+            };
+        const disconnectAndSelectDeviceCount = () => {
+                this._poweredUp.disconnect();
+                selectDeviceCount();
+            };
+        if (this._poweredUp.getConnected()) {
+            dispatcher.dispatch(
+                'Dialog.Confirm.Show',
+                {
+                    title:         'Powered Up is connected',
+                    lines:         ['To change the Powered Up device count you must disconnect first', 'Do you want to continue?'],
+                    applyCallback: disconnectAndSelectDeviceCount
                 }
-            }
-        );
-        this.onSelectDevicePoweredUp();
+            );
+        } else {
+            selectDeviceCount();
+        }
     }
 
     onMenuPoweredUpDirectControl() {
@@ -217,8 +286,16 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Spike Menu...
     onMenuSpikeConnect() {
-        dispatcher.dispatch('Dialog.ConnectSpike.Show');
-        this.onSelectDeviceSpike();
+        if (this._spike.getConnectionCount() < this._settings.getSpikeDeviceCount()) {
+            dispatcher.dispatch('Dialog.ConnectSpike.Show');
+            this.onSelectDeviceSpike();
+        } else {
+            let lines = ['You\'ve reached the maximum number of connections.'];
+            if (this._spike.getConnectionCount() < spikeModuleConstants.LAYER_COUNT) {
+                lines.push('You can change this setting in the <i>Spike</i> > <i>Device count</i> menu.');
+            }
+            dispatcher.dispatch('Dialog.Alert.Show', {title: 'Maximum connections reached', lines: lines});
+        }
     }
 
     onMenuSpikeDisconnect() {
@@ -226,20 +303,39 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onMenuSpikeDeviceCount() {
-        dispatcher.dispatch(
-            'Dialog.DeviceCount.Show',
-            {
-                deviceCount: this._settings.getSpikeDeviceCount(),
-                layerCount:  spikeModuleConstants.SPIKE_LAYER_COUNT,
-                title:       'Number of Spike devices',
-                onApply:     (deviceCount) => {
-                    dispatcher
-                        .dispatch('Spike.DeviceCount',             deviceCount)
-                        .dispatch('Settings.Set.SpikeDeviceCount', deviceCount);
+        const applyDeviceCount = (deviceCount) => {
+                dispatcher
+                    .dispatch('Spike.DeviceCount',             deviceCount)
+                    .dispatch('Settings.Set.SpikeDeviceCount', deviceCount);
+                this.onSelectDeviceSpike();
+            };
+        const selectDeviceCount = () => {
+                dispatcher.dispatch(
+                    'Dialog.DeviceCount.Show',
+                    {
+                        deviceCount: this._settings.getSpikeDeviceCount(),
+                        layerCount:  spikeModuleConstants.SPIKE_LAYER_COUNT,
+                        title:       'Number of Spike devices',
+                        onApply:     applyDeviceCount
+                    }
+                );
+            };
+        const disconnectAndSelectDeviceCount = () => {
+                this._spike.disconnect();
+                selectDeviceCount();
+            };
+        if (this._spike.getConnected()) {
+            dispatcher.dispatch(
+                'Dialog.Confirm.Show',
+                {
+                    title:         'Spike is connected',
+                    lines:         ['To change the Spike device count you must disconnect first', 'Do you want to continue?'],
+                    applyCallback: disconnectAndSelectDeviceCount
                 }
-            }
-        );
-        this.onSelectDeviceSpike();
+            );
+        } else {
+            selectDeviceCount();
+        }
     }
 
     onMenuSpikeDirectControl() {
@@ -353,6 +449,16 @@ exports.IDEEvents = class extends CompileAndRun {
         );
     }
 
+    onEV3Disconnect() {
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
+                message: 'EV3 Disconnected.'
+            }
+        );
+    }
+
     onPoweredUpConnecting(hub) {
         dispatcher.dispatch(
             'Console.Log',
@@ -369,6 +475,16 @@ exports.IDEEvents = class extends CompileAndRun {
             {
                 type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
                 message: 'Connected to Powered Up.'
+            }
+        );
+    }
+
+    onPoweredUpDisconnect() {
+        dispatcher.dispatch(
+            'Console.Log',
+            {
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
+                message: 'Powered Up disconnected.'
             }
         );
     }

@@ -956,7 +956,10 @@ exports.SettingsState = class extends Emitter {
         if ('autoConnect' in this._poweredUp) {
             this._poweredUpAutoConnect.load(this._poweredUp.autoConnect);
         }
-        dispatcher.dispatch('EV3.LayerCount', this._ev3.daisyChainMode);
+        dispatcher
+            .dispatch('EV3.ActiveLayerCount', this._ev3.daisyChainMode)
+            .dispatch('PoweredUp.ActiveLayerCount', this._poweredUp.deviceCount)
+            .dispatch('Spike.ActiveLayerCount', this._poweredUp.deviceCount);
         this._onLoad();
         this.emit('Settings.View');
         return this;

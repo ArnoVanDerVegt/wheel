@@ -26,10 +26,10 @@ exports.MotorModule = class extends VMModule {
     }
 
     getLayerAndIdValid(motor) {
-        let device        = this._device ? this._device() : null;
-        let layerCount    = device ? device.getLayerCount() : 4;
-        let portsPerLayer = device ? device.getPortsPerLayer() : 4;
-        return ((motor.layer >= 0) && (motor.layer < layerCount)) && ((motor.id >= 0) && (motor.id < portsPerLayer));
+        let device           = this._device ? this._device() : null;
+        let activeLayerCount = device.getActiveLayerCount();
+        let portsPerLayer    = device.getPortsPerLayer();
+        return ((motor.layer >= 0) && (motor.layer < activeLayerCount)) && ((motor.id >= 0) && (motor.id < portsPerLayer));
     }
 
     getMotorPort(motor) {
@@ -243,9 +243,10 @@ exports.MotorModule = class extends VMModule {
                 this.waitForQueue();
                 motor = vmData.getRecordFromSrcOffset(['layer', 'bits']);
                 value = 1;
-                if ((motor.layer >= 0) && (motor.layer < this._device().getLayerCount())) {
+                let device = this._device();
+                if ((motor.layer >= 0) && (motor.layer < device.getActiveLayerCount())) {
                     let bit = 1;
-                    for (let id = 0; id < 4; id++) {
+                    for (let id = 0; id < device.getPortsPerLayer(); id++) {
                         motor.id = id;
                         if ((motor.bits & bit) === bit) {
                             motorPort = this.getMotorPort(motor);

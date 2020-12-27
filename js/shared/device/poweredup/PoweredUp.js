@@ -21,31 +21,21 @@ const FLOAT                    =   0;
 const HOLD                     = 126;
 const BRAKE                    = 127;
 
-let poweredUpConstants = null; // Set with dependency injection...
-let PoweredUP          = null; // Set with dependency injection...
-
-/**
- * Dependency injection for nodejs or browser library...
-**/
-exports.setLibrary = function(pupConstants, pup) {
-    poweredUpConstants = pupConstants;
-    PoweredUP          = pup;
-};
-
 exports.PoweredUp = class extends BasicDevice {
     constructor(opts) {
         opts.layerCount = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         super(opts);
-        this._gettingHubs       = false;
-        this._scanning          = false;
-        this._autoConnect       = [];
-        this._connectedHubUuids = {};
-        this._hubs              = [];
-        this._hubsByUuid        = {};
-        this._changed           = 0;
-        this._poweredUP         = new PoweredUP.PoweredUP();
-        this._discovering       = false;
-        this._layers            = [];
+        this._poweredUpConstants = opts.poweredUpConstants;
+        this._gettingHubs        = false;
+        this._scanning           = false;
+        this._autoConnect        = [];
+        this._connectedHubUuids  = {};
+        this._hubs               = [];
+        this._hubsByUuid         = {};
+        this._changed            = 0;
+        this._poweredUP          = new opts.poweredUpConstructor();
+        this._discovering        = false;
+        this._layers             = [];
         for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             this._layers.push(this.initLayer());
         }
@@ -98,10 +88,10 @@ exports.PoweredUp = class extends BasicDevice {
 
     _isSupportedHubType(type) {
         return ([
-            poweredUpConstants.HubType.HUB,
-            poweredUpConstants.HubType.MOVE_HUB,
-            poweredUpConstants.HubType.REMOTE_CONTROL,
-            poweredUpConstants.HubType.TECHNIC_MEDIUM_HUB
+            this._poweredUpConstants.HubType.HUB,
+            this._poweredUpConstants.HubType.MOVE_HUB,
+            this._poweredUpConstants.HubType.REMOTE_CONTROL,
+            this._poweredUpConstants.HubType.TECHNIC_MEDIUM_HUB
         ].indexOf(type) !== -1);
     }
 
@@ -174,21 +164,21 @@ exports.PoweredUp = class extends BasicDevice {
             port.assigned = device.type;
             port.device   = device;
             switch (device.type) {
-                case poweredUpConstants.DeviceType.COLOR_DISTANCE_SENSOR:
+                case this._poweredUpConstants.DeviceType.COLOR_DISTANCE_SENSOR:
                     device.on('colorAndDistance', this.onColorAndDistance.bind(this, layer, port));
                     break;
             }
         } else {
             switch (device.type) {
-                case poweredUpConstants.DeviceType.HUB_LED:
+                case this._poweredUpConstants.DeviceType.HUB_LED:
                     layer.hubLed = device;
                     break;
-                case poweredUpConstants.DeviceType.REMOTE_CONTROL_BUTTON:
+                case this._poweredUpConstants.DeviceType.REMOTE_CONTROL_BUTTON:
                     let index = layer.hubButtons.length;
                     layer.hubButtons.push(device);
                     device.on('remoteButton', this.onRemoteButton.bind(this, index, layer));
                     break;
-                case poweredUpConstants.DeviceType.MOVE_HUB_TILT_SENSOR:
+                case this._poweredUpConstants.DeviceType.MOVE_HUB_TILT_SENSOR:
                     device.on('tilt', this.onMoveHubTilt.bind(this, layer));
                     break;
             }
@@ -385,15 +375,6 @@ exports.PoweredUp = class extends BasicDevice {
         return this._connected;
     }
 
-    getLayerCount() {
-        return this._layerCount;
-    }
-
-    setLayerCount(layerCount) {
-        // Ingore this setter, this is set with POWERED_UP_LAYER_COUNT constant.
-        // This setter is used only for EV3.
-    }
-
     getMotorPosition(layer, port) {
         return this._port[port] || 0;
     }
@@ -436,22 +417,22 @@ exports.PoweredUp = class extends BasicDevice {
     }
 
     disconnect() {
+        this.disconnectAll();
     }
 
     disconnectAll() {
-        this._hubs.forEach((hub) => {
+        let layers = this._layers;
+        let hubs   = this._hubs;
+        hubs.forEach((hub) => {
             hub.disconnect();
         });
-        this._hubs.length   = 0;
-        this._layers.length = 0;
-        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
-            this._layers.push(this.initLayer());
+        hubs.length   = 0;
+        layers.length = 0;
+        for (let i = 0; i < this._layerCount; i++) {
+            layers.push(this.initLayer());
         }
         this._hubsByUuid = {};
         this.scan();
-    }
-
-    playtone(frequency, duration, volume, callback) {
     }
 
     getHHubByLayer(layer) {
@@ -474,15 +455,12 @@ exports.PoweredUp = class extends BasicDevice {
         return hHub.hub.connected;
     }
 
-    getConnectedTypes(layer) {
-    }
-
     getDefaultModeForType(type) {
         return 0;
     }
 
     getPUBrake(brake) {
-        return brake ? poweredUpConstants.BrakingStyle.HOLD : poweredUpConstants.BrakingStyle.FLOAT;
+        return brake ? this._poweredUpConstants.BrakingStyle.HOLD : this._poweredUpConstants.BrakingStyle.FLOAT;
     }
 
     motorReset(layer, motor) {
@@ -501,7 +479,7 @@ exports.PoweredUp = class extends BasicDevice {
 
     motorMonitor() {
         let layers = this._layers;
-        for (let layer = 0; layer < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; layer++) {
+        for (let layer = 0; layer < Math.min(layers.length, this._layerCount); layer++) {
             for (let id = 0; id < 4; id++) {
                 let port        = layers[layer].ports[id];
                 let motorDevice = port.motorDevice;

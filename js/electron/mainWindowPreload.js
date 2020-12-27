@@ -67,8 +67,10 @@ require('../shared/device/ev3/constants');
 require('../shared/device/poweredup/PoweredUp');
 require('../shared/device/spike/Spike');
 require('../backend/routes/settings');
-require('../backend/routes/ev3');
-require('../backend/routes/ide');
+require('../backend/routes/device/EV3Routes');
+require('../backend/routes/device/PoweredUpRoutes');
+require('../backend/routes/device/SpikeRoutes');
+require('../backend/routes/IDERoutes');
 require('../frontend/program/Downloader');
 const dispatcher = require('../frontend/lib/dispatcher').dispatcher;
 require('../frontend/lib/platform');
@@ -417,6 +419,7 @@ require('../frontend/ide/editor/editors/text/toolbar/ToolbarBottomViewer');
 require('../frontend/ide/editor/editors/text/VMViewer');
 require('../frontend/ide/editor/editors/text/WheelEditorState');
 require('../frontend/ide/editor/editors/text/WheelEditor');
+require('../frontend/ide/editor/editors/text/SourceEditor');
 require('../frontend/ide/editor/editors/text/TextEditor');
 require('../frontend/ide/editor/editors/image/text/Text');
 require('../frontend/ide/editor/editors/image/text/TextLarge');
@@ -582,9 +585,9 @@ const SpikeState     = require('../frontend/vm/spike/SpikeState').SpikeState;
             ide = new IDE({
                 ui:        ui,
                 settings:  settings,
-                ev3:       new EV3State      ({layerCount: settings.getDaisyChainMode()}),
-                poweredUp: new PoweredUpState({layerCount: settings.getPoweredUpDeviceCount()}),
-                spike:     new SpikeState    ({layerCount: settings.getSpikeDeviceCount()})
+                ev3:       new EV3State      ({activeLayerCount: settings.getDaisyChainMode()}),
+                poweredUp: new PoweredUpState({actvieLayerCount: settings.getPoweredUpDeviceCount()}),
+                spike:     new SpikeState    ({activeLayerCount: settings.getSpikeDeviceCount()})
             });
         };
 

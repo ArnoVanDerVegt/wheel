@@ -48,9 +48,6 @@ exports.Spike = class extends BasicDevice {
         return result;
     }
 
-    onDisconnect(h) {
-    }
-
     getLayerPort(layer, port) {
         if (this._layers[layer] && this._layers[layer].ports[port]) {
             return this._layers[layer].ports[port];
@@ -64,7 +61,7 @@ exports.Spike = class extends BasicDevice {
 
     getConnected(deviceName) {
         let layers = this._layers;
-        for (let i = 0; i < layers.length; i++) {
+        for (let i = 0; i < Math.min(this._activeLayerCount, layers.length); i++) {
             let layer = layers[i];
             if (layer.connected && ((deviceName === undefined) || (layer.deviceName === deviceName))) {
                 return true;
@@ -75,22 +72,13 @@ exports.Spike = class extends BasicDevice {
 
     getConnecting(deviceName) {
         let layers = this._layers;
-        for (let i = 0; i < layers.length; i++) {
+        for (let i = 0; i < Math.min(this._activeLayerCount, layers.length); i++) {
             let layer = layers[i];
             if (layer.deviceName === deviceName) {
                 return layer.connecting;
             }
         }
         return false;
-    }
-
-    getLayerCount() {
-        return this._layerCount;
-    }
-
-    setLayerCount(layerCount) {
-        // Ingore this setter, this is set with SPIKE_LAYER_COUNT constant.
-        // This setter is used only for EV3.
     }
 
     getMotorPosition(layer, port) {
@@ -100,7 +88,7 @@ exports.Spike = class extends BasicDevice {
     connect(deviceName, callback) {
         let layers = this._layers;
         let found  = false;
-        for (let i = 0; i < layers.length; i++) {
+        for (let i = 0; i < Math.min(this._activeLayerCount, layers.length); i++) {
             if (layers[i].commandQueue === null) {
                 found = i;
                 break;
@@ -117,12 +105,6 @@ exports.Spike = class extends BasicDevice {
             deviceName:            deviceName,
             layer:                 layer
         });
-    }
-
-    disconnect() {
-    }
-
-    disconnectAll() {
     }
 
     playtone(frequency, duration, volume, callback) {
@@ -227,7 +209,7 @@ exports.Spike = class extends BasicDevice {
     getState() {
         let layers = this._layers;
         let result = {layers: []};
-        for (let i = 0; i < spikeModuleConstants.SPIKE_LAYER_COUNT; i++) {
+        for (let i = 0; i < Math.min(this._activeLayerCount, layers.length); i++) {
             result.layers.push(this.cloneLayer(layers[i]));
         }
         return result;
@@ -310,9 +292,6 @@ exports.Spike = class extends BasicDevice {
             }
         });
     }
-
-    stopPolling() {}
-    resumePolling() {}
 
     getPortsPerLayer() {
         return 6;

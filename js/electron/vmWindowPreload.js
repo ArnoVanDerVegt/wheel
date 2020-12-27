@@ -21,8 +21,9 @@ const PoweredUpState = require('../frontend/vm/poweredup/PoweredUpState').Powere
                 program:         data.program,
                 settings:        settings,
                 ui:              new UIState({}),
-                ev3:             new EV3State({layerCount: settings.getDaisyChainMode()}),
-                poweredUp:       new PoweredUpState({layerCount: settings.getDaisyChainMode()})
+                ev3:             new EV3State({activeLayerCount: settings.getDaisyChainMode()}),
+                poweredUp:       new PoweredUpState({activeLayerCount: settings.getPoweredUpDeviceCount()}),
+                spike:           new PoweredUpState({activeLayerCount: settings.getSpikeDeviceCount()})
             });
         };
 

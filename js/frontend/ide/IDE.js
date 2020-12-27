@@ -116,11 +116,13 @@ exports.IDE = class extends IDEDOM {
         let ev3 = this._ev3;
         ev3
             .addEventListener('EV3.Connecting', this, this.onEV3Connecting)
-            .addEventListener('EV3.Connected',  this, this.onEV3Connected);
+            .addEventListener('EV3.Connected',  this, this.onEV3Connected)
+            .addEventListener('EV3.Disconnect', this, this.onEV3Disconnect);
         dispatcher.on('Menu.EV3.Disconnect', ev3, ev3.disconnect);
         this._poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
-            .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
+            .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected)
+            .addEventListener('PoweredUp.Disconnect', this, this.onPoweredUpDisconnect);
         this._spike
             .addEventListener('Spike.Connecting',     this, this.onSpikeConnecting)
             .addEventListener('Spike.Connected',      this, this.onSpikeConnected);
@@ -171,15 +173,15 @@ exports.IDE = class extends IDEDOM {
             getDataProvider().getData('post', 'powered-up/disconnect-all', {}, (data) => {});
         }
         let poweredUpAutoConnect = this._settings.getPoweredUpAutoConnect().toJSON();
-        getDataProvider().getData(
-            'post',
-            'powered-up/discover',
-            {
-                autoConnect: poweredUpAutoConnect
-            },
-            (data) => {}
-        );
         if (poweredUpAutoConnect.length) {
+            getDataProvider().getData(
+                'post',
+                'powered-up/discover',
+                {
+                    autoConnect: poweredUpAutoConnect
+                },
+                (data) => {}
+            );
             this._ideAssistant.autoConnectPoweredUp();
         }
         return this;

@@ -13,10 +13,12 @@ exports.BasicDeviceState = class extends Emitter {
         this._updating         = false;
         this._connecting       = false;
         this._connected        = false;
+        this._updateTimeout    = null;
         this._messageId        = 0;
         this._layerState       = [];
-        this._layerCount       = ('layerCount' in opts) ? opts.layerCount : 4;
-        this._noTimeout        = ('noTimeout'  in opts) ? opts.noTimeout  : false;
+        this._layerCount       = ('layerCount'       in opts) ? opts.layerCount       : 4;
+        this._activeLayerCount = ('activeLayerCount' in opts) ? opts.activeLayerCount : 4;
+        this._noTimeout        = ('noTimeout'        in opts) ? opts.noTimeout        : false;
         this._signalPrefix     = opts.signalPrefix;
         this._updateURL        = opts.updateURL;
         this._setModeURL       = opts.setModeURL;
@@ -30,8 +32,8 @@ exports.BasicDeviceState = class extends Emitter {
             }));
         }
         dispatcher
-            .on(this._signalPrefix + '.ConnectToDevice', this, this.onConnectToDevice)
-            .on(this._signalPrefix + '.LayerCount',      this, this.onLayerCount);
+            .on(this._signalPrefix + '.ConnectToDevice',  this, this.onConnectToDevice)
+            .on(this._signalPrefix + '.ActiveLayerCount', this, this.onActiveLayerCount);
     }
 
     _createResponseHandler(callback) {
@@ -71,8 +73,8 @@ exports.BasicDeviceState = class extends Emitter {
         return 0;
     }
 
-    getLayerCount() {
-        return this._layerCount;
+    getActiveLayerCount() {
+        return this._activeLayerCount;
     }
 
     getPortsPerLayer() {
@@ -182,11 +184,13 @@ exports.BasicDeviceState = class extends Emitter {
         }
         this._updating = true;
         let callback = () => {
+                this._updateTimeout = null;
                 this._dataProvider.getData(
                     'post',
                     this._updateURL,
                     {
-                        queue: this.updateSendQueue()
+                        queue:            this.updateSendQueue(),
+                        activeLayerCount: this._activeLayerCount
                     },
                     (data) => {
                         let json = JSON.parse(data);
@@ -194,7 +198,7 @@ exports.BasicDeviceState = class extends Emitter {
                             .updateReceivedQueue(json.messagesReceived)
                             .updateLayerState(json);
                         if (!this._noTimeout) {
-                            setTimeout(callback, 20);
+                            this._updateTimeout = setTimeout(callback, 20);
                         }
                     }
                 );
@@ -203,6 +207,10 @@ exports.BasicDeviceState = class extends Emitter {
     }
 
     disconnect() {
+        if (this._updateTimeout) {
+            clearTimeout(this._updateTimeout);
+            this._updateTimeout = null;
+        }
         this.emit(this._signalPrefix + '.Disconnect');
         this._dataProvider.getData(
             'post',
@@ -217,12 +225,12 @@ exports.BasicDeviceState = class extends Emitter {
         );
     }
 
-    stopAllMotors(layerCount) {
-        this._dataProvider.getData('post', this._stopAllMotorsURL, {layerCount: layerCount});
+    stopAllMotors() {
+        this._dataProvider.getData('post', this._stopAllMotorsURL, {activeLayerCount: this._activeLayerCount});
     }
 
-    onLayerCount(layerCount) {
-        this._layerCount = layerCount;
+    onActiveLayerCount(activeLayerCount) {
+        this._activeLayerCount = activeLayerCount;
     }
 
     connecting() {}

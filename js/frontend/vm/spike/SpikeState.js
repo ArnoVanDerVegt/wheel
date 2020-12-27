@@ -10,15 +10,14 @@ const LayerState           = require('./LayerState').LayerState;
 
 exports.SpikeState = class extends BasicDeviceState {
     constructor(opts) {
-        opts.layerCount       = 4; // Todo: Check with settings
+        opts.layerCount       = spikeModuleConstants.LAYER_COUNT;
         opts.LayerState       = LayerState;
         opts.signalPrefix     = 'Spike';
         opts.updateURL        = 'spike/update';
         opts.setModeURL       = 'spike/set-mode';
         opts.stopAllMotorsURL = 'spike/stop-all-motors';
         super(opts);
-        this._battery       = null;
-        this._updateTimeout = null;
+        this._battery = null;
     }
 
     getPortsPerLayer() {
