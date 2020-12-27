@@ -59,7 +59,7 @@ exports.FileOpenDialog = class extends FileDialog {
                 tabIndex:  2,
                 detail:    this._settings.getFilesDetail(),
                 className: 'dialog-l',
-                filter:    ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm'],
+                filter:    ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm', '.py'],
                 getImage:  this._getImage,
                 getFiles:  this.getFiles.bind(this),
                 onFile:    this.onFile.bind(this),
@@ -113,7 +113,7 @@ exports.FileOpenDialog = class extends FileDialog {
                     .setDisabled(true);
                 refs.files
                     .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
+                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm', '.py']);
                 this.getFiles(
                     false,
                     false,
@@ -154,7 +154,7 @@ exports.FileOpenDialog = class extends FileDialog {
                     .setDisabled(filename.trim() === '');
                 refs.files
                     .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
+                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm', '.py']);
                 this.getFiles(
                     false,
                     opts.path || this._settings.getDocumentPath(),

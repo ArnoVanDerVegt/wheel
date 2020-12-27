@@ -4,7 +4,7 @@
 **/
 const WheelEditor = require('./WheelEditor').WheelEditor;
 
-exports.LmsEditor = class extends WheelEditor {
+exports.SourceEditor = class extends WheelEditor {
     initCodeMirror() {
         let wheelEditorState = this._wheelEditorState;
         let codeMirror       = CodeMirror.fromTextArea(

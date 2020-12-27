@@ -14,7 +14,7 @@ const HomeScreen    = require('./editors/home/HomeScreen').HomeScreen;
 const WheelEditor   = require('./editors/text/WheelEditor').WheelEditor;
 const VMViewer      = require('./editors/text/VMViewer').VMViewer;
 const TextEditor    = require('./editors/text/TextEditor').TextEditor;
-const LmsEditor     = require('./editors/text/LmsEditor').LmsEditor;
+const SourceEditor  = require('./editors/text/SourceEditor').SourceEditor;
 const SoundEditor   = require('./editors/sound/SoundEditor').SoundEditor;
 const SoundLoader   = require('./editors/sound/SoundLoader').SoundLoader;
 const ImageViewer   = require('./editors/imageviewer/ImageViewer').ImageViewer;
@@ -395,7 +395,8 @@ exports.Editors = class extends DOMNode {
                 '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.svg',
                 '.whl', '.whlp', '.vm',
                 '.txt', '.woc',
-                '.lms', '.wfrm'
+                '.lms', '.wfrm',
+                '.py'
             ].indexOf(extension) === -1) {
             return null;
         }
@@ -473,7 +474,13 @@ exports.Editors = class extends DOMNode {
                 opts.mode    = 'text/x-lms';
                 opts.gutters = [];
                 refs.homeScreen.hide();
-                this.addEditor(opts, new LmsEditor(opts));
+                this.addEditor(opts, new SourceEditor(opts));
+                break;
+            case '.py':
+                opts.mode    = 'text/x-python';
+                opts.gutters = [];
+                refs.homeScreen.hide();
+                this.addEditor(opts, new SourceEditor(opts));
                 break;
         }
         return null;
