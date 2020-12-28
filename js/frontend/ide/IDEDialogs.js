@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform                       = require('../lib/platform');
+const platform                       = require('../../shared/lib/platform');
 const getImage                       = require('./data/images').getImage;
 const FileOpenDialog                 = require('./dialogs/file/FileOpenDialog').FileOpenDialog;
 const FileNewDialog                  = require('./dialogs/file/FileNewDialog').FileNewDialog;

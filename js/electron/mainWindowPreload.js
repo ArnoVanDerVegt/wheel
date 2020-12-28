@@ -73,7 +73,7 @@ require('../backend/routes/device/SpikeRoutes');
 require('../backend/routes/IDERoutes');
 require('../frontend/program/Downloader');
 const dispatcher = require('../frontend/lib/dispatcher').dispatcher;
-require('../frontend/lib/platform');
+require('../shared/lib/platform');
 require('../frontend/lib/Emitter');
 require('../frontend/lib/path');
 require('../frontend/lib/dom');

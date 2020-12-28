@@ -99,7 +99,7 @@ const libraryFiles = [
     ];
 
 const files = [
-        './js/frontend/lib/platform',
+        './js/shared/lib/platform',
         './js/frontend/ide/plugins/pluginUuid',
         './js/browser/routes/IDERoutes',
         './js/browser/routes/device/PoweredUpRoutes',
@@ -770,7 +770,7 @@ files.forEach(function(filename) {
 });
 
 output += [
-    'const platform        = exportsByUrl[\'./js/frontend/lib/platform\'];',
+    'const platform        = exportsByUrl[\'./js/shared/lib/platform\'];',
     'const getDataProvider = exportsByUrl[\'./js/frontend/lib/dataprovider/dataProvider\'].getDataProvider;',
     'const UIState         = exportsByUrl[\'./js/frontend/lib/UIState\'].UIState;',
     'const SettingsState   = exportsByUrl[\'./js/frontend/ide/settings/SettingsState\'].SettingsState;',

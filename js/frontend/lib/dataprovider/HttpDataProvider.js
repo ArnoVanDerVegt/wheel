@@ -2,11 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-///Users/arnovandervegt/Projects/wheel/js/frontend/lib/dataprovider/HttpDataProvider.js
+const platform  = require('../../../shared/lib/platform');
+const IDERoutes = require('../../../browser/routes/IDERoutes').IDERoutes;
 const Http      = require('../Http').Http;
 const path      = require('../path');
-const platform  = require('../platform');
-const IDERoutes = require('../../../browser/routes/IDERoutes').IDERoutes;
 
 const ideRoutes = new IDERoutes({});
 

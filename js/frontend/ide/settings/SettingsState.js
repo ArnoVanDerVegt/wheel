@@ -4,7 +4,7 @@
 **/
 const poweredUpModuleConstants        = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const spikeModuleConstants            = require('../../../shared/vm/modules/spikeModuleConstants');
-const platform                        = require('../../lib/platform');
+const platform                        = require('../../../shared/lib/platform');
 const path                            = require('../../lib/path');
 const dispatcher                      = require('../../lib/dispatcher').dispatcher;
 const Emitter                         = require('../../lib/Emitter').Emitter;
