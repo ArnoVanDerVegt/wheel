@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const MotorModule  = require('../devicemodule/MotorModule' ).MotorModule;
-const SensorModule = require('../devicemodule/SensorModule').SensorModule;
-const LightModule  = require('../devicemodule/LightModule' ).LightModule;
-const SoundModule  = require('../devicemodule/SoundModule' ).SoundModule;
-const SpikeModule  = require('../devicemodule/SpikeModule' ).SpikeModule;
+const MotorModule  = require('../devicemodules/MotorModule' ).MotorModule;
+const SensorModule = require('../devicemodules/SensorModule').SensorModule;
+const LightModule  = require('../devicemodules/LightModule' ).LightModule;
+const SoundModule  = require('../devicemodules/SoundModule' ).SoundModule;
+const SpikeModule  = require('../devicemodules/SpikeModule' ).SpikeModule;
 
 exports.BasicDevice = class {
     constructor(opts) {
