@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform                 = require('../../../shared/lib/platform');
-const poweredUpModuleConstants = require('../../../shared/vm/modules/poweredUpModuleConstants');
-const dispatcher               = require('../../lib/dispatcher').dispatcher;
-const getDataProvider          = require('../../lib/dataprovider/dataProvider').getDataProvider;
+const platform                 = require('../../../../shared/lib/platform');
+const poweredUpModuleConstants = require('../../../../shared/vm/modules/poweredUpModuleConstants');
+const dispatcher               = require('../../../lib/dispatcher').dispatcher;
+const getDataProvider          = require('../../../lib/dataprovider/dataProvider').getDataProvider;
 const BasicDeviceState         = require('../BasicDeviceState').BasicDeviceState;
 const LayerState               = require('./LayerState').LayerState;
 

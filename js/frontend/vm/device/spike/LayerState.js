@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-let dispatcher      = require('../../lib/dispatcher').dispatcher;
+let dispatcher      = require('../../../lib/dispatcher').dispatcher;
 let BasicLayerState = require('../BasicLayerState').BasicLayerState;
 
 exports.LayerState = class extends BasicLayerState {

@@ -2,20 +2,20 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const spikeModuleConstants = require('../../../shared/vm/modules/spikeModuleConstants');
-const dispatcher           = require('../../lib/dispatcher').dispatcher;
-const getDataProvider      = require('../../lib/dataprovider/dataProvider').getDataProvider;
-const BasicDeviceState     = require('../BasicDeviceState').BasicDeviceState;
-const LayerState           = require('./LayerState').LayerState;
+const nxtModuleConstants = require('../../../../shared/vm/modules/nxtModuleConstants');
+const dispatcher         = require('../../../lib/dispatcher').dispatcher;
+const getDataProvider    = require('../../../lib/dataprovider/dataProvider').getDataProvider;
+const BasicDeviceState   = require('../BasicDeviceState').BasicDeviceState;
+const LayerState         = require('./LayerState').LayerState;
 
-exports.SpikeState = class extends BasicDeviceState {
+exports.NXTState = class extends BasicDeviceState {
     constructor(opts) {
-        opts.layerCount       = spikeModuleConstants.LAYER_COUNT;
+        opts.layerCount       = nxtModuleConstants.LAYER_COUNT;
         opts.LayerState       = LayerState;
-        opts.signalPrefix     = 'Spike';
-        opts.updateURL        = 'spike/update';
-        opts.setModeURL       = 'spike/set-mode';
-        opts.stopAllMotorsURL = 'spike/stop-all-motors';
+        opts.signalPrefix     = 'NXT';
+        opts.updateURL        = 'nxt/update';
+        opts.setModeURL       = 'nxt/set-mode';
+        opts.stopAllMotorsURL = 'nxt/stop-all-motors';
         super(opts);
         this._battery = null;
     }
@@ -25,7 +25,7 @@ exports.SpikeState = class extends BasicDeviceState {
     }
 
     onConnectToDevice(deviceName) {
-        if (this.getConnectionCount() >= spikeModuleConstants.POWERED_UP_LAYER_COUNT) {
+        if (this.getConnectionCount() >= nxtModuleConstants.NXT_LAYER_COUNT) {
             return;
         }
         let layerState = this._layerState;
@@ -36,7 +36,7 @@ exports.SpikeState = class extends BasicDeviceState {
         }
         this._dataProvider.getData(
             'post',
-            'spike/connect',
+            'nxt/connect',
             {deviceName: deviceName},
             (data) => {
                 try {
@@ -46,7 +46,7 @@ exports.SpikeState = class extends BasicDeviceState {
                 }
                 if (data.connecting && layerState[data.layerIndex]) {
                     layerState[data.layerIndex].connecting = true;
-                    this.emit('Spike.Connecting', deviceName);
+                    this.emit('NXT.Connecting', deviceName);
                     if (!this._updateTimeout) {
                         this._updateTimeout = setTimeout(this.update.bind(this), 20);
                     }
@@ -61,7 +61,7 @@ exports.SpikeState = class extends BasicDeviceState {
         }
         this._dataProvider.getData(
             'post',
-            'spike/stop-polling',
+            'nxt/stop-polling',
             {},
             this._createResponseHandler(callback)
         );
@@ -73,7 +73,7 @@ exports.SpikeState = class extends BasicDeviceState {
         }
         this._dataProvider.getData(
             'post',
-            'spike/resume-polling',
+            'nxt/resume-polling',
             {},
             this._createResponseHandler(callback)
         );
