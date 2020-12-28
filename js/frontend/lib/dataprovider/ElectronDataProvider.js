@@ -3,9 +3,11 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const IDERoutes       = require('../../../backend/routes/IDERoutes').IDERoutes;
+const NXTRoutes       = require('../../../backend/routes/device/NXTRoutes').NXTRoutes;
 const EV3Routes       = require('../../../backend/routes/device/EV3Routes').EV3Routes;
 const PoweredUpRoutes = require('../../../backend/routes/device/PoweredUpRoutes').PoweredUpRoutes;
 const SpikeRoutes     = require('../../../backend/routes/device/SpikeRoutes').SpikeRoutes;
+const NXT             = require('../../../shared/device/nxt/NXT').NXT;
 const EV3             = require('../../../shared/device/ev3/EV3').EV3;
 const PoweredUp       = require('../../../shared/device/poweredup/PoweredUp').PoweredUp;
 const Spike           = require('../../../shared/device/spike/Spike').Spike;
@@ -22,6 +24,10 @@ class SerialPort {
 }
 
 const ideRoutes       = new IDERoutes({});
+const nxtRoutes       = new NXTRoutes({
+        nxt:                   new NXT({serialPortConstructor: SerialPort}),
+        serialPortConstructor: SerialPort
+    });
 const ev3Routes       = new EV3Routes({
         ev3:                   new EV3({serialPortConstructor: SerialPort}),
         serialPortConstructor: SerialPort
@@ -59,6 +65,17 @@ const routes = {
         'ide/user-info':                    ideRoutes.userInfo,
         'ide/exec':                         ideRoutes.exec,
         'ide/reveal-in-finder':             ideRoutes.revealInFinder,
+        // NXT...
+        'nxt/device-list':                  nxtRoutes.deviceList,
+        'nxt/connect':                      nxtRoutes.connect,
+        'nxt/disconnect':                   nxtRoutes.disconnect,
+        'nxt/connecting':                   nxtRoutes.connecting,
+        'nxt/connected':                    nxtRoutes.connected,
+        'nxt/update':                       nxtRoutes.update,
+        'nxt/stop-all-motors':              nxtRoutes.stopAllMotors,
+        'nxt/stop-polling':                 nxtRoutes.stopPolling,
+        'nxt/resume-polling':               nxtRoutes.resumePolling,
+        'nxt/set-mode':                     nxtRoutes.setMode,
         // EV3...
         'ev3/device-list':                  ev3Routes.deviceList,
         'ev3/connect':                      ev3Routes.connect,
@@ -102,12 +119,13 @@ const routes = {
         'spike/set-mode':                   spikeRoutes.setMode
     };
 
-for (let i in routes) {
-    switch (i.substr(0, 3)) {
-        case 'ide': routes[i] = routes[i].bind(ideRoutes);       break;
-        case 'ev3': routes[i] = routes[i].bind(ev3Routes);       break;
-        case 'pow': routes[i] = routes[i].bind(poweredUpRoutes); break;
-        case 'spi': routes[i] = routes[i].bind(spikeRoutes);     break;
+for (let route in routes) {
+    switch (route.substr(0, 3)) {
+        case 'ide': routes[route] = routes[route].bind(ideRoutes);       break;
+        case 'nxt': routes[route] = routes[route].bind(nxtRoutes);       break;
+        case 'ev3': routes[route] = routes[route].bind(ev3Routes);       break;
+        case 'pow': routes[route] = routes[route].bind(poweredUpRoutes); break;
+        case 'spi': routes[route] = routes[route].bind(spikeRoutes);     break;
     }
 }
 

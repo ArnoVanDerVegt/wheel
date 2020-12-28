@@ -4,23 +4,23 @@
 **/
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const SerialListItem = require('./components/SerialListItem').SerialListItem;
+const SerialListItem  = require('./components/SerialListItem').SerialListItem;
 const ListDialog      = require('./ListDialog').ListDialog;
 
-exports.SpikeConnectListDialog = class extends ListDialog {
+exports.NXTConnectListDialog = class extends ListDialog {
     constructor(opts) {
         opts.help       = 'Bluetooth';
-        opts.title      = 'Connect Spike';
+        opts.title      = 'Connect NXT';
         opts.applyTitle = 'Connect';
         opts.subClass   = true;
         opts.comment    = 'Don\'t forget to pair your device first!';
-        opts.showSignal = 'Dialog.ConnectSpike.Show';
+        opts.showSignal = 'Dialog.ConnectNXT.Show';
         opts.ListItem   = SerialListItem;
         super(opts);
     }
 
     getList() {
-        getDataProvider().getData('post', 'spike/device-list', {}, this.onDeviceList.bind(this));
+        getDataProvider().getData('post', 'nxt/device-list', {}, this.onDeviceList.bind(this));
     }
 
     onApply() {
@@ -31,7 +31,7 @@ exports.SpikeConnectListDialog = class extends ListDialog {
                 return;
             }
             this.hide();
-            dispatcher.dispatch('Spike.ConnectToDevice', item.title);
+            dispatcher.dispatch('NXT.ConnectToDevice', item.title);
         }
     }
 

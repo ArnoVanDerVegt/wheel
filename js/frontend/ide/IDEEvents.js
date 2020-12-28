@@ -13,7 +13,8 @@ const SourceFormatter          = require('./source/SourceFormatter').SourceForma
 const SettingsState            = require('./settings/SettingsState');
 const CompileAndRun            = require('./CompileAndRun').CompileAndRun;
 const FormDialog               = require('./dialogs/form/FormDialog').FormDialog;
-const connectionHelper         = require('./connectionHelper');
+const connectionHelper         = require('./helper/connectionHelper');
+const deviceCountHelper        = require('./helper/deviceCountHelper');
 
 exports.IDEEvents = class extends CompileAndRun {
     onEditorChanged(info) {
@@ -139,43 +140,29 @@ exports.IDEEvents = class extends CompileAndRun {
         dispatcher.dispatch('Dialog.Statistics.Show', {program: this._program});
     }
 
+    // NXT Menu...
+    onMenuNXTConnect() {
+        connectionHelper.connectNXT(this._settings, this._nxt);
+    }
+
+    onMenuNXTDisconnect() {
+        this._nxt.disconnect();
+    }
+
+    onMenuNXTDeviceCount() {
+        deviceCountHelper.selectNXTDeviceCount(this._settings, this._nxt);
+    }
+
+    onMenuNXTDirectControl() {
+    }
+
     // EV3 Menu...
     onMenuEV3Connect() {
         connectionHelper.connectEV3(this._settings, this._ev3);
     }
 
     onMenuEV3DaisyChain() {
-        const applyDeviceCount = (daisyChainMode) => {
-                dispatcher
-                    .dispatch('EV3.ActiveLayerCount', daisyChainMode)
-                    .dispatch('Settings.Set.DaisyChainMode', daisyChainMode);
-                this.onSelectDeviceEV3();
-            };
-        const selectDeviceCount = () => {
-                dispatcher.dispatch(
-                    'Dialog.DaisyChain.Show',
-                    {
-                        daisyChainMode: this._settings.getDaisyChainMode(),
-                        applyCallback:  applyDeviceCount
-                    }
-                );
-            };
-        const disconnectAndSelectDeviceCount = () => {
-                this._ev3.disconnect();
-                selectDeviceCount();
-            };
-        if (this._spike.getConnected()) {
-            dispatcher.dispatch(
-                'Dialog.Confirm.Show',
-                {
-                    title:         'EV3 is connected',
-                    lines:         ['To change the EV3 daisy chain mode you must disconnect first', 'Do you want to continue?'],
-                    applyCallback: disconnectAndSelectDeviceCount
-                }
-            );
-        } else {
-            selectDeviceCount();
-        }
+        deviceCountHelper.selectEV3DaisyChainMode(this._settings, this._ev3);
     }
 
     onMenuEV3DirectControl() {
@@ -206,39 +193,7 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onMenuPoweredUpDeviceCount() {
-        const applyDeviceCount = (deviceCount) => {
-                dispatcher
-                    .dispatch('PoweredUp.DeviceCount',             deviceCount)
-                    .dispatch('Settings.Set.PoweredUpDeviceCount', deviceCount);
-                this.onSelectDevicePoweredUp();
-            };
-        const selectDeviceCount = () => {
-                dispatcher.dispatch(
-                    'Dialog.DeviceCount.Show',
-                    {
-                        deviceCount: this._settings.getPoweredUpDeviceCount(),
-                        layerCount:  poweredUpModuleConstants.POWERED_UP_LAYER_COUNT,
-                        title:       'Number of Powered Up devices',
-                        onApply:     applyDeviceCount
-                    }
-                );
-            };
-        const disconnectAndSelectDeviceCount = () => {
-                this._poweredUp.disconnect();
-                selectDeviceCount();
-            };
-        if (this._poweredUp.getConnected()) {
-            dispatcher.dispatch(
-                'Dialog.Confirm.Show',
-                {
-                    title:         'Powered Up is connected',
-                    lines:         ['To change the Powered Up device count you must disconnect first', 'Do you want to continue?'],
-                    applyCallback: disconnectAndSelectDeviceCount
-                }
-            );
-        } else {
-            selectDeviceCount();
-        }
+        deviceCountHelper.selectPoweredUpDeviceCount(this._settings, this._poweredUp);
     }
 
     onMenuPoweredUpDirectControl() {
@@ -272,39 +227,7 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onMenuSpikeDeviceCount() {
-        const applyDeviceCount = (deviceCount) => {
-                dispatcher
-                    .dispatch('Spike.DeviceCount',             deviceCount)
-                    .dispatch('Settings.Set.SpikeDeviceCount', deviceCount);
-                this.onSelectDeviceSpike();
-            };
-        const selectDeviceCount = () => {
-                dispatcher.dispatch(
-                    'Dialog.DeviceCount.Show',
-                    {
-                        deviceCount: this._settings.getSpikeDeviceCount(),
-                        layerCount:  spikeModuleConstants.SPIKE_LAYER_COUNT,
-                        title:       'Number of Spike devices',
-                        onApply:     applyDeviceCount
-                    }
-                );
-            };
-        const disconnectAndSelectDeviceCount = () => {
-                this._spike.disconnect();
-                selectDeviceCount();
-            };
-        if (this._spike.getConnected()) {
-            dispatcher.dispatch(
-                'Dialog.Confirm.Show',
-                {
-                    title:         'Spike is connected',
-                    lines:         ['To change the Spike device count you must disconnect first', 'Do you want to continue?'],
-                    applyCallback: disconnectAndSelectDeviceCount
-                }
-            );
-        } else {
-            selectDeviceCount();
-        }
+        deviceCountHelper.selectSpikeDeviceCount(this._settings, this._spike);
     }
 
     onMenuSpikeDirectControl() {

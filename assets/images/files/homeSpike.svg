@@ -1,38 +1,37 @@
 <svg version="1.1" baseProfile="full" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
-    <rect rx="1" ry="1" x="6" y="0.5" width="36" height="47" style="fill:rgb(255,255,255);stroke:black;stroke-width:0.5;"/>
+    <rect rx="2" ry="2" x="6" y="0.5" width="36" height="47" style="fill:rgb(255,255,255);stroke:black;stroke-width:0.5;"/>
 
-    <rect rx="1" ry="1" x="12" y="12" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="17" y="12" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="22" y="12" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="27" y="12" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="32" y="12" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
+    <rect rx="1" ry="1" x="12" y="12" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
+    <rect rx="1" ry="1" x="17" y="12" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="22" y="12" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
+    <rect rx="1" ry="1" x="27" y="12" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="32" y="12" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
 
-    <rect rx="1" ry="1" x="12" y="17" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="17" y="17" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="22" y="17" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="27" y="17" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="32" y="17" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
+    <rect rx="1" ry="1" x="12" y="17" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="17" y="17" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="22" y="17" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="27" y="17" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="32" y="17" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
 
-    <rect rx="1" ry="1" x="12" y="22" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="17" y="22" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="22" y="22" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="27" y="22" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="32" y="22" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
+    <rect rx="1" ry="1" x="12" y="22" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="17" y="22" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="22" y="22" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="27" y="22" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="32" y="22" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
 
-    <rect rx="1" ry="1" x="12" y="27" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="17" y="27" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="22" y="27" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="27" y="27" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="32" y="27" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
+    <rect rx="1" ry="1" x="12" y="27" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
+    <rect rx="1" ry="1" x="17" y="27" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="22" y="27" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="27" y="27" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="32" y="27" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
 
-    <rect rx="1" ry="1" x="12" y="32" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="17" y="32" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="22" y="32" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
-    <rect rx="1" ry="1" x="27" y="32" width="4" height="4" style="fill:rgba(0,0,0,0.1);"/>
-    <rect rx="1" ry="1" x="32" y="32" width="4" height="4" style="fill:rgb(0,0,0,0.015);"/>
+    <rect rx="1" ry="1" x="12" y="32" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
+    <rect rx="1" ry="1" x="17" y="32" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
+    <rect rx="1" ry="1" x="22" y="32" width="4" height="4" style="fill:rgba(0,0,0,0.4);"/>
+    <rect rx="1" ry="1" x="27" y="32" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
+    <rect rx="1" ry="1" x="32" y="32" width="4" height="4" style="fill:rgba(0,0,0,0.2);"/>
 
-    <circle cx="33.5" cy="6" r="2.5" style="fill:transparent;stroke:rgba(0,0,0,0.2);stroke-width:0.5;"/>
-
-    <rect rx="2" ry="2" x="14" y="40" width="20" height="4" style="fill:transparent;stroke:rgba(0,0,0,0.2);stroke-width:0.5;"/>
-    <circle cx="24" cy="42" r="3.5" style="fill:rgb(255,255,255);stroke:rgba(0,0,0,0.2);stroke-width:0.5;"/>
+    <circle cx="33.5" cy="6" r="2.5" style="fill:transparent;stroke:rgba(0,0,0,0.5);stroke-width:0.5;"/>
+    <rect rx="2" ry="2" x="14" y="40" width="20" height="4" style="fill:transparent;stroke:rgba(0,0,0,0.5);stroke-width:0.5;"/>
+    <circle cx="24" cy="42" r="3.5" style="fill:rgb(255,255,255);stroke:rgba(0,0,0,0.5);stroke-width:0.5;"/>
 </svg>

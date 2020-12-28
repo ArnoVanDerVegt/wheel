@@ -16,9 +16,11 @@ exports.CompileAndRun = class extends DOMUtils {
     constructor(opts) {
         super();
         let settings  = opts.settings;
+        let nxt       = opts.nxt;
         let ev3       = opts.ev3;
         let poweredUp = opts.poweredUp;
         let spike     = opts.spike;
+        this._nxt                     = nxt;
         this._ev3                     = ev3;
         this._poweredUp               = poweredUp;
         this._spike                   = spike;
@@ -56,9 +58,10 @@ exports.CompileAndRun = class extends DOMUtils {
             .on('VM.Error.Range',          this, this.onRangeCheckError)
             .on('VM.Error.DivisionByZero', this, this.onDivisionByZero)
             .on('VM.Error.HeapOverflow',   this, this.onHeapOverflow)
-            .on('Button.Device.EV3',       this, this.onSelectDeviceEV3)
-            .on('Button.Device.PoweredUp', this, this.onSelectDevicePoweredUp)
-            .on('Button.Device.Spike',     this, this.onSelectDeviceSpike);
+            .on('Button.Device.NXT',       this, this.onSelectActiveDevice.bind(this, 0))
+            .on('Button.Device.EV3',       this, this.onSelectActiveDevice.bind(this, 1))
+            .on('Button.Device.PoweredUp', this, this.onSelectActiveDevice.bind(this, 2))
+            .on('Button.Device.Spike',     this, this.onSelectActiveDevice.bind(this, 3));
     }
 
     onDeviceConnected() {
@@ -112,25 +115,16 @@ exports.CompileAndRun = class extends DOMUtils {
         this._simulatorModules.setImage(image);
     }
 
-    onSelectDeviceEV3() {
-        dispatcher.dispatch('Settings.Set.ActiveDevice',      0);
-        dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green active'});
-        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green in-active'});
-        dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green in-active'});
-    }
-
-    onSelectDevicePoweredUp() {
-        dispatcher.dispatch('Settings.Set.ActiveDevice',      1);
-        dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green in-active'});
-        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green active'});
-        dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green in-active'});
-    }
-
-    onSelectDeviceSpike() {
-        dispatcher.dispatch('Settings.Set.ActiveDevice',      2);
-        dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green in-active'});
-        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green in-active'});
-        dispatcher.dispatch('Button.Device.Spike.Change',     {className: 'green active'});
+    onSelectActiveDevice(activeDevice) {
+        [
+            'Button.Device.NXT.Change',
+            'Button.Device.EV3.Change',
+            'Button.Device.PoweredUp.Change',
+            'Button.Device.Spike.Change'
+        ].forEach((signal, index) => {
+            dispatcher.dispatch(signal, {className: (activeDevice === index) ? 'green active' : 'green in-active'});
+        });
+        dispatcher.dispatch('Settings.Set.ActiveDevice', activeDevice);
     }
 
     getVM() {

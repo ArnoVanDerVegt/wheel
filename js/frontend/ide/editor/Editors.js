@@ -115,6 +115,7 @@ exports.Editors = class extends DOMNode {
                                         ref:       this.setRef('homeScreen'),
                                         ui:        this._ui,
                                         settings:  this._settings,
+                                        nxt:       this._nxt,
                                         ev3:       this._ev3,
                                         poweredUp: this._poweredUp,
                                         spike:     this._spike

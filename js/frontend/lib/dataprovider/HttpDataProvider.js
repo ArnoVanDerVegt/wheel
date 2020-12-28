@@ -9,6 +9,7 @@ const path      = require('../path');
 
 const ideRoutes = new IDERoutes({});
 
+let nxtRoutes       = {};
 let ev3Routes       = {};
 let poweredUpRoutes = {};
 let spikeRoutes     = {};
@@ -17,23 +18,29 @@ let pathByIndex     = {};
 // Check if it's the web version...
 if ((typeof document === 'object') &&
     ((document.location.href.indexOf('electron.html') === -1) && (document.location.href.indexOf('vm.html') === -1))) {
-    const WebSerial = require('../WebSerial').WebSerial;
-    const EV3       = require('../../../shared/device/ev3/EV3').EV3;
-    const EV3Routes = require('../../../browser/routes/device/EV3Routes').EV3Routes;
+    const WebSerial       = require('../WebSerial').WebSerial;
+    const NXT             = require('../../../shared/device/nxt/NXT').NXT;
+    const EV3             = require('../../../shared/device/ev3/EV3').EV3;
+    const PoweredUp       = require('../../../shared/device/poweredup/PoweredUp').PoweredUp;
+    const Spike           = require('../../../shared/device/spike/Spike').Spike;
+    const NXTRoutes       = require('../../../browser/routes/device/NXTRoutes').NXTRoutes;
+    const EV3Routes       = require('../../../browser/routes/device/EV3Routes').EV3Routes;
+    const PoweredUpRoutes = require('../../../browser/routes/device/PoweredUpRoutes').PoweredUpRoutes;
+    const SpikeRoutes     = require('../../../browser/routes/device/SpikeRoutes').SpikeRoutes;
+    nxtRoutes = new NXTRoutes({
+        nxt:                   new NXT({serialPortConstructor: WebSerial}),
+        serialPortConstructor: WebSerial
+    });
     ev3Routes = new EV3Routes({
         ev3:                   new EV3({serialPortConstructor: WebSerial}),
         serialPortConstructor: WebSerial
     });
-    const PoweredUp       = require('../../../shared/device/poweredup/PoweredUp').PoweredUp;
-    const PoweredUpRoutes = require('../../../browser/routes/device/PoweredUpRoutes').PoweredUpRoutes;
     poweredUpRoutes = new PoweredUpRoutes({
         poweredUp: new PoweredUp({
             poweredUpConstructor: window.PoweredUP.PoweredUP,
             poweredUpConstants:   window.PoweredUP.Consts
         })
     });
-    const Spike       = require('../../../shared/device/spike/Spike').Spike;
-    const SpikeRoutes = require('../../../browser/routes/device/SpikeRoutes').SpikeRoutes;
     spikeRoutes = new SpikeRoutes({
         spike:                 new Spike({serialPortConstructor: WebSerial}),
         serialPortConstructor: WebSerial
@@ -62,6 +69,17 @@ let routes = {
         'ide/path-exists':                  ideRoutes.pathExists,
         'ide/directory-create':             ideRoutes.directoryCreate,
         'ide/directory-delete':             ideRoutes.directoryDelete,
+        // NXT...
+        'nxt/device-list':                  nxtRoutes.deviceList,
+        'nxt/connect':                      nxtRoutes.connect,
+        'nxt/disconnect':                   nxtRoutes.disconnect,
+        'nxt/connecting':                   nxtRoutes.connecting,
+        'nxt/connected':                    nxtRoutes.connected,
+        'nxt/update':                       nxtRoutes.update,
+        'nxt/stop-all-motors':              nxtRoutes.stopAllMotors,
+        'nxt/stop-polling':                 nxtRoutes.stopPolling,
+        'nxt/resume-polling':               nxtRoutes.resumePolling,
+        'nxt/set-mode':                     nxtRoutes.setMode,
         // EV3...
         'ev3/device-list':                  ev3Routes.deviceList,
         'ev3/connect':                      ev3Routes.connect,
@@ -107,30 +125,35 @@ let routes = {
 
 for (let route in routes) {
     if (typeof routes[route] === 'function') {
-        switch (route.substr(0, 4)) {
-            case 'ide/': routes[route] = routes[route].bind(ideRoutes);       break;
-            case 'ev3/': routes[route] = routes[route].bind(ev3Routes);       break;
-            case 'powe': routes[route] = routes[route].bind(poweredUpRoutes); break;
-            case 'spik': routes[route] = routes[route].bind(spikeRoutes);     break;
+        switch (route.substr(0, 3)) {
+            case 'ide': routes[route] = routes[route].bind(ideRoutes);       break;
+            case 'nxt': routes[route] = routes[route].bind(nxtRoutes);       break;
+            case 'ev3': routes[route] = routes[route].bind(ev3Routes);       break;
+            case 'pow': routes[route] = routes[route].bind(poweredUpRoutes); break;
+            case 'spi': routes[route] = routes[route].bind(spikeRoutes);     break;
         }
     }
 }
 
+const useWebNXT = function(uri) {
+        return (uri.indexOf('nxt/') === 0) && (uri in routes) && platform.forceWebVersion();
+    };
+
 const useWebEV3 = function(uri) {
-        return (uri.indexOf('ev3') !== -1) && (uri in routes) && platform.forceWebVersion();
+        return (uri.indexOf('ev3/') === 0) && (uri in routes) && platform.forceWebVersion();
     };
 
 const useWebPoweredUp = function(uri) {
-        return (uri.indexOf('powered-up') !== -1) && (uri in routes) && platform.forceWebVersion();
+        return (uri.indexOf('powered-up/') === 0) && (uri in routes) && platform.forceWebVersion();
     };
 
 const useWebSpike = function(uri) {
-        return (uri.indexOf('spike') !== -1) && (uri in routes) && platform.forceWebVersion();
+        return (uri.indexOf('spike/') === 0) && (uri in routes) && platform.forceWebVersion();
     };
 
 exports.HttpDataProvider = class {
     getData(method, uri, params, callback) {
-        if (useWebEV3(uri) || useWebPoweredUp(uri) || useWebSpike(uri)) {
+        if (useWebNXT(uri) || useWebEV3(uri) || useWebPoweredUp(uri) || useWebSpike(uri)) {
             let req = {};
             let res = {
                     send: function(data) {

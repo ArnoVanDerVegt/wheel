@@ -40,7 +40,6 @@ exports.Properties = class extends DOMNode {
                     {
                         type:      PropertiesToolbar,
                         ui:        this._ui,
-                        ev3:       this._ev3,
                         settings:  this._settings,
                         simulator: this
                     },

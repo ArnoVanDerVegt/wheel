@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const nxtModuleConstants       = require('../../../shared/vm/modules/nxtModuleConstants');
 const poweredUpModuleConstants = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const spikeModuleConstants     = require('../../../shared/vm/modules/spikeModuleConstants');
 const platform                 = require('../../../shared/lib/platform');
@@ -16,6 +17,7 @@ exports.MainMenu = class extends MainMenu {
     constructor(opts) {
         super(opts);
         this._ui        = opts.ui;
+        this._nxt       = opts.nxt;
         this._ev3       = opts.ev3;
         this._poweredUp = opts.poweredUp;
         this._spike     = opts.spike;
@@ -27,12 +29,19 @@ exports.MainMenu = class extends MainMenu {
             .initStorage();
         this._settings
             .addEventListener('Settings.View',        this, this.onUpdateViewMenu)
+            .addEventListener('Settings.NXT',         this, this.onUpdateNXTMenu)
             .addEventListener('Settings.EV3',         this, this.onUpdateEV3Menu)
             .addEventListener('Settings.PoweredUp',   this, this.onUpdatePoweredUpMenu)
             .addEventListener('Settings.Compile',     this, this.onUpdateCompileMenu)
             .addEventListener('Settings.Run',         this, this.onUpdateRunMenu)
             .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu)
             .addEventListener('Settings.Simulator',   this, this.onUpdateSimulatorMenu);
+        this._nxt
+            .addEventListener('NXT.Connecting',       this, this.onNXTConnecting)
+            .addEventListener('NXT.StopConnecting',   this, this.onUpdateNXTMenu)
+            .addEventListener('NXT.Connected',        this, this.onUpdateNXTMenu)
+            .addEventListener('NXT.Disconnect',       this, this.onUpdateNXTMenu)
+            .addEventListener('NXT.Disconnected',     this, this.onUpdateNXTMenu);
         this._ev3
             .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
             .addEventListener('EV3.StopConnecting',   this, this.onUpdateEV3Menu)
@@ -170,6 +179,7 @@ exports.MainMenu = class extends MainMenu {
             .initFileMenu()
             .initEditMenu()
             .initFindMenu()
+            .initNXTMenu()
             .initEV3Menu()
             .initPoweredUpMenu()
             .initSpikeMenu()
@@ -184,6 +194,7 @@ exports.MainMenu = class extends MainMenu {
             .onUpdateCompileMenu()
             .onUpdateRunMenu()
             .onVM()
+            .onUpdateNXTMenu()
             .onUpdateEV3Menu()
             .onUpdatePoweredUpMenu()
             .onUpdateSpikeMenu()
@@ -264,6 +275,27 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[3].setEnabled(false); // Replace
         menuOptions[4].setEnabled(false); // Replace next
         menuOptions[5].setEnabled(false); // Replace all
+        return this;
+    }
+
+    initNXTMenu() {
+        let remarkConnect     = 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + this._settings.getNXTDeviceCount() + '/' + nxtModuleConstants.LAYER_COUNT + ')';
+        this._nxtMenu = this.addMenu({
+            title:     '^NXT',
+            width:     '272px',
+            className: 'nxt-menu',
+            withCheck: true,
+            items: [
+                {title: 'Connect',                      remark: remarkConnect,     dispatch: 'Menu.NXT.Connect'},
+                {title: 'Disconnect',                                              dispatch: 'Menu.NXT.Disconnect'},
+                {title: '-'},
+                {title: 'Device count',                 remark: remarkDeviceCount, dispatch: 'Menu.NXT.DeviceCount'},
+                {title: '-'},
+                {title: 'Direct control',                                          dispatch: 'Menu.NXT.DirectControl'},
+                {title: 'Stop all motors',                                         dispatch: 'Menu.NXT.StopAllMotors'}
+            ]
+        });
         return this;
     }
 
@@ -483,6 +515,20 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[1].setEnabled(info.canCopy);                            // Copy
         menuOptions[2].setEnabled(info.canPaste);                           // Paste
         menuOptions[5].setEnabled(info.canFormat);                          // Format code
+        return this;
+    }
+
+    onUpdateNXTMenu() {
+        let connectionCount = this._nxt.getConnectionCount();
+        let menuOptions     = this._nxtMenu.getMenu().getMenuOptions();
+        let settings        = this._settings;
+        let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + settings.getSpikeDeviceCount() + '/' + nxtModuleConstants.LAYER_COUNT + ')';
+        menuOptions[0].setRemark(remarkConnect).setChecked(connectionCount);
+        menuOptions[1].setEnabled(connectionCount);                          // Disconnect
+        menuOptions[2].setRemark(remarkDeviceCount);                         // Device count
+        menuOptions[3].setEnabled(connectionCount);                          // NXT Direct control
+        menuOptions[4].setEnabled(connectionCount);                          // Stop all motors
         return this;
     }
 

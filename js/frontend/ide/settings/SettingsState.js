@@ -4,6 +4,7 @@
 **/
 const poweredUpModuleConstants        = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const spikeModuleConstants            = require('../../../shared/vm/modules/spikeModuleConstants');
+const nxtModuleConstants              = require('../../../shared/vm/modules/nxtModuleConstants');
 const platform                        = require('../../../shared/lib/platform');
 const path                            = require('../../lib/path');
 const dispatcher                      = require('../../lib/dispatcher').dispatcher;
@@ -88,7 +89,8 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.DocumentPath',                this, this._setDocumentPath)
             .on('Settings.Set.DaisyChainMode',              this, this._setDaisyChainMode)
             .on('Settings.Set.DeviceName',                  this, this._setDeviceName)
-            .on('Settings.Set.PoweredUpDeviceCount',        this, this._setPoweedUpDeviceCount)
+            .on('Settings.Set.NXTDeviceCount',              this, this._setNXTDeviceCount)
+            .on('Settings.Set.PoweredUpDeviceCount',        this, this._setPoweredUpDeviceCount)
             .on('Settings.Set.PoweredUpAutoConnect',        this, this._setPoweredUpAutoConnect)
             .on('Settings.Set.SpikeDeviceCount',            this, this._setSpikeDeviceCount)
             .on('Settings.Set.WindowSize',                  this, this._setWindowSize)
@@ -214,6 +216,9 @@ exports.SettingsState = class extends Emitter {
                 themeTile:         this._dontShow.themeTile,
                 openForm:          this._dontShow.openForm,
                 connected:         this._dontShow.connected
+            },
+            nxt: {
+                deviceCount:       this._nxt.deviceCount
             },
             ev3: {
                 autoConnect:       this._ev3.autoConnect,
@@ -358,6 +363,10 @@ exports.SettingsState = class extends Emitter {
 
     getDeviceName() {
         return this._ev3.deviceName;
+    }
+
+    getNXTDeviceCount() {
+        return this._nxt.deviceCount || 1;
     }
 
     getPoweredUpDeviceCount() {
@@ -549,7 +558,13 @@ exports.SettingsState = class extends Emitter {
         this._save();
     }
 
-    _setPoweedUpDeviceCount(deviceCount) {
+    _setNXTDeviceCount(deviceCount) {
+        this._nxt.deviceCount = this.getValidatedDeviceCount(deviceCount || 1, nxtModuleConstants.NXT_LAYER_COUNT);
+        this._save();
+        this.emit('Settings.NXT');
+    }
+
+    _setPoweredUpDeviceCount(deviceCount) {
         this._poweredUp.deviceCount = this.getValidatedDeviceCount(deviceCount || 1, poweredUpModuleConstants.POWERED_UP_LAYER_COUNT);
         this._save();
         this.emit('Settings.PoweredUp');
@@ -870,8 +885,9 @@ exports.SettingsState = class extends Emitter {
         if ('os' in data) {
             this._os = data.os;
         }
-        let maxPU = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
-        let maxS  = spikeModuleConstants.SPIKE_LAYER_COUNT;
+        let maxNXT = nxtModuleConstants.NXT_LAYER_COUNT;
+        let maxPU  = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
+        let maxS   = spikeModuleConstants.SPIKE_LAYER_COUNT;
         this._version                    = data.version;
         this._documentPathExists         = data.documentPathExists;
         this._documentPath               = data.documentPath;
@@ -904,6 +920,8 @@ exports.SettingsState = class extends Emitter {
         this._windowPosition.y           = ('y'                     in data)             ? data.windowPosition.y                                            : 0;
         this._darkMode                   = ('darkMode'              in data)             ? data.darkMode                                                    : false;
         this._activeDevice               = ('activeDevice'          in data)             ? data.activeDevice                                                : 1;
+        this._nxt                        = ('nxt'                   in data)             ? data.nxt                                                         : {};
+        this._nxt.deviceCount            = ('deviceCount'           in this._nxt)        ? this.getValidatedDeviceCount(this._nxt.deviceCount, maxNXT)      : 1;
         this._ev3                        = ('ev3'                   in data)             ? data.ev3                                                         : {};
         this._ev3.autoConnect            = ('autoConnect'           in this._ev3)        ? this._ev3.autoConnect                                            : false;
         this._ev3.autoInstall            = ('autoInstall'           in this._ev3)        ? this._ev3.autoInstall                                            : false;

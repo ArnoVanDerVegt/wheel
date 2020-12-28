@@ -23,6 +23,7 @@ const IconDialog                     = require('./dialogs/image/IconDialog').Ico
 const FormNewDialog                  = require('./dialogs/form/FormNewDialog').FormNewDialog;
 const FormSizeDialog                 = require('./dialogs/form/FormSizeDialog').FormSizeDialog;
 const ListDialog                     = require('./dialogs/list/ListDialog').ListDialog;
+const NXTConnectListDialog           = require('./dialogs/list/NXTConnectListDialog').NXTConnectListDialog;
 const EV3ConnectListDialog           = require('./dialogs/list/EV3ConnectListDialog').EV3ConnectListDialog;
 const PoweredUpConnectListDialog     = require('./dialogs/list/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
 const PoweredUpAutoConnectListDialog = require('./dialogs/list/PoweredUpAutoConnectListDialog').PoweredUpAutoConnectListDialog;
@@ -53,44 +54,57 @@ exports.IDEDialogs = class extends IDEEvents {
         if (!platform.isElectron()) {
             new FileOpenDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
         }
+        // Alert/confirm...
+        new ConfirmDialog                 ({getImage: getImage, ui: this._ui});
+        new AlertDialog                   ({getImage: getImage, ui: this._ui});
+        // File...
         new FileNewDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings});
         new FileRenameDialog              ({getImage: getImage, ui: this._ui});
         new FilePoweredUpProjectDialog    ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
-        new ConfirmDialog                 ({getImage: getImage, ui: this._ui});
-        new AlertDialog                   ({getImage: getImage, ui: this._ui});
+        // Connect...
+        new NXTConnectListDialog          ({getImage: getImage, ui: this._ui});
         new EV3ConnectListDialog          ({getImage: getImage, ui: this._ui});
-        new EV3ControlDialog              ({getImage: getImage, ui: this._ui, device: this._ev3});
+        new SpikeConnectListDialog        ({getImage: getImage, ui: this._ui, settings: this._settings});
         new PoweredUpConnectListDialog    ({getImage: getImage, ui: this._ui, settings: this._settings});
         new PoweredUpAutoConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
+        // Control...
         new PoweredUpControlDialog        ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
+        new EV3ControlDialog              ({getImage: getImage, ui: this._ui, device: this._ev3});
         new SpikeControlDialog            ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._spike});
-        new SpikeConnectListDialog        ({getImage: getImage, ui: this._ui, settings: this._settings});
         new SettingsDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
         new YesNoCancelDialog             ({getImage: getImage, ui: this._ui});
+        // Image...
         new ImageNewDialog                ({getImage: getImage, ui: this._ui});
         new ImageResizeDialog             ({getImage: getImage, ui: this._ui});
         new ImageLoadDialog               ({getImage: getImage, ui: this._ui});
         new IconDialog                    ({getImage: getImage, ui: this._ui});
+        // Form...
         new FormNewDialog                 ({getImage: getImage, ui: this._ui});
         new FormSizeDialog                ({getImage: getImage, ui: this._ui});
+        // Misc...
         new ListDialog                    ({getImage: getImage, ui: this._ui, showSignal: 'Dialog.List.Show'});
         new StatisticsDialog              ({getImage: getImage, ui: this._ui});
         new VolumeDialog                  ({getImage: getImage, ui: this._ui});
-        new DaisyChainDialog              ({getImage: getImage, ui: this._ui});
         new LicenseDialog                 ({getImage: getImage, ui: this._ui});
         new DirectoryNewDialog            ({getImage: getImage, ui: this._ui});
         new ReplaceDialog                 ({getImage: getImage, ui: this._ui});
         new FindInFilesDialog             ({getImage: getImage, ui: this._ui});
         new GraphDialog                   ({getImage: getImage, ui: this._ui});
         new FormGridSizeDialog            ({getImage: getImage, ui: this._ui});
+        // Device...
         new DeviceAliasDialog             ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DevicePortAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
+        // Device count...
         new DeviceCountDialog             ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new DaisyChainDialog              ({getImage: getImage, ui: this._ui});
+        // Misc...
         new HelpDialog                    ({getImage: getImage, ui: this._ui, settings: this._settings});
         new OpenFormDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
+        // EV3...
         new ConnectedDialog               ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new ExploreDialog                 ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
-        new DownloadDialog                ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
+        new ExploreDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings, ev3: this._ev3});
+        new DownloadDialog                ({getImage: getImage, ui: this._ui, settings: this._settings, ev3: this._ev3});
+        // Tools...
         new GearRatioCalculatorDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
         new InverseKinematicsDialog       ({getImage: getImage, ui: this._ui, settings: this._settings});
         new WheelToSVGDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, ide: this});

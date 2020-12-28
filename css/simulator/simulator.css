@@ -96,6 +96,11 @@ body.ide.no-simulator div.simulator {
     border-width:                   0 0 1px 0;
     background-color:               var(--ui-background2);
 }
+.simulator .simulator-options .tool-options .button {
+    font-size:                      10px;
+    line-height:                    24px;
+    padding:                        0 6px 0 6px;
+}
 .simulator .simulator-options .close-button {
     float:                          right;
     margin:                         8px 8px 0 0;

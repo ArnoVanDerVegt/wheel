@@ -19,6 +19,7 @@ require('../shared/vm/modules/multiplexerModuleConstants');
 require('../shared/vm/modules/pspModuleConstants');
 require('../shared/vm/modules/poweredUpModuleConstants');
 require('../shared/vm/modules/spikeModuleConstants');
+require('../shared/vm/modules/nxtModuleConstants');
 require('../shared/vm/modules/components/componentFormModuleConstants');
 require('../shared/vm/modules/components/componentButtonModuleConstants');
 require('../shared/vm/modules/components/componentCheckboxModuleConstants');
@@ -49,6 +50,10 @@ require('../shared/devicemodule/MotorModule');
 require('../shared/devicemodule/SensorModule');
 require('../shared/devicemodule/SoundModule');
 require('../shared/devicemodule/SpikeModule');
+require('../shared/device/nxt/constants');
+require('../shared/device/nxt/Message');
+require('../shared/device/nxt/CommandQueue');
+require('../shared/device/nxt/NXT');
 require('../shared/device/ev3/messageEncoder');
 require('../shared/device/ev3/CommandQueue');
 require('../shared/device/ev3/EV3');
@@ -56,6 +61,7 @@ require('../shared/device/ev3/constants');
 require('../shared/device/poweredup/PoweredUp');
 require('../shared/device/spike/Spike');
 require('../backend/routes/settings');
+require('../backend/routes/device/NXTRoutes');
 require('../backend/routes/device/EV3Routes');
 require('../backend/routes/device/PoweredUpRoutes');
 require('../backend/routes/device/SpikeRoutes');
@@ -323,9 +329,11 @@ require('../frontend/ide/dialogs/ConfirmDialog');
 require('../frontend/ide/dialogs/ExploreDialog');
 require('../frontend/ide/dialogs/list/components/PoweredUpListItem');
 require('../frontend/ide/dialogs/list/components/PoweredUpAutoConnectListItem');
-require('../frontend/ide/dialogs/list/components/SpikeListItem');
+require('../frontend/ide/dialogs/list/components/SerialListItem');
 require('../frontend/ide/dialogs/list/ListDialog');
+require('../frontend/ide/dialogs/list/NXTConnectListDialog');
 require('../frontend/ide/dialogs/list/EV3ConnectListDialog');
+require('../frontend/ide/dialogs/list/SpikeConnectListDialog');
 require('../frontend/ide/dialogs/list/PoweredUpConnectListDialog');
 require('../frontend/ide/dialogs/list/PoweredUpAutoConnectListDialog');
 require('../frontend/ide/dialogs/statistics/StatisticsDialog');
@@ -391,7 +399,8 @@ require('../frontend/ide/dialogs/tools/components/GearResult');
 require('../frontend/ide/dialogs/tools/GearRatioCalculatorDialog');
 require('../frontend/ide/dialogs/tools/InverseKinematicsDialog');
 require('../frontend/ide/dialogs/tools/WheelToSVGDialog');
-require('../frontend/ide/connectionHelper');
+require('../frontend/ide/helper/connectionHelper');
+require('../frontend/ide/helper/deviceCountHelper');
 require('../frontend/ide/menu/HelpOption');
 require('../frontend/ide/menu/MainMenu');
 require('../frontend/ide/editor/editors/Clipboard');
@@ -559,6 +568,7 @@ const Setup          = require('../frontend/ide/Setup').Setup;
 const IDE            = require('../frontend/ide/IDE').IDE;
 const SettingsState  = require('../frontend/ide/settings/SettingsState').SettingsState;
 const UIState        = require('../frontend/lib/UIState').UIState;
+const NXTState       = require('../frontend/vm/nxt/NXTState').NXTState;
 const EV3State       = require('../frontend/vm/ev3/EV3State').EV3State;
 const PoweredUpState = require('../frontend/vm/poweredup/PoweredUpState').PoweredUpState;
 const SpikeState     = require('../frontend/vm/spike/SpikeState').SpikeState;
@@ -576,6 +586,7 @@ const SpikeState     = require('../frontend/vm/spike/SpikeState').SpikeState;
             ide = new IDE({
                 ui:        ui,
                 settings:  settings,
+                nxt:       new NXTState      ({activeLayerCount: settings.getNXTDeviceCount()}),
                 ev3:       new EV3State      ({activeLayerCount: settings.getDaisyChainMode()}),
                 poweredUp: new PoweredUpState({actvieLayerCount: settings.getPoweredUpDeviceCount()}),
                 spike:     new SpikeState    ({activeLayerCount: settings.getSpikeDeviceCount()})

@@ -61,6 +61,7 @@ exports.Simulator = class extends DOMNode {
                         type:      type,
                         plugin:    plugin,
                         ui:        this._ui,
+                        nxt:       this._nxt,
                         ev3:       this._ev3,
                         poweredUp: this._poweredUp,
                         spike:     this._spike,
@@ -84,7 +85,6 @@ exports.Simulator = class extends DOMNode {
                     {
                         type:      SimulatorToolbar,
                         ui:        this._ui,
-                        ev3:       this._ev3,
                         settings:  this._settings,
                         simulator: this
                     },
