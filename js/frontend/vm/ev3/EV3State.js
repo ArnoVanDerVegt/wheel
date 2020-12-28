@@ -116,6 +116,11 @@ exports.EV3State = class extends BasicDeviceState {
                                 this.updateLayerState(json);
                                 this.emit('EV3.Connected');
                                 this.update();
+                            } else if (!json.connecting) {
+                                this._connecting = false;
+                                this._connected  = false;
+                                this.emit('EV3.StopConnecting');
+                                return;
                             } else if (!this._noTimeout) {
                                 setTimeout(callback, 100);
                             }

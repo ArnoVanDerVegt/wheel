@@ -35,6 +35,7 @@ exports.MainMenu = class extends MainMenu {
             .addEventListener('Settings.Simulator',   this, this.onUpdateSimulatorMenu);
         this._ev3
             .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
+            .addEventListener('EV3.StopConnecting',   this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Connected',        this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Disconnect',       this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Disconnected',     this, this.onUpdateEV3Menu);
@@ -290,9 +291,7 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled(platform.isElectron()); // Connect
         menuOptions[1].setEnabled(false);                 // Disconnect
-        menuOptions[2].setEnabled(platform.isElectron()); // Autoconnect
         menuOptions[7].setEnabled(false);                 // Install compiled files
         return this;
     }

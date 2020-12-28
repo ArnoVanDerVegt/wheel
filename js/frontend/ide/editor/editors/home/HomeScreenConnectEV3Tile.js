@@ -9,9 +9,10 @@ exports.HomeScreenConnectEV3Tile = class extends HomeScreenTile {
         super(opts);
         this._ev3 = opts.ev3;
         opts.ev3
-            .on('EV3.Connecting',   this, this.onEV3Connecting)
-            .on('EV3.Connected',    this, this.onEV3Connected)
-            .on('EV3.Disconnected', this, this.onEV3Disconnected);
+            .on('EV3.Connecting',     this, this.onEV3Connecting)
+            .on('EV3.StopConnecting', this, this.onEV3StopConnecting)
+            .on('EV3.Connected',      this, this.onEV3Connected)
+            .on('EV3.Disconnected',   this, this.onEV3Disconnected);
     }
 
     onEV3Connecting() {
@@ -19,6 +20,13 @@ exports.HomeScreenConnectEV3Tile = class extends HomeScreenTile {
         refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
         refs.subTitle.innerHTML           = 'Connecting...';
         refs.title.innerHTML              = 'EV3';
+    }
+
+    onEV3StopConnecting() {
+        let refs = this._refs;
+        refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text';
+        refs.title.innerHTML              = 'Connect EV3 &raquo;';
+        refs.subTitle.innerHTML           = '';
     }
 
     onEV3Connected() {

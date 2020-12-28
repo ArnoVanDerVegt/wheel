@@ -7,6 +7,7 @@ const spikeModuleConstants     = require('../../shared/vm/modules/spikeModuleCon
 const platform                 = require('../../shared/lib/platform');
 const dispatcher               = require('../lib/dispatcher').dispatcher;
 
+let ev3ConnectionId   = 0;
 let spikeConnectionId = 0;
 
 exports.connectPoweredUp = (settings, poweredUp) => {
@@ -30,6 +31,29 @@ exports.connectPoweredUp = (settings, poweredUp) => {
         dispatcher
             .dispatch('Dialog.ConnectPoweredUp.Show')
             .dispatch('Button.Device.PoweredUp');
+    }
+};
+
+exports.connectEV3 = (settings, ev3) => {
+    if (ev3.getConnected()) {
+        dispatcher.dispatch(
+            'Dialog.Alert.Show',
+            {
+                title: 'Connected',
+                lines: [
+                    this._ev3.getDeviceName(),
+                    'Is connected.'
+                ]
+            }
+        );
+    } else {
+        if (platform.isWeb()) {
+            ev3ConnectionId++;
+            dispatcher.dispatch('EV3.ConnectToDevice', 'EV3 connection (' + ev3ConnectionId + ')');
+        } else {
+            dispatcher.dispatch('Dialog.ConnectEV3.Show');
+        }
+        dispatcher.dispatch('Button.Device.EV3');
     }
 };
 

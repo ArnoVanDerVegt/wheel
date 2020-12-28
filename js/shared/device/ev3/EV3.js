@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform              = require('../../lib/platform');
 const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
 const BasicDevice           = require('../BasicDevice').BasicDevice;
 const CommandQueue          = require('./CommandQueue').CommandQueue;
@@ -28,7 +29,13 @@ exports.EV3 = class extends BasicDevice {
         if (this._port) {
             return this._port;
         }
-        this._port = new this._serialPortConstructor.getPort(
+        let serialPort;
+        if (platform.isWeb()) {
+            serialPort = new this._serialPortConstructor(this.onOpenError.bind(this));
+        } else {
+            serialPort = new this._serialPortConstructor();
+        }
+        this._port = serialPort.getPort(
             this._deviceName,
             {
                 baudRate:    57600,
@@ -40,6 +47,10 @@ exports.EV3 = class extends BasicDevice {
             }
         );
         return this._port;
+    }
+
+    getConnecting() {
+        return this._connecting;
     }
 
     getConnected() {
@@ -159,11 +170,17 @@ exports.EV3 = class extends BasicDevice {
         setTimeout(this._startConnectionPolling, this._stopPolling ? 1000 : 1);
     }
 
-    onPortOpen(err) {
-        if (err) {
+    onOpenError(error) {
+        this._port       = null;
+        this._connecting = false;
+        this._connected  = false;
+    }
+
+    onPortOpen(error) {
+        if (error) {
             this._connecting       = false;
             this._connected        = false;
-            this._connectionFailed = err;
+            this._connectionFailed = error;
             return;
         }
         let count = 4;
@@ -186,7 +203,7 @@ exports.EV3 = class extends BasicDevice {
         let commandQueue = new CommandQueue(
                 this,
                 function(data) {
-                    port.write(Buffer.from(data), (error) => {
+                    port.write(data, (error) => {
                         if (error) {
                             console.error('Write err:', error);
                         }
@@ -496,8 +513,9 @@ exports.EV3 = class extends BasicDevice {
         let commandQueue = this._commandQueue;
         let layers       = commandQueue.getLayers();
         return {
-            layers:  layers,
-            battery: commandQueue.getBattery()
+            connecting: this._connecting,
+            layers:     layers,
+            battery:    commandQueue.getBattery()
         };
     }
 

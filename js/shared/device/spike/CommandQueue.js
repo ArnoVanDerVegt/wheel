@@ -34,7 +34,7 @@ exports.CommandQueue = class {
             opts.deviceName,
             {
                 baudRate: 115200,
-                autoOpen: false
+                textMode: true
             }
         );
     }
@@ -48,13 +48,16 @@ exports.CommandQueue = class {
     }
 
     onOpenError(error) {
-        this._layer.connecting = false;
-        this._layer.connected  = false;
+        let layer = this._layer;
+        layer.commandQueue = null;
+        layer.connecting   = false;
+        layer.connected    = false;
     }
 
     onPortOpen() {
-        this._layer.connecting = false;
-        this._layer.connected  = true;
+        let layer = this._layer;
+        layer.connecting = false;
+        layer.connected  = true;
     }
 
     onPortData(data) {

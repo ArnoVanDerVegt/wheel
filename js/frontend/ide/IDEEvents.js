@@ -141,21 +141,7 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // EV3 Menu...
     onMenuEV3Connect() {
-        if (this._ev3.getConnected()) {
-            dispatcher.dispatch(
-                'Dialog.Alert.Show',
-                {
-                    title: 'Connected',
-                    lines: [
-                        this._ev3.getDeviceName(),
-                        'Is connected.'
-                    ]
-                }
-            );
-        } else {
-            dispatcher.dispatch('Dialog.ConnectEV3.Show');
-            this.onSelectDeviceEV3();
-        }
+        connectionHelper.connectEV3(this._settings, this._ev3);
     }
 
     onMenuEV3DaisyChain() {

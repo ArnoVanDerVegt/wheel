@@ -5,6 +5,7 @@ class SerialPort {
         this._events      = {};
         this._closed      = false;
         this._readTimeout = null;
+        this._textMode    = false;
         this._writer      = null;
         this._writing     = false;
         this._queue       = [];
@@ -102,12 +103,17 @@ class SerialPort {
     }
 
     startReading() {
-        const decoder              = new TextDecoderStream();
-        const readableStreamClosed = this._port.readable.pipeTo(decoder.writable);
-        const encoder              = new TextEncoderStream();
-        const writableStreamClosed = encoder.readable.pipeTo(this._port.writable);
-        this._reader = decoder.readable.getReader();
-        this._writer = encoder.writable.getWriter();
+        if (this._textMode) {
+            const decoder              = new TextDecoderStream();
+            const readableStreamClosed = this._port.readable.pipeTo(decoder.writable);
+            const encoder              = new TextEncoderStream();
+            const writableStreamClosed = encoder.readable.pipeTo(this._port.writable);
+            this._reader = decoder.readable.getReader();
+            this._writer = encoder.writable.getWriter();
+        } else {
+            this._writer = this._port.writable.getWriter();
+            this._reader = this._port.readable.getReader();
+        }
         this.read();
     }
 
@@ -117,6 +123,11 @@ class SerialPort {
 
     setBaudRate(baudRate) {
         this._baudRate = baudRate;
+        return this;
+    }
+
+    setTextMode(textMode) {
+        this._textMode = textMode;
         return this;
     }
 }
@@ -140,6 +151,8 @@ exports.WebSerial = class {
     }
 
     getPort(deviceName, opts) {
-        return this._port.setBaudRate(opts.baudRate);
+        return this._port
+            .setBaudRate(opts.baudRate)
+            .setTextMode(opts.textMode);
     }
 };

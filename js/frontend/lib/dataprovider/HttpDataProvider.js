@@ -9,6 +9,7 @@ const path      = require('../path');
 
 const ideRoutes = new IDERoutes({});
 
+let ev3Routes       = {};
 let poweredUpRoutes = {};
 let spikeRoutes     = {};
 let pathByIndex     = {};
@@ -16,6 +17,13 @@ let pathByIndex     = {};
 // Check if it's the web version...
 if ((typeof document === 'object') &&
     ((document.location.href.indexOf('electron.html') === -1) && (document.location.href.indexOf('vm.html') === -1))) {
+    const WebSerial = require('../WebSerial').WebSerial;
+    const EV3       = require('../../../shared/device/ev3/EV3').EV3;
+    const EV3Routes = require('../../../browser/routes/device/EV3Routes').EV3Routes;
+    ev3Routes = new EV3Routes({
+        ev3:                   new EV3({serialPortConstructor: WebSerial}),
+        serialPortConstructor: WebSerial
+    });
     const PoweredUp       = require('../../../shared/device/poweredup/PoweredUp').PoweredUp;
     const PoweredUpRoutes = require('../../../browser/routes/device/PoweredUpRoutes').PoweredUpRoutes;
     poweredUpRoutes = new PoweredUpRoutes({
@@ -26,7 +34,6 @@ if ((typeof document === 'object') &&
     });
     const Spike       = require('../../../shared/device/spike/Spike').Spike;
     const SpikeRoutes = require('../../../browser/routes/device/SpikeRoutes').SpikeRoutes;
-    const WebSerial   = require('../WebSerial').WebSerial;
     spikeRoutes = new SpikeRoutes({
         spike:                 new Spike({serialPortConstructor: WebSerial}),
         serialPortConstructor: WebSerial
@@ -55,6 +62,22 @@ let routes = {
         'ide/path-exists':                  ideRoutes.pathExists,
         'ide/directory-create':             ideRoutes.directoryCreate,
         'ide/directory-delete':             ideRoutes.directoryDelete,
+        // EV3...
+        'ev3/device-list':                  ev3Routes.deviceList,
+        'ev3/connect':                      ev3Routes.connect,
+        'ev3/disconnect':                   ev3Routes.disconnect,
+        'ev3/connecting':                   ev3Routes.connecting,
+        'ev3/connected':                    ev3Routes.connected,
+        'ev3/update':                       ev3Routes.update,
+        'ev3/download-data':                ev3Routes.downloadData,
+        'ev3/download':                     ev3Routes.download,
+        'ev3/create-dir':                   ev3Routes.createDir,
+        'ev3/delete-file':                  ev3Routes.deleteFile,
+        'ev3/files':                        ev3Routes.files,
+        'ev3/stop-all-motors':              ev3Routes.stopAllMotors,
+        'ev3/stop-polling':                 ev3Routes.stopPolling,
+        'ev3/resume-polling':               ev3Routes.resumePolling,
+        'ev3/set-mode':                     ev3Routes.setMode,
         // Powered Up...
         'powered-up/discover':              poweredUpRoutes.discover,
         'powered-up/scan':                  poweredUpRoutes.scan,
@@ -86,11 +109,16 @@ for (let route in routes) {
     if (typeof routes[route] === 'function') {
         switch (route.substr(0, 4)) {
             case 'ide/': routes[route] = routes[route].bind(ideRoutes);       break;
+            case 'ev3/': routes[route] = routes[route].bind(ev3Routes);       break;
             case 'powe': routes[route] = routes[route].bind(poweredUpRoutes); break;
             case 'spik': routes[route] = routes[route].bind(spikeRoutes);     break;
         }
     }
 }
+
+const useWebEV3 = function(uri) {
+        return (uri.indexOf('ev3') !== -1) && (uri in routes) && platform.forceWebVersion();
+    };
 
 const useWebPoweredUp = function(uri) {
         return (uri.indexOf('powered-up') !== -1) && (uri in routes) && platform.forceWebVersion();
@@ -102,7 +130,7 @@ const useWebSpike = function(uri) {
 
 exports.HttpDataProvider = class {
     getData(method, uri, params, callback) {
-        if (useWebPoweredUp(uri) || useWebSpike(uri)) {
+        if (useWebEV3(uri) || useWebPoweredUp(uri) || useWebSpike(uri)) {
             let req = {};
             let res = {
                     send: function(data) {

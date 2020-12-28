@@ -5,8 +5,7 @@
 const messageEncoder = require('../../../shared/device/ev3/messageEncoder');
 const CommandQueue   = require('../../../shared/device/ev3/CommandQueue').CommandQueue;
 const constants      = require('../../../shared/device/ev3/constants');
-const path           = require('path');
-const fs             = require('fs');
+const path           = require('../../../frontend/lib/path');
 
 exports.EV3Routes = class {
     constructor(opts) {
@@ -155,28 +154,14 @@ exports.EV3Routes = class {
         );
     }
 
+    /**
+     * Todo: Fix for web version...
+    **/
     download(req, res) {
-        let result         = {};
-        let localFilename  = req.body.localFilename;
-        let remoteFilename = req.body.remoteFilename;
-        if (fs.existsSync(path.sep + localFilename)) {
-            localFilename = path.sep + localFilename;
-        }
-        if (fs.existsSync(localFilename)) {
-            let data = fs.readFileSync(localFilename);
-            this._donwloadData(
-                data,
-                remoteFilename,
-                function() {
-                    result.error = false;
-                    res.send(JSON.stringify(result));
-                }
-            );
-        } else {
-            result.error   = true;
-            result.message = 'File not found';
-            res.send(JSON.stringify(result));
-        }
+        let result = {};
+        result.error   = true;
+        result.message = 'File not found';
+        res.send(JSON.stringify(result));
     }
 
     _createTimeoutCallback(res) {

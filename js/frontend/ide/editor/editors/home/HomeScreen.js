@@ -118,20 +118,18 @@ exports.HomeScreen = class extends DOMNode {
                 tabIndex:       tabIndex.HOME_SCREEN + 10,
                 onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath())
             }),
-            platform.isElectron() ?
-                {
-                    id:             addTile(),
-                    ui:             ui,
-                    icon:           getImage('images/files/homeEv3.svg'),
-                    title:          'Connect EV3 &raquo;',
-                    type:           HomeScreenConnectEV3Tile,
-                    tabIndex:       tabIndex.HOME_SCREEN + 12,
-                    settings:       settings,
-                    settingsGetter: settings.getShowEV3Tile.bind(settings),
-                    ev3:            this._ev3,
-                    onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.ConnectEV3.Show')
-                } :
-                null,
+            {
+                id:             addTile(),
+                ui:             ui,
+                icon:           getImage('images/files/homeEv3.svg'),
+                title:          'Connect EV3 &raquo;',
+                type:           HomeScreenConnectEV3Tile,
+                tabIndex:       tabIndex.HOME_SCREEN + 12,
+                settings:       settings,
+                settingsGetter: settings.getShowEV3Tile.bind(settings),
+                ev3:            this._ev3,
+                onClick:        connectionHelper.connectEV3.bind(this, this._settings, this._ev3)
+            },
             {
                 id:             addTile(),
                 ui:             ui,
