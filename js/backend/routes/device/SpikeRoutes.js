@@ -27,8 +27,12 @@ exports.SpikeRoutes = class {
 
     connect(req, res) {
         let deviceName = req.body.deviceName;
-        this._spike.connect(deviceName);
-        res.send(JSON.stringify({connecting: true, deviceName: deviceName}));
+        let layerIndex = this._spike.connect(deviceName);
+        res.send(JSON.stringify({
+            connecting: (layerIndex !== -1),
+            deviceName: deviceName,
+            layerIndex: layerIndex
+        }));
     }
 
     disconnect(req, res) {

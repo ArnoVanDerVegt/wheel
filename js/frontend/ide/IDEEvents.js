@@ -4,7 +4,7 @@
 **/
 const poweredUpModuleConstants = require('../../shared/vm/modules/poweredUpModuleConstants');
 const spikeModuleConstants     = require('../../shared/vm/modules/spikeModuleConstants');
-const platform                 = require('../lib/platform');
+const platform                 = require('../../shared/lib/platform');
 const dispatcher               = require('../lib/dispatcher').dispatcher;
 const path                     = require('../lib/path');
 const getDataProvider          = require('../lib/dataprovider/dataProvider').getDataProvider;
@@ -207,16 +207,7 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Powered Up Menu...
     onMenuPoweredUpConnect() {
-        if (this._poweredUp.getConnectionCount() < this._settings.getPoweredUpDeviceCount()) {
-            dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
-            this.onSelectDevicePoweredUp();
-        } else {
-            let lines = ['You\'ve reached the maximum number of connections.'];
-            if (this._poweredUp.getConnectionCount() < poweredUpModuleConstants.LAYER_COUNT) {
-                lines.push('You can change this setting in the <i>PoweredUp</i> > <i>Device count</i> menu.');
-            }
-            dispatcher.dispatch('Dialog.Alert.Show', {title: 'Maximum connections reached', lines: lines});
-        }
+        connectionHelper.connectPoweredUp(this._settings, this._poweredUp);
     }
 
     onMenuPoweredUpDisconnect() {

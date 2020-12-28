@@ -28,6 +28,10 @@ exports.BasicLayerState = class {
         };
     }
 
+    getConnecting() {
+        return this._connecting;
+    }
+
     getPorts() {
         return this._ports;
     }

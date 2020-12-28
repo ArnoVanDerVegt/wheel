@@ -49,8 +49,7 @@ class SerialPort {
         if (this._closed || !this._writer) {
             return;
         }
-        let message = this._textDecoder.decode(data) + '\r';
-        this._queue.push(message);
+        this._queue.push(data);
         this.writeMessage();
     }
 
@@ -125,15 +124,15 @@ class SerialPort {
 exports.WebSerial = class {
     constructor(onError) {
         this._port = new SerialPort();
-        try {
-            navigator.serial.requestPort().then((port) => {
+        navigator.serial.requestPort()
+            .then((port) => {
                 this._port.setPort(port);
+            })
+            .catch((error) => {
+                if (typeof onError === 'function') {
+                    onError(error);
+                }
             });
-        } catch (error) {
-            if (typeof onError === 'function') {
-                onError(error);
-            }
-        }
     }
 
     getPorts(callback) {

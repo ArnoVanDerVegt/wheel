@@ -2,9 +2,10 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-let constants             = require('./constants');
+let platform              = require('../../../shared/lib/platform');
 let spikeModuleConstants  = require('../../vm/modules/spikeModuleConstants');
 let buttonModuleConstants = require('../../vm/modules/buttonModuleConstants');
+let constants             = require('./constants');
 
 exports.CommandQueue = class {
     constructor(opts) {
@@ -15,18 +16,27 @@ exports.CommandQueue = class {
         this._spike                 = opts.spike;
         this._serialPortConstructor = opts.serialPortConstructor;
         this._layer                 = opts.layer;
-        this._layer.connecting      = true;
         this._queue                 = [];
         this._textEncoder           = new TextEncoder();
-        this._port                  = new this._serialPortConstructor(this.onOpenError.bind(this)).getPort(
-                opts.deviceName,
-                {
-                    baudRate: 115200,
-                    autoOpen: false
-                }
-            );
+        this._port                  = this.getPort(opts);
         this._port.on('data', this.onPortData.bind(this));
         this._port.open(this.onPortOpen.bind(this));
+    }
+
+    getPort(opts) {
+        let serialPort;
+        if (platform.isWeb()) {
+            serialPort = new this._serialPortConstructor(this.onOpenError.bind(this));
+        } else {
+            serialPort = new this._serialPortConstructor();
+        }
+        return serialPort.getPort(
+            opts.deviceName,
+            {
+                baudRate: 115200,
+                autoOpen: false
+            }
+        );
     }
 
     getMessageId() {
@@ -38,7 +48,8 @@ exports.CommandQueue = class {
     }
 
     onOpenError(error) {
-        console.log('Open error!!!!', error);
+        this._layer.connecting = false;
+        this._layer.connected  = false;
     }
 
     onPortOpen() {
@@ -157,7 +168,10 @@ exports.CommandQueue = class {
             data.i = this.getMessageId();
             data   = JSON.stringify(data) + '\r\n';
         }
-        port.write(this._textEncoder.encode(data), (error) => {
+        if (!platform.isWeb()) {
+            data = this._textEncoder.encode(data);
+        }
+        port.write(data, (error) => {
             if (error) {
                 console.error('Write err:', error);
             }

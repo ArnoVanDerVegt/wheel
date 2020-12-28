@@ -28,20 +28,28 @@ exports.SpikeState = class extends BasicDeviceState {
         if (this.getConnectionCount() >= spikeModuleConstants.POWERED_UP_LAYER_COUNT) {
             return;
         }
-        for (let i = 0; i < this._layerState.length; i++) {
-            let layerState = this._layerState[i];
-            if (layerState.getDeviceName() === deviceName) {
+        let layerState = this._layerState;
+        for (let i = 0; i < layerState.length; i++) {
+            if (layerState[i].getDeviceName() === deviceName) {
                 return;
             }
         }
-        this.emit('Spike.Connecting', deviceName);
         this._dataProvider.getData(
             'post',
             'spike/connect',
             {deviceName: deviceName},
             (data) => {
-                if (!this._updateTimeout) {
-                    this._updateTimeout = setTimeout(this.update.bind(this), 20);
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    return;
+                }
+                if (data.connecting && layerState[data.layerIndex]) {
+                    layerState[data.layerIndex].connecting = true;
+                    this.emit('Spike.Connecting', deviceName);
+                    if (!this._updateTimeout) {
+                        this._updateTimeout = setTimeout(this.update.bind(this), 20);
+                    }
                 }
             }
         );

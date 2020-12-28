@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const spikeModuleConstants = require('../../../../../shared/vm/modules/spikeModuleConstants');
-const platform             = require('../../../../lib/platform');
+const platform             = require('../../../../../shared/lib/platform');
 const dispatcher           = require('../../../../lib/dispatcher').dispatcher;
 const SimulatorPlugin      = require('../lib/SimulatorPlugin').SimulatorPlugin;
 const Hub                  = require('./components/Hub').Hub;

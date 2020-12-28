@@ -4,10 +4,10 @@
 **/
 const poweredUpModuleConstants = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const spikeModuleConstants     = require('../../../shared/vm/modules/spikeModuleConstants');
+const platform                 = require('../../../shared/lib/platform');
 const MainMenu                 = require('../../lib/components/mainmenu/MainMenu').MainMenu;
 const ProgressBar              = require('../../lib/components/status/ProgressBar').ProgressBar;
 const Button                   = require('../../lib/components/input/Button').Button;
-const platform                 = require('../../lib/platform');
 const dispatcher               = require('../../lib/dispatcher').dispatcher;
 const tabIndex                 = require('../tabIndex');
 const HelpOption               = require('./HelpOption').HelpOption;
@@ -44,6 +44,7 @@ exports.MainMenu = class extends MainMenu {
             .addEventListener('PoweredUp.Disconnect', this, this.onUpdatePoweredUpMenu);
         this._spike
             .addEventListener('Spike.Connecting',     this, this.onSpikeConnecting)
+            .addEventListener('Spike.StopConnecting', this, this.onUpdateSpikeMenu)
             .addEventListener('Spike.Connected',      this, this.onUpdateSpikeMenu)
             .addEventListener('Spike.Disconnect',     this, this.onUpdateSpikeMenu);
         dispatcher

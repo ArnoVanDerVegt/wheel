@@ -23,11 +23,11 @@ class SerialPort {
 
 const ideRoutes       = new IDERoutes({});
 const ev3Routes       = new EV3Routes({
-        ev3:                   new EV3({serialPortConstructor: serialport}),
+        ev3:                   new EV3({serialPortConstructor: SerialPort}),
         serialPortConstructor: SerialPort
     });
 const spikeRoutes     = new SpikeRoutes({
-        spike:                 new Spike({serialPortConstructor: serialport}),
+        spike:                 new Spike({serialPortConstructor: SerialPort}),
         serialPortConstructor: SerialPort
     });
 const poweredUpRoutes = new PoweredUpRoutes({

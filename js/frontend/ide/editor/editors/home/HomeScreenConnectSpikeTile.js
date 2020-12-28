@@ -9,22 +9,34 @@ exports.HomeScreenConnectSpikeTile = class extends HomeScreenTile {
         super(opts);
         this._spike = opts.spike;
         opts.spike
-            .on('Spike.Connecting', this, this.onSpikeConnecting)
-            .on('Spike.Connected',  this, this.onSpikeConnected);
+            .on('Spike.Connecting',     this, this.onSpikeConnecting)
+            .on('Spike.StopConnecting', this, this.onSpikeStopConnecting)
+            .on('Spike.Connected',      this, this.onSpikeConnected);
     }
 
     onSpikeConnecting() {
         let refs = this._refs;
         refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
-        refs.subTitle.innerHTML           = 'Connecting...';
         refs.title.innerHTML              = 'Spike';
+        refs.subTitle.innerHTML           = 'Connecting...';
+    }
+
+    onSpikeStopConnecting() {
+        if (this._spike.getConnectionCount()) {
+            this.onSpikeConnected();
+        } else {
+            let refs = this._refs;
+            refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text';
+            refs.title.innerHTML              = 'Connect Spike &raquo;';
+            refs.subTitle.innerHTML           = '';
+        }
     }
 
     onSpikeConnected() {
         let refs           = this._refs;
         let connectedCount = this._spike.getConnectionCount();
         refs.homeScreenTileText.className = 'frt max-h home-screen-tile-text with-sub-title';
-        refs.subTitle.innerHTML           = 'Connected to ' + connectedCount + ' device' + (connectedCount > 1 ? 's' : '');
         refs.title.innerHTML              = 'Spike';
+        refs.subTitle.innerHTML           = 'Connected to ' + connectedCount + ' device' + (connectedCount > 1 ? 's' : '');
     }
 };

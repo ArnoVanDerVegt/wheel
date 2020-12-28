@@ -95,9 +95,10 @@ exports.Spike = class extends BasicDevice {
             }
         }
         if (found === false) {
-            return;
+            return -1;
         }
         let layer = layers[found];
+        layer.connecting   = true;
         layer.deviceName   = deviceName;
         layer.commandQueue = new CommandQueue({
             spike:                 this,
@@ -105,6 +106,7 @@ exports.Spike = class extends BasicDevice {
             deviceName:            deviceName,
             layer:                 layer
         });
+        return found;
     }
 
     playtone(frequency, duration, volume, callback) {

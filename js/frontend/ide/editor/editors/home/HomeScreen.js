@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform                       = require('../../../../lib/platform');
+const platform                       = require('../../../../../shared/lib/platform');
 const dispatcher                     = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode                        = require('../../../../lib/dom').DOMNode;
 const path                           = require('../../../../lib/path');
@@ -142,21 +142,7 @@ exports.HomeScreen = class extends DOMNode {
                 settings:       settings,
                 settingsGetter: settings.getShowPoweredUpTile.bind(settings),
                 poweredUp:      this._poweredUp,
-                onClick: function() {
-                    if (platform.isElectron() || platform.isNode() || (window.PoweredUP && window.PoweredUP.isWebBluetooth)) {
-                        dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
-                    } else {
-                        dispatcher.dispatch(
-                            'Dialog.Alert.Show',
-                            {
-                                title: 'Bluetooth not supported',
-                                lines: [
-                                    'Your browser does not support the Web Bluetooth specification.'
-                                ]
-                            }
-                        );
-                    }
-                }
+                onClick:        connectionHelper.connectPoweredUp.bind(this, this._settings, this._poweredUp)
             },
             {
                 id:             addTile(),
@@ -168,9 +154,7 @@ exports.HomeScreen = class extends DOMNode {
                 settings:       settings,
                 settingsGetter: settings.getShowSpikeTile.bind(settings),
                 spike:          this._spike,
-                onClick:        () => {
-                    connectionHelper.connectSpike(this._settings, this._spike);
-                }
+                onClick:        connectionHelper.connectSpike.bind(this, this._settings, this._spike)
             },
             this.addHomeScreenTile({
                 id:       addTile(),
