@@ -26,7 +26,7 @@ exports.DirectControlDialog = class extends Dialog {
         this._motorAliasElements = [];
         this
             .initWindow({
-                width:          64 + (128 + 16) * this._portsPerLayer - 16,
+                width:          Math.max(64 + (128 + 16) * this._portsPerLayer - 16, 624),
                 height:         468,
                 className:      'direct-control-dialog',
                 title:          opts.title,

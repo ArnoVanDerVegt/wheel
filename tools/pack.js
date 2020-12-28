@@ -514,6 +514,7 @@ const files = [
         './js/frontend/ide/dialogs/directcontrol/components/Piano',
         './js/frontend/ide/dialogs/directcontrol/DirectControlDialog',
         './js/frontend/ide/dialogs/directcontrol/EV3ControlDialog',
+        './js/frontend/ide/dialogs/directcontrol/NXTControlDialog',
         './js/frontend/ide/dialogs/directcontrol/PoweredUpControlDialog',
         './js/frontend/ide/dialogs/directcontrol/SpikeControlDialog',
         './js/frontend/ide/dialogs/DaisyChainDialog',

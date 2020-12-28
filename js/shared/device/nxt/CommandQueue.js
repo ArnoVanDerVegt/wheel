@@ -2,9 +2,13 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform        = require('../../../shared/lib/platform');
+const Message         = require('./Message').Message;
+const ResponseMessage = require('./Message').ResponseMessage;
+const constants       = require('./constants');
+
 exports.CommandQueue = class {
     constructor(opts) {
-        this._ready                 = 0;
         this._sending               = false;
         this._sendingLastTime       = null;
         this._nxt                   = opts.nxt;
@@ -12,7 +16,6 @@ exports.CommandQueue = class {
         this._layer                 = opts.layer;
         this._queue                 = [];
         this._responseMessage       = new ResponseMessage();
-        this._textEncoder           = new TextEncoder();
         this._port                  = this.getPort(opts);
         this._port.on('data', this.onPortData.bind(this));
         this._port.open(this.onPortOpen.bind(this));
@@ -23,23 +26,16 @@ exports.CommandQueue = class {
         if (platform.isWeb()) {
             serialPort = new this._serialPortConstructor(this.onOpenError.bind(this));
         } else {
+            console.log('here???', opts.deviceName);
             serialPort = new this._serialPortConstructor();
         }
         return serialPort.getPort(
             opts.deviceName,
             {
                 baudRate: 115200,
-                textMode: true
+                textMode: false
             }
         );
-    }
-
-    getMessageId() {
-        let messageId = ('000' + this._messageId).substr(-4);
-        this._messageLastId   = messageId;
-        this._messageLastTime = Date.now();
-        this._messageId++;
-        return messageId;
     }
 
     onOpenError(error) {
@@ -62,7 +58,7 @@ exports.CommandQueue = class {
             .setBuffer(data)
             .readByte();
         switch (responseMessage.readByte()) {
-            case DirectCommand.GetInputValues:
+            case constants.DIRECT_COMMAND_GET_INPUT_VALUES:
                 responseMessage.readByte();
                 let sensorStatus = {
                         port:            responseMessage.readByte(),
@@ -84,8 +80,9 @@ exports.CommandQueue = class {
     }
 
     sendMessage(data) {
-        let port = this._port;
         this._sendingLastTime = Date.now();
+        let port = this._port;
+        console.log('Send:', data);
         port.write(data, (error) => {
             if (error) {
                 console.error('Write err:', error);
@@ -110,5 +107,15 @@ exports.CommandQueue = class {
     addToCommandQueue(command) {
         this._queue.push(command);
         this.sendQueue();
+    }
+
+    playtone(frequency, duration) {
+        this.addToCommandQueue(new Message()
+            .addByte(constants.COMMAND_TYPE_DIRECT)
+            .addByte(constants.DIRECT_COMMAND_PLAYTONE)
+            .addWord(Math.max(Math.min(frequency, 14000), 200))
+            .addWord(duration)
+            .getData()
+        );
     }
 };

@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-let platform              = require('../../../shared/lib/platform');
-let spikeModuleConstants  = require('../../vm/modules/spikeModuleConstants');
-let buttonModuleConstants = require('../../vm/modules/buttonModuleConstants');
-let constants             = require('./constants');
+const platform              = require('../../../shared/lib/platform');
+const spikeModuleConstants  = require('../../vm/modules/spikeModuleConstants');
+const buttonModuleConstants = require('../../vm/modules/buttonModuleConstants');
+const constants             = require('./constants');
 
 exports.CommandQueue = class {
     constructor(opts) {

@@ -20,10 +20,6 @@ exports.NXTState = class extends BasicDeviceState {
         this._battery = null;
     }
 
-    getPortsPerLayer() {
-        return 6;
-    }
-
     onConnectToDevice(deviceName) {
         if (this.getConnectionCount() >= nxtModuleConstants.NXT_LAYER_COUNT) {
             return;
@@ -52,30 +48,6 @@ exports.NXTState = class extends BasicDeviceState {
                     }
                 }
             }
-        );
-    }
-
-    stopPolling(callback) {
-        if (this._connecting || !this._connected) {
-            return;
-        }
-        this._dataProvider.getData(
-            'post',
-            'nxt/stop-polling',
-            {},
-            this._createResponseHandler(callback)
-        );
-    }
-
-    resumePolling(callback) {
-        if (this._connecting || !this._connected) {
-            return;
-        }
-        this._dataProvider.getData(
-            'post',
-            'nxt/resume-polling',
-            {},
-            this._createResponseHandler(callback)
         );
     }
 };

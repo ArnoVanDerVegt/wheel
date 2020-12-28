@@ -154,6 +154,7 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onMenuNXTDirectControl() {
+        dispatcher.dispatch('Dialog.NXTControl.Show', {deviceCount: this._settings.getNXTDeviceCount()});
     }
 
     // EV3 Menu...
@@ -166,12 +167,7 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onMenuEV3DirectControl() {
-        dispatcher.dispatch(
-            'Dialog.EV3Control.Show',
-            {
-                deviceCount: this._settings.getDaisyChainMode()
-            }
-        );
+        dispatcher.dispatch('Dialog.EV3Control.Show', {deviceCount: this._settings.getDaisyChainMode()});
     }
 
     onMenuEV3StopAllMotors() {
@@ -321,84 +317,52 @@ exports.IDEEvents = class extends CompileAndRun {
         });
     }
 
+    // NXY...
+    onNXTConnecting() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_INFO, message: 'Connecting to NXT...'});
+    }
+
+    onNXTConnected() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Connected to NXT.'});
+    }
+
+    onNXTDisconnect() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'NXT Disconnected.'});
+    }
+
+    // EV3...
     onEV3Connecting() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: 'Connecting to EV3...'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_INFO, message: 'Connecting to EV3...'});
     }
 
     onEV3Connected() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'Connected to EV3.'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Connected to EV3.'});
     }
 
     onEV3Disconnect() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'EV3 Disconnected.'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'EV3 Disconnected.'});
     }
 
+    // Powered Up...
     onPoweredUpConnecting(hub) {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_INFO, message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'});
     }
 
     onPoweredUpConnected() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'Connected to Powered Up.'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Connected to Powered Up.'});
     }
 
     onPoweredUpDisconnect() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'Powered Up disconnected.'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Powered Up disconnected.'});
     }
 
+    // Spike...
     onSpikeConnecting(hub) {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: 'Connecting to Spike...'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_INFO, message: 'Connecting to Spike...'});
     }
 
     onSpikeConnected() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'Connected to Spike.'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Connected to Spike.'});
     }
 
     onCreatedPreProcessor(preProcessor) {

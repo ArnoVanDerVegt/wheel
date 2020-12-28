@@ -6,6 +6,7 @@ const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
 const motorModuleConstants  = require('../../vm/modules/motorModuleConstants');
 const nxtModuleConstants    = require('../../vm/modules/nxtModuleConstants');
 const BasicDevice           = require('../BasicDevice').BasicDevice;
+const constants             = require('./constants');
 const Message               = require('./Message').Message;
 const ResponseMessage       = require('./Message').ResponseMessage;
 const CommandQueue          = require('./CommandQueue').CommandQueue;
@@ -27,13 +28,10 @@ exports.NXT = class extends BasicDevice {
                 connecting:      false,
                 commandQueue:    null,
                 deviceName:      '',
-                gyro:            {x: 0, y: 0, z: 0},
-                accel:           {x: 0, y: 0, z: 0},
-                pos:             {x: 0, y: 0, z: 0},
                 ports:           [],
                 button:          0
             };
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 4; i++) {
             result.ports.push({
                 value:        0,
                 reset:        0,
@@ -109,6 +107,12 @@ exports.NXT = class extends BasicDevice {
     }
 
     playtone(frequency, duration, volume, callback) {
+        let layers = this._layers;
+        for (let i = 0; i < Math.min(this._activeLayerCount, layers.length); i++) {
+            if (layers[i].commandQueue !== null) {
+                layers[i].commandQueue.playtone(frequency, duration);
+            }
+        }
     }
 
     motorReset(layer, id) {
@@ -169,7 +173,7 @@ exports.NXT = class extends BasicDevice {
                 pos:        layer.pos,
                 ports:      []
             };
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 4; i++) {
             let port = layer.ports[i];
             result.ports.push({
                 value:    port.value - (port.isMotor ? port.reset : 0),
@@ -182,6 +186,6 @@ exports.NXT = class extends BasicDevice {
     }
 
     getPortsPerLayer() {
-        return 3;
+        return 4;
     }
 };

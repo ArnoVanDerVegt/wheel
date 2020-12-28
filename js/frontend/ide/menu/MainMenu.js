@@ -637,6 +637,11 @@ exports.MainMenu = class extends MainMenu {
         return this;
     }
 
+    onNXTConnecting() {
+        let menuOptions = this._nxtMenu.getMenu().getMenuOptions();
+        menuOptions[0].setRemark('Connecting...');
+    }
+
     onEV3Connecting() {
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         menuOptions[0].setRemark('Connecting...');

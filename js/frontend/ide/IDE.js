@@ -116,13 +116,14 @@ exports.IDE = class extends IDEDOM {
             .on('Compile.Silent',                     this, this.onCompileSilent)
             .on('Form.Show',                          this, this.onShowForm)
             .on('VM.Stop',                            this, this.onVMStop);
-        // EV3...
-        let ev3 = this._ev3;
-        ev3
-            .addEventListener('EV3.Connecting', this, this.onEV3Connecting)
-            .addEventListener('EV3.Connected',  this, this.onEV3Connected)
-            .addEventListener('EV3.Disconnect', this, this.onEV3Disconnect);
-        dispatcher.on('Menu.EV3.Disconnect', ev3, ev3.disconnect);
+        this._nxt
+            .addEventListener('NXT.Connecting',       this, this.onNXTConnecting)
+            .addEventListener('NXT.Connected',        this, this.onNXTConnected)
+            .addEventListener('NXT.Disconnect',       this, this.onNXTDisconnect);
+        this._ev3
+            .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
+            .addEventListener('EV3.Connected',        this, this.onEV3Connected)
+            .addEventListener('EV3.Disconnect',       this, this.onEV3Disconnect);
         this._poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected)
@@ -135,6 +136,7 @@ exports.IDE = class extends IDEDOM {
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
         this._settings
             .addEventListener('Settings.View',        this, this.onViewChanged);
+        dispatcher.on('Menu.EV3.Disconnect', this._ev3, this._ev3.disconnect);
         // Editor...
         let editor = this._editor;
         dispatcher

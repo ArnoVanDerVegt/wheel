@@ -9,6 +9,7 @@ const FileNewDialog                  = require('./dialogs/file/FileNewDialog').F
 const FileRenameDialog               = require('./dialogs/file/FileRenameDialog').FileRenameDialog;
 const FilePoweredUpProjectDialog     = require('./dialogs/file/FilePoweredUpProjectDialog').FilePoweredUpProjectDialog;
 const ExploreDialog                  = require('./dialogs/ExploreDialog').ExploreDialog;
+const NXTControlDialog               = require('./dialogs/directcontrol/NXTControlDialog').NXTControlDialog;
 const EV3ControlDialog               = require('./dialogs/directcontrol/EV3ControlDialog').EV3ControlDialog;
 const PoweredUpControlDialog         = require('./dialogs/directcontrol/PoweredUpControlDialog').PoweredUpControlDialog;
 const SpikeControlDialog             = require('./dialogs/directcontrol/SpikeControlDialog').SpikeControlDialog;
@@ -69,6 +70,7 @@ exports.IDEDialogs = class extends IDEEvents {
         new PoweredUpAutoConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
         // Control...
         new PoweredUpControlDialog        ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
+        new NXTControlDialog              ({getImage: getImage, ui: this._ui, device: this._nxt});
         new EV3ControlDialog              ({getImage: getImage, ui: this._ui, device: this._ev3});
         new SpikeControlDialog            ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._spike});
         new SettingsDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
