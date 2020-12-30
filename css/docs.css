@@ -226,6 +226,9 @@ body {
     color:                          #FFFFFF;
     margin:                         0 16px 0 0;
 }
+.legend .legend-item .device.n {
+    background-color:               #E67E22;
+}
 .legend .legend-item .device.e {
     background-color:               #0984E3;
 }
@@ -369,6 +372,11 @@ div.quarter li {
     line-height:                    21px;
     font-size:                      13px;
     font-family:                    latolight;
+}
+.help-files .link .device.n,
+.help-file .devices .n {
+    background-color:               #E67E22;
+    color:                          #FFFFFF;
 }
 .help-files .link .device.e,
 .help-file .devices .e {

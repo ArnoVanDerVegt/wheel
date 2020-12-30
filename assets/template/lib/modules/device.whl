@@ -1,5 +1,5 @@
 ; @module Device
-; @device E,P
+; @device N,E,P,S
 ; Wheel, copyright (c) 2020 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
@@ -23,9 +23,10 @@
 #define LAYER_10           9
 
 ; @const The avaialable types of devices.
-#define DEVICE_EV3         0    ; `image:images/ev3/ev364.png`
-#define DEVICE_POWERED_UP  1    ; `image:images/poweredup/hub64.png`
-#define DEVICE_SPIKE       2    ; `image:images/spike/spike64.png`
+#define DEVICE_NXT         0    ; `image:images/nxt/nxt64.png`
+#define DEVICE_EV3         1    ; `image:images/ev3/ev364.png`
+#define DEVICE_POWERED_UP  2    ; `image:images/poweredup/hub64.png`
+#define DEVICE_SPIKE       3    ; `image:images/spike/spike64.png`
 
 ; @const Module calls for device functions.
 #define DEVICE_SELECT      0

@@ -117,4 +117,10 @@ exports.NXTRoutes = class {
         this._nxt.setMode(body.layer, body.port, body.mode);
         res.send(JSON.stringify({success: true}));
     }
+
+    setType(req, res) {
+        let body = req.body;
+        this._nxt.setType(body.layer, body.port, body.type, body.mode);
+        res.send(JSON.stringify({success: true}));
+    }
 };

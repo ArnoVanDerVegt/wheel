@@ -799,6 +799,7 @@ class HelpBuilderText {
                     );
             };
         output.push('<div class="legend">');
+        addLegendItem('n', 'NXT');
         addLegendItem('e', 'EV3');
         addLegendItem('p', 'Powered Up');
         addLegendItem('s', 'Spike');

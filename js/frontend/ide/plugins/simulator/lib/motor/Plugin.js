@@ -13,6 +13,7 @@ exports.Plugin = class extends SimulatorPlugin {
             throw new Error('No state constructor');
         }
         this._ui                  = opts.ui;
+        this._title               = opts.title      || false;
         this._layerCount          = opts.layerCount || 4;
         this._portCount           = opts.portCount  || 4;
         this._device              = opts.device;
@@ -31,6 +32,9 @@ exports.Plugin = class extends SimulatorPlugin {
         let Motor     = this._motorConstructor;
         let addMotor  = this.addMotor.bind(this);
         let children  = [];
+        if (this._title) {
+            children.push(this.initTitle(this._title));
+        }
         for (let i = 0; i < this._layerCount * portCount; i++) {
             children.push({
                 type:             Motor,
@@ -47,6 +51,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 hidden:           (i >= portCount)
             });
         }
+        children.push(this.initExtra());
         this.create(
             parentNode,
             {
@@ -56,6 +61,10 @@ exports.Plugin = class extends SimulatorPlugin {
             }
         );
         this._interval = setInterval(this.onInterval.bind(this), 10);
+    }
+
+    initExtra() {
+        return null;
     }
 
     onDeviceConnected() {

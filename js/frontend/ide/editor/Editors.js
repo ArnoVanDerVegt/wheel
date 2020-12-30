@@ -27,6 +27,7 @@ exports.Editors = class extends DOMNode {
         super(opts);
         this._ui           = opts.ui;
         this._settings     = opts.settings;
+        this._nxt          = opts.nxt;
         this._ev3          = opts.ev3;
         this._poweredUp    = opts.poweredUp;
         this._spike        = opts.spike;

@@ -1,0 +1,27 @@
+/* Alert/Confirm dialog */
+.dialog-background.sensor-type-dialog .sensor-type-content {
+    height:                         56px;
+    line-height:                    28px;
+    left:                           32px;
+    right:                          32px;
+}
+.dialog-background.sensor-type-dialog .sensor-type-content .tabs {
+    height:                         40px;
+    overflow:                       hidden;
+    margin:                         0;
+    border:                         var(--ui-border1);
+    border-width:                   0 0 4px 0;
+}
+.dialog-background.sensor-type-dialog .sensor-type-content .sensor-list {
+    top:                            40px;
+}
+.dialog-background.sensor-type-dialog .sensor-type-content .row {
+    min-height:                     48px;
+    margin:                         8px 0 0 0;
+}
+.dialog-background.sensor-type-dialog .sensor-type-content .row .dropdown {
+    width:                          252px;
+}
+.dialog-background.sensor-type-dialog .sensor-type-content .row .type-label {
+    width:                          100px;
+}

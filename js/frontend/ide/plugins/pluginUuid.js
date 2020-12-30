@@ -3,6 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 
+exports.SIMULATOR_NXT_SENSORS_UUID  = 'c50eb40a-8764-4ae7-86a4-7216a91b8d55';
+exports.SIMULATOR_NXT_MOTORS_UUID   = '012d94f4-a324-4951-9fb4-c9f9bd89ac15';
 exports.SIMULATOR_EV3_UUID          = 'a8e77680-3886-11ea-a137-2e728ce88125';
 exports.SIMULATOR_EV3_SENSORS_UUID  = '48aa92ad-ce1c-4d33-a8b4-56c93a180e72';
 exports.SIMULATOR_EV3_MOTORS_UUID   = '3d6442d0-3a32-4514-9e9a-0cbee0ca1b63';

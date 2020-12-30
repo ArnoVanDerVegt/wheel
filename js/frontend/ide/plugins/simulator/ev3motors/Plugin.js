@@ -13,6 +13,7 @@ exports.Plugin = class extends Plugin {
         opts.device           = opts.ev3;
         opts.motorConstructor = Motor;
         opts.stateConstructor = MotorState;
+        opts.title            = 'EV3 Motors';
         super(opts);
         this._device
             .addEventListener('EV3.Connected',    this, this.onDeviceConnected)

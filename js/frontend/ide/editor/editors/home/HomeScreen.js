@@ -9,21 +9,23 @@ const path                           = require('../../../../lib/path');
 const getImage                       = require('../../../data/images').getImage;
 const tabIndex                       = require('../../../tabIndex');
 const connectionHelper               = require('../../../helper/connectionHelper');
-const HomeScreenTile                 = require('./HomeScreenTile').HomeScreenTile;
-const HomeScreenConnectEV3Tile       = require('./HomeScreenConnectEV3Tile').HomeScreenConnectEV3Tile;
-const HomeScreenConnectPoweredUpTile = require('./HomeScreenConnectPoweredUpTile').HomeScreenConnectPoweredUpTile;
-const HomeScreenConnectSpikeTile     = require('./HomeScreenConnectSpikeTile').HomeScreenConnectSpikeTile;
-const HomeScreenThemeTile            = require('./HomeScreenThemeTile').HomeScreenThemeTile;
-const HomeScreenRecentProjectTile    = require('./HomeScreenRecentProjectTile').HomeScreenRecentProjectTile;
-const HomeScreenRecentFormTile       = require('./HomeScreenRecentFormTile').HomeScreenRecentFormTile;
-const HomeScreenDocumentationTile    = require('./HomeScreenDocumentationTile').HomeScreenDocumentationTile;
-const HomeScreenNewProjectTile       = require('./HomeScreenNewProjectTile').HomeScreenNewProjectTile;
+const HomeScreenTile                 = require('./components/HomeScreenTile').HomeScreenTile;
+const HomeScreenConnectNXTTile       = require('./components/HomeScreenConnectNXTTile').HomeScreenConnectNXTTile;
+const HomeScreenConnectEV3Tile       = require('./components/HomeScreenConnectEV3Tile').HomeScreenConnectEV3Tile;
+const HomeScreenConnectPoweredUpTile = require('./components/HomeScreenConnectPoweredUpTile').HomeScreenConnectPoweredUpTile;
+const HomeScreenConnectSpikeTile     = require('./components/HomeScreenConnectSpikeTile').HomeScreenConnectSpikeTile;
+const HomeScreenThemeTile            = require('./components/HomeScreenThemeTile').HomeScreenThemeTile;
+const HomeScreenRecentProjectTile    = require('./components/HomeScreenRecentProjectTile').HomeScreenRecentProjectTile;
+const HomeScreenRecentFormTile       = require('./components/HomeScreenRecentFormTile').HomeScreenRecentFormTile;
+const HomeScreenDocumentationTile    = require('./components/HomeScreenDocumentationTile').HomeScreenDocumentationTile;
+const HomeScreenNewProjectTile       = require('./components/HomeScreenNewProjectTile').HomeScreenNewProjectTile;
 
 exports.HomeScreen = class extends DOMNode {
     constructor(opts) {
         super(opts);
         this._ui           = opts.ui;
         this._settings     = opts.settings;
+        this._nxt          = opts.nxt;
         this._ev3          = opts.ev3;
         this._poweredUp    = opts.poweredUp;
         this._spike        = opts.spike;
@@ -58,6 +60,29 @@ exports.HomeScreen = class extends DOMNode {
                     }
                 ]
             },
+            {
+                className: 'maw-w home-title',
+                innerHTML: 'Explore'
+            },
+            this.addHomeScreenTile({
+                id:       addTile(),
+                type:     HomeScreenDocumentationTile,
+                icon:     getImage('images/files/homeHelp.svg'),
+                title:    'Open documentation &raquo;',
+                tabIndex: tabIndex.HOME_SCREEN + 2,
+                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Help.Show', {documentPath: settings.getDocumentPath()})
+            }),
+            this.addHomeScreenTile({
+                id:       addTile(),
+                icon:     getImage('images/files/recentWhlp.svg'),
+                title:    'Open an example &raquo;',
+                tabIndex: tabIndex.HOME_SCREEN + 4,
+                onClick:  dispatcher.dispatch.bind(dispatcher, 'Menu.File.Open', 'File', activeDirectory)
+            }),
+            {
+                className: 'maw-w home-title',
+                innerHTML: 'Create'
+            },
             (settings.getRecentProject() ?
                 {
                     id:       addTile(),
@@ -67,7 +92,7 @@ exports.HomeScreen = class extends DOMNode {
                     title:    'Open recent project &raquo;',
                     settings: this._settings,
                     type:     HomeScreenRecentProjectTile,
-                    tabIndex: tabIndex.HOME_SCREEN
+                    tabIndex: tabIndex.HOME_SCREEN + 6
                 } :
                 null),
             (settings.getRecentForm() ?
@@ -79,7 +104,7 @@ exports.HomeScreen = class extends DOMNode {
                     title:    'Open recent form &raquo;',
                     settings: this._settings,
                     type:     HomeScreenRecentFormTile,
-                    tabIndex: tabIndex.HOME_SCREEN + 2
+                    tabIndex: tabIndex.HOME_SCREEN + 8
                 } :
                 null),
             {
@@ -88,43 +113,59 @@ exports.HomeScreen = class extends DOMNode {
                 uiId:           1,
                 icon:           getImage('images/files/homeWhlp.svg'),
                 type:           HomeScreenNewProjectTile,
-                tabIndex:       tabIndex.HOME_SCREEN + 4,
+                tabIndex:       tabIndex.HOME_SCREEN + 10,
                 settings:       settings
             },
             this.addHomeScreenTile({
                 id:       addTile(),
                 icon:     getImage('images/files/homeWhl.svg'),
                 title:    'New file &raquo;',
-                tabIndex: tabIndex.HOME_SCREEN + 6,
+                tabIndex: tabIndex.HOME_SCREEN + 12,
                 onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', 'File', activeDirectory)
             }),
-            platform.isElectron() ?
-                this.addHomeScreenTile({
-                    id:             addTile(),
-                    icon:           getImage('images/files/homeRgf.svg'),
-                    title:          'New image EV3 &raquo;',
-                    tabIndex:       tabIndex.HOME_SCREEN + 8,
-                    settings:       settings,
-                    settingsGetter: settings.getShowEV3ImageTile.bind(settings),
-                    onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath())
-                }) :
-                null,
+            this.addHomeScreenTile({
+                id:             addTile(),
+                icon:           getImage('images/files/homeRgf.svg'),
+                title:          'New image EV3 &raquo;',
+                tabIndex:       tabIndex.HOME_SCREEN + 14,
+                settings:       settings,
+                settingsGetter: settings.getShowEV3ImageTile.bind(settings),
+                onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath())
+            }),
             this.addHomeScreenTile({
                 id:             addTile(),
                 icon:           getImage('images/files/homeForm.svg'),
                 title:          'New form &raquo;',
                 settings:       settings,
                 settingsGetter: settings.getShowNewFormTile.bind(settings),
-                tabIndex:       tabIndex.HOME_SCREEN + 10,
+                tabIndex:       tabIndex.HOME_SCREEN + 16,
                 onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath())
             }),
+            (settings.getShowNXTTile() || settings.getShowEV3Tile || settings.getShowPoweredUpTile() || settings.getShowSpikeTile()) ?
+                {
+                    className: 'maw-w home-title',
+                    innerHTML: 'Connect device'
+                } :
+                null,
+            {
+                id:             addTile(),
+                ui:             ui,
+                icon:           getImage('images/files/homeNxt.svg'),
+                title:          'Connect NXT &raquo;',
+                type:           HomeScreenConnectNXTTile,
+                tabIndex:       tabIndex.HOME_SCREEN + 18,
+                settings:       settings,
+                settingsGetter: settings.getShowNXTTile.bind(settings),
+                nxt:            this._nxt,
+                onClick:        connectionHelper.connectNXT.bind(this, this._settings, this._nxt)
+            },
             {
                 id:             addTile(),
                 ui:             ui,
                 icon:           getImage('images/files/homeEv3.svg'),
                 title:          'Connect EV3 &raquo;',
                 type:           HomeScreenConnectEV3Tile,
-                tabIndex:       tabIndex.HOME_SCREEN + 12,
+                tabIndex:       tabIndex.HOME_SCREEN + 20,
                 settings:       settings,
                 settingsGetter: settings.getShowEV3Tile.bind(settings),
                 ev3:            this._ev3,
@@ -136,7 +177,7 @@ exports.HomeScreen = class extends DOMNode {
                 icon:           getImage('images/files/homePoweredUp.svg'),
                 title:          'Connect Powered Up &raquo;',
                 type:           HomeScreenConnectPoweredUpTile,
-                tabIndex:       tabIndex.HOME_SCREEN + 14,
+                tabIndex:       tabIndex.HOME_SCREEN + 22,
                 settings:       settings,
                 settingsGetter: settings.getShowPoweredUpTile.bind(settings),
                 poweredUp:      this._poweredUp,
@@ -148,20 +189,18 @@ exports.HomeScreen = class extends DOMNode {
                 icon:           getImage('images/files/homeSpike.svg'),
                 title:          'Connect Spike &raquo;',
                 type:           HomeScreenConnectSpikeTile,
-                tabIndex:       tabIndex.HOME_SCREEN + 16,
+                tabIndex:       tabIndex.HOME_SCREEN + 24,
                 settings:       settings,
                 settingsGetter: settings.getShowSpikeTile.bind(settings),
                 spike:          this._spike,
                 onClick:        connectionHelper.connectSpike.bind(this, this._settings, this._spike)
             },
-            this.addHomeScreenTile({
-                id:       addTile(),
-                type:     HomeScreenDocumentationTile,
-                icon:     getImage('images/files/homeHelp.svg'),
-                title:    'Open documentation &raquo;',
-                tabIndex: tabIndex.HOME_SCREEN + 18,
-                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Help.Show', {documentPath: settings.getDocumentPath()})
-            }),
+            showThemeTile ?
+                {
+                    className: 'maw-w home-title',
+                    innerHTML: 'Setup'
+                } :
+                null,
             showThemeTile ?
                 {
                     id:       addTile(),
@@ -170,7 +209,7 @@ exports.HomeScreen = class extends DOMNode {
                     title:    'Theme',
                     settings: this._settings,
                     type:     HomeScreenThemeTile,
-                    tabIndex: tabIndex.HOME_SCREEN + 18
+                    tabIndex: tabIndex.HOME_SCREEN + 26
                 } :
                 null
         ];

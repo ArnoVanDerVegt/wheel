@@ -13,6 +13,7 @@ exports.NXTState = class extends BasicDeviceState {
         opts.layerCount       = nxtModuleConstants.LAYER_COUNT;
         opts.LayerState       = LayerState;
         opts.signalPrefix     = 'NXT';
+        opts.disconnectURL    = 'nxt/disconnect';
         opts.updateURL        = 'nxt/update';
         opts.setModeURL       = 'nxt/set-mode';
         opts.stopAllMotorsURL = 'nxt/stop-all-motors';
@@ -48,6 +49,19 @@ exports.NXTState = class extends BasicDeviceState {
                     }
                 }
             }
+        );
+    }
+
+    setType(layer, port, type) {
+        this._dataProvider.getData(
+            'post',
+            'nxt/set-type',
+            {
+                layer: layer,
+                port:  port,
+                type:  type
+            },
+            () => {}
         );
     }
 };

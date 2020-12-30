@@ -28,6 +28,7 @@ exports.Plugin = class extends Plugin {
         opts.stateConstructor = MotorOrSensorState;
         opts.device           = opts.poweredUp;
         opts.constants        = poweredUpModuleConstants;
+        opts.title            = 'Hub ports';
         super(opts);
         this.initEvents();
         this._assignmentError  = false;

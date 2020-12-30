@@ -157,6 +157,10 @@ exports.IDEEvents = class extends CompileAndRun {
         dispatcher.dispatch('Dialog.NXTControl.Show', {deviceCount: this._settings.getNXTDeviceCount()});
     }
 
+    onMenuNXTSensorType() {
+        dispatcher.dispatch('Dialog.SensorType.Show', {});
+    }
+
     // EV3 Menu...
     onMenuEV3Connect() {
         connectionHelper.connectEV3(this._settings, this._ev3);

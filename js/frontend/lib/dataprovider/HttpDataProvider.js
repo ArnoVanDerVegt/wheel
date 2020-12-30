@@ -80,6 +80,7 @@ let routes = {
         'nxt/stop-polling':                 nxtRoutes.stopPolling,
         'nxt/resume-polling':               nxtRoutes.resumePolling,
         'nxt/set-mode':                     nxtRoutes.setMode,
+        'nxt/set-type':                     nxtRoutes.setType,
         // EV3...
         'ev3/device-list':                  ev3Routes.deviceList,
         'ev3/connect':                      ev3Routes.connect,

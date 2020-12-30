@@ -54,12 +54,28 @@ exports.PluginsState = class extends Emitter {
     getDefaultPlugins() {
         return [
             {
+                uuid:    pluginUuid.SIMULATOR_NXT_MOTORS_UUID,
+                group:   'NXT',
+                name:    'NXT Motors',
+                path:    'nxtmotors',
+                visible: false,
+                order:   1
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_NXT_SENSORS_UUID,
+                group:   'NXT',
+                name:    'NXT Sensors',
+                path:    'nxtsensors',
+                visible: false,
+                order:   2
+            },
+            {
                 uuid:    pluginUuid.SIMULATOR_EV3_MOTORS_UUID,
                 group:   'EV3',
                 name:    'EV3 Motors',
                 path:    'ev3motors',
                 visible: false,
-                order:   1
+                order:   3
             },
             {
                 uuid:    pluginUuid.SIMULATOR_EV3_UUID,
@@ -67,7 +83,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'EV3',
                 path:    'ev3',
                 visible: false,
-                order:   2
+                order:   4
             },
             {
                 uuid:    pluginUuid.SIMULATOR_EV3_SENSORS_UUID,
@@ -75,7 +91,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'EV3 Sensors',
                 path:    'ev3sensors',
                 visible: false,
-                order:   3
+                order:   5
             },
             {
                 uuid:    pluginUuid.SIMULATOR_SENSOR_GRAPH_UUID,
@@ -83,7 +99,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'EV3 Sensor output graph',
                 path:    'graph',
                 visible: false,
-                order:   4
+                order:   6
             },
             {
                 uuid:    pluginUuid.SIMULATOR_PSP_UUID,
@@ -91,7 +107,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'PSP',
                 path:    'psp',
                 visible: false,
-                order:   5
+                order:   7
             },
             {
                 uuid:    pluginUuid.SIMULATOR_POWERED_UP_UUID,
@@ -99,7 +115,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'Hub',
                 path:    'poweredup',
                 visible: true,
-                order:   6
+                order:   8
             },
             {
                 uuid:    pluginUuid.SIMULATOR_SPIKE_UUID,
@@ -107,7 +123,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'Spike',
                 path:    'spike',
                 visible: true,
-                order:   7
+                order:   9
             },
             {
                 uuid:    pluginUuid.SIMULATOR_SPIKE_PORTS_UUID,
@@ -115,7 +131,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'Spike ports',
                 path:    'spikeports',
                 visible: true,
-                order:   8
+                order:   10
             }
         ];
     }

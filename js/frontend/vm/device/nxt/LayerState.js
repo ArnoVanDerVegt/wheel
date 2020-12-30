@@ -11,18 +11,20 @@ exports.LayerState = class extends BasicLayerState {
         super(opts);
         this._connecting = false;
         this._deviceName = '';
-        this._ports      = [];
+        this._sensors    = [];
+        this._motors     = [];
         for (let i = 0; i < 4; i++) {
-            this._ports.push(this.createPort());
+            this._sensors.push(this.createSensorPort());
+        }
+        for (let i = 0; i < 3; i++) {
+            this._motors.push(this.createMotorPort());
         }
     }
 
-    createPort() {
+    createMotorPort() {
         return {
             ready:         false,
-            value:         0,
             degrees:       0,
-            assigned:      0,
             startDegrees:  0,
             targetDegrees: 0,
             brake:         0,
@@ -31,16 +33,24 @@ exports.LayerState = class extends BasicLayerState {
         };
     }
 
+    createSensorPort() {
+        return {
+            ready:         false,
+            value:         0,
+            assigned:      0
+        };
+    }
+
+    getMotorPort(port) {
+        return this._motors[port] || {};
+    }
+
+    getSensors() {
+        return this._sensors;
+    }
+
     getDeviceName() {
         return this._deviceName;
-    }
-
-    getUUID() {
-        return '';
-    }
-
-    resetMotor(id) {
-        // Not implemented for NXT...
     }
 
     setState(state) {
@@ -53,9 +63,26 @@ exports.LayerState = class extends BasicLayerState {
                 device.emit('NXT.StopConnecting', this._layerIndex);
             }
         }
-        if (this._button !== state.button) {
-            this._button = state.button;
-            device.emit('NXT.Button' + layerIndex, this._button);
-        }
+        state.motors.forEach((newMotor, index) => {
+            let motor = this._motors[index];
+            motor.ready = newMotor.ready;
+            if (motor && (motor.degrees !== newMotor.degrees)) {
+                motor.degrees = newMotor.degrees;
+                device.emit('NXT.Layer' + layerIndex + 'Motor' + index + 'Changed', motor.degrees);
+            }
+        });
+        state.sensors.forEach((newSensor, index) => {
+            let sensor = this._sensors[index];
+            if (sensor) {
+                if (sensor.assigned !== newSensor.assigned) {
+                    sensor.assigned = newSensor.assigned;
+                    device.emit('NXT.Layer' + layerIndex + 'Sensor' + index + 'Assigned', sensor.assigned);
+                }
+                if (sensor.value !== newSensor.value) {
+                    sensor.value = newSensor.value;
+                    device.emit('NXT.Layer' + layerIndex + 'Sensor' + index + 'Changed', sensor.value);
+                }
+            }
+        });
     }
 };

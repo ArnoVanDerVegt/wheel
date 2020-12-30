@@ -14,7 +14,7 @@ exports.NXTControlDialog = class extends DirectControlDialog {
         opts.title          = 'NXT Direct control';
         opts.motorValidator = {
             valid: function(assigned) {
-                return false;//(assigned !== null) && ([nxtModuleConstants.NXT_DEVICE_MEDIUM_MOTOR, nxtModuleConstants.NXT_DEVICE_LARGE_MOTOR].indexOf(assigned) !== -1);
+                return true;
             },
             hasPosition: function(assigned) {
                 return true;
@@ -29,19 +29,11 @@ exports.NXTControlDialog = class extends DirectControlDialog {
 
     initEvents() {
         let device = this._device;
-        for (let layer = 0; layer < 3; layer++) {
-            for (let output = 0; output < 6; output++) {
+        for (let layer = 0; layer < 4; layer++) {
+            for (let output = 0; output < 3; output++) {
                 (function(layer, output) {
                     device.on(
-                        'NXT.Layer' + layer + 'Port' + output + 'Assigned',
-                        this,
-                        function(assigned) {
-                            /* eslint-disable no-invalid-this */
-                            this.onOutputAssigned(layer, output, assigned);
-                        }
-                    );
-                    device.on(
-                        'NXT.Layer' + layer + 'Port' + output + 'Changed',
+                        'NXT.Layer' + layer + 'Motor' + output + 'Changed',
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */

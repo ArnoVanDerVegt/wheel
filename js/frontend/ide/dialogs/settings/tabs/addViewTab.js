@@ -84,37 +84,39 @@ exports.tab = (settingsDialog) => {
             }),
             settingsDialog.addHr(),
             settingsDialog.addTitle('Home screen tiles'),
-            platform.isElectron() ?
-                settingsDialog.addCheckboxSetting({
-                    label:       'EV3 connect tile',
-                    tabIndex:    9,
-                    getter:      'getShowEV3Tile',
-                    signal:      'Settings.Set.ShowEV3Tile'
-                }) :
-                null,
-            platform.isElectron() ?
-                settingsDialog.addCheckboxSetting({
-                    label:       'EV3 image tile',
-                    tabIndex:    10,
-                    getter:      'getShowEV3ImageTile',
-                    signal:      'Settings.Set.ShowEV3ImageTile'
-                }) :
-                null,
+            settingsDialog.addCheckboxSetting({
+                label:       'NXT connect tile',
+                tabIndex:    9,
+                getter:      'getShowNXTTile',
+                signal:      'Settings.Set.ShowNXTTile'
+            }),
+            settingsDialog.addCheckboxSetting({
+                label:       'EV3 connect tile',
+                tabIndex:    10,
+                getter:      'getShowEV3Tile',
+                signal:      'Settings.Set.ShowEV3Tile'
+            }),
+            settingsDialog.addCheckboxSetting({
+                label:       'EV3 image tile',
+                tabIndex:    11,
+                getter:      'getShowEV3ImageTile',
+                signal:      'Settings.Set.ShowEV3ImageTile'
+            }),
             settingsDialog.addCheckboxSetting({
                 label:       'Powered Up connect tile',
-                tabIndex:    11,
+                tabIndex:    12,
                 getter:      'getShowPoweredUpTile',
                 signal:      'Settings.Set.ShowPoweredUpTile'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'Spike connect tile',
-                tabIndex:    12,
+                tabIndex:    13,
                 getter:      'getShowSpikeTile',
                 signal:      'Settings.Set.ShowSpikeTile'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'New form tile',
-                tabIndex:    13,
+                tabIndex:    14,
                 getter:      'getShowNewFormTile',
                 signal:      'Settings.Set.ShowNewFormTile'
             }),

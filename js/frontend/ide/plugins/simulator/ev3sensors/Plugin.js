@@ -23,7 +23,9 @@ exports.Plugin = class extends SimulatorPlugin {
 
     initDOM(parentNode) {
         let addSensor = this.addSensor.bind(this);
-        let children  = [];
+        let children  = [
+                this.initTitle('EV3 sensors')
+            ];
         for (let i = 0; i < 16; i++) {
             children.push({
                 type:      SensorContainer,

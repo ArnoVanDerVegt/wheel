@@ -150,9 +150,10 @@ exports.CompileAndRun = class extends DOMUtils {
     getModules(vm) {
         let device = () => {
                 switch (this._settings.getActiveDevice()) {
-                    case 0: return this._ev3;
-                    case 1: return this._poweredUp;
-                    case 2: return this._spike;
+                    case 0: return this._nxt;
+                    case 1: return this._ev3;
+                    case 2: return this._poweredUp;
+                    case 3: return this._spike;
                 }
                 return this._ev3;
             };

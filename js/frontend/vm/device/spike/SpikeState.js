@@ -13,6 +13,7 @@ exports.SpikeState = class extends BasicDeviceState {
         opts.layerCount       = spikeModuleConstants.LAYER_COUNT;
         opts.LayerState       = LayerState;
         opts.signalPrefix     = 'Spike';
+        opts.disconnectURL    = 'spike/disconnect';
         opts.updateURL        = 'spike/update';
         opts.setModeURL       = 'spike/set-mode';
         opts.stopAllMotorsURL = 'spike/stop-all-motors';

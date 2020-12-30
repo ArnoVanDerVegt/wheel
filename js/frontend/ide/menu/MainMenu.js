@@ -290,6 +290,7 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Connect',                      remark: remarkConnect,     dispatch: 'Menu.NXT.Connect'},
                 {title: 'Disconnect',                                              dispatch: 'Menu.NXT.Disconnect'},
                 {title: '-'},
+                {title: 'Sensor type',                                             dispatch: 'Menu.NXT.SensorType'},
                 {title: 'Device count',                 remark: remarkDeviceCount, dispatch: 'Menu.NXT.DeviceCount'},
                 {title: '-'},
                 {title: 'Direct control',                                          dispatch: 'Menu.NXT.DirectControl'},
@@ -526,9 +527,10 @@ exports.MainMenu = class extends MainMenu {
         let remarkDeviceCount = 'Set the maximum connections (' + settings.getSpikeDeviceCount() + '/' + nxtModuleConstants.LAYER_COUNT + ')';
         menuOptions[0].setRemark(remarkConnect).setChecked(connectionCount);
         menuOptions[1].setEnabled(connectionCount);                          // Disconnect
-        menuOptions[2].setRemark(remarkDeviceCount);                         // Device count
-        menuOptions[3].setEnabled(connectionCount);                          // NXT Direct control
-        menuOptions[4].setEnabled(connectionCount);                          // Stop all motors
+        menuOptions[2].setEnabled(connectionCount);                          // Sensor type
+        menuOptions[3].setRemark(remarkDeviceCount);                         // Device count
+        menuOptions[4].setEnabled(connectionCount);                          // NXT Direct control
+        menuOptions[5].setEnabled(connectionCount);                          // Stop all motors
         return this;
     }
 

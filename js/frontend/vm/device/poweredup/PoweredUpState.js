@@ -14,6 +14,7 @@ exports.PoweredUpState = class extends BasicDeviceState {
         opts.LayerState       = LayerState;
         opts.layerCount       = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         opts.signalPrefix     = 'PoweredUp';
+        opts.disconnectURL    = 'powered-up/disconnect';
         opts.updateURL        = 'powered-up/update';
         opts.setModeURL       = 'powered-up/set-mode';
         opts.stopAllMotorsURL = 'powered-up/stop-all-motors';

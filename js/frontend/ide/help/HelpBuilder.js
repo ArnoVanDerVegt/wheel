@@ -821,6 +821,7 @@ class HelpBuilder {
             {
                 className: 'flt max-w legend',
                 children: [
+                    addLegendItem('n', 'NXT'),
                     addLegendItem('e', 'EV3'),
                     addLegendItem('p', 'Powered Up'),
                     addLegendItem('s', 'Spike'),

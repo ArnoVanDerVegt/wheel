@@ -39,6 +39,7 @@ const ReplaceDialog                  = require('./dialogs/find/ReplaceDialog').R
 const FindInFilesDialog              = require('./dialogs/find/FindInFilesDialog').FindInFilesDialog;
 const DownloadDialog                 = require('./dialogs/download/DownloadDialog').DownloadDialog;
 const GraphDialog                    = require('./dialogs/GraphDialog').GraphDialog;
+const SensorTypeDialog               = require('./dialogs/SensorTypeDialog').SensorTypeDialog;
 const DeviceAliasDialog              = require('./dialogs/device/DeviceAliasDialog').DeviceAliasDialog;
 const DevicePortAliasDialog          = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
 const DeviceCountDialog              = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
@@ -102,6 +103,8 @@ exports.IDEDialogs = class extends IDEEvents {
         // Misc...
         new HelpDialog                    ({getImage: getImage, ui: this._ui, settings: this._settings});
         new OpenFormDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
+        // NXT...
+        new SensorTypeDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, nxt: this._nxt});
         // EV3...
         new ConnectedDialog               ({getImage: getImage, ui: this._ui, settings: this._settings});
         new ExploreDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings, ev3: this._ev3});

@@ -21,6 +21,7 @@ exports.BasicDeviceState = class extends Emitter {
         this._noTimeout        = ('noTimeout'        in opts) ? opts.noTimeout        : false;
         this._signalPrefix     = opts.signalPrefix;
         this._updateURL        = opts.updateURL;
+        this._disconnectURL    = opts.disconnectURL;
         this._setModeURL       = opts.setModeURL;
         this._stopAllMotorsURL = opts.stopAllMotorsURL;
         this._dataProvider     = opts.dataProvider ? opts.dataProvider : getDataProvider(); // Allow dependency injection for unit tests...
@@ -214,7 +215,7 @@ exports.BasicDeviceState = class extends Emitter {
         this.emit(this._signalPrefix + '.Disconnect');
         this._dataProvider.getData(
             'post',
-            'spike/disconnect',
+            this._disconnectURL,
             {},
             (data) => {
                 this._layerState.forEach((layerState) => {
@@ -234,7 +235,6 @@ exports.BasicDeviceState = class extends Emitter {
     }
 
     connecting() {}
-    disconnect() {}
     downloadData() {}
     download() {}
     upload() {}

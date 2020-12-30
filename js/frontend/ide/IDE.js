@@ -85,6 +85,7 @@ exports.IDE = class extends IDEDOM {
             .on('Menu.NXT.Disconnect',                this, this.onMenuNXTDisconnect)
             .on('Menu.NXT.DeviceCount',               this, this.onMenuNXTDeviceCount)
             .on('Menu.NXT.DirectControl',             this, this.onMenuNXTDirectControl)
+            .on('Menu.NXT.SensorType',                this, this.onMenuNXTSensorType)
             .on('Menu.EV3.Connect',                   this, this.onMenuEV3Connect)
             .on('Menu.EV3.DaisyChainMode',            this, this.onMenuEV3DaisyChain)
             .on('Menu.EV3.DirectControl',             this, this.onMenuEV3DirectControl)

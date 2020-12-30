@@ -24,6 +24,13 @@ exports.SimulatorPlugin = class extends DOMNode {
         this._simulator.registerPlugin(this._plugin.uuid, this);
      }
 
+    initTitle(title) {
+        return {
+            className: 'no-select flt max-w plugin-title',
+            innerHTML: title
+        };
+    }
+
     initSensorModeMenu(menu, options) {
         for (let i = 0; i < options.length; i++) {
             options[i] = this.initSensorModeOption(menu, options[i], i);

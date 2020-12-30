@@ -122,6 +122,7 @@ exports.SettingsState = class extends Emitter {
             .on('Settings.Set.ShowSimulatorOnRun',          this, this._setShowSimulatorOnRun)
             .on('Settings.Set.ShowProperties',              this, this._setShowProperties)
             .on('Settings.Set.ShowSimulator',               this, this._setShowSimulator)
+            .on('Settings.Set.ShowNXTTile',                 this, this._setShowNXTTile)
             .on('Settings.Set.ShowEV3Tile',                 this, this._setShowEV3Tile)
             .on('Settings.Set.ShowEV3ImageTile',            this, this._setShowEV3ImageTile)
             .on('Settings.Set.ShowPoweredUpTile',           this, this._setShowPoweredUpTile)
@@ -206,6 +207,7 @@ exports.SettingsState = class extends Emitter {
                 properties:        this._show.properties,
                 simulator:         this._show.simulator,
                 simulatorOnRun:    this._show.simulatorOnRun,
+                nxtTile:           this._show.nxtTile,
                 ev3Tile:           this._show.ev3Tile,
                 ev3ImageTile:      this._show.ev3ImageTile,
                 poweredUpTile:     this._show.poweredUpTile,
@@ -307,6 +309,10 @@ exports.SettingsState = class extends Emitter {
 
     getShowSimulatorOnRun() {
         return this._show.simulatorOnRun;
+    }
+
+    getShowNXTTile() {
+        return this._show.nxtTile;
     }
 
     getShowEV3Tile() {
@@ -737,6 +743,12 @@ exports.SettingsState = class extends Emitter {
         this._save().emit('Settings.View');
     }
 
+    _setShowNXTTile(showNXTTile) {
+        this._show.nxtTile = showNXTTile;
+        this._save();
+        this.emit('Settings.HomeScreen');
+    }
+
     _setShowEV3Tile(showEV3Tile) {
         this._show.ev3Tile = showEV3Tile;
         this._save();
@@ -903,6 +915,7 @@ exports.SettingsState = class extends Emitter {
         this._show.simulator             = ('simulator'             in this._show)       ? this._show.simulator                                             : true;
         this._show.quickViewMenu         = ('quickViewMenu'         in this._show)       ? this._show.quickViewMenu                                         : true;
         this._show.simulatorOnRun        = ('simulatorOnRun'        in this._show)       ? this._show.simulatorOnRun                                        : true;
+        this._show.nxtTile               = ('nxtTile'               in this._show)       ? this._show.nxtTile                                               : true;
         this._show.ev3Tile               = ('ev3Tile'               in this._show)       ? this._show.ev3Tile                                               : true;
         this._show.ev3ImageTile          = ('ev3ImageTile'          in this._show)       ? this._show.ev3ImageTile                                          : true;
         this._show.poweredUpTile         = ('poweredUpTile'         in this._show)       ? this._show.poweredUpTile                                         : true;

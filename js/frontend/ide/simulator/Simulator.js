@@ -15,6 +15,7 @@ exports.Simulator = class extends DOMNode {
         (typeof opts.id === 'function') && opts.id(this);
         this._opts      = opts;
         this._ui        = opts.ui;
+        this._nxt       = opts.nxt;
         this._ev3       = opts.ev3;
         this._poweredUp = opts.poweredUp;
         this._spike     = opts.spike;

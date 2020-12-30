@@ -16,6 +16,7 @@ exports.Plugin = class extends Plugin {
         opts.stateConstructor = MotorOrSensorState;
         opts.baseClassName    = 'motors spike-ports';
         opts.portCount        = 6;
+        opts.title            = 'Spike ports';
         super(opts);
         dispatcher
             .on('VM.Start', this, this.onVMStart)

@@ -13,6 +13,14 @@ body.ide.no-simulator div.simulator {
     border-width:                   0 0 0 1px;
     z-index:                        1;
 }
+.simulator .plugin-title {
+    height:                         32px;
+    line-height:                    32px;
+    font-family:                    latolight;
+    font-size:                      17px;
+    color:                          var(--ui-text1);
+    opacity:                        0.65;
+}
 .simulator .motors,
 .simulator .sensors {
     float:                          left;
@@ -172,4 +180,7 @@ body.ide.no-simulator div.simulator {
 }
 .simulator .motors .motor .value .icon-select {
     margin:                         -2px 0 0 16px;
+}
+.simulator .direct-control {
+    margin:                         8px 0 0 0;
 }
