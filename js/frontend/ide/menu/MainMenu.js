@@ -441,21 +441,24 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initSimulatorMenu() {
-        let lastGroup = null;
-        let items     = [
-                {title: 'Auto reset sensor value', dispatch: 'Settings.Toggle.SensorAutoReset'},
-                {title: '-'}
+        let lastGroup  = null;
+        let groupCount = 2;
+        let items      = [
+                {title: 'Auto reset sensor value', dispatch: 'Settings.Toggle.SensorAutoReset'}
             ];
         this._settings.getPlugins().getSortedPlugins().forEach((plugin) => {
             if (pluginUuid.UUID_LIST.indexOf(plugin.uuid) === -1) {
                 return;
             }
-            if (lastGroup === null) {
-                lastGroup = plugin.group;
-            } else if (lastGroup !== plugin.group) {
-                lastGroup = plugin.group;
-                items.push({title: '-'});
+            if (lastGroup !== plugin.group) {
+                lastGroup  = plugin.group;
+                if (groupCount < 2) {
+                    items.push({title: ''});
+                }
+                groupCount = 0;
+                items.push({title: '-', className: 'simulator-' + lastGroup.toLowerCase()});
             }
+            groupCount++;
             items.push({
                 title:   plugin.name,
                 onClick: function() {
@@ -464,10 +467,12 @@ exports.MainMenu = class extends MainMenu {
             });
         });
         this._simulatorMenu = this.addMenu({
-            title:     '^Simulator',
-            width:     '256px',
-            withCheck: true,
-            items:     items
+            title:        '^Simulator',
+            width:        '320px',
+            className:    'simulator-menu',
+            withCheck:    true,
+            withLeftSide: true,
+            items:        items
         });
         return this;
     }
@@ -634,11 +639,21 @@ exports.MainMenu = class extends MainMenu {
     onUpdateSimulatorMenu(info) {
         let menuOptions = this._simulatorMenu.getMenu().getMenuOptions();
         let index       = 1;
+        let lastGroup   = null;
+        let groupCount  = 2;
         menuOptions[0].setChecked(this._settings.getSensorAutoReset());
         this._settings.getPlugins().getSortedPlugins().forEach((plugin) => {
             if (pluginUuid.UUID_LIST.indexOf(plugin.uuid) === -1) {
                 return;
             }
+            if (lastGroup !== plugin.group) {
+                lastGroup  = plugin.group;
+                if (groupCount < 2) {
+                    index++;
+                }
+                groupCount = 0;
+            }
+            groupCount++;
             menuOptions[index].setChecked(plugin.visible);
             index++;
         });
