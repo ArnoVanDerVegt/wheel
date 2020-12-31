@@ -11,7 +11,7 @@ const MotorState = require('./io/MotorState').MotorState;
 
 exports.Plugin = class extends Plugin {
     constructor(opts) {
-        opts.device           = opts.nxt;
+        opts.device           = opts.devices.nxt;
         opts.motorConstructor = Motor;
         opts.stateConstructor = MotorState;
         opts.portCount        = 3;

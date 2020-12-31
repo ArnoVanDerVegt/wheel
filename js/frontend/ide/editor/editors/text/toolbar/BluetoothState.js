@@ -7,8 +7,8 @@ const DOMNode = require('../../../../../lib/dom').DOMNode;
 exports.BluetoothState = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._ev3       = opts.ev3;
-        this._poweredUp = opts.poweredUp;
+        this._ev3       = opts.devices.ev3;
+        this._poweredUp = opts.devices.poweredUp;
         this.initDOM(opts.parentNode);
         this._ev3
             .addEventListener('EV3.Connected',    this, this.updateMessage)

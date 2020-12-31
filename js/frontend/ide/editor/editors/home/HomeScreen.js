@@ -25,10 +25,7 @@ exports.HomeScreen = class extends DOMNode {
         super(opts);
         this._ui           = opts.ui;
         this._settings     = opts.settings;
-        this._nxt          = opts.nxt;
-        this._ev3          = opts.ev3;
-        this._poweredUp    = opts.poweredUp;
-        this._spike        = opts.spike;
+        this._devices      = opts.devices;
         this._tileCount    = 0;
         this._onGlobalUIId = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this.initDOM(opts.parentNode);
@@ -156,8 +153,8 @@ exports.HomeScreen = class extends DOMNode {
                 tabIndex:       tabIndex.HOME_SCREEN + 18,
                 settings:       settings,
                 settingsGetter: settings.getShowNXTTile.bind(settings),
-                nxt:            this._nxt,
-                onClick:        connectionHelper.connectNXT.bind(this, this._settings, this._nxt)
+                nxt:            this._devices.nxt,
+                onClick:        connectionHelper.connectNXT.bind(this, this._settings, this._devices.nxt)
             },
             {
                 id:             addTile(),
@@ -168,8 +165,8 @@ exports.HomeScreen = class extends DOMNode {
                 tabIndex:       tabIndex.HOME_SCREEN + 20,
                 settings:       settings,
                 settingsGetter: settings.getShowEV3Tile.bind(settings),
-                ev3:            this._ev3,
-                onClick:        connectionHelper.connectEV3.bind(this, this._settings, this._ev3)
+                ev3:            this._devices.ev3,
+                onClick:        connectionHelper.connectEV3.bind(this, this._settings, this._devices.ev3)
             },
             {
                 id:             addTile(),
@@ -180,8 +177,8 @@ exports.HomeScreen = class extends DOMNode {
                 tabIndex:       tabIndex.HOME_SCREEN + 22,
                 settings:       settings,
                 settingsGetter: settings.getShowPoweredUpTile.bind(settings),
-                poweredUp:      this._poweredUp,
-                onClick:        connectionHelper.connectPoweredUp.bind(this, this._settings, this._poweredUp)
+                poweredUp:      this._devices.poweredUp,
+                onClick:        connectionHelper.connectPoweredUp.bind(this, this._settings, this._devices.poweredUp)
             },
             {
                 id:             addTile(),
@@ -192,8 +189,8 @@ exports.HomeScreen = class extends DOMNode {
                 tabIndex:       tabIndex.HOME_SCREEN + 24,
                 settings:       settings,
                 settingsGetter: settings.getShowSpikeTile.bind(settings),
-                spike:          this._spike,
-                onClick:        connectionHelper.connectSpike.bind(this, this._settings, this._spike)
+                spike:          this._devices.spike,
+                onClick:        connectionHelper.connectSpike.bind(this, this._settings, this._devices.spike)
             },
             showThemeTile ?
                 {

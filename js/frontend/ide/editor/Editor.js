@@ -21,10 +21,7 @@ exports.Editor = class {
             ui:           this._ui,
             editorsState: this._editorsState,
             settings:     opts.settings,
-            nxt:          opts.nxt,
-            ev3:          opts.ev3,
-            poweredUp:    opts.poweredUp,
-            spike:        opts.spike,
+            devices:      opts.devices,
             parentNode:   opts.parentNode
         });
         this._selectProjectCompileCallback = null; // Which project should be compiled?

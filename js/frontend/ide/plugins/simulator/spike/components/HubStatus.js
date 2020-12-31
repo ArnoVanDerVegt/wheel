@@ -9,9 +9,9 @@ exports.HubStatus = class extends DOMNode {
         super(opts);
         this._visible = opts.visible;
         this._layer   = opts.layer;
-        this._spike   = opts.spike;
+        this._device  = opts.device;
         this.initDOM(opts.parentNode);
-        this._spike
+        this._device
             .on('Spike.Connected' + opts.layer, this, this.onConnected)
             .on('Spike.Gyro'      + opts.layer, this, this.onGyro)
             .on('Spike.Accel'     + opts.layer, this, this.onAccel)

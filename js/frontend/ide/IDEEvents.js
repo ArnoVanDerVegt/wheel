@@ -142,15 +142,15 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // NXT Menu...
     onMenuNXTConnect() {
-        connectionHelper.connectNXT(this._settings, this._nxt);
+        connectionHelper.connectNXT(this._settings, this._devices.nxt);
     }
 
     onMenuNXTDisconnect() {
-        this._nxt.disconnect();
+        this._devices.nxt.disconnect();
     }
 
     onMenuNXTDeviceCount() {
-        deviceCountHelper.selectNXTDeviceCount(this._settings, this._nxt);
+        deviceCountHelper.selectNXTDeviceCount(this._settings, this._devices.nxt);
     }
 
     onMenuNXTDirectControl() {
@@ -163,11 +163,11 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // EV3 Menu...
     onMenuEV3Connect() {
-        connectionHelper.connectEV3(this._settings, this._ev3);
+        connectionHelper.connectEV3(this._settings, this._devices.ev3);
     }
 
     onMenuEV3DaisyChain() {
-        deviceCountHelper.selectEV3DaisyChainMode(this._settings, this._ev3);
+        deviceCountHelper.selectEV3DaisyChainMode(this._settings, this._devices.ev3);
     }
 
     onMenuEV3DirectControl() {
@@ -175,16 +175,16 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onMenuEV3StopAllMotors() {
-        this._ev3.stopAllMotors();
+        this._devices.ev3.stopAllMotors();
     }
 
     // Powered Up Menu...
     onMenuPoweredUpConnect() {
-        connectionHelper.connectPoweredUp(this._settings, this._poweredUp);
+        connectionHelper.connectPoweredUp(this._settings, this._devices.poweredUp);
     }
 
     onMenuPoweredUpDisconnect() {
-        this._poweredUp.disconnect();
+        this._devices.poweredUp.disconnect();
     }
 
     onMenuPoweredUpAutoConnect() {
@@ -193,7 +193,7 @@ exports.IDEEvents = class extends CompileAndRun {
     }
 
     onMenuPoweredUpDeviceCount() {
-        deviceCountHelper.selectPoweredUpDeviceCount(this._settings, this._poweredUp);
+        deviceCountHelper.selectPoweredUpDeviceCount(this._settings, this._devices.poweredUp);
     }
 
     onMenuPoweredUpDirectControl() {
@@ -219,15 +219,15 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // Spike Menu...
     onMenuSpikeConnect() {
-        connectionHelper.connectSpike(this._settings, this._spike);
+        connectionHelper.connectSpike(this._settings, this._devices.spike);
     }
 
     onMenuSpikeDisconnect() {
-        this._spike.disconnect();
+        this._devices.spike.disconnect();
     }
 
     onMenuSpikeDeviceCount() {
-        deviceCountHelper.selectSpikeDeviceCount(this._settings, this._spike);
+        deviceCountHelper.selectSpikeDeviceCount(this._settings, this._devices.spike);
     }
 
     onMenuSpikeDirectControl() {
@@ -456,7 +456,7 @@ exports.IDEEvents = class extends CompileAndRun {
             setTimeout(this.run.bind(this), 200);
         }
         this._compileAndRunInstall
-            .setEV3(this._ev3)
+            .setEV3(this._devices.ev3)
             .setProgram(this._program)
             .setPreProcessor(this._preProcessor)
             .setProjectFilename(this._projectFilename)

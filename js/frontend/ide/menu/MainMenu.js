@@ -10,6 +10,7 @@ const MainMenu                 = require('../../lib/components/mainmenu/MainMenu
 const ProgressBar              = require('../../lib/components/status/ProgressBar').ProgressBar;
 const Button                   = require('../../lib/components/input/Button').Button;
 const dispatcher               = require('../../lib/dispatcher').dispatcher;
+const pluginUuid               = require('../plugins/pluginUuid');
 const tabIndex                 = require('../tabIndex');
 const HelpOption               = require('./HelpOption').HelpOption;
 
@@ -17,10 +18,7 @@ exports.MainMenu = class extends MainMenu {
     constructor(opts) {
         super(opts);
         this._ui        = opts.ui;
-        this._nxt       = opts.nxt;
-        this._ev3       = opts.ev3;
-        this._poweredUp = opts.poweredUp;
-        this._spike     = opts.spike;
+        this._devices   = opts.devices;
         this._settings  = opts.settings;
         this
             .initMenu()
@@ -36,23 +34,23 @@ exports.MainMenu = class extends MainMenu {
             .addEventListener('Settings.Run',         this, this.onUpdateRunMenu)
             .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu)
             .addEventListener('Settings.Simulator',   this, this.onUpdateSimulatorMenu);
-        this._nxt
+        this._devices.nxt
             .addEventListener('NXT.Connecting',       this, this.onNXTConnecting)
             .addEventListener('NXT.StopConnecting',   this, this.onUpdateNXTMenu)
             .addEventListener('NXT.Connected',        this, this.onUpdateNXTMenu)
             .addEventListener('NXT.Disconnect',       this, this.onUpdateNXTMenu)
             .addEventListener('NXT.Disconnected',     this, this.onUpdateNXTMenu);
-        this._ev3
+        this._devices.ev3
             .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
             .addEventListener('EV3.StopConnecting',   this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Connected',        this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Disconnect',       this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Disconnected',     this, this.onUpdateEV3Menu);
-        this._poweredUp
+        this._devices.poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu)
             .addEventListener('PoweredUp.Disconnect', this, this.onUpdatePoweredUpMenu);
-        this._spike
+        this._devices.spike
             .addEventListener('Spike.Connecting',     this, this.onSpikeConnecting)
             .addEventListener('Spike.StopConnecting', this, this.onUpdateSpikeMenu)
             .addEventListener('Spike.Connected',      this, this.onUpdateSpikeMenu)
@@ -449,6 +447,9 @@ exports.MainMenu = class extends MainMenu {
                 {title: '-'}
             ];
         this._settings.getPlugins().getSortedPlugins().forEach((plugin) => {
+            if (pluginUuid.UUID_LIST.indexOf(plugin.uuid) === -1) {
+                return;
+            }
             if (lastGroup === null) {
                 lastGroup = plugin.group;
             } else if (lastGroup !== plugin.group) {
@@ -520,7 +521,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdateNXTMenu() {
-        let connectionCount = this._nxt.getConnectionCount();
+        let connectionCount = this._devices.nxt.getConnectionCount();
         let menuOptions     = this._nxtMenu.getMenu().getMenuOptions();
         let settings        = this._settings;
         let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
@@ -535,7 +536,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdateEV3Menu() {
-        let connected   = this._ev3.getConnected();
+        let connected   = this._devices.ev3.getConnected();
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         let settings    = this._settings;
         menuOptions[0].setRemark(connected ? 'Connected' : 'No device connected').setChecked(connected);
@@ -552,7 +553,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdatePoweredUpMenu() {
-        let connectionCount   = this._poweredUp.getConnectionCount();
+        let connectionCount   = this._devices.poweredUp.getConnectionCount();
         let menuOptions       = this._poweredUpMenu.getMenu().getMenuOptions();
         let settings          = this._settings;
         let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
@@ -567,7 +568,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdateSpikeMenu() {
-        let connectionCount = this._spike.getConnectionCount();
+        let connectionCount = this._devices.spike.getConnectionCount();
         let menuOptions     = this._spikeMenu.getMenu().getMenuOptions();
         let settings        = this._settings;
         let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
@@ -590,7 +591,7 @@ exports.MainMenu = class extends MainMenu {
             menuOptions[0].setEnabled(false);                               // Compile
             menuOptions[1].setEnabled(false);                               // Compile & run
         }
-        menuOptions[2].setEnabled(this._ev3.getConnected());                // Compile and install on EV3
+        menuOptions[2].setEnabled(this._devices.ev3.getConnected());        // Compile and install on EV3
         menuOptions[3].setChecked(settings.getLinter());                    // Linter
         menuOptions[6].setChecked(settings.getCreateVMTextOutput());        // Create text output
         return this;
@@ -606,7 +607,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onVM(vm) {
-        let connected   = this._ev3.getConnected();
+        let connected   = this._devices.ev3.getConnected();
         let menuOptions = this._runMenu.getMenu().getMenuOptions();
         menuOptions[0].setEnabled(vm && !vm.running());                     // Run
         menuOptions[1].setEnabled(vm && vm.getBreakpoint());                // Continue
@@ -632,9 +633,14 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateSimulatorMenu(info) {
         let menuOptions = this._simulatorMenu.getMenu().getMenuOptions();
+        let index       = 1;
         menuOptions[0].setChecked(this._settings.getSensorAutoReset());
-        this._settings.getPlugins().getSortedPlugins().forEach((plugin, index) => {
-            menuOptions[1 + index].setChecked(plugin.visible);
+        this._settings.getPlugins().getSortedPlugins().forEach((plugin) => {
+            if (pluginUuid.UUID_LIST.indexOf(plugin.uuid) === -1) {
+                return;
+            }
+            menuOptions[index].setChecked(plugin.visible);
+            index++;
         });
         return this;
     }

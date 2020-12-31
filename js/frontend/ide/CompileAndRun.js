@@ -15,15 +15,8 @@ const pluginUuid       = require('./plugins/pluginUuid');
 exports.CompileAndRun = class extends DOMUtils {
     constructor(opts) {
         super();
-        let settings  = opts.settings;
-        let nxt       = opts.nxt;
-        let ev3       = opts.ev3;
-        let poweredUp = opts.poweredUp;
-        let spike     = opts.spike;
-        this._nxt                     = nxt;
-        this._ev3                     = ev3;
-        this._poweredUp               = poweredUp;
-        this._spike                   = spike;
+        let settings = opts.settings;
+        this._devices                 = opts.devices;
         this._settings                = opts.settings;
         this._outputPath              = '';
         this._projectFilename         = '';
@@ -41,18 +34,18 @@ exports.CompileAndRun = class extends DOMUtils {
         this._compiling               = false;
         this._compileFinishedCallback = false;
         this._simulatorModules        = new SimulatorModules({settings: this._settings, ide: this});
-        // EV3 events...
-        ev3
-            .addEventListener('EV3.Connected',    this, this.onDeviceConnected)
-            .addEventListener('EV3.Disconnected', this, this.onDeviceDisconnected);
-        // EV3 events...
-        poweredUp
+        opts.devices.nxt
+            .addEventListener('EV3.Connected',          this, this.onDeviceConnected)
+            .addEventListener('EV3.Disconnected',       this, this.onDeviceDisconnected);
+        opts.devices.ev3
+            .addEventListener('EV3.Connected',          this, this.onDeviceConnected)
+            .addEventListener('EV3.Disconnected',       this, this.onDeviceDisconnected);
+        opts.devices.poweredUp
             .addEventListener('PoweredUp.Connected',    this, this.onDeviceConnected)
             .addEventListener('PoweredUp.Disconnected', this, this.onDeviceDisconnected);
-        // Spike events...
-        spike
-            .addEventListener('Spike.Connected',    this, this.onDeviceConnected)
-            .addEventListener('Spike.Disconnected', this, this.onDeviceDisconnected);
+        opts.devices.spike
+            .addEventListener('Spike.Connected',        this, this.onDeviceConnected)
+            .addEventListener('Spike.Disconnected',     this, this.onDeviceDisconnected);
         dispatcher
             .on('VM.Breakpoint',           this, this.onBreakpoint)
             .on('VM.Error.Range',          this, this.onRangeCheckError)
@@ -150,12 +143,12 @@ exports.CompileAndRun = class extends DOMUtils {
     getModules(vm) {
         let device = () => {
                 switch (this._settings.getActiveDevice()) {
-                    case 0: return this._nxt;
-                    case 1: return this._ev3;
-                    case 2: return this._poweredUp;
-                    case 3: return this._spike;
+                    case 0: return this._devices.nxt;
+                    case 1: return this._devices.ev3;
+                    case 2: return this._devices.poweredUp;
+                    case 3: return this._devices.spike;
                 }
-                return this._ev3;
+                return this._devices.ev3;
             };
         this._localModules = !device().getConnected();
         return vmModuleLoader.load(vm, this._localModules, device, this);
@@ -314,7 +307,7 @@ exports.CompileAndRun = class extends DOMUtils {
     }
 
     runVM() {
-        this._poweredUp.disconnect();
+        this._devices.poweredUp.disconnect();
         this.stop();
         let ipcRenderer = require('electron').ipcRenderer;
         ipcRenderer.send(
@@ -339,9 +332,10 @@ exports.CompileAndRun = class extends DOMUtils {
         this._vm.stop();
         this._motors && this._motors.reset();
         let ev3Plugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID);
-        this._ev3.stopAllMotors(this._settings.getDaisyChainMode());
-        this._poweredUp.stopAllMotors(this._settings.getPoweredUpDeviceCount());
-        this._spike.stopAllMotors(this._settings.getSpikeDeviceCount());
+        this._devices.nxt.stopAllMotors(this._settings.getNXTDeviceCount());
+        this._devices.ev3.stopAllMotors(this._settings.getDaisyChainMode());
+        this._devices.poweredUp.stopAllMotors(this._settings.getPoweredUpDeviceCount());
+        this._devices.spike.stopAllMotors(this._settings.getSpikeDeviceCount());
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();

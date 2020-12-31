@@ -9,8 +9,6 @@ const buttonModuleConstants        = require('../../../shared/vm/modules/buttonM
 const soundModuleConstants         = require('../../../shared/vm/modules/soundModuleConstants');
 const motorModuleConstants         = require('../../../shared/vm/modules/motorModuleConstants');
 const sensorModuleConstants        = require('../../../shared/vm/modules/sensorModuleConstants');
-const pspModuleConstants           = require('../../../shared/vm/modules/pspModuleConstants');
-const multiplexerModuleConstants   = require('../../../shared/vm/modules/multiplexerModuleConstants');
 const deviceModuleConstants        = require('../../../shared/vm/modules/deviceModuleConstants');
 const poweredUpModuleConstants     = require('../../../shared/vm/modules/poweredUpModuleConstants');
 const spikeModuleConstants         = require('../../../shared/vm/modules/spikeModuleConstants');
@@ -275,28 +273,6 @@ exports.SimulatorModules = class {
         return this;
     }
 
-    setupPspModule(vm) {
-        let pspModule = this._modules[pspModuleConstants.MODULE_PSP];
-        if (!pspModule) {
-            return this;
-        }
-        this._events.push(
-            dispatcher.on('Sensor.PSP.Changed', pspModule, pspModule.onValueChanged)
-        );
-        return this;
-    }
-
-    setupMultiplexerModule(vm) {
-        let multiplexerModule = this._modules[multiplexerModuleConstants.MODULE_MULTIPLEXER];
-        if (!multiplexerModule) {
-            return this;
-        }
-        this._events.push(
-            dispatcher.on('Sensor.Multiplexer.Changed', multiplexerModule, multiplexerModule.onValueChanged)
-        );
-        return this;
-    }
-
     setupDeviceModule(vm) {
         let deviceModule = this._modules[deviceModuleConstants.MODULE_DEVICE];
         if (!deviceModule) {
@@ -376,7 +352,6 @@ exports.SimulatorModules = class {
             .setupMotorModule(vm)
             .setupSensorModule(vm)
             .setupPspModule(vm)
-            .setupMultiplexerModule(vm)
             .setupDeviceModule(vm)
             .setupPoweredUpModule(vm)
             .setupSpikeModule(vm)

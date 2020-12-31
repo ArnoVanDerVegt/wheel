@@ -15,7 +15,7 @@ const Sound           = require('./io/Sound').Sound;
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
-        opts.device = opts.ev3;
+        opts.device = opts.devices.ev3;
         super(opts);
         this._baseClassName = 'ev3';
         this._sound         = new Sound();

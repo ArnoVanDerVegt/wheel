@@ -225,7 +225,7 @@ class Chart extends DOMNode {
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
-        opts.device = opts.ev3;
+        opts.device = opts.devices.ev3;
         super(opts);
         this._charts              = [];
         this._baseClassName       = 'flt rel max-w graph';

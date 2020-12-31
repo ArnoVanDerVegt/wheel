@@ -10,8 +10,7 @@ const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDat
 exports.Editor = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._ev3            = opts.ev3;
-        this._poweredUp      = opts.poweredUp;
+        this._devices        = opts.devices;
         this._ui             = opts.ui;
         this._settings       = opts.settings;
         this._editors        = opts.editors;

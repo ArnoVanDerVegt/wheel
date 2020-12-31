@@ -103,10 +103,7 @@ exports.WheelEditor = class extends Editor {
                         type:        ToolbarBottom,
                         ui:          this._ui,
                         settings:    this._settings,
-                        nxt:         this._nxt,
-                        ev3:         this._ev3,
-                        poweredUp:   this._poweredUp,
-                        spike:       this._spike,
+                        devices:     this._devices,
                         wheelEditor: this
                     }
                 ]

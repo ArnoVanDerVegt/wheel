@@ -28,10 +28,7 @@ exports.IDEDOM = class extends IDEDialogs {
                         ui:            this._ui,
                         settings:      this._settings,
                         platform:      this._settings.getOS().platform,
-                        nxt:           this._nxt,
-                        ev3:           this._ev3,
-                        poweredUp:     this._poweredUp,
-                        spike:         this._spike
+                        devices:       this._devices
                     },
                     {
                         type:          FileTree,
@@ -47,20 +44,14 @@ exports.IDEDOM = class extends IDEDialogs {
                         type:          Editor,
                         ui:            this._ui,
                         settings:      this._settings,
-                        nxt:           this._nxt,
-                        ev3:           this._ev3,
-                        poweredUp:     this._poweredUp,
-                        spike:         this._spike,
+                        devices:       this._devices,
                         editorsState:  this._editorsState
                     },
                     {
                         id:            (simulator) => { this._simulator = simulator; },
                         type:          Simulator,
                         ui:            this._ui,
-                        nxt:           this._nxt,
-                        ev3:           this._ev3,
-                        poweredUp:     this._poweredUp,
-                        spike:         this._spike,
+                        devices:       this._devices,
                         settings:      this._settings,
                         onStop:        this.stop.bind(this)
                     },

@@ -26,7 +26,7 @@ exports.Plugin = class extends Plugin {
         opts.layerCount       = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         opts.motorConstructor = MotorOrSensor;
         opts.stateConstructor = MotorOrSensorState;
-        opts.device           = opts.poweredUp;
+        opts.device           = opts.devices.poweredUp;
         opts.constants        = poweredUpModuleConstants;
         opts.title            = 'Hub ports';
         super(opts);
@@ -34,7 +34,6 @@ exports.Plugin = class extends Plugin {
         this._assignmentError  = false;
         this._buttons          = null;
         this._settings         = opts.settings;
-        this._poweredUp        = opts.poweredUp;
         this._uuid             = '';
         this._simulatedDevices = new SimulatedDevices({});
     }
@@ -96,7 +95,7 @@ exports.Plugin = class extends Plugin {
     }
 
     getDeviceStateByLayer(layer) {
-        let layerState = this._poweredUp.getLayerState(layer);
+        let layerState = this._device.getLayerState(layer);
         if (layerState && layerState.getConnected()) {
             return layerState;
         }
@@ -122,7 +121,6 @@ exports.Plugin = class extends Plugin {
     }
 
     getButtons() {
-        let poweredUp = this._poweredUp;
         if (!this._buttons) {
             this._buttons = {
                 readButton: (layer) => {

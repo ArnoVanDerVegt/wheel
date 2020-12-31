@@ -15,8 +15,6 @@ require('../shared/vm/modules/systemModuleConstants');
 require('../shared/vm/modules/stringModuleConstants');
 require('../shared/vm/modules/bitModuleConstants');
 require('../shared/vm/modules/deviceModuleConstants');
-require('../shared/vm/modules/multiplexerModuleConstants');
-require('../shared/vm/modules/pspModuleConstants');
 require('../shared/vm/modules/poweredUpModuleConstants');
 require('../shared/vm/modules/spikeModuleConstants');
 require('../shared/vm/modules/nxtModuleConstants');
@@ -170,8 +168,6 @@ require('../frontend/vm/modules/local/BitModule');
 require('../frontend/vm/modules/local/DeviceModule');
 require('../frontend/vm/modules/local/PoweredUpModule');
 require('../frontend/vm/modules/local/SpikeModule');
-require('../frontend/vm/modules/local/MultiplexerModule');
-require('../frontend/vm/modules/local/PspModule');
 require('../frontend/vm/modules/local/components/ComponentFormModule');
 require('../frontend/vm/modules/local/components/ComponentButtonModule');
 require('../frontend/vm/modules/local/components/ComponentCheckboxModule');
@@ -213,8 +209,6 @@ require('../frontend/vm/modules/remote/BitModule');
 require('../frontend/vm/modules/remote/DeviceModule');
 require('../frontend/vm/modules/remote/PoweredUpModule');
 require('../frontend/vm/modules/remote/SpikeModule');
-require('../frontend/vm/modules/remote/MultiplexerModule');
-require('../frontend/vm/modules/remote/PspModule');
 require('../frontend/vm/VMData');
 require('../frontend/vm/VM');
 require('../frontend/vm/VMModuleLoader');
@@ -528,7 +522,6 @@ require('../frontend/ide/plugins/simulator/ev3sensors/io/InfraredSensor');
 require('../frontend/ide/plugins/simulator/ev3sensors/io/SoundSensor');
 require('../frontend/ide/plugins/simulator/ev3sensors/io/TouchSensor');
 require('../frontend/ide/plugins/simulator/ev3sensors/io/UltrasonicSensor');
-require('../frontend/ide/plugins/simulator/ev3sensors/io/MultiplexerSensor');
 require('../frontend/ide/plugins/simulator/ev3sensors/SensorContainer');
 require('../frontend/ide/plugins/simulator/ev3sensors/Plugin');
 require('../frontend/ide/plugins/simulator/spike/io/LedMatrix');
@@ -538,7 +531,6 @@ require('../frontend/ide/plugins/simulator/spike/Plugin');
 require('../frontend/ide/plugins/simulator/spikeports/io/MotorOrSensorState');
 require('../frontend/ide/plugins/simulator/spikeports/io/MotorOrSensor');
 require('../frontend/ide/plugins/simulator/spikeports/Plugin');
-require('../frontend/ide/plugins/simulator/psp/Plugin');
 require('../frontend/ide/plugins/simulator/poweredup/io/MotorOrSensorState');
 require('../frontend/ide/plugins/simulator/poweredup/io/MotorOrSensor');
 require('../frontend/ide/plugins/simulator/poweredup/io/SimulatedLayerDevice');
@@ -591,12 +583,14 @@ const SpikeState     = require('../frontend/vm/device/spike/SpikeState').SpikeSt
                 return;
             }
             ide = new IDE({
-                ui:        ui,
-                settings:  settings,
-                nxt:       new NXTState      ({activeLayerCount: settings.getNXTDeviceCount()}),
-                ev3:       new EV3State      ({activeLayerCount: settings.getDaisyChainMode()}),
-                poweredUp: new PoweredUpState({actvieLayerCount: settings.getPoweredUpDeviceCount()}),
-                spike:     new SpikeState    ({activeLayerCount: settings.getSpikeDeviceCount()})
+                ui:       ui,
+                settings: settings,
+                devices: {
+                    nxt:       new NXTState      ({activeLayerCount: settings.getNXTDeviceCount()}),
+                    ev3:       new EV3State      ({activeLayerCount: settings.getDaisyChainMode()}),
+                    poweredUp: new PoweredUpState({actvieLayerCount: settings.getPoweredUpDeviceCount()}),
+                    spike:     new SpikeState    ({activeLayerCount: settings.getSpikeDeviceCount()})
+                }
             });
         };
 

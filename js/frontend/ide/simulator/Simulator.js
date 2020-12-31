@@ -6,6 +6,7 @@ const dispatcher       = require('../../lib/dispatcher').dispatcher;
 const DOMNode          = require('../../lib/dom').DOMNode;
 const Button           = require('../../lib/components/input/Button').Button;
 const Checkbox         = require('../../lib/components/input/Checkbox').Checkbox;
+const pluginUuid       = require('../plugins/pluginUuid');
 const tabIndex         = require('../tabIndex');
 const SimulatorToolbar = require('./SimulatorToolbar').SimulatorToolbar;
 
@@ -15,10 +16,7 @@ exports.Simulator = class extends DOMNode {
         (typeof opts.id === 'function') && opts.id(this);
         this._opts      = opts;
         this._ui        = opts.ui;
-        this._nxt       = opts.nxt;
-        this._ev3       = opts.ev3;
-        this._poweredUp = opts.poweredUp;
-        this._spike     = opts.spike;
+        this._devices   = opts.devices;
         this._settings  = opts.settings;
         this._layer     = 0;
         this._vm        = null;
@@ -43,6 +41,9 @@ exports.Simulator = class extends DOMNode {
         plugins.forEach(
             function(plugin, index) {
                 let uuid = plugin.uuid;
+                if (pluginUuid.UUID_LIST.indexOf(uuid) === -1) {
+                    return;
+                }
                 dispatcher.on(
                     'Menu.Simulator.' + uuid,
                     this,
@@ -62,12 +63,9 @@ exports.Simulator = class extends DOMNode {
                         type:      type,
                         plugin:    plugin,
                         ui:        this._ui,
-                        nxt:       this._nxt,
-                        ev3:       this._ev3,
-                        poweredUp: this._poweredUp,
-                        spike:     this._spike,
-                        settings:  settings,
+                        devices:   this._devices,
                         simulator: this,
+                        settings:  settings,
                         tabIndex:  tabIndex.SIMULATOR_PLUGINS + index * 96
                     });
                 }

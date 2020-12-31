@@ -15,12 +15,12 @@ exports.Hub = class extends DOMNode {
         super(opts);
         this._visible = opts.visible;
         this._layer   = opts.layer;
-        this._spike   = opts.spike;
+        this._device  = opts.device;
         this._buttons = 0;
         this._light   = null;
         opts.plugin.addHub(this);
         this.initDOM(opts.parentNode);
-        this._spike.on('Spike.Button' + opts.layer, this, this.onButtons);
+        this._device.on('Spike.Button' + opts.layer, this, this.onButtons);
     }
 
     initDOM(parentNode) {
@@ -33,10 +33,10 @@ exports.Hub = class extends DOMNode {
                 },
                 children: [
                     {
-                        type:    HubStatus,
-                        spike:   this._spike,
-                        layer:   this._layer,
-                        id:      this.setStatus.bind(this)
+                        type:   HubStatus,
+                        device: this._device,
+                        layer:  this._layer,
+                        id:     this.setStatus.bind(this)
                     },
                     {
                         className: 'flt spike-hub',

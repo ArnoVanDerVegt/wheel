@@ -10,7 +10,7 @@ exports.IDEAssistant = class extends Emitter {
     constructor(opts) {
         super(opts);
         this._settings  = opts.settings;
-        this._poweredUp = opts.poweredUp;
+        this._poweredUp = opts.devices.poweredUp;
         dispatcher
             .on('Create.Form',            this, this.onOpenForm)
             .on('IDE.Assistant.OpenForm', this, this.onOpenForm)

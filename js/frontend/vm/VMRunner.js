@@ -21,8 +21,7 @@ exports.VMRunner = class extends DOMNode {
         super(opts);
         this._hasMainWindow          = false;
         this._formDialogs            = [];
-        this._ev3                    = opts.ev3;
-        this._poweredUp              = opts.poweredUp;
+        this._devices                = opts.devices;
         this._projectFilename        = opts.projectFilename;
         this._settings               = opts.settings;
         this._ui                     = opts.ui;
@@ -142,7 +141,13 @@ exports.VMRunner = class extends DOMNode {
 
     getModules(vm) {
         let device = () => {
-                return (this._settings.getActiveDevice() === 0) ? this._ev3 : this._poweredUp;
+                switch (this._settings.getActiveDevice()) {
+                    case 0: return this._devices.nxt;
+                    case 1: return this._devices.ev3;
+                    case 2: return this._devices.poweredUp;
+                    case 3: return this._devices.spike;
+                }
+                return this._devices.ev3;
             };
         this._localModules = !device().getConnected();
         return vmModuleLoader.load(vm, this._localModules, device, this);

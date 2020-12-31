@@ -36,7 +36,7 @@ exports.connectEV3 = (settings, ev3) => {
             {
                 title: 'Connected',
                 lines: [
-                    this._ev3.getDeviceName(),
+                    ev3.getDeviceName(),
                     'Is connected.'
                 ]
             }

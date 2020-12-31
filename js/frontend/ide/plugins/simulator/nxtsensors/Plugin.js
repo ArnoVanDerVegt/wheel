@@ -10,7 +10,7 @@ const SensorContainer       = require('./SensorContainer').SensorContainer;
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
-        opts.device    = opts.nxt;
+        opts.device    = opts.devices.nxt;
         opts.constants = sensorModuleConstants;
         super(opts);
         this._baseClassName = 'sensors';

@@ -27,10 +27,7 @@ exports.Editors = class extends DOMNode {
         super(opts);
         this._ui           = opts.ui;
         this._settings     = opts.settings;
-        this._nxt          = opts.nxt;
-        this._ev3          = opts.ev3;
-        this._poweredUp    = opts.poweredUp;
-        this._spike        = opts.spike;
+        this._devices      = opts.devices;
         this._ideAssistant = opts.ideAssistant;
         this._editorsState = opts.editorsState;
         this._soundLoader  = new SoundLoader();
@@ -116,10 +113,7 @@ exports.Editors = class extends DOMNode {
                                         ref:       this.setRef('homeScreen'),
                                         ui:        this._ui,
                                         settings:  this._settings,
-                                        nxt:       this._nxt,
-                                        ev3:       this._ev3,
-                                        poweredUp: this._poweredUp,
-                                        spike:     this._spike
+                                        devices:   this._devices
                                     }
                                 ]
                             }
@@ -408,8 +402,7 @@ exports.Editors = class extends DOMNode {
             refs.homeScreen.hide();
             return editor;
         }
-        opts.ev3        = this._ev3;
-        opts.poweredUp  = this._poweredUp;
+        opts.devices    = this._devices;
         opts.ui         = this._ui;
         opts.settings   = this._settings;
         opts.editors    = this;

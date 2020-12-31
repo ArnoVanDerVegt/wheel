@@ -102,20 +102,12 @@ exports.PluginsState = class extends Emitter {
                 order:   6
             },
             {
-                uuid:    pluginUuid.SIMULATOR_PSP_UUID,
-                group:   'PSP',
-                name:    'PSP',
-                path:    'psp',
-                visible: false,
-                order:   7
-            },
-            {
                 uuid:    pluginUuid.SIMULATOR_POWERED_UP_UUID,
                 group:   'PoweredUp',
                 name:    'Hub',
                 path:    'poweredup',
                 visible: true,
-                order:   8
+                order:   7
             },
             {
                 uuid:    pluginUuid.SIMULATOR_SPIKE_UUID,
@@ -123,7 +115,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'Spike',
                 path:    'spike',
                 visible: true,
-                order:   9
+                order:   8
             },
             {
                 uuid:    pluginUuid.SIMULATOR_SPIKE_PORTS_UUID,
@@ -131,7 +123,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'Spike ports',
                 path:    'spikeports',
                 visible: true,
-                order:   10
+                order:   9
             }
         ];
     }

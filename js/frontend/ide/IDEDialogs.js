@@ -62,7 +62,7 @@ exports.IDEDialogs = class extends IDEEvents {
         // File...
         new FileNewDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings});
         new FileRenameDialog              ({getImage: getImage, ui: this._ui});
-        new FilePoweredUpProjectDialog    ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
+        new FilePoweredUpProjectDialog    ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._devices.poweredUp});
         // Connect...
         new NXTConnectListDialog          ({getImage: getImage, ui: this._ui});
         new EV3ConnectListDialog          ({getImage: getImage, ui: this._ui});
@@ -70,10 +70,10 @@ exports.IDEDialogs = class extends IDEEvents {
         new PoweredUpConnectListDialog    ({getImage: getImage, ui: this._ui, settings: this._settings});
         new PoweredUpAutoConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
         // Control...
-        new PoweredUpControlDialog        ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
-        new NXTControlDialog              ({getImage: getImage, ui: this._ui, device: this._nxt});
-        new EV3ControlDialog              ({getImage: getImage, ui: this._ui, device: this._ev3});
-        new SpikeControlDialog            ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._spike});
+        new PoweredUpControlDialog        ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._devices.poweredUp});
+        new NXTControlDialog              ({getImage: getImage, ui: this._ui, device: this._devices.nxt});
+        new EV3ControlDialog              ({getImage: getImage, ui: this._ui, device: this._devices.ev3});
+        new SpikeControlDialog            ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._devices.spike});
         new SettingsDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
         new YesNoCancelDialog             ({getImage: getImage, ui: this._ui});
         // Image...
@@ -104,11 +104,11 @@ exports.IDEDialogs = class extends IDEEvents {
         new HelpDialog                    ({getImage: getImage, ui: this._ui, settings: this._settings});
         new OpenFormDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
         // NXT...
-        new SensorTypeDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, nxt: this._nxt});
+        new SensorTypeDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, nxt: this._devices.nxt});
         // EV3...
         new ConnectedDialog               ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new ExploreDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings, ev3: this._ev3});
-        new DownloadDialog                ({getImage: getImage, ui: this._ui, settings: this._settings, ev3: this._ev3});
+        new ExploreDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings, ev3: this._devices.ev3});
+        new DownloadDialog                ({getImage: getImage, ui: this._ui, settings: this._settings, ev3: this._devices.ev3});
         // Tools...
         new GearRatioCalculatorDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
         new InverseKinematicsDialog       ({getImage: getImage, ui: this._ui, settings: this._settings});

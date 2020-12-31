@@ -16,7 +16,6 @@ const InfraredSensor        = require('./io/InfraredSensor').InfraredSensor;
 const SoundSensor           = require('./io/SoundSensor').SoundSensor;
 const TouchSensor           = require('./io/TouchSensor').TouchSensor;
 const UltrasonicSensor      = require('./io/UltrasonicSensor').UltrasonicSensor;
-const MultiplexerSensor     = require('./io/MultiplexerSensor').MultiplexerSensor;
 
 exports.SensorContainer = class extends DOMNode {
     constructor(opts) {
@@ -49,7 +48,6 @@ exports.SensorContainer = class extends DOMNode {
         this._sensorConstructors[sensorModuleConstants.SENSOR_TYPE_GYRO          ] = GyroSensor;
         this._sensorConstructors[sensorModuleConstants.SENSOR_TYPE_INFRARED      ] = InfraredSensor;
         this._sensorConstructors[sensorModuleConstants.SENSOR_TYPE_NXT_SOUND     ] = SoundSensor;
-        this._sensorConstructors[sensorModuleConstants.SENSOR_TYPE_MULTIPLEXER   ] = MultiplexerSensor;
         return this;
     }
 

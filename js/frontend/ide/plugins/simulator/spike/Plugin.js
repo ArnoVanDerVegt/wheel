@@ -10,9 +10,8 @@ const Hub                  = require('./components/Hub').Hub;
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
-        opts.device = opts.spike;
+        opts.device = opts.devices.spike;
         super(opts);
-        this._spike         = opts.spike;
         this._hubs          = [];
         this._buttons       = null;
         this._light         = null;
@@ -29,7 +28,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 visible: (i === 0),
                 layer:   i,
                 plugin:  this,
-                spike:   this._spike
+                device:  this._device
             });
         }
         this.create(

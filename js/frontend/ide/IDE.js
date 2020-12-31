@@ -38,7 +38,7 @@ exports.IDE = class extends IDEDOM {
         this._title                  = 'No program selected.';
         this._linter                 = null;
         this._editorsState           = new EditorsState();
-        this._ideAssistant           = new IDEAssistant({settings: settings, poweredUp: this._poweredUp});
+        this._ideAssistant           = new IDEAssistant({settings: settings, devices: this._devices});
         this
             .initDOM()
             .initGlobalRequire()
@@ -117,19 +117,19 @@ exports.IDE = class extends IDEDOM {
             .on('Compile.Silent',                     this, this.onCompileSilent)
             .on('Form.Show',                          this, this.onShowForm)
             .on('VM.Stop',                            this, this.onVMStop);
-        this._nxt
+        this._devices.nxt
             .addEventListener('NXT.Connecting',       this, this.onNXTConnecting)
             .addEventListener('NXT.Connected',        this, this.onNXTConnected)
             .addEventListener('NXT.Disconnect',       this, this.onNXTDisconnect);
-        this._ev3
+        this._devices.ev3
             .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
             .addEventListener('EV3.Connected',        this, this.onEV3Connected)
             .addEventListener('EV3.Disconnect',       this, this.onEV3Disconnect);
-        this._poweredUp
+        this._devices.poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected)
             .addEventListener('PoweredUp.Disconnect', this, this.onPoweredUpDisconnect);
-        this._spike
+        this._devices.spike
             .addEventListener('Spike.Connecting',     this, this.onSpikeConnecting)
             .addEventListener('Spike.Connected',      this, this.onSpikeConnected);
         this._ideAssistant
@@ -137,7 +137,7 @@ exports.IDE = class extends IDEDOM {
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
         this._settings
             .addEventListener('Settings.View',        this, this.onViewChanged);
-        dispatcher.on('Menu.EV3.Disconnect', this._ev3, this._ev3.disconnect);
+        dispatcher.on('Menu.EV3.Disconnect', this._devices.ev3, this._devices.ev3.disconnect);
         // Editor...
         let editor = this._editor;
         dispatcher

@@ -10,7 +10,7 @@ const MotorOrSensorState    = require('./io/MotorOrSensorState').MotorOrSensorSt
 
 exports.Plugin = class extends Plugin {
     constructor(opts) {
-        opts.device           = opts.spike;
+        opts.device           = opts.devices.spike;
         opts.constants        = sensorModuleConstants;
         opts.motorConstructor = MotorOrSensor;
         opts.stateConstructor = MotorOrSensorState;
