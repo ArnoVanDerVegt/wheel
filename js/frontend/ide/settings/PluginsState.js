@@ -94,11 +94,11 @@ exports.PluginsState = class extends Emitter {
                 order:   5
             },
             {
-                uuid:    pluginUuid.SIMULATOR_SENSOR_GRAPH_UUID,
+                uuid:    pluginUuid.SIMULATOR_EV3_SENSOR_GRAPH_UUID,
                 group:   'EV3',
                 name:    'EV3 Sensor output graph',
-                path:    'graph',
-                visible: false,
+                path:    'ev3graph',
+                visible: true,
                 order:   6
             },
             {
@@ -106,7 +106,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'PoweredUp',
                 name:    'Hub',
                 path:    'poweredup',
-                visible: true,
+                visible: false,
                 order:   7
             },
             {
@@ -114,7 +114,7 @@ exports.PluginsState = class extends Emitter {
                 group:   'Spike',
                 name:    'Spike',
                 path:    'spike',
-                visible: true,
+                visible: false,
                 order:   8
             },
             {
@@ -122,8 +122,16 @@ exports.PluginsState = class extends Emitter {
                 group:   'Spike',
                 name:    'Spike ports',
                 path:    'spikeports',
-                visible: true,
+                visible: false,
                 order:   9
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_SPIKE_SENSOR_GRAPH_UUID,
+                group:   'Spike',
+                name:    'Spike Sensor output graph',
+                path:    'spikegraph',
+                visible: true,
+                order:   10
             }
         ];
     }
@@ -159,7 +167,11 @@ exports.PluginsState = class extends Emitter {
             if (plugin.uuid in pluginIndexByUuid) {
                 let index         = pluginIndexByUuid[plugin.uuid];
                 let defaultPlugin = plugins[index];
-                plugins[index] = Object.assign(defaultPlugin, plugin);
+                for (let i in plugin) {
+                    if (!(i in defaultPlugin) || (i === 'visible')) {
+                        defaultPlugin[i] = plugin[i];
+                    }
+                }
             } else {
                 pluginIndexByUuid[plugin.uuid] = plugins.length;
                 plugins.push(plugin);

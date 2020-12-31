@@ -87,6 +87,7 @@ exports.BasicIOState = class {
         this._value = value;
         this._onChangeValue(value);
         this.setTimeoutReset();
+        return this;
     }
 
     setTimeoutReset() {
@@ -138,6 +139,7 @@ exports.BasicIOState = class {
 
     setPosition(position) {
         this._position = position;
+        return this;
     }
 
     setOn(on) {

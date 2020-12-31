@@ -53,7 +53,7 @@ exports.Plugin = class extends Plugin {
     }
 
     getSensor(layer, id) {
-        return this._sensors[layer * 6 + id] || null;
+        return this._motors[layer * 6 + id] || null;
     }
 
     setType(opts) {

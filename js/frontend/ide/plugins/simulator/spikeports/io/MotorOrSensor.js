@@ -116,7 +116,9 @@ exports.MotorOrSensor = class extends Motor {
     }
 
     onValueChanged(value) {
-        this._state.setPosition(value);
+        this._state
+            .setPosition(value)
+            .setValue(value);
         this.onChangeValue(value);
     }
 

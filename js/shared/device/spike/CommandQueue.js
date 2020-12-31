@@ -88,7 +88,7 @@ exports.CommandQueue = class {
                 .readButtons(ports);
         } else {
             this
-                .readMotorStatus(ports)
+                .readPortStatus(ports)
                 .readTiltStatus(ports);
         }
         this.sendQueue();
@@ -115,7 +115,7 @@ exports.CommandQueue = class {
         }
     }
 
-    readMotorStatus(ports) {
+    readPortStatus(ports) {
         let layer = this._layer;
         for (let i = 0; i < 6; i++) {
             let port     = layer.ports[i];

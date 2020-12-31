@@ -20,7 +20,7 @@ exports.SoundSensor = class extends Sensor {
     }
 
     onChangeValue(value) {
-        this._numberInputElement.value = value;
+        this._numberInputElement.value = value.toFixed(2);
     }
 
     onConnected() {
