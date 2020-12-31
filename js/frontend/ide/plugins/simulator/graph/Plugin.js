@@ -147,7 +147,6 @@ class Chart extends DOMNode {
                 this._maxValue     = 100;
                 break;
         }
-
         if (image) {
             img.src           = getImage(image);
             img.style.display = 'block';
@@ -251,18 +250,16 @@ exports.Plugin = class extends SimulatorPlugin {
     initTitle() {
         return [
             {
-                className: 'title',
+                className: 'flt max-w direct-control',
                 children: [
                     {
-                        type:      'span',
-                        innerHTML: 'EV3 Graph'
-                    },
-                    {
-                        type:    Button,
-                        value:   'Add',
-                        color:   'gray',
-                        ui:      this._ui,
-                        onClick: this.onAddChart.bind(this)
+                        type:     Button,
+                        ref:      this.setRef('sensorTypeButton'),
+                        ui:       this._ui,
+                        uiId:     1,
+                        onClick:  this.onAddChart.bind(this),
+                        value:    'Add chart',
+                        color:    'blue'
                     }
                 ]
             }
@@ -276,6 +273,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 ref:       this.setRef('graph'),
                 className: this.getClassName(),
                 children: [
+                    super.initTitle('EV3 Graph'),
                     {
                         className: 'chart-container',
                         children: [

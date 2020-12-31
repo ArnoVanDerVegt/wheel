@@ -55,7 +55,7 @@ exports.EV3Routes = class {
 
     update(req, res) {
         let result = {error: false, connected: true};
-        let ev3  = this._ev3;
+        let ev3    = this._ev3;
         if (ev3.getConnected()) {
             ev3.setActiveLayerCount(req.body.activeLayerCount);
             let queue = (typeof req.body.queue === 'string') ? JSON.parse(req.body.queue) : req.body.queue;

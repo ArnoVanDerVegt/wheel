@@ -141,11 +141,14 @@ exports.EV3 = class extends BasicDevice {
                 default:
                     let updateList = this.getUpdateList(poll.layer);
                     let i          = 0;
+                    // Iterate through the updateList until we found a port which has a valid type connected...
                     for (i = 0; i < updateList.length; i++) {
-                        let found = updateList[poll.count]();
+                        let found = updateList[poll.count](); // Try to update the port, found if there's a valid connection
                         poll.count++;
                         if (poll.count >= updateList.length) {
+                            // Reset the count...
                             poll.count = 0;
+                            // Move to the next layer...
                             poll.layer++;
                             if (poll.layer >= this._activeLayerCount) {
                                 poll.layer = 0;

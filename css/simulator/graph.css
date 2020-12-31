@@ -20,7 +20,7 @@
     box-shadow:                     1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .simulator .graph .chart .chart-title {
-    height:                         32px;
+    height:                         40px;
     padding:                        0;
     background-color:               var(--ui-background2);
     border-radius:                  0 0 2px 2px;
@@ -36,13 +36,14 @@
 .simulator .graph .chart .chart-title img {
     width:                          28px;
     height:                         28px;
+    margin:                         6px 0 0 6px;
 }
 .simulator .graph .chart .chart-title h3 {
     font-family:                    latolight;
     margin:                         0 0 0 8px;
     padding:                        0;
-    height:                         32px;
-    line-height:                    32px;
+    height:                         40px;
+    line-height:                    40px;
 }
 .simulator .graph .title {
     float:                          left;

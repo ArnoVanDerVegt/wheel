@@ -67,9 +67,10 @@ body.ide.no-simulator div.simulator {
 }
 .simulator .motors .motor img.type,
 .simulator .sensors .sensor img.type {
+    margin:                         2px 0 0 2px;
     border-radius:                  2px 0 0 0;
-    width:                          34px;
-    height:                         34px;
+    width:                          32px;
+    height:                         32px;
 }
 .simulator .motors .motor.hidden,
 .simulator .sensors .sensor-container.hidden {

@@ -12,7 +12,7 @@ const messageEncoder        = require('./messageEncoder');
 const Message               = require('./Message').Message;
 const constants             = require('./constants');
 
-const MESSAGE_TIME_OUT_TIME = 50;
+const MESSAGE_TIME_OUT_TIME = 25;
 
 exports.CommandQueue = class {
     constructor(ev3, sendFunction) {
@@ -181,7 +181,9 @@ exports.CommandQueue = class {
     }
 
     getFailedConnectionTypesLayer() {
-        return this._failedConnectionTypesLayer;
+        let result = this._failedConnectionTypesLayer;
+        this._failedConnectionTypesLayer = -1;
+        return result;
     }
 
     shouldChunkTranfers() {
@@ -207,7 +209,7 @@ exports.CommandQueue = class {
         this._sentTime = null;
         let command = queue.shift();
         if (command.response) {
-            pending.time    = Date.now() + 500;
+            pending.time    = Date.now() + MESSAGE_TIME_OUT_TIME;
             pending.command = command;
             this._sending   = true;
         } else if (command.wait) {

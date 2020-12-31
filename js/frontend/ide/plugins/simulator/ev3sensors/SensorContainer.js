@@ -26,6 +26,7 @@ exports.SensorContainer = class extends DOMNode {
         this._currentConstructor = null;
         this._currentSensor      = null;
         this._sensorConstructors = [];
+        this._assignmentTimeout  = null;
         opts.addSensor(this);
         opts.device
            .addEventListener('EV3.Layer' + opts.layer + 'Sensor' + opts.id + 'Changed',  this, this.onValueChanged)
@@ -78,27 +79,35 @@ exports.SensorContainer = class extends DOMNode {
     }
 
     onAssigned(assignment, mode) {
-        let currentConstructor = this._sensorConstructors[assignment] || UnknownSensor;
-        if (currentConstructor !== this._currentConstructor) {
-            if (this._currentSensor) {
-                this._currentSensor.remove();
-                this._currentSensor = null;
-            }
-            if (currentConstructor !== null) {
-                let opts = this.initSensor(currentConstructor);
-                opts.parentNode = this._refs.sensor;
-                opts.connected  = this._device.getConnected();
-                new currentConstructor(opts);
-            }
-            this._currentConstructor = currentConstructor;
+        const callback = () => {
+                let currentConstructor = this._sensorConstructors[assignment] || UnknownSensor;
+                if (currentConstructor !== this._currentConstructor) {
+                    if (this._currentSensor) {
+                        this._currentSensor.remove();
+                        this._currentSensor = null;
+                    }
+                    if (currentConstructor !== null) {
+                        let opts = this.initSensor(currentConstructor);
+                        opts.parentNode = this._refs.sensor;
+                        opts.connected  = this._device.getConnected();
+                        new currentConstructor(opts);
+                    }
+                    this._currentConstructor = currentConstructor;
+                }
+                if (this._currentSensor) {
+                    let state = this._currentSensor.getState();
+                    state.setType(assignment);
+                    if (mode !== null) {
+                        state.setMode(parseInt(mode, 10));
+                    }
+                }
+                this._assignmentTimeout = null;
+            };
+        if (this._assignmentTimeout) {
+            clearTimeout(this._assignmentTimeout);
+            this._assignmentTimeout = null;
         }
-        if (this._currentSensor) {
-            let state = this._currentSensor.getState();
-            state.setType(assignment);
-            if (mode !== null) {
-                state.setMode(parseInt(mode, 10));
-            }
-        }
+        this._assignmentTimeout = setTimeout(callback, 100);
     }
 
     onConnecting() {

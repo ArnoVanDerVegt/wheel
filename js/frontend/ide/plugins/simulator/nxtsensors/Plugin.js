@@ -53,8 +53,8 @@ exports.Plugin = class extends SimulatorPlugin {
                     type:     Button,
                     ref:      this.setRef('sensorTypeButton'),
                     ui:       this._ui,
-                    onClick:  this.onClickSensorType.bind(this),
                     uiId:     1,
+                    onClick:  this.onClickSensorType.bind(this),
                     value:    'Sensor type',
                     color:    'blue',
                     disabled: true
