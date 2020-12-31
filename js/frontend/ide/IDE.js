@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path                   = require('../../shared/lib/path');
 const platform               = require('../../shared/lib/platform');
 const Downloader             = require('../program/Downloader');
-const path                   = require('../lib/path');
 const Http                   = require('../lib/Http').Http;
 const dispatcher             = require('../lib/dispatcher').dispatcher;
 const Button                 = require('../lib/components/input/Button').Button;

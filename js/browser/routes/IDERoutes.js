@@ -117,7 +117,7 @@
         };
 
     const getFilesInPath = function(p, files, directoryList, readonly) {
-            let path = getRequireDependency('./js/frontend/lib/path');
+            let path = getRequireDependency('./js/shared/lib/path');
             for (let filename in files) {
                 if (filename.indexOf(p) !== 0) {
                     continue;
@@ -188,7 +188,7 @@
         }
 
         file(params, callback) {
-            let path       = getRequireDependency('./js/frontend/lib/path');
+            let path       = getRequireDependency('./js/shared/lib/path');
             let files      = getRequireDependency('./js/frontend/ide/data/templates').files;
             let localFiles = getLocalStorageFiles().getFiles();
             let extension  = path.getExtension(params.filename);
@@ -361,7 +361,7 @@
 
         directoryDelete(params, callback) {
             getLocalStorageFiles().deleteDirectory(params.directory);
-            let path = getRequireDependency('./js/frontend/lib/path');
+            let path = getRequireDependency('./js/shared/lib/path');
             callback({success: true});
             changes.push({eventType: 'change', path: path.getPathAndFilename(params.directory).path});
         }

@@ -5,7 +5,7 @@
 const messageEncoder = require('../../../shared/device/ev3/messageEncoder');
 const CommandQueue   = require('../../../shared/device/ev3/CommandQueue').CommandQueue;
 const constants      = require('../../../shared/device/ev3/constants');
-const path           = require('../../../frontend/lib/path');
+const path           = require('../../../shated/lib/path');
 
 exports.EV3Routes = class {
     constructor(opts) {

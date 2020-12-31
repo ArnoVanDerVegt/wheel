@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path    = require('../../../shared/lib/path');
 const Emitter = require('../../lib/Emitter').Emitter;
-const path    = require('../../lib/path');
 
 exports.EditorsState = class extends Emitter {
     constructor() {

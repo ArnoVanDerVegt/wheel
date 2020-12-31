@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path      = require('../../../shared/lib/path');
 const platform  = require('../../../shared/lib/platform');
 const IDERoutes = require('../../../browser/routes/IDERoutes').IDERoutes;
 const Http      = require('../Http').Http;
-const path      = require('../path');
 
 const ideRoutes = new IDERoutes({});
 

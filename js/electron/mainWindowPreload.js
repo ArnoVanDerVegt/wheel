@@ -69,8 +69,8 @@ require('../backend/routes/IDERoutes');
 require('../frontend/program/Downloader');
 const dispatcher = require('../frontend/lib/dispatcher').dispatcher;
 require('../shared/lib/platform');
+require('../shared/lib/path');
 require('../frontend/lib/Emitter');
-require('../frontend/lib/path');
 require('../frontend/lib/dom');
 require('../frontend/lib/Http');
 require('../frontend/program/commands');
@@ -600,7 +600,7 @@ const SpikeState     = require('../frontend/vm/device/spike/SpikeState').SpikeSt
             if (setup) {
                 return;
             }
-            require('../frontend/lib/path').setSep(settings.getOS().pathSep);
+            require('../shared/lib/path').setSep(settings.getOS().pathSep);
             setup = new Setup({
                 ui:         ui,
                 settings:   settings,

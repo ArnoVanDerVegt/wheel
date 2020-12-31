@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path                     = require('../../shared/lib/path');
 const poweredUpModuleConstants = require('../../shared/vm/modules/poweredUpModuleConstants');
 const spikeModuleConstants     = require('../../shared/vm/modules/spikeModuleConstants');
 const platform                 = require('../../shared/lib/platform');
 const dispatcher               = require('../lib/dispatcher').dispatcher;
-const path                     = require('../lib/path');
 const getDataProvider          = require('../lib/dataprovider/dataProvider').getDataProvider;
 const Rtf                      = require('../program/output/Rtf').Rtf;
 const SourceFormatter          = require('./source/SourceFormatter').SourceFormatter;

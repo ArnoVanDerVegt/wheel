@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../../shared/lib/path');
 const platform        = require('../../../../shared/lib/platform');
 const getDataProvider = require('../../dataprovider/dataProvider').getDataProvider;
 const dispatcher      = require('../../dispatcher').dispatcher;
 const DOMNode         = require('../../dom').DOMNode;
-const path            = require('../../path');
 const CloseButton     = require('../input/CloseButton').CloseButton;
 const Button          = require('../input/Button').Button;
 const Resizer         = require('../Resizer').Resizer;

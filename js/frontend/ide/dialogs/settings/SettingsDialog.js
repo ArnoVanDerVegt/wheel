@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path                = require('../../../../shared/lib/path');
 const platform            = require('../../../../shared/lib/platform');
 const DOMNode             = require('../../../lib/dom').DOMNode;
 const dispatcher          = require('../../../lib/dispatcher').dispatcher;
@@ -11,7 +12,6 @@ const Tabs                = require('../../../lib/components/input/Tabs').Tabs;
 const Radio               = require('../../../lib/components/input/Radio').Radio;
 const Img                 = require('../../../lib/components/basic/Img').Img;
 const getDataProvider     = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const CheckboxSetting     = require('./components/CheckboxSetting').CheckboxSetting;
 const TextInputSetting    = require('./components/TextInputSetting').TextInputSetting;

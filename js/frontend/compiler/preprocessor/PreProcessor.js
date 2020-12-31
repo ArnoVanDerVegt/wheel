@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path             = require('../../../shared/lib/path');
 const dispatcher       = require('../../lib/dispatcher').dispatcher;
-const path             = require('../../lib/path');
 const errors           = require('../errors');
 const err              = require('../errors').errors;
 const Iterator         = require('../tokenizer/TokenIterator').Iterator;

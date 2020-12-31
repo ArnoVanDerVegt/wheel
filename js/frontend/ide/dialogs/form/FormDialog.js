@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path                = require('../../../../shared/lib/path');
 const dispatcher          = require('../../../lib/dispatcher').dispatcher;
 const Dialog              = require('../../../lib/components/Dialog').Dialog;
 const TabPanel            = require('../../../lib/components/TabPanel').TabPanel;
-const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const formEditorConstants = require('../../editor/editors/form/formEditorConstants');
 const ContainerIdsForForm = require('../../editor/editors/form/ContainerIdsForForm').ContainerIdsForForm;

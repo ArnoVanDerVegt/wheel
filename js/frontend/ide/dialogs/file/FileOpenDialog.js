@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../../shared/lib/path');
 const platform        = require('../../../../shared/lib/platform');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
-const path            = require('../../../lib/path');
 const Files           = require('../../../lib/components/files/Files').Files;
 const Dialog          = require('../../../lib/components/Dialog').Dialog;
 const ToolOptions     = require('../../../lib/components/input/ToolOptions').ToolOptions;

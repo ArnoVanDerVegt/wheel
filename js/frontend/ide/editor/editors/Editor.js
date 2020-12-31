@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../../shared/lib/path');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const DOMNode         = require('../../../lib/dom').DOMNode;
-const path            = require('../../../lib/path');
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
 
 exports.Editor = class extends DOMNode {

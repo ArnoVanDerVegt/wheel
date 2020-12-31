@@ -113,18 +113,18 @@ exports.CommandQueue = class {
                     port = responseMessage.readByte();
                     if ((port >= 0) && (port < 3)) {
                         let motorStatus = layer.motors[port];
-                        motorStatus.port           = port;
-                        motorStatus.power          = responseMessage.readByte();
-                        motorStatus.mode           = responseMessage.readByte();
-                        motorStatus.regulationMode = responseMessage.readByte();
-                        motorStatus.turnRatio      = responseMessage.readByte();
-                        motorStatus.runState       = responseMessage.readByte();
-                        motorStatus.tachoLimit     = responseMessage.readDWord();
-                        motorStatus.tachoCount     = responseMessage.readDWord();
-                        motorStatus.value          = motorStatus.tachoCount;
-                        motorStatus.degrees        = motorStatus.value - motorStatus.resetDegrees;
-                        motorStatus.blockTachoCount = responseMessage.readDWord(); // blockTachoCount
-                        motorStatus.rotationCount   = responseMessage.readDWord(); // rotationCount
+                        motorStatus.port            = port;
+                        motorStatus.power           = responseMessage.readByte();
+                        motorStatus.mode            = responseMessage.readByte();
+                        motorStatus.regulationMode  = responseMessage.readByte();
+                        motorStatus.turnRatio       = responseMessage.readByte();
+                        motorStatus.runState        = responseMessage.readByte();
+                        motorStatus.tachoLimit      = responseMessage.readDWord();
+                        motorStatus.tachoCount      = responseMessage.readDWord();
+                        motorStatus.blockTachoCount = responseMessage.readDWord();
+                        motorStatus.rotationCount   = responseMessage.readDWord();
+                        motorStatus.value           = motorStatus.tachoCount;
+                        motorStatus.degrees         = motorStatus.value - motorStatus.resetDegrees;
                     }
                     break;
             }
