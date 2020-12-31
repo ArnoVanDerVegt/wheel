@@ -223,4 +223,28 @@ exports.EV3State = class extends BasicDeviceState {
             this._createResponseHandler(callback)
         );
     }
+
+    stopPolling(callback) {
+        if (this._connecting || !this._connected) {
+            return;
+        }
+        this._dataProvider.getData(
+            'post',
+            'ev3/stop-polling',
+            {},
+            this._createResponseHandler(callback)
+        );
+    }
+
+    resumePolling(callback) {
+        if (this._connecting || !this._connected) {
+            return;
+        }
+        this._dataProvider.getData(
+            'post',
+            'ev3/resume-polling',
+            {},
+            this._createResponseHandler(callback)
+        );
+    }
 };

@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const poweredUpModuleConstants = require('../../js/shared/vm/modules/poweredUpModuleConstants');
-const PoweredUpState           = require('../../js/frontend/vm/poweredup/PoweredUpState').PoweredUpState;
-const LayerState               = require('../../js/frontend/vm/poweredup/LayerState').LayerState;
+const PoweredUpState           = require('../../js/frontend/vm/device/poweredup/PoweredUpState').PoweredUpState;
+const LayerState               = require('../../js/frontend/vm/device/poweredup/LayerState').LayerState;
 const dispatcher               = require('../../js/frontend/lib/dispatcher').dispatcher;
 const assert                   = require('assert');
 
@@ -206,10 +206,8 @@ describe(
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
                 poweredUpState.getLayerState(0).setConnected(true); // Force correct state...
                 assert.equal(mockDataProvider.getStopped(),    false);
-                assert.equal(mockDataProvider.getLayerCount(), 0);
                 poweredUpState.stopAllMotors(3);
                 assert.equal(mockDataProvider.getStopped(),    true);
-                assert.equal(mockDataProvider.getLayerCount(), 3);
             }
         );
         it(

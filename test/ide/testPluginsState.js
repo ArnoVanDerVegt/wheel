@@ -18,7 +18,7 @@ describe(
             'Should create PluginsState',
             () => {
                 let pluginsState = new PluginsState({});
-                assert.equal(pluginsState.getDefaultPlugins().length, 8);
+                assert.equal(pluginsState.getDefaultPlugins().length, 9);
             }
         );
         it(
@@ -36,7 +36,8 @@ describe(
                         'EV3',
                         'EV3 Sensors',
                         'EV3 Sensor output graph',
-                        'PSP',
+                        'NXT Motors',
+                        'NXT Sensors',
                         'Hub',
                         'Spike',
                         'Spike ports'
@@ -52,23 +53,7 @@ describe(
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_SENSORS_UUID),  null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_MOTORS_UUID),   null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_SENSOR_GRAPH_UUID), null);
-                assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_PSP_UUID),          null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_POWERED_UP_UUID),   null);
-            }
-        );
-        it(
-            'Should load and add new plugin',
-            () => {
-                let pluginsState = new PluginsState({});
-                pluginsState.load([{
-                    uuid:    '94f5d48e-6de0-11ea-bc55-0242ac130003',
-                    group:   'Test',
-                    name:    'Test plugin',
-                    path:    'test',
-                    visible: true,
-                    order:   20
-                }]);
-                assert.equal(pluginsState.getSortedPlugins().length, 9);
             }
         );
         it(
@@ -83,7 +68,7 @@ describe(
                     visible: true,
                     order:   20
                 }]);
-                assert.equal(pluginsState.getSortedPlugins().length, 8);
+                assert.equal(pluginsState.getSortedPlugins().length, 9);
             }
         );
         it(

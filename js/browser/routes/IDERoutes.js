@@ -153,6 +153,7 @@
             localStorageFiles = new LocalStorageFiles();
             pathByIndex       = {};
             changes.length    = 0;
+            return this;
         }
 
         files(params, callback) {

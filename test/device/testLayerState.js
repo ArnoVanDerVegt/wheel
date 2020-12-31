@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const BasicLayerState     = require('../../js/frontend/vm/BasicLayerState').BasicLayerState;
-const PoweredUpLayerState = require('../../js/frontend/vm/poweredup/LayerState').LayerState;
-const PoweredUpState      = require('../../js/frontend/vm/poweredup/PoweredUpState').PoweredUpState;
-const EV3LayerState       = require('../../js/frontend/vm/ev3/LayerState').LayerState;
+const BasicLayerState     = require('../../js/frontend/vm/device/BasicLayerState').BasicLayerState;
+const PoweredUpLayerState = require('../../js/frontend/vm/device/poweredup/LayerState').LayerState;
+const PoweredUpState      = require('../../js/frontend/vm/device/poweredup/PoweredUpState').PoweredUpState;
+const EV3LayerState       = require('../../js/frontend/vm/device/ev3/LayerState').LayerState;
 const assert              = require('assert');
 
 const testDevice = {

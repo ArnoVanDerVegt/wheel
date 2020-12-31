@@ -2,13 +2,13 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const ide    = require('../../js/browser/routes/ide');
-const assert = require('assert');
+const IDERoutes = require('../../js/browser/routes/IDERoutes');
+const assert    = require('assert');
 
 const getMockDependencies = () => {
         return {
             './js/frontend/ide/data/templates': require('../../js/frontend/ide/data/templates'),
-            './js/frontend/lib/path':           require('../../js/frontend/lib/path'),
+            './js/shared/lib/path':             require('../../js/shared/lib/path'),
             './js/shared/lib/RgfImage':         require('../../js/shared/lib/RgfImage')
         };
     };
@@ -34,23 +34,21 @@ global.navigator = {
     platform: 'mac'
 };
 
-beforeEach(() => {
-    ide.ideRoutes.reset();
-});
-
 describe(
     'Test browser routes',
     () => {
         it(
             'Should check type',
             () => {
-                assert.equal(typeof ide.ideRoutes, 'object');
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
+                assert.equal(typeof ideRoutes, 'object');
             }
         );
         it(
             'Should get root directories',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 const onRecieveDirectories = (data) => {
                         assert.deepEqual(
                             getFilesFromData(data),
@@ -58,72 +56,80 @@ describe(
                         );
                         done();
                     };
-                ide.ideRoutes.files({index: 0}, onRecieveDirectories);
+                ideRoutes.files({index: 0}, onRecieveDirectories);
             }
         );
         it(
             'Should change path and get files',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 const onRecieveDirectories = (data) => {
                         assert.deepEqual(
                             getFilesFromData(data),
                             [
                                 '..',
                                 'bit', 'components', 'console', 'device', 'ev3',
-                                'file', 'math', 'poweredup', 'spike', 'string'
+                                'file', 'math', 'nxt', 'poweredup', 'spike', 'string'
                             ]
                         );
                         done();
                     };
                 const onChangedPath = (data) => {
-                        ide.ideRoutes.files({index: 0}, onRecieveDirectories);
+                        ideRoutes.files({index: 0}, onRecieveDirectories);
                     };
-                ide.ideRoutes.files({index: 0, changePath: 'examples'}, onChangedPath);
+                ideRoutes.files({index: 0, changePath: 'examples'}, onChangedPath);
             }
         );
         it(
             'Should create directory',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 const onRecieveDirectories = (data) => {
                         assert.deepEqual(
                             getFilesFromData(data),
-                            ['examples', 'lib', 'projects', 'resources', 'testDir', 'vm', 'woc']
+                            [
+                                'examples', 'lib', 'projects', 'resources', 'testDir', 'vm', 'woc'
+                            ]
                         );
                         done();
                     };
                 const onCreatedDirectory = (data) => {
-                        ide.ideRoutes.files({index: 0}, onRecieveDirectories);
+                        ideRoutes.files({index: 0}, onRecieveDirectories);
                     };
-                ide.ideRoutes.directoryCreate({directory: 'Wheel/testDir'}, onCreatedDirectory);
+                ideRoutes.directoryCreate({directory: 'Wheel/testDir'}, onCreatedDirectory);
             }
         );
         it(
             'Should delete directory',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 const onRecieveDirectories = (data) => {
                         assert.deepEqual(
                             getFilesFromData(data),
-                            ['examples', 'lib', 'projects', 'resources', 'vm', 'woc']
+                            [
+                                'examples', 'lib', 'projects', 'resources', 'vm', 'woc'
+                            ]
                         );
                         done();
                     };
                 const onDeletedDirectory = (data) => {
-                        ide.ideRoutes.files({index: 0}, onRecieveDirectories);
+                        ideRoutes.files({index: 0}, onRecieveDirectories);
                     };
                 const onCreatedDirectory = (data) => {
-                        ide.ideRoutes.directoryDelete({directory: 'Wheel/testDir'}, onDeletedDirectory);
+                        ideRoutes.directoryDelete({directory: 'Wheel/testDir'}, onDeletedDirectory);
                     };
-                ide.ideRoutes.directoryCreate({directory: 'Wheel/testDir'}, onCreatedDirectory);
+                ideRoutes.directoryCreate({directory: 'Wheel/testDir'}, onCreatedDirectory);
             }
         );
         it(
             'Should get file',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
-                ide.ideRoutes.file(
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
+                ideRoutes.file(
                     {filename: 'Wheel/examples/bit/bit.whlp'},
                     (data) => {
                         data = JSON.parse(data);
@@ -136,8 +142,9 @@ describe(
         it(
             'Should get rgf file',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
-                ide.ideRoutes.file(
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
+                ideRoutes.file(
                     {filename: 'Wheel/projects/sensor/images/color.rgf'},
                     (data) => {
                         data = JSON.parse(data);
@@ -152,8 +159,9 @@ describe(
         it(
             'Should get rsf file',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
-                ide.ideRoutes.file(
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
+                ideRoutes.file(
                     {filename: 'Wheel/resources/sounds/animals/catPurr.rsf'},
                     (data) => {
                         data = JSON.parse(data);
@@ -167,8 +175,9 @@ describe(
         it(
             'Should get wfrm file',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
-                ide.ideRoutes.file(
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
+                ideRoutes.file(
                     {filename: 'Wheel/examples/components/buttons/buttons.wfrm'},
                     (data) => {
                         data = JSON.parse(data);
@@ -183,8 +192,9 @@ describe(
         it(
             'Should find in file',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
-                ide.ideRoutes.findInFile(
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
+                ideRoutes.findInFile(
                     {filename: 'Wheel/examples/bit/bit.whlp', text: 'proc'},
                     (data) => {
                         assert.deepEqual(
@@ -203,8 +213,9 @@ describe(
         it(
             'Should load settings',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
-                ide.ideRoutes.settingsLoad(
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
+                ideRoutes.settingsLoad(
                     {},
                     (data) => {
                         assert.deepEqual(
@@ -223,8 +234,9 @@ describe(
         it(
             'Should get files in path',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
-                ide.ideRoutes.filesInPath(
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
+                ideRoutes.filesInPath(
                     {},
                     (data) => {
                         data = JSON.parse(data);
@@ -237,22 +249,24 @@ describe(
         it(
             'Should save file',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 const onFileLoaded = (data) => {
                         assert.deepEqual(JSON.parse(data), {success: true, data: 'Test save data'});
                         done();
                     };
                 const onFileSaved = (data) => {
                         assert.equal(data.success, true);
-                        ide.ideRoutes.file({filename: '/Wheel/test.rtf'}, onFileLoaded);
+                        ideRoutes.file({filename: '/Wheel/test.rtf'}, onFileLoaded);
                     };
-                ide.ideRoutes.fileSave({filename: '/Wheel/test.rtf', data: 'Test save data'}, onFileSaved);
+                ideRoutes.fileSave({filename: '/Wheel/test.rtf', data: 'Test save data'}, onFileSaved);
             }
         );
         it(
             'Should delete file',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 const onFileLoaded = (data) => {
                         data = JSON.parse(data);
                         assert.equal(data.success, false);
@@ -260,19 +274,20 @@ describe(
                     };
                 const onFileDeleted = (data) => {
                         assert.equal(data.success, true);
-                        ide.ideRoutes.file({filename: '/Wheel/test1.rtf'}, onFileLoaded);
+                        ideRoutes.file({filename: '/Wheel/test1.rtf'}, onFileLoaded);
                     };
                 const onFileSaved = (data) => {
                         assert.equal(data.success, true);
-                        ide.ideRoutes.fileDelete({filename: '/Wheel/test1.rtf'}, onFileDeleted);
+                        ideRoutes.fileDelete({filename: '/Wheel/test1.rtf'}, onFileDeleted);
                     };
-                ide.ideRoutes.fileSave({filename: '/Wheel/test1.rtf', data: 'Test save data'}, onFileSaved);
+                ideRoutes.fileSave({filename: '/Wheel/test1.rtf', data: 'Test save data'}, onFileSaved);
             }
         );
         it(
             'Should register changes',
             (done) => {
-                ide.setRequireDependencies(getMockDependencies());
+                IDERoutes.setRequireDependencies(getMockDependencies());
+                let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 const onChanges = (data) => {
                         data = JSON.parse(data);
                         assert.deepEqual(data, [{eventType: 'change', path: '/Wheel/test2.rtf'}]);
@@ -280,9 +295,9 @@ describe(
                     };
                 const onFileSaved = (data) => {
                         assert.equal(data.success, true);
-                        ide.ideRoutes.changes({filename: '/Wheel/test2.rtf'}, onChanges);
+                        ideRoutes.changes({filename: '/Wheel/test2.rtf'}, onChanges);
                     };
-                ide.ideRoutes.fileSave({filename: '/Wheel/test2.rtf', data: 'Test save data'}, onFileSaved);
+                ideRoutes.fileSave({filename: '/Wheel/test2.rtf', data: 'Test save data'}, onFileSaved);
             }
         );
     }

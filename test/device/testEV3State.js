@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const EV3State            = require('../../js/frontend/vm/ev3/EV3State').EV3State;
-const LayerState          = require('../../js/frontend/vm/ev3/LayerState').LayerState;
+const EV3State            = require('../../js/frontend/vm/device/ev3/EV3State').EV3State;
+const LayerState          = require('../../js/frontend/vm/device/ev3/LayerState').LayerState;
 const dispatcher          = require('../../js/frontend/lib/dispatcher').dispatcher;
 const MockEV3DataProvider = require('./MockEV3DataProvider').MockEV3DataProvider;
 const assert              = require('assert');
@@ -145,9 +145,9 @@ describe(
                 let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
                 ev3State._connecting = false;
                 ev3State._connected  = true;
-                assert.equal(mockEV3DataProvider.getLayerCount(), null);
+                assert.equal(mockEV3DataProvider.getStoppedAll(), false);
                 ev3State.stopAllMotors(3);
-                assert.equal(mockEV3DataProvider.getLayerCount(), 3);
+                assert.equal(mockEV3DataProvider.getStoppedAll(), true);
             }
         );
         it(
@@ -162,17 +162,6 @@ describe(
                 ev3State.downloadData('<data>', 'file.data', () => {});
                 assert.equal(mockEV3DataProvider.getDataV(),          '<data>');
                 assert.equal(mockEV3DataProvider.getRemoteFilename(), 'file.data');
-            }
-        );
-        it(
-            'Should set layer count',
-            () => {
-                let mockEV3DataProvider = new MockEV3DataProvider({applyConnecting: true});
-                let ev3State            = new EV3State({dataProvider: mockEV3DataProvider, noTimeout: true});
-                dispatcher.dispatch('EV3.LayerCount', 1);
-                assert.equal(ev3State._layerCount, 1);
-                dispatcher.dispatch('EV3.LayerCount', 2);
-                assert.equal(ev3State._layerCount, 2);
             }
         );
         it(
