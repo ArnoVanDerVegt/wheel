@@ -126,14 +126,14 @@ exports.Spike = class extends BasicDevice {
             layer.toneTimeout = setTimeout(
                 () => {
                     layer.commandQueue.addToCommandQueue({
-                        m: 'scratch.sound_off'
+                        m: commands.COMMAND_SOUND_OFF
                     });
                     layer.toneTimeout = null;
                 },
                 duration
             );
             layer.commandQueue.addToCommandQueue({
-                m: 'scratch.sound_beep',
+                m: commands.COMMAND_SOUND_BEEP,
                 p: {
                     volume: volume,
                     note:   tone
@@ -162,7 +162,7 @@ exports.Spike = class extends BasicDevice {
         port.speed        = speed;
         speed             = Math.abs(speed);
         layer.commandQueue.addToCommandQueue({
-            m: 'scratch.motor_run_for_degrees',
+            m: constants.COMMAND_RUN_FOR_DEGREES,
             p: {
                 port:    INDEX_TO_PORT[motor],
                 degrees: Math.abs(degrees),
@@ -181,7 +181,7 @@ exports.Spike = class extends BasicDevice {
         }
         layer.ports[id].endDegrees = null;
         layer.commandQueue.addToCommandQueue({
-            m: 'scratch.motor_start',
+            m: constants.COMMAND_MOTOR_START,
             p: {
                 port:  INDEX_TO_PORT[id],
                 speed: speed,
@@ -250,7 +250,7 @@ exports.Spike = class extends BasicDevice {
             return;
         }
         layer.commandQueue.addToCommandQueue({
-            m: 'scratch.center_button_lights',
+            m: constants.COMMAND_BUTTON_LIGHTS,
             p: {
                 color: color
             }
@@ -263,7 +263,7 @@ exports.Spike = class extends BasicDevice {
             return;
         }
         layer.commandQueue.addToCommandQueue({
-            m: 'scratch.display_clear'
+            m: constants.COMMAND_DISPLAY_CLEAR
         });
     }
 
@@ -273,7 +273,7 @@ exports.Spike = class extends BasicDevice {
             return;
         }
         layer.commandQueue.addToCommandQueue({
-            m: 'scratch.display_set_pixel',
+            m: constants.COMMAND_DISPLAY_SET_PIXEL,
             p: {
                 x:          x,
                 y:          y,
@@ -288,7 +288,7 @@ exports.Spike = class extends BasicDevice {
             return;
         }
         layer.commandQueue.addToCommandQueue({
-            m: 'scratch.display_text',
+            m: constants.COMMAND_DISPLAY_TEXT,
             p: {
                 text: text
             }

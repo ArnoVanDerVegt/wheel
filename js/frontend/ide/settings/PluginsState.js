@@ -56,7 +56,7 @@ exports.PluginsState = class extends Emitter {
             {
                 uuid:    pluginUuid.SIMULATOR_NXT_MOTORS_UUID,
                 group:   'NXT',
-                name:    'NXT Motors',
+                name:    'NXT motors',
                 path:    'nxtmotors',
                 visible: false,
                 order:   1
@@ -64,7 +64,7 @@ exports.PluginsState = class extends Emitter {
             {
                 uuid:    pluginUuid.SIMULATOR_NXT_SENSORS_UUID,
                 group:   'NXT',
-                name:    'NXT Sensors',
+                name:    'NXT sensors',
                 path:    'nxtsensors',
                 visible: false,
                 order:   2
@@ -72,7 +72,7 @@ exports.PluginsState = class extends Emitter {
             {
                 uuid:    pluginUuid.SIMULATOR_EV3_MOTORS_UUID,
                 group:   'EV3',
-                name:    'EV3 Motors',
+                name:    'EV3 motors',
                 path:    'ev3motors',
                 visible: false,
                 order:   3
@@ -88,7 +88,7 @@ exports.PluginsState = class extends Emitter {
             {
                 uuid:    pluginUuid.SIMULATOR_EV3_SENSORS_UUID,
                 group:   'EV3',
-                name:    'EV3 Sensors',
+                name:    'EV3 sensors',
                 path:    'ev3sensors',
                 visible: false,
                 order:   5
@@ -96,7 +96,7 @@ exports.PluginsState = class extends Emitter {
             {
                 uuid:    pluginUuid.SIMULATOR_EV3_SENSOR_GRAPH_UUID,
                 group:   'EV3',
-                name:    'EV3 Sensor output graph',
+                name:    'EV3 sensor output graph',
                 path:    'ev3graph',
                 visible: true,
                 order:   6
@@ -128,7 +128,7 @@ exports.PluginsState = class extends Emitter {
             {
                 uuid:    pluginUuid.SIMULATOR_SPIKE_SENSOR_GRAPH_UUID,
                 group:   'Spike',
-                name:    'Spike Sensor output graph',
+                name:    'Spike sensor output graph',
                 path:    'spikegraph',
                 visible: true,
                 order:   10

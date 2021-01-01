@@ -14,6 +14,3 @@ exports.SPIKE_LAYER_SET_TEXT         =  3;
 
 exports.SPIKE_DEVICE_MEDIUM_MOTOR    =  1;
 exports.SPIKE_DEVICE_LARGE_MOTOR     =  2;
-exports.SPIKE_DEVICE_DISTANCE_SENSOR =  3;
-exports.SPIKE_DEVICE_COLOR_SENSOR    =  4;
-exports.SPIKE_DEVICE_FORCE_SENSOR    =  5;

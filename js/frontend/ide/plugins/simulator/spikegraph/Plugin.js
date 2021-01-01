@@ -23,11 +23,11 @@ exports.Plugin = class extends Plugin {
         let img   = this._refs.img;
         let image = null;
         switch (type) {
-            case spikeModuleConstants.SPIKE_DEVICE_COLOR_SENSOR:
-                image = 'images/spike/colorSensor64.png';
+            case sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR:
+                image = 'images/spike/color64.png';
                 this._gridDrawer   = this._binaryDrawer;
                 this._chartDrawers = [this._colorBarDrawer];
-                this._maxValue     = 7;
+                this._maxValue     = 9;
                 break;
         }
         if (image) {
@@ -65,7 +65,7 @@ exports.Plugin = class extends Plugin {
         }
         let state = sensor.getState();
         switch (state.getType()) {
-            case spikeModuleConstants.SPIKE_DEVICE_COLOR_SENSOR:
+            case sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR:
                 return state.getValue();
         }
         return 0;

@@ -3,9 +3,24 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const platform              = require('../../../shared/lib/platform');
+const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
 const spikeModuleConstants  = require('../../vm/modules/spikeModuleConstants');
 const buttonModuleConstants = require('../../vm/modules/buttonModuleConstants');
 const constants             = require('./constants');
+
+const COLOR_MAP = [
+        sensorModuleConstants.COLOR_BLACK,  //  0
+        sensorModuleConstants.COLOR_BROWN,  //  1
+        sensorModuleConstants.COLOR_NONE,   //  2
+        sensorModuleConstants.COLOR_BLUE,   //  3
+        sensorModuleConstants.COLOR_AZURE,  //  4
+        sensorModuleConstants.COLOR_GREEN,  //  5
+        sensorModuleConstants.COLOR_VIOLET, //  6
+        sensorModuleConstants.COLOR_YELLOW, //  7
+        sensorModuleConstants.COLOR_NONE,   //  8
+        sensorModuleConstants.COLOR_RED,    //  9
+        sensorModuleConstants.COLOR_WHITE   // 10
+    ];
 
 exports.CommandQueue = class {
     constructor(opts) {
@@ -100,18 +115,10 @@ exports.CommandQueue = class {
         }
         let layer  = this._layer;
         switch (ports[0]) {
-            case 'left':
-                layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_LEFT : buttonModuleConstants.BUTTON_NONE;
-                break;
-            case 'center':
-                layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_CENTER : buttonModuleConstants.BUTTON_NONE;
-                break;
-            case 'right':
-                layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_RIGHT : buttonModuleConstants.BUTTON_NONE;
-                break;
-            case 'connect':
-                layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_CONNECT : buttonModuleConstants.BUTTON_NONE;
-                break;
+            case 'left':    layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_LEFT    : buttonModuleConstants.BUTTON_NONE; break;
+            case 'center':  layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_CENTER  : buttonModuleConstants.BUTTON_NONE; break;
+            case 'right':   layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_RIGHT   : buttonModuleConstants.BUTTON_NONE; break;
+            case 'connect': layer.button = (ports[1] === 0) ? buttonModuleConstants.BUTTON_CONNECT : buttonModuleConstants.BUTTON_NONE; break;
         }
     }
 
@@ -130,19 +137,19 @@ exports.CommandQueue = class {
                     port.value    = portInfo[1][1];
                     break;
                 case constants.DEVICE_TYPE_COLOR_SENSOR:
-                    // "BLACK", "VIOLET", "BLUE", "AZURE", "GREEN", "YELLOW", "RED", "WHITE",
+                    let color = portInfo[1][1] || 0;
                     port.isMotor  = false;
-                    port.assigned = spikeModuleConstants.SPIKE_DEVICE_COLOR_SENSOR;
-                    port.value    = portInfo[1][1] || 0;
+                    port.assigned = sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR;
+                    port.value    = (color in COLOR_MAP) ? COLOR_MAP[color] : sensorModuleConstants.COLOR_NONE;
                     break;
                 case constants.DEVICE_TYPE_DISTANCE_SENSOR:
                     port.isMotor  = false;
-                    port.assigned = spikeModuleConstants.SPIKE_DEVICE_DISTANCE_SENSOR;
+                    port.assigned = sensorModuleConstants.SENSOR_TYPE_SPIKE_DISTANCE;
                     port.value    = portInfo[1][0] || -1;
                     break;
                 case constants.DEVICE_TYPE_FORCE_SENSOR:
                     port.isMotor  = false;
-                    port.assigned = spikeModuleConstants.SPIKE_DEVICE_FORCE_SENSOR;
+                    port.assigned = sensorModuleConstants.SENSOR_TYPE_SPIKE_FORCE;
                     break;
                 default:
                     port.assigned = 0;

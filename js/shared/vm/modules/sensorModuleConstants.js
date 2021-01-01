@@ -21,6 +21,9 @@ exports.SENSOR_TYPE_COLOR           = 29;
 exports.SENSOR_TYPE_ULTRASONIC      = 30;
 exports.SENSOR_TYPE_GYRO            = 32;
 exports.SENSOR_TYPE_INFRARED        = 33;
+exports.SENSOR_TYPE_SPIKE_DISTANCE  = 40;
+exports.SENSOR_TYPE_SPIKE_COLOR     = 41;
+exports.SENSOR_TYPE_SPIKE_FORCE     = 42;
 
 exports.COLOR_REFLECTED             =  0;
 exports.COLOR_AMBIENT               =  1;
@@ -58,3 +61,5 @@ exports.COLOR_YELLOW                =  4;
 exports.COLOR_RED                   =  5;
 exports.COLOR_WHITE                 =  6;
 exports.COLOR_BROWN                 =  7;
+exports.COLOR_VIOLET                =  8;
+exports.COLOR_AZURE                 =  9;

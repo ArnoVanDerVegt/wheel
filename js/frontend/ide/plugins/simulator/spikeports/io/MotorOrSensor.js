@@ -2,17 +2,18 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const spikeModuleConstants = require('../../../../../../shared/vm/modules/spikeModuleConstants');
-const getImage             = require('../../../../data/images').getImage;
-const Motor                = require('../../lib/motor/io/Motor').Motor;
-const MotorOrSensorState   = require('./MotorOrSensorState').MotorOrSensorState;
+const spikeModuleConstants  = require('../../../../../../shared/vm/modules/spikeModuleConstants');
+const sensorModuleConstants = require('../../../../../../shared/vm/modules/sensorModuleConstants');
+const getImage              = require('../../../../data/images').getImage;
+const Motor                 = require('../../lib/motor/io/Motor').Motor;
+const MotorOrSensorState    = require('./MotorOrSensorState').MotorOrSensorState;
 
 let deviceInfo = [];
-deviceInfo[spikeModuleConstants.SPIKE_DEVICE_MEDIUM_MOTOR   ] = {src: 'images/spike/motorMedium64.png',    motor: true,  value: true};
-deviceInfo[spikeModuleConstants.SPIKE_DEVICE_LARGE_MOTOR    ] = {src: 'images/spike/motorLarge64.png',     motor: true,  value: true};
-deviceInfo[spikeModuleConstants.SPIKE_DEVICE_DISTANCE_SENSOR] = {src: 'images/spike/distanceSensor64.png', motor: false, value: true};
-deviceInfo[spikeModuleConstants.SPIKE_DEVICE_COLOR_SENSOR   ] = {src: 'images/spike/colorSensor64.png',    motor: false, value: true};
-deviceInfo[spikeModuleConstants.SPIKE_DEVICE_FORCE_SENSOR   ] = {src: 'images/spike/forceSensor64.png',    motor: false, value: true};
+deviceInfo[spikeModuleConstants.SPIKE_DEVICE_MEDIUM_MOTOR  ] = {src: 'images/spike/motorMedium64.png', motor: true,  value: true};
+deviceInfo[spikeModuleConstants.SPIKE_DEVICE_LARGE_MOTOR   ] = {src: 'images/spike/motorLarge64.png',  motor: true,  value: true};
+deviceInfo[sensorModuleConstants.SENSOR_TYPE_SPIKE_DISTANCE] = {src: 'images/spike/distance64.png',    motor: false, value: true};
+deviceInfo[sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR   ] = {src: 'images/spike/color64.png',       motor: false, value: true};
+deviceInfo[sensorModuleConstants.SENSOR_TYPE_SPIKE_FORCE   ] = {src: 'images/spike/force64.png',       motor: false, value: true};
 
 exports.MotorOrSensor = class extends Motor {
     constructor(opts) {
@@ -22,6 +23,7 @@ exports.MotorOrSensor = class extends Motor {
         super(opts);
         let layer = opts.layer;
         let id    = opts.id;
+        // Todo: Refactor, move events to MotorState...
         this._device
             .addEventListener('Spike.Layer' + layer + 'Port' + id + 'Changed',  this, this.onValueChanged)
             .addEventListener('Spike.Layer' + layer + 'Port' + id + 'Assigned', this, this.onAssigned);
@@ -98,9 +100,9 @@ exports.MotorOrSensor = class extends Motor {
         let refs = this._refs;
         positionElement.style.display = 'none';
         switch (type) {
-            case spikeModuleConstants.SPIKE_DEVICE_DISTANCE_SENSOR:
-            case spikeModuleConstants.SPIKE_DEVICE_COLOR_SENSOR:
-            case spikeModuleConstants.SPIKE_DEVICE_FORCE_SENSOR:
+            case sensorModuleConstants.SENSOR_TYPE_SPIKE_DISTANCE:
+            case sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR:
+            case sensorModuleConstants.SENSOR_TYPE_SPIKE_FORCE:
                 refs.colorValue.className         = 'value hidden';
                 refs.numberValue.className        = 'value';
                 this._numberInputElement.disabled = '';
