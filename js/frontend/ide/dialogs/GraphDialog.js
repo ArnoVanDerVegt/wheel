@@ -5,6 +5,8 @@
 const Dialog     = require('../../lib/components/Dialog').Dialog;
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 
+const MAX_DEVICE_COUNT = 10;
+
 exports.GraphDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -23,7 +25,7 @@ exports.GraphDialog = class extends Dialog {
 
     initWindowContent(opts) {
         let children = [];
-        for (let i = 1; i < 6; i++) {
+        for (let i = 2; i < MAX_DEVICE_COUNT; i++) {
             let options = [];
             for (let j = 0; j < i; j++) {
                 options.push((j + 1) + '');
@@ -38,12 +40,14 @@ exports.GraphDialog = class extends Dialog {
         }
         [4, 6].forEach((portCount) => {
             let options = [];
-            for (let i = 0; i < portCount; i++) {
-                options.push((i + 1) + '');
+            if (portCount === 4) {
+                options = ['1', '2', '3', '4'];
+            } else {
+                options = ['A', 'B', 'C', 'D', 'E', 'F'];
             }
             children.push(this.addToolOptions({
                 ref:      'ports' + portCount,
-                tabIndex: 10 + portCount,
+                tabIndex: 32 + portCount,
                 title:    'Port',
                 options:  options,
                 onSelect: this.onSelectPort.bind(this)
@@ -51,7 +55,7 @@ exports.GraphDialog = class extends Dialog {
         });
         children.push(
             this.addToolOptions({
-                tabIndex: 41,
+                tabIndex: 64,
                 title:   'Sample rate',
                 options: ['1/sec', '2/sec', '5/sec', '10/sec', '20/sec'],
                 onSelect: this.onSelectSampleRate.bind(this)
@@ -123,9 +127,13 @@ exports.GraphDialog = class extends Dialog {
     onShow(opts) {
         super.show();
         let refs = this._refs;
-        for (let i = 1; i < 6; i++) {
+        for (let i = 2; i < MAX_DEVICE_COUNT; i++) {
             refs['layers' + i].style.display = (i === opts.deviceCount) ? 'block' : 'none';
         }
+        if (opts.deviceCount <= 1) {
+            this._layer = 0;
+        }
+        console.log('opts:', opts);
         [4, 6].forEach((portCount) => {
             refs['ports' + portCount].style.display = (portCount === opts.portsPerLayer) ? 'block' : 'none';
         });

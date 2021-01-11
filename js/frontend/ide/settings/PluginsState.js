@@ -110,12 +110,20 @@ exports.PluginsState = class extends Emitter {
                 order:   7
             },
             {
+                uuid:    pluginUuid.SIMULATOR_POWERED_UP_GRAPH_UUID,
+                group:   'PoweredUp',
+                name:    'Hub sensor output graph',
+                path:    'poweredupgraph',
+                visible: false,
+                order:   8
+            },
+            {
                 uuid:    pluginUuid.SIMULATOR_SPIKE_UUID,
                 group:   'Spike',
                 name:    'Spike',
                 path:    'spike',
                 visible: false,
-                order:   8
+                order:   9
             },
             {
                 uuid:    pluginUuid.SIMULATOR_SPIKE_PORTS_UUID,
@@ -123,7 +131,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'Spike ports',
                 path:    'spikeports',
                 visible: false,
-                order:   9
+                order:   10
             },
             {
                 uuid:    pluginUuid.SIMULATOR_SPIKE_SENSOR_GRAPH_UUID,
@@ -131,7 +139,7 @@ exports.PluginsState = class extends Emitter {
                 name:    'Spike sensor output graph',
                 path:    'spikegraph',
                 visible: true,
-                order:   10
+                order:   11
             }
         ];
     }

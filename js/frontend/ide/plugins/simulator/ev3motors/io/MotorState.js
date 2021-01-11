@@ -9,10 +9,16 @@ const MODE_ON     = 1;
 const MODE_TARGET = 2;
 
 exports.MotorState = class extends BasicIOState {
+    getIsValidType(type) {
+        console.log('valid?', type);
+        return (type === 7) || (type === 8);
+    }
+
     setType(type) {
-        type = (type & 1);
-        this._type = type;
-        this._rpm  = [272, 105][type];
-        return this._type;
+        switch (type) {
+            case 7: this._rpm = 101; break; // Large Motor
+            case 8: this._rpm = 272; break; // Medium Motor
+        }
+        return super.setType(type);
     }
 };

@@ -28,12 +28,7 @@ exports.SensorContainer = class extends DOMNode {
         this._sensorConstructors = [];
         this._assignmentTimeout  = null;
         opts.addSensor(this);
-        opts.device
-           .addEventListener('EV3.Layer' + opts.layer + 'Sensor' + opts.id + 'Changed',  this, this.onValueChanged)
-           .addEventListener('EV3.Layer' + opts.layer + 'Sensor' + opts.id + 'Assigned', this, this.onAssigned)
-           .addEventListener('EV3.Connecting',                                           this, this.onConnecting)
-           .addEventListener('EV3.Connected',                                            this, this.onConnected)
-           .addEventListener('EV3.Disconnected',                                         this, this.onDisconnected);
+        opts.device.addEventListener('EV3.Layer' + opts.layer + 'Sensor' + opts.id + 'Assigned', this, this.onAssigned);
         this
             .initSensorConstructors()
             .initDOM(opts.parentNode);
@@ -74,10 +69,6 @@ exports.SensorContainer = class extends DOMNode {
         );
     }
 
-    onValueChanged(value) {
-        this._currentSensor && this._currentSensor.getState().setValue(value);
-    }
-
     onAssigned(assignment, mode) {
         const callback = () => {
                 let currentConstructor = this._sensorConstructors[assignment] || UnknownSensor;
@@ -108,18 +99,6 @@ exports.SensorContainer = class extends DOMNode {
             this._assignmentTimeout = null;
         }
         this._assignmentTimeout = setTimeout(callback, 100);
-    }
-
-    onConnecting() {
-        this.onAssigned(-1, null);
-    }
-
-    onConnected() {
-        this._currentSensor && this._currentSensor.getState().setConnected(true);
-    }
-
-    onDisconnected() {
-        this._currentSensor && this._currentSensor.getState().setConnected(false);
     }
 
     getCurrentSensor() {

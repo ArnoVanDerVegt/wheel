@@ -29,6 +29,12 @@ exports.Plugin = class extends Plugin {
                 this._chartDrawers = [this._colorBarDrawer];
                 this._maxValue     = 9;
                 break;
+            case sensorModuleConstants.SENSOR_TYPE_SPIKE_DISTANCE:
+                image = 'images/spike/distance64.png';
+                this._gridDrawer   = this._fillDrawer;
+                this._chartDrawers = [this._fillDrawer, this._lineDrawer];
+                this._maxValue     = 32;
+                break;
         }
         if (image) {
             img.src           = getImage(image);
@@ -66,6 +72,8 @@ exports.Plugin = class extends Plugin {
         let state = sensor.getState();
         switch (state.getType()) {
             case sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR:
+                return state.getValue();
+            case sensorModuleConstants.SENSOR_TYPE_SPIKE_DISTANCE:
                 return state.getValue();
         }
         return 0;

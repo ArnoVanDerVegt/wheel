@@ -2,6 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const Emitter = require('../../../../../../lib/Emitter').Emitter;
+
 const MODE_OFF    = 0;
 const MODE_ON     = 1;
 const MODE_TARGET = 2;
@@ -10,8 +12,9 @@ exports.MODE_OFF    = MODE_OFF;
 exports.MODE_ON     = MODE_ON;
 exports.MODE_TARGET = MODE_TARGET;
 
-exports.BasicIOState = class {
+exports.BasicIOState = class extends Emitter {
     constructor(opts) {
+        super(opts);
         this.reset();
         this._connected        = !!opts.connected;
         this._settings         = opts.settings;
@@ -19,12 +22,19 @@ exports.BasicIOState = class {
         this._layer            = opts.layer;
         this._id               = opts.id;
         this._getCurrentTime   = opts.getCurrentTime || (() => { return Date.now(); });
-        this._onChangeConneced = opts.onChangeConnected;
-        this._onChangeType     = opts.onChangeType;
-        this._onChangeMode     = opts.onChangeMode;
-        this._onChangeValue    = opts.onChangeValue;
         this._value            = 0;
         this._timeoutReset     = null;
+        this._events           = [];
+        if ('signal' in opts) {
+            let signal = opts.signal;
+            this._events.push(
+                this._device.addEventListener(signal.connecting   || '?', this, this.onConnecting),
+                this._device.addEventListener(signal.connected    || '?', this, this.onConnected),
+                this._device.addEventListener(signal.disconnected || '?', this, this.onDisconnected),
+                this._device.addEventListener(signal.changed      || '?', this, this.onChangeValue),
+                this._device.addEventListener(signal.assigned     || '?', this, this.onAssigned)
+            );
+        }
     }
 
     reset() {
@@ -41,6 +51,12 @@ exports.BasicIOState = class {
         return this;
     }
 
+    remove() {
+        while (this._events.length) {
+            this._events.pop()();
+        }
+    }
+
     getLayer() {
         return this._layer;
     }
@@ -55,7 +71,7 @@ exports.BasicIOState = class {
 
     setConnected(connected) {
         this._connected = connected;
-        this._onChangeConneced(connected);
+        this.emit('Connected', connected);
     }
 
     getType() {
@@ -64,8 +80,7 @@ exports.BasicIOState = class {
 
     setType(type) {
         this._type = type;
-        this._rpm  = [272, 105][type] || 272;
-        this._onChangeType(type);
+        this.emit('Type', type);
         return this;
     }
 
@@ -75,7 +90,7 @@ exports.BasicIOState = class {
 
     setMode(mode) {
         this._mode = mode;
-        this._onChangeMode(mode);
+        this.emit('Mode', mode);
         return this;
     }
 
@@ -85,7 +100,10 @@ exports.BasicIOState = class {
 
     setValue(value) {
         this._value = value;
-        this._onChangeValue(value);
+        if (this._isMotor) {
+            this._position = value;
+        }
+        this.emit('Value', value);
         this.setTimeoutReset();
         return this;
     }
@@ -139,6 +157,7 @@ exports.BasicIOState = class {
 
     setPosition(position) {
         this._position = position;
+        this.emit('Value', position);
         return this;
     }
 
@@ -151,7 +170,29 @@ exports.BasicIOState = class {
     onResetTimeout() {
         this._timeoutReset = null;
         this._value        = 0;
-        this._onChangeValue(0);
+        this.emit('Value', 0);
+    }
+
+    onAssigned(type) {
+        this.setType(type);
+    }
+
+    onChangeValue(value) {
+        this.setValue(value);
+    }
+
+    onConnecting() {
+        this.setType(-1);
+        this.emit('Connecting');
+    }
+
+    onConnected() {
+        this.emit('Connected');
+    }
+
+    onDisconnected() {
+        this.setType(-1);
+        this.emit('Disconnected');
     }
 
     ready() {

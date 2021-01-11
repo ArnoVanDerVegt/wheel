@@ -7,24 +7,26 @@ const Motor    = require('./../../lib/motor/io/Motor').Motor;
 
 exports.Motor = class extends Motor {
     constructor(opts) {
-        opts.image = 'images/ev3/motorMedium64.png';
+        opts.image  = 'images/ev3/motorMedium64.png';
+        opts.signal = {
+            connecting:   'EV3.Connecting',
+            disconnected: 'EV3.Disconnected',
+            assigned:     'EV3.Layer' + opts.layer + 'Motor' + opts.id + 'Assigned',
+            changed:      'EV3.Layer' + opts.layer + 'Motor' + opts.id + 'Changed'
+        };
         super(opts);
-        let layer = opts.layer;
-        let id    = opts.id;
-        this._device
-            .addEventListener('EV3.Connecting',                                this, this.onConnecting)
-            .addEventListener('EV3.Disconnected',                              this, this.onDisconnected)
-            .addEventListener('EV3.Layer' + layer + 'Motor' + id + 'Changed',  this, this.onValueChanged)
-            .addEventListener('EV3.Layer' + layer + 'Motor' + id + 'Assigned', this, this.onAssigned);
+        this._state.on('Type',  this, this.onChangeType);
+        this._state.on('Value', this, this.onChangeValue);
     }
 
-    onChangeType(type) {
+    onChangeType() {
+        let type = this._state.getType();
         if ([7, 8].indexOf(type) !== -1) {
             type -= 7;
         }
         let images = [
-                'images/ev3/motorMedium64.png',
-                'images/ev3/motorLarge64.png'
+                'images/ev3/motorLarge64.png',
+                'images/ev3/motorMedium64.png'
             ];
         if (images[type]) {
             this._imageElement.style.display    = 'block';
@@ -38,22 +40,7 @@ exports.Motor = class extends Motor {
         }
     }
 
-    onAssigned(assignment) {
-        if (this._resetTimeout && (this.getType() !== assignment)) {
-            clearTimeout(this._resetTimeout);
-            this._resetTimeout = null;
-        }
-        let state = this._state;
-        switch (assignment) {
-            case 7: // Large Motor
-                state.setType(1);
-                break;
-            case 8: // Medium Motor
-                state.setType(0);
-                break;
-            default:
-                this._resetTimeout = setTimeout(state.setType.bind(state, -1), 3000);
-                break;
-        }
+    onChangeValue() {
+        this._positionElement.innerHTML = this._state.getPosition();
     }
 };

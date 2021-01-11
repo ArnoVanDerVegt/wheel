@@ -11,7 +11,6 @@ exports.FillChartDrawer = class extends LineChartDrawer {
             };
         let context = this._context;
         let index   = buffer.getCurrentOffset();
-
         context.lineWidth   = 2;
         context.fillStyle   = '#000000';
         context.strokeStyle = '#000000';
@@ -22,7 +21,6 @@ exports.FillChartDrawer = class extends LineChartDrawer {
             let y1 = 94 * getValue(index);
             let y2 = 94 * getValue(index + 1);
             let y3 = 94 * getValue(index + 2);
-
             context.beginPath();
             let first = true;
             for (let j = 0; j < 14; j++) {
@@ -39,11 +37,9 @@ exports.FillChartDrawer = class extends LineChartDrawer {
             context.lineTo(x, 96);
             context.closePath();
             context.fill();
-
             index++;
         }
         context.globalAlpha = 1;
-
         super.draw(buffer);
     }
 };

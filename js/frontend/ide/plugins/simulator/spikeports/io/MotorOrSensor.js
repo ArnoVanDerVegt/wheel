@@ -7,26 +7,21 @@ const sensorModuleConstants = require('../../../../../../shared/vm/modules/senso
 const getImage              = require('../../../../data/images').getImage;
 const Motor                 = require('../../lib/motor/io/Motor').Motor;
 const MotorOrSensorState    = require('./MotorOrSensorState').MotorOrSensorState;
-
-let deviceInfo = [];
-deviceInfo[spikeModuleConstants.SPIKE_DEVICE_MEDIUM_MOTOR  ] = {src: 'images/spike/motorMedium64.png', motor: true,  value: true};
-deviceInfo[spikeModuleConstants.SPIKE_DEVICE_LARGE_MOTOR   ] = {src: 'images/spike/motorLarge64.png',  motor: true,  value: true};
-deviceInfo[sensorModuleConstants.SENSOR_TYPE_SPIKE_DISTANCE] = {src: 'images/spike/distance64.png',    motor: false, value: true};
-deviceInfo[sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR   ] = {src: 'images/spike/color64.png',       motor: false, value: true};
-deviceInfo[sensorModuleConstants.SENSOR_TYPE_SPIKE_FORCE   ] = {src: 'images/spike/force64.png',       motor: false, value: true};
+const deviceInfo            = require('./constants').deviceInfo;
 
 exports.MotorOrSensor = class extends Motor {
     constructor(opts) {
         opts.deviceInfo = deviceInfo;
         opts.MotorState = MotorOrSensorState;
         opts.image      = 'images/spike/motor.svg';
+        opts.signal     = {
+            assigned: 'Spike.Layer' + opts.layer + 'Port' + opts.id + 'Assigned',
+            changed:  'Spike.Layer' + opts.layer + 'Port' + opts.id + 'Changed'
+        };
         super(opts);
-        let layer = opts.layer;
-        let id    = opts.id;
-        // Todo: Refactor, move events to MotorState...
-        this._device
-            .addEventListener('Spike.Layer' + layer + 'Port' + id + 'Changed',  this, this.onValueChanged)
-            .addEventListener('Spike.Layer' + layer + 'Port' + id + 'Assigned', this, this.onAssigned);
+        this._state.on('Type',  this, this.onChangeType);
+        this._state.on('Mode',  this, this.onChangeMode);
+        this._state.on('Value', this, this.onChangeValue);
         this._state
             .setType(0)
             .setMode(spikeModuleConstants.SPIKE_SENSOR_MODE_DISTANCE);
@@ -48,9 +43,10 @@ exports.MotorOrSensor = class extends Motor {
         return [];
     }
 
-    onChangeType(type) {
+    onChangeType() {
         let state = this._state;
         let refs  = this._refs;
+        let type  = state.getType();
         let info  = deviceInfo[type];
         refs.sensorTitle.className = 'title';
         refs.colorValue.className  = 'value hidden';
@@ -78,17 +74,18 @@ exports.MotorOrSensor = class extends Motor {
         return this;
     }
 
-    onChangeMode(mode) {
+    onChangeMode() {
         let state = this._state;
         if (state.getType() !== -1) {
             this.onChangeValue(this._state.getValue());
         }
     }
 
-    onChangeValue(value) {
+    onChangeValue() {
+        let positionElement = this._positionElement;
         let state           = this._state;
         let type            = state.getType();
-        let positionElement = this._positionElement;
+        let value           = state.getValue();
         if (!(type in deviceInfo)) {
             return;
         }
@@ -109,19 +106,6 @@ exports.MotorOrSensor = class extends Motor {
                 this._numberInputElement.value    = value;
                 break;
         }
-    }
-
-    onAssigned(assigned) {
-        this._state
-            .setIsMotor((assigned in deviceInfo) && deviceInfo[assigned].motor)
-            .setType(assigned);
-    }
-
-    onValueChanged(value) {
-        this._state
-            .setPosition(value)
-            .setValue(value);
-        this.onChangeValue(value);
     }
 
     onClickMotorElement(event) {

@@ -10,9 +10,8 @@ const MODE_TARGET = 2;
 
 exports.MotorState = class extends BasicIOState {
     setType(type) {
-        type = (type & 1);
-        this._type = type;
-        this._rpm  = [272, 105][type];
+        super.setType(type & 1);
+        this._rpm = [272, 105][type] || 0;
         return this._type;
     }
 };

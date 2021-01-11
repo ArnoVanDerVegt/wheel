@@ -6,13 +6,11 @@ const ChartDrawer = require('./ChartDrawer').ChartDrawer;
 
 exports.PointChartDrawer = class extends ChartDrawer {
     draw(buffer, maxValue) {
-        let context  = this._context;
+        let context = this._context;
+        let index   = buffer.getCurrentOffset();
+        let first   = true;
         context.strokeStyle = '#FFFFFF';
         context.fillStyle   = 'rgba(255, 255, 255, 0.5)';
-
-        let index = buffer.getCurrentOffset();
-        let first = true;
-
         context.lineWidth = 1;
         for (let i = 0; i < 20; i++) {
             if (i >= buffer.getCurrentSize()) {
@@ -26,7 +24,6 @@ exports.PointChartDrawer = class extends ChartDrawer {
             context.closePath();
             context.fill();
             context.stroke();
-
             index++;
         }
     }

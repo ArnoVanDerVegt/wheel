@@ -10,10 +10,16 @@ const BasicIODevice         = require('./../../lib/motor/io/BasicIODevice').Basi
 
 exports.Sensor = class extends BasicIODevice {
     constructor(opts) {
+        opts.signal = {
+            changed: 'EV3.Layer' + opts.layer + 'Sensor' + opts.id + 'Changed'
+        };
         super(opts);
         let device = opts.device;
         this._sensorContainer = opts.sensorContainer;
         this._image           = opts.image;
+        this._state.on('Type',  this, this.onChangeType);
+        this._state.on('Mode',  this, this.onChangeMode);
+        this._state.on('Value', this, this.onChangeValue);
         this.initDOM(opts.parentNode);
         opts.sensorContainer.setCurrentSensor(this);
     }

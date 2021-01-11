@@ -211,19 +211,6 @@ exports.Motor = class extends BasicIODevice {
         }
     }
 
-    onConnecting() {
-        this._state.setType(-1);
-    }
-
-    onDisconnected() {
-        this._state.setType(1);
-    }
-
-    onValueChanged(value) {
-        this._state.setPosition(value);
-        this._positionElement.innerHTML = value;
-    }
-
     onAssigned(assignment) {
     }
 };
