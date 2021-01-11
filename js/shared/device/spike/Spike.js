@@ -6,6 +6,7 @@ const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
 const motorModuleConstants  = require('../../vm/modules/motorModuleConstants');
 const spikeModuleConstants  = require('../../vm/modules/spikeModuleConstants');
 const BasicDevice           = require('../BasicDevice').BasicDevice;
+const constants             = require('./constants');
 const CommandQueue          = require('./CommandQueue').CommandQueue;
 
 const PORT_TO_INDEX         = {A: 0, B: 1, C: 2, D: 3, E: 4, F: 5};
