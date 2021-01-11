@@ -16,17 +16,15 @@ const MESSAGE_TIME_OUT_TIME = 25;
 
 exports.CommandQueue = class {
     constructor(ev3, sendFunction) {
-        this._sentTime                   = Date.now();
-        this._sending                    = false;
-        this._lostAssigned               = false;
-        this._ev3                        = ev3;
-        this._battery                    = 0;
-        this._sendFunction               = sendFunction;
-        this._pending                    = {time: null, command: null};
-        this._failedConnectionTypesLayer = -1;
-        this._queue                      = [];
-        this._id                         = 0;
-        this._layers                     = [];
+        this._sentTime     = Date.now();
+        this._sending      = false;
+        this._ev3          = ev3;
+        this._battery      = 0;
+        this._sendFunction = sendFunction;
+        this._pending      = {time: null, command: null};
+        this._queue        = [];
+        this._id           = 0;
+        this._layers       = [];
         for (let i = 0; i < 4; i++) {
             this._layers.push(this.initLayer(i));
         }
@@ -38,36 +36,34 @@ exports.CommandQueue = class {
         let i      = 0;
         for (i = 0; i < 4; i++) {
             result.push({
-                sending:  true,
-                id:       0,
-                layer:    layer,
-                port:     i,
-                mode:     null,
-                message:  '',
-                type:     null,
-                response: false,
-                time:     0,
-                value:    0,
-                assigned: null
+                sending:         true,
+                id:              0,
+                layer:           layer,
+                port:            i,
+                mode:            null,
+                message:         '',
+                type:            null,
+                response:        false,
+                time:            0,
+                value:           0,
+                assigned:        null,
+                assignedTimeout: null
             });
         }
         for (i = 0; i < 4; i++) {
             result.push({
-                ready:        false,
-                assigned:     null,
-                value:        0,
-                reset:        false,
-                degrees:      0,
-                resetDegrees: 0,
-                startDegrees: null,
-                endDegrees:   null
+                ready:           false,
+                assigned:        null,
+                assignedTimeout: null,
+                value:           0,
+                reset:           false,
+                degrees:         0,
+                resetDegrees:    0,
+                startDegrees:    null,
+                endDegrees:      null
             });
         }
         return result;
-    }
-
-    getLostAssigned() {
-        return this._lostAssigned;
     }
 
     getMode(layer, port) {
@@ -151,21 +147,15 @@ exports.CommandQueue = class {
 
     getAssignedPortCount() {
         let count = 0;
-        this._layers.forEach(
-            function(layer) {
-                layer.forEach(
-                    function(port, index) {
-                        if (index < 4) {
-                            count += this.isValidAssignedSensor(port);
-                        } else if (index < 8) {
-                            count += this.isValidAssignedMotor(port);
-                        }
-                    },
-                    this
-                );
-            },
-            this
-        );
+        this._layers.forEach((layer) => {
+            layer.forEach((port, index) => {
+                if (index < 4) {
+                    count += this.isValidAssignedSensor(port);
+                } else if (index < 8) {
+                    count += this.isValidAssignedMotor(port);
+                }
+            });
+        });
         return count;
     }
 
@@ -178,12 +168,6 @@ exports.CommandQueue = class {
         view.setUint8(3, inputData[5]);
         let result = view.getFloat32(0);
         return isNaN(result) ? 0 : result;
-    }
-
-    getFailedConnectionTypesLayer() {
-        let result = this._failedConnectionTypesLayer;
-        this._failedConnectionTypesLayer = -1;
-        return result;
     }
 
     shouldChunkTranfers() {
@@ -269,7 +253,7 @@ exports.CommandQueue = class {
     }
 
     isValidAssignedMotor(assigned) {
-        return ([7, 8].indexOf(assigned) !== -1);
+        return (constants.MOTORS.indexOf(assigned) !== -1);
     }
 
     isValidAssignedSensor(assigned) {
@@ -396,35 +380,37 @@ exports.CommandQueue = class {
                 // None, Port Error, Unknown, Initializing
                 return [0x7E, 0x7F, 0xFF, 0x7D].indexOf(assigned) === -1;
             };
-        let assignedCount   = 0;
-        let currentAssigned = 0;
-        let hadAssignment   = false;
-        let p               = this._layers[this._pending.command.layer || 0];
-        for (let i = 0; i < 8; i++) {
-            if (p[i].assigned !== null) {
-                currentAssigned++;
-            }
-        }
+        let assignedCount = 0;
+        let hadAssignment = false;
+        let p             = this._layers[this._pending.command.layer || 0];
+        const updateAssigned = (port, assigned, valid) => {
+                if (port.assignedTimeout) {
+                    clearTimeout(port.assignedTimeout);
+                }
+                if (port.assigned !== assigned) {
+                    if (valid) {
+                        port.assigned = assigned;
+                    } else {
+                        port.assignedTimeout = setTimeout(
+                            () => {
+                                port.assignedTimeout = null;
+                                port.assigned        = assigned;
+                            },
+                            5000
+                        );
+                    }
+                }
+            };
         for (let i = 0; i < 4; i++) {
             let value    = inputData[5 + (i * 2)] || 0;
             let assigned = parseInt(messageEncoder.byteString(value), 16);
             if (!isAssigned(assigned)) {
                 p[i].mode = null;
             }
-            p[i].assigned = assigned;
+            updateAssigned(p[i], assigned, this.isValidAssignedSensor(assigned));
             let j = i + 4;
-            value = inputData[5 + (j * 2)] || 0;
-            if ([7, 8].indexOf(value) === -1) {
-                hadAssignment = ([7, 8].indexOf(p[j].assigned) !== -1);
-            } else {
-                assignedCount++;
-            }
-            p[j].assigned = value;
-        }
-        if (assignedCount) {
-            this._lostAssigned = false;
-        } else if (currentAssigned) {
-            this._lostAssigned = true;
+            assigned = inputData[5 + (j * 2)] || 0;
+            updateAssigned(p[j], assigned, this.isValidAssignedMotor(assigned));
         }
         return hadAssignment && (assignedCount === 0);
     }
@@ -472,13 +458,7 @@ exports.CommandQueue = class {
                 }
                 break;
             case constants.INPUT_DEVICE_GET_TYPE_MODE:
-                if (this.receiveTypeMode(inputData)) {
-                    // Receive probably failed...
-                    console.error('Receive failed for layer:', this._pending.command.layer);
-                    this._failedConnectionTypesLayer = this._pending.command.layer;
-                } else if (this._failedConnectionTypesLayer === this._pending.command.layer) {
-                    this._failedConnectionTypesLayer = -1;
-                }
+                this.receiveTypeMode(inputData);
                 break;
             case constants.SYSTEM_COMMAND:
                 if (callback) {

@@ -115,7 +115,7 @@ exports.EV3 = class extends BasicDevice {
         switch (l[port + 4].assigned) {
             case 7:
             case 8:
-                this.readMotor(layer, port); // Large Motor
+                this.readMotor(layer, port);
                 return true;
         }
         return false;
@@ -125,52 +125,36 @@ exports.EV3 = class extends BasicDevice {
         if (!this._connected) {
             return;
         }
+        let poll              = this._poll;
+        let assignedPortCount = this._commandQueue.getAssignedPortCount();
         if (!this._commandQueue.getLength() && !this._stopPolling) {
-            let poll = this._poll;
-            switch (poll.main) {
-                case 0:
-                    this.getConnectedTypes(poll.mainLayer);
-                    poll.mainLayer++;
-                    if (poll.mainLayer >= this._activeLayerCount) {
-                        poll.mainLayer = 0;
-                    }
-                    break;
-                case 1:
-                    this.readBattery();
-                    break;
-                default:
-                    let updateList = this.getUpdateList(poll.layer);
-                    let i          = 0;
-                    // Iterate through the updateList until we found a port which has a valid type connected...
-                    for (i = 0; i < updateList.length; i++) {
-                        let found = updateList[poll.count](); // Try to update the port, found if there's a valid connection
-                        poll.count++;
-                        if (poll.count >= updateList.length) {
-                            // Reset the count...
-                            poll.count = 0;
-                            // Move to the next layer...
-                            poll.layer++;
-                            if (poll.layer >= this._activeLayerCount) {
-                                poll.layer = 0;
-                            }
-                        }
-                        if (found) {
-                            break;
-                        }
-                    }
-                    break;
-            }
-            let layer = this._commandQueue.getFailedConnectionTypesLayer();
-            if (this._commandQueue.getLostAssigned()) {
-                poll.main      = 0;
-            } else if (layer === -1) {
-                poll.main      = (poll.main + 1) % 2000;
+            if (poll.main === 0) {
+                this.getConnectedTypes(poll.mainLayer);
+                poll.main      = 1;
+                poll.mainLayer = (poll.mainLayer + 1) % this._activeLayerCount;
+            } else if (poll.main === 1) {
+                this.readBattery();
+                poll.main = 2;
             } else {
-                poll.mainLayer = layer;
-                poll.main      = 0;
+                let updateList = this.getUpdateList(poll.layer);
+                let i          = 0;
+                // Iterate through the updateList until we found a port which has a valid type connected...
+                for (i = 0; i < updateList.length; i++) {
+                    let found = updateList[poll.count](); // Try to update the port, found if there's a valid connection
+                    poll.count++;
+                    if (poll.count >= updateList.length) {
+                        poll.count = 0;                                         // Reset the count...
+                        poll.layer = (poll.layer + 1) % this._activeLayerCount; // Move to the next layer...
+                    }
+                    if (found) {
+                        break;
+                    }
+                }
+                poll.main = (poll.main + 1) % ((assignedPortCount > 1) ? 1000 : 200);
             }
         }
-        setTimeout(this._startConnectionPolling, this._stopPolling ? 1000 : 1);
+        let time = (assignedPortCount > 1) ? 1 : 20;
+        setTimeout(this._startConnectionPolling, this._stopPolling ? 1000 : time);
     }
 
     onOpenError(error) {

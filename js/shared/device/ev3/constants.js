@@ -45,3 +45,8 @@ exports.READ_MOTOR_SPEED                      = '02';
 
 exports.SYSTEM_REPLY_ERROR                    = 5;
 exports.SYSTEM_COMMAND                        = 'SYSTEM_COMMAND';
+
+exports.MEDIUM_MOTOR                          = 8;
+exports.LARGE_MOTOR                           = 7;
+exports.MOTORS                                = [exports.MEDIUM_MOTOR, exports.LARGE_MOTOR];
+
