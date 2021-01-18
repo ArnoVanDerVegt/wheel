@@ -136,16 +136,16 @@
 }
 .dialog-background.help-dialog .help-files .link .device {
     float:                          right;
-    margin:                         2px 8px 0 0;
+    margin:                         2px 4px 0 0;
 }
 .dialog-background.help-dialog .help-files .link .device,
 .dialog-background.help-dialog .help-file .devices span {
-    width:                          20px;
-    height:                         20px;
-    border-radius:                  10px;
+    width:                          16px;
+    height:                         16px;
+    border-radius:                  8px;
     text-align:                     center;
-    line-height:                    21px;
-    font-size:                      13px;
+    line-height:                    17px;
+    font-size:                      10px;
     font-family:                    latolight;
 }
 .dialog-background.help-dialog .help-files .link .device.n,
