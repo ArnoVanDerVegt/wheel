@@ -211,6 +211,6 @@ exports.Motor = class extends BasicIODevice {
         }
     }
 
-    onAssigned(assignment) {
+    onAssigned(assigned) {
     }
 };

@@ -825,7 +825,6 @@ class HelpBuilder {
                     addLegendItem('e', 'EV3'),
                     addLegendItem('p', 'Powered Up'),
                     addLegendItem('s', 'Spike'),
-                    addLegendItem('m', 'Mindsensors'),
                     addLegendItem('i', 'IDE')
                 ]
             }

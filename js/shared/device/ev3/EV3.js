@@ -22,6 +22,7 @@ exports.EV3 = class extends BasicDevice {
         this._poll                   = {count: 0, layer: 0, main: 0, mainLayer: 0};
         this._stopPolling            = false;
         this._deviceName             = '';
+        this._retryCount             = 0;
         this._startConnectionPolling = this.startConnectionPolling.bind(this);
     }
 
@@ -126,12 +127,26 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         let poll              = this._poll;
-        let assignedPortCount = this._commandQueue.getAssignedPortCount();
-        if (!this._commandQueue.getLength() && !this._stopPolling) {
+        let commandQueue      = this._commandQueue;
+        let assignedPortCount = commandQueue.getAssignedPortCount();
+        if (!commandQueue.getLength() && !this._stopPolling) {
             if (poll.main === 0) {
+                let nextStep = true;
                 this.getConnectedTypes(poll.mainLayer);
-                poll.main      = 1;
-                poll.mainLayer = (poll.mainLayer + 1) % this._activeLayerCount;
+                if (commandQueue.getFoundDisconnect()) {
+                    commandQueue.setFoundDisconnect(false);
+                    this._retryCount++;
+                    if (this._retryCount > 3) {
+                        this._retryCount = 0;
+                    } else {
+                        nextStep = false;
+                    }
+                }
+                if (nextStep) {
+                    this._retryCount = 0;
+                    poll.main        = 1;
+                    poll.mainLayer   = (poll.mainLayer + 1) % this._activeLayerCount;
+                }
             } else if (poll.main === 1) {
                 this.readBattery();
                 poll.main = 2;

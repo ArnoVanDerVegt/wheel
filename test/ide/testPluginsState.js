@@ -18,7 +18,7 @@ describe(
             'Should create PluginsState',
             () => {
                 let pluginsState = new PluginsState({});
-                assert.equal(pluginsState.getDefaultPlugins().length, 9);
+                assert.equal(pluginsState.getDefaultPlugins().length, 11);
             }
         );
         it(
@@ -32,15 +32,17 @@ describe(
                 assert.deepEqual(
                     names,
                     [
-                        'EV3 Motors',
+                        'EV3 motors',
                         'EV3',
-                        'EV3 Sensors',
-                        'EV3 Sensor output graph',
-                        'NXT Motors',
-                        'NXT Sensors',
+                        'EV3 sensors',
+                        'EV3 sensor output graph',
+                        'NXT motors',
+                        'NXT sensors',
                         'Hub',
+                        'Hub sensor output graph',
                         'Spike',
-                        'Spike ports'
+                        'Spike ports',
+                        'Spike sensor output graph'
                     ]
                 );
             }
@@ -52,23 +54,7 @@ describe(
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID),          null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_SENSORS_UUID),  null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_MOTORS_UUID),   null);
-                assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_SENSOR_GRAPH_UUID), null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_POWERED_UP_UUID),   null);
-            }
-        );
-        it(
-            'Should load and add existing plugin',
-            () => {
-                let pluginsState = new PluginsState({});
-                pluginsState.load([{
-                    uuid:    pluginUuid.SIMULATOR_EV3_UUID,
-                    group:   'Test',
-                    name:    'Test plugin',
-                    path:    'test',
-                    visible: true,
-                    order:   20
-                }]);
-                assert.equal(pluginsState.getSortedPlugins().length, 9);
             }
         );
         it(

@@ -187,19 +187,6 @@ describe(
             }
         );
         it(
-            'Should set mode',
-            () => {
-                let mockDataProvider = new MockDataProvider({});
-                let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState._connecting = false; // Force correct state...
-                poweredUpState._connected  = true;  // Force correct state...
-                poweredUpState.setMode(112, 113, 114, () => {});
-                assert.equal(mockDataProvider.getLayer(), 112);
-                assert.equal(mockDataProvider.getPort(),  113);
-                assert.equal(mockDataProvider.getMode(),  114);
-            }
-        );
-        it(
             'Should stop all motors',
             () => {
                 let mockDataProvider = new MockDataProvider({});

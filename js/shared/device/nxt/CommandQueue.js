@@ -89,24 +89,7 @@ exports.CommandQueue = class {
                         sensorStatus.normalizedValue = responseMessage.readWord();
                         sensorStatus.scaledValue     = responseMessage.readWord();
                         sensorStatus.calibratedValue = responseMessage.readWord();
-                        switch (sensorStatus.sensorType) {
-                            case constants.SENSOR_TYPE_SWITCH:
-                                sensorStatus.assigned = sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH;
-                                sensorStatus.value    = (sensorStatus.rawValue < 512);
-                                break;
-                            case constants.SENSOR_TYPE_LOW_SPEED_9V:
-                                sensorStatus.assigned = sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC;
-                                sensorStatus.value    = sensorStatus.rawValue;
-                                break;
-                            case constants.SENSOR_TYPE_LIGHT_ACTIVE:
-                                sensorStatus.assigned = sensorModuleConstants.SENSOR_TYPE_NXT_LIGHT;
-                                sensorStatus.value    = sensorStatus.rawValue;
-                                break;
-                            default:
-                                sensorStatus.assigned = 0;
-                                sensorStatus.value    = 0;
-                                break;
-                        }
+                        this.setSensorAssigned(sensorStatus);
                     }
                     break;
                 case constants.DIRECT_COMMAND_GET_OUTPUT_STATE:
@@ -132,6 +115,42 @@ exports.CommandQueue = class {
             console.error(status, constants.ERROR_MESSAGES[status]);
         }
         this.sendQueue();
+    }
+
+    setSensorAssigned(sensorStatus) {
+        let hasTimeout = !!sensorStatus.assignedTimeout;
+        if (hasTimeout) {
+            clearTimeout(sensorStatus.assignedTimeout);
+            sensorStatus.assignedTimeout = null;
+        }
+        switch (sensorStatus.sensorType) {
+            case constants.SENSOR_TYPE_SWITCH:
+                sensorStatus.assigned = sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH;
+                sensorStatus.value    = (sensorStatus.rawValue < 512);
+                break;
+            case constants.SENSOR_TYPE_LOW_SPEED_9V:
+                sensorStatus.assigned = sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC;
+                sensorStatus.value    = sensorStatus.rawValue;
+                break;
+            case constants.SENSOR_TYPE_LIGHT_ACTIVE:
+                sensorStatus.assigned = sensorModuleConstants.SENSOR_TYPE_NXT_LIGHT;
+                sensorStatus.value    = sensorStatus.rawValue;
+                break;
+            default:
+                if (hasTimeout) {
+                    sensorStatus.assigned = 0;
+                    sensorStatus.value    = 0;
+                } else {
+                    sensorStatus.assignedTimeout = setTimeout(
+                        () => {
+                            sensorStatus.assigned = 0;
+                            sensorStatus.value    = 0;
+                        },
+                        5000
+                    );
+                }
+                break;
+        }
     }
 
     sendQueue() {

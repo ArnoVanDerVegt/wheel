@@ -25,6 +25,13 @@ describe(
             }
         );
         it(
+            'Should set activeLayerCount', // Tests BasicDeviceState!
+            () => {
+                let ev3State = new EV3State({dataProvider: new MockEV3DataProvider({}), noTimeout: true, activeLayerCount: 3});
+                assert.equal(ev3State.getActiveLayerCount(), 3);
+            }
+        );
+        it(
             'Should get initial battery',
             () => {
                 let ev3State = new EV3State({dataProvider: new MockEV3DataProvider({}), noTimeout: true});

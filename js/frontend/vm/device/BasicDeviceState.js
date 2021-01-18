@@ -112,7 +112,7 @@ exports.BasicDeviceState = class extends Emitter {
     }
 
     setMode(layer, port, mode, callback) {
-        if (this._connecting || !this._connected) {
+        if (this.getConnecting() || !this.getConnected()) {
             return;
         }
         this._dataProvider.getData(

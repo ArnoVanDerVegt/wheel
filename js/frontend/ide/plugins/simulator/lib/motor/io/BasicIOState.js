@@ -127,6 +127,10 @@ exports.BasicIOState = class extends Emitter {
         return this;
     }
 
+    getRpm() {
+        return this._rpm;
+    }
+
     getTarget() {
         return this._target;
     }

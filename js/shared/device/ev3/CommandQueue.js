@@ -16,15 +16,16 @@ const MESSAGE_TIME_OUT_TIME = 25;
 
 exports.CommandQueue = class {
     constructor(ev3, sendFunction) {
-        this._sentTime     = Date.now();
-        this._sending      = false;
-        this._ev3          = ev3;
-        this._battery      = 0;
-        this._sendFunction = sendFunction;
-        this._pending      = {time: null, command: null};
-        this._queue        = [];
-        this._id           = 0;
-        this._layers       = [];
+        this._sentTime        = Date.now();
+        this._sending         = false;
+        this._ev3             = ev3;
+        this._battery         = 0;
+        this._sendFunction    = sendFunction;
+        this._pending         = {time: null, command: null};
+        this._queue           = [];
+        this._id              = 0;
+        this._foundDisconnect = false;
+        this._layers          = [];
         for (let i = 0; i < 4; i++) {
             this._layers.push(this.initLayer(i));
         }
@@ -168,6 +169,14 @@ exports.CommandQueue = class {
         view.setUint8(3, inputData[5]);
         let result = view.getFloat32(0);
         return isNaN(result) ? 0 : result;
+    }
+
+    getFoundDisconnect() {
+        return this._foundDisconnect;
+    }
+
+    setFoundDisconnect(foundDisconnect) {
+        this._foundDisconnect = foundDisconnect;
     }
 
     shouldChunkTranfers() {
@@ -383,22 +392,30 @@ exports.CommandQueue = class {
         let assignedCount = 0;
         let hadAssignment = false;
         let p             = this._layers[this._pending.command.layer || 0];
-        const updateAssigned = (port, assigned, valid) => {
-                if (port.assignedTimeout) {
-                    clearTimeout(port.assignedTimeout);
+        const updateAssigned = (port, assigned, valid, i) => {
+                if (valid && (port.assigned === assigned)) {
+                    return;
                 }
-                if (port.assigned !== assigned) {
-                    if (valid) {
-                        port.assigned = assigned;
-                    } else {
-                        port.assignedTimeout = setTimeout(
-                            () => {
-                                port.assignedTimeout = null;
-                                port.assigned        = assigned;
-                            },
-                            5000
-                        );
+                if (valid) {
+                    if (port.assignedTimeout) {
+                        clearTimeout(port.assignedTimeout);
                     }
+                    port.assigned = assigned;
+                } else if (port.assignedTimeout) {
+                    this._foundDisconnect = true;
+                    if (port.assignedTimeout) {
+                        clearTimeout(port.assignedTimeout);
+                    }
+                    port.assigned = assigned;
+                } else {
+                    this._foundDisconnect = true;
+                    port.assignedTimeout = setTimeout(
+                        () => {
+                            port.assignedTimeout = null;
+                            port.assigned        = assigned;
+                        },
+                        5000
+                    );
                 }
             };
         for (let i = 0; i < 4; i++) {
@@ -407,7 +424,7 @@ exports.CommandQueue = class {
             if (!isAssigned(assigned)) {
                 p[i].mode = null;
             }
-            updateAssigned(p[i], assigned, this.isValidAssignedSensor(assigned));
+            updateAssigned(p[i], assigned, this.isValidAssignedSensor(assigned), i);
             let j = i + 4;
             assigned = inputData[5 + (j * 2)] || 0;
             updateAssigned(p[j], assigned, this.isValidAssignedMotor(assigned));
