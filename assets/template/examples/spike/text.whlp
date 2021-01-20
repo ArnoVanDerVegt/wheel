@@ -12,7 +12,7 @@ proc main()
     ; Select the Spike device in the simulator...
     selectDevice(DEVICE_SPIKE)
 
-    spikeLayerSetText(0, "!")
+    spikeLayerSetText(0, "Wheel text")
 
     halt()
 end

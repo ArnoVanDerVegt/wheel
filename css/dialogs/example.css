@@ -1,0 +1,55 @@
+/* Alert/Confirm dialog */
+.dialog-background.example-dialog .example {
+    height:                         356px;
+}
+.dialog-background.example-dialog .example .example-category {
+    float:                          left;
+    width:                          25%;
+    padding:                        16px;
+}
+.dialog-background.example-dialog .example .example-category .title {
+    text-align:                     center;
+    margin:                         0 0 16px 0;
+    width:                          128px;
+    height:                         128px;
+    border-radius:                  64px;
+}
+.dialog-background.example-dialog .example .example-category .title.e {
+    background-color:               #0984E3;
+}
+.dialog-background.example-dialog .example .example-category .title.p {
+    background-color:               #F9CA24;
+}
+.dialog-background.example-dialog .example .example-category .title.s {
+    background-color:               #1ABC9C;
+}
+.dialog-background.example-dialog .example .example-category .title.i {
+    background-color:               #4CD137;
+}
+.dialog-background.example-dialog .example .example-category .title span {
+    font-family:                    latolight;
+    font-size:                      17px;
+}
+.dialog-background.example-dialog .example .example-category .title img {
+    width:                          64px;
+    margin:                         16px 0 0 0;
+}
+.dialog-background.example-dialog .example .example-category .example-category-item {
+    text-align:                     left;
+    height:                         32px;
+    line-height:                    30px;
+    font-size:                      12px;
+    border:                         1px solid transparent;
+    border-radius:                  16px;
+    padding:                        0 0 0 16px;
+    cursor:                         pointer;
+    outline:                        none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dialog-background.example-dialog .example .example-category .example-category-item:hover,
+.dialog-background.example-dialog .example .example-category .example-category-item:focus {
+    background-color:               var(--files-hover-background);
+    border:                         var(--files-hover-border);
+}

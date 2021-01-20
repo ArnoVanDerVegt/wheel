@@ -74,7 +74,7 @@ exports.HomeScreen = class extends DOMNode {
                 icon:     getImage('images/files/recentWhlp.svg'),
                 title:    'Open an example &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 4,
-                onClick:  dispatcher.dispatch.bind(dispatcher, 'Menu.File.Open', 'File', activeDirectory)
+                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Example.Show')
             }),
             {
                 className: 'maw-w home-title',

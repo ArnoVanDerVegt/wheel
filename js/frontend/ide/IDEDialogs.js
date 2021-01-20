@@ -49,6 +49,7 @@ const ConnectedDialog                = require('./dialogs/hint/ConnectedDialog')
 const GearRatioCalculatorDialog      = require('./dialogs/tools/GearRatioCalculatorDialog').GearRatioCalculatorDialog;
 const InverseKinematicsDialog        = require('./dialogs/tools/InverseKinematicsDialog').InverseKinematicsDialog;
 const WheelToSVGDialog               = require('./dialogs/tools/WheelToSVGDialog').WheelToSVGDialog;
+const ExampleDialog                  = require('./dialogs/example/ExampleDialog').ExampleDialog;
 const IDEEvents                      = require('./IDEEvents').IDEEvents;
 
 exports.IDEDialogs = class extends IDEEvents {
@@ -94,6 +95,7 @@ exports.IDEDialogs = class extends IDEEvents {
         new FindInFilesDialog             ({getImage: getImage, ui: this._ui});
         new GraphDialog                   ({getImage: getImage, ui: this._ui});
         new FormGridSizeDialog            ({getImage: getImage, ui: this._ui});
+        new ExampleDialog                 ({getImage: getImage, ui: this._ui});
         // Device...
         new DeviceAliasDialog             ({getImage: getImage, ui: this._ui, settings: this._settings});
         new DevicePortAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
