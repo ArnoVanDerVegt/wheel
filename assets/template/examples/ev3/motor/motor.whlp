@@ -13,6 +13,11 @@ proc main()
     ; Select the EV3 device in the simulator...
     selectDevice(DEVICE_EV3)
 
+    ; Select the motor type, this is only necessary to run this program in the simulator.
+    ; If you connect a device then the IDE will detect the connected motor type.
+    ; Possible type values are: `MOTOR_MEDIUM` and `MOTOR_LARGE`.
+    motorLayerSetType(LAYER_1, OUTPUT_A, MOTOR_MEDIUM)
+
     motorLayerReset(LAYER_1, OUTPUT_A)
 
     repeat
