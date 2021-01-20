@@ -5,6 +5,7 @@
 #include "lib/modules/standard.whl"
 #include "lib/modules/device.whl"
 #include "lib/modules/light.whl"
+#include "lib/modules/poweredUp.whl"
 
 #display "Hub"
 
@@ -12,7 +13,8 @@ proc main()
     ; Select the Powered Up device in the IDE...
     selectDevice(DEVICE_POWERED_UP)
 
-    ; Select the Hub device:
+    ; Select the type of Hub, possible options are:
+    ; `POWERED_UP_MOVE_HUB`, `POWERED_UP_HUB`, `POWERED_UP_REMOTE_CONTROL` or `POWERED_UP_TECHNIC_HUB`
     poweredUpSetDevice(LAYER_1, POWERED_UP_HUB)
 
     repeat

@@ -63,13 +63,13 @@ exports.Plugin = class extends SimulatorPlugin {
 
     setLed(led) {
         if (this._hubs[led.layer]) {
-            this._hubs[led.layer].matrixSetLed(led.x, led.y, led.brightness);
+            this._hubs[led.layer].matrixSetLed(led);
         }
     }
 
     setText(led) {
         if (this._hubs[led.layer]) {
-            this._hubs[led.layer].matrixSetText(led.text);
+            this._hubs[led.layer].matrixSetText(led);
         }
     }
 
