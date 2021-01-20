@@ -3,6 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const sensorModuleConstants = require('../../../../../shared/vm/modules/sensorModuleConstants');
+const Button                = require('../../../../lib/components/input/Button').Button;
 const dispatcher            = require('../../../../lib/dispatcher').dispatcher;
 const Plugin                = require('../lib/motor/Plugin').Plugin;
 const MotorOrSensor         = require('./io/MotorOrSensor').MotorOrSensor;
@@ -18,12 +19,47 @@ exports.Plugin = class extends Plugin {
         opts.portCount        = 6;
         opts.title            = 'Spike ports';
         super(opts);
+        this._device
+            .addEventListener('Spike.Connected',    this, this.onDeviceConnected)
+            .addEventListener('Spike.Disconnected', this, this.onDeviceDisconnected);
         dispatcher
             .on('VM.Start', this, this.onVMStart)
             .on('VM.Stop',  this, this.onVMStop);
     }
 
     initEvents() {
+    }
+
+    initExtra() {
+        return {
+            className: 'flt max-w direct-control',
+            children: [
+                {
+                    type:     Button,
+                    ref:      this.setRef('directControlButton'),
+                    ui:       this._ui,
+                    onClick:  this.onClickDirectControl.bind(this),
+                    uiId:     1,
+                    value:    'Direct control',
+                    color:    'blue',
+                    disabled: true
+                }
+            ]
+        };
+    }
+
+    onClickDirectControl() {
+        dispatcher.dispatch('Menu.Spike.DirectControl');
+    }
+
+    onDeviceConnected() {
+        super.onDeviceConnected();
+        this._refs.directControlButton.setDisabled(false);
+    }
+
+    onDeviceDisconnected() {
+        super.onDeviceDisconnected();
+        this._refs.directControlButton.setDisabled(true);
     }
 
     onVMStart() {
