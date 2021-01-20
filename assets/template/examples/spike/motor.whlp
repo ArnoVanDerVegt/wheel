@@ -7,7 +7,7 @@
 #include "lib/modules/device.whl"
 #include "lib/modules/spike.whl"
 
-#display "Spike"
+#display "Spike ports"
 
 proc main()
     ; Select the Spike device in the simulator...
