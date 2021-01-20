@@ -127,8 +127,8 @@ exports.Dropdown = class extends Component {
     initValue() {
         if (this._images) {
             return {
-                className: 'dropdown-value',
                 tabIndex:  this._tabIndex,
+                className: 'dropdown-value',
                 children: [
                     {
                         id:        this.setValueElement.bind(this),
@@ -344,6 +344,17 @@ exports.Dropdown = class extends Component {
     close() {
         this._focus                   = false;
         this._refs.dropdown.className = this.getClassName();
+    }
+
+    onGlobalUIId() {
+        if (this._tabIndex === undefined) {
+            return;
+        }
+        if (this._uiId === this._ui.getActiveUIId()) {
+            this._valueElement.tabIndex = this._tabIndex;
+        } else {
+            this._valueElement.tabIndex = -1;
+        }
     }
 
     onEvent(opts) {
