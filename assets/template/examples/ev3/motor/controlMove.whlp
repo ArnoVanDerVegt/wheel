@@ -10,7 +10,7 @@
 #include "lib/modules/button.whl"
 #include "lib/modules/motor.whl"
 
-#display "EV3, EV3 Motors"
+#display "EV3, EV3 motors"
 
 number active     = 0       ; The last active motor
 number lastActive = 0       ; The last known motor position

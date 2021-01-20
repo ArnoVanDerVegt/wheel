@@ -7,7 +7,7 @@
 #include "lib/modules/screen.whl"
 #include "lib/modules/sensorMulti.whl"
 
-#display "EV3 Sensors"
+#display "EV3 sensors"
 
 proc main()
     ; Select the EV3 device in the IDE...

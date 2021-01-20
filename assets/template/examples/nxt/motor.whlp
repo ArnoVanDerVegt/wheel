@@ -7,7 +7,7 @@
 #include "lib/modules/device.whl"
 #include "lib/modules/spike.whl"
 
-#display "NXT Motors"
+#display "NXT motors"
 
 proc main()
     ; Select the NXT device in the simulator...

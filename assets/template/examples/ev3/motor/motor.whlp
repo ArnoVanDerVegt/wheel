@@ -7,7 +7,7 @@
 #include "lib/modules/device.whl"
 #include "lib/modules/spike.whl"
 
-#display "EV3 Motors"
+#display "EV3 motors"
 
 proc main()
     ; Select the EV3 device in the simulator...
