@@ -127,14 +127,14 @@ exports.Spike = class extends BasicDevice {
             layer.toneTimeout = setTimeout(
                 () => {
                     layer.commandQueue.addToCommandQueue({
-                        m: commands.COMMAND_SOUND_OFF
+                        m: constants.COMMAND_SOUND_OFF
                     });
                     layer.toneTimeout = null;
                 },
                 duration
             );
             layer.commandQueue.addToCommandQueue({
-                m: commands.COMMAND_SOUND_BEEP,
+                m: constants.COMMAND_SOUND_BEEP,
                 p: {
                     volume: volume,
                     note:   tone
