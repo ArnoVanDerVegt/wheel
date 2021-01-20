@@ -325,17 +325,20 @@ exports.CompileAndRun = class extends DOMUtils {
         dispatcher
             .dispatch('Button.Continue.Change', {disabled: true, hidden: true})
             .dispatch('Button.Run.Change',      {value: 'Run'});
-        if (!this._vm || !this._vm.running()) {
+        let vm = this._vm;
+        if (!vm || !vm.running()) {
             return;
         }
         this.setRunProgramTitle('Run');
-        this._vm.stop();
+        vm.stop();
         this._motors && this._motors.reset();
         let ev3Plugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID);
-        this._devices.nxt.stopAllMotors(this._settings.getNXTDeviceCount());
-        this._devices.ev3.stopAllMotors(this._settings.getDaisyChainMode());
-        this._devices.poweredUp.stopAllMotors(this._settings.getPoweredUpDeviceCount());
-        this._devices.spike.stopAllMotors(this._settings.getSpikeDeviceCount());
+        let devices   = this._devices;
+        let settings  = this._settings;
+        devices.nxt.stopAllMotors(settings.getNXTDeviceCount());
+        devices.ev3.stopAllMotors(settings.getDaisyChainMode());
+        devices.poweredUp.stopAllMotors(settings.getPoweredUpDeviceCount());
+        devices.spike.stopAllMotors(settings.getSpikeDeviceCount());
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();
