@@ -351,7 +351,6 @@ exports.SimulatorModules = class {
             .setupSoundModule(vm)
             .setupMotorModule(vm)
             .setupSensorModule(vm)
-            .setupPspModule(vm)
             .setupDeviceModule(vm)
             .setupPoweredUpModule(vm)
             .setupSpikeModule(vm)
