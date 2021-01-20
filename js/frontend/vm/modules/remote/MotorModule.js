@@ -67,11 +67,14 @@ exports.MotorModule = class extends VMModule {
         let device = this._device();
         let vm     = this._vm;
         device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_RESET, motor);
+        // Wait until we receive the 0 value back from the backend to continue...
         let callback = () => {
                 vm.sleepForProcess(50);
                 if (!device.getQueueLength()) {
                     let port = this.getMotorPort(motor);
                     if (port.degrees === 0) {
+                        port.targetDegrees = 0;
+                        port.ready         = true;
                         return;
                     }
                 }
