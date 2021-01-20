@@ -92,7 +92,8 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     onVMStop() {
-        this._sensorsElement.className = 'sensors' + (this._plugin.visible ? ' visible' : '');
+        this._sensorsElement.className = 'sensors' +
+            (this.getVisible() ? ' visible' : '');
     }
 
     onPluginSettings() {
