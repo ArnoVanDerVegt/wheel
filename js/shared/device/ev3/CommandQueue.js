@@ -147,16 +147,20 @@ exports.CommandQueue = class {
     }
 
     getAssignedPortCount() {
-        let count = 0;
-        this._layers.forEach((layer) => {
-            layer.forEach((port, index) => {
-                if (index < 4) {
-                    count += this.isValidAssignedSensor(port);
-                } else if (index < 8) {
-                    count += this.isValidAssignedMotor(port);
-                }
-            });
-        });
+        let count  = 0;
+        let layers = this._layers;
+        const findAssignedPortCountForLayer = (layer) => {
+                layer.forEach((port, index) => {
+                    if (index < 4) {
+                        count += (this.isValidAssignedSensor(port.assigned) ? 1 : 0);
+                    } else if (index < 8) {
+                        count += (this.isValidAssignedMotor(port.assigned) ? 1 : 0);
+                    }
+                });
+            };
+        for (let i = 0, j = this._ev3.getActiveLayerCount(); i < j; i++) {
+            findAssignedPortCountForLayer(layers[i]);
+        }
         return count;
     }
 
@@ -185,7 +189,7 @@ exports.CommandQueue = class {
 
     execute() {
         let time = Date.now();
-        if (this._sending &&  ((this._sentTime === null) || (time > this._sentTime))) {
+        if (this._sending && ((this._sentTime === null) || (time > this._sentTime))) {
             return;
         }
         let pending = this._pending;
@@ -216,19 +220,7 @@ exports.CommandQueue = class {
     addToCommandQueue(command) {
         let index = null;
         if (('layer' in command) && ('port' in command)) {
-            if ([
-                    sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH,
-                    sensorModuleConstants.SENSOR_TYPE_NXT_LIGHT,
-                    sensorModuleConstants.SENSOR_TYPE_NXT_SOUND,
-                    sensorModuleConstants.SENSOR_TYPE_NXT_COLOR,
-                    sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC,
-                    sensorModuleConstants.SENSOR_TYPE_NXT_TEMPERATURE,
-                    sensorModuleConstants.SENSOR_TYPE_TOUCH,
-                    sensorModuleConstants.SENSOR_TYPE_COLOR,
-                    sensorModuleConstants.SENSOR_TYPE_ULTRASONIC,
-                    sensorModuleConstants.SENSOR_TYPE_GYRO,
-                    sensorModuleConstants.SENSOR_TYPE_INFRARED
-                ].indexOf(command.type) !== -1) {
+            if (this.isValidAssignedSensor(command.type)) {
                 index = command.port;
             } else if (command.type === constants.READ_FROM_MOTOR) {
                 index = command.port + 4;
@@ -323,15 +315,11 @@ exports.CommandQueue = class {
             let layer = layers[i];
             for (let j = 0; j < 8; j++) {
                 let item = layer[j];
-                if (item.sending) {
-                    if ((j > 3) && (time > item.time)) {
-                        found        = true;
-                        item.sending = false; // Message timed out, reset...
-                        continue;
-                    }
-                }
-                if (!item.sending || (item.id !== id)) {
+                if ((item.id !== id) || !item.sending) {
                     continue;
+                }
+                if ((j > 3) && (time > item.time)) {
+                    item.sending = false; // Message timed out, reset...
                 }
                 found = true;
                 switch (item.type) {

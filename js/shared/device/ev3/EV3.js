@@ -114,8 +114,8 @@ exports.EV3 = class extends BasicDevice {
     updateMotorPort(layer, port) {
         let l = this._commandQueue.getLayers()[layer];
         switch (l[port + 4].assigned) {
-            case 7:
-            case 8:
+            case constants.LARGE_MOTOR:
+            case constants.MEDIUM_MOTOR:
                 this.readMotor(layer, port);
                 return true;
         }
