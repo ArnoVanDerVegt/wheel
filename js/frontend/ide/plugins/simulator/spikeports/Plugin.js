@@ -64,8 +64,8 @@ exports.Plugin = class extends Plugin {
 
     onVMStart() {
         this._refs.motors.className = 'motors spike-ports' +
-            (this._plugin.visible ? ' visible' : '') +
-            (this._connected      ? ' running' : '');
+            (this.getVisible() ? ' visible' : '') +
+            (this._connected   ? ' running' : '');
     }
 
     onVMStop() {
