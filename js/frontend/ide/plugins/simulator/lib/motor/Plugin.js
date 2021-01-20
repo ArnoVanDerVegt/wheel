@@ -82,6 +82,9 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     onInterval() {
+        if (!this.getVisible()) {
+            return;
+        }
         let motors = this._motors;
         for (let i = 0; i < motors.length; i++) {
             motors[i].update();

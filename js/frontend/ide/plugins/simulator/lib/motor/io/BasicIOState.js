@@ -118,6 +118,10 @@ exports.BasicIOState = class extends Emitter {
         this._timeoutReset = setTimeout(this.onResetTimeout.bind(this), 1500);
     }
 
+    getIsValidMotor() {
+        return this.getIsMotor();
+    }
+
     getIsMotor() {
         return this._isMotor;
     }

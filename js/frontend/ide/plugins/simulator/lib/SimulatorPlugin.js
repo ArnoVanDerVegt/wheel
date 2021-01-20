@@ -69,10 +69,14 @@ exports.SimulatorPlugin = class extends DOMNode {
         };
     }
 
-    getClassName() {
+    getVisible() {
         let settings = this._settings;
         let uuid     = this._plugin.uuid;
-        return this._baseClassName + ' ' + (settings.getPlugins().getPluginByUuid(uuid).visible ? ' visible' : '');
+        return settings.getPlugins().getPluginByUuid(uuid).visible;
+    }
+
+    getClassName() {
+        return this._baseClassName + ' ' + (this.getVisible() ? ' visible' : '');
     }
 
     getContextMenu(options) {

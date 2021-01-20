@@ -2,13 +2,16 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const getImage = require('../../../../data/images').getImage;
-const Motor    = require('./../../lib/motor/io/Motor').Motor;
+const motorModuleConstants = require('../../../../../../shared/vm/modules/motorModuleConstants');
+const getImage             = require('../../../../data/images').getImage;
+const Motor                = require('../../lib/motor/io/Motor').Motor;
+const MotorState           = require('./MotorState').MotorState;
 
 exports.Motor = class extends Motor {
     constructor(opts) {
-        opts.image  = 'images/ev3/motorMedium64.png';
-        opts.signal = {
+        opts.MotorState = MotorState;
+        opts.image      = 'images/ev3/motorMedium64.png';
+        opts.signal     = {
             connecting:   'EV3.Connecting',
             disconnected: 'EV3.Disconnected',
             assigned:     'EV3.Layer' + opts.layer + 'Motor' + opts.id + 'Assigned',
@@ -21,8 +24,8 @@ exports.Motor = class extends Motor {
 
     onChangeType() {
         let type = this._state.getType();
-        if ([7, 8].indexOf(type) !== -1) {
-            type -= 7;
+        if ([motorModuleConstants.MOTOR_LARGE, motorModuleConstants.MOTOR_MEDIUM].indexOf(type) !== -1) {
+            type -= motorModuleConstants.MOTOR_LARGE;
         }
         let images = [
                 'images/ev3/motorLarge64.png',

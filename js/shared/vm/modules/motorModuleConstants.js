@@ -23,3 +23,6 @@ exports.MOTOR_THRESHOLD    = 15;
 
 exports.MOTOR_BRAKE        =  0;
 exports.MOTOR_COAST        =  1;
+
+exports.MOTOR_MEDIUM       =  8;
+exports.MOTOR_LARGE        =  7;
