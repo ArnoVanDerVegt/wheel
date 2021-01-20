@@ -2,7 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Emitter = require('../../../../../../lib/Emitter').Emitter;
+const motorModuleConstants = require('../../../../../../../shared/vm/modules/motorModuleConstants');
+const Emitter              = require('../../../../../../lib/Emitter').Emitter;
 
 const MODE_OFF    = 0;
 const MODE_ON     = 1;
@@ -43,7 +44,7 @@ exports.BasicIOState = class extends Emitter {
         this._isMotor        = true;
         this._type           = 0;
         this._mode           = 0;
-        this._rpm            = 272;
+        this._rpm            = motorModuleConstants.MOTOR_MEDIUM_RPM;
         this._position       = 0;
         this._romotePosition = 0;
         this._target         = null;

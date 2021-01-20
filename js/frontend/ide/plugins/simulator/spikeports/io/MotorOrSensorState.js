@@ -2,12 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const BasicIOState = require('./../../lib/motor/io/BasicIOState').BasicIOState;
-const deviceInfo   = require('./constants').deviceInfo;
-
-const MODE_OFF    = 0;
-const MODE_ON     = 1;
-const MODE_TARGET = 2;
+const motorModuleConstants = require('../../../../../../shared/vm/modules/motorModuleConstants');
+const BasicIOState         = require('./../../lib/motor/io/BasicIOState').BasicIOState;
+const deviceInfo           = require('./constants').deviceInfo;
 
 exports.MotorOrSensorState = class extends BasicIOState {
     setType(type) {
@@ -19,7 +16,7 @@ exports.MotorOrSensorState = class extends BasicIOState {
         } else {
             this._type = -1;
         }
-        this._rpm = 272;
+        this._rpm = motorModuleConstants.MOTOR_MEDIUM_RPM;
         return this;
     }
 };

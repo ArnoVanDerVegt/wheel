@@ -16,8 +16,12 @@ exports.MotorState = class extends BasicIOState {
 
     setType(type) {
         switch (type) {
-            case motorModuleConstants.MOTOR_LARGE:  this._rpm = 101; break;
-            case motorModuleConstants.MOTOR_MEDIUM: this._rpm = 272; break;
+            case motorModuleConstants.MOTOR_LARGE:
+                this._rpm = motorModuleConstants.MOTOR_LARGE_RPM;
+                break;
+            case motorModuleConstants.MOTOR_MEDIUM:
+                this._rpm = motorModuleConstants.MOTOR_MEDIUM_RPM;
+                break;
         }
         return super.setType(type);
     }
