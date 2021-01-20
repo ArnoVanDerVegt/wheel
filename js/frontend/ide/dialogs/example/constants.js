@@ -71,19 +71,19 @@ exports.examples = [
         className: 'i',
         list:  [
             {
-                filename: 'examples/components/buttons/buttons.whlp',
+                filename: 'examples/components/buttons/buttons.wfrm',
                 title:    'Buttons'
             },
             {
-                filename: 'examples/components/checkbox/checkbox.whlp',
+                filename: 'examples/components/checkbox/checkbox.wfrm',
                 title:    'Checkbox'
             },
             {
-                filename: 'examples/components/label/label.whlp',
+                filename: 'examples/components/label/label.wfrm',
                 title:    'Label'
             },
             {
-                filename: 'examples/components/tabs/tabs.whlp',
+                filename: 'examples/components/tabs/tabs.wfrm',
                 title:    'Tabs'
             }
         ]
