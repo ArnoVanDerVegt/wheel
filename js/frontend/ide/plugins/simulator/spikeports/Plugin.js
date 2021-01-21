@@ -95,7 +95,7 @@ exports.Plugin = class extends Plugin {
 
     setType(opts) {
         let sensor = this.getSensor(opts.layer, opts.id);
-        sensor && sensor.onAssigned(opts.type, null);
+        sensor && sensor.getState().setType(opts.type);
     }
 
     getType(opts) {
