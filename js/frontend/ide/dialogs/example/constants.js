@@ -56,6 +56,10 @@ exports.examples = [
                 title:    'Motor'
             },
             {
+                filename: 'examples/spike/motors.whlp',
+                title:    'Motors'
+            },
+            {
                 filename: 'examples/spike/buttons.whlp',
                 title:    'Buttons'
             },
