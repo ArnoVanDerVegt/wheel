@@ -32,8 +32,8 @@
 #define SPIKE_LAYER_SET_TEXT                    3
 
 ; @const Devive types.
-#define SPIKE_DEVICE_MEDIUM_MOTOR               0 ; `image:images/spike/motorMedium64.png`
-#define SPIKE_DEVICE_LARGE_MOTOR                1 ; `image:images/spike/motorLarge64.png`
+#define SPIKE_DEVICE_MEDIUM_MOTOR               1 ; `image:images/spike/motorMedium64.png`
+#define SPIKE_DEVICE_LARGE_MOTOR                2 ; `image:images/spike/motorLarge64.png`
 
 ; @record A record to contain vector data for acceleration and tilt values.
 record SpikeVector
