@@ -19,15 +19,14 @@ proc main()
     motorLayerSetType(LAYER_1, OUTPUT_A, MOTOR_MEDIUM)
 
     motorLayerReset(LAYER_1, OUTPUT_A)
+    motorLayerSetSpeed(LAYER_1, OUTPUT_A, 20)
 
     repeat
-        motorLayerSetSpeed(LAYER_1, OUTPUT_A, 20)
         motorLayerMoveTo(LAYER_1, OUTPUT_A, 360)
         waitForMotors(MOTOR_BITS_A)
 
         sleep(1000)
 
-        motorLayerSetSpeed(LAYER_1, OUTPUT_A, 20)
         motorLayerMoveTo(LAYER_1, OUTPUT_A, -360)
         waitForMotors(MOTOR_BITS_A)
 
