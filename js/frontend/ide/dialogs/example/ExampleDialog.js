@@ -15,7 +15,7 @@ exports.ExampleDialog = class extends Dialog {
         this.initWindow({
             showSignal: 'Dialog.Example.Show',
             width:      704,
-            height:     500,
+            height:     530,
             className:  'no-select example-dialog',
             title:      'Open an example'
         });
@@ -25,7 +25,7 @@ exports.ExampleDialog = class extends Dialog {
         return [
             {
                 ref:       this.setRef('text'),
-                className: 'dialog-lt dialog-cw abs ui1-box example',
+                className: 'dialog-lt dialog-cw abs ui1-box example vertical-list',
                 children:  this.initCategories()
             },
             this.initButtons([

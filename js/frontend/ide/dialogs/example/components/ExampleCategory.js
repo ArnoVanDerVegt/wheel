@@ -45,31 +45,34 @@ exports.ExampleCategory = class extends DOMNode {
                     );
                 },
                 type:      'a',
-                className: 'flt max-w example-category-item',
+                className: 'flt max-w example-category-item selectable',
                 tabIndex:  this._tabIndex + index,
-                innerHTML: item.title
+                children: [
+                    {
+                        type:      'span',
+                        className: 'flt example-name',
+                        innerHTML: item.title
+                    },
+                    {
+                        type:      'span',
+                        className: 'flt example-description',
+                        innerHTML: item.description
+                    }
+                ]
             });
         });
         this.create(
             parentNode,
             {
-                className: 'example-category',
+                className: 'flt max-w example-category',
                 children: [
                     {
-                        className: 'flt title ' + example.className,
-                        children: [
-                            {
-                                type: 'img',
-                                src:  getImage(example.image)
-                            },
-                            {
-                                type: 'br'
-                            },
-                            {
-                                type:      'span',
-                                innerHTML: example.title
-                            }
-                        ]
+                        className: 'abs title ' + example.className,
+                        innerHTML: example.title.substr(0, 1)
+                    },
+                    {
+                        className: 'flt max-w example-category-item category-title',
+                        innerHTML: example.title
                     }
                 ].concat(children)
             }
