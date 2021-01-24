@@ -12,10 +12,10 @@ exports.HubStatus = class extends DOMNode {
         this._device  = opts.device;
         this.initDOM(opts.parentNode);
         this._device
-            .on('Spike.Connected' + opts.layer, this, this.onConnected)
-            .on('Spike.Gyro'      + opts.layer, this, this.onGyro)
-            .on('Spike.Accel'     + opts.layer, this, this.onAccel)
-            .on('Spike.Pos'       + opts.layer, this, this.onPos);
+            .on('Spike.Layer' + opts.layer + '.Connected', this, this.onConnected)
+            .on('Spike.Layer' + opts.layer + '.Gyro',      this, this.onGyro)
+            .on('Spike.Layer' + opts.layer + '.Accel',     this, this.onAccel)
+            .on('Spike.Layer' + opts.layer + '.Pos',       this, this.onPos);
         opts.id(this);
     }
 

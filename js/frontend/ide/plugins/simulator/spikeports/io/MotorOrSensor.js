@@ -15,8 +15,8 @@ exports.MotorOrSensor = class extends Motor {
         opts.MotorState = MotorOrSensorState;
         opts.image      = 'images/spike/motor.svg';
         opts.signal     = {
-            assigned: 'Spike.Layer' + opts.layer + 'Port' + opts.id + 'Assigned',
-            changed:  'Spike.Layer' + opts.layer + 'Port' + opts.id + 'Changed'
+            assigned: 'Spike.Layer' + opts.layer + '.Assigned' + opts.id,
+            changed:  'Spike.Layer' + opts.layer + '.Changed'  + opts.id
         };
         super(opts);
         this._state.on('Type',  this, this.onChangeType);

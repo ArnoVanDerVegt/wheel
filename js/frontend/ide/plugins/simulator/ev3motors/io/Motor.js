@@ -14,8 +14,8 @@ exports.Motor = class extends Motor {
         opts.signal     = {
             connecting:   'EV3.Connecting',
             disconnected: 'EV3.Disconnected',
-            assigned:     'EV3.Layer' + opts.layer + 'Motor' + opts.id + 'Assigned',
-            changed:      'EV3.Layer' + opts.layer + 'Motor' + opts.id + 'Changed'
+            assigned:     'EV3.Layer' + opts.layer + '.Motor.Assigned' + opts.id,
+            changed:      'EV3.Layer' + opts.layer + '.Motor.Changed'  + opts.id
         };
         super(opts);
         this._state.on('Type',  this, this.onChangeType);

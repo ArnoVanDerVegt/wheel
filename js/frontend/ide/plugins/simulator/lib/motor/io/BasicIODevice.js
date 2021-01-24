@@ -29,6 +29,12 @@ exports.BasicIODevice = class extends DOMNode {
 
     remove() {
         this._state.remove();
+        if (this._events && this._events.pop) {
+            // Remove event listeners...
+            while (this._events.length) {
+                this._events.pop()();
+            }
+        }
         let parentNode = this._parentNode;
         while (parentNode.childNodes.length) {
             parentNode.removeChild(parentNode.childNodes[0]);

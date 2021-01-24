@@ -18,49 +18,48 @@ const LocalPoweredUpModule     = require('../local/PoweredUpModule').PoweredUpMo
  *|
  *| PoweredUpState poweredUpState[4]
 */
+const POWERED_UP_STATE_RECORD_SIZE   = 1 + 3 + 3;
+const POWERED_UP_STATE_TILT_OFFSET   = 1;
+const POWERED_UP_STATE_ACCELL_OFFSET = 1 + 3;
 
 exports.PoweredUpModule = class extends LocalPoweredUpModule {
     constructor(opts) {
         super(opts);
         this._writeOffset = 0;
         this._subscribed  = false;
+        this._events      = [];
     }
 
-    subscribeToTilt(device, signal, layer) {
+    subscribeToVectorChange(device, signal, layer, offset) {
         let vmData = this._vmData;
-        device.on(
+        this._events.push(device.on(
             signal,
             this,
-            function(tilt) {
+            function(vector) {
                 /* eslint-disable no-invalid-this */
-                let offset = this._writeOffset + layer * 7 + 1;
-                vmData.setNumberAtOffset(tilt.x, offset);
-                vmData.setNumberAtOffset(tilt.y, offset + 1);
-                vmData.setNumberAtOffset(tilt.z, offset + 2);
+                let o = this._writeOffset + layer * POWERED_UP_STATE_RECORD_SIZE + offset;
+                vmData.setNumberAtOffset(vector.x, o);
+                vmData.setNumberAtOffset(vector.y, o + 1);
+                vmData.setNumberAtOffset(vector.z, o + 2);
             }
-        );
-    }
-
-    subscribeToAccel(device, signal, layer) {
-        let vmData = this._vmData;
-        device.on(
-            signal,
-            this,
-            function(accel) {
-                /* eslint-disable no-invalid-this */
-                let offset = this._writeOffset + layer * 7 + 4;
-                vmData.setNumberAtOffset(accel.x, offset);
-                vmData.setNumberAtOffset(accel.y, offset + 1);
-                vmData.setNumberAtOffset(accel.z, offset + 2);
-            }
-        );
+        ));
+        return this;
     }
 
     subscribe(device) {
         if (this._subscribed) {
-            return;
+            return this;
+        }
+        for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i ++) {
+            this
+                .subscribeToVectorChange(device, 'PoweredUp.Layer' + i + '.Tilt',  i)
+                .subscribeToVectorChange(device, 'PoweredUp.Layer' + i + '.Accel', i);
+            for (let j = 0; j < POWERED_UP_STATE_RECORD_SIZE; j++) {
+                vmData.setNumberAtOffset(0, this._writeOffset + i * POWERED_UP_STATE_RECORD_SIZE + j);
+            }
         }
         this._subscribed = true;
+        return this;
     }
 
     run(commandId) {
@@ -70,14 +69,9 @@ exports.PoweredUpModule = class extends LocalPoweredUpModule {
         switch (commandId) {
             case poweredUpModuleConstants.POWERED_UP_START:
                 this._writeOffset = vmData.getRegSrc();
-                this.emit('PoweredUp.Start', {});
-                for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i ++) {
-                    this.subscribeToTilt(device,  'PoweredUp.Layer' + i + 'Tilt',  i);
-                    this.subscribeToAccel(device, 'PoweredUp.Layer' + i + 'Accel', i);
-                    for (let j = 0; j < 7; j++) {
-                        vmData.setNumberAtOffset(0, this._writeOffset + i * 7 + j);
-                    }
-                }
+                this
+                    .subscribe(device)
+                    .emit('PoweredUp.Start', {});
                 break;
         }
     }

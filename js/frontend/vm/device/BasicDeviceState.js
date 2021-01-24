@@ -97,15 +97,15 @@ exports.BasicDeviceState = class extends Emitter {
                 if (layerState[index] && !layerState[index].getConnected()) {
                     layerState[index].setConnected(true);
                     this
-                        .emit(this._signalPrefix + '.Connected',         index)
-                        .emit(this._signalPrefix + '.Connected' + index, index);
+                        .emit(this._signalPrefix + '.Connected',               index)
+                        .emit(this._signalPrefix + '.Connected.Layer' + index, index);
                 }
             } else {
                 if (layerState[index] && layerState[index].getConnected()) {
                     layerState[index].setConnected(false);
                     this
-                        .emit(this._signalPrefix + '.Disconnected',         index)
-                        .emit(this._signalPrefix + '.Disconnected' + index, index);
+                        .emit(this._signalPrefix + '.Disconnected',               index)
+                        .emit(this._signalPrefix + '.Disconnected.Layer' + index, index);
                 }
             }
         });

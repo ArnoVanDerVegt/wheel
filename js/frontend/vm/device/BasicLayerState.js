@@ -73,10 +73,14 @@ exports.BasicLayerState = class {
         this._deviceName = '';
         this._device
             .emit(this._signalPrefix + '.Disconnected')
-            .emit(this._signalPrefix + '.Disconnected' + this._layerIndex);
+            .emit(this._signalPrefix + '.Disconnected.Layer' + this._layerIndex);
     }
 
-    checkSensorChange(newSensors) {
+    /**
+     * For `EV3` the assignedSignal is ".Sensor.Assigned" and the changedSignal is ".Sensor.Changed".
+     * For `Powered Up` the assignedSignal is ".Assigned" and the changedSignal is ".Changed".
+    **/
+    checkSensorChange(newSensors, assignedSignal, changedSignal) {
         let device     = this._device;
         let ports      = this._ports;
         let layerIndex = this._layerIndex;
@@ -88,12 +92,12 @@ exports.BasicLayerState = class {
             if ((port.assigned !== assigned) || (port.mode !== mode)) {
                 port.assigned = assigned;
                 port.mode     = mode;
-                device.emit(this._signalPrefix + layerIndex + 'Sensor' + i + 'Assigned', assigned, mode);
+                device.emit(this._signalPrefix + '.Layer' + layerIndex + assignedSignal + i, assigned, mode);
             }
             let value = ('value' in newSensor) ? newSensor.value : 0;
             if (port.value !== value) {
                 port.value = value;
-                device.emit(this._signalPrefix + layerIndex + 'Sensor' + i + 'Changed', value);
+                device.emit(this._signalPrefix + '.Layer' + layerIndex + changedSignal + i, value);
             }
         }
         return this;

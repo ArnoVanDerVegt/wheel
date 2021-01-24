@@ -7,7 +7,6 @@ let BasicLayerState = require('../BasicLayerState').BasicLayerState;
 
 exports.LayerState = class extends BasicLayerState {
     constructor(opts) {
-        opts.signalPrefix = 'PoweredUp.Layer';
         super(opts);
         this._uuid      = null;
         this._uuidTime  = Date.now();
@@ -66,7 +65,7 @@ exports.LayerState = class extends BasicLayerState {
             }
         }
         if (changed) {
-            this._device.emit(this._signalPrefix + this._layerIndex + 'Tilt', tilt);
+            this._device.emit('PoweredUp.Layer' + this._layerIndex + '.Tilt', tilt);
         }
         return this;
     }
@@ -80,7 +79,7 @@ exports.LayerState = class extends BasicLayerState {
             }
         }
         if (changed) {
-            this._device.emit(this._signalPrefix + this._layerIndex + 'Accel', accel);
+            this._device.emit('PoweredUp.Layer' + this._layerIndex + '.Accel', accel);
         }
     }
 
@@ -95,25 +94,26 @@ exports.LayerState = class extends BasicLayerState {
     }
 
     setState(state) {
-        let time = Date.now();
+        let time       = Date.now();
+        let layerIndex = this._layerIndex;
         if ((state.uuid && (state.uuid !== this._uuid)) || (time > this._uuidTime + 500)) {
             this._uuid     = state.uuid || '';
             this._uuidTime = time;
             if (state.connected) {
-                this._device.emit(this._signalPrefix + this._layerIndex + 'Uuid', this._uuid);
+                this._device.emit('PoweredUp.Layer' + layerIndex + '.Uuid', this._uuid);
             }
         }
         if (state.type && (state.type !== this._type)) {
             this._type = state.type;
-            this._device.emit(this._signalPrefix + this._layerIndex + 'Type', this._type);
+            this._device.emit('PoweredUp.Layer' + layerIndex + '.Type', this._type);
         }
         if (('button' in state) && (state.button !== this._button)) {
             this._button = state.button;
-            this._device.emit(this._signalPrefix + this._layerIndex + 'Button', this._button);
+            this._device.emit('PoweredUp.Layer' + layerIndex + '.Button', this._button);
         }
         this
             .checkReady(state.ports)
-            .checkSensorChange(state.ports)
+            .checkSensorChange(state.ports, '.Assigned', '.Changed')
             .checkTiltChange(state.tilt)
             .checkAccelChange(state.accel);
         // Since Powered Up ports can be a motor or sensor we copy the value to degrees...

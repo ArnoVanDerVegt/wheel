@@ -7,7 +7,6 @@ let BasicLayerState = require('../BasicLayerState').BasicLayerState;
 
 exports.LayerState = class extends BasicLayerState {
     constructor(opts) {
-        opts.signalPrefix = 'NXT.Layer';
         super(opts);
         this._connecting = false;
         this._deviceName = '';
@@ -68,7 +67,7 @@ exports.LayerState = class extends BasicLayerState {
             motor.ready = newMotor.ready;
             if (motor && (motor.degrees !== newMotor.degrees)) {
                 motor.degrees = newMotor.degrees;
-                device.emit('NXT.Layer' + layerIndex + 'Motor' + index + 'Changed', motor.degrees);
+                device.emit('NXT.Layer' + layerIndex + '.Motor.Changed' + index, motor.degrees);
             }
         });
         state.sensors.forEach((newSensor, index) => {
@@ -76,11 +75,11 @@ exports.LayerState = class extends BasicLayerState {
             if (sensor) {
                 if (sensor.assigned !== newSensor.assigned) {
                     sensor.assigned = newSensor.assigned;
-                    device.emit('NXT.Layer' + layerIndex + 'Sensor' + index + 'Assigned', sensor.assigned);
+                    device.emit('NXT.Layer' + layerIndex + '.Sensor.Assigned' + index, sensor.assigned);
                 }
                 if (sensor.value !== newSensor.value) {
                     sensor.value = newSensor.value;
-                    device.emit('NXT.Layer' + layerIndex + 'Sensor' + index + 'Changed', sensor.value);
+                    device.emit('NXT.Layer' + layerIndex + '.Sensor.Changed' + index, sensor.value);
                 }
             }
         });

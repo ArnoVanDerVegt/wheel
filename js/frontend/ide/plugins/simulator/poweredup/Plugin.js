@@ -42,11 +42,11 @@ exports.Plugin = class extends Plugin {
         let device = this._device;
         for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             device
-                .on('PoweredUp.Layer' + i + 'Uuid',   this, this.onUuid.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Type',   this, this.onType.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Tilt',   this, this.onTilt.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Button', this, this.onButton.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Accel',  this, this.onAccel.bind(this, i));
+                .on('PoweredUp.Layer' + i + '.Uuid',   this, this.onUuid.bind(this, i))
+                .on('PoweredUp.Layer' + i + '.Type',   this, this.onType.bind(this, i))
+                .on('PoweredUp.Layer' + i + '.Tilt',   this, this.onTilt.bind(this, i))
+                .on('PoweredUp.Layer' + i + '.Button', this, this.onButton.bind(this, i))
+                .on('PoweredUp.Layer' + i + '.Accel',  this, this.onAccel.bind(this, i));
         }
         this._settings.on('Settings.AliasChanged', this, this.onAliasChanged);
         dispatcher.on('Simulator.Layer.Change', this, this.onChangeLayer.bind(this));

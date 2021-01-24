@@ -7,7 +7,6 @@ let BasicLayerState = require('../BasicLayerState').BasicLayerState;
 
 exports.LayerState = class extends BasicLayerState {
     constructor(opts) {
-        opts.signalPrefix = 'Spike.Layer';
         super(opts);
         this._connecting = false;
         this._deviceName = '';
@@ -54,13 +53,13 @@ exports.LayerState = class extends BasicLayerState {
             return this;
         }
         let p      = this._properties[propery];
-        let newP   = state[propery];
         let device = this._device;
+        let newP   = state[propery];
         if ((p.x !== newP.x) || (p.y !== newP.y) || (p.z !== newP.z)) {
             p.x = newP.x;
             p.y = newP.y;
             p.z = newP.z;
-            device.emit('Spike.' + signal + this._layerIndex, newP);
+            device.emit('Spike.Layer' + this._layerIndex + '.' + signal, newP);
         }
         return this;
     }
@@ -77,7 +76,7 @@ exports.LayerState = class extends BasicLayerState {
         }
         if (this._button !== state.button) {
             this._button = state.button;
-            device.emit('Spike.Button' + layerIndex, this._button);
+            device.emit('Spike.Layer' + layerIndex + '.Button', this._button);
         }
         let ports = this._ports;
         for (let i = 0; i < 6; i++) {
@@ -86,13 +85,13 @@ exports.LayerState = class extends BasicLayerState {
             let port     = ports[i];
             if (port.assigned !== assigned) {
                 port.assigned = assigned;
-                device.emit(this._signalPrefix + layerIndex + 'Port' + i + 'Assigned', assigned);
+                device.emit('Spike.Layer' + layerIndex + '.Assigned' + i, assigned);
             }
             let value = parseInt(newPort.value || '0');
             if (port.value !== value) {
                 port.value   = value;
                 port.degrees = value;
-                device.emit(this._signalPrefix + layerIndex + 'Port' + i + 'Changed', value);
+                device.emit('Spike.Layer' + layerIndex + '.Changed' + i, value);
             }
             port.ready = newPort.ready;
         }

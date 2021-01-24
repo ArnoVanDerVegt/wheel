@@ -7,7 +7,6 @@ let BasicLayerState = require('../BasicLayerState').BasicLayerState;
 
 exports.LayerState = class extends BasicLayerState {
     constructor(opts) {
-        opts.signalPrefix = 'EV3.Layer';
         super(opts);
         this._motors = [this.createMotor(), this.createMotor(), this.createMotor(), this.createMotor()];
     }
@@ -64,12 +63,12 @@ exports.LayerState = class extends BasicLayerState {
             let motor    = motors[i];
             if (motor.assigned !== assigned) {
                 motor.assigned = assigned;
-                device.emit(this._signalPrefix + layerIndex + 'Motor' + i + 'Assigned', assigned);
+                device.emit(this._signalPrefix + '.Layer' + layerIndex + '.Motor.Assigned' + i, assigned);
             }
             let degrees = parseInt(newMotor.degrees || '0');
             if (motor.degrees !== degrees) {
                 motor.degrees = degrees;
-                device.emit(this._signalPrefix + layerIndex + 'Motor' + i + 'Changed', degrees);
+                device.emit(this._signalPrefix + '.Layer' + layerIndex + '.Motor.Changed' + i, degrees);
             }
             motor.ready = newMotor.ready;
         }
@@ -77,7 +76,7 @@ exports.LayerState = class extends BasicLayerState {
 
     setState(state) {
         this
-            .checkSensorChange(state)
+            .checkSensorChange(state, '.Sensor.Assigned', '.Sensor.Changed')
             .checkMotorChange(state);
     }
 };

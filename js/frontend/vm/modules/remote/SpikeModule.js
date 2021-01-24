@@ -12,55 +12,57 @@ const LocalSpikeModule     = require('../local/SpikeModule').SpikeModule;
  *|
  *| record SpikeState
  *|     number       button
- *|     SpikepVector tilt
- *|     SpikeVector accel
+ *|     SpikepVector gyro
+ *|     SpikeVector  accell
+ *|     SpikeVector  pos
  *| end
  *|
  *| SpikeState spikeState[4]
-*/
+**/
+const SPIKE_STATE_RECORD_SIZE   = 1 + 3 + 3 + 3;
+const SPIKE_STATE_GYRO_OFFSET   = 1;
+const SPIKE_STATE_ACCELL_OFFSET = 1 + 3;
+const SPIKE_STATE_POS_OFFSET    = 1 + 3 + 3;
 
 exports.SpikeModule = class extends LocalSpikeModule {
     constructor(opts) {
         super(opts);
         this._writeOffset = 0;
         this._subscribed  = false;
+        this._events      = [];
     }
 
-    subscribeToTilt(device, signal, layer) {
+    subscribeToVectorChange(device, signal, layer, offset) {
         let vmData = this._vmData;
-        device.on(
+        this._events.push(device.on(
             signal,
             this,
-            function(tilt) {
+            function(vector) {
                 /* eslint-disable no-invalid-this */
-                let offset = this._writeOffset + layer * 7 + 1;
-                vmData.setNumberAtOffset(tilt.x, offset);
-                vmData.setNumberAtOffset(tilt.y, offset + 1);
-                vmData.setNumberAtOffset(tilt.z, offset + 2);
+                let o = this._writeOffset + layer * SPIKE_STATE_RECORD_SIZE + offset;
+                vmData.setNumberAtOffset(vector.x, o);
+                vmData.setNumberAtOffset(vector.y, o + 1);
+                vmData.setNumberAtOffset(vector.z, o + 2);
             }
-        );
-    }
-
-    subscribeToAccel(device, signal, layer) {
-        let vmData = this._vmData;
-        device.on(
-            signal,
-            this,
-            function(accel) {
-                /* eslint-disable no-invalid-this */
-                let offset = this._writeOffset + layer * 7 + 4;
-                vmData.setNumberAtOffset(accel.x, offset);
-                vmData.setNumberAtOffset(accel.y, offset + 1);
-                vmData.setNumberAtOffset(accel.z, offset + 2);
-            }
-        );
+        ));
+        return this;
     }
 
     subscribe(device) {
         if (this._subscribed) {
-            return;
+            return this;
+        }
+        for (let i = 0; i < spikeModuleConstants.SPIKE_LAYER_COUNT; i ++) {
+            this.
+                subscribeToVectorChange(device, 'Spike.Layer' + i + '.Gyro',   i, SPIKE_STATE_GYRO_OFFSET)
+                subscribeToVectorChange(device, 'Spike.Layer' + i + '.Accell', i, SPIKE_STATE_ACCELL_OFFSET)
+                subscribeToVectorChange(device, 'Spike.Layer' + i + '.Pos',    i, SPIKE_STATE_POS_OFFSET);
+            for (let j = 0; j < SPIKE_STATE_RECORD_SIZE; j++) {
+                vmData.setNumberAtOffset(0, this._writeOffset + i * SPIKE_STATE_RECORD_SIZE + j);
+            }
         }
         this._subscribed = true;
+        return this;
     }
 
     run(commandId) {
@@ -71,14 +73,9 @@ exports.SpikeModule = class extends LocalSpikeModule {
         switch (commandId) {
             case spikeModuleConstants.SPIKE_LAYER_START:
                 this._writeOffset = vmData.getRegSrc();
-                this.emit('Spike.Start', {});
-                for (let i = 0; i < spikeModuleConstants.SPIKE_LAYER_COUNT; i ++) {
-                    this.subscribeToTilt(device,  'Spike.Layer' + i + 'Tilt',  i);
-                    this.subscribeToAccel(device, 'Spike.Layer' + i + 'Accel', i);
-                    for (let j = 0; j < 7; j++) {
-                        vmData.setNumberAtOffset(0, this._writeOffset + i * 7 + j);
-                    }
-                }
+                this
+                    .subscribe(device)
+                    .emit('Spike.Start', {});
                 break;
             case spikeModuleConstants.SPIKE_LAYER_CLEAR_LEDS:
                 led = vmData.getRecordFromSrcOffset(['layer']);

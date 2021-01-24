@@ -27,11 +27,11 @@ exports.SensorContainer = class extends DOMNode {
         this._sensorConstructors = [];
         opts.addSensor(this);
         opts.device
-           .addEventListener('NXT.Layer' + opts.layer + 'Sensor' + opts.id + 'Changed',  this, this.onChangeValue)
-           .addEventListener('NXT.Layer' + opts.layer + 'Sensor' + opts.id + 'Assigned', this, this.onAssigned)
-           .addEventListener('NXT.Connecting',                                           this, this.onConnecting)
-           .addEventListener('NXT.Connected',                                            this, this.onConnected)
-           .addEventListener('NXT.Disconnected',                                         this, this.onDisconnected);
+           .addEventListener('NXT.Layer' + opts.layer + '.Sensor.Changed'  + opts.id, this, this.onChangeValue)
+           .addEventListener('NXT.Layer' + opts.layer + '.Sensor.Assigned' + opts.id, this, this.onAssigned)
+           .addEventListener('NXT.Connecting',                                        this, this.onConnecting)
+           .addEventListener('NXT.Connected',                                         this, this.onConnected)
+           .addEventListener('NXT.Disconnected',                                      this, this.onDisconnected);
         this
             .initSensorConstructors()
             .initDOM(opts.parentNode);

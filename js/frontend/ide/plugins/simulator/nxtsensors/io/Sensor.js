@@ -14,6 +14,11 @@ exports.Sensor = class extends BasicIODevice {
         let device = opts.device;
         this._sensorContainer = opts.sensorContainer;
         this._image           = opts.image;
+        this._events          = [
+            this._state.on('Type',  this, this.onChangeType),
+            this._state.on('Mode',  this, this.onChangeMode),
+            this._state.on('Value', this, this.onChangeValue)
+        ];
         this.initDOM(opts.parentNode);
         opts.sensorContainer.setCurrentSensor(this);
     }

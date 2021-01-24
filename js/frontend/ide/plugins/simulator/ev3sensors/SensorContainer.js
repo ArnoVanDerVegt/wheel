@@ -27,7 +27,7 @@ exports.SensorContainer = class extends DOMNode {
         this._currentSensor      = null;
         this._sensorConstructors = [];
         opts.addSensor(this);
-        opts.device.addEventListener('EV3.Layer' + opts.layer + 'Sensor' + opts.id + 'Assigned', this, this.onAssigned);
+        opts.device.addEventListener('EV3.Layer' + opts.layer + '.Sensor.Assigned' + opts.id, this, this.onAssigned);
         this
             .initSensorConstructors()
             .initDOM(opts.parentNode);

@@ -20,7 +20,7 @@ exports.Hub = class extends DOMNode {
         this._light   = null;
         opts.plugin.addHub(this);
         this.initDOM(opts.parentNode);
-        this._device.on('Spike.Button' + opts.layer, this, this.onButtons);
+        this._device.on('Spike.Layer' + opts.layer + '.Button', this, this.onButtons);
     }
 
     initDOM(parentNode) {
