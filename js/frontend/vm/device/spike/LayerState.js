@@ -9,7 +9,9 @@ exports.LayerState = class extends BasicLayerState {
     constructor(opts) {
         super(opts);
         this._connecting = false;
-        this._deviceName = '';
+        this._connected  = false;
+        this._battery    = -1;
+        this._deviceName = opts.deviceName || '';
         this._button     = 0;
         this._ports      = [];
         this._properties = {
@@ -40,6 +42,10 @@ exports.LayerState = class extends BasicLayerState {
         return this._deviceName;
     }
 
+    setDeviceName(deviceName) {
+        this._deviceName = deviceName;
+    }
+
     getUUID() {
         return '';
     }
@@ -64,6 +70,13 @@ exports.LayerState = class extends BasicLayerState {
         return this;
     }
 
+    setConnected(connected) {
+        if (this._connected !== connected) {
+            this._device.emit('Spike.Layer' + this._layerIndex + '.' + (connected ? 'Connected' : 'Disconnected'), this._deviceName || '?');
+        }
+        super.setConnected(connected);
+    }
+
     setState(state) {
         this._deviceName = state.deviceName;
         let device     = this._device;
@@ -73,6 +86,10 @@ exports.LayerState = class extends BasicLayerState {
             if (state.connecting === false) {
                 device.emit('Spike.StopConnecting', this._layerIndex);
             }
+        }
+        if ((this._battery !== state.battery) && (state.battery !== -1)) {
+            this._battery = state.battery;
+            device.emit('Spike.Layer' + layerIndex + '.Battery', this._battery);
         }
         if (this._button !== state.button) {
             this._button = state.button;

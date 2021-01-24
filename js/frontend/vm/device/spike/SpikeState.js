@@ -46,6 +46,7 @@ exports.SpikeState = class extends BasicDeviceState {
                     return;
                 }
                 if (data.connecting && layerState[data.layerIndex]) {
+                    layerState[data.layerIndex].setDeviceName(deviceName);
                     layerState[data.layerIndex].connecting = true;
                     this.emit('Spike.Connecting', deviceName);
                     if (!this._updateTimeout) {

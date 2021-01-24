@@ -7,6 +7,10 @@ exports.DEVICE_TYPE_COLOR_SENSOR    = 61;
 exports.DEVICE_TYPE_DISTANCE_SENSOR = 62;
 exports.DEVICE_TYPE_FORCE_SENSOR    = 63;
 
+exports.MESSAGE_TYPE_PORTS          =  0;
+exports.MESSAGE_TYPE_BATTERY        =  2;
+exports.MESSAGE_TYPE_BUTTONS        =  3;
+
 exports.COMMAND_SOUND_OFF           = 'scratch.sound_off';
 exports.COMMAND_SOUND_BEEP          = 'scratch.sound_beep';
 exports.COMMAND_RUN_FOR_DEGREES     = 'scratch.motor_run_for_degrees';

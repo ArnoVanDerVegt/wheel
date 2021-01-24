@@ -98,13 +98,18 @@ exports.CommandQueue = class {
         if (!ports) {
             return;
         }
-        if (data.m === 3) {
-            this
-                .readButtons(ports);
-        } else {
-            this
-                .readPortStatus(ports)
-                .readTiltStatus(ports);
+        switch (data.m) {
+            case constants.MESSAGE_TYPE_BUTTONS:
+                this.readButtons(ports);
+                break;
+            case constants.MESSAGE_TYPE_BATTERY:
+                this._layer.battery = ports[1];
+                break;
+            case constants.MESSAGE_TYPE_PORTS:
+                this
+                    .readPortStatus(ports)
+                    .readTiltStatus(ports);
+                break;
         }
         this.sendQueue();
     }

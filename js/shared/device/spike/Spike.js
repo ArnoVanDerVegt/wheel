@@ -33,6 +33,7 @@ exports.Spike = class extends BasicDevice {
                 accel:           {x: 0, y: 0, z: 0},
                 pos:             {x: 0, y: 0, z: 0},
                 ports:           [],
+                battery:         -1,
                 button:          0
             };
         for (let i = 0; i < 6; i++) {
@@ -227,6 +228,7 @@ exports.Spike = class extends BasicDevice {
                 deviceName: layer.deviceName,
                 connecting: layer.connecting,
                 connected:  layer.connected,
+                battery:    layer.battery,
                 button:     layer.button,
                 gyro:       layer.gyro,
                 accel:      layer.accel,

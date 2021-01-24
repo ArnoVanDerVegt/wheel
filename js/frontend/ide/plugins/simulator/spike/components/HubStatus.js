@@ -13,6 +13,7 @@ exports.HubStatus = class extends DOMNode {
         this.initDOM(opts.parentNode);
         this._device
             .on('Spike.Layer' + opts.layer + '.Connected', this, this.onConnected)
+            .on('Spike.Layer' + opts.layer + '.Battery',   this, this.onBattery)
             .on('Spike.Layer' + opts.layer + '.Gyro',      this, this.onGyro)
             .on('Spike.Layer' + opts.layer + '.Accel',     this, this.onAccel)
             .on('Spike.Layer' + opts.layer + '.Pos',       this, this.onPos);
@@ -37,6 +38,20 @@ exports.HubStatus = class extends DOMNode {
                                 ref:       this.setRef('hubName'),
                                 className: 'flt value',
                                 innerHTML: 'Layer ' + (this._layer + 1) + ' (not connected)'
+                            }
+                        ]
+                    },
+                    {
+                        className: 'flt title',
+                        innerHTML: 'Battery:'
+                    },
+                    {
+                        className: 'frt values',
+                        children: [
+                            {
+                                ref:       this.setRef('battery'),
+                                className: 'flt value',
+                                innerHTML: '?'
                             }
                         ]
                     },
@@ -83,6 +98,10 @@ exports.HubStatus = class extends DOMNode {
         let hubName = this._refs.hubName;
         hubName.innerHTML = deviceName;
         hubName.title     = deviceName;
+    }
+
+    onBattery(battery) {
+        this._refs.battery.innerHTML = battery + '%';
     }
 
     onGyro(gyro) {
