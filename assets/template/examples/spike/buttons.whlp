@@ -6,7 +6,7 @@
 #include "lib/modules/device.whl"
 #include "lib/modules/button.whl"
 
-#display "Spike"
+#display "Console, Spike"
 
 proc printButton(number button)
     clearConsole()

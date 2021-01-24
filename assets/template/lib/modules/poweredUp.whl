@@ -64,8 +64,8 @@ end
 
 ; @record The status of the Powered Up device for all layers.
 record PoweredUpDevices
-    ; @field Powered Up status data for all eight layers.
-    PoweredUpStatus layer[8]
+    ; @field Powered Up status data for all layers.
+    PoweredUpStatus layer[10]
 union
     ; @field Powered Up status data for layer one.
     PoweredUpStatus layer1
@@ -83,6 +83,10 @@ union
     PoweredUpStatus layer7
     ; @field Powered Up status data for layer eight.
     PoweredUpStatus layer8
+    ; @field Powered Up status data for layer nine.
+    PoweredUpStatus layer9
+    ; @field Powered Up status data for layer ten.
+    PoweredUpStatus layer10
 end
 
 ; @var Powered Up device status data.

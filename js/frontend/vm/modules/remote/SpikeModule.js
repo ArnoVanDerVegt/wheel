@@ -13,16 +13,16 @@ const LocalSpikeModule     = require('../local/SpikeModule').SpikeModule;
  *| record SpikeState
  *|     number       button
  *|     SpikepVector gyro
- *|     SpikeVector  accell
+ *|     SpikeVector  accel
  *|     SpikeVector  pos
  *| end
  *|
  *| SpikeState spikeState[4]
 **/
-const SPIKE_STATE_RECORD_SIZE   = 1 + 3 + 3 + 3;
-const SPIKE_STATE_GYRO_OFFSET   = 1;
-const SPIKE_STATE_ACCELL_OFFSET = 1 + 3;
-const SPIKE_STATE_POS_OFFSET    = 1 + 3 + 3;
+const SPIKE_STATE_RECORD_SIZE  = 1 + 3 + 3 + 3;
+const SPIKE_STATE_GYRO_OFFSET  = 1;
+const SPIKE_STATE_ACCEL_OFFSET = 1 + 3;
+const SPIKE_STATE_POS_OFFSET   = 1 + 3 + 3;
 
 exports.SpikeModule = class extends LocalSpikeModule {
     constructor(opts) {
@@ -52,11 +52,12 @@ exports.SpikeModule = class extends LocalSpikeModule {
         if (this._subscribed) {
             return this;
         }
+        let vmData = this._vmData;
         for (let i = 0; i < spikeModuleConstants.SPIKE_LAYER_COUNT; i ++) {
-            this.
-                subscribeToVectorChange(device, 'Spike.Layer' + i + '.Gyro',   i, SPIKE_STATE_GYRO_OFFSET)
-                subscribeToVectorChange(device, 'Spike.Layer' + i + '.Accell', i, SPIKE_STATE_ACCELL_OFFSET)
-                subscribeToVectorChange(device, 'Spike.Layer' + i + '.Pos',    i, SPIKE_STATE_POS_OFFSET);
+            this
+                .subscribeToVectorChange(device, 'Spike.Layer' + i + '.Gyro',  i, SPIKE_STATE_GYRO_OFFSET)
+                .subscribeToVectorChange(device, 'Spike.Layer' + i + '.Accel', i, SPIKE_STATE_ACCEL_OFFSET)
+                .subscribeToVectorChange(device, 'Spike.Layer' + i + '.Pos',   i, SPIKE_STATE_POS_OFFSET);
             for (let j = 0; j < SPIKE_STATE_RECORD_SIZE; j++) {
                 vmData.setNumberAtOffset(0, this._writeOffset + i * SPIKE_STATE_RECORD_SIZE + j);
             }

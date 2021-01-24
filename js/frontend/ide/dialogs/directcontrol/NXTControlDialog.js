@@ -33,7 +33,7 @@ exports.NXTControlDialog = class extends DirectControlDialog {
             for (let output = 0; output < 3; output++) {
                 (function(layer, output) {
                     device.on(
-                        'NXT.Layer' + layer + 'Motor' + output + 'Changed',
+                        'NXT.Layer' + layer + '.Motor.Changed' + output,
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */

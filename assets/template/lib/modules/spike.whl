@@ -44,15 +44,17 @@ end
 record SpikeStatus
     ; @field The device button value.
     number          button
-    ; @field The tilt vector.
-    SpikeVector tilt
+    ; @field The gyro vector.
+    SpikeVector gyro
     ; @field The acceleration vector.
     SpikeVector accel
+    ; @field The position vector.
+    SpikeVector pos
 end
 
 ; @record The status of the Spike device for all layers.
 record SpikeDevices
-    ; @field Spike status data for all eight layers.
+    ; @field Spike status data for all four layers.
     SpikeStatus layer[4]
 union
     ; @field Spike status data for layer one.

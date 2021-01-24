@@ -50,6 +50,11 @@ exports.examples = [
                 filename:    'examples/poweredup/light/light.whlp',
                 title:       'Light',
                 description: 'Control the led light on the device'
+            },
+            {
+                filename:    'examples/poweredup/tilt/tilt.whlp',
+                title:       'Tilt',
+                description: 'Log the tilt values'
             }
         ]
     },
@@ -72,6 +77,11 @@ exports.examples = [
                 filename:    'examples/spike/text.whlp',
                 title:       'Matrix text',
                 description: 'Display text on the matrix'
+            },
+            {
+                filename:    'examples/spike/accel.whlp',
+                title:       'Acceleration',
+                description: 'Log the acceleration values'
             }
         ]
     },

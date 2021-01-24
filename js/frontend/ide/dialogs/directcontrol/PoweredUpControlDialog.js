@@ -46,7 +46,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
             for (let output = 0; output < 4; output++) {
                 (function(layer, output) {
                     device.on(
-                        'PoweredUp.Layer' + layer + 'Sensor' + output + 'Assigned',
+                        'PoweredUp.Layer' + layer + '.Assigned' + output,
                         this,
                         function(assigned) {
                             /* eslint-disable no-invalid-this */
@@ -54,7 +54,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
                         }
                     );
                     device.on(
-                        'PoweredUp.Layer' + layer + 'Sensor' + output + 'Changed',
+                        'PoweredUp.Layer' + layer + '.Changed' + output,
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */

@@ -67,7 +67,12 @@ class CompileBlock extends CompileScope {
                 token = iterator.skipWhiteSpace().next();
                 if (token.cls === t.TOKEN_STRING) {
                     token.lexeme.substr(1, token.lexeme.length - 2).split(',').forEach((name) => {
-                        dispatcher.dispatch('Simulator.ShowPluginByName', name.trim());
+                        name = name.trim();
+                        if (name === 'Console') {
+                            dispatcher.dispatch('Settings.Set.Console.Visible', true);
+                        } else {
+                            dispatcher.dispatch('Simulator.ShowPluginByName', name);
+                        }
                     });
                 } else {
                     throw errors.createError(err.STRING_CONSTANT_EXPECTED, token, 'String constant expected.');

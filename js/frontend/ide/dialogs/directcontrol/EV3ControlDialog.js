@@ -26,7 +26,7 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
             for (let output = 0; output < 4; output++) {
                 (function(layer, output) {
                     device.on(
-                        'EV3.Layer' + layer + 'Motor' + output + 'Assigned',
+                        'EV3.Layer' + layer + '.Motor.Assigned' + output,
                         this,
                         function(assigned) {
                             /* eslint-disable no-invalid-this */
@@ -34,7 +34,7 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
                         }
                     );
                     device.on(
-                        'EV3.Layer' + layer + 'Motor' + output + 'Changed',
+                        'EV3.Layer' + layer + '.Motor.Changed' + output,
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */

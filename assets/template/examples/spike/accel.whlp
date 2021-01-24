@@ -1,22 +1,19 @@
-; Wheel, copyright (c) 2020 - present by Arno van der Vegt
+; Wheel, copyright (c) 2021 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
-#project "Powered Up tilt sensor example"
-
-; This example displays the tilt values in the console.
-; The Move Hub returns the x and y values and the Technic Hub returns the x, y and z values.
+#project "Spike acceleration example"
 
 #include "lib/modules/standard.whl"
 #include "lib/modules/device.whl"
-#include "lib/modules/poweredUp.whl"
+#include "lib/modules/spike.whl"
 
-#display "Console, Hub"
+#display "Console, Spike"
 
 proc main()
-    ; Select the Powered Up device in the IDE...
-    selectDevice(DEVICE_POWERED_UP)
+    ; Select the Spike device in the IDE...
+    selectDevice(DEVICE_SPIKE)
 
-    ; Start reading the Powered Up sensors...
-    poweredUpStart()
+    ; Start updating the spike device status...
+    spikeLayerStart()
 
     number x, lastX
     number y, lastY
@@ -24,15 +21,15 @@ proc main()
 
     repeat
         ; Get the values...
-        x = poweredUpDevices.layer1.tilt.x
-        y = poweredUpDevices.layer1.tilt.y
-        z = poweredUpDevices.layer1.tilt.z
+        x = spikeDevices.layer1.accel.x
+        y = spikeDevices.layer1.accel.y
+        z = spikeDevices.layer1.accel.z
 
         ; Check if one of the values is changed:
         if (x != lastX) or (y != lastY) or (z != lastZ)
             ; Display the last values:
             clearConsole()
-            printS("=== Tilt values ===")
+            printS("=== Acceleration values ===")
             printS("x:")
             printN(x)
             printS("y:")

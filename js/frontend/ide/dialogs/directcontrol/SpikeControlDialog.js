@@ -33,7 +33,7 @@ exports.SpikeControlDialog = class extends DirectControlDialog {
             for (let output = 0; output < 6; output++) {
                 (function(layer, output) {
                     device.on(
-                        'Spike.Layer' + layer + 'Port' + output + 'Assigned',
+                        'Spike.Layer' + layer + '.Assigned' + output,
                         this,
                         function(assigned) {
                             /* eslint-disable no-invalid-this */
@@ -41,7 +41,7 @@ exports.SpikeControlDialog = class extends DirectControlDialog {
                         }
                     );
                     device.on(
-                        'Spike.Layer' + layer + 'Port' + output + 'Changed',
+                        'Spike.Layer' + layer + '.Changed' + output,
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */
