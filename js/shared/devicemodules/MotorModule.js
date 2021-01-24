@@ -59,12 +59,13 @@ exports.MotorModule = class extends BasicDeviceModule {
                 break;
             case motorModuleConstants.MOTOR_MOVE_TO:
                 this.clearStopTimer(data.layer, data.id);
-                device.motorDegrees(data.layer, data.id, data.speed, data.degrees, data.brake);
+                device.motorDegrees(
+                    data.layer,
+                    data.id, data.speed, data.brake,
+                    data.degrees
+                );
                 break;
             case motorModuleConstants.MOTOR_MOVE_TO_BITS:
-                // Todo
-                break;
-            case motorModuleConstants.MOTOR_MOVE_TO_PAIR:
                 // Todo
                 break;
             case motorModuleConstants.MOTOR_ON:

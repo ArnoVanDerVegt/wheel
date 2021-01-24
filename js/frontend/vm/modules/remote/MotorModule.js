@@ -195,9 +195,6 @@ exports.MotorModule = class extends VMModule {
                     bit <<= 1;
                 }
                 break;
-            case motorModuleConstants.MOTOR_MOVE_TO_PAIR:
-                // Todo
-                break;
             case motorModuleConstants.MOTOR_ON:
                 motor = vmData.getRecordFromSrcOffset(['layer', 'id']);
                 if (this.getLayerAndIdValid(motor)) {

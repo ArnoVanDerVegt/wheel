@@ -238,16 +238,16 @@ exports.SimulatorModules = class {
                 return this.getActiveMotorsPlugin();
             };
         this._events.push(
-            motorModule.addEventListener('Motor.SetType',   this, function(motor) { callOnObject(getMotors(), 'setType', motor);                   }),
-            motorModule.addEventListener('Motor.SetSpeed',  this, function(motor) { callOnObject(getMotors(), 'setSpeed', motor);                  }),
-            motorModule.addEventListener('Motor.GetType',   this, function(motor) { motor.callback(callOnObject(getMotors(), 'getType', motor));   }),
-            motorModule.addEventListener('Motor.Reset',     this, function(motor) { callOnObject(getMotors(), 'setPosition', motor);               }),
-            motorModule.addEventListener('Motor.MoveTo',    this, function(motor) { callOnObject(getMotors(), 'moveTo', motor);                    }),
-            motorModule.addEventListener('Motor.On',        this, function(motor) { callOnObject(getMotors(), 'on', motor);                        }),
-            motorModule.addEventListener('Motor.TimeOn',    this, function(motor) { callOnObject(getMotors(), 'timeOn', motor);                    }),
-            motorModule.addEventListener('Motor.Stop',      this, function(motor) { callOnObject(getMotors(), 'stop', motor);                      }),
-            motorModule.addEventListener('Motor.Read',      this, function(motor) { motor.callback(callOnObject(getMotors(), 'read', motor));      }),
-            motorModule.addEventListener('Motor.Ready',     this, function(motor) { motor.callback(callOnObject(getMotors(), 'ready', motor));     }),
+            motorModule.addEventListener('Motor.SetType',   this, function(motor) { callOnObject(getMotors(), 'setType',     motor);             }),
+            motorModule.addEventListener('Motor.SetSpeed',  this, function(motor) { callOnObject(getMotors(), 'setSpeed',    motor);             }),
+            motorModule.addEventListener('Motor.Reset',     this, function(motor) { callOnObject(getMotors(), 'setPosition', motor);             }),
+            motorModule.addEventListener('Motor.MoveTo',    this, function(motor) { callOnObject(getMotors(), 'moveTo',      motor);             }),
+            motorModule.addEventListener('Motor.On',        this, function(motor) { callOnObject(getMotors(), 'on',          motor);             }),
+            motorModule.addEventListener('Motor.TimeOn',    this, function(motor) { callOnObject(getMotors(), 'timeOn',      motor);             }),
+            motorModule.addEventListener('Motor.Stop',      this, function(motor) { callOnObject(getMotors(), 'stop',        motor);             }),
+            motorModule.addEventListener('Motor.GetType',   this, function(motor) { motor.callback(callOnObject(getMotors(), 'getType', motor)); }),
+            motorModule.addEventListener('Motor.Read',      this, function(motor) { motor.callback(callOnObject(getMotors(), 'read',    motor)); }),
+            motorModule.addEventListener('Motor.Ready',     this, function(motor) { motor.callback(callOnObject(getMotors(), 'ready',   motor)); }),
             motorModule.addEventListener('Motor.ReadyBits', this, function(motor) {
                 motor.callback(callOnObject(getMotors(), 'readyBits', motor));
             })
@@ -265,10 +265,10 @@ exports.SimulatorModules = class {
             };
         this._events.push(
             sensorModule.addEventListener('Sensor.SetType', this, function(sensor) { callOnObject(getSensors(), 'setType', sensor);                  }),
-            sensorModule.addEventListener('Sensor.GetType', this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'getType', sensor)); }),
             sensorModule.addEventListener('Sensor.SetMode', this, function(sensor) { callOnObject(getSensors(), 'setMode', sensor);                  }),
-            sensorModule.addEventListener('Sensor.Reset',   this, function(sensor) { callOnObject(getSensors(), 'reset', sensor);                    }),
-            sensorModule.addEventListener('Sensor.Read',    this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'read', sensor));    })
+            sensorModule.addEventListener('Sensor.Reset',   this, function(sensor) { callOnObject(getSensors(), 'reset',   sensor);                  }),
+            sensorModule.addEventListener('Sensor.GetType', this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'getType', sensor)); }),
+            sensorModule.addEventListener('Sensor.Read',    this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'read',    sensor)); })
         );
         return this;
     }
@@ -324,8 +324,8 @@ exports.SimulatorModules = class {
         this._events.push(
             spikeModule.addEventListener('Spike.Start',           this, function(readAddress) {}),
             spikeModule.addEventListener('Spike.MatrixClearLeds', this, function(led) { getSpikeDevice().clearLeds(led); }),
-            spikeModule.addEventListener('Spike.MatrixSetLed',    this, function(led) { getSpikeDevice().setLed(led); }),
-            spikeModule.addEventListener('Spike.MatrixSetText',   this, function(led) { getSpikeDevice().setText(led); })
+            spikeModule.addEventListener('Spike.MatrixSetLed',    this, function(led) { getSpikeDevice().setLed(led);    }),
+            spikeModule.addEventListener('Spike.MatrixSetText',   this, function(led) { getSpikeDevice().setText(led);   })
         );
         return this;
     }
