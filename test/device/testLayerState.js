@@ -62,12 +62,16 @@ describe(
                     'Should change sensor values',
                     () => {
                         let layerState = new BasicLayerState({device: testDevice, layerIndex: 0});
-                        layerState.checkSensorChange([
-                            {mode: 0, assigned: 0, value: 1},
-                            {mode: 0, assigned: 0, value: 2},
-                            {mode: 0, assigned: 0, value: 3},
-                            {mode: 0, assigned: 0, value: 4}
-                        ]);
+                        layerState.checkSensorChange(
+                            [
+                                {mode: 0, assigned: 0, value: 1},
+                                {mode: 0, assigned: 0, value: 2},
+                                {mode: 0, assigned: 0, value: 3},
+                                {mode: 0, assigned: 0, value: 4}
+                            ],
+                            'Assigned',
+                            'Changed'
+                        );
                         assert.deepEqual(layerState.getSensors(), [1, 2, 3, 4]);
                     }
                 );
@@ -125,19 +129,23 @@ describe(
                                     }
                                 }
                             });
-                        layerState.checkSensorChange([
-                            {mode: 0, assigned: 0, value: 1},
-                            {mode: 0, assigned: 0, value: 2},
-                            {mode: 0, assigned: 0, value: 3},
-                            {mode: 0, assigned: 0, value: 4}
-                        ]);
+                        layerState.checkSensorChange(
+                            [
+                                {mode: 0, assigned: 0, value: 1},
+                                {mode: 0, assigned: 0, value: 2},
+                                {mode: 0, assigned: 0, value: 3},
+                                {mode: 0, assigned: 0, value: 4}
+                            ],
+                            'Assigned',
+                            'Changed'
+                        );
                         assert.deepEqual(
                             signals,
                             [
-                              'Test0Sensor0Changed',
-                              'Test0Sensor1Changed',
-                              'Test0Sensor2Changed',
-                              'Test0Sensor3Changed'
+                              'Test.Layer0Changed0',
+                              'Test.Layer0Changed1',
+                              'Test.Layer0Changed2',
+                              'Test.Layer0Changed3'
                             ]
                         );
                     }
@@ -275,10 +283,10 @@ describe(
                         assert.deepEqual(
                             signals,
                             [
-                                'EV3.Layer0Motor0Assigned',
-                                'EV3.Layer0Motor1Assigned',
-                                'EV3.Layer0Motor2Assigned',
-                                'EV3.Layer0Motor3Assigned'
+                                'EV3.Layer0.Motor.Assigned0',
+                                'EV3.Layer0.Motor.Assigned1',
+                                'EV3.Layer0.Motor.Assigned2',
+                                'EV3.Layer0.Motor.Assigned3'
                             ]
                         );
                     }
@@ -306,10 +314,10 @@ describe(
                         assert.deepEqual(
                             signals,
                             [
-                                'EV3.Layer0Motor0Changed',
-                                'EV3.Layer0Motor1Changed',
-                                'EV3.Layer0Motor2Changed',
-                                'EV3.Layer0Motor3Changed'
+                                'EV3.Layer0.Motor.Changed0',
+                                'EV3.Layer0.Motor.Changed1',
+                                'EV3.Layer0.Motor.Changed2',
+                                'EV3.Layer0.Motor.Changed3'
                             ]
                         );
                     }
