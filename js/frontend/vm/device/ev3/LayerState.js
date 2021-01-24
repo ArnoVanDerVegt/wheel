@@ -63,12 +63,12 @@ exports.LayerState = class extends BasicLayerState {
             let motor    = motors[i];
             if (motor.assigned !== assigned) {
                 motor.assigned = assigned;
-                device.emit(this._signalPrefix + '.Layer' + layerIndex + '.Motor.Assigned' + i, assigned);
+                device.emit('EV3.Layer' + layerIndex + '.Motor.Assigned' + i, assigned);
             }
             let degrees = parseInt(newMotor.degrees || '0');
             if (motor.degrees !== degrees) {
                 motor.degrees = degrees;
-                device.emit(this._signalPrefix + '.Layer' + layerIndex + '.Motor.Changed' + i, degrees);
+                device.emit('EV3.Layer' + layerIndex + '.Motor.Changed' + i, degrees);
             }
             motor.ready = newMotor.ready;
         }
