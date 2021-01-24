@@ -1,18 +1,19 @@
 /* Alert/Confirm dialog */
 .dialog-background.example-dialog .example {
-    height:                         356px;
+    height:                         386px;
 }
 .dialog-background.example-dialog .example .example-category {
-    float:                          left;
-    width:                          25%;
-    padding:                        16px;
+    padding:                        16px 16px 16px 48px;
 }
 .dialog-background.example-dialog .example .example-category .title {
+    width:                          32px;
+    height:                         32px;
+    line-height:                    32px;
     text-align:                     center;
-    margin:                         0 0 16px 0;
-    width:                          128px;
-    height:                         128px;
-    border-radius:                  64px;
+    font-size:                      18px;
+    border-radius:                  16px;
+    color:                          #FFFFFF;
+    left:                           16px;
 }
 .dialog-background.example-dialog .example .example-category .title.e {
     background-color:               #0984E3;
@@ -38,18 +39,30 @@
     text-align:                     left;
     height:                         32px;
     line-height:                    30px;
-    font-size:                      12px;
     border:                         1px solid transparent;
     border-radius:                  16px;
     padding:                        0 0 0 16px;
-    cursor:                         pointer;
     outline:                        none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow:                       hidden;
+    text-overflow:                  ellipsis;
+    white-space:                    nowrap;
 }
-.dialog-background.example-dialog .example .example-category .example-category-item:hover,
-.dialog-background.example-dialog .example .example-category .example-category-item:focus {
+.dialog-background.example-dialog .example .example-category .example-category-item.category-title {
+    font-family:                    latolight;
+    font-size:                      17px;
+}
+.dialog-background.example-dialog .example .example-category .example-category-item.selectable {
+    cursor:                         pointer;
+}
+.dialog-background.example-dialog .example .example-category .example-category-item.selectable:hover,
+.dialog-background.example-dialog .example .example-category .example-category-item.selectable:focus {
     background-color:               var(--files-hover-background);
     border:                         var(--files-hover-border);
+}
+.dialog-background.example-dialog .example .example-category .example-category-item span.example-name {
+    width:                          160px;
+}
+.dialog-background.example-dialog .example .example-category .example-category-item span.example-description {
+    font-style:                     italic;
+    opacity:                        0.75;
 }
