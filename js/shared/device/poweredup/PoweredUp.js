@@ -499,7 +499,7 @@ exports.PoweredUp = class extends BasicDevice {
         }
     }
 
-    motorDegrees(layer, motor, speed, degrees, brake, callback) {
+    motorDegrees(layer, motor, speed, brake, degrees, callback) {
         if (!this.getHubConnected(layer)) {
             return;
         }

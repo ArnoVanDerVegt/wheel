@@ -160,7 +160,7 @@ exports.NXT = class extends BasicDevice {
         }
     }
 
-    motorDegrees(layer, id, speed, degrees, brake, callback) {
+    motorDegrees(layer, id, speed, brake, degrees, callback) {
         if (!this._layers[layer]) {
             callback && callback();
             return;

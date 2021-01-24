@@ -287,7 +287,7 @@ exports.EV3 = class extends BasicDevice {
         motor.resetDegrees = motor.value;
     }
 
-    motorDegrees(layer, motor, speed, degrees, brake, callback) {
+    motorDegrees(layer, motor, speed, brake, degrees, callback) {
         if (!this._connected) {
             return;
         }

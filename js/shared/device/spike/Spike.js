@@ -152,7 +152,7 @@ exports.Spike = class extends BasicDevice {
         motor.reset = motor.value;
     }
 
-    motorDegrees(layer, motor, speed, degrees, brake, callback) {
+    motorDegrees(layer, motor, speed, brake, degrees, callback) {
         layer = this._layers[layer];
         if (!layer || !layer.ports[motor]) {
             return;
