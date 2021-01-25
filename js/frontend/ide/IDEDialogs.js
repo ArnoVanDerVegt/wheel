@@ -72,8 +72,8 @@ exports.IDEDialogs = class extends IDEEvents {
         new PoweredUpAutoConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
         // Control...
         new PoweredUpControlDialog        ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._devices.poweredUp});
-        new NXTControlDialog              ({getImage: getImage, ui: this._ui, device: this._devices.nxt});
-        new EV3ControlDialog              ({getImage: getImage, ui: this._ui, device: this._devices.ev3});
+        new NXTControlDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._devices.nxt});
+        new EV3ControlDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._devices.ev3});
         new SpikeControlDialog            ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._devices.spike});
         new SettingsDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
         new YesNoCancelDialog             ({getImage: getImage, ui: this._ui});

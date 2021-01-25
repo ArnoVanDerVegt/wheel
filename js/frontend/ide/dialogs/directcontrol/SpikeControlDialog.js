@@ -11,6 +11,8 @@ exports.SpikeControlDialog = class extends DirectControlDialog {
         opts.layerCount     = 4;
         opts.portsPerLayer  = 6;
         opts.hasSound       = true;
+        opts.hasVolume      = false;
+        opts.hasBrake       = true;
         opts.title          = 'Spike Direct control';
         opts.motorValidator = {
             valid: function(assigned) {

@@ -17,6 +17,7 @@ exports.Motors = class extends DOMNode {
         this._dialog         = opts.dialog;
         this._device         = opts.device;
         this._motorValidator = opts.motorValidator;
+        this._speed          = opts.speed;
         this.initDOM(opts.parentNode, opts.dialog);
     }
 
@@ -42,6 +43,7 @@ exports.Motors = class extends DOMNode {
                 ui:             this._ui,
                 uiId:           this._uiId,
                 device:         this._device,
+                speed:          this._speed,
                 dialog:         dialog,
                 motorId:        i,
                 motorValidator: this._motorValidator,

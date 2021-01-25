@@ -30,6 +30,8 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
         opts.portsPerLayer  = 4;
         opts.withAlias      = true;
         opts.hasSound       = false;
+        opts.hasVolume      = false;
+        opts.hasBrake       = true;
         opts.title          = 'Powered Up Direct control';
         opts.motorValidator = {
             valid:       function(assigned) { return (assigned !== null) && (validDevices.indexOf(assigned) !== -1); },

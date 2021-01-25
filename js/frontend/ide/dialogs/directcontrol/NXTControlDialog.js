@@ -11,7 +11,10 @@ exports.NXTControlDialog = class extends DirectControlDialog {
         opts.layerCount     = 4;
         opts.portsPerLayer  = 3;
         opts.hasSound       = true;
+        opts.hasVolume      = false;
+        opts.hasBrake       = false;
         opts.title          = 'NXT Direct control';
+        opts.speed          = 100;
         opts.motorValidator = {
             valid: function(assigned) {
                 return true;

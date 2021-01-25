@@ -113,9 +113,10 @@ exports.Piano = class extends DOMNode {
     }
 
     playTone(key) {
-        let volume = this._dialog.getVolumeSliderElement().getValue();
-        let tones  = [262, 294, 330, 349, 392, 440, 494, 523, 587, 659, 277, 311, 370, 415, 466, 554, 622];
-        let sound  = {frequency: tones[key], duration: 500, volume: volume};
+        let volumeSliderElement = this._dialog.getVolumeSliderElement();
+        let volume              = volumeSliderElement ? volumeSliderElement.getValue() : 100;
+        let tones               = [262, 294, 330, 349, 392, 440, 494, 523, 587, 659, 277, 311, 370, 415, 466, 554, 622];
+        let sound               = {frequency: tones[key], duration: 500, volume: volume};
         this._device.module(soundModuleConstants.MODULE_SOUND, soundModuleConstants.SOUND_PLAY_TONE, sound);
     }
 };

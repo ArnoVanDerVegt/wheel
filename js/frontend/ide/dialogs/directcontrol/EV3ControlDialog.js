@@ -10,6 +10,8 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
         opts.layerCount     = 4;
         opts.portsPerLayer  = 4;
         opts.hasSound       = true;
+        opts.hasVolume      = true;
+        opts.hasBrake       = true;
         opts.title          = 'EV3 Direct control';
         opts.motorValidator = {
             valid:       function(assigned) { return (assigned !== null) && ([7, 8].indexOf(assigned) !== -1); },
