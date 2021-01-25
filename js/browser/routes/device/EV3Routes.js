@@ -6,7 +6,7 @@ const EV3Routes      = require('../../../shared/routes/device/EV3Routes').EV3Rou
 const messageEncoder = require('../../../shared/device/ev3/messageEncoder');
 const CommandQueue   = require('../../../shared/device/ev3/CommandQueue').CommandQueue;
 const constants      = require('../../../shared/device/ev3/constants');
-const path           = require('../../../shated/lib/path');
+const path           = require('../../../shared/lib/path');
 
 exports.EV3Routes = class extends EV3Routes {
     /**
