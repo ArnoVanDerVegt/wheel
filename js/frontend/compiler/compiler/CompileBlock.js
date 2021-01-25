@@ -149,6 +149,20 @@ class CompileBlock extends CompileScope {
                 this._program.setStringCount(token.value);
                 this.checkRestTokens(iterator, 'stringcount');
                 break;
+            case t.LEXEME_META_ALIAS:
+                token = iterator.skipWhiteSpace().next();
+                if (token.cls !== t.TOKEN_STRING) {
+                    throw errors.createError(err.NUMBER_CONSTANT_EXPECTED, token, 'String constant expected.');
+                }
+                let uuid = token.lexeme;
+                token = iterator.skipWhiteSpace().next();
+                if (token.cls !== t.TOKEN_STRING) {
+                    throw errors.createError(err.NUMBER_CONSTANT_EXPECTED, token, 'String constant expected.');
+                }
+                let alias = token.lexeme;
+                this.checkRestTokens(iterator, 'alias');
+                dispatcher.dispatch('Settings.Set.DeviceAlias', uuid.substr(1, uuid.length - 2), alias.substr(1, alias.length - 2));
+                break;
             default:
                 throw errors.createError(err.UNDEFINED_META_COMMAND, token, 'Undefined meta command.');
         }

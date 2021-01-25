@@ -54,6 +54,7 @@
     const LEXEME_META_STRINGLENGTH  = '#stringlength';
     const LEXEME_META_STRINGCOUNT   = '#stringcount';
     const LEXEME_META_BREAK         = '#break';
+    const LEXEME_META_ALIAS         = '#alias';
     const LEXEME_ASSIGN             = '=';
     const LEXEME_ASSIGN_ADD         = '+=';
     const LEXEME_ASSIGN_SUB         = '-=';
@@ -166,6 +167,7 @@
     exports.LEXEME_META_STRINGLENGTH  = LEXEME_META_STRINGLENGTH;
     exports.LEXEME_META_STRINGCOUNT   = LEXEME_META_STRINGCOUNT;
     exports.LEXEME_META_BREAK         = LEXEME_META_BREAK;
+    exports.LEXEME_META_ALIAS         = LEXEME_META_ALIAS;
     exports.LEXEME_ASSIGN             = LEXEME_ASSIGN;
     exports.LEXEME_ASSIGN_ADD         = LEXEME_ASSIGN_ADD;
     exports.LEXEME_ASSIGN_SUB         = LEXEME_ASSIGN_SUB;
