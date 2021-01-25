@@ -55,6 +55,20 @@ proc main()
 end
 @end
 
+@section #datatype
+The `#datatype` meta command tells the VM what kind of heap memory to allocate.
+There are three possible values:
+* "number" Use numbers, both floats and integers can be used
+* "float" Use 32 bit floating point values
+* "int" Use 32 bit integer values
+
+@example
+#datatype "int"
+
+proc main()
+end
+@end
+
 @section #heap
 @keyword heap
 With the `#heap` command the amount of allocated memory for the virtual machine can be set.
@@ -179,6 +193,22 @@ The command is executed when the source file is loaded in the IDE, when the foll
 simulator EV3 and EV3 Sensors plugins will be shown:
 @example
 #display "EV3,EV3 Sensors"
+
+proc main()
+end
+@end
+
+@section #noformat
+The `#noformatter` prevents code after that meta command from being formatted.
+
+@section #format
+This command enables code formatting again and should only be used after the `#noformat` meta command.
+
+@section #alias
+Set a device alias. This command expects two string parameters, a `uuid` string and the `alias` for the uuid.
+
+@example
+#alias "5107039b87e0459898e438d27b9e2c40" "My Powered Up device"
 
 proc main()
 end

@@ -179,10 +179,10 @@
                     <th>Description</th>
                 </tr>
                 <tr>
-                    <td>layer[8]</td>
+                    <td>layer[10]</td>
                     <td>PoweredUpStatus</td>
-                    <td>8</td>
-                    <td>Powered Up status data for all eight layers.</td>
+                    <td>10</td>
+                    <td>Powered Up status data for all layers.</td>
                 </tr>
                 <tr><td colspan="4">union</td></tr>
                 <tr>
@@ -233,13 +233,25 @@
                     <td></td>
                     <td>Powered Up status data for layer eight.</td>
                 </tr>
+                <tr>
+                    <td>layer9</td>
+                    <td>PoweredUpStatus</td>
+                    <td></td>
+                    <td>Powered Up status data for layer nine.</td>
+                </tr>
+                <tr>
+                    <td>layer10</td>
+                    <td>PoweredUpStatus</td>
+                    <td></td>
+                    <td>Powered Up status data for layer ten.</td>
+                </tr>
             </p>
             <a id="Variables"></a>
             <h4 class="">Variables</h4>
             <p>
                 <a id="PoweredUpdevicestatusdata."></a>
                 <h5 class="title-with-source" title="poweredUpDevices">poweredUpDevices</h5>
-                <div class="source-location">Source: lib/modules/poweredUp.whl, line: 89<br/></div>
+                <div class="source-location">Source: lib/modules/poweredUp.whl, line: 93<br/></div>
                 <div>Powered Up device status data.<br/></div>
                 <table class="help-table">
                     <tr><th>Type</th></tr>
@@ -250,7 +262,7 @@
             <h4 class="">Procedures</h4>
             <a id="StartreadingupdatesfromthePoweredUpdevices."></a>
             <h5 class="title-with-source">poweredUpStart</h5>
-            <div class="source-location">Source: lib/modules/poweredUp.whl, line: 92<br/></div>
+            <div class="source-location">Source: lib/modules/poweredUp.whl, line: 96<br/></div>
             <p>Start reading updates from the Powered Up devices.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">poweredUpStart</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
@@ -259,7 +271,7 @@
 withoutaconnection.Whenconnectinganactualdevicethisvaluewillbeoverruled
 bytheactualconnecteddevicetype."></a>
             <h5 class="title-with-source">poweredUpSetDevice</h5>
-            <div class="source-location">Source: lib/modules/poweredUp.whl, line: 98<br/></div>
+            <div class="source-location">Source: lib/modules/poweredUp.whl, line: 102<br/></div>
             <p>Select a Powered Up device, this function is only usefull for to simulate a device
                    without a connection. When connecting an actual device this value will be overruled
                    by the actual connected device type.</p>

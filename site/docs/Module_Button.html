@@ -79,34 +79,46 @@
                     <tr><td>BUTTON_PU_RIGHT_RIGHT</td><td>32</td></tr>
                 </table>
             </p>
+            <p>
+                <a id="Spikeconnectbutton."></a>
+                <div>Spike connect button.<br/></div>
+                <div class="source-location">Source: lib/modules/button.whl, line: 32<br/></div>
+                <table class="help-table constants">
+                    <tr><td>BUTTON_SPIKE_CONNECT</td><td>6</td></tr>
+                </table>
+            </p>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
-            <a id="Readabuttonvaluefromagivenlayer,thelayeronlyappliestoPoweredUpdevices."></a>
+            <a id="Readabuttonvaluefromagivenlayer,thelayeronlyappliestoPoweredUpandSpikedevices."></a>
             <h5 class="title-with-source">buttonLayer</h5>
-            <div class="source-location">Source: lib/modules/button.whl, line: 32<br/></div>
-            <p>Read a button value from a given layer, the layer only applies to Powered Up devices.</p>
+            <div class="source-location">Source: lib/modules/button.whl, line: 35<br/></div>
+            <p>Read a button value from a given layer, the layer only applies to Powered Up and Spike devices.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">buttonLayer</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-                <tr><td>layer</td><td>number</td><td></td></tr>
+                <tr><td>layer</td><td>number</td><td>The layer, the device of which you want to read the buttons.</td></tr>
             </table>
             <div><b>Return:</b> In case of EV3 then button pressed value -if any-: <i>BUTTON_NONE</i>, <i>BUTTON_LEFT</i>, <i>BUTTON_CENTER</i>, <i>BUTTON_RIGHT</i>,
-                   <i>BUTTON_UP</i> or <i>BUTTON_DOWN</i>. In case of Powered Up then the value can contain one or more bits:
+                   <i>BUTTON_UP</i> or <i>BUTTON_DOWN</i>.
+                   In case of Powered Up then the value can contain one or more bits:
                    <i>BUTTON_PU_LEFT_MIN</i>, <i>BUTTON_PU_LEFT_CENTER</i>, <i>BUTTON_PU_LEFT_RIGHT</i>, <i>BUTTON_PU_LEFT_MIN</i>,
-                   <i>BUTTON_PU_LEFT_CENTER</i> or <i>BUTTON_PU_LEFT_RIGHT</i><br/><br/></div>
+                   <i>BUTTON_PU_LEFT_CENTER</i> or <i>BUTTON_PU_LEFT_RIGHT</i>.
+                   For Spike the button value can be <i>BUTTON_LEFT</i>, <i>BUTTON_CENTER</i> <i>BUTTON_RIGHT</i> or <i>BUTTON_SPIKE_CONNECT</i>.<br/><br/></div>
             <hr/>
-            <a id="Readabuttonvalue."></a>
+            <a id="Readabuttonvaluefromagivenlayer,thelayeronlyappliestoPoweredUpandSpikedevices."></a>
             <h5 class="title-with-source">button</h5>
-            <div class="source-location">Source: lib/modules/button.whl, line: 42<br/></div>
-            <p>Read a button value.</p>
+            <div class="source-location">Source: lib/modules/button.whl, line: 48<br/></div>
+            <p>Read a button value from a given layer, the layer only applies to Powered Up and Spike devices.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">button</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
             <div><b>Return:</b> In case of EV3 then button pressed value -if any-: <i>BUTTON_NONE</i>, <i>BUTTON_LEFT</i>, <i>BUTTON_CENTER</i>, <i>BUTTON_RIGHT</i>,
-                   <i>BUTTON_UP</i> or <i>BUTTON_DOWN</i>. In case of Powered Up then the value can contain one or more bits:
+                   <i>BUTTON_UP</i> or <i>BUTTON_DOWN</i>.
+                   In case of Powered Up then the value can contain one or more bits:
                    <i>BUTTON_PU_LEFT_MIN</i>, <i>BUTTON_PU_LEFT_CENTER</i>, <i>BUTTON_PU_LEFT_RIGHT</i>, <i>BUTTON_PU_LEFT_MIN</i>,
-                   <i>BUTTON_PU_LEFT_CENTER</i> or <i>BUTTON_PU_LEFT_RIGHT</i><br/><br/></div>
+                   <i>BUTTON_PU_LEFT_CENTER</i> or <i>BUTTON_PU_LEFT_RIGHT</i>.
+                   For Spike the button value can be <i>BUTTON_LEFT</i>, <i>BUTTON_CENTER</i> <i>BUTTON_RIGHT</i> or <i>BUTTON_SPIKE_CONNECT</i>.<br/><br/></div>
             <p>With the button module you can read the state of the EV3 buttons.</p>
             <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/button.whl"</span>
 <span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
@@ -123,7 +135,7 @@
             <hr/>
             <a id="Waituntilabuttonispressed."></a>
             <h5 class="title-with-source">waitForPress</h5>
-            <div class="source-location">Source: lib/modules/button.whl, line: 51<br/></div>
+            <div class="source-location">Source: lib/modules/button.whl, line: 59<br/></div>
             <p>Wait until a button is pressed.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">waitForPress</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
