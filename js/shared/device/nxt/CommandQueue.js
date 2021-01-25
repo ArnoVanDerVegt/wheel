@@ -46,7 +46,6 @@ exports.CommandQueue = class {
     }
 
     onOpenError(error) {
-        console.error(error);
         let layer = this._layer;
         layer.commandQueue = null;
         layer.connecting   = false;
@@ -111,8 +110,6 @@ exports.CommandQueue = class {
                     }
                     break;
             }
-        } else {
-            console.error(status, constants.ERROR_MESSAGES[status]);
         }
         this.sendQueue();
     }

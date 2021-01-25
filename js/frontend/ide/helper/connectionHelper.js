@@ -8,6 +8,7 @@ const spikeModuleConstants     = require('../../../shared/vm/modules/spikeModule
 const platform                 = require('../../../shared/lib/platform');
 const dispatcher               = require('../../lib/dispatcher').dispatcher;
 
+let nxtConnectionId   = 0;
 let ev3ConnectionId   = 0;
 let spikeConnectionId = 0;
 
