@@ -36,6 +36,9 @@ body.ide .main-menu .main-menu-item a {
     outline:                        none;
     text-decoration:                none;
 }
+body.ide .main-menu .main-menu-item a span {
+    float:                          left;
+}
 body.ide .main-menu.alt-pressed .main-menu-item a .hotkey {
     text-decoration:                underline;
 }
@@ -187,12 +190,26 @@ body.ide.dark .menu .menu-option .menu-option-remark {
 
 /* Help */
 .main-menu .help {
+    right:                          0px;
+    top:                            0px;
     height:                         40px;
     font-size:                      15px;
+    background-color:               var(--main-menu-background);
+    z-index:                        150;
 }
 @media only screen and (max-width: 760px) {
     .main-menu .help {
         display:                    none;
+    }
+    .main-menu .flt.main-menu-item a span {
+        max-width:                  30px;
+        overflow:                   hidden;
+        text-overflow:              ellipsis;
+    }
+}
+@media only screen and (max-width: 640px) {
+    .main-menu .flt.main-menu-item a span {
+        max-width:                  12px;
     }
 }
 .main-menu .help span.label {

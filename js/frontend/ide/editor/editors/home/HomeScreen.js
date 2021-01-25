@@ -58,7 +58,7 @@ exports.HomeScreen = class extends DOMNode {
                 ]
             },
             {
-                className: 'maw-w home-title',
+                className: 'flt max-w home-title',
                 innerHTML: 'Explore'
             },
             this.addHomeScreenTile({
@@ -77,7 +77,7 @@ exports.HomeScreen = class extends DOMNode {
                 onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.Example.Show')
             }),
             {
-                className: 'maw-w home-title',
+                className: 'flt max-w home-title',
                 innerHTML: 'Create'
             },
             (settings.getRecentProject() ?
@@ -140,7 +140,7 @@ exports.HomeScreen = class extends DOMNode {
             }),
             (settings.getShowNXTTile() || settings.getShowEV3Tile || settings.getShowPoweredUpTile() || settings.getShowSpikeTile()) ?
                 {
-                    className: 'maw-w home-title',
+                    className: 'flt max-w home-title',
                     innerHTML: 'Connect device'
                 } :
                 null,
@@ -194,7 +194,7 @@ exports.HomeScreen = class extends DOMNode {
             },
             showThemeTile ?
                 {
-                    className: 'maw-w home-title',
+                    className: 'flt max-w home-title',
                     innerHTML: 'Setup'
                 } :
                 null,
