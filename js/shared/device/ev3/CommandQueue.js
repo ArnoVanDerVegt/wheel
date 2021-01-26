@@ -12,7 +12,8 @@ const messageEncoder        = require('./messageEncoder');
 const Message               = require('./Message').Message;
 const constants             = require('./constants');
 
-const MESSAGE_TIME_OUT_TIME = 25;
+const MESSAGE_TIME_OUT_TIME      = 25;
+const MESSAGE_TIME_OUT_TIME_LONG = 500;
 
 exports.CommandQueue = class {
     constructor(ev3, sendFunction) {
@@ -206,7 +207,8 @@ exports.CommandQueue = class {
         this._sentTime = null;
         let command = queue.shift();
         if (command.response) {
-            pending.time    = Date.now() + MESSAGE_TIME_OUT_TIME;
+            // This is a different timeout because it's for messages like downloading or requesting file info!
+            pending.time    = Date.now() + MESSAGE_TIME_OUT_TIME_LONG;
             pending.command = command;
             this._sending   = true;
         } else if (command.wait) {
