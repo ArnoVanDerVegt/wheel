@@ -130,7 +130,7 @@ exports.EV3Routes = class {
         update();
     }
 
-    _donwloadData(data, remoteFilename, callback) {
+    _downloadData(data, remoteFilename, callback) {
         let s = '';
         if (typeof data === 'string') {
             for (let i = 0; i < data.length; i++) {
@@ -145,7 +145,7 @@ exports.EV3Routes = class {
     }
 
     downloadData(req, res) {
-        this._donwloadData(
+        this._downloadData(
             req.body.data,
             req.body.remoteFilename,
             function() {

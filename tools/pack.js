@@ -173,6 +173,8 @@ const files = [
         './js/shared/routes/device/NXTRoutes',
         './js/shared/routes/device/PoweredUpRoutes',
         './js/shared/routes/device/SpikeRoutes',
+        './js/browser/routes/DirectoryList',
+        './js/browser/routes/LocalStorageFiles',
         './js/browser/routes/IDERoutes',
         './js/browser/routes/device/NXTRoutes',
         './js/browser/routes/device/EV3Routes',

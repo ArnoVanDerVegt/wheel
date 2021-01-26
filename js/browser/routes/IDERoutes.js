@@ -7,9 +7,12 @@
 
 (function() {
     let pathByIndex         = {};
-    let localStorageFiles   = null;
     let changes             = [];
     let requireDependencies = {};
+
+    const getLocalStorageFiles = () => {
+            return require('./js/browser/routes/LocalStorageFiles').getLocalStorageFiles();
+        };
 
     const getRequireDependency = (filename) => {
             if (filename in requireDependencies) {
@@ -21,100 +24,6 @@
     exports.setRequireDependencies = (dependencies) => {
         requireDependencies = dependencies;
     };
-
-    class DirectoryList {
-        constructor() {
-            this._list = [];
-        }
-
-        addItem(name, directory, readonly) {
-            let list = this._list;
-            for (let i = 0; i < list.length; i++) {
-                if (list[i].name === name) {
-                    return;
-                }
-            }
-            list.push({
-                toString: function() {
-                    return (this.directory ? 'aaaaaaaaaaaaaaaa' : 'zzzzzzzzzzzzzzzz') + this.name;
-                },
-                name:      name,
-                directory: directory,
-                readonly:  readonly
-            });
-        }
-
-        getList() {
-            this._list.sort();
-            return this._list;
-        }
-    }
-
-    class LocalStorageFiles {
-        constructor() {
-            try {
-                let data = localStorage.getItem('WHEEL_FILES') || '';
-                this.dispatchSize(data.length);
-                this._files = JSON.parse(data);
-            } catch (error) {
-            }
-            if (!this._files) {
-                this._files = {};
-            }
-        }
-
-        dispatchSize(size) {
-            let dispatcher = getRequireDependency('./js/frontend/lib/dispatcher').dispatcher;
-            dispatcher.dispatch('LocalStorage.Size', {value: Math.min(size / (1024 * 1024) * 100, 100)});
-        }
-
-        _save() {
-            try {
-                let data = JSON.stringify(this._files);
-                this.dispatchSize(data.length);
-                localStorage.setItem('WHEEL_FILES', data) || '';
-            } catch (error) {
-            }
-        }
-
-        getFiles() {
-            return this._files;
-        }
-
-        deleteFile(filename) {
-            delete this._files[filename];
-            this._save();
-        }
-
-        setFile(filename, data) {
-            this._files[filename] = data;
-            this._save();
-        }
-
-        createDirectory(directory) {
-            if (this._files[directory] === '/') {
-                return true;
-            } else if (directory in this._files) {
-                return false;
-            }
-            this._files[directory] = String.fromCharCode(27);
-            this._save();
-            return true;
-        }
-
-        deleteDirectory(directory) {
-            delete(this._files[directory]);
-            this._save();
-        }
-    }
-
-    const getLocalStorageFiles = function() {
-            if (localStorageFiles) {
-                return localStorageFiles;
-            }
-            localStorageFiles = new LocalStorageFiles();
-            return localStorageFiles;
-        };
 
     const getFilesInPath = function(p, files, directoryList, readonly) {
             let path = getRequireDependency('./js/shared/lib/path');
@@ -175,6 +84,7 @@
                 currentPath = getPathByIndex(params.index);
             }
             pathByIndex[params.index] = currentPath;
+            let DirectoryList = require('./js/browser/routes/DirectoryList').DirectoryList;
             let directoryList = new DirectoryList();
             let files         = getRequireDependency('./js/frontend/ide/data/templates').files;
             getFilesInPath(currentPath, files,                             directoryList, true);

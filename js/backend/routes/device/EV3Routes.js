@@ -16,7 +16,7 @@ exports.EV3Routes = class extends EV3Routes {
         }
         if (fs.existsSync(localFilename)) {
             let data = fs.readFileSync(localFilename);
-            this._donwloadData(
+            this._downloadData(
                 data,
                 remoteFilename,
                 function() {

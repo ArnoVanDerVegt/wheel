@@ -25,7 +25,7 @@ getFileList('../assets/template');
 
 let output = 'let files = {};\n';
 for (let file in filelist) {
-    output += 'files[\'' + (file + '\'                                        ').substr(0, maxFileLength + 1) + '] = \'' + filelist[file] + '\';\n';
+    output += 'files[\'' + (file + '\'                                                          ').substr(0, maxFileLength + 1) + '] = \'' + filelist[file] + '\';\n';
 }
 output += 'exports.files = files;\n';
 fs.writeFileSync('../js/frontend/ide/data/templates.js', output);
