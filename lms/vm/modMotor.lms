@@ -18,14 +18,13 @@ subcall modMotor {                                                      // 06) M
     JR_EQ8(pModCall_8,  5, mod_motor_reverse)
     JR_EQ8(pModCall_8,  6, mod_motor_move_to)
     JR_EQ8(pModCall_8,  7, mod_motor_move_to_bits)
-    JR_EQ8(pModCall_8,  8, mod_motor_move_to_pair)
-    JR_EQ8(pModCall_8,  9, mod_motor_on)
-    JR_EQ8(pModCall_8, 10, mod_motor_time_on)
-    JR_EQ8(pModCall_8, 11, mod_motor_stop)
-    JR_EQ8(pModCall_8, 12, mod_motor_read)
-    JR_EQ8(pModCall_8, 13, mod_motor_ready)
-    JR_EQ8(pModCall_8, 14, mod_motor_ready_bits)
-    JR_EQ8(pModCall_8, 15, mod_motor_threshold)
+    JR_EQ8(pModCall_8,  8, mod_motor_on)
+    JR_EQ8(pModCall_8,  9, mod_motor_time_on)
+    JR_EQ8(pModCall_8, 10, mod_motor_stop)
+    JR_EQ8(pModCall_8, 11, mod_motor_read)
+    JR_EQ8(pModCall_8, 12, mod_motor_ready)
+    JR_EQ8(pModCall_8, 13, mod_motor_ready_bits)
+    JR_EQ8(pModCall_8, 14, mod_motor_threshold)
     RETURN()
 
 mod_motor_set_type:                                                     // 00) motorSetType
@@ -47,7 +46,7 @@ mod_motor_reset:                                                        // 04) m
     CALL(modMotorReset, pRegSrc_32)
     RETURN()
 
-mod_motor_reverse:                                                      // 05) motorReset
+mod_motor_reverse:                                                      // 05) motorReverse
     RETURN()
 
 mod_motor_move_to:                                                      // 06) motorMoveTo
@@ -57,31 +56,31 @@ mod_motor_move_to:                                                      // 06) m
 mod_motor_move_to_bits:                                                 // 07) motorMoveToBits
     RETURN()
 
-mod_motor_move_to_pair:                                                 // 08) motorMoveToPair
-    RETURN()
-
-mod_motor_on:                                                           // 09) motorOn
+mod_motor_on:                                                           // 08) motorOn
     CALL(modMotorOn, pRegSrc_32)
     RETURN()
 
-mod_motor_time_on:                                                      // 10) motorTimeOn
+mod_motor_time_on:                                                      // 09) motorTimeOn
     CALL(modMotorTimeOn, pRegSrc_32)
     RETURN()
 
-mod_motor_stop:                                                         // 11) motorStop
+mod_motor_stop:                                                         // 10) motorStop
     CALL(modMotorStop, pRegSrc_32)
     RETURN()
 
-mod_motor_read:                                                         // 12) motorRead
+mod_motor_read:                                                         // 11) motorRead
     CALL(modMotorRead, pRegSrc_32)
     RETURN()
 
-mod_motor_ready:                                                        // 13) motorReady
+mod_motor_ready:                                                        // 12) motorReady
     CALL(modMotorReady, pRegSrc_32)
     RETURN()
 
-mod_motor_ready_bits:                                                   // 14) motorReadyBits
+mod_motor_ready_bits:                                                   // 13) motorReadyBits
     CALL(modMotorReadyBits, pRegSrc_32)
+    RETURN()
+
+mod_motor_threshold:                                                    // 14) motorThreshold
     RETURN()
 }
 
