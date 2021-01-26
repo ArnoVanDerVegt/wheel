@@ -7,9 +7,11 @@ const assert    = require('assert');
 
 const getMockDependencies = () => {
         return {
-            './js/frontend/ide/data/templates': require('../../js/frontend/ide/data/templates'),
-            './js/shared/lib/path':             require('../../js/shared/lib/path'),
-            './js/shared/lib/RgfImage':         require('../../js/shared/lib/RgfImage')
+            './js/frontend/ide/data/templates':      require('../../js/frontend/ide/data/templates'),
+            './js/shared/lib/path':                  require('../../js/shared/lib/path'),
+            './js/shared/lib/RgfImage':              require('../../js/shared/lib/RgfImage'),
+            './js/browser/routes/DirectoryList':     require('../../js/browser/routes/DirectoryList'),
+            './js/browser/routes/LocalStorageFiles': require('../../js/browser/routes/LocalStorageFiles')
         };
     };
 
@@ -40,6 +42,7 @@ describe(
         it(
             'Should check type',
             () => {
+                IDERoutes.setRequireDependencies(getMockDependencies());
                 let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 assert.equal(typeof ideRoutes, 'object');
             }

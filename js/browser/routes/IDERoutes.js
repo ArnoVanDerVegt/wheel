@@ -10,10 +10,6 @@
     let changes             = [];
     let requireDependencies = {};
 
-    const getLocalStorageFiles = () => {
-            return require('./js/browser/routes/LocalStorageFiles').getLocalStorageFiles();
-        };
-
     const getRequireDependency = (filename) => {
             if (filename in requireDependencies) {
                 return requireDependencies[filename];
@@ -24,6 +20,10 @@
     exports.setRequireDependencies = (dependencies) => {
         requireDependencies = dependencies;
     };
+
+    const getLocalStorageFiles = () => {
+            return getRequireDependency('./js/browser/routes/LocalStorageFiles').getLocalStorageFiles();
+        };
 
     const getFilesInPath = function(p, files, directoryList, readonly) {
             let path = getRequireDependency('./js/shared/lib/path');
@@ -59,9 +59,9 @@
 
     exports.IDERoutes = class {
         reset() {
-            localStorageFiles = new LocalStorageFiles();
-            pathByIndex       = {};
-            changes.length    = 0;
+            getRequireDependency('./js/browser/routes/LocalStorageFiles').reset();
+            pathByIndex    = {};
+            changes.length = 0;
             return this;
         }
 
@@ -84,9 +84,9 @@
                 currentPath = getPathByIndex(params.index);
             }
             pathByIndex[params.index] = currentPath;
-            let DirectoryList = require('./js/browser/routes/DirectoryList').DirectoryList;
-            let directoryList = new DirectoryList();
+            let DirectoryList = getRequireDependency('./js/browser/routes/DirectoryList').DirectoryList;
             let files         = getRequireDependency('./js/frontend/ide/data/templates').files;
+            let directoryList = new DirectoryList();
             getFilesInPath(currentPath, files,                             directoryList, true);
             getFilesInPath(currentPath, getLocalStorageFiles().getFiles(), directoryList, false);
             if (currentPath !== 'Wheel') {

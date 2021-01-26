@@ -62,7 +62,11 @@ class LocalStorageFiles {
 
 let localStorageFiles = null;
 
-exports.getLocalStorageFiles = function() {
+exports.reset = () => {
+    localStorageFiles = null;
+};
+
+exports.getLocalStorageFiles = () => {
     if (localStorageFiles) {
         return localStorageFiles;
     }
