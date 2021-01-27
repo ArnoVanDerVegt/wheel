@@ -110,8 +110,8 @@ exports.MotorOrSensor = class extends Motor {
                     this._numberInputElement.value    = value;
                     break;
                 case poweredUpModuleConstants.POWERED_UP_SENSOR_MODE_COLOR:
-                    refs.numberValue.className    = 'value hidden';
-                    refs.colorValue.className     = 'value';
+                    refs.numberValue.className = 'value hidden';
+                    refs.colorValue.className  = 'value';
                     refs.specialValueInput.setValue(value);
                     refs.specialValueInput.setDisabled(this._device.getConnected());
                     break;

@@ -98,12 +98,17 @@ exports.MotorOrSensor = class extends Motor {
         positionElement.style.display = 'none';
         switch (type) {
             case sensorModuleConstants.SENSOR_TYPE_SPIKE_DISTANCE:
-            case sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR:
             case sensorModuleConstants.SENSOR_TYPE_SPIKE_FORCE:
                 refs.colorValue.className         = 'value hidden';
                 refs.numberValue.className        = 'value';
                 this._numberInputElement.disabled = '';
                 this._numberInputElement.value    = value;
+                break;
+            case sensorModuleConstants.SENSOR_TYPE_SPIKE_COLOR:
+                refs.numberValue.className = 'value hidden';
+                refs.colorValue.className  = 'value';
+                refs.specialValueInput.setValue(value);
+                refs.specialValueInput.setDisabled(this._device.getConnected());
                 break;
         }
     }
