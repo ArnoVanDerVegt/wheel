@@ -73,7 +73,6 @@ class HelpBuilderText {
             '                <li><a href="index.html">Documentation</a></li>',
             '                <li><a href="../source.html">Source</a></li>',
             '                <li><a href="../screenshots.html">Screenshots</a></li>',
-            '                <li><a href="../install.html">Install</a></li>',
             '            </ul>',
             '        </div>',
             '    </div>',
