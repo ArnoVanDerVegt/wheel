@@ -11,14 +11,28 @@ With `Wheel` you can control the following devices, motors and sensors:
 | @image images/ev3/ev364.png               | The EV3 brick.             |
 +-------------------------------------------+----------------------------+
 
-@section EV3 and NXT sensors
+@section NXT sensors
 +-------------------------------------------+----------------------------+
 | Sensor                                    | Description                |
 +-------------------------------------------+----------------------------+
-| @image images/ev3/nxtTouch64.png          | NXT touch sensor.          |
-| @image images/ev3/nxtLight64.png          | NXT light sensor.          |
-| @image images/ev3/nxtSound64.png          | NXT sound sensor.          |
-| @image images/ev3/nxtUltrasonic64.png     | NXT ultrasonic sensor.     |
+| @image images/nxt/touch64.png             | NXT touch sensor.          |
+| @image images/nxt/sound64.png             | NXT sound sensor.          |
+| @image images/nxt/ultrasonic64.png        | NXT ultrasonic sensor.     |
+| @image images/nxt/light64.png             | EV3 touch sensor.          |
++-------------------------------------------+----------------------------+
+
+@section NXT motor
++-------------------------------------------+----------------------------+
+| Motor                                     | Description                |
++-------------------------------------------+----------------------------+
+| @image images/nxt/motor64.png             | Large motor.               |
++-------------------------------------------+----------------------------+
+
+@section EV3 sensors
++-------------------------------------------+----------------------------+
+| Sensor                                    | Description                |
++-------------------------------------------+----------------------------+
+| @image images/ev3/ultrasonic64.png        | NXT ultrasonic sensor.     |
 | @image images/ev3/touch64.png             | EV3 touch sensor.          |
 | @image images/ev3/color64.png             | EV3 color sensor.          |
 | @image images/ev3/infrared64.png          | EV3 infrared sensor.       |
@@ -80,7 +94,7 @@ With `Wheel` you can control the following devices, motors and sensors:
 +-------------------------------------------+----------------------------+
 | Sensor                                    | Description                |
 +-------------------------------------------+----------------------------+
-| @image images/spike/colorSensor64.png     | Color sensor.              |
-| @image images/spike/forceSensor64.png     | Force sensor.              |
-| @image images/spike/distanceSensor64.png  | Distance sensor.           |
+| @image images/spike/color64.png           | Color sensor.              |
+| @image images/spike/force64.png           | Force sensor.              |
+| @image images/spike/distance64.png        | Distance sensor.           |
 +-------------------------------------------+----------------------------+
