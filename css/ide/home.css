@@ -67,7 +67,7 @@
     border:                         1px solid transparent;
 }
 .home-screen-content .home-screen-tile .home-screen-tile-content.focus {
-    border:                         var(--focus-border-dotted);
+    border:                         1px dotted #FFFFFF;
 }
 .home-screen-content .home-screen-tile .home-screen-tile-content img.file-icon.large {
     float:                          left;
@@ -129,12 +129,12 @@
     margin-top:                     6px;
 }
 .home-screen-content .home-screen-tile .home-screen-tile-content .home-screen-tile-text a.title1:focus {
-    border:                         var(--focus-border-dotted);
+    border:                         1px dotted #FFFFFF;
     border-radius:                  0 4px 0 0;
     opacity:                        1;
 }
 .home-screen-content .home-screen-tile .home-screen-tile-content .home-screen-tile-text a.title2:focus {
-    border:                         var(--focus-border-dotted);
+    border:                         1px dotted #FFFFFF;
     border-radius:                  0 0 4px 0;
     opacity:                        1;
 }
