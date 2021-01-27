@@ -27,6 +27,9 @@
 .dialog-background.example-dialog .example .example-category .title.i {
     background-color:               #4CD137;
 }
+.dialog-background.example-dialog .example .example-category .title.w {
+    background-color:               #E74C3C;
+}
 .dialog-background.example-dialog .example .example-category .title span {
     font-family:                    latolight;
     font-size:                      17px;

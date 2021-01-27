@@ -39,6 +39,6 @@ proc main()
 end
 @end
 
-@load Open file read example|examples/file/fileRead.whlp
+@load Open file read example|examples/general/file/fileRead.whlp
 
 @see file,fileOpenRead,fileReadNumber,fileReadString,standard,#text,#line,Modules

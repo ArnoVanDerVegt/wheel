@@ -5,24 +5,26 @@
 #include "lib/modules/standard.whl"
 #include "lib/modules/string.whl"
 
-proc main()
-    clearConsole();
+#display "Console"
 
-    ; Declare a string and print it in the console:
+proc main()
     string s = "ABCDE"
     printS(s)
 
     number n
     number ch
     for n = 0 to 4
-        ; Get the char code at index n and print it in the console:
+        ; Get the char code at index n:
         ch = getCharCodeAt(s, n)
         printN(ch)
-        ; Change the char code...
         ch += 5
+        ; Change the char code...
         setCharCodeAt(s, n, ch)
     end
 
     ; Print the updated string:
     printS(s)
+
+    halt()
 end
+

@@ -5,20 +5,22 @@
 #include "lib/modules/standard.whl"
 #include "lib/modules/string.whl"
 
+#display "Console"
+
 proc main()
-    ; Declare a string and print it in the console:
     string haystack = "Hello, Hello, world"
     string needle   = "Hello"
     printS(haystack)
 
-    ; Find the needle string in the haystack and print the position in the console:
     number n = indexOf(haystack, needle, 0)
     printS("Index of:")
     printN(n)
 
-    ; Get the index of the next occurence of the needle string and print it in the console:
     n += 5
     n = indexOf(haystack, needle, n)
     printS("Next index of:")
     printN(n)
+
+    halt()
 end
+

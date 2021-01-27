@@ -31,6 +31,6 @@ proc main()
 end
 @end
 
-@load Open file read example|examples/math/absNeg.whlp
+@load Open file read example|examples/general/math/absNeg.whlp
 
 @see math,abs,neg,Modules

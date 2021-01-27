@@ -3,26 +3,20 @@
 #project "Uppercase"
 
 #include "lib/modules/standard.whl"
-#include "lib/modules/device.whl"
-#include "lib/modules/screen.whl"
 #include "lib/modules/string.whl"
 
-#display "EV3"
+#display "Console"
 
 proc main()
-    ; Select the EV3 device in the simulator...
-    selectDevice(DEVICE_EV3)
-
     string s = "Hello World"
 
-    drawText(10, 10, s)
+    printS(s)
 
     toUpperCase(s)      ; Convert the string to upper case...
-    drawText(10, 30, s)
+    printS(s)
 
     toLowerCase(s)      ; Convert the string to lower case...
-    drawText(10, 50, s)
+    printS(s)
 
-    updateScreen()
     halt()
 end

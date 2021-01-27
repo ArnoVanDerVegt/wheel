@@ -4,19 +4,16 @@
 
 #include "lib/modules/standard.whl"
 
-proc main()
-    clearConsole()
+#display "Console"
 
-    ; Print "One" in the console:
+proc main()
     string s
     s = "One"
     printS(s)
-
-    ; Print "One two" in the console:
     s = s + " two"
     printS(s)
-
-    ; Print "One two three" in the console:
     s = s + " three"
     printS(s)
+
+    halt()
 end
