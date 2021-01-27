@@ -149,11 +149,17 @@ exports.ExploreDialog = class extends Dialog {
             uri,
             params,
             (data) => {
-                try {
-                    let json = JSON.parse(data);
+                let json = data;
+                if (typeof data === 'string') {
+                    try {
+                        json = JSON.parse(data);
+                    } catch (error) {
+                        json = null;
+                    }
+                }
+                if (json) {
                     this.onLeftPath(json.path);
                     callback(json.path, json.files);
-                } catch (error) {
                 }
             }
         );
