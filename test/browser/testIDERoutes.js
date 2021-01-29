@@ -72,8 +72,12 @@ describe(
                             getFilesFromData(data),
                             [
                                 '..',
-                                'bit', 'components', 'console', 'device', 'ev3',
-                                'file', 'math', 'nxt', 'poweredup', 'spike', 'string'
+                                'components',
+                                'ev3',
+                                'general',
+                                'nxt',
+                                'poweredup',
+                                'spike'
                             ]
                         );
                         done();
@@ -133,7 +137,7 @@ describe(
                 IDERoutes.setRequireDependencies(getMockDependencies());
                 let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 ideRoutes.file(
-                    {filename: 'Wheel/examples/bit/bit.whlp'},
+                    {filename: 'Wheel/examples/general/bit/bit.whlp'},
                     (data) => {
                         data = JSON.parse(data);
                         assert.equal(data.success, true);
@@ -198,12 +202,12 @@ describe(
                 IDERoutes.setRequireDependencies(getMockDependencies());
                 let ideRoutes = new IDERoutes.IDERoutes({}).reset();
                 ideRoutes.findInFile(
-                    {filename: 'Wheel/examples/bit/bit.whlp', text: 'proc'},
+                    {filename: 'Wheel/examples/general/bit/bit.whlp', text: 'proc'},
                     (data) => {
                         assert.deepEqual(
                             JSON.parse(data),
                             {
-                              filename: 'Wheel/examples/bit/bit.whlp',
+                              filename: 'Wheel/examples/general/bit/bit.whlp',
                               text:     'proc',
                               found:    [{line: 'proc main()', num: 11, pos: 0}]
                             }
