@@ -23,6 +23,7 @@ const testDefineNumber = function(defineValue, callback) {
                     'end'
                 ].join('\n'));
             };
+        let preProcessor;
         let onFinished = () => {
                 dispatcher.reset();
                 let tokens  = preProcessor.getDefinedConcatTokens();
@@ -33,11 +34,13 @@ const testDefineNumber = function(defineValue, callback) {
                         constants:  program.getConstants(),
                         stringList: program.getStringList()
                     });
-                vm.setModules(createModules(vm, createMocks()));
-                dispatcher.on('Console.Log', this, callback);
-                vm.setCommands(program.getCommands()).run();
+                let modules = createModules(vm, createMocks());
+                modules[0].on('Console.Log', this, callback);
+                vm
+                    .setModules(modules)
+                    .setCommands(program.getCommands()).run();
             };
-        let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+        preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
         preProcessor.processFile({filename: 'main.whl', token: null});
     };
 
@@ -49,8 +52,8 @@ describe(
             () => {
                 testDefineNumber(
                     355,
-                    function(message) {
-                        assert.equal(message, 355);
+                    function(opts) {
+                        assert.equal(opts.message, 355);
                     }
                 );
             }
@@ -60,8 +63,8 @@ describe(
             () => {
                 testDefineNumber(
                     0.5,
-                    function(message) {
-                        assert.equal(Math.round(message * 1000), 500);
+                    function(opts) {
+                        assert.equal(Math.round(opts.message * 1000), 500);
                     }
                 );
             }
@@ -90,16 +93,18 @@ describe(
                                 constants:  program.getConstants(),
                                 stringList: program.getStringList()
                             });
-                        dispatcher.on(
-                            'Log',
+                        let modules = createModules(vm, createMocks());
+                        modules[0].on(
+                            'Console.Log',
                             this,
-                            function(message) {
-                                assert.equal(message, 'Hello world');
+                            function(opts) {
+                                assert.equal(opts.message, 'Hello world');
                             }
                         );
                         assert.equal(preProcessor.getLineCount(), 7);
-                        vm.setModules(createModules(vm, createMocks()));
-                        vm.setCommands(program.getCommands()).run();
+                        vm
+                            .setModules(modules)
+                            .setCommands(program.getCommands()).run();
                     };
                 let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
                 preProcessor.processFile({filename: 'main.whl', token: null});
@@ -145,17 +150,19 @@ describe(
                                 constants:  program.getConstants(),
                                 stringList: program.getStringList()
                             });
+                        let modules = createModules(vm, createMocks());
                         assert.notEqual(preProcessor.getDefines(), null);
                         assert.notEqual(preProcessor.getTokens(),  null);
-                        dispatcher.on(
-                            'Log',
+                        modules[0].on(
+                            'Console.Log',
                             this,
-                            function(message) {
-                                assert.equal(message, 456);
+                            function(opts) {
+                                assert.equal(opts.message, 456);
                             }
                         );
-                        vm.setModules(createModules(vm, createMocks()));
-                        vm.setCommands(program.getCommands()).run();
+                        vm
+                            .setModules(modules)
+                            .setCommands(program.getCommands()).run();
                         done();
                     };
                 let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
@@ -205,17 +212,19 @@ describe(
                                 constants:  program.getConstants(),
                                 stringList: program.getStringList()
                             });
+                        let modules = createModules(vm, createMocks());
                         assert.notEqual(preProcessor.getDefines(), null);
                         assert.notEqual(preProcessor.getTokens(),  null);
-                        dispatcher.on(
-                            'Log',
+                        modules[0].on(
+                            'Console.Log',
                             this,
-                            function(message) {
-                                assert.equal(message, 456);
+                            function(opts) {
+                                assert.equal(opts.message, 456);
                             }
                         );
-                        vm.setModules(createModules(vm, createMocks()));
-                        vm.setCommands(program.getCommands()).run();
+                        vm
+                            .setModules(modules)
+                            .setCommands(program.getCommands()).run();
                         done();
                     };
                 let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
@@ -284,7 +293,6 @@ describe(
                         assert.deepEqual(files, ['test1.whl', 'test2.whl', 'main.whl']);
                         let logs    = [];
                         let modules = createModules(vm, createMocks());
-                        vm.setModules(modules);
                         modules[0].on(
                             'Console.Log',
                             this,
@@ -292,7 +300,9 @@ describe(
                                 logs.push(opts.message);
                             }
                         );
-                        vm.setCommands(program.getCommands()).run();
+                        vm
+                            .setModules(modules)
+                            .setCommands(program.getCommands()).run();
                         assert.deepEqual(logs, [456, 789]);
                         done();
                     };
@@ -323,8 +333,9 @@ describe(
                                 constants:  program.getConstants(),
                                 stringList: program.getStringList()
                             });
-                        vm.setModules(createModules(vm, createMocks()));
-                        vm.setCommands(program.getCommands()).run();
+                        vm
+                            .setModules(createModules(vm, createMocks()))
+                            .setCommands(program.getCommands()).run();
                         done();
                     };
                 let setImage = function(image) {

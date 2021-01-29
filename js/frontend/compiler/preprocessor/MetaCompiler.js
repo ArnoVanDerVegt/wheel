@@ -33,10 +33,11 @@ exports.MetaCompiler = class {
             throw errors.createError(err.IDENTIFIER_EXPECTED, token, 'Identifier expected.');
         }
         this._linter && this._linter.addDefine(token);
-        token.done      = true;
-        let defineKey   = token.lexeme;
-        token           = iterator.skipWhiteSpace().next();
-        token.done      = true;
+        let defineKey;
+        token.done = true;
+        defineKey  = token.lexeme;
+        token      = iterator.skipWhiteSpace().next();
+        token.done = true;
         if ([t.TOKEN_NUMBER, t.TOKEN_STRING].indexOf(token.cls) === -1) {
             token.filename = tokenFilename;
             throw errors.createError(err.NUMBER_OR_STRING_CONSTANT_EXPECTED, token, 'Number or string constant expected.');
@@ -153,5 +154,31 @@ exports.MetaCompiler = class {
             throw errors.createError(err.INVALID_RESOURCE, token, 'Invalid resource.');
         }
         this._resources.add(filename, null, token);
+    }
+
+    compileIfdef(iterator, token, defines) {
+        token.done = true;
+        token      = iterator.skipWhiteSpace().next();
+        token.done = true;
+        let defined = (defines.get(token.lexeme) !== false);
+        let done    = false;
+        exports.checkRestTokens(iterator, 'ifdef');
+        while (true) {
+            token = iterator.skipWhiteSpace().next();
+            if (token === null) {
+                break;
+            } else if (token.lexeme === t.LEXEME_META_IFDEF) {
+                this.compileIfdef(iterator, token, defines);
+            } else {
+                if (!defined) {
+                    token.done = true;
+                }
+                if (token.lexeme === t.LEXEME_META_END) {
+                    token.done = true;
+                    exports.checkRestTokens(iterator, 'end');
+                    break;
+                }
+            }
+        }
     }
 };

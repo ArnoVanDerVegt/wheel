@@ -90,11 +90,24 @@ exports.PreProcessor = class PreProcessor {
             switch (token.cls) {
                 case t.TOKEN_META:
                     switch (token.lexeme) {
-                        case t.LEXEME_META_INCLUDE:  this.compileInclude(iterator, token, fileItem.filename, includes); break;
-                        case t.LEXEME_META_DEFINE:   metaCompiler.compileDefine  (iterator, token, fileItem.filename);  break;
-                        case t.LEXEME_META_IMAGE:    metaCompiler.compileImage   (iterator, token, fileItem.filename);  break;
-                        case t.LEXEME_META_TEXT:     metaCompiler.compileText    (iterator, token, fileItem.filename);  break;
-                        case t.LEXEME_META_RESOURCE: metaCompiler.compileResource(iterator, token, fileItem.filename);  break;
+                        case t.LEXEME_META_INCLUDE:
+                            this.compileInclude(iterator, token, fileItem.filename, includes);
+                            break;
+                        case t.LEXEME_META_IFDEF:
+                            metaCompiler.compileIfdef(iterator, token, this._defines);
+                            break;
+                        case t.LEXEME_META_DEFINE:
+                            metaCompiler.compileDefine(iterator, token, fileItem.filename);
+                            break;
+                        case t.LEXEME_META_IMAGE:
+                            metaCompiler.compileImage(iterator, token, fileItem.filename);
+                            break;
+                        case t.LEXEME_META_TEXT:
+                            metaCompiler.compileText(iterator, token, fileItem.filename);
+                            break;
+                        case t.LEXEME_META_RESOURCE:
+                            metaCompiler.compileResource(iterator, token, fileItem.filename);
+                            break;
                     }
                     break;
             }
