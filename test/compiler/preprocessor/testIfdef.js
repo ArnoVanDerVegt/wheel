@@ -129,5 +129,76 @@ describe(
                 preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );
+        it(
+            'Should compile conditional else',
+            () => {
+                let onGetFileData = function(filename, token, callback) {
+                        callback([
+                            'proc main()',
+                            '    number n',
+                            '    n = 100',
+                            '#ifdef TEST',
+                            '    n = 400',
+                            '#else',
+                            '    n = 500',
+                            '#end',
+                            '    addr n',
+                            '    mod  0, 1',
+                            'end'
+                        ].join('\n'));
+                    };
+                preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: createOnFinished(500)});
+                preProcessor.processFile({filename: 'main.whl', token: null});
+            }
+        );
+        it(
+            'Should compile conditional else with nested #ifdef',
+            () => {
+                let onGetFileData = function(filename, token, callback) {
+                        callback([
+                            '#define TEST "Test is defined"',
+                            'proc main()',
+                            '    number n',
+                            '    n = 100',
+                            '#ifdef TEST',
+                            '    n = 400',
+                            '#else',
+                            '    #ifdef TEST',
+                            '        n = 600',
+                            '    #end',
+                            '#end',
+                            '    addr n',
+                            '    mod  0, 1',
+                            'end'
+                        ].join('\n'));
+                    };
+                preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: createOnFinished(600)});
+                preProcessor.processFile({filename: 'main.whl', token: null});
+            }
+        );
+        it(
+            'Should not compile conditional else with nested #ifdef',
+            () => {
+                let onGetFileData = function(filename, token, callback) {
+                        callback([
+                            'proc main()',
+                            '    number n',
+                            '    n = 100',
+                            '#ifdef TEST',
+                            '    n = 400',
+                            '#else',
+                            '    #ifdef TEST',
+                            '        n = 600',
+                            '    #end',
+                            '#end',
+                            '    addr n',
+                            '    mod  0, 1',
+                            'end'
+                        ].join('\n'));
+                    };
+                preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: createOnFinished(100)});
+                preProcessor.processFile({filename: 'main.whl', token: null});
+            }
+        );
     }
 );

@@ -160,8 +160,9 @@ exports.MetaCompiler = class {
         token.done = true;
         token      = iterator.skipWhiteSpace().next();
         token.done = true;
-        let defined = (defines.get(token.lexeme) !== false);
-        let done    = false;
+        let defined  = (defines.get(token.lexeme) !== false);
+        let done     = false;
+        let doneElse = false;
         exports.checkRestTokens(iterator, 'ifdef');
         while (true) {
             token = iterator.skipWhiteSpace().next();
@@ -169,6 +170,14 @@ exports.MetaCompiler = class {
                 break;
             } else if (token.lexeme === t.LEXEME_META_IFDEF) {
                 this.compileIfdef(iterator, token, defines);
+            } else if (token.lexeme === t.LEXEME_META_ELSE) {
+                if (doneElse) {
+                    throw errors.createError(err.UNEXPECTED_META_ELSE, token, 'Duplicate #else.');
+                }
+                exports.checkRestTokens(iterator, 'else');
+                doneElse   = true;
+                token.done = true;
+                defined    = !defined;
             } else {
                 if (!defined) {
                     token.done = true;
