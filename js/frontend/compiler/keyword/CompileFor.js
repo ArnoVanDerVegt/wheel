@@ -136,6 +136,7 @@ exports.CompileFor = class extends CompileLoop {
         this.compileCheckExceedsMax(iterator);
         // Compile the nested code...
         this._startIndex = program.getLength();
+        program.nextBlockId(iterator.peek(), scope);
         this.compileBlock(iterator, null);
         // Increase or decrease the counter...
         this.compileCounterUpdate();
