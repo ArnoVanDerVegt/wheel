@@ -14,7 +14,7 @@ exports.ExampleDialog = class extends Dialog {
         super(opts);
         this.initWindow({
             showSignal: 'Dialog.Example.Show',
-            width:      704,
+            width:      754,
             height:     530,
             className:  'no-select example-dialog',
             title:      'Open an example'

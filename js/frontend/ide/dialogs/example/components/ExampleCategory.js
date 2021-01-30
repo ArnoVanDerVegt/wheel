@@ -23,43 +23,55 @@ exports.ExampleCategory = class extends DOMNode {
         let example  = this._example;
         let children = [];
         example.list.forEach((item, index) => {
-            children.push({
-                id: (element) => {
-                    element.addEventListener('mousedown', onPreventDefault);
-                    element.addEventListener('mouseup',   onPreventDefault);
-                    element.addEventListener(
-                        'click',
-                        (event) => {
-                            this._dialog.onOpenExample(item.filename);
-                            onPreventDefault(event);
-                        }
-                    );
-                    element.addEventListener(
-                        'keyup',
-                        (event) => {
-                            if ((event.keyCode === 13) || (event.keyCode === 32)) {
+            if (item.filename) {
+                children.push({
+                    id: (element) => {
+                        element.addEventListener('mousedown', onPreventDefault);
+                        element.addEventListener('mouseup',   onPreventDefault);
+                        element.addEventListener(
+                            'click',
+                            (event) => {
                                 this._dialog.onOpenExample(item.filename);
                                 onPreventDefault(event);
                             }
-                        }
-                    );
-                },
-                type:      'a',
-                className: 'flt max-w example-category-item selectable',
-                tabIndex:  this._tabIndex + index,
-                children: [
-                    {
-                        type:      'span',
-                        className: 'flt example-name',
-                        innerHTML: item.title
+                        );
+                        element.addEventListener(
+                            'keyup',
+                            (event) => {
+                                if ((event.keyCode === 13) || (event.keyCode === 32)) {
+                                    this._dialog.onOpenExample(item.filename);
+                                    onPreventDefault(event);
+                                }
+                            }
+                        );
                     },
-                    {
-                        type:      'span',
-                        className: 'flt example-description',
-                        innerHTML: item.description
-                    }
-                ]
-            });
+                    type:      'a',
+                    className: 'flt max-w example-category-item selectable',
+                    tabIndex:  this._tabIndex + index,
+                    children: [
+                        {
+                            type:      'span',
+                            className: 'flt example-name',
+                            innerHTML: item.title
+                        },
+                        {
+                            type:      'span',
+                            className: 'flt example-description',
+                            innerHTML: item.description
+                        }
+                    ]
+                });
+            } else {
+                children.push({
+                    className: 'flt max-w example-category-item category-sub-title',
+                    children: [
+                        {
+                            className: 'flt max-w',
+                            innerHTML: item.title
+                        }
+                    ]
+                });
+            }
         });
         this.create(
             parentNode,

@@ -87,34 +87,40 @@ exports.examples = [
         className: 'w',
         list:  [
             {
+                title:       'Strings'
+            },
+            {
                 filename:    'examples/general/string/add.whlp',
-                title:       'String, add',
+                title:       'Add',
                 description: 'Add strings'
             },
             {
                 filename:    'examples/general/string/charCode.whlp',
-                title:       'String, char code',
+                title:       'Char code',
                 description: 'Get the character code from a string'
             },
             {
                 filename:    'examples/general/string/indexOf.whlp',
-                title:       'String, index of',
+                title:       'Index of',
                 description: 'Find a string in another string'
             },
             {
                 filename:    'examples/general/string/length.whlp',
-                title:       'String, length',
+                title:       'Length',
                 description: 'Get the length of a string'
             },
             {
                 filename:    'examples/general/string/subString.whlp',
-                title:       'String, sub string',
+                title:       'Sub string',
                 description: 'Get a part of a string'
             },
             {
                 filename:    'examples/general/string/upperLower.whlp',
-                title:       'String, case',
+                title:       'Case',
                 description: 'Upper or lower case a string'
+            },
+            {
+                title:       'Bits'
             },
             {
                 filename:    'examples/general/bit/bit.whlp',
@@ -122,19 +128,45 @@ exports.examples = [
                 description: 'Binary operations'
             },
             {
+                title:       'Math'
+            },
+            {
                 filename:    'examples/general/math/absNeg.whlp',
-                title:       'Math, abs/neg',
+                title:       'Abs/neg',
                 description: 'Absolute or negative value'
             },
             {
                 filename:    'examples/general/math/rounding.whlp',
-                title:       'Math, rounding',
+                title:       'Rounding',
                 description: 'Round, round up or round down'
             },
             {
                 filename:    'examples/general/math/sin.whlp',
-                title:       'Math, sine',
+                title:       'Sine',
                 description: 'Sine and cosine'
+            },
+            {
+                title:       'Object'
+            },
+            {
+                filename:    'examples/general/object/basic.whlp',
+                title:       'Object',
+                description: 'A basic object'
+            },
+            {
+                filename:    'examples/general/object/extendObject.whlp',
+                title:       'Extending',
+                description: 'Extend an object'
+            },
+            {
+                filename:    'examples/general/object/super.whlp',
+                title:       'Super call',
+                description: 'Extend an object and call the super method'
+            },
+            {
+                filename:    'examples/general/object/polymorphism.whlp',
+                title:       'Polymorphism',
+                description: 'Polymorphism, a base object with different sub objects'
             }
         ]
     },

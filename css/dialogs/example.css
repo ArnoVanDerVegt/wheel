@@ -52,7 +52,14 @@
 }
 .dialog-background.example-dialog .example .example-category .example-category-item.category-title {
     font-family:                    latolight;
-    font-size:                      17px;
+    font-size:                      21px;
+}
+.dialog-background.example-dialog .example .example-category-item.category-sub-title div {
+    font-family:                    latolight;
+    font-size:                      19px;
+}
+.dialog-background.example-dialog .example .example-category-item.category-sub-title {
+    margin-top:                     16px;
 }
 .dialog-background.example-dialog .example .example-category .example-category-item.selectable {
     cursor:                         pointer;
@@ -63,7 +70,7 @@
     border:                         var(--files-hover-border);
 }
 .dialog-background.example-dialog .example .example-category .example-category-item span.example-name {
-    width:                          160px;
+    width:                          180px;
 }
 .dialog-background.example-dialog .example .example-category .example-category-item span.example-description {
     font-style:                     italic;
