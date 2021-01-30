@@ -605,7 +605,7 @@ const SpikeState     = require('../frontend/vm/device/spike/SpikeState').SpikeSt
                 devices: {
                     nxt:       new NXTState      ({activeLayerCount: settings.getNXTDeviceCount()}),
                     ev3:       new EV3State      ({activeLayerCount: settings.getDaisyChainMode()}),
-                    poweredUp: new PoweredUpState({actvieLayerCount: settings.getPoweredUpDeviceCount()}),
+                    poweredUp: new PoweredUpState({activeLayerCount: settings.getPoweredUpDeviceCount()}),
                     spike:     new SpikeState    ({activeLayerCount: settings.getSpikeDeviceCount()})
                 }
             });
