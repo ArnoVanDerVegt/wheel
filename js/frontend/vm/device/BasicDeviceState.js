@@ -78,6 +78,10 @@ exports.BasicDeviceState = class extends Emitter {
         return this._activeLayerCount;
     }
 
+    setActiveLayerCount(activeLayerCount) {
+        this._activeLayerCount = activeLayerCount;
+    }
+
     getPortsPerLayer() {
         return 4;
     }

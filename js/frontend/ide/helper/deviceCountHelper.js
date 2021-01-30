@@ -10,6 +10,7 @@ const dispatcher               = require('../../lib/dispatcher').dispatcher;
 
 exports.selectNXTDeviceCount = (settings, nxt) => {
     const applyDeviceCount = (deviceCount) => {
+            nxt.setActiveLayerCount(deviceCount);
             dispatcher
                 .dispatch('NXT.ActiveLayerCount', deviceCount)
                 .dispatch('Settings.Set.NXTDeviceCount', deviceCount)
@@ -46,6 +47,7 @@ exports.selectNXTDeviceCount = (settings, nxt) => {
 
 exports.selectEV3DaisyChainMode = (settings, ev3) => {
     const applyDeviceCount = (daisyChainMode) => {
+            ev3.setActiveLayerCount(deviceCount);
             dispatcher
                 .dispatch('EV3.ActiveLayerCount', daisyChainMode)
                 .dispatch('Settings.Set.DaisyChainMode', daisyChainMode)
@@ -80,6 +82,7 @@ exports.selectEV3DaisyChainMode = (settings, ev3) => {
 
 exports.selectPoweredUpDeviceCount = (settings, poweredUp) => {
     const applyDeviceCount = (deviceCount) => {
+            poweredUp.setActiveLayerCount(deviceCount);
             dispatcher
                 .dispatch('PoweredUp.DeviceCount',             deviceCount)
                 .dispatch('Settings.Set.PoweredUpDeviceCount', deviceCount)
@@ -116,6 +119,7 @@ exports.selectPoweredUpDeviceCount = (settings, poweredUp) => {
 
 exports.selectSpikeDeviceCount = (settings, spike) => {
     const applyDeviceCount = (deviceCount) => {
+            spike.setActiveLayerCount(deviceCount);
             dispatcher
                 .dispatch('Spike.DeviceCount',             deviceCount)
                 .dispatch('Settings.Set.SpikeDeviceCount', deviceCount)
