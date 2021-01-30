@@ -19,10 +19,11 @@ exports.checkRestTokens = function(iterator, after) {
     };
 
 exports.MetaCompiler = class {
-    constructor(defines, resources, linter) {
-        this._defines   = defines;
-        this._resources = resources;
-        this._linter    = linter;
+    constructor(opts) {
+        this._globalDefines = opts.globalDefines;
+        this._defines       = opts.defines;
+        this._resources     = opts.resources;
+        this._linter        = opts.linter;
     }
 
     compileDefine(iterator, token, tokenFilename) {

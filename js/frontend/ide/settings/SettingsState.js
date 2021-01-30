@@ -527,6 +527,10 @@ exports.SettingsState = class extends Emitter {
         return this._closeIDEonVMRun;
     }
 
+    getGlobalDefines() {
+        return {};
+    }
+
     _setRecentProject(recentProject) {
         this._recentProject = recentProject;
         this._save();

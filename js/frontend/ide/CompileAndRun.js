@@ -270,6 +270,7 @@ exports.CompileAndRun = class extends DOMUtils {
                 }
                 this._preProcessor = new PreProcessor({
                     linter:              linter,
+                    globalDefines:       this._settings.getGlobalDefines(),
                     documentPath:        this._settings.getDocumentPath() || '',
                     projectFilename:     this._projectFilename,
                     onGetFileData:       this.onGetFileData.bind(this),
