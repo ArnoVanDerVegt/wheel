@@ -179,6 +179,20 @@ exports.MathExpression = class {
         for (let index = startIndex; index < endIndex; index++) {
             let token = tokens[index];
             switch (token.cls) {
+                case t.TOKEN_BRACKET_OPEN:
+                    let open = 1;
+                    while ((open > 0) && (index < endIndex)) {
+                        token = tokens[index++];
+                        switch (token.cls) {
+                            case t.TOKEN_BRACKET_OPEN:
+                                open++;
+                                break;
+                            case t.TOKEN_BRACKET_CLOSE:
+                                open--;
+                                break;
+                        }
+                    }
+                    break;
                 case t.TOKEN_PARENTHESIS_OPEN:
                     let indexAndExpression = tokenUtils.getIndexAfterTokenPairs(
                             {tokens: tokens}, index + 1,
