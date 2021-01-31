@@ -129,8 +129,8 @@ exports.CompileObjct = class {
                     }
                     let arraySize = field.getArraySize() || 1;
                     if (field.getType().type instanceof Objct) {
+                        this.compileConstructorCall(local, baseOffset + offset + field.getOffset(), field);
                         for (let i = 0; i < arraySize; i++) {
-                            this.compileConstructorCall(local, baseOffset + offset + field.getOffset() + field.getElementSize() * i, field);
                             compileRecordFields(field.getType().type, offset + field.getOffset() + field.getElementSize() * i);
                         }
                     } else {
