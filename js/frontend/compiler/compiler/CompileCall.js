@@ -382,6 +382,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
                 $.CMD_CALL, $.T_NUM_C, scope.getSuper().getCodeOffset() - 1,    $.T_NUM_C, returnStackOffset + scope.getTotalSize() + 3
             );
         } else if (proc === t.LEXEME_PROC) {
+            let stackOffset = scope.getStackOffset();
             scope.addStackOffset(callStackSize); // Don't overwrite the parameter values when calculating the object (self) pointer!
             if (!opts.callMethod) {
                 // When callMethod is true then this function is called from VarExpression and the address setup is already done!
@@ -392,7 +393,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
                         selfPointerStackOffset: selfPointerStackOffset
                     }).type;
             }
-            scope.addStackOffset(callStackSize);
+            scope.setStackOffset(stackOffset);
             program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getTotalSize() + callStackSize);
         } else {
             program.addCommand($.CMD_CALL, $.T_NUM_C, proc.getEntryPoint() - 1, $.T_NUM_C, returnStackOffset + scope.getTotalSize() + 2);
