@@ -31,6 +31,44 @@ proc main()
 end
 @end
 
+@section #ifdef, #else, #end
+@keyword ifdef,else,end
+The `#ifdef` meta command allows you to conditionally compile a block of code.
+The `#ifdef` command checks if a value is defined, if the value is defined then the code between the `#ifdef` and the `#end` line is compiled.
+This command only checks if a value is defined, the actual value is irrelevant.
+
+
+The following example shows how to log a number if a value is defined:
+@example
+#include "lib/modules/screen.whl"
+
+#define LOG_NUMBER "The number should be added to the console log..."
+
+proc main()
+    number n
+#ifdef LOG_NUMBER
+    printN(n)
+#end
+end
+@end
+
+
+With the `#else` command you can compile code if the `#ifdef` condition fails:
+
+@example
+#include "lib/modules/screen.whl"
+
+proc main()
+    number n
+#ifdef LOG_NUMBER
+    printN(n)
+#else
+    clearConsole()
+#end
+end
+@end
+
+
 @section #project
 @keyword project
 With the `#project` command you can set the name of the program.

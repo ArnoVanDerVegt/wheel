@@ -60,6 +60,41 @@
     <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">5</span><span class="operator">,</span> <span class="define">MY_NUMBER</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
+            <a id="#ifdef,#else,#end"></a>
+            <h4 class="">#ifdef, #else, #end</h4>
+            <p>
+                The <i>#ifdef</i> meta command allows you to conditionally compile a block of code.
+                The <i>#ifdef</i> command checks if a value is defined, if the value is defined then the code between the <i>#ifdef</i> and the <i>#end</i> line is compiled.
+                This command only checks if a value is defined, the actual value is irrelevant.
+                <br/>
+                <br/>
+                The following example shows how to log a number if a value is defined:
+            </p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
+
+<span class="meta">#define</span> <span class="define">LOG_NUMBER</span> <span class="string">"The number should be added to the console log..."</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">n</span>
+<span class="meta">#ifdef</span> <span class="define">LOG_NUMBER</span>
+    <span class="proc">printN</span><span class="operator">(</span><span class="variable">n</span><span class="operator">)</span>
+<span class="meta">#end</span>
+<span class="keyword">end</span>
+</pre>
+            <p>
+                With the <i>#else</i> command you can compile code if the <i>#ifdef</i> condition fails:
+            </p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">n</span>
+<span class="meta">#ifdef</span> <span class="define">LOG_NUMBER</span>
+    <span class="proc">printN</span><span class="operator">(</span><span class="variable">n</span><span class="operator">)</span>
+<span class="meta">#else</span>
+    <span class="proc">clearConsole</span><span class="operator">(</span><span class="operator">)</span>
+<span class="meta">#end</span>
+<span class="keyword">end</span>
+</pre>
             <a id="#project"></a>
             <h4 class="">#project</h4>
             <p>

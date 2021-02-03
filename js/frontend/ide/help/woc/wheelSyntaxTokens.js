@@ -112,6 +112,7 @@ exports.meta = [
         '#stringcount',
         '#alias',
         '#ifdef',
+        '#else',
         '#end'
     ];
 
