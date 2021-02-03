@@ -95,6 +95,12 @@
 <span class="meta">#end</span>
 <span class="keyword">end</span>
 </pre>
+            <a id="Globaldefines"></a>
+            <h4 class="">Global defines</h4>
+            <p>
+                It's also posible to define constants in the IDE from the <i>Defines</i> option in the <i>Compiler</i> menu.
+                Values configured here can be used in different programs and are stored in the settings.
+            </p>
             <a id="#project"></a>
             <h4 class="">#project</h4>
             <p>
@@ -245,10 +251,18 @@
                 The <i>#display</i> command allows you to show the sensors and/or motors in the simulator,
                 it expects one parameter: a comma separated list of plugin names to be shown.
                 <br/>
-                The command is executed when the source file is loaded in the IDE, when the following file is loaded then the
-                simulator EV3 and EV3 Sensors plugins will be shown:
+                The command is executed when the source file is loaded in the IDE and when the program is compiled,
+                when the following file is loaded then the simulator EV3 and EV3 Sensors plugins will be shown:
             </p>
             <pre class="wheel"><span class="meta">#display</span> <span class="string">"EV3,EV3 Sensors"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <p>
+                To display the console the "Console" parameter can be used:
+            </p>
+            <pre class="wheel"><span class="meta">#display</span> <span class="string">"Console"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>

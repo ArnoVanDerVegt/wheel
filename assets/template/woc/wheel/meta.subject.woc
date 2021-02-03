@@ -69,6 +69,12 @@ end
 @end
 
 
+@section Global defines
+
+It's also posible to define constants in the IDE from the `Defines` option in the `Compiler` menu.
+Values configured here can be used in different programs and are stored in the settings.
+
+
 @section #project
 @keyword project
 With the `#project` command you can set the name of the program.
@@ -227,10 +233,19 @@ end
 The `#display` command allows you to show the sensors and/or motors in the simulator,
 it expects one parameter: a comma separated list of plugin names to be shown.
 
-The command is executed when the source file is loaded in the IDE, when the following file is loaded then the
-simulator EV3 and EV3 Sensors plugins will be shown:
+The command is executed when the source file is loaded in the IDE and when the program is compiled,
+when the following file is loaded then the simulator EV3 and EV3 Sensors plugins will be shown:
 @example
 #display "EV3,EV3 Sensors"
+
+proc main()
+end
+@end
+
+To display the console the "Console" parameter can be used:
+
+@example
+#display "Console"
 
 proc main()
 end
