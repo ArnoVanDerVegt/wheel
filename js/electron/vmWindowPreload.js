@@ -4,10 +4,10 @@ const ipcRenderer    = require('electron').ipcRenderer;
 const VMRunner       = require('../frontend/vm/VMRunner').VMRunner;
 const SettingsState  = require('../frontend/ide/settings/SettingsState').SettingsState;
 const UIState        = require('../frontend/lib/UIState').UIState;
-const NXTState       = require('../frontend/vm/nxt/NXTState').NXTState;
-const EV3State       = require('../frontend/vm/ev3/EV3State').EV3State;
-const PoweredUpState = require('../frontend/vm/poweredup/PoweredUpState').PoweredUpState;
-const SpikeState     = require('../frontend/vm/spike/SpikeState').SpikeState;
+const NXTState       = require('../frontend/vm/device/nxt/NXTState').NXTState;
+const EV3State       = require('../frontend/vm/device/ev3/EV3State').EV3State;
+const PoweredUpState = require('../frontend/vm/device/poweredup/PoweredUpState').PoweredUpState;
+const SpikeState     = require('../frontend/vm/device/spike/SpikeState').SpikeState;
 
 (function() {
     const onIpcMessage = function(event, arg) {
