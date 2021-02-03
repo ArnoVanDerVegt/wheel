@@ -12,6 +12,7 @@ const Emitter                         = require('../../lib/Emitter').Emitter;
 const PluginsState                    = require('./PluginsState').PluginsState;
 const IncludeFilesState               = require('./IncludeFilesState').IncludeFilesState;
 const PoweredUpAutoConnectState       = require('./PoweredUpAutoConnectState').PoweredUpAutoConnectState;
+const DefinesState                    = require('./DefinesState').DefinesState;
 
 // How to handle an image when opened:
 const IMAGE_OPEN_VIEW                 = 'View';
@@ -78,6 +79,7 @@ exports.SettingsState = class extends Emitter {
         this._plugins              = new PluginsState({settings: this});
         this._includeFiles         = new IncludeFilesState({settings: this});
         this._poweredUpAutoConnect = new PoweredUpAutoConnectState({settings: this});
+        this._defines              = new DefinesState({settings: this});
         // Update...
         this.onLoad({});
         dispatcher
@@ -247,6 +249,7 @@ exports.SettingsState = class extends Emitter {
             formGridSize:          this._formGridSize,
             plugins:               this._plugins.toJSON(),
             includeFiles:          this._includeFiles.toJSON(),
+            defines:               this._defines.toJSON(),
             closeIDEonVMRun:       this._closeIDEonVMRun
         };
     }
@@ -489,6 +492,10 @@ exports.SettingsState = class extends Emitter {
 
     getIncludeFiles() {
         return this._includeFiles;
+    }
+
+    getDefines() {
+        return this._defines;
     }
 
     getActiveDevice() {
@@ -987,6 +994,9 @@ exports.SettingsState = class extends Emitter {
             this._includeFiles.load(data.includeFiles);
         } else {
             this._includeFiles.loadDefaults();
+        }
+        if ('defines' in data) {
+            this._defines.load(data.defines);
         }
         if ('autoConnect' in this._poweredUp) {
             this._poweredUpAutoConnect.load(this._poweredUp.autoConnect);

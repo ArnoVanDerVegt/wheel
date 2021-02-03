@@ -402,6 +402,8 @@ require('../frontend/ide/dialogs/tools/WheelToSVGDialog');
 require('../frontend/ide/dialogs/example/components/ExampleCategory');
 require('../frontend/ide/dialogs/example/constants');
 require('../frontend/ide/dialogs/example/ExampleDialog');
+require('../frontend/ide/dialogs/define/DefineValueDialog');
+require('../frontend/ide/dialogs/define/DefineListDialog');
 require('../frontend/ide/helper/connectionHelper');
 require('../frontend/ide/helper/deviceCountHelper');
 require('../frontend/ide/menu/HelpOption');

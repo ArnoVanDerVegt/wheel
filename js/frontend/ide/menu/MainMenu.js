@@ -387,6 +387,7 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Compile and install on EV3',                             dispatch: 'Menu.Compile.CompileAndInstall'},
                 {title: '-'},
                 {title: 'Linter',                                                 dispatch: 'Settings.Toggle.Linter'},
+                {title: 'Defines',                                                dispatch: 'Dialog.DefineList.Show'},
                 {title: '-'},
                 {title: 'Statistics',                                             dispatch: 'Menu.Compile.Statistics'},
                 {title: '-'},
@@ -462,7 +463,7 @@ exports.MainMenu = class extends MainMenu {
             items.push({
                 title:   plugin.name,
                 onClick: function() {
-                    dispatcher.dispatch('Settings.Toggle.PluginByUuid', plugin.uuid);
+                    dispatcher.dispatch('Settings.Plugin.ToggleByUuid', plugin.uuid);
                 }
             });
         });
@@ -598,7 +599,7 @@ exports.MainMenu = class extends MainMenu {
         }
         menuOptions[2].setEnabled(this._devices.ev3.getConnected());        // Compile and install on EV3
         menuOptions[3].setChecked(settings.getLinter());                    // Linter
-        menuOptions[6].setChecked(settings.getCreateVMTextOutput());        // Create text output
+        menuOptions[7].setChecked(settings.getCreateVMTextOutput());        // Create text output
         return this;
     }
 

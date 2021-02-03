@@ -14,4 +14,7 @@ exports.MockSettings = class {
     getSaved() {
         return this._saved;
     }
+
+    emit(signal) {
+    }
 };

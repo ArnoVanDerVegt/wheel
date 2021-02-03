@@ -85,7 +85,7 @@ exports.PoweredUpAutoConnectListItem = class extends ListItem {
 
     onChangeAutoConnect(item, value) {
         dispatcher.dispatch(
-            value ? 'Settings.Set.PoweredUpAutoLoad' : 'Settings.Remove.PoweredUpAutoLoad',
+            value ? 'Settings.PoweredUpAutoLoad.Set' : 'Settings.PoweredUpAutoLoad.Remove',
             {index: item.index, uuid: item.uuid}
         );
     }

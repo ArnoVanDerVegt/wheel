@@ -43,25 +43,29 @@ exports.ListDialog = class extends Dialog {
                 onChange:  this.onChangeItem.bind(this),
                 onSelect:  this.onSelectItem.bind(this)
             },
-            this.initButtons([
-                (opts.applyTitle === null) ?
-                    null :
-                    {
-                        ref:      this.setRef('buttonApply'),
-                        tabIndex: 256,
-                        value:    opts.applyTitle || 'Ok',
-                        disabled: true,
-                        onClick:  this.onApply.bind(this)
-                    },
-                {
-                    ref:      this.setRef('buttonCancel'),
-                    tabIndex: 257,
-                    value:    opts.cancelTitle || 'Cancel',
-                    color:    'dark-green',
-                    onClick:  this.hide.bind(this)
-                }
-            ].concat(this.getExtraButtons()))
+            this.initButtonRow(opts)
         ];
+    }
+
+    initButtonRow(opts) {
+        return this.initButtons([
+            (opts.applyTitle === null) ?
+                null :
+                {
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 256,
+                    value:    opts.applyTitle || 'Ok',
+                    disabled: true,
+                    onClick:  this.onApply.bind(this)
+                },
+            {
+                ref:      this.setRef('buttonCancel'),
+                tabIndex: 257,
+                value:    opts.cancelTitle || 'Cancel',
+                color:    'dark-green',
+                onClick:  this.hide.bind(this)
+            }
+        ].concat(this.getExtraButtons()));
     }
 
     getExtraButtons() {

@@ -62,7 +62,7 @@ describe(
             () => {
                 let pluginsState = new PluginsState({settings: {save: () => {}, emit: () => {}}});
                 let startVisible = pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).visible;
-                dispatcher.dispatch('Settings.Toggle.PluginByUuid', pluginUuid.SIMULATOR_EV3_UUID);
+                dispatcher.dispatch('Settings.Plugin.ToggleByUuid', pluginUuid.SIMULATOR_EV3_UUID);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).visible, startVisible);
             }
         );
@@ -80,7 +80,7 @@ describe(
                     order:   20
                 }]);
                 assert.equal(pluginsState.getPluginByUuid(testUuid).visible, false);
-                dispatcher.dispatch('Settings.Show.PluginByUuid', testUuid);
+                dispatcher.dispatch('Settings.Plugin.ShowByUuid', testUuid);
                 assert.equal(pluginsState.getPluginByUuid(testUuid).visible, true);
             }
         );

@@ -537,6 +537,8 @@ const files = [
         './js/frontend/ide/dialogs/example/components/ExampleCategory',
         './js/frontend/ide/dialogs/example/constants',
         './js/frontend/ide/dialogs/example/ExampleDialog',
+        './js/frontend/ide/dialogs/define/DefineValueDialog',
+        './js/frontend/ide/dialogs/define/DefineListDialog',
         './js/frontend/ide/helper/connectionHelper',
         './js/frontend/ide/helper/deviceCountHelper',
         './js/frontend/ide/menu/HelpOption',

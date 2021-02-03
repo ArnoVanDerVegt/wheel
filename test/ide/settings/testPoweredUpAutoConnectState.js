@@ -79,7 +79,7 @@ describe(
                     {index: 1, uuid: 'abc'},
                     {index: 2, uuid: 'def'}
                 ]);
-                dispatcher.dispatch('Settings.Set.PoweredUpAutoLoad', {index: 3, uuid: 'xyz'});
+                dispatcher.dispatch('Settings.PoweredUpAutoLoad.Set', {index: 3, uuid: 'xyz'});
                 assert.equal(poweredUpAutoConnectState.getAutoConnect(3, 'xyz'), true);
                 assert.equal(mockSettings.getSaved(),                            true);
             }
@@ -93,7 +93,7 @@ describe(
                     {index: 1, uuid: 'abc'},
                     {index: 2, uuid: 'def'}
                 ]);
-                dispatcher.dispatch('Settings.Set.PoweredUpAutoLoad', {index: 3, uuid: 'def'});
+                dispatcher.dispatch('Settings.PoweredUpAutoLoad.Set', {index: 3, uuid: 'def'});
                 assert.deepEqual(
                     poweredUpAutoConnectState.getAutoConnectByUuid(),
                     {
@@ -113,7 +113,7 @@ describe(
                     {index: 1, uuid: 'abc'},
                     {index: 2, uuid: 'def'}
                 ]);
-                dispatcher.dispatch('Settings.Remove.PoweredUpAutoLoad', {uuid: 'abc'});
+                dispatcher.dispatch('Settings.PoweredUpAutoLoad.Remove', {uuid: 'abc'});
                 assert.deepEqual(
                     poweredUpAutoConnectState.getAutoConnectByUuid(),
                     {

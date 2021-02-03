@@ -49,7 +49,7 @@ exports.Simulator = class extends DOMNode {
                     this,
                     function() {
                         let pluginSettings = settings.getPluginByUiid(uuid, {});
-                        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', uuid, 'visible', !pluginSettings.visible);
+                        dispatcher.dispatch('Settings.Plugin.SetByUuid', uuid, 'visible', !pluginSettings.visible);
                     }
                 );
                 let type;
@@ -149,7 +149,7 @@ exports.Simulator = class extends DOMNode {
     onShowPluginByName(name) {
         let plugin = this.getPluginByName(name);
         if (plugin) {
-            dispatcher.dispatch('Settings.Show.PluginByUuid', plugin.uuid);
+            dispatcher.dispatch('Settings.Plugin.ShowByUuid', plugin.uuid);
         }
     }
 };

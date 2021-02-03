@@ -249,7 +249,7 @@ exports.Plugin = class extends SimulatorPlugin {
         this._charts.forEach((chart) => {
             charts.push(chart.toJSON());
         });
-        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', this._plugin.uuid, 'charts', charts);
+        dispatcher.dispatch('Settings.Plugin.SetByUuid', this._plugin.uuid, 'charts', charts);
     }
 
     removeChart(chart) {
@@ -260,7 +260,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 break;
             }
         }
-        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', this._plugin.uuid, 'charts', charts);
+        dispatcher.dispatch('Settings.Plugin.SetByUuid', this._plugin.uuid, 'charts', charts);
     }
 
     reset() {

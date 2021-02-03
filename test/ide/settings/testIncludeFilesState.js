@@ -54,7 +54,7 @@ describe(
             () => {
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
                 let length            = includeFilesState.toJSON().length;
-                dispatcher.dispatch('Settings.Add.IncludeFile');
+                dispatcher.dispatch('Settings.IncludeFile.Add');
                 assert.equal(includeFilesState.toJSON().length, length + 1);
             }
         );
@@ -64,7 +64,7 @@ describe(
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
                 let includeFile1      = includeFilesState.toJSON()[0];
                 let includeFile2      = includeFilesState.toJSON()[1];
-                dispatcher.dispatch('Settings.Set.IncludeFileUp', 1);
+                dispatcher.dispatch('Settings.IncludeFile.SetUp', 1);
                 assert.deepEqual(includeFile2, includeFilesState.toJSON()[0]);
                 assert.deepEqual(includeFile1, includeFilesState.toJSON()[1]);
             }
@@ -75,7 +75,7 @@ describe(
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
                 let includeFile1      = includeFilesState.toJSON()[1];
                 let includeFile2      = includeFilesState.toJSON()[2];
-                dispatcher.dispatch('Settings.Set.IncludeFileDown', 1);
+                dispatcher.dispatch('Settings.IncludeFile.SetDown', 1);
                 assert.deepEqual(includeFile2, includeFilesState.toJSON()[1]);
                 assert.deepEqual(includeFile1, includeFilesState.toJSON()[2]);
             }
@@ -85,7 +85,7 @@ describe(
             () => {
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
                 dispatcher.dispatch(
-                    'Settings.Set.IncludeFileByIndex',
+                    'Settings.IncludeFile.SetByIndex',
                     {file: 'file', type: 'type', description: 'description'},
                     1
                 );
@@ -99,7 +99,7 @@ describe(
             'Should set file by index',
             () => {
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
-                dispatcher.dispatch('Settings.Set.IncludeFile.File', {file: 'file', index: 1});
+                dispatcher.dispatch('Settings.IncludeFile.SetFile', {file: 'file', index: 1});
                 assert.deepEqual(
                     includeFilesState.toJSON()[1],
                     {file: 'file', type: 'EV3', description: 'Read EV3 buttons'}
@@ -110,7 +110,7 @@ describe(
             'Should set description by index',
             () => {
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
-                dispatcher.dispatch('Settings.Set.IncludeFile.Description', {description: 'description', index: 1});
+                dispatcher.dispatch('Settings.IncludeFile.SetDescription', {description: 'description', index: 1});
                 assert.deepEqual(
                     includeFilesState.toJSON()[1],
                     {file: 'lib/modules/button.whl', type: 'EV3', description: 'description'}
@@ -122,9 +122,9 @@ describe(
             () => {
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
                 let length            = includeFilesState.toJSON().length;
-                dispatcher.dispatch('Settings.Add.IncludeFile');
+                dispatcher.dispatch('Settings.IncludeFile.Add');
                 assert.equal(includeFilesState.toJSON().length, length + 1);
-                dispatcher.dispatch('Settings.Set.IncludeFileDefaults');
+                dispatcher.dispatch('Settings.IncludeFile.SetDefaults');
                 assert.equal(includeFilesState.toJSON().length, length);
             }
         );
@@ -133,7 +133,7 @@ describe(
             () => {
                 let includeFilesState = new IncludeFilesState({settings: new MockSettings()});
                 let length            = includeFilesState.toJSON().length;
-                dispatcher.dispatch('Settings.Add.IncludeFile');
+                dispatcher.dispatch('Settings.IncludeFile.Add');
                 assert.equal(includeFilesState.toJSON().length, length + 1);
                 includeFilesState.load();
                 assert.equal(includeFilesState.toJSON().length, length);

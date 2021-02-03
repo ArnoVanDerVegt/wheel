@@ -50,6 +50,8 @@ const GearRatioCalculatorDialog      = require('./dialogs/tools/GearRatioCalcula
 const InverseKinematicsDialog        = require('./dialogs/tools/InverseKinematicsDialog').InverseKinematicsDialog;
 const WheelToSVGDialog               = require('./dialogs/tools/WheelToSVGDialog').WheelToSVGDialog;
 const ExampleDialog                  = require('./dialogs/example/ExampleDialog').ExampleDialog;
+const DefineListDialog               = require('./dialogs/define/DefineListDialog').DefineListDialog;
+const DefineValueDialog              = require('./dialogs/define/DefineValueDialog').DefineValueDialog;
 const IDEEvents                      = require('./IDEEvents').IDEEvents;
 
 exports.IDEDialogs = class extends IDEEvents {
@@ -115,6 +117,9 @@ exports.IDEDialogs = class extends IDEEvents {
         new GearRatioCalculatorDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
         new InverseKinematicsDialog       ({getImage: getImage, ui: this._ui, settings: this._settings});
         new WheelToSVGDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, ide: this});
+        // Defines...
+        new DefineListDialog              ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new DefineValueDialog             ({getImage: getImage, ui: this._ui, settings: this._settings});
         return this;
     }
 };
