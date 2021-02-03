@@ -11,6 +11,8 @@ const createModules = require('../../utils').createModules;
 const createMocks   = require('../../utils').createMocks;
 const assert        = require('assert');
 
+let preProcessor;
+
 const testDefineNumber = function(defineValue, callback) {
         let onGetFileData = function(filename, token, callback) {
                 callback([
@@ -42,6 +44,32 @@ const testDefineNumber = function(defineValue, callback) {
             };
         preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
         preProcessor.processFile({filename: 'main.whl', token: null});
+    };
+
+const createOnFinished = (expectedLogValue, onFinished) => {
+        return () => {
+            dispatcher.reset();
+            let tokens  = preProcessor.getDefinedConcatTokens();
+            let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
+            let vm      = new VM({
+                    entryPoint: program.getEntryPoint(),
+                    globalSize: program.getGlobalSize(),
+                    constants:  program.getConstants(),
+                    stringList: program.getStringList()
+                });
+            let modules = createModules(vm, createMocks());
+            modules[0].on(
+                'Console.Log',
+                this,
+                function(opts) {
+                    assert.equal(opts.message, expectedLogValue);// 'Hello world');
+                }
+            );
+            onFinished();
+            vm
+                .setModules(modules)
+                .setCommands(program.getCommands()).run();
+        };
     };
 
 describe(
@@ -83,30 +111,37 @@ describe(
                             'end'
                         ].join('\n'));
                     };
-                let onFinished = () => {
-                        dispatcher.reset();
-                        let tokens  = preProcessor.getDefinedConcatTokens();
-                        let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
-                        let vm      = new VM({
-                                entryPoint: program.getEntryPoint(),
-                                globalSize: program.getGlobalSize(),
-                                constants:  program.getConstants(),
-                                stringList: program.getStringList()
-                            });
-                        let modules = createModules(vm, createMocks());
-                        modules[0].on(
-                            'Console.Log',
-                            this,
-                            function(opts) {
-                                assert.equal(opts.message, 'Hello world');
-                            }
-                        );
-                        assert.equal(preProcessor.getLineCount(), 7);
-                        vm
-                            .setModules(modules)
-                            .setCommands(program.getCommands()).run();
+                let onFinished = createOnFinished(
+                        'Hello world',
+                        () => {
+                            assert.equal(preProcessor.getLineCount(), 7);
+                        }
+                    );
+                preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                preProcessor.processFile({filename: 'main.whl', token: null});
+            }
+        );
+        it(
+            'Should use global define',
+            () => {
+                let onGetFileData = function(filename, token, callback) {
+                        callback([
+                            'proc main()',
+                            '    string s',
+                            '    s = TEST',
+                            '    addr s',
+                            '    mod  0, 2',
+                            'end'
+                        ].join('\n'));
                     };
-                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                let onFinished = createOnFinished('This is a global', () => {});
+                preProcessor = new PreProcessor({
+                    onGetFileData: onGetFileData,
+                    onFinished:    onFinished,
+                    globalDefines: {
+                        TEST: '"This is a global"'
+                    }
+                });
                 preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );
@@ -140,32 +175,8 @@ describe(
                             1
                         );
                     };
-                let onFinished = () => {
-                        dispatcher.reset();
-                        let tokens  = preProcessor.getDefinedConcatTokens();
-                        let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
-                        let vm      = new VM({
-                                entryPoint: program.getEntryPoint(),
-                                globalSize: program.getGlobalSize(),
-                                constants:  program.getConstants(),
-                                stringList: program.getStringList()
-                            });
-                        let modules = createModules(vm, createMocks());
-                        assert.notEqual(preProcessor.getDefines(), null);
-                        assert.notEqual(preProcessor.getTokens(),  null);
-                        modules[0].on(
-                            'Console.Log',
-                            this,
-                            function(opts) {
-                                assert.equal(opts.message, 456);
-                            }
-                        );
-                        vm
-                            .setModules(modules)
-                            .setCommands(program.getCommands()).run();
-                        done();
-                    };
-                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                let onFinished = createOnFinished(456, done);
+                preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
                 preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );
@@ -202,32 +213,8 @@ describe(
                             1
                         );
                     };
-                let onFinished = () => {
-                        dispatcher.reset();
-                        let tokens  = preProcessor.getDefinedConcatTokens();
-                        let program = new compiler.Compiler({preProcessor: preProcessor}).buildTokens(tokens).getProgram();
-                        let vm      = new VM({
-                                entryPoint: program.getEntryPoint(),
-                                globalSize: program.getGlobalSize(),
-                                constants:  program.getConstants(),
-                                stringList: program.getStringList()
-                            });
-                        let modules = createModules(vm, createMocks());
-                        assert.notEqual(preProcessor.getDefines(), null);
-                        assert.notEqual(preProcessor.getTokens(),  null);
-                        modules[0].on(
-                            'Console.Log',
-                            this,
-                            function(opts) {
-                                assert.equal(opts.message, 456);
-                            }
-                        );
-                        vm
-                            .setModules(modules)
-                            .setCommands(program.getCommands()).run();
-                        done();
-                    };
-                let preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
+                let onFinished = createOnFinished(456, done);
+                preProcessor = new PreProcessor({onGetFileData: onGetFileData, onFinished: onFinished});
                 preProcessor.processFile({filename: 'main.whl', token: null});
             }
         );

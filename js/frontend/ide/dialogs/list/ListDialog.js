@@ -38,6 +38,7 @@ exports.ListDialog = class extends Dialog {
                 settings:  this._settings,
                 ref:       this.setRef('list'),
                 ui:        this._ui,
+                uiId:      this._uiId,
                 tabIndex:  1,
                 className: 'abs ui1-box vscroll dialog-cw dialog-lt item-list',
                 onChange:  this.onChangeItem.bind(this),
@@ -87,7 +88,9 @@ exports.ListDialog = class extends Dialog {
     }
 
     onChangeItem() {
-        this._refs.buttonApply.setDisabled(false);
+        if (this._refs.buttonApply) {
+            this._refs.buttonApply.setDisabled(false);
+        }
     }
 
     onSelectItem(index) {

@@ -21,7 +21,6 @@ const removePadding = function(s) {
 exports.PreProcessor = class PreProcessor {
     constructor(opts) {
         this._projectPath         = path.getPathAndFilename(opts.projectFilename || '').path;
-        this._globalDefines       = opts.globalDefines || {};
         this._documentPath        = opts.documentPath  || '';
         this._projectFilename     = opts.projectFilename;
         this._linter              = opts.linter;
@@ -34,7 +33,7 @@ exports.PreProcessor = class PreProcessor {
         this._fileCount           = 0;
         this._sortedFiles         = null;
         this._error               = false;
-        this._defines             = new Defines();
+        this._defines             = new Defines({globalDefines: opts.globalDefines || {}});
         this._lineCount           = 0;
         this._includeRoot         = {
             filename: ''
@@ -79,7 +78,6 @@ exports.PreProcessor = class PreProcessor {
         let iterator     = new Iterator({tokens: tokens, compiler: this});
         let metaCompiler = new MetaCompiler.MetaCompiler({
                 defines:       this._defines,
-                globalDefines: this._globalDefines,
                 resources:     this._resources,
                 linter:        this._linter
             });

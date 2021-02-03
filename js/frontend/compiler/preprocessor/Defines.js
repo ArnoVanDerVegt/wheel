@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 exports.Defines = class {
-    constructor() {
-        this._defines = {};
+    constructor(opts) {
+        this._defines = opts.globalDefines;
         this._list    = [];
     }
 

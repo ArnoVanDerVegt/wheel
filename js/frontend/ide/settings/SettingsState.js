@@ -535,7 +535,7 @@ exports.SettingsState = class extends Emitter {
     }
 
     getGlobalDefines() {
-        return {};
+        return this._defines.getGlobalDefines();
     }
 
     _setRecentProject(recentProject) {
