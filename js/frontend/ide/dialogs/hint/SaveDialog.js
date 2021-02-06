@@ -5,11 +5,13 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const HintDialog = require('./HintDialog').HintDialog;
 
+const SHOW_SIGNAL = 'Dialog.Hint.Save';
+
 exports.SaveDialog = class extends HintDialog {
     constructor(opts) {
         opts.height           = 264;
         opts.okButton         = 'Close';
-        opts.signal           = 'Dialog.Hint.Save';
+        opts.signal           = SHOW_SIGNAL;
         opts.dispatchDontShow = 'Settings.Set.DontShowSave';
         opts.title            = 'Warning - saving in local storage';
         opts.lines            = [
@@ -19,3 +21,5 @@ exports.SaveDialog = class extends HintDialog {
         super(opts);
     }
 };
+
+exports.SaveDialog.SHOW_SIGNAL = SHOW_SIGNAL;

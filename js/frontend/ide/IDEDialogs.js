@@ -47,6 +47,7 @@ const DeviceCountDialog              = require('./dialogs/device/DeviceCountDial
 const FormGridSizeDialog             = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
 const OpenFormDialog                 = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
 const ConnectedDialog                = require('./dialogs/hint/ConnectedDialog').ConnectedDialog;
+const SaveDialog                     = require('./dialogs/hint/SaveDialog').SaveDialog;
 const GearRatioCalculatorDialog      = require('./dialogs/tools/GearRatioCalculatorDialog').GearRatioCalculatorDialog;
 const InverseKinematicsDialog        = require('./dialogs/tools/InverseKinematicsDialog').InverseKinematicsDialog;
 const WheelToSVGDialog               = require('./dialogs/tools/WheelToSVGDialog').WheelToSVGDialog;
@@ -109,6 +110,7 @@ exports.IDEDialogs = class extends IDEEvents {
         // Misc...
             .initDialog({Constructor: HelpDialog, immidiate: true})
             .initDialog({Constructor: OpenFormDialog})
+            .initDialog({Constructor: SaveDialog})
         // NXT...
             .initDialog({Constructor: SensorTypeDialog, nxt: this._devices.nxt})
         // EV3...

@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform        = require('../../shared/lib/platform');
 const Emitter         = require('../lib/Emitter').Emitter;
 const dispatcher      = require('../lib/dispatcher').dispatcher;
 const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
@@ -14,7 +15,12 @@ exports.IDEAssistant = class extends Emitter {
         dispatcher
             .on('Create.Form',            this, this.onOpenForm)
             .on('IDE.Assistant.OpenForm', this, this.onOpenForm)
-            .on('Device.Connected',       this, this.onConnectedDevice);
+            .on('Device.Connected',       this, this.onConnectedDevice)
+            .on('Editor.File.Saved',      this, this.onEditorFileSaved);
+    }
+
+    runDelayed(callback) {
+        setTimeout(callback, 500);
     }
 
     /**
@@ -22,14 +28,11 @@ exports.IDEAssistant = class extends Emitter {
     **/
     onOpenForm() {
         // Add a timeout to allow the active window to close...
-        setTimeout(
-            () => {
-                if (!this._settings.getShowProperties() && !this._settings.getDontShowOpenForm()) {
-                    dispatcher.dispatch('Dialog.Hint.OpenForm', {});
-                }
-            },
-            500
-        );
+        this.runDelayed(() => {
+            if (!this._settings.getShowProperties() && !this._settings.getDontShowOpenForm()) {
+                dispatcher.dispatch('Dialog.Hint.OpenForm', {});
+            }
+        });
     }
 
     /**
@@ -37,14 +40,11 @@ exports.IDEAssistant = class extends Emitter {
     **/
     onConnectedDevice() {
         // Add a timeout to allow the active window to close...
-        setTimeout(
-            () => {
-                if (!this._settings.getShowSimulator() && !this._settings.getDontShowConnected()) {
-                    dispatcher.dispatch('Dialog.Hint.Connected', {});
-                }
-            },
-            500
-        );
+        this.runDelayed(() => {
+            if (!this._settings.getShowSimulator() && !this._settings.getDontShowConnected()) {
+                dispatcher.dispatch('Dialog.Hint.Connected', {});
+            }
+        });
     }
 
     updatePoweredUpDeviceList() {
@@ -75,6 +75,18 @@ exports.IDEAssistant = class extends Emitter {
             }
         });
         setTimeout(this.updatePoweredUpDeviceList.bind(this), 2500);
+    }
+
+    onEditorFileSaved() {
+        if (!platform.isWeb()) {
+            return;
+        }
+        // Add a timeout to allow the active window to close...
+        this.runDelayed(() => {
+            if (!this._settings.getDontShowSave()) {
+                dispatcher.dispatch('Dialog.Hint.Save', {});
+            }
+        });
     }
 
     autoConnectPoweredUp() {

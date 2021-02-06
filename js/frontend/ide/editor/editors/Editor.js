@@ -186,6 +186,7 @@ exports.Editor = class extends DOMNode {
                 if (typeof callback === 'function') {
                     callback();
                 }
+                dispatcher.dispatch('Editor.File.Saved');
             }
         );
     }

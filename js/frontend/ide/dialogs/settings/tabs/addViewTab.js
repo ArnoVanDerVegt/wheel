@@ -69,7 +69,7 @@ exports.tab = (settingsDialog) => {
                 signal:      'Settings.Set.ShowSimulatorOnRun'
             }),
             settingsDialog.addHr(),
-            settingsDialog.addTitle('Hint dialogs'),
+            settingsDialog.addTitle('Hidden hint dialogs'),
             settingsDialog.addCheckboxSetting({
                 label:       'A form was openend but the property editor is not visible',
                 tabIndex:    7,
@@ -82,41 +82,47 @@ exports.tab = (settingsDialog) => {
                 getter:      'getDontShowConnected',
                 signal:      'Settings.Set.DontShowConnected'
             }),
+            settingsDialog.addCheckboxSetting({
+                label:       'Saving in local storage',
+                tabIndex:    9,
+                getter:      'getDontShowSave',
+                signal:      'Settings.Set.DontShowSave'
+            }),
             settingsDialog.addHr(),
             settingsDialog.addTitle('Home screen tiles'),
             settingsDialog.addCheckboxSetting({
                 label:       'NXT connect tile',
-                tabIndex:    9,
+                tabIndex:    10,
                 getter:      'getShowNXTTile',
                 signal:      'Settings.Set.ShowNXTTile'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'EV3 connect tile',
-                tabIndex:    10,
+                tabIndex:    11,
                 getter:      'getShowEV3Tile',
                 signal:      'Settings.Set.ShowEV3Tile'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'EV3 image tile',
-                tabIndex:    11,
+                tabIndex:    12,
                 getter:      'getShowEV3ImageTile',
                 signal:      'Settings.Set.ShowEV3ImageTile'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'Powered Up connect tile',
-                tabIndex:    12,
+                tabIndex:    13,
                 getter:      'getShowPoweredUpTile',
                 signal:      'Settings.Set.ShowPoweredUpTile'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'Spike connect tile',
-                tabIndex:    13,
+                tabIndex:    14,
                 getter:      'getShowSpikeTile',
                 signal:      'Settings.Set.ShowSpikeTile'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'New form tile',
-                tabIndex:    14,
+                tabIndex:    15,
                 getter:      'getShowNewFormTile',
                 signal:      'Settings.Set.ShowNewFormTile'
             }),
