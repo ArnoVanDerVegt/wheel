@@ -82,12 +82,14 @@ exports.tab = (settingsDialog) => {
                 getter:      'getDontShowConnected',
                 signal:      'Settings.Set.DontShowConnected'
             }),
-            settingsDialog.addCheckboxSetting({
-                label:       'Saving in local storage',
-                tabIndex:    9,
-                getter:      'getDontShowSave',
-                signal:      'Settings.Set.DontShowSave'
-            }),
+            platform.isWeb() ?
+                settingsDialog.addCheckboxSetting({
+                    label:       'Saving in local storage',
+                    tabIndex:    9,
+                    getter:      'getDontShowSave',
+                    signal:      'Settings.Set.DontShowSave'
+                }) :
+                null,
             settingsDialog.addHr(),
             settingsDialog.addTitle('Home screen tiles'),
             settingsDialog.addCheckboxSetting({
