@@ -70,7 +70,7 @@ exports.HelpDialog = class extends Dialog {
                 },
                 platform.isElectron() ?
                     {
-                        tabIndex:  1026,
+                        tabIndex:  1027,
                         value:     'Rebuild',
                         color:     'blue',
                         onClick:   this.onRebuild.bind(this)
@@ -79,7 +79,7 @@ exports.HelpDialog = class extends Dialog {
                 platform.isElectron() ?
                     {
                         ref:       this.setRef('saveTextFilesButton'),
-                        tabIndex:  1027,
+                        tabIndex:  1026,
                         value:     'Save html files',
                         color:     'blue',
                         onClick:   this.onRebuildText.bind(this)

@@ -68,7 +68,7 @@ body {
     --home-background:              linear-gradient(0deg, rgba(52,152,219,1) 0%, rgba(41,128,185,1) 100%);
     --home-title-color:             #FFFFFF;
 
-    --focus-border-solid:           1px solid #383838;
+    --focus-border-solid1:          1px solid #383838;
     --focus-border-dotted:          1px dotted #383838;
 
     --color-green:                  #4CD137;
