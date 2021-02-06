@@ -118,7 +118,7 @@ exports.HomeScreen = class extends DOMNode {
                 icon:     getImage('images/files/homeWhl.svg'),
                 title:    'New file &raquo;',
                 tabIndex: tabIndex.HOME_SCREEN + 12,
-                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', 'File', activeDirectory)
+                onClick:  dispatcher.dispatch.bind(dispatcher, 'Dialog.File.New.Show', {type: 'File', activeDirectory: activeDirectory})
             }),
             this.addHomeScreenTile({
                 id:             addTile(),
@@ -127,7 +127,7 @@ exports.HomeScreen = class extends DOMNode {
                 tabIndex:       tabIndex.HOME_SCREEN + 14,
                 settings:       settings,
                 settingsGetter: settings.getShowEV3ImageTile.bind(settings),
-                onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Image.New.Show', activeDirectory, settings.getDocumentPath())
+                onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Image.New.Show', {activeDirectory: activeDirectory, documentPath: settings.getDocumentPath()})
             }),
             this.addHomeScreenTile({
                 id:             addTile(),
@@ -136,7 +136,7 @@ exports.HomeScreen = class extends DOMNode {
                 settings:       settings,
                 settingsGetter: settings.getShowNewFormTile.bind(settings),
                 tabIndex:       tabIndex.HOME_SCREEN + 16,
-                onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Form.New.Show', activeDirectory, settings.getDocumentPath())
+                onClick:        dispatcher.dispatch.bind(dispatcher, 'Dialog.Form.New.Show', {activeDirectory: activeDirectory, documentPath: settings.getDocumentPath()})
             }),
             (settings.getShowNXTTile() || settings.getShowEV3Tile || settings.getShowPoweredUpTile() || settings.getShowSpikeTile()) ?
                 {

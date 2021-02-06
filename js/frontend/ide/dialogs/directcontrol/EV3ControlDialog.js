@@ -5,6 +5,8 @@
 const dispatcher          = require('../../../lib/dispatcher').dispatcher;
 const DirectControlDialog = require('./DirectControlDialog').DirectControlDialog;
 
+const SHOW_SIGNAL = 'Dialog.EV3Control.Show';
+
 exports.EV3ControlDialog = class extends DirectControlDialog {
     constructor(opts) {
         opts.layerCount     = 4;
@@ -19,7 +21,7 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
             waiting:     function(assigned) { return ([0, -1].indexOf(assigned) !== -1); }
         };
         super(opts);
-        dispatcher.on('Dialog.EV3Control.Show', this, this.onShow);
+        dispatcher.on(SHOW_SIGNAL, this, this.onShow);
     }
 
     initEvents() {
@@ -48,3 +50,5 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
         }
     }
 };
+
+exports.EV3ControlDialog.SHOW_SIGNAL = SHOW_SIGNAL;

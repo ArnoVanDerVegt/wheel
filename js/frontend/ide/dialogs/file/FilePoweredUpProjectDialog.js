@@ -17,6 +17,8 @@ const PoweredUpStep6Finish  = require('./components/PoweredUpStep6Finish').Power
 const DeviceListState       = require('./state/DeviceListState').DeviceListState;
 const FileDialog            = require('./FileDialog').FileDialog;
 
+const SHOW_SIGNAL = 'Dialog.File.PoweredUpProject';
+
 exports.FilePoweredUpProjectDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
@@ -26,7 +28,7 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
         this._currentStep         = 0;
         this._stepContentElements = [];
         this.initWindow({
-            showSignal: 'Dialog.File.PoweredUpProject',
+            showSignal: SHOW_SIGNAL,
             width:      800,
             height:     640,
             className:  'file-new-dialog file-new-powered-up-project',
@@ -184,3 +186,5 @@ exports.FilePoweredUpProjectDialog = class extends FileDialog {
         this._nextButtonElement.focus();
     }
 };
+
+exports.FilePoweredUpProjectDialog.SHOW_SIGNAL = SHOW_SIGNAL;

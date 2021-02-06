@@ -8,9 +8,11 @@ const getDataProvider   = require('../../../lib/dataprovider/dataProvider').getD
 const ListDialog        = require('../list/ListDialog').ListDialog;
 const PoweredUpListItem = require('./components/PoweredUpListItem').PoweredUpListItem;
 
+const SHOW_SIGNAL = 'Dialog.ConnectPoweredUp.Show';
+
 exports.PoweredUpConnectListDialog = class extends ListDialog {
     constructor(opts) {
-        opts.showSignal = 'Dialog.ConnectPoweredUp.Show';
+        opts.showSignal = SHOW_SIGNAL;
         opts.help       = 'Bluetooth';
         opts.title      = 'Connect Powered Up';
         opts.applyTitle = 'Connect';
@@ -115,3 +117,5 @@ exports.PoweredUpConnectListDialog = class extends ListDialog {
         super.hide();
     }
 };
+
+exports.PoweredUpConnectListDialog.SHOW_SIGNAL = SHOW_SIGNAL;

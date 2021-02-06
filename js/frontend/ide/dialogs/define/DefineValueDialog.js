@@ -6,12 +6,14 @@ const path       = require('../../../../shared/lib/path');
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 
+const SHOW_SIGNAL = 'Dialog.DefineValue.Show';
+
 exports.DefineValueDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._add = false;
         this.initWindow({
-            showSignal: 'Dialog.DefineValue.Show',
+            showSignal: SHOW_SIGNAL,
             width:      400,
             height:     256,
             className:  'no-select',
@@ -167,3 +169,5 @@ exports.DefineValueDialog = class extends Dialog {
         refs.key.focus();
     }
 };
+
+exports.DefineValueDialog.SHOW_SIGNAL = SHOW_SIGNAL;

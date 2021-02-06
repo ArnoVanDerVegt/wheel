@@ -65,13 +65,13 @@ exports.HomeScreenNewProjectTile = class extends HomeScreenTile {
 
     onTitle1KeyDown(event) {
         if ([13, 32].indexOf(event.keyCode) !== -1) {
-            dispatcher.dispatch('Dialog.File.New.Show', 'Project', this._settings.getDocumentPath());
+            dispatcher.dispatch('Dialog.File.New.Show', {type: 'Project', activeDirectory: this._settings.getDocumentPath()});
         }
     }
 
     onTitle1Click(event) {
         this.onCancelEvent(event);
-        dispatcher.dispatch('Dialog.File.New.Show', 'Project', this._settings.getDocumentPath());
+        dispatcher.dispatch('Dialog.File.New.Show', {type: 'Project', activeDirectory: this._settings.getDocumentPath()});
         this._title1Element.focus();
     }
 

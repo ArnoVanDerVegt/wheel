@@ -6,6 +6,7 @@ const Dialog     = require('../../lib/components/Dialog').Dialog;
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 
 const MAX_DEVICE_COUNT = 10;
+const SHOW_SIGNAL      = 'Dialog.Graph.New.Show';
 
 exports.GraphDialog = class extends Dialog {
     constructor(opts) {
@@ -15,7 +16,7 @@ exports.GraphDialog = class extends Dialog {
         this._sampleRate = 0;
         this._layerTools = [];
         this.initWindow({
-            showSignal: 'Dialog.Graph.New.Show',
+            showSignal: SHOW_SIGNAL,
             width:      640,
             height:     256,
             className:  'graph-dialog new-graph',
@@ -141,3 +142,5 @@ exports.GraphDialog = class extends Dialog {
         this._onApply        = opts.onApply;
     }
 };
+
+exports.GraphDialog.SHOW_SIGNAL = SHOW_SIGNAL;

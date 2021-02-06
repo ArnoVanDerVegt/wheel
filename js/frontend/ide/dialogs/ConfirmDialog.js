@@ -5,12 +5,14 @@
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../lib/components/Dialog').Dialog;
 
+const SHOW_SIGNAL = 'Dialog.Confirm.Show';
+
 exports.ConfirmDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._dispatchApply = null;
         this.initWindow({
-            showSignal: 'Dialog.Confirm.Show',
+            showSignal: SHOW_SIGNAL,
             width:      600,
             height:     200,
             className:  'confirm-dialog',
@@ -89,3 +91,5 @@ exports.ConfirmDialog = class extends Dialog {
         }
     }
 };
+
+exports.ConfirmDialog.SHOW_SIGNAL = SHOW_SIGNAL;

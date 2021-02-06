@@ -6,6 +6,8 @@ const dispatcher           = require('../../../lib/dispatcher').dispatcher;
 const DirectControlDialog  = require('./DirectControlDialog').DirectControlDialog;
 const spikeModuleConstants = require('../../../../shared/vm/modules/spikeModuleConstants');
 
+const SHOW_SIGNAL = 'Dialog.SpikeControl.Show';
+
 exports.SpikeControlDialog = class extends DirectControlDialog {
     constructor(opts) {
         opts.layerCount     = 4;
@@ -26,7 +28,7 @@ exports.SpikeControlDialog = class extends DirectControlDialog {
             }
         };
         super(opts);
-        dispatcher.on('Dialog.SpikeControl.Show', this, this.onShow);
+        dispatcher.on(SHOW_SIGNAL, this, this.onShow);
     }
 
     initEvents() {
@@ -55,3 +57,5 @@ exports.SpikeControlDialog = class extends DirectControlDialog {
         }
     }
 };
+
+exports.SpikeControlDialog.SHOW_SIGNAL = SHOW_SIGNAL;

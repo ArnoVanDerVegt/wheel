@@ -8,6 +8,8 @@ const DOMNode      = require('../../../lib/dom').DOMNode;
 const IncludeFiles = require('../../../lib/components/IncludeFiles').IncludeFiles;
 const FileDialog   = require('./FileDialog').FileDialog;
 
+const SHOW_SIGNAL = 'Dialog.File.New.Show';
+
 exports.FileNewDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
@@ -20,8 +22,8 @@ exports.FileNewDialog = class extends FileDialog {
             title:     'Confirm'
         });
         dispatcher
-            .on('Dialog.File.New.Show', this, this.onShow)
-            .on('OnSetFormSize',        this, this.onUpdateFormSize);
+            .on(SHOW_SIGNAL,     this, this.onShow)
+            .on('OnSetFormSize', this, this.onUpdateFormSize);
     }
 
     initWindowContent(opts) {
@@ -112,14 +114,14 @@ exports.FileNewDialog = class extends FileDialog {
         );
     }
 
-    onShow(type, activeDirectory) {
-        type = (type || 'file').toLowerCase();
+    onShow(opts) {
+        opts.type = (opts.type || 'file').toLowerCase();
         let refs           = this._refs;
         let contentElement = this._dialogNode.querySelector('.dialog-content');
-        this._type                    = type;
-        this._activeDirectory         = activeDirectory;
-        this._dialogElement.className = 'dialog-background file-new-dialog ' + type.toLowerCase();
-        if (type === 'project') {
+        this._type                    = opts.type;
+        this._activeDirectory         = opts.activeDirectory;
+        this._dialogElement.className = 'dialog-background file-new-dialog ' + opts.type.toLowerCase();
+        if (opts.type === 'project') {
             this._expectedExtensions          = ['', '.whlp'];
             contentElement.style.marginTop    = '-272px';
             contentElement.style.height       = '544px';
@@ -149,7 +151,7 @@ exports.FileNewDialog = class extends FileDialog {
     }
 
     onClickFormSize() {
-        dispatcher.dispatch('Dialog.Form.SetSize', this._formWidth, this._formHeight);
+        dispatcher.dispatch('Dialog.Form.SetSize', {width: this._formWidth, height: this._formHeight});
     }
 
     onUpdateFormSize(width, height) {
@@ -208,3 +210,5 @@ exports.FileNewDialog = class extends FileDialog {
         this._includeFilesElement = element;
     }
 };
+
+exports.FileNewDialog.SHOW_SIGNAL = SHOW_SIGNAL;

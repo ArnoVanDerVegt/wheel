@@ -6,13 +6,15 @@ const dispatcher     = require('../../../lib/dispatcher').dispatcher;
 const ListDialog     = require('../list/ListDialog').ListDialog;
 const DefineListItem = require('./components/DefineListItem').DefineListItem;
 
+const SHOW_SIGNAL = 'Dialog.DefineList.Show';
+
 exports.DefineListDialog = class extends ListDialog {
     constructor(opts) {
         opts.ListItem   = DefineListItem;
         opts.help       = 'define';
         opts.title      = 'Defines';
         opts.applyTitle = 'Connect';
-        opts.showSignal = 'Dialog.DefineList.Show';
+        opts.showSignal = SHOW_SIGNAL;
         super(opts);
         this._settings.on('Settings.Defines', this, this.showList);
     }
@@ -86,3 +88,5 @@ exports.DefineListDialog = class extends ListDialog {
         this.showList();
     }
 };
+
+exports.DefineListDialog.SHOW_SIGNAL = SHOW_SIGNAL;

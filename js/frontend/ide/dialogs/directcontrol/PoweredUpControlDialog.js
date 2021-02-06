@@ -6,6 +6,8 @@ const poweredUpModuleConstants = require('../../../../shared/vm/modules/poweredU
 const dispatcher               = require('../../../lib/dispatcher').dispatcher;
 const DirectControlDialog      = require('./DirectControlDialog').DirectControlDialog;
 
+const SHOW_SIGNAL = 'Dialog.PoweredUpControl.Show';
+
 exports.PoweredUpControlDialog = class extends DirectControlDialog {
     constructor(opts) {
         const validDevices = [
@@ -39,7 +41,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
             waiting:     function(assigned) { return false; }
         };
         super(opts);
-        dispatcher.on('Dialog.PoweredUpControl.Show', this, this.onShow);
+        dispatcher.on(SHOW_SIGNAL, this, this.onShow);
     }
 
     initEvents() {
@@ -68,3 +70,5 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
         }
     }
 };
+
+exports.PoweredUpControlDialog.SHOW_SIGNAL = SHOW_SIGNAL;

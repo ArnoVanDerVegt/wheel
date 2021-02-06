@@ -45,6 +45,8 @@ const MOTORS = [
         {value: 7, t: 17.3, rpm9:  105, rpm7:   78, image: 'images/ev3/motorLarge64.png',    color: '#D0D4D8', title: 'EV3',        subTitle: 'Large motor'}
     ];
 
+const SHOW_SIGNAL = 'Dialog.GearRatioCalculator.Show';
+
 exports.GearRatioCalculatorDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -53,7 +55,7 @@ exports.GearRatioCalculatorDialog = class extends Dialog {
             this._gearByValue[gear.value] = gear;
         });
         this.initWindow({
-            showSignal: 'Dialog.GearRatioCalculator.Show',
+            showSignal: SHOW_SIGNAL,
             width:      680,
             height:     600,
             className:  'gear-ratio-calculator-dialog',
@@ -148,3 +150,5 @@ exports.GearRatioCalculatorDialog = class extends Dialog {
         return result;
     }
 };
+
+exports.GearRatioCalculatorDialog.SHOW_SIGNAL = SHOW_SIGNAL;

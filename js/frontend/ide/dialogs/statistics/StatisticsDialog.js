@@ -94,11 +94,13 @@ const Chart = class extends Component {
 
     };
 
+const SHOW_SIGNAL = 'Dialog.Statistics.Show';
+
 exports.StatisticsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.Statistics.Show',
+            showSignal: SHOW_SIGNAL,
             width:      600,
             height:     600,
             className:  'statistics-dialog',
@@ -138,3 +140,5 @@ exports.StatisticsDialog = class extends Dialog {
         this.show();
     }
 };
+
+exports.StatisticsDialog.SHOW_SIGNAL = SHOW_SIGNAL;

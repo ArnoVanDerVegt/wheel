@@ -40,19 +40,19 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // File menu...
     onMenuFileNewFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.File.New.Show', 'File', activeDirectory);
+        dispatcher.dispatch('Dialog.File.New.Show', {type: 'File', activeDirectory: activeDirectory});
     }
 
     onMenuFileNewProjectFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.File.New.Show', 'Project', activeDirectory);
+        dispatcher.dispatch('Dialog.File.New.Show', {type: 'Project', activeDirectory: activeDirectory});
     }
 
     onMenuFileNewImageFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, this._settings.getDocumentPath());
+        dispatcher.dispatch('Dialog.Image.New.Show', {activeDirectory: activeDirectory, documentPath: this._settings.getDocumentPath()});
     }
 
     onMenuFileNewFormFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, this._settings.getDocumentPath());
+        dispatcher.dispatch('Dialog.Form.New.Show', {activeDirectory: activeDirectory, documentPath: this._settings.getDocumentPath()});
     }
 
     onMenuFileOpen() {
@@ -67,7 +67,7 @@ exports.IDEEvents = class extends CompileAndRun {
     onResize() {
         let activeEditor = this._editor.getActiveEditor();
         if (activeEditor && activeEditor.getCanResize && activeEditor.getCanResize()) {
-            dispatcher.dispatch('Dialog.Image.Resize.Show', activeEditor.getWidth(), activeEditor.getHeight());
+            dispatcher.dispatch('Dialog.Image.Resize.Show', {width: activeEditor.getWidth(), height: activeEditor.getHeight()});
         }
     }
 

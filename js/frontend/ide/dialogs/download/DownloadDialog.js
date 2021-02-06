@@ -8,12 +8,14 @@ const dispatcher   = require('../../../lib/dispatcher').dispatcher;
 const Dialog       = require('../../../lib/components/Dialog').Dialog;
 const ResourceLine = require('./components/ResourceLine').ResourceLine;
 
+const SHOW_SIGNAL = 'Dialog.Download.Show';
+
 exports.DownloadDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._ev3 = opts.ev3;
         this.initWindow({
-            showSignal: 'Dialog.Download.Show',
+            showSignal: SHOW_SIGNAL,
             width:      600,
             height:     472,
             className:  'download-dialog',
@@ -180,3 +182,5 @@ exports.DownloadDialog = class extends Dialog {
         super.hide();
     }
 };
+
+exports.DownloadDialog.SHOW_SIGNAL = SHOW_SIGNAL;

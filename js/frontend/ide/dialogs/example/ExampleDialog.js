@@ -9,11 +9,13 @@ const getImage        = require('../../data/images').getImage;
 const ExampleCategory = require('./components/ExampleCategory').ExampleCategory;
 const examples        = require('./constants').examples;
 
+const SHOW_SIGNAL = 'Dialog.Example.Show';
+
 exports.ExampleDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.Example.Show',
+            showSignal: SHOW_SIGNAL,
             width:      754,
             height:     530,
             className:  'no-select example-dialog',
@@ -60,3 +62,5 @@ exports.ExampleDialog = class extends Dialog {
         this.show();
     }
 };
+
+exports.ExampleDialog.SHOW_SIGNAL = SHOW_SIGNAL;

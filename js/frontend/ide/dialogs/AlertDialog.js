@@ -7,11 +7,13 @@ const Dialog     = require('../../lib/components/Dialog').Dialog;
 const Img        = require('../../lib/components/basic/Img').Img;
 const getImage   = require('../data/images').getImage;
 
+const SHOW_SIGNAL = 'Dialog.Alert.Show';
+
 exports.AlertDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.Alert.Show',
+            showSignal: SHOW_SIGNAL,
             width:      600,
             height:     200,
             className:  'no-select alert-dialog',
@@ -52,3 +54,5 @@ exports.AlertDialog = class extends Dialog {
         this.show();
     }
 };
+
+exports.AlertDialog.SHOW_SIGNAL = SHOW_SIGNAL;

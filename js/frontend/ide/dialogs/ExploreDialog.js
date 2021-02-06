@@ -8,6 +8,8 @@ const Files           = require('../../lib/components/files/Files').Files;
 const Dialog          = require('../../lib/components/Dialog').Dialog;
 const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
 
+const SHOW_SIGNAL = 'Dialog.Explore.Show';
+
 exports.ExploreDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -20,7 +22,7 @@ exports.ExploreDialog = class extends Dialog {
             title:     'EV3 File viewer'
         });
         dispatcher
-            .on('Dialog.Explore.Show',       this, this.onShow)
+            .on(SHOW_SIGNAL,                 this, this.onShow)
             .on('Dialog.CreateDir.Path',     this, this.onCreateDirecory)
             .on('Dialog.Confirm.DeleteItem', this, this.onDeleteItemConfirmed);
     }
@@ -357,3 +359,5 @@ exports.ExploreDialog = class extends Dialog {
         super.hide();
     }
 };
+
+exports.ExploreDialog.SHOW_SIGNAL = SHOW_SIGNAL;

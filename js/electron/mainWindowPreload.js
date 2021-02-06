@@ -325,6 +325,7 @@ require('../frontend/ide/dialogs/settings/SettingsDialog');
 require('../frontend/ide/dialogs/hint/HintDialog');
 require('../frontend/ide/dialogs/hint/OpenFormDialog');
 require('../frontend/ide/dialogs/hint/ConnectedDialog');
+require('../frontend/ide/dialogs/hint/SaveDialog');
 require('../frontend/ide/dialogs/ConfirmDialog');
 require('../frontend/ide/dialogs/ExploreDialog');
 require('../frontend/ide/dialogs/list/ListDialog');

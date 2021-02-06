@@ -18,12 +18,14 @@ const SENSORS = [
         {value: sensorModuleConstants.SENSOR_TYPE_NXT_COLOR,      image: 'images/nxt/color64.png',      color: '#D0D4D8', title: 'Color sensor',      subTitle: ''}
     ];
 
+const SHOW_SIGNAL = 'Dialog.SensorType.Show';
+
 exports.SensorTypeDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._nxt = opts.nxt;
         this.initWindow({
-            showSignal: 'Dialog.SensorType.Show',
+            showSignal: SHOW_SIGNAL,
             width:      416,
             height:     408,
             className:  'no-select sensor-type-dialog',
@@ -124,3 +126,5 @@ exports.SensorTypeDialog = class extends Dialog {
         this.onSelectLayer(0);
     }
 };
+
+exports.SensorTypeDialog.SHOW_SIGNAL = SHOW_SIGNAL;

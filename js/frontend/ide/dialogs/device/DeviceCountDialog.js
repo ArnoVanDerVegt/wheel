@@ -6,12 +6,14 @@ const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 const Dropdown   = require('../../../lib/components/input/Dropdown').Dropdown;
 
+const SHOW_SIGNAL = 'Dialog.DeviceCount.Show';
+
 exports.DeviceCountDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._onApply = () => {};
         this.initWindow({
-            showSignal: 'Dialog.DeviceCount.Show',
+            showSignal: SHOW_SIGNAL,
             width:      480,
             height:     180,
             className:  'device-count-dialog',
@@ -61,3 +63,5 @@ exports.DeviceCountDialog = class extends Dialog {
             .setValue(opts.deviceCount);
     }
 };
+
+exports.DeviceCountDialog.SHOW_SIGNAL = SHOW_SIGNAL;

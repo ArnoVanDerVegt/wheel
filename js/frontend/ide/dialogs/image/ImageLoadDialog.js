@@ -16,13 +16,15 @@ const StepScale    = require('./components/StepScale').StepScale;
 const StepContrast = require('./components/StepContrast').StepContrast;
 const StepFilename = require('./components/StepFilename').StepFilename;
 
+const SHOW_SIGNAL = 'Dialog.Image.Load.Show';
+
 exports.ImageLoadDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._currentStep         = 0;
         this._stepContentElements = [];
         this.initWindow({
-            showSignal: 'Dialog.Image.Load.Show',
+            showSignal: SHOW_SIGNAL,
             width:      800,
             height:     640,
             className:  'image-load-dialog',
@@ -182,3 +184,5 @@ exports.ImageLoadDialog = class extends Dialog {
         this._nextButtonElement.focus();
     }
 };
+
+exports.ImageLoadDialog.SHOW_SIGNAL = SHOW_SIGNAL;

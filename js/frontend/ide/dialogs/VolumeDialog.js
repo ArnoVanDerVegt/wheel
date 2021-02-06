@@ -6,12 +6,14 @@ const dispatcher = require('../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../lib/components/Dialog').Dialog;
 const Slider     = require('../../lib/components/input/Slider').Slider;
 
+const SHOW_SIGNAL = 'Dialog.Volume.Show';
+
 exports.VolumeDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._dispatchApply = null;
         this.initWindow({
-            showSignal: 'Dialog.Volume.Show',
+            showSignal: SHOW_SIGNAL,
             width:      512,
             height:     208,
             className:  'volume-dialog',
@@ -104,3 +106,5 @@ exports.VolumeDialog = class extends Dialog {
         this.show();
     }
 };
+
+exports.VolumeDialog.SHOW_SIGNAL = SHOW_SIGNAL;

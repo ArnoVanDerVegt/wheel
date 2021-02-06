@@ -7,11 +7,13 @@ const Dialog     = require('../../../lib/components/Dialog').Dialog;
 const Img        = require('../../../lib/components/basic/Img').Img;
 const getImage   = require('../../data/images').getImage;
 
+const SHOW_SIGNAL = 'Dialog.DeviceAlias.Show';
+
 exports.DeviceAliasDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.DeviceAlias.Show',
+            showSignal: SHOW_SIGNAL,
             width:      512,
             height:     216,
             className:  'device-alias-dialog',
@@ -89,3 +91,5 @@ exports.DeviceAliasDialog = class extends Dialog {
         this.show();
     }
 };
+
+exports.DeviceAliasDialog.SHOW_SIGNAL = SHOW_SIGNAL;

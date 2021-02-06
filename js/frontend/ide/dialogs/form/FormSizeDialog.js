@@ -5,6 +5,8 @@
 const dispatcher  = require('../../../lib/dispatcher').dispatcher;
 const ImageDialog = require('../image/ImageDialog').ImageDialog;
 
+const SHOW_SIGNAL = 'Dialog.Form.SetSize';
+
 exports.FormSizeDialog = class extends ImageDialog {
     constructor(opts) {
         opts.minWidth  = 128;
@@ -13,7 +15,7 @@ exports.FormSizeDialog = class extends ImageDialog {
         opts.maxHeight = 600;
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.Form.SetSize',
+            showSignal: SHOW_SIGNAL,
             width:      400,
             height:     216,
             className:  'image-dialog',
@@ -47,11 +49,11 @@ exports.FormSizeDialog = class extends ImageDialog {
         ];
     }
 
-    onShow(width, height) {
+    onShow(opts) {
         super.show();
         let refs = this._refs;
-        refs.width.setValue(width);
-        refs.height.setValue(height);
+        refs.width.setValue(opts.width);
+        refs.height.setValue(opts.height);
         refs.width.focus();
     }
 
@@ -63,3 +65,5 @@ exports.FormSizeDialog = class extends ImageDialog {
         this.hide();
     }
 };
+
+exports.FormSizeDialog.SHOW_SIGNAL = SHOW_SIGNAL;

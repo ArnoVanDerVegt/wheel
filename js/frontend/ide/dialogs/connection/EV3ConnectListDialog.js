@@ -6,6 +6,8 @@ const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
 const ListDialog      = require('../list/ListDialog').ListDialog;
 
+const SHOW_SIGNAL = 'Dialog.ConnectEV3.Show';
+
 exports.EV3ConnectListDialog = class extends ListDialog {
     constructor(opts) {
         opts.help       = 'Bluetooth';
@@ -13,7 +15,7 @@ exports.EV3ConnectListDialog = class extends ListDialog {
         opts.applyTitle = 'Connect';
         opts.subClass   = true;
         opts.comment    = 'Don\'t forget to pair your device first!';
-        opts.showSignal = 'Dialog.ConnectEV3.Show';
+        opts.showSignal = SHOW_SIGNAL;
         super(opts);
     }
 
@@ -58,3 +60,5 @@ exports.EV3ConnectListDialog = class extends ListDialog {
         }
     }
 };
+
+exports.EV3ConnectListDialog.SHOW_SIGNAL = SHOW_SIGNAL;

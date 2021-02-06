@@ -6,6 +6,8 @@ const dispatcher = require('../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../lib/components/Dialog').Dialog;
 const Radio      = require('../../lib/components/input/Radio').Radio;
 
+const SHOW_SIGNAL = 'Dialog.DaisyChain.Show';
+
 exports.DaisyChainDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -16,7 +18,7 @@ exports.DaisyChainDialog = class extends Dialog {
             title:     'Select daisy chain mode',
             help:      'Chain'
         });
-        dispatcher.on('Dialog.DaisyChain.Show', this, this.onShow);
+        dispatcher.on(SHOW_SIGNAL, this, this.onShow);
     }
 
     initWindowContent(opts) {
@@ -59,3 +61,5 @@ exports.DaisyChainDialog = class extends Dialog {
             .focus();
     }
 };
+
+exports.DaisyChainDialog.SHOW_SIGNAL = SHOW_SIGNAL;

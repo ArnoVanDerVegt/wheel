@@ -6,13 +6,15 @@ const path        = require('../../../../shared/lib/path');
 const dispatcher  = require('../../../lib/dispatcher').dispatcher;
 const ImageDialog = require('./ImageDialog').ImageDialog;
 
+const SHOW_SIGNAL = 'Dialog.Image.New.Show';
+
 exports.ImageNewDialog = class extends ImageDialog {
     constructor(opts) {
         opts.applyTitle = opts.applyTitle || 'Create new EV3 image';
         super(opts);
         this._expectedExtensions = ['', '.rgf'];
         this.initWindow({
-            showSignal: opts.showSignal || 'Dialog.Image.New.Show',
+            showSignal: opts.showSignal || SHOW_SIGNAL,
             width:      400,
             height:     256,
             className:  'image-dialog new-image',
@@ -61,9 +63,9 @@ exports.ImageNewDialog = class extends ImageDialog {
         ];
     }
 
-    onShow(activeDirectory, documentPath) {
+    onShow(opts) {
         this.show();
-        this._activeDirectory         = activeDirectory || documentPath;
+        this._activeDirectory         = opts.activeDirectory || opts.documentPath;
         this._refs.filename.className = '';
         this._refs.filename.value     = '';
         this._refs.filename.focus();
@@ -103,3 +105,5 @@ exports.ImageNewDialog = class extends ImageDialog {
         return result;
     }
 };
+
+exports.ImageNewDialog.SHOW_SIGNAL = SHOW_SIGNAL;

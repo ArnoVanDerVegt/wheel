@@ -13,6 +13,8 @@ const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDat
 const getImage        = require('../../data/images').getImage;
 const FileDialog      = require('./FileDialog').FileDialog;
 
+const SHOW_SIGNAL = 'Dialog.File.Show';
+
 exports.FileOpenDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
@@ -26,7 +28,7 @@ exports.FileOpenDialog = class extends FileDialog {
             help:      'Supportedfile'
         });
         dispatcher
-            .on('Dialog.File.Show',    this, this.onShow)
+            .on(SHOW_SIGNAL,           this, this.onShow)
             .on('Dialog.Confirm.Save', this, this.onSaveConfirmed);
     }
 
@@ -316,3 +318,5 @@ exports.FileOpenDialog = class extends FileDialog {
         return null;
     }
 };
+
+exports.FileOpenDialog.SHOW_SIGNAL = SHOW_SIGNAL;

@@ -756,6 +756,25 @@ describe(
                 );
                 testLogs(
                     it,
+                    'Should use a pointer array parameter with non zero var index',
+                    [
+                        'proc test(number ^p[4])',
+                        '    number n = 1',
+                        '    p[n] = 225',
+                        'end',
+                        'proc main()',
+                        '    number n[4]',
+                        '    test(@n)',
+                        '    addr n[1]',
+                        '    mod 0, 1',
+                        'end'
+                    ],
+                    [
+                        225
+                    ]
+                );
+                testLogs(
+                    it,
                     'Should use a pointer to an index of a record array',
                     [
                         'record Point',

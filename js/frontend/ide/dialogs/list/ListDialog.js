@@ -7,6 +7,8 @@ const DOMNode    = require('../../../lib/dom').DOMNode;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 const List       = require('../../../lib/components/list/List').List;
 
+const SHOW_SIGNAL = 'Dialog.List.Show';
+
 exports.ListDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -16,7 +18,7 @@ exports.ListDialog = class extends Dialog {
         this.initWindow({
             ListItem:   opts.ListItem,
             help:       opts.help,
-            showSignal: opts.showSignal,
+            showSignal: opts.showSignal || SHOW_SIGNAL,
             width:      500,
             height:     400,
             className:  'list-dialog' + (opts.comment ? ' with-comment' : ''),
@@ -134,3 +136,5 @@ exports.ListDialog = class extends Dialog {
         this._refs.list.setItems(list);
     }
 };
+
+exports.ListDialog.SHOW_SIGNAL = SHOW_SIGNAL;

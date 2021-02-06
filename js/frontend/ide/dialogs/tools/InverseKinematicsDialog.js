@@ -44,6 +44,8 @@ const sizeY     = 25 * 0.75;
 const sizeX2    = sizeX / 2;
 const sizeY2    = sizeY / 2;
 
+const SHOW_SIGNAL = 'Dialog.InverseKinematics.Show';
+
 exports.InverseKinematicsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -54,7 +56,7 @@ exports.InverseKinematicsDialog = class extends Dialog {
         this._mouseTargetX = null;
         this._mouseTargetY = null;
         this.initWindow({
-            showSignal: 'Dialog.InverseKinematics.Show',
+            showSignal: SHOW_SIGNAL,
             width:      gridSizeX * sizeX + 66  + 16,
             height:     gridSizeY * sizeY + 138 + 8 + 16,
             className:  'inverse-kinematics-dialog',
@@ -422,3 +424,5 @@ exports.InverseKinematicsDialog = class extends Dialog {
         });
     }
 };
+
+exports.InverseKinematicsDialog.SHOW_SIGNAL = SHOW_SIGNAL;

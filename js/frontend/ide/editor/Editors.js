@@ -216,14 +216,16 @@ exports.Editors = class extends DOMNode {
                 function() {
                     dispatcher.dispatch(
                         'Dialog.YesNoCancel.Show',
-                        'Close file',
-                        [
-                            'The file "' + filename + '" has changed.',
-                            'Do you want to save this file?'
-                        ],
-                        'Dialog.YesNoCancel.SaveAndClose',  // Yes
-                        'Dialog.YesNoCancel.Close',         // No
-                        'Dialog.YesNoCancel.Cancel'         // Cancel
+                        {
+                            title:          'Close file',
+                            dispatchYes:    'Dialog.YesNoCancel.SaveAndClose',
+                            dispatchNo:     'Dialog.YesNoCancel.Close',
+                            dispatchCancel: 'Dialog.YesNoCancel.Cancel',
+                            lines:          [
+                                'The file "' + filename + '" has changed.',
+                                'Do you want to save this file?'
+                            ]
+                        }
                     );
                 },
                 250

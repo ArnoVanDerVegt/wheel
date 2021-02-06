@@ -24,6 +24,8 @@ const addViewTab          = require('./tabs/addViewTab');
 const addConsoleTab       = require('./tabs/addConsoleTab');
 const addSimulatorTab     = require('./tabs/addSimulatorTab');
 
+const SHOW_SIGNAL = 'Dialog.Settings.Show';
+
 exports.SettingsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -32,7 +34,7 @@ exports.SettingsDialog = class extends Dialog {
             ui:         opts.ui,
             uiId:       opts.uiId,
             settings:   opts.settings,
-            showSignal: 'Dialog.Settings.Show',
+            showSignal: SHOW_SIGNAL,
             width:      580,
             height:     600,
             className:  'settings-dialog',
@@ -185,3 +187,5 @@ exports.SettingsDialog = class extends Dialog {
         return this._refs;
     }
 };
+
+exports.SettingsDialog.SHOW_SIGNAL = SHOW_SIGNAL;

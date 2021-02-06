@@ -7,13 +7,15 @@ const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDat
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const FindDialog      = require('./FindDialog').FindDialog;
 
+const SHOW_SIGNAL = 'Dialog.FindInFiles.Show';
+
 exports.FindInFilesDialog = class extends FindDialog {
     constructor(opts) {
         super(opts);
         this._fileTypes = [];
         this._cancel    = false;
         this.initWindow({
-            showSignal: 'Dialog.FindInFiles.Show',
+            showSignal: SHOW_SIGNAL,
             width:      544,
             height:     336,
             className:  'find-dialog find-in-files',
@@ -151,3 +153,5 @@ exports.FindInFilesDialog = class extends FindDialog {
         this.hide();
     }
 };
+
+exports.FindInFilesDialog.SHOW_SIGNAL = SHOW_SIGNAL;

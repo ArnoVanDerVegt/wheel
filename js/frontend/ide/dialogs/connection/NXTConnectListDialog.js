@@ -7,6 +7,8 @@ const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDat
 const SerialListItem  = require('./components/SerialListItem').SerialListItem;
 const ListDialog      = require('../list/ListDialog').ListDialog;
 
+const SHOW_SIGNAL = 'Dialog.ConnectNXT.Show';
+
 exports.NXTConnectListDialog = class extends ListDialog {
     constructor(opts) {
         opts.help       = 'Bluetooth';
@@ -14,7 +16,7 @@ exports.NXTConnectListDialog = class extends ListDialog {
         opts.applyTitle = 'Connect';
         opts.subClass   = true;
         opts.comment    = 'Don\'t forget to pair your device first!';
-        opts.showSignal = 'Dialog.ConnectNXT.Show';
+        opts.showSignal = SHOW_SIGNAL;
         opts.ListItem   = SerialListItem;
         super(opts);
     }
@@ -61,3 +63,5 @@ exports.NXTConnectListDialog = class extends ListDialog {
         }
     }
 };
+
+exports.NXTConnectListDialog.SHOW_SIGNAL = SHOW_SIGNAL;

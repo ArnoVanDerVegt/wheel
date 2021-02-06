@@ -7,6 +7,8 @@ const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDat
 const ListDialog      = require('../list/ListDialog').ListDialog;
 const SerialListItem = require('./components/SerialListItem').SerialListItem;
 
+const SHOW_SIGNAL = 'Dialog.ConnectSpike.Show';
+
 exports.SpikeConnectListDialog = class extends ListDialog {
     constructor(opts) {
         opts.help       = 'Bluetooth';
@@ -14,7 +16,7 @@ exports.SpikeConnectListDialog = class extends ListDialog {
         opts.applyTitle = 'Connect';
         opts.subClass   = true;
         opts.comment    = 'Don\'t forget to pair your device first!';
-        opts.showSignal = 'Dialog.ConnectSpike.Show';
+        opts.showSignal = SHOW_SIGNAL;
         opts.ListItem   = SerialListItem;
         super(opts);
     }
@@ -61,3 +63,5 @@ exports.SpikeConnectListDialog = class extends ListDialog {
         }
     }
 };
+
+exports.SpikeConnectListDialog.SHOW_SIGNAL = SHOW_SIGNAL;

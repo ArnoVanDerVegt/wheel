@@ -460,6 +460,7 @@ const files = [
         './js/frontend/ide/dialogs/hint/HintDialog',
         './js/frontend/ide/dialogs/hint/OpenFormDialog',
         './js/frontend/ide/dialogs/hint/ConnectedDialog',
+        './js/frontend/ide/dialogs/hint/SaveDialog',
         './js/frontend/ide/dialogs/ConfirmDialog',
         './js/frontend/ide/dialogs/ExploreDialog',
         './js/frontend/ide/dialogs/list/ListDialog',

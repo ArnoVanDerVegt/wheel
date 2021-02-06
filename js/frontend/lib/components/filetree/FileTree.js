@@ -208,22 +208,24 @@ exports.FileTree = class extends DOMNode {
     onContextMenuRename(item) {
         dispatcher.dispatch(
             'Dialog.File.Rename.Show',
-            'Rename ' + (item.isDirectory() ? 'directory' : 'file'),
-            this._settings.getDocumentPath(),
-            item.getFullPath(),
-            function(filename) {
-                let oldName         = item.getFullPath();
-                let pathAndFilename = path.getPathAndFilename(oldName);
-                let newName         = path.join(pathAndFilename.path, filename);
-                getDataProvider().getData(
-                    'post',
-                    'ide/rename',
-                    {
-                        oldName: oldName,
-                        newName: newName
-                    },
-                    () => {}
-                );
+            {
+                title:        'Rename ' + (item.isDirectory() ? 'directory' : 'file'),
+                documentPath: this._settings.getDocumentPath(),
+                filename:     item.getFullPath(),
+                onApply: function(filename) {
+                    let oldName         = item.getFullPath();
+                    let pathAndFilename = path.getPathAndFilename(oldName);
+                    let newName         = path.join(pathAndFilename.path, filename);
+                    getDataProvider().getData(
+                        'post',
+                        'ide/rename',
+                        {
+                            oldName: oldName,
+                            newName: newName
+                        },
+                        () => {}
+                    );
+                }
             }
         );
     }

@@ -5,11 +5,13 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 
+const SHOW_SIGNAL = 'Dialog.DirectoryNew.Show';
+
 exports.DirectoryNewDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.DirectoryNew.Show',
+            showSignal: SHOW_SIGNAL,
             width:      440,
             height:     176,
             className:  'new-directory-dialog',
@@ -94,3 +96,5 @@ exports.DirectoryNewDialog = class extends Dialog {
         return true;
     }
 };
+
+exports.DirectoryNewDialog.SHOW_SIGNAL = SHOW_SIGNAL;

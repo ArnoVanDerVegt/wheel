@@ -342,9 +342,11 @@ exports.FormEditor = class extends Editor {
         let refs = this._refs;
         dispatcher.dispatch(
             'Dialog.SelectGridSize.Show',
-            this._settings.getFormGridSize(),
-            function(formGridSize) {
-                refs.grid.setClassName('resource with-shadow form grid' + formGridSize);
+            {
+                gridSize: this._settings.getFormGridSize(),
+                onApply:  (formGridSize) => {
+                    refs.grid.setClassName('resource with-shadow form grid' + formGridSize);
+                }
             }
         );
     }

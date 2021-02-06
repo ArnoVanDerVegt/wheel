@@ -16,6 +16,8 @@ const HelpBuilderText = require('../../help/HelpBuilderText');
 const getImage        = require('../../data/images').getImage;
 const WocFileLoader   = require('./components/WocFileLoader').WocFileLoader;
 
+const SHOW_SIGNAL = 'Dialog.Help.Show';
+
 exports.HelpDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -28,7 +30,7 @@ exports.HelpDialog = class extends Dialog {
             title:     'Help'
         });
         dispatcher
-            .on('Dialog.Help.Show',    this, this.onShow)
+            .on(SHOW_SIGNAL,           this, this.onShow)
             .on('Dialog.Help.Rebuild', this, this.onRebuild);
     }
 
@@ -153,3 +155,5 @@ exports.HelpDialog = class extends Dialog {
         this._refs.closeButton.focus();
     }
 };
+
+exports.HelpDialog.SHOW_SIGNAL = SHOW_SIGNAL;

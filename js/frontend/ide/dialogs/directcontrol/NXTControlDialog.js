@@ -6,6 +6,8 @@ const dispatcher          = require('../../../lib/dispatcher').dispatcher;
 const DirectControlDialog = require('./DirectControlDialog').DirectControlDialog;
 const nxtModuleConstants  = require('../../../../shared/vm/modules/nxtModuleConstants');
 
+const SHOW_SIGNAL = 'Dialog.NXTControl.Show';
+
 exports.NXTControlDialog = class extends DirectControlDialog {
     constructor(opts) {
         opts.layerCount     = 4;
@@ -27,7 +29,7 @@ exports.NXTControlDialog = class extends DirectControlDialog {
             }
         };
         super(opts);
-        dispatcher.on('Dialog.NXTControl.Show', this, this.onShow);
+        dispatcher.on(SHOW_SIGNAL, this, this.onShow);
     }
 
     initEvents() {
@@ -48,3 +50,5 @@ exports.NXTControlDialog = class extends DirectControlDialog {
         }
     }
 };
+
+exports.NXTControlDialog.SHOW_SIGNAL = SHOW_SIGNAL;

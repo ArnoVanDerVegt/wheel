@@ -8,9 +8,11 @@ const getDataProvider              = require('../../../lib/dataprovider/dataProv
 const ListDialog                   = require('../list/ListDialog').ListDialog;
 const PoweredUpAutoConnectListItem = require('./components/PoweredUpAutoConnectListItem').PoweredUpAutoConnectListItem;
 
+const SHOW_SIGNAL = 'Dialog.AutoConnectPoweredUp.Show';
+
 exports.PoweredUpAutoConnectListDialog = class extends ListDialog {
     constructor(opts) {
-        opts.showSignal  = 'Dialog.AutoConnectPoweredUp.Show';
+        opts.showSignal  = SHOW_SIGNAL;
         opts.help        = 'Bluetooth';
         opts.title       = 'Auto connect Powered Up';
         opts.applyTitle  = null;
@@ -66,3 +68,5 @@ exports.PoweredUpAutoConnectListDialog = class extends ListDialog {
         this._refs.buttonCancel.focus();
     }
 };
+
+exports.PoweredUpAutoConnectListDialog.SHOW_SIGNAL = SHOW_SIGNAL;

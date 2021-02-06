@@ -6,11 +6,13 @@ const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 const Radio      = require('../../../lib/components/input/Radio').Radio;
 
+const SHOW_SIGNAL = 'Dialog.SelectGridSize.Show';
+
 exports.FormGridSizeDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.SelectGridSize.Show',
+            showSignal: SHOW_SIGNAL,
             width:      256,
             height:     264,
             className:  'grid-size-dialog',
@@ -53,11 +55,13 @@ exports.FormGridSizeDialog = class extends Dialog {
         this._onApply(formGridSize);
     }
 
-    onShow(gridSize, onApply) {
+    onShow(opts) {
         this.show();
-        this._onApply = onApply;
+        this._onApply = opts.onApply;
         this._refs.radio
-            .setValue(gridSize)
+            .setValue(opts.gridSize)
             .focus();
     }
 };
+
+exports.FormGridSizeDialog.SHOW_SIGNAL = SHOW_SIGNAL;
