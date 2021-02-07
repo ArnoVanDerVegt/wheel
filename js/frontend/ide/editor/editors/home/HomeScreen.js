@@ -29,7 +29,7 @@ exports.HomeScreen = class extends DOMNode {
         this._tileCount    = 0;
         this._onGlobalUIId = this._ui.addEventListener('Global.UIId', this, this.onGlobalUIId);
         this.initDOM(opts.parentNode);
-        dispatcher.dispatch('Settings.Set.DontShowThemeTile', true);
+        dispatcher.dispatch('Settings.Set.DontShow.ThemeTile', true);
     }
 
     initTiles() {

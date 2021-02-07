@@ -13,7 +13,7 @@ exports.OpenFormDialog = class extends HintDialog {
         opts.okButton         = 'Close';
         opts.dialogClassName  = 'open-file';
         opts.signal           = SHOW_SIGNAL;
-        opts.dispatchDontShow = 'Settings.Set.DontShowOpenForm';
+        opts.dispatchDontShow = 'Settings.Set.DontShow.OpenForm';
         opts.title            = 'Opening a form';
         opts.lines            = [
             'You\'re opening a form. The property panel is not visible.',

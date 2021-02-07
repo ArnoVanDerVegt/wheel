@@ -74,20 +74,20 @@ exports.tab = (settingsDialog) => {
                 label:       'A form was openend but the property editor is not visible',
                 tabIndex:    7,
                 getter:      'getDontShowOpenForm',
-                signal:      'Settings.Set.DontShowOpenForm'
+                signal:      'Settings.Set.DontShow.OpenForm'
             }),
             settingsDialog.addCheckboxSetting({
                 label:       'Connected to device but simulator is not visible',
                 tabIndex:    8,
                 getter:      'getDontShowConnected',
-                signal:      'Settings.Set.DontShowConnected'
+                signal:      'Settings.Set.DontShow.Connected'
             }),
             platform.isWeb() ?
                 settingsDialog.addCheckboxSetting({
                     label:       'Saving in local storage',
                     tabIndex:    9,
                     getter:      'getDontShowSave',
-                    signal:      'Settings.Set.DontShowSave'
+                    signal:      'Settings.Set.DontShow.Save'
                 }) :
                 null,
             settingsDialog.addHr(),

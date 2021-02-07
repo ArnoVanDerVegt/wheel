@@ -13,7 +13,7 @@ exports.ConnectedDialog = class extends HintDialog {
         opts.okButton         = 'Close';
         opts.dialogClassName  = 'connected';
         opts.signal           = SHOW_SIGNAL;
-        opts.dispatchDontShow = 'Settings.Set.DontShowConnected';
+        opts.dispatchDontShow = 'Settings.Set.DontShow.Connected';
         opts.title            = 'Connected to a device';
         opts.lines            = [
             'You\'ve connected a device. The simulator panel is not visible.',

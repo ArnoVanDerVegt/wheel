@@ -12,7 +12,7 @@ exports.SaveDialog = class extends HintDialog {
         opts.height           = 264;
         opts.okButton         = 'Close';
         opts.signal           = SHOW_SIGNAL;
-        opts.dispatchDontShow = 'Settings.Set.DontShowSave';
+        opts.dispatchDontShow = 'Settings.Set.DontShow.Save';
         opts.title            = 'Warning - saving in local storage';
         opts.lines            = [
             'Be careful your file is saved in local storage.',
