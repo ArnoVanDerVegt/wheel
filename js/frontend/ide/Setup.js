@@ -111,7 +111,7 @@ exports.Setup = class extends DOMNode {
                                         children: [
                                             {
                                                 id:        this.setProgressBarElement.bind(this),
-                                                className: 'flt max-w bar'
+                                                className: 'flt max-w max-h bar'
                                             }
                                         ]
                                     }
