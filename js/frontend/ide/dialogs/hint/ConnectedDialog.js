@@ -5,13 +5,15 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const HintDialog = require('./HintDialog').HintDialog;
 
+const SHOW_SIGNAL = 'Dialog.Hint.Connected';
+
 exports.ConnectedDialog = class extends HintDialog {
     constructor(opts) {
         opts.height           = 264;
         opts.okButton         = 'Close';
         opts.dialogClassName  = 'connected';
-        opts.signal           = 'Dialog.Hint.Connected';
-        opts.dispatchDontShow = 'Settings.Set.DontShowConnected';
+        opts.signal           = SHOW_SIGNAL;
+        opts.dispatchDontShow = 'Settings.Set.DontShow.Connected';
         opts.title            = 'Connected to a device';
         opts.lines            = [
             'You\'ve connected a device. The simulator panel is not visible.',
@@ -38,3 +40,5 @@ exports.ConnectedDialog = class extends HintDialog {
         this.hide();
     }
 };
+
+exports.ConnectedDialog.SHOW_SIGNAL = SHOW_SIGNAL;

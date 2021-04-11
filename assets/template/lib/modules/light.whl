@@ -11,12 +11,7 @@
 ; @const Module call to control the light.
 #define LIGHT_UPDATE           0
 
-; @const Light colors.
-#define LIGHT_OFF              0
-#define LIGHT_GREEN            1
-#define LIGHT_RED              2
-#define LIGHT_ORANGE           3
-
+; @const EV3 Light colors and modes.
 #define LIGHT_OFF              0
 #define LIGHT_GREEN            1
 #define LIGHT_RED              2
@@ -28,6 +23,7 @@
 #define LIGHT_RED_PULSE        8
 #define LIGHT_ORANGE_PULSE     9
 
+; @const Powered Up light colors.
 #define LIGHT_PU_BLACK         0
 #define LIGHT_PU_PINK          1
 #define LIGHT_PU_PURPLE        2
@@ -41,8 +37,20 @@
 #define LIGHT_PU_WHITE        10
 #define LIGHT_PU_NONE        255
 
+; @const Spike light colors.
+#define LIGHT_SPIKE_PINK       1
+#define LIGHT_SPIKE_VIOLET     2
+#define LIGHT_SPIKE_BLUE       3
+#define LIGHT_SPIKE_AZURE      4
+#define LIGHT_SPIKE_CYAN       5
+#define LIGHT_SPIKE_GREEN      6
+#define LIGHT_SPIKE_YELLOW     7
+#define LIGHT_SPIKE_ORANGE     8
+#define LIGHT_SPIKE_RED        9
+#define LIGHT_SPIKE_WHITE     10
+
 ; @proc          Turn the light on or off.
-; @param layer   The layer, only applies to Powered Up.
+; @param layer   The layer, only applies to Powered Up and Spike.
 ; @param mode    The color and pattern.
 proc lightLayer(number layer, number mode)
     addr layer

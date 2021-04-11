@@ -18,7 +18,7 @@ describe(
             'Should create PluginsState',
             () => {
                 let pluginsState = new PluginsState({});
-                assert.equal(pluginsState.getDefaultPlugins().length, 6);
+                assert.equal(pluginsState.getDefaultPlugins().length, 11);
             }
         );
         it(
@@ -29,7 +29,22 @@ describe(
                 pluginsState.getSortedPlugins().forEach(function(plugin) {
                     names.push(plugin.name);
                 });
-                assert.deepEqual(names, ['EV3 Motors', 'EV3', 'EV3 Sensors', 'EV3 Sensor output graph', 'PSP', 'Hub']);
+                assert.deepEqual(
+                    names,
+                    [
+                        'EV3 motors',
+                        'EV3',
+                        'EV3 sensors',
+                        'EV3 sensor output graph',
+                        'NXT motors',
+                        'NXT sensors',
+                        'Hub',
+                        'Hub sensor output graph',
+                        'Spike',
+                        'Spike ports',
+                        'Spike sensor output graph'
+                    ]
+                );
             }
         );
         it(
@@ -39,39 +54,7 @@ describe(
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID),          null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_SENSORS_UUID),  null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_MOTORS_UUID),   null);
-                assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_SENSOR_GRAPH_UUID), null);
-                assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_PSP_UUID),          null);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_POWERED_UP_UUID),   null);
-            }
-        );
-        it(
-            'Should load and add new plugin',
-            () => {
-                let pluginsState = new PluginsState({});
-                pluginsState.load([{
-                    uuid:    '94f5d48e-6de0-11ea-bc55-0242ac130003',
-                    group:   'Test',
-                    name:    'Test plugin',
-                    path:    'test',
-                    visible: true,
-                    order:   20
-                }]);
-                assert.equal(pluginsState.getSortedPlugins().length, 7);
-            }
-        );
-        it(
-            'Should load and add existing plugin',
-            () => {
-                let pluginsState = new PluginsState({});
-                pluginsState.load([{
-                    uuid:    pluginUuid.SIMULATOR_EV3_UUID,
-                    group:   'Test',
-                    name:    'Test plugin',
-                    path:    'test',
-                    visible: true,
-                    order:   20
-                }]);
-                assert.equal(pluginsState.getSortedPlugins().length, 6);
             }
         );
         it(
@@ -79,7 +62,7 @@ describe(
             () => {
                 let pluginsState = new PluginsState({settings: {save: () => {}, emit: () => {}}});
                 let startVisible = pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).visible;
-                dispatcher.dispatch('Settings.Toggle.PluginByUuid', pluginUuid.SIMULATOR_EV3_UUID);
+                dispatcher.dispatch('Settings.Plugin.ToggleByUuid', pluginUuid.SIMULATOR_EV3_UUID);
                 assert.notEqual(pluginsState.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID).visible, startVisible);
             }
         );
@@ -97,7 +80,7 @@ describe(
                     order:   20
                 }]);
                 assert.equal(pluginsState.getPluginByUuid(testUuid).visible, false);
-                dispatcher.dispatch('Settings.Show.PluginByUuid', testUuid);
+                dispatcher.dispatch('Settings.Plugin.ShowByUuid', testUuid);
                 assert.equal(pluginsState.getPluginByUuid(testUuid).visible, true);
             }
         );

@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform        = require('../../../../lib/platform');
+const platform        = require('../../../../../shared/lib/platform');
 const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
 const DOMNode         = require('../../../../lib/dom').DOMNode;
 const Button          = require('../../../../lib/components/input/Button').Button;
@@ -15,6 +15,7 @@ const Sound           = require('./io/Sound').Sound;
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
+        opts.device = opts.devices.ev3;
         super(opts);
         this._baseClassName = 'ev3';
         this._sound         = new Sound();

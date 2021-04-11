@@ -2,15 +2,19 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform        = require('../lib/platform');
-const dispatcher      = require('../lib/dispatcher').dispatcher;
-const path            = require('../lib/path');
-const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
-const Rtf             = require('../program/output/Rtf').Rtf;
-const SourceFormatter = require('./source/SourceFormatter').SourceFormatter;
-const SettingsState   = require('./settings/SettingsState');
-const CompileAndRun   = require('./CompileAndRun').CompileAndRun;
-const FormDialog      = require('./dialogs/form/FormDialog').FormDialog;
+const path                     = require('../../shared/lib/path');
+const poweredUpModuleConstants = require('../../shared/vm/modules/poweredUpModuleConstants');
+const spikeModuleConstants     = require('../../shared/vm/modules/spikeModuleConstants');
+const platform                 = require('../../shared/lib/platform');
+const dispatcher               = require('../lib/dispatcher').dispatcher;
+const getDataProvider          = require('../lib/dataprovider/dataProvider').getDataProvider;
+const Rtf                      = require('../program/output/Rtf').Rtf;
+const SourceFormatter          = require('./source/SourceFormatter').SourceFormatter;
+const SettingsState            = require('./settings/SettingsState');
+const CompileAndRun            = require('./CompileAndRun').CompileAndRun;
+const FormDialog               = require('./dialogs/form/FormDialog').FormDialog;
+const connectionHelper         = require('./helper/connectionHelper');
+const deviceCountHelper        = require('./helper/deviceCountHelper');
 
 exports.IDEEvents = class extends CompileAndRun {
     onEditorChanged(info) {
@@ -36,19 +40,19 @@ exports.IDEEvents = class extends CompileAndRun {
 
     // File menu...
     onMenuFileNewFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.File.New.Show', 'File', activeDirectory);
+        dispatcher.dispatch('Dialog.File.New.Show', {type: 'File', activeDirectory: activeDirectory});
     }
 
     onMenuFileNewProjectFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.File.New.Show', 'Project', activeDirectory);
+        dispatcher.dispatch('Dialog.File.New.Show', {type: 'Project', activeDirectory: activeDirectory});
     }
 
     onMenuFileNewImageFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.Image.New.Show', activeDirectory, this._settings.getDocumentPath());
+        dispatcher.dispatch('Dialog.Image.New.Show', {activeDirectory: activeDirectory, documentPath: this._settings.getDocumentPath()});
     }
 
     onMenuFileNewFormFile(activeDirectory) {
-        dispatcher.dispatch('Dialog.Form.New.Show', activeDirectory, this._settings.getDocumentPath());
+        dispatcher.dispatch('Dialog.Form.New.Show', {activeDirectory: activeDirectory, documentPath: this._settings.getDocumentPath()});
     }
 
     onMenuFileOpen() {
@@ -63,7 +67,7 @@ exports.IDEEvents = class extends CompileAndRun {
     onResize() {
         let activeEditor = this._editor.getActiveEditor();
         if (activeEditor && activeEditor.getCanResize && activeEditor.getCanResize()) {
-            dispatcher.dispatch('Dialog.Image.Resize.Show', activeEditor.getWidth(), activeEditor.getHeight());
+            dispatcher.dispatch('Dialog.Image.Resize.Show', {width: activeEditor.getWidth(), height: activeEditor.getHeight()});
         }
     }
 
@@ -136,37 +140,51 @@ exports.IDEEvents = class extends CompileAndRun {
         dispatcher.dispatch('Dialog.Statistics.Show', {program: this._program});
     }
 
+    // NXT Menu...
+    onMenuNXTConnect() {
+        connectionHelper.connectNXT(this._settings, this._devices.nxt);
+    }
+
+    onMenuNXTDisconnect() {
+        this._devices.nxt.disconnect();
+    }
+
+    onMenuNXTDeviceCount() {
+        deviceCountHelper.selectNXTDeviceCount(this._settings, this._devices.nxt);
+    }
+
+    onMenuNXTDirectControl() {
+        dispatcher.dispatch('Dialog.NXTControl.Show', {deviceCount: this._settings.getNXTDeviceCount()});
+    }
+
+    onMenuNXTSensorType() {
+        dispatcher.dispatch('Dialog.SensorType.Show', {});
+    }
+
     // EV3 Menu...
     onMenuEV3Connect() {
-        dispatcher.dispatch('Dialog.ConnectEV3.Show');
-        this.onSelectDeviceEV3();
+        connectionHelper.connectEV3(this._settings, this._devices.ev3);
     }
 
     onMenuEV3DaisyChain() {
-        dispatcher.dispatch('Dialog.DaisyChain.Show', this._settings.getDaisyChainMode());
+        deviceCountHelper.selectEV3DaisyChainMode(this._settings, this._devices.ev3);
     }
 
     onMenuEV3DirectControl() {
-        dispatcher.dispatch(
-            'Dialog.EV3Control.Show',
-            {
-                deviceCount: this._settings.getDaisyChainMode()
-            }
-        );
+        dispatcher.dispatch('Dialog.EV3Control.Show', {deviceCount: this._settings.getDaisyChainMode()});
     }
 
     onMenuEV3StopAllMotors() {
-        this._ev3.stopAllMotors();
+        this._devices.ev3.stopAllMotors();
     }
 
     // Powered Up Menu...
     onMenuPoweredUpConnect() {
-        dispatcher.dispatch('Dialog.ConnectPoweredUp.Show');
-        this.onSelectDevicePoweredUp();
+        connectionHelper.connectPoweredUp(this._settings, this._devices.poweredUp);
     }
 
     onMenuPoweredUpDisconnect() {
-        this._poweredUp.disconnect();
+        this._devices.poweredUp.disconnect();
     }
 
     onMenuPoweredUpAutoConnect() {
@@ -174,16 +192,15 @@ exports.IDEEvents = class extends CompileAndRun {
         this.onSelectDevicePoweredUp();
     }
 
-    onMenuPoweredDeviceCount() {
-        dispatcher.dispatch('Dialog.DeviceCount.Show', this._settings.getDeviceCount());
-        this.onSelectDevicePoweredUp();
+    onMenuPoweredUpDeviceCount() {
+        deviceCountHelper.selectPoweredUpDeviceCount(this._settings, this._devices.poweredUp);
     }
 
     onMenuPoweredUpDirectControl() {
         dispatcher.dispatch(
             'Dialog.PoweredUpControl.Show',
             {
-                deviceCount: this._settings.getDeviceCount(),
+                deviceCount: this._settings.getPoweredUpDeviceCount(),
                 withAlias:   true
             }
         );
@@ -196,6 +213,29 @@ exports.IDEEvents = class extends CompileAndRun {
                 filename:  this._projectFilename,
                 resources: this._preProcessor.getResources(),
                 program:   this._program
+            }
+        );
+    }
+
+    // Spike Menu...
+    onMenuSpikeConnect() {
+        connectionHelper.connectSpike(this._settings, this._devices.spike);
+    }
+
+    onMenuSpikeDisconnect() {
+        this._devices.spike.disconnect();
+    }
+
+    onMenuSpikeDeviceCount() {
+        deviceCountHelper.selectSpikeDeviceCount(this._settings, this._devices.spike);
+    }
+
+    onMenuSpikeDirectControl() {
+        dispatcher.dispatch(
+            'Dialog.SpikeControl.Show',
+            {
+                deviceCount: this._settings.getSpikeDeviceCount(),
+                withAlias:   false
             }
         );
     }
@@ -281,44 +321,52 @@ exports.IDEEvents = class extends CompileAndRun {
         });
     }
 
+    // NXY...
+    onNXTConnecting() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_INFO, message: 'Connecting to NXT...'});
+    }
+
+    onNXTConnected() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Connected to NXT.'});
+    }
+
+    onNXTDisconnect() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'NXT Disconnected.'});
+    }
+
+    // EV3...
     onEV3Connecting() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: 'Connecting to EV3...'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_INFO, message: 'Connecting to EV3...'});
     }
 
     onEV3Connected() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'Connected to EV3.'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Connected to EV3.'});
     }
 
+    onEV3Disconnect() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'EV3 Disconnected.'});
+    }
+
+    // Powered Up...
     onPoweredUpConnecting(hub) {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_INFO, message: 'Connecting to Powered Up <i>' + hub.title + '</i>...'});
     }
 
     onPoweredUpConnected() {
-        dispatcher.dispatch(
-            'Console.Log',
-            {
-                type:    SettingsState.CONSOLE_MESSAGE_TYPE_HINT,
-                message: 'Connected to Powered Up.', className: 'ok'
-            }
-        );
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Connected to Powered Up.'});
+    }
+
+    onPoweredUpDisconnect() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Powered Up disconnected.'});
+    }
+
+    // Spike...
+    onSpikeConnecting(hub) {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_INFO, message: 'Connecting to Spike...'});
+    }
+
+    onSpikeConnected() {
+        dispatcher.dispatch('Console.Log', {type: SettingsState.CONSOLE_MESSAGE_TYPE_HINT, message: 'Connected to Spike.'});
     }
 
     onCreatedPreProcessor(preProcessor) {
@@ -408,7 +456,7 @@ exports.IDEEvents = class extends CompileAndRun {
             setTimeout(this.run.bind(this), 200);
         }
         this._compileAndRunInstall
-            .setEV3(this._ev3)
+            .setEV3(this._devices.ev3)
             .setProgram(this._program)
             .setPreProcessor(this._preProcessor)
             .setProjectFilename(this._projectFilename)

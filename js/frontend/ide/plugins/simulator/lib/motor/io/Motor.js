@@ -185,7 +185,7 @@ exports.Motor = class extends BasicIODevice {
 
     update() {
         let state = this._state;
-        if (!state.getIsMotor()) {
+        if (!state.getIsMotor() || !state.getIsValidMotor()) {
             this._readyElement.className = 'ready';
             return;
         }
@@ -211,19 +211,6 @@ exports.Motor = class extends BasicIODevice {
         }
     }
 
-    onConnecting() {
-        this._state.setType(-1);
-    }
-
-    onDisconnected() {
-        this._state.setType(1);
-    }
-
-    onValueChanged(value) {
-        this._state.setPosition(value);
-        this._positionElement.innerHTML = value;
-    }
-
-    onAssigned(assignment) {
+    onAssigned(assigned) {
     }
 };

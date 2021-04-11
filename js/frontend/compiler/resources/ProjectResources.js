@@ -2,12 +2,12 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../shared/lib/path');
 const errors          = require('../errors');
 const ProjectResource = require('./ProjectResource').ProjectResource;
 const ImageResource   = require('./ImageResource').ImageResource;
 const TextResource    = require('./TextResource').TextResource;
 const FormResource    = require('./FormResource').FormResource;
-const path            = require('../../lib/path');
 
 exports.ProjectResources = class {
     constructor(opts) {

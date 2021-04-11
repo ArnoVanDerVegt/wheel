@@ -56,7 +56,7 @@
 }
 .dialog-background.image-load-dialog .image-preview .image-content .image-container .selected1 {
     position:                       absolute;
-    border:                         var(--focus-border-solid);
+    border:                         var(--focus-border-solid1);
 }
 .dialog-background.image-load-dialog .image-preview .image-content .image-container .selected2 {
     position:                       absolute;

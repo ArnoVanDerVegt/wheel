@@ -65,7 +65,7 @@ exports.HelpOption = class extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'frt rel help',
+                className: 'abs help',
                 children: [
                     {
                         type:      'span',

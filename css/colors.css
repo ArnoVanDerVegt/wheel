@@ -66,10 +66,10 @@ body.ide {
     --source-woc-default-weight:    normal;
 
     --home-background:              linear-gradient(0deg, rgba(52,152,219,1) 0%, rgba(41,128,185,1) 100%);
-    --home-title-color:             #FFFFFF;
 
     --focus-outline-color:          #000000;
-    --focus-border-solid:           1px solid #383838;
+    --focus-border-solid1:          1px solid #383838;
+    --focus-border-solid2:          2px solid #383838;
     --focus-border-dotted:          1px dotted #383838;
 
     --color-green:                  #4CD137;
@@ -270,11 +270,11 @@ body.ide.dark {
     --source-woc-default-style:     normal;
     --source-woc-default-weight:    normal;
 
-    --home-background:              #656A70;
-    --home-title-color:             #FFFFFF;
+    --home-background:              linear-gradient(0deg, rgba(52,152,219,1) 0%, rgba(41,128,185,1) 100%);
 
     --focus-outline-color:          #FFFFFF;
-    --focus-border-solid:           1px solid #D1DCE8; /* #E8E8E8 */
+    --focus-border-solid1:          1px solid #D1DCE8; /* #E8E8E8 */
+    --focus-border-solid2:          2px solid #D1DCE8; /* #E8E8E8 */
     --focus-border-dotted:          1px dotted #D1DCE8; /* #E8E8E8 */
 
     --color-green:                  #4CD137;

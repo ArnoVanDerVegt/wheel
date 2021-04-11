@@ -25,7 +25,6 @@
                 <li><a href="index.html">Documentation</a></li>
                 <li><a href="../source.html">Source</a></li>
                 <li><a href="../screenshots.html">Screenshots</a></li>
-                <li><a href="../install.html">Install</a></li>
             </ul>
         </div>
     </div>
@@ -53,34 +52,76 @@
                 </table>
             </p>
             <p>
-                <a id="Lightcolors."></a>
-                <div>Light colors.<br/></div>
+                <a id="EV3Lightcolorsandmodes."></a>
+                <div>EV3 Light colors and modes.<br/></div>
                 <div class="source-location">Source: lib/modules/light.whl, line: 15<br/></div>
                 <table class="help-table constants">
                     <tr><td>LIGHT_OFF</td><td>0</td></tr>
                     <tr><td>LIGHT_GREEN</td><td>1</td></tr>
                     <tr><td>LIGHT_RED</td><td>2</td></tr>
                     <tr><td>LIGHT_ORANGE</td><td>3</td></tr>
+                    <tr><td>LIGHT_GREEN_FLASH</td><td>4</td></tr>
+                    <tr><td>LIGHT_RED_FLASH</td><td>5</td></tr>
+                    <tr><td>LIGHT_ORANGE_FLASH</td><td>6</td></tr>
+                    <tr><td>LIGHT_GREEN_PULSE</td><td>7</td></tr>
+                    <tr><td>LIGHT_RED_PULSE</td><td>8</td></tr>
+                    <tr><td>LIGHT_ORANGE_PULSE</td><td>9</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="PoweredUplightcolors."></a>
+                <div>Powered Up light colors.<br/></div>
+                <div class="source-location">Source: lib/modules/light.whl, line: 27<br/></div>
+                <table class="help-table constants">
+                    <tr><td>LIGHT_PU_BLACK</td><td>0</td></tr>
+                    <tr><td>LIGHT_PU_PINK</td><td>1</td></tr>
+                    <tr><td>LIGHT_PU_PURPLE</td><td>2</td></tr>
+                    <tr><td>LIGHT_PU_BLUE</td><td>3</td></tr>
+                    <tr><td>LIGHT_PU_LIGHT_BLUE</td><td>4</td></tr>
+                    <tr><td>LIGHT_PU_CYAN</td><td>5</td></tr>
+                    <tr><td>LIGHT_PU_GREEN</td><td>6</td></tr>
+                    <tr><td>LIGHT_PU_YELLOW</td><td>7</td></tr>
+                    <tr><td>LIGHT_PU_ORANGE</td><td>8</td></tr>
+                    <tr><td>LIGHT_PU_RED</td><td>9</td></tr>
+                    <tr><td>LIGHT_PU_WHITE</td><td>10</td></tr>
+                    <tr><td>LIGHT_PU_NONE</td><td>255</td></tr>
+                </table>
+            </p>
+            <p>
+                <a id="Spikelightcolors."></a>
+                <div>Spike light colors.<br/></div>
+                <div class="source-location">Source: lib/modules/light.whl, line: 41<br/></div>
+                <table class="help-table constants">
+                    <tr><td>LIGHT_SPIKE_PINK</td><td>1</td></tr>
+                    <tr><td>LIGHT_SPIKE_VIOLET</td><td>2</td></tr>
+                    <tr><td>LIGHT_SPIKE_BLUE</td><td>3</td></tr>
+                    <tr><td>LIGHT_SPIKE_AZURE</td><td>4</td></tr>
+                    <tr><td>LIGHT_SPIKE_CYAN</td><td>5</td></tr>
+                    <tr><td>LIGHT_SPIKE_GREEN</td><td>6</td></tr>
+                    <tr><td>LIGHT_SPIKE_YELLOW</td><td>7</td></tr>
+                    <tr><td>LIGHT_SPIKE_ORANGE</td><td>8</td></tr>
+                    <tr><td>LIGHT_SPIKE_RED</td><td>9</td></tr>
+                    <tr><td>LIGHT_SPIKE_WHITE</td><td>10</td></tr>
                 </table>
             </p>
             <a id="Procedures"></a>
             <h4 class="">Procedures</h4>
             <a id="Turnthelightonoroff."></a>
             <h5 class="title-with-source">lightLayer</h5>
-            <div class="source-location">Source: lib/modules/light.whl, line: 45<br/></div>
+            <div class="source-location">Source: lib/modules/light.whl, line: 53<br/></div>
             <p>Turn the light on or off.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="variable">lightLayer</span><span class="operator">(</span><span class="type">number</span> <span class="variable">layer</span><span class="operator">,</span> <span class="type">number</span> <span class="variable">mode</span><span class="operator">)</span>
 </pre>
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-                <tr><td>layer</td><td>number</td><td>The layer, only applies to Powered Up.</td></tr>
+                <tr><td>layer</td><td>number</td><td>The layer, only applies to Powered Up and Spike.</td></tr>
                 <tr><td>mode</td><td>number</td><td>The color and pattern.</td></tr>
             </table>
             <hr/>
             <a id="Turnthelightonoroff."></a>
             <h5 class="title-with-source">light</h5>
-            <div class="source-location">Source: lib/modules/light.whl, line: 53<br/></div>
+            <div class="source-location">Source: lib/modules/light.whl, line: 61<br/></div>
             <p>Turn the light on or off.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">light</span><span class="operator">(</span><span class="type">number</span> <span class="variable">mode</span><span class="operator">)</span>
 </pre>

@@ -15,11 +15,8 @@ const pluginUuid       = require('./plugins/pluginUuid');
 exports.CompileAndRun = class extends DOMUtils {
     constructor(opts) {
         super();
-        let settings  = opts.settings;
-        let ev3       = opts.ev3;
-        let poweredUp = opts.poweredUp;
-        this._ev3                     = ev3;
-        this._poweredUp               = poweredUp;
+        let settings = opts.settings;
+        this._devices                 = opts.devices;
         this._settings                = opts.settings;
         this._outputPath              = '';
         this._projectFilename         = '';
@@ -37,21 +34,27 @@ exports.CompileAndRun = class extends DOMUtils {
         this._compiling               = false;
         this._compileFinishedCallback = false;
         this._simulatorModules        = new SimulatorModules({settings: this._settings, ide: this});
-        // EV3 events...
-        ev3
-            .addEventListener('EV3.Connected',    this, this.onDeviceConnected)
-            .addEventListener('EV3.Disconnected', this, this.onDeviceDisconnected);
-        // EV3 events...
-        poweredUp
+        opts.devices.nxt
+            .addEventListener('EV3.Connected',          this, this.onDeviceConnected)
+            .addEventListener('EV3.Disconnected',       this, this.onDeviceDisconnected);
+        opts.devices.ev3
+            .addEventListener('EV3.Connected',          this, this.onDeviceConnected)
+            .addEventListener('EV3.Disconnected',       this, this.onDeviceDisconnected);
+        opts.devices.poweredUp
             .addEventListener('PoweredUp.Connected',    this, this.onDeviceConnected)
             .addEventListener('PoweredUp.Disconnected', this, this.onDeviceDisconnected);
+        opts.devices.spike
+            .addEventListener('Spike.Connected',        this, this.onDeviceConnected)
+            .addEventListener('Spike.Disconnected',     this, this.onDeviceDisconnected);
         dispatcher
             .on('VM.Breakpoint',           this, this.onBreakpoint)
             .on('VM.Error.Range',          this, this.onRangeCheckError)
             .on('VM.Error.DivisionByZero', this, this.onDivisionByZero)
             .on('VM.Error.HeapOverflow',   this, this.onHeapOverflow)
-            .on('Button.Device.EV3',       this, this.onSelectDeviceEV3)
-            .on('Button.Device.PoweredUp', this, this.onSelectDevicePoweredUp);
+            .on('Button.Device.NXT',       this, this.onSelectActiveDevice.bind(this, 0))
+            .on('Button.Device.EV3',       this, this.onSelectActiveDevice.bind(this, 1))
+            .on('Button.Device.PoweredUp', this, this.onSelectActiveDevice.bind(this, 2))
+            .on('Button.Device.Spike',     this, this.onSelectActiveDevice.bind(this, 3));
     }
 
     onDeviceConnected() {
@@ -105,16 +108,16 @@ exports.CompileAndRun = class extends DOMUtils {
         this._simulatorModules.setImage(image);
     }
 
-    onSelectDeviceEV3() {
-        dispatcher.dispatch('Settings.Set.ActiveDevice',      0);
-        dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green active'});
-        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green in-active'});
-    }
-
-    onSelectDevicePoweredUp() {
-        dispatcher.dispatch('Settings.Set.ActiveDevice',      1);
-        dispatcher.dispatch('Button.Device.EV3.Change',       {className: 'green in-active'});
-        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: 'green active'});
+    onSelectActiveDevice(activeDevice) {
+        [
+            'Button.Device.NXT.Change',
+            'Button.Device.EV3.Change',
+            'Button.Device.PoweredUp.Change',
+            'Button.Device.Spike.Change'
+        ].forEach((signal, index) => {
+            dispatcher.dispatch(signal, {className: (activeDevice === index) ? 'green active' : 'green in-active'});
+        });
+        dispatcher.dispatch('Settings.Set.ActiveDevice', activeDevice);
     }
 
     getVM() {
@@ -139,7 +142,13 @@ exports.CompileAndRun = class extends DOMUtils {
 
     getModules(vm) {
         let device = () => {
-                return (this._settings.getActiveDevice() === 0) ? this._ev3 : this._poweredUp;
+                switch (this._settings.getActiveDevice()) {
+                    case 0: return this._devices.nxt;
+                    case 1: return this._devices.ev3;
+                    case 2: return this._devices.poweredUp;
+                    case 3: return this._devices.spike;
+                }
+                return this._devices.ev3;
             };
         this._localModules = !device().getConnected();
         return vmModuleLoader.load(vm, this._localModules, device, this);
@@ -226,7 +235,6 @@ exports.CompileAndRun = class extends DOMUtils {
             }
             success = true;
         } catch (error) {
-            console.error(error);
             if (this._compileSilent) {
                 // Compile failed but try to use what we've got for the code completion...
                 dispatcher.dispatch('Compiler.Database', compiler.getScope());
@@ -262,6 +270,7 @@ exports.CompileAndRun = class extends DOMUtils {
                 }
                 this._preProcessor = new PreProcessor({
                     linter:              linter,
+                    globalDefines:       this._settings.getGlobalDefines(),
                     documentPath:        this._settings.getDocumentPath() || '',
                     projectFilename:     this._projectFilename,
                     onGetFileData:       this.onGetFileData.bind(this),
@@ -299,7 +308,7 @@ exports.CompileAndRun = class extends DOMUtils {
     }
 
     runVM() {
-        this._poweredUp.disconnect();
+        this._devices.poweredUp.disconnect();
         this.stop();
         let ipcRenderer = require('electron').ipcRenderer;
         ipcRenderer.send(
@@ -317,15 +326,20 @@ exports.CompileAndRun = class extends DOMUtils {
         dispatcher
             .dispatch('Button.Continue.Change', {disabled: true, hidden: true})
             .dispatch('Button.Run.Change',      {value: 'Run'});
-        if (!this._vm || !this._vm.running()) {
+        let vm = this._vm;
+        if (!vm || !vm.running()) {
             return;
         }
         this.setRunProgramTitle('Run');
-        this._vm.stop();
+        vm.stop();
         this._motors && this._motors.reset();
         let ev3Plugin = this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_EV3_UUID);
-        this._ev3.stopAllMotors(this._settings.getDaisyChainMode());
-        this._poweredUp.stopAllMotors(this._settings.getDeviceCount());
+        let devices   = this._devices;
+        let settings  = this._settings;
+        devices.nxt.stopAllMotors(settings.getNXTDeviceCount());
+        devices.ev3.stopAllMotors(settings.getDaisyChainMode());
+        devices.poweredUp.stopAllMotors(settings.getPoweredUpDeviceCount());
+        devices.spike.stopAllMotors(settings.getSpikeDeviceCount());
         ev3Plugin.getLight().off();
         ev3Plugin.getDisplay().drawLoaded(this._title);
         this.onStop();

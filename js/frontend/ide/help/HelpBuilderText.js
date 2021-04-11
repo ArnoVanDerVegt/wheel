@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../shared/lib/path');
 const dispatcher      = require('../../lib/dispatcher').dispatcher;
-const path            = require('../../lib/path');
 const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('../data/images').getImage;
 const SettingsState   = require('../settings/SettingsState');
@@ -73,7 +73,6 @@ class HelpBuilderText {
             '                <li><a href="index.html">Documentation</a></li>',
             '                <li><a href="../source.html">Source</a></li>',
             '                <li><a href="../screenshots.html">Screenshots</a></li>',
-            '                <li><a href="../install.html">Install</a></li>',
             '            </ul>',
             '        </div>',
             '    </div>',
@@ -799,9 +798,10 @@ class HelpBuilderText {
                     );
             };
         output.push('<div class="legend">');
+        addLegendItem('n', 'NXT');
         addLegendItem('e', 'EV3');
         addLegendItem('p', 'Powered Up');
-        addLegendItem('m', 'Mindsensors');
+        addLegendItem('s', 'Spike');
         addLegendItem('i', 'IDE');
         output.push('</div>');
         return this;

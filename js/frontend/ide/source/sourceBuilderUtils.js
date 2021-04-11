@@ -3,7 +3,7 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const poweredUpModuleConstants = require('../../../shared/vm/modules/poweredUpModuleConstants');
-const path                     = require('../../lib/path');
+const path                     = require('../../../shared/lib/path');
 const formEditorConstants      = require('../editor/editors/form/formEditorConstants');
 
 let deviceTypeConst = {};

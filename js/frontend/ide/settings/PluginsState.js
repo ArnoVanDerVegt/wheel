@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform     = require('../../lib/platform');
+const platform     = require('../../../shared/lib/platform');
 const dispatcher   = require('../../lib/dispatcher').dispatcher;
 const Emitter      = require('../../lib/Emitter').Emitter;
 const pluginUuid   = require('../plugins/pluginUuid');
@@ -14,9 +14,9 @@ exports.PluginsState = class extends Emitter {
         this._plugins  = this.getDefaultPlugins();
         this._updatePluginByUuid();
         dispatcher
-            .on('Settings.Set.PluginPropertyByUuid', this, this._setPluginPropertyByUuid)
-            .on('Settings.Toggle.PluginByUuid',      this, this._togglePluginByUuid)
-            .on('Settings.Show.PluginByUuid',        this, this._showPluginByUuid);
+            .on('Settings.Plugin.SetByUuid',    this, this._setPropertyByUuid)
+            .on('Settings.Plugin.ToggleByUuid', this, this._toggleByUuid)
+            .on('Settings.Plugin.ShowByUuid',   this, this._showByUuid);
     }
 
     _updatePluginByUuid() {
@@ -25,23 +25,23 @@ exports.PluginsState = class extends Emitter {
         this._pluginByUuid = pluginByUuid;
     }
 
-    _togglePluginByUuid(uuid) {
+    _toggleByUuid(uuid) {
         let plugin = this.getPluginByUuid(uuid);
         if (!plugin) {
             return;
         }
-        this._setPluginPropertyByUuid(uuid, 'visible', !plugin.visible);
+        this._setPropertyByUuid(uuid, 'visible', !plugin.visible);
     }
 
-    _showPluginByUuid(uuid) {
+    _showByUuid(uuid) {
         let plugin = this.getPluginByUuid(uuid);
         if (!plugin) {
             return;
         }
-        this._setPluginPropertyByUuid(uuid, 'visible', true);
+        this._setPropertyByUuid(uuid, 'visible', true);
     }
 
-    _setPluginPropertyByUuid(uuid, property, value) {
+    _setPropertyByUuid(uuid, property, value) {
         let plugin = this.getPluginByUuid(uuid);
         if (!plugin) {
             return;
@@ -54,12 +54,28 @@ exports.PluginsState = class extends Emitter {
     getDefaultPlugins() {
         return [
             {
-                uuid:    pluginUuid.SIMULATOR_EV3_MOTORS_UUID,
-                group:   'EV3',
-                name:    'EV3 Motors',
-                path:    'ev3motors',
+                uuid:    pluginUuid.SIMULATOR_NXT_MOTORS_UUID,
+                group:   'NXT',
+                name:    'NXT motors',
+                path:    'nxtmotors',
                 visible: false,
                 order:   1
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_NXT_SENSORS_UUID,
+                group:   'NXT',
+                name:    'NXT sensors',
+                path:    'nxtsensors',
+                visible: false,
+                order:   2
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_EV3_MOTORS_UUID,
+                group:   'EV3',
+                name:    'EV3 motors',
+                path:    'ev3motors',
+                visible: false,
+                order:   3
             },
             {
                 uuid:    pluginUuid.SIMULATOR_EV3_UUID,
@@ -67,39 +83,63 @@ exports.PluginsState = class extends Emitter {
                 name:    'EV3',
                 path:    'ev3',
                 visible: false,
-                order:   2
+                order:   4
             },
             {
                 uuid:    pluginUuid.SIMULATOR_EV3_SENSORS_UUID,
                 group:   'EV3',
-                name:    'EV3 Sensors',
+                name:    'EV3 sensors',
                 path:    'ev3sensors',
                 visible: false,
-                order:   3
-            },
-            {
-                uuid:    pluginUuid.SIMULATOR_SENSOR_GRAPH_UUID,
-                group:   'EV3',
-                name:    'EV3 Sensor output graph',
-                path:    'graph',
-                visible: false,
-                order:   4
-            },
-            {
-                uuid:    pluginUuid.SIMULATOR_PSP_UUID,
-                group:   'PSP',
-                name:    'PSP',
-                path:    'psp',
-                visible: false,
                 order:   5
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_EV3_SENSOR_GRAPH_UUID,
+                group:   'EV3',
+                name:    'EV3 sensor output graph',
+                path:    'ev3graph',
+                visible: true,
+                order:   6
             },
             {
                 uuid:    pluginUuid.SIMULATOR_POWERED_UP_UUID,
                 group:   'PoweredUp',
                 name:    'Hub',
                 path:    'poweredup',
+                visible: false,
+                order:   7
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_POWERED_UP_GRAPH_UUID,
+                group:   'PoweredUp',
+                name:    'Hub sensor output graph',
+                path:    'poweredupgraph',
+                visible: false,
+                order:   8
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_SPIKE_UUID,
+                group:   'Spike',
+                name:    'Spike',
+                path:    'spike',
+                visible: false,
+                order:   9
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_SPIKE_PORTS_UUID,
+                group:   'Spike',
+                name:    'Spike ports',
+                path:    'spikeports',
+                visible: false,
+                order:   10
+            },
+            {
+                uuid:    pluginUuid.SIMULATOR_SPIKE_SENSOR_GRAPH_UUID,
+                group:   'Spike',
+                name:    'Spike sensor output graph',
+                path:    'spikegraph',
                 visible: true,
-                order:   6
+                order:   11
             }
         ];
     }
@@ -135,7 +175,11 @@ exports.PluginsState = class extends Emitter {
             if (plugin.uuid in pluginIndexByUuid) {
                 let index         = pluginIndexByUuid[plugin.uuid];
                 let defaultPlugin = plugins[index];
-                plugins[index] = Object.assign(defaultPlugin, plugin);
+                for (let i in plugin) {
+                    if (!(i in defaultPlugin) || (i === 'visible')) {
+                        defaultPlugin[i] = plugin[i];
+                    }
+                }
             } else {
                 pluginIndexByUuid[plugin.uuid] = plugins.length;
                 plugins.push(plugin);

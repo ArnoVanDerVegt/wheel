@@ -14,7 +14,6 @@ exports.ComponentDropdownModule = class extends VMIDEModule {
         let dropdown = null;
         let opts     = {};
         let component;
-        console.log(commandId);
         switch (commandId) {
             case componentDropdownModuleConstants.DROPDOWN_SET_HIDDEN:    property = 'hidden';   break;
             case componentDropdownModuleConstants.DROPDOWN_SET_DISABLED:  property = 'disabled'; break;

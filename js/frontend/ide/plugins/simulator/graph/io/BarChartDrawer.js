@@ -13,7 +13,6 @@ exports.BarChartDrawer = class extends ChartDrawer {
         context.fillStyle   = gradient;
         context.strokeStyle = '#FFFFFF';
         context.lineWidth   = 0.5;
-
         let index = buffer.getCurrentOffset();
         for (let i = 0; i < 21; i++) {
             if (i >= buffer.getCurrentSize()) {

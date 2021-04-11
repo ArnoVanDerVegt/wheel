@@ -31,11 +31,11 @@ exports.ColorSensor = class extends Sensor {
     }
 
     onChangeValue(value) {
-       if (this._state.getMode() === sensorModuleConstants.COLOR_COLOR) {
+        if (this._state.getMode() === sensorModuleConstants.COLOR_COLOR) {
             this._refs.specialValueInput.setValue(Math.min(Math.max(value, 0), 7));
-       } else {
+        } else {
             this._numberInputElement.value = value;
-       }
+        }
     }
 
     onChangeMode(mode) {

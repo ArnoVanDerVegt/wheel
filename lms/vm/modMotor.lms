@@ -24,6 +24,7 @@ subcall modMotor {                                                      // 06) M
     JR_EQ8(pModCall_8, 11, mod_motor_read)
     JR_EQ8(pModCall_8, 12, mod_motor_ready)
     JR_EQ8(pModCall_8, 13, mod_motor_ready_bits)
+    JR_EQ8(pModCall_8, 14, mod_motor_threshold)
     RETURN()
 
 mod_motor_set_type:                                                     // 00) motorSetType
@@ -45,7 +46,7 @@ mod_motor_reset:                                                        // 04) m
     CALL(modMotorReset, pRegSrc_32)
     RETURN()
 
-mod_motor_reverse:                                                      // 05) motorReset
+mod_motor_reverse:                                                      // 05) motorReverse
     RETURN()
 
 mod_motor_move_to:                                                      // 06) motorMoveTo
@@ -77,6 +78,9 @@ mod_motor_ready:                                                        // 12) m
 
 mod_motor_ready_bits:                                                   // 13) motorReadyBits
     CALL(modMotorReadyBits, pRegSrc_32)
+    RETURN()
+
+mod_motor_threshold:                                                    // 14) motorThreshold
     RETURN()
 }
 

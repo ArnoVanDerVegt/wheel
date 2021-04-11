@@ -6,9 +6,15 @@
 ; The Move Hub returns the x and y values and the Technic Hub returns the x, y and z values.
 
 #include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
 #include "lib/modules/poweredUp.whl"
 
+#display "Console, Hub"
+
 proc main()
+    ; Select the Powered Up device in the IDE...
+    selectDevice(DEVICE_POWERED_UP)
+
     ; Start reading the Powered Up sensors...
     poweredUpStart()
 
@@ -25,8 +31,8 @@ proc main()
         ; Check if one of the values is changed:
         if (x != lastX) or (y != lastY) or (z != lastZ)
             ; Display the last values:
-            clearConsole();
-            printS("Tilt:")
+            clearConsole()
+            printS("=== Tilt values ===")
             printS("x:")
             printN(x)
             printS("y:")

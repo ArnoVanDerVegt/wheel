@@ -9,6 +9,7 @@ const SensorContainer       = require('./SensorContainer').SensorContainer;
 
 exports.Plugin = class extends SimulatorPlugin {
     constructor(opts) {
+        opts.device    = opts.devices.ev3;
         opts.constants = sensorModuleConstants;
         super(opts);
         this._baseClassName = 'sensors';
@@ -22,7 +23,9 @@ exports.Plugin = class extends SimulatorPlugin {
 
     initDOM(parentNode) {
         let addSensor = this.addSensor.bind(this);
-        let children  = [];
+        let children  = [
+                this.initTitle('EV3 sensors')
+            ];
         for (let i = 0; i < 16; i++) {
             children.push({
                 type:      SensorContainer,
@@ -31,7 +34,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 device:    this._device,
                 simulator: this._simulator,
                 sensors:   this,
-                tabIndex:  this._tabIdex + i * 3,
+                tabIndex:  this._tabIdex + (i & 3),
                 layer:     ~~(i / 4),
                 id:        i & 3,
                 title:     (1 + (i & 3)) + '',
@@ -53,12 +56,13 @@ exports.Plugin = class extends SimulatorPlugin {
 
     onVMStart() {
         this._sensorsElement.className = 'sensors' +
-            (this._plugin.visible ? ' visible' : '') +
-            (this._connected      ? ' running' : '');
+            (this.getVisible() ? ' visible' : '') +
+            (this._connected   ? ' running' : '');
     }
 
     onVMStop() {
-        this._sensorsElement.className = 'sensors' + (this._plugin.visible ? ' visible' : '');
+        this._sensorsElement.className = 'sensors' +
+            (this.getVisible() ? ' visible' : '');
     }
 
     onPluginSettings() {

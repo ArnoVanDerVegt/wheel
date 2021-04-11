@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path       = require('../../../../shared/lib/path');
 const DOMNode    = require('../../../lib/dom').DOMNode;
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
-const path       = require('../../../lib/path');
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 const Dropdown   = require('../../../lib/components/input/Dropdown').Dropdown;
 
@@ -44,6 +44,8 @@ const sizeY     = 25 * 0.75;
 const sizeX2    = sizeX / 2;
 const sizeY2    = sizeY / 2;
 
+const SHOW_SIGNAL = 'Dialog.InverseKinematics.Show';
+
 exports.InverseKinematicsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -54,7 +56,7 @@ exports.InverseKinematicsDialog = class extends Dialog {
         this._mouseTargetX = null;
         this._mouseTargetY = null;
         this.initWindow({
-            showSignal: 'Dialog.InverseKinematics.Show',
+            showSignal: SHOW_SIGNAL,
             width:      gridSizeX * sizeX + 66  + 16,
             height:     gridSizeY * sizeY + 138 + 8 + 16,
             className:  'inverse-kinematics-dialog',
@@ -422,3 +424,5 @@ exports.InverseKinematicsDialog = class extends Dialog {
         });
     }
 };
+
+exports.InverseKinematicsDialog.SHOW_SIGNAL = SHOW_SIGNAL;

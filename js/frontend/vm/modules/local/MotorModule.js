@@ -41,6 +41,7 @@ exports.MotorModule = class extends VMModule {
                 this.emit('Motor.MoveTo', vmData.getRecordFromSrcOffset(['layer', 'id', 'target']));
                 break;
             case motorModuleConstants.MOTOR_MOVE_TO_BITS:
+                // Todo
                 break;
             case motorModuleConstants.MOTOR_ON:
                 this.emit('Motor.On', vmData.getRecordFromSrcOffset(['layer', 'id']));

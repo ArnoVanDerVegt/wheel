@@ -18,8 +18,7 @@ exports.ToolbarBottom = class extends Toolbar {
         this._settings    = opts.settings;
         this._parentNode  = opts.parentNode;
         this._wheelEditor = opts.wheelEditor;
-        this._ev3         = opts.ev3;
-        this._poweredUp   = opts.poweredUp;
+        this._devices     = opts.devices;
         this.initDOM();
         dispatcher
             .on('Compile.Start',   this, this.onCompileStart)
@@ -123,10 +122,9 @@ exports.ToolbarBottom = class extends Toolbar {
 
     addConnectionStatus(wheelEditor) {
         return {
-            ref:       wheelEditor.setRef('connectionStatus'),
-            type:      BluetoothState,
-            ev3:       this._ev3,
-            poweredUp: this._poweredUp
+            ref:     wheelEditor.setRef('connectionStatus'),
+            type:    BluetoothState,
+            devices: this._devices
         };
     }
 

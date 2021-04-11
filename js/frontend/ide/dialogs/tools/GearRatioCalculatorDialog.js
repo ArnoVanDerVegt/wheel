@@ -27,7 +27,7 @@ const GEARS = [
         {value: 'g36',  gear: 36, image: 'images/gears/g36.png',  color: '#2ECC71', title: '36', subTitle: 'Gear'},
         {value: 'g40',  gear: 40, image: 'images/gears/g40.png',  color: '#9B59B6', title: '40', subTitle: 'Gear'},
         {value: 'g56a', gear: 56, image: 'images/gears/g56a.png', color: '#9B59B6', title: '56', subTitle: 'Gear'},
-        {value: 'g56b', gear: 56, image: 'images/gears/g56b.png', color: '#9B59B6', title: '56', subTitle: 'Differential gear'},
+        {value: 'g56b', gear: 56, image: 'images/gears/g56b.png', color: '#9B59B6', title: '56', subTitle: 'gear'},
         {value: 'd16',  gear: 16, image: 'images/gears/d16.png',  color: '#9B59B6', title: '16', subTitle: 'Differential gear'},
         {value: 'd24',  gear: 24, image: 'images/gears/d24.png',  color: '#9B59B6', title: '24', subTitle: 'Differential gear'},
         {value: 'd28a', gear: 28, image: 'images/gears/d28a.png', color: '#F1C40F', title: '28', subTitle: 'Differential gear'},
@@ -45,6 +45,8 @@ const MOTORS = [
         {value: 7, t: 17.3, rpm9:  105, rpm7:   78, image: 'images/ev3/motorLarge64.png',    color: '#D0D4D8', title: 'EV3',        subTitle: 'Large motor'}
     ];
 
+const SHOW_SIGNAL = 'Dialog.GearRatioCalculator.Show';
+
 exports.GearRatioCalculatorDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -53,7 +55,7 @@ exports.GearRatioCalculatorDialog = class extends Dialog {
             this._gearByValue[gear.value] = gear;
         });
         this.initWindow({
-            showSignal: 'Dialog.GearRatioCalculator.Show',
+            showSignal: SHOW_SIGNAL,
             width:      680,
             height:     600,
             className:  'gear-ratio-calculator-dialog',
@@ -148,3 +150,5 @@ exports.GearRatioCalculatorDialog = class extends Dialog {
         return result;
     }
 };
+
+exports.GearRatioCalculatorDialog.SHOW_SIGNAL = SHOW_SIGNAL;

@@ -2,12 +2,12 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform        = require('../../../lib/platform');
+const path            = require('../../../../shared/lib/path');
+const platform        = require('../../../../shared/lib/platform');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const Dialog          = require('../../../lib/components/Dialog').Dialog;
 const Button          = require('../../../lib/components/input/Button').Button;
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const path            = require('../../../lib/path');
 const getHelpData     = require('../../help/helpData').getHelpData;
 const setHelp         = require('../../help/helpData').setHelp;
 const Woc             = require('../../help/woc/Woc').Woc;
@@ -15,6 +15,8 @@ const helpBuilder     = require('../../help/HelpBuilder').helpBuilder;
 const HelpBuilderText = require('../../help/HelpBuilderText');
 const getImage        = require('../../data/images').getImage;
 const WocFileLoader   = require('./components/WocFileLoader').WocFileLoader;
+
+const SHOW_SIGNAL = 'Dialog.Help.Show';
 
 exports.HelpDialog = class extends Dialog {
     constructor(opts) {
@@ -28,7 +30,7 @@ exports.HelpDialog = class extends Dialog {
             title:     'Help'
         });
         dispatcher
-            .on('Dialog.Help.Show',    this, this.onShow)
+            .on(SHOW_SIGNAL,           this, this.onShow)
             .on('Dialog.Help.Rebuild', this, this.onRebuild);
     }
 
@@ -68,7 +70,7 @@ exports.HelpDialog = class extends Dialog {
                 },
                 platform.isElectron() ?
                     {
-                        tabIndex:  1026,
+                        tabIndex:  1027,
                         value:     'Rebuild',
                         color:     'blue',
                         onClick:   this.onRebuild.bind(this)
@@ -77,7 +79,7 @@ exports.HelpDialog = class extends Dialog {
                 platform.isElectron() ?
                     {
                         ref:       this.setRef('saveTextFilesButton'),
-                        tabIndex:  1027,
+                        tabIndex:  1026,
                         value:     'Save html files',
                         color:     'blue',
                         onClick:   this.onRebuildText.bind(this)
@@ -153,3 +155,5 @@ exports.HelpDialog = class extends Dialog {
         this._refs.closeButton.focus();
     }
 };
+
+exports.HelpDialog.SHOW_SIGNAL = SHOW_SIGNAL;

@@ -2,10 +2,10 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../shared/lib/path');
+const platform        = require('../../shared/lib/platform');
 const DOMNode         = require('../lib/dom').DOMNode;
-const platform        = require('../lib/platform');
 const dispatcher      = require('../lib/dispatcher').dispatcher;
-const path            = require('../lib/path');
 const Button          = require('../lib/components/input/Button').Button;
 const getDataProvider = require('../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('./data/images').getImage;
@@ -111,7 +111,7 @@ exports.Setup = class extends DOMNode {
                                         children: [
                                             {
                                                 id:        this.setProgressBarElement.bind(this),
-                                                className: 'flt max-w bar'
+                                                className: 'flt max-w max-h bar'
                                             }
                                         ]
                                     }

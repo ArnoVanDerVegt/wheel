@@ -14,6 +14,12 @@ The Wheel compiler adds code for runtime range checking, turning this feature of
 however it's a very usefull feature to make sure that your code is programmed correctly so keeping it turned on
 during development is advised.
 
+
+@section IDE VM
+
+On a MacBook air with a 1,8 GHz Intel Core i5 processor the VM running in the Electron application
+executes about 240000 instructions per second.
+
 @see rangecheck
 
 @section Application VM

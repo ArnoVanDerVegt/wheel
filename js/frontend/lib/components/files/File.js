@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path    = require('../../../../shared/lib/path');
 const DOMNode = require('../../dom').DOMNode;
-const path    = require('../../path');
 
 const getIcon = function(getImage, file) {
     if (file.directory) {
@@ -15,25 +15,26 @@ const getIcon = function(getImage, file) {
     }
     let image = 'images/files/file.svg';
     switch (path.getExtension(file.name)) {
-        case '.gif':  image = 'images/files/gif.svg';  break;
-        case '.help': image = 'images/files/help.svg'; break;
-        case '.jpg':  image = 'images/files/jpg.svg';  break;
-        case '.jpeg': image = 'images/files/jpg.svg';  break;
-        case '.bmp':  image = 'images/files/bmp.svg';  break;
-        case '.svg':  image = 'images/files/svg.svg';  break;
-        case '.mp3':  image = 'images/files/mp3.svg';  break;
-        case '.ogg':  image = 'images/files/ogg.svg';  break;
-        case '.png':  image = 'images/files/png.svg';  break;
-        case '.rgf':  image = 'images/files/rgf.svg';  break;
-        case '.rsf':  image = 'images/files/rsf.svg';  break;
-        case '.rtf':  image = 'images/files/rtf.svg';  break;
-        case '.txt':  image = 'images/files/txt.svg';  break;
-        case '.wav':  image = 'images/files/wav.svg';  break;
-        case '.whl':  image = 'images/files/whl.svg';  break;
-        case '.whlp': image = 'images/files/whlp.svg'; break;
-        case '.woc':  image = 'images/files/woc.svg';  break;
-        case '.lms':  image = 'images/files/lms.svg';  break;
-        case '.wfrm': image = 'images/files/form.svg'; break;
+        case '.gif':  image = 'images/files/gif.svg';    break;
+        case '.help': image = 'images/files/help.svg';   break;
+        case '.jpg':  image = 'images/files/jpg.svg';    break;
+        case '.jpeg': image = 'images/files/jpg.svg';    break;
+        case '.bmp':  image = 'images/files/bmp.svg';    break;
+        case '.svg':  image = 'images/files/svg.svg';    break;
+        case '.mp3':  image = 'images/files/mp3.svg';    break;
+        case '.ogg':  image = 'images/files/ogg.svg';    break;
+        case '.png':  image = 'images/files/png.svg';    break;
+        case '.rgf':  image = 'images/files/rgf.svg';    break;
+        case '.rsf':  image = 'images/files/rsf.svg';    break;
+        case '.rtf':  image = 'images/files/rtf.svg';    break;
+        case '.txt':  image = 'images/files/txt.svg';    break;
+        case '.wav':  image = 'images/files/wav.svg';    break;
+        case '.whl':  image = 'images/files/whl.svg';    break;
+        case '.whlp': image = 'images/files/whlp.svg';   break;
+        case '.woc':  image = 'images/files/woc.svg';    break;
+        case '.lms':  image = 'images/files/lms.svg';    break;
+        case '.wfrm': image = 'images/files/form.svg';   break;
+        case '.py':   image = 'images/files/python.svg'; break;
     }
     return {
         className: 'no-select file-icon',

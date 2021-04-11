@@ -63,7 +63,8 @@ exports.errors = {
     OBJECT_TYPE_EXPECTED:                    58,
     PROC_DOES_NOT_MATCH_SUPER_PROC:          59,
     NO_SUPER_PROC_FOUND:                     60,
-    RECORD_OR_OBJECT_TYPE_EXPECTED:          61
+    RECORD_OR_OBJECT_TYPE_EXPECTED:          61,
+    UNEXPECTED_META_ELSE:                    62
 };
 
 exports.createError = function(num, token, message) {

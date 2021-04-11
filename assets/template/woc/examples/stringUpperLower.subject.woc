@@ -28,7 +28,6 @@ proc main()
 end
 @end
 
-@load Open upper/lowercase example|examples/string/upperLower.whlp
-@load Open upper/lowercase example for EV3|examples/ev3/string/upperLower.whlp
+@load Open upper/lowercase example|examples/general/string/upperLower.whlp
 
 @see string,toUpperCase,toLowerCase,standard,Modules

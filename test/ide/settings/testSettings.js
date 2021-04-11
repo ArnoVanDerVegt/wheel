@@ -618,7 +618,7 @@ describe(
                     () => {
                         let settings = new SettingsState.SettingsState({});
                         assert.equal(settings.getDontShowConnected(), false);
-                        dispatcher.dispatch('Settings.Set.DontShowConnected', true);
+                        dispatcher.dispatch('Settings.Set.DontShow.Connected', true);
                         assert.equal(settings.getDontShowConnected(), true);
                     }
                 );
@@ -627,7 +627,7 @@ describe(
                     () => {
                         let settings = new SettingsState.SettingsState({});
                         assert.equal(settings.getDontShowOpenForm(), false);
-                        dispatcher.dispatch('Settings.Set.DontShowOpenForm', true);
+                        dispatcher.dispatch('Settings.Set.DontShow.OpenForm', true);
                         assert.equal(settings.getDontShowOpenForm(), true);
                     }
                 );
@@ -636,7 +636,7 @@ describe(
                     () => {
                         let settings = new SettingsState.SettingsState({});
                         assert.equal(settings.getDontShowThemeTile(), false);
-                        dispatcher.dispatch('Settings.Set.DontShowThemeTile', true);
+                        dispatcher.dispatch('Settings.Set.DontShow.ThemeTile', true);
                         assert.equal(settings.getDontShowThemeTile(), true);
                     }
                 );
@@ -649,21 +649,21 @@ describe(
                     'Should set device count',
                     () => {
                         let settings = new SettingsState.SettingsState({});
-                        assert.equal(settings.getDeviceCount(), 1);
-                        dispatcher.dispatch('Settings.Set.DeviceCount', 0);
-                        assert.equal(settings.getDeviceCount(), 1);
-                        dispatcher.dispatch('Settings.Set.DeviceCount', 2);
-                        assert.equal(settings.getDeviceCount(), 2);
+                        assert.equal(settings.getPoweredUpDeviceCount(), 1);
+                        dispatcher.dispatch('Settings.Set.PoweredUpDeviceCount', 0);
+                        assert.equal(settings.getPoweredUpDeviceCount(), 1);
+                        dispatcher.dispatch('Settings.Set.PoweredUpDeviceCount', 2);
+                        assert.equal(settings.getPoweredUpDeviceCount(), 2);
                     }
                 );
                 it(
                     'Should validate device count',
                     () => {
                         let settings = new SettingsState.SettingsState({});
-                        assert.equal(settings.getValidatedDeviceCount(0),  1);
-                        assert.equal(settings.getValidatedDeviceCount(1),  1);
-                        assert.equal(settings.getValidatedDeviceCount(4),  4);
-                        assert.equal(settings.getValidatedDeviceCount(11), 1);
+                        assert.equal(settings.getValidatedDeviceCount( 0, 4),  1);
+                        assert.equal(settings.getValidatedDeviceCount( 1, 4),  1);
+                        assert.equal(settings.getValidatedDeviceCount( 4, 4),  4);
+                        assert.equal(settings.getValidatedDeviceCount(11, 4), 1);
                     }
                 );
             }

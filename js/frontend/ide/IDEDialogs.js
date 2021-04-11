@@ -2,15 +2,18 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform                       = require('../lib/platform');
+const platform                       = require('../../shared/lib/platform');
+const dispatcher                     = require('../lib/dispatcher').dispatcher;
 const getImage                       = require('./data/images').getImage;
 const FileOpenDialog                 = require('./dialogs/file/FileOpenDialog').FileOpenDialog;
 const FileNewDialog                  = require('./dialogs/file/FileNewDialog').FileNewDialog;
 const FileRenameDialog               = require('./dialogs/file/FileRenameDialog').FileRenameDialog;
 const FilePoweredUpProjectDialog     = require('./dialogs/file/FilePoweredUpProjectDialog').FilePoweredUpProjectDialog;
 const ExploreDialog                  = require('./dialogs/ExploreDialog').ExploreDialog;
+const NXTControlDialog               = require('./dialogs/directcontrol/NXTControlDialog').NXTControlDialog;
 const EV3ControlDialog               = require('./dialogs/directcontrol/EV3ControlDialog').EV3ControlDialog;
 const PoweredUpControlDialog         = require('./dialogs/directcontrol/PoweredUpControlDialog').PoweredUpControlDialog;
+const SpikeControlDialog             = require('./dialogs/directcontrol/SpikeControlDialog').SpikeControlDialog;
 const ConfirmDialog                  = require('./dialogs/ConfirmDialog').ConfirmDialog;
 const AlertDialog                    = require('./dialogs/AlertDialog').AlertDialog;
 const SettingsDialog                 = require('./dialogs/settings/SettingsDialog').SettingsDialog;
@@ -22,9 +25,11 @@ const IconDialog                     = require('./dialogs/image/IconDialog').Ico
 const FormNewDialog                  = require('./dialogs/form/FormNewDialog').FormNewDialog;
 const FormSizeDialog                 = require('./dialogs/form/FormSizeDialog').FormSizeDialog;
 const ListDialog                     = require('./dialogs/list/ListDialog').ListDialog;
-const EV3ConnectListDialog           = require('./dialogs/list/EV3ConnectListDialog').EV3ConnectListDialog;
-const PoweredUpConnectListDialog     = require('./dialogs/list/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
-const PoweredUpAutoConnectListDialog = require('./dialogs/list/PoweredUpAutoConnectListDialog').PoweredUpAutoConnectListDialog;
+const NXTConnectListDialog           = require('./dialogs/connection/NXTConnectListDialog').NXTConnectListDialog;
+const EV3ConnectListDialog           = require('./dialogs/connection/EV3ConnectListDialog').EV3ConnectListDialog;
+const PoweredUpConnectListDialog     = require('./dialogs/connection/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
+const PoweredUpAutoConnectListDialog = require('./dialogs/connection/PoweredUpAutoConnectListDialog').PoweredUpAutoConnectListDialog;
+const SpikeConnectListDialog         = require('./dialogs/connection/SpikeConnectListDialog').SpikeConnectListDialog;
 const StatisticsDialog               = require('./dialogs/statistics/StatisticsDialog').StatisticsDialog;
 const VolumeDialog                   = require('./dialogs/VolumeDialog').VolumeDialog;
 const HelpDialog                     = require('./dialogs/help/HelpDialog').HelpDialog;
@@ -35,15 +40,20 @@ const ReplaceDialog                  = require('./dialogs/find/ReplaceDialog').R
 const FindInFilesDialog              = require('./dialogs/find/FindInFilesDialog').FindInFilesDialog;
 const DownloadDialog                 = require('./dialogs/download/DownloadDialog').DownloadDialog;
 const GraphDialog                    = require('./dialogs/GraphDialog').GraphDialog;
+const SensorTypeDialog               = require('./dialogs/SensorTypeDialog').SensorTypeDialog;
 const DeviceAliasDialog              = require('./dialogs/device/DeviceAliasDialog').DeviceAliasDialog;
 const DevicePortAliasDialog          = require('./dialogs/device/DevicePortAliasDialog').DevicePortAliasDialog;
 const DeviceCountDialog              = require('./dialogs/device/DeviceCountDialog').DeviceCountDialog;
 const FormGridSizeDialog             = require('./dialogs/form/FormGridSizeDialog').FormGridSizeDialog;
 const OpenFormDialog                 = require('./dialogs/hint/OpenFormDialog').OpenFormDialog;
 const ConnectedDialog                = require('./dialogs/hint/ConnectedDialog').ConnectedDialog;
+const SaveDialog                     = require('./dialogs/hint/SaveDialog').SaveDialog;
 const GearRatioCalculatorDialog      = require('./dialogs/tools/GearRatioCalculatorDialog').GearRatioCalculatorDialog;
 const InverseKinematicsDialog        = require('./dialogs/tools/InverseKinematicsDialog').InverseKinematicsDialog;
 const WheelToSVGDialog               = require('./dialogs/tools/WheelToSVGDialog').WheelToSVGDialog;
+const ExampleDialog                  = require('./dialogs/example/ExampleDialog').ExampleDialog;
+const DefineListDialog               = require('./dialogs/define/DefineListDialog').DefineListDialog;
+const DefineValueDialog              = require('./dialogs/define/DefineValueDialog').DefineValueDialog;
 const IDEEvents                      = require('./IDEEvents').IDEEvents;
 
 exports.IDEDialogs = class extends IDEEvents {
@@ -51,45 +61,96 @@ exports.IDEDialogs = class extends IDEEvents {
         if (!platform.isElectron()) {
             new FileOpenDialog({getImage: require('../data/images').getImage, ui: this._ui, settings: this._settings});
         }
-        new FileNewDialog                 ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new FileRenameDialog              ({getImage: getImage, ui: this._ui});
-        new FilePoweredUpProjectDialog    ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
-        new ConfirmDialog                 ({getImage: getImage, ui: this._ui});
-        new AlertDialog                   ({getImage: getImage, ui: this._ui});
-        new EV3ConnectListDialog          ({getImage: getImage, ui: this._ui});
-        new EV3ControlDialog              ({getImage: getImage, ui: this._ui, device: this._ev3});
-        new PoweredUpConnectListDialog    ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new PoweredUpAutoConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
-        new PoweredUpControlDialog        ({getImage: getImage, ui: this._ui, settings: this._settings, device: this._poweredUp});
-        new SettingsDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new YesNoCancelDialog             ({getImage: getImage, ui: this._ui});
-        new ImageNewDialog                ({getImage: getImage, ui: this._ui});
-        new ImageResizeDialog             ({getImage: getImage, ui: this._ui});
-        new ImageLoadDialog               ({getImage: getImage, ui: this._ui});
-        new IconDialog                    ({getImage: getImage, ui: this._ui});
-        new FormNewDialog                 ({getImage: getImage, ui: this._ui});
-        new FormSizeDialog                ({getImage: getImage, ui: this._ui});
-        new ListDialog                    ({getImage: getImage, ui: this._ui, showSignal: 'Dialog.List.Show'});
-        new StatisticsDialog              ({getImage: getImage, ui: this._ui});
-        new VolumeDialog                  ({getImage: getImage, ui: this._ui});
-        new DaisyChainDialog              ({getImage: getImage, ui: this._ui});
-        new LicenseDialog                 ({getImage: getImage, ui: this._ui});
-        new DirectoryNewDialog            ({getImage: getImage, ui: this._ui});
-        new ReplaceDialog                 ({getImage: getImage, ui: this._ui});
-        new FindInFilesDialog             ({getImage: getImage, ui: this._ui});
-        new GraphDialog                   ({getImage: getImage, ui: this._ui});
-        new FormGridSizeDialog            ({getImage: getImage, ui: this._ui});
-        new DeviceAliasDialog             ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new DevicePortAliasDialog         ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new DeviceCountDialog             ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new HelpDialog                    ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new OpenFormDialog                ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new ConnectedDialog               ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new ExploreDialog                 ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
-        new DownloadDialog                ({getImage: getImage, ui: this._ui, ev3: this._ev3, settings: this._settings});
-        new GearRatioCalculatorDialog     ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new InverseKinematicsDialog       ({getImage: getImage, ui: this._ui, settings: this._settings});
-        new WheelToSVGDialog              ({getImage: getImage, ui: this._ui, settings: this._settings, ide: this});
+        // Alert/confirm...
+        this
+            .initDialog({Constructor: ConfirmDialog})
+            .initDialog({Constructor: AlertDialog})
+        // File...
+            .initDialog({Constructor: FileNewDialog})
+            .initDialog({Constructor: FileRenameDialog})
+            .initDialog({Constructor: FilePoweredUpProjectDialog, device: this._devices.poweredUp})
+        // Connect...
+            .initDialog({Constructor: NXTConnectListDialog})
+            .initDialog({Constructor: EV3ConnectListDialog})
+            .initDialog({Constructor: SpikeConnectListDialog})
+            .initDialog({Constructor: PoweredUpConnectListDialog})
+            .initDialog({Constructor: PoweredUpAutoConnectListDialog})
+        // Control...
+            .initDialog({Constructor: PoweredUpControlDialog, immidiate: true, device: this._devices.poweredUp}) // Create immediate to listen for device signals...
+            .initDialog({Constructor: NXTControlDialog,       immidiate: true, device: this._devices.nxt})       // Create immediate to listen for device signals...
+            .initDialog({Constructor: EV3ControlDialog,       immidiate: true, device: this._devices.ev3})       // Create immediate to listen for device signals...
+            .initDialog({Constructor: SpikeControlDialog,     immidiate: true, device: this._devices.spike})     // Create immediate to listen for device signals...
+            .initDialog({Constructor: SettingsDialog})
+            .initDialog({Constructor: YesNoCancelDialog})
+        // Image...
+            .initDialog({Constructor: ImageNewDialog})
+            .initDialog({Constructor: ImageResizeDialog})
+            .initDialog({Constructor: ImageLoadDialog})
+            .initDialog({Constructor: IconDialog})
+        // Form...
+            .initDialog({Constructor: FormNewDialog})
+            .initDialog({Constructor: FormSizeDialog})
+        // Misc...
+            .initDialog({Constructor: ListDialog})
+            .initDialog({Constructor: StatisticsDialog})
+            .initDialog({Constructor: VolumeDialog})
+            .initDialog({Constructor: LicenseDialog})
+            .initDialog({Constructor: DirectoryNewDialog})
+            .initDialog({Constructor: ReplaceDialog})
+            .initDialog({Constructor: FindInFilesDialog})
+            .initDialog({Constructor: GraphDialog})
+            .initDialog({Constructor: FormGridSizeDialog})
+            .initDialog({Constructor: ExampleDialog})
+        // Device...
+            .initDialog({Constructor: DeviceAliasDialog})
+            .initDialog({Constructor: DevicePortAliasDialog})
+        // Device count...
+            .initDialog({Constructor: DeviceCountDialog})
+            .initDialog({Constructor: DaisyChainDialog})
+        // Misc...
+            .initDialog({Constructor: HelpDialog, immidiate: true})
+            .initDialog({Constructor: OpenFormDialog})
+            .initDialog({Constructor: SaveDialog})
+        // NXT...
+            .initDialog({Constructor: SensorTypeDialog, nxt: this._devices.nxt})
+        // EV3...
+            .initDialog({Constructor: ConnectedDialog})
+            .initDialog({Constructor: ExploreDialog,  immidiate: true, ev3: this._devices.ev3}) // Create immediate to listen for device signals...
+            .initDialog({Constructor: DownloadDialog, immidiate: true, ev3: this._devices.ev3}) // Create immediate to listen for device signals...
+        // Tools...
+            .initDialog({Constructor: GearRatioCalculatorDialog})
+            .initDialog({Constructor: InverseKinematicsDialog})
+            .initDialog({Constructor: WheelToSVGDialog, ide: this})
+        // Defines...
+            .initDialog({Constructor: DefineListDialog})
+            .initDialog({Constructor: DefineValueDialog});
+        return this;
+    }
+
+    initDialog(constructorOpts) {
+        constructorOpts.getImage = getImage;
+        constructorOpts.ui       = this._ui;
+        constructorOpts.settings = this._settings;
+        let showSignal = constructorOpts.Constructor.SHOW_SIGNAL;
+        if (!showSignal) {
+            throw new Error('Missing show signal');
+        }
+        if (constructorOpts.immidiate) {
+            new constructorOpts.Constructor(constructorOpts);
+            return this;
+        }
+        // Capture the signal...
+        let d = dispatcher.on(
+            showSignal,
+            this,
+            function(opts) {
+                d(); // Remove the listener...
+                // Construct the dialog which contains the new listener...
+                new constructorOpts.Constructor(constructorOpts);
+                // And dispatch the same signal again...
+                dispatcher.dispatch(showSignal, opts);
+            }
+        );
         return this;
     }
 };

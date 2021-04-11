@@ -1,0 +1,61 @@
+; Wheel, copyright (c) 2021 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Object polymorphism example"
+
+#include "lib/modules/standard.whl"
+
+#display "Console"
+
+; Declare a base object with a move method...
+object Animal
+    number x, y
+end
+
+proc Animal.move()
+end
+
+; Declare a Fish object which extends the Animal object...
+object Fish extends Animal
+end
+
+proc Fish.move()
+    printS("A fish swims")
+end
+
+; Declare a Bird object which extends the Animal object...
+object Bird extends Animal
+end
+
+proc Bird.move()
+    printS("A bird flies")
+end
+
+; Declare a Dog object which extends the Animal object...
+object Dog extends Animal
+end
+
+proc Dog.move()
+    printS("A bird walks")
+end
+
+; Declare a list of pointers to the base object:
+^Animal animals[3]
+
+; Declare the animals object variables:
+Fish    fish
+Bird    bird
+Dog     dog
+
+proc main()
+    ; Assign the list values:
+    animals[0] = @fish
+    animals[1] = @bird
+    animals[2] = @dog
+
+    clearConsole()
+
+    number n
+    for n = 0 to 2
+        animals[n].move()
+    end
+end

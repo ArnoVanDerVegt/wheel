@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path       = require('../../shared/lib/path');
 const RgfImage   = require('../../shared/lib/RgfImage').RgfImage;
 const dispatcher = require('./dispatcher').dispatcher;
-const path       = require('./path');
 
 class DropHandler {
     constructor(opts) {
@@ -62,6 +62,7 @@ class DropHandler {
                     case '.whl':
                     case '.whlp':
                     case '.wfrm':
+                    case '.py':
                         dispatcher.dispatch('FileDrop.Open', filename, data, false);
                         break;
                     case '.rgf':

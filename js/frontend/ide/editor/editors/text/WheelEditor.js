@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path             = require('../../../../../shared/lib/path');
 const getDataProvider  = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const dispatcher       = require('../../../../lib/dispatcher').dispatcher;
-const path             = require('../../../../lib/path');
 const Editor           = require('../Editor').Editor;
 const ToolbarBottom    = require('./toolbar/ToolbarBottom').ToolbarBottom;
 const WheelEditorState = require('./WheelEditorState').WheelEditorState;
@@ -103,8 +103,7 @@ exports.WheelEditor = class extends Editor {
                         type:        ToolbarBottom,
                         ui:          this._ui,
                         settings:    this._settings,
-                        ev3:         this._ev3,
-                        poweredUp:   this._poweredUp,
+                        devices:     this._devices,
                         wheelEditor: this
                     }
                 ]

@@ -109,7 +109,11 @@ exports.meta = [
         '#text',
         '#line',
         '#stringlength',
-        '#stringcount'
+        '#stringcount',
+        '#alias',
+        '#ifdef',
+        '#else',
+        '#end'
     ];
 
 exports.proc = [

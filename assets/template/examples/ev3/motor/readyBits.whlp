@@ -5,11 +5,15 @@
 #project "Motor target and readyBits example"
 
 #include "lib/modules/motor.whl"
+#include "lib/modules/device.whl"
 #include "lib/modules/standard.whl"
 
-#display "EV3 Motors"
+#display "EV3, EV3 motors"
 
 proc main()
+    ; Select the EV3 device in the IDE...
+    selectDevice(DEVICE_EV3)
+
     ; Setup the type and speed of motor A...
     motorSetType(OUTPUT_A, MOTOR_LARGE)
     motorSetSpeed(OUTPUT_A, 30)

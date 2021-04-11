@@ -13,9 +13,9 @@ exports.PoweredUpModule = class extends VMModule {
             case poweredUpModuleConstants.POWERED_UP_START:
                 this.emit('PoweredUp.Start', vmData.getRegSrc());
                 let offset = vmData.getRegSrc();
-                // Button:        1
-                // Tilt vector:   3
-                // Accell vector: 3
+                // Button:       1
+                // Tilt vector:  3
+                // Accel vector: 3
                 for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT * (3 + 3 + 1); i++) {
                     vmData.setGlobalNumber(offset + i, 0);
                 }

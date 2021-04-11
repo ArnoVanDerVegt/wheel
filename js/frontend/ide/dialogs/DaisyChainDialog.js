@@ -6,6 +6,8 @@ const dispatcher = require('../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../lib/components/Dialog').Dialog;
 const Radio      = require('../../lib/components/input/Radio').Radio;
 
+const SHOW_SIGNAL = 'Dialog.DaisyChain.Show';
+
 exports.DaisyChainDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -16,7 +18,7 @@ exports.DaisyChainDialog = class extends Dialog {
             title:     'Select daisy chain mode',
             help:      'Chain'
         });
-        dispatcher.on('Dialog.DaisyChain.Show', this, this.onShow);
+        dispatcher.on(SHOW_SIGNAL, this, this.onShow);
     }
 
     initWindowContent(opts) {
@@ -30,10 +32,10 @@ exports.DaisyChainDialog = class extends Dialog {
                 value:     0,
                 className: 'dialog-lt abs',
                 options: [
-                    {value: 0, title: '1 Layer'},
-                    {value: 1, title: '2 Layers'},
-                    {value: 2, title: '3 Layers'},
-                    {value: 3, title: '4 Layers'}
+                    {value: 1, title: '1 Layer'},
+                    {value: 2, title: '2 Layers'},
+                    {value: 3, title: '3 Layers'},
+                    {value: 4, title: '4 Layers'}
                 ]
             },
             this.initButtons([
@@ -48,15 +50,16 @@ exports.DaisyChainDialog = class extends Dialog {
 
     onApply() {
         this.hide();
-        let daisyChainMode = this._refs.radio.getValue();
-        dispatcher.dispatch('EV3.LayerCount', daisyChainMode);
-        dispatcher.dispatch('Settings.Set.DaisyChainMode', daisyChainMode);
+        this._applyCallback(this._refs.radio.getValue());
     }
 
-    onShow(daisyChainMode) {
+    onShow(opts) {
+        this._applyCallback = opts.applyCallback;
         this.show();
         this._refs.radio
-            .setValue(daisyChainMode)
+            .setValue(opts.daisyChainMode)
             .focus();
     }
 };
+
+exports.DaisyChainDialog.SHOW_SIGNAL = SHOW_SIGNAL;

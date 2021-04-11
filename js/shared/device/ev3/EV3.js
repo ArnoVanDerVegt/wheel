@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const platform              = require('../../lib/platform');
 const sensorModuleConstants = require('../../vm/modules/sensorModuleConstants');
 const BasicDevice           = require('../BasicDevice').BasicDevice;
 const CommandQueue          = require('./CommandQueue').CommandQueue;
@@ -11,16 +12,17 @@ const constants             = require('./constants');
 
 exports.EV3 = class extends BasicDevice {
     constructor(opts) {
+        opts.layerCount = 4;
         super(opts);
         this._serialPortConstructor  = opts.serialPortConstructor;
         this._port                   = null;
         this._connectionFailed       = false;
         this._commandQueue           = null;
-        this._layerCount             = 0;
         this._updateListByLayer      = [];
         this._poll                   = {count: 0, layer: 0, main: 0, mainLayer: 0};
         this._stopPolling            = false;
         this._deviceName             = '';
+        this._retryCount             = 0;
         this._startConnectionPolling = this.startConnectionPolling.bind(this);
     }
 
@@ -28,7 +30,13 @@ exports.EV3 = class extends BasicDevice {
         if (this._port) {
             return this._port;
         }
-        this._port = new this._serialPortConstructor(
+        let serialPort;
+        if (platform.isWeb()) {
+            serialPort = new this._serialPortConstructor(this.onOpenError.bind(this));
+        } else {
+            serialPort = new this._serialPortConstructor();
+        }
+        this._port = serialPort.getPort(
             this._deviceName,
             {
                 baudRate:    57600,
@@ -42,20 +50,16 @@ exports.EV3 = class extends BasicDevice {
         return this._port;
     }
 
+    getConnecting() {
+        return this._connecting;
+    }
+
     getConnected() {
         return this._connected;
     }
 
     getCommandQueue() {
         return this._commandQueue;
-    }
-
-    getLayerCount() {
-        return this._layerCount;
-    }
-
-    setLayerCount(layerCount) {
-        this._layerCount = layerCount;
     }
 
     getMotorPosition(layer) {
@@ -110,9 +114,9 @@ exports.EV3 = class extends BasicDevice {
     updateMotorPort(layer, port) {
         let l = this._commandQueue.getLayers()[layer];
         switch (l[port + 4].assigned) {
-            case 7:
-            case 8:
-                this.readMotor(layer, port); // Large Motor
+            case constants.LARGE_MOTOR:
+            case constants.MEDIUM_MOTOR:
+                this.readMotor(layer, port);
                 return true;
         }
         return false;
@@ -122,60 +126,63 @@ exports.EV3 = class extends BasicDevice {
         if (!this._connected) {
             return;
         }
-        if (!this._commandQueue.getLength() && !this._stopPolling) {
-            let poll = this._poll;
-            switch (poll.main) {
-                case 0:
-                    this.getConnectedTypes(poll.mainLayer);
-                    poll.mainLayer++;
-                    if (poll.mainLayer >= this._layerCount) {
-                        poll.mainLayer = 0;
+        let poll              = this._poll;
+        let commandQueue      = this._commandQueue;
+        let assignedPortCount = commandQueue.getAssignedPortCount();
+        if (!commandQueue.getLength() && !this._stopPolling) {
+            if (poll.main === 0) {
+                let nextStep = true;
+                this.getConnectedTypes(poll.mainLayer);
+                if (commandQueue.getFoundDisconnect()) {
+                    commandQueue.setFoundDisconnect(false);
+                    this._retryCount++;
+                    if (this._retryCount > 3) {
+                        this._retryCount = 0;
+                    } else {
+                        nextStep = false;
                     }
-                    break;
-                case 1:
-                    this.readBattery();
-                    break;
-                default:
-                    let updateList = this.getUpdateList(poll.layer);
-                    let i          = 0;
-                    for (i = 0; i < updateList.length; i++) {
-                        let found = updateList[poll.count]();
-                        poll.count++;
-                        if (poll.count >= updateList.length) {
-                            poll.count = 0;
-                            poll.layer++;
-                            if (poll.layer >= this._layerCount) {
-                                poll.layer = 0;
-                            }
-                        }
-                        if (found) {
-                            break;
-                        }
-                    }
-                    break;
-            }
-            let layer = this._commandQueue.getFailedConnectionTypesLayer();
-            if (layer === -1) {
-                poll.main      = (poll.main + 1) % 128;
+                }
+                if (nextStep) {
+                    this._retryCount = 0;
+                    poll.main        = 1;
+                    poll.mainLayer   = (poll.mainLayer + 1) % this._activeLayerCount;
+                }
+            } else if (poll.main === 1) {
+                this.readBattery();
+                poll.main = 2;
             } else {
-                poll.mainLayer = layer;
-                poll.main      = 0;
+                let updateList = this.getUpdateList(poll.layer);
+                let i          = 0;
+                // Iterate through the updateList until we found a port which has a valid type connected...
+                for (i = 0; i < updateList.length; i++) {
+                    let found = updateList[poll.count](); // Try to update the port, found if there's a valid connection
+                    poll.count++;
+                    if (poll.count >= updateList.length) {
+                        poll.count = 0;                                         // Reset the count...
+                        poll.layer = (poll.layer + 1) % this._activeLayerCount; // Move to the next layer...
+                    }
+                    if (found) {
+                        break;
+                    }
+                }
+                poll.main = (poll.main + 1) % ((assignedPortCount > 1) ? 1000 : 200);
             }
         }
-        let time;
-        if (this._stopPolling) {
-            time = 1000;
-        } else {
-            time = Math.ceil(20 / (this._commandQueue.getAssignedPortCount() || 1));
-        }
-        setTimeout(this._startConnectionPolling, time);
+        let time = (assignedPortCount > 1) ? 1 : 20;
+        setTimeout(this._startConnectionPolling, this._stopPolling ? 1000 : time);
     }
 
-    onPortOpen(err) {
-        if (err) {
+    onOpenError(error) {
+        this._port       = null;
+        this._connecting = false;
+        this._connected  = false;
+    }
+
+    onPortOpen(error) {
+        if (error) {
             this._connecting       = false;
             this._connected        = false;
-            this._connectionFailed = err;
+            this._connectionFailed = error;
             return;
         }
         let count = 4;
@@ -198,7 +205,7 @@ exports.EV3 = class extends BasicDevice {
         let commandQueue = new CommandQueue(
                 this,
                 function(data) {
-                    port.write(Buffer.from(data), (error) => {
+                    port.write(data, (error) => {
                         if (error) {
                             console.error('Write err:', error);
                         }
@@ -230,6 +237,8 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
+            type:     null,
+            response: false,
             callback: callback,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
@@ -254,9 +263,9 @@ exports.EV3 = class extends BasicDevice {
                 .addB(offset++);
         }
         this._commandQueue.addToCommandQueue({
-            layer:    layer,
             type:     constants.INPUT_DEVICE_GET_TYPE_MODE,
             response: true,
+            layer:    layer,
             message:  message
         });
     }
@@ -278,7 +287,7 @@ exports.EV3 = class extends BasicDevice {
         motor.resetDegrees = motor.value;
     }
 
-    motorDegrees(layer, motor, speed, degrees, brake, callback) {
+    motorDegrees(layer, motor, speed, brake, degrees, callback) {
         if (!this._connected) {
             return;
         }
@@ -289,6 +298,8 @@ exports.EV3 = class extends BasicDevice {
         this._commandQueue
             .setMotorMove(layer, motor, degrees)
             .addToCommandQueue({
+                type:     null,
+                response: false,
                 callback: callback,
                 message:  new Message()
                     .addS(constants.DIRECT_COMMAND_PREFIX)
@@ -309,6 +320,8 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
+            type:     null,
+            response: false,
             callback: callback,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
@@ -325,6 +338,8 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
+            type:     null,
+            response: false,
             callback: callback,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
@@ -339,10 +354,10 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
-            layer:    layer,
-            port:     port,
             type:     sensorModuleConstants.SENSOR_TYPE_TOUCH,
             response: true,
+            layer:    layer,
+            port:     port,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_REPLY_PREFIX)
                 .addS(constants.READ_SENSOR)
@@ -372,11 +387,11 @@ exports.EV3 = class extends BasicDevice {
             }
         }
         commandQueue.addToCommandQueue({
+            type:     type,
+            response: false,
             layer:    layer,
             port:     port,
-            type:     type,
             mode:     mode,
-            response: true,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_REPLY_SENSOR_PREFIX)
                 .addS(constants.INPUT_DEVICE_READY_SI)
@@ -393,11 +408,11 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
+            type:     constants.READ_FROM_MOTOR,
+            response: false,
             layer:    layer,
             port:     port,
-            type:     constants.READ_FROM_MOTOR,
             mode:     constants.READ_MOTOR_POSITION,
-            response: true,
             message:  new Message()
                 .addS(constants.DIRECT_COMMAND_REPLY_SENSOR_PREFIX)
                 .addS(constants.INPUT_DEVICE_READY_SI)
@@ -429,8 +444,9 @@ exports.EV3 = class extends BasicDevice {
             return;
         }
         this._commandQueue.addToCommandQueue({
-            type:    constants.UIWRITE,
-            message: new Message()
+            type:     constants.UIWRITE,
+            response: false,
+            message:  new Message()
                 .addS(constants.DIRECT_COMMAND_PREFIX)
                 .addS(constants.UIWRITE)
                 .addS(constants.LED)
@@ -453,10 +469,10 @@ exports.EV3 = class extends BasicDevice {
     downloadFile(filename, data, callback) {
         this._commandQueue && this._commandQueue.addToCommandQueue({
             type:             constants.BEGIN_DOWNLOAD,
-            filename:         filename,
-            data:             data,
             response:         true,
             responseCallback: callback || false,
+            filename:         filename,
+            data:             data,
             message:          new Message()
                 .addS(constants.BEGIN_DOWNLOAD)
                 .addS(messageEncoder.decimalToLittleEndianHex(data.length / 2, 8))
@@ -467,9 +483,9 @@ exports.EV3 = class extends BasicDevice {
     createDir(path, callback) {
         this._commandQueue && this._commandQueue.addToCommandQueue({
             type:             constants.SYSTEM_COMMAND,
-            path:             path,
             response:         true,
             responseCallback: callback || false,
+            path:             path,
             message:          new Message()
                 .addS(constants.CREATE_DIR)
                 .addH(path)
@@ -479,9 +495,9 @@ exports.EV3 = class extends BasicDevice {
     deleteFile(path, callback) {
         this._commandQueue && this._commandQueue.addToCommandQueue({
             type:             constants.SYSTEM_COMMAND,
-            path:             path,
             response:         true,
             responseCallback: callback || false,
+            path:             path,
             command:          constants.DELETE_FILE,
             message:          new Message()
                 .addS(constants.DELETE_FILE)
@@ -499,8 +515,9 @@ exports.EV3 = class extends BasicDevice {
         let commandQueue = this._commandQueue;
         let layers       = commandQueue.getLayers();
         return {
-            layers:  layers,
-            battery: commandQueue.getBattery()
+            connecting: this._connecting,
+            layers:     layers,
+            battery:    commandQueue.getBattery()
         };
     }
 

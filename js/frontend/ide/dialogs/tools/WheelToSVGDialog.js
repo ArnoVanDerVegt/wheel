@@ -2,19 +2,21 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path         = require('../../../../shared/lib/path');
 const DOMNode      = require('../../../lib/dom').DOMNode;
 const dispatcher   = require('../../../lib/dispatcher').dispatcher;
-const path         = require('../../../lib/path');
 const Dialog       = require('../../../lib/components/Dialog').Dialog;
 const TextArea     = require('../../../lib/components/input/TextArea').TextArea;
 const WheelSyntax  = require('../..//help/woc/WheelSyntax').WheelSyntax;
+
+const SHOW_SIGNAL = 'Dialog.WheelToSVG.Show';
 
 exports.WheelToSVGDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._ide = opts.ide;
         this.initWindow({
-            showSignal: 'Dialog.WheelToSVG.Show',
+            showSignal: SHOW_SIGNAL,
             width:      680,
             height:     460,
             className:  'wheel-to-svg-dialog',
@@ -104,3 +106,5 @@ exports.WheelToSVGDialog = class extends Dialog {
         this.show();
     }
 };
+
+exports.WheelToSVGDialog.SHOW_SIGNAL = SHOW_SIGNAL;

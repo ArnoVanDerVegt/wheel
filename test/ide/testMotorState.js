@@ -47,20 +47,6 @@ describe(
                         assert.equal(motorState.getPosition(), -5);
                     }
                 );
-                it(
-                    'Should set type',
-                    () => {
-                        let motorState = new MotorState({});
-                        motorState.setType(1);
-                        assert.equal(motorState.getType(), 1);
-                        motorState.setType(0);
-                        assert.equal(motorState.getType(), 0);
-                        motorState.setType(2);
-                        assert.equal(motorState.getType(), 0);
-                        motorState.setType(3);
-                        assert.equal(motorState.getType(), 1);
-                    }
-                );
             }
         );
         describe(
@@ -96,6 +82,25 @@ describe(
                         assert.equal(motorState.ready(), false);
                     }
                 );
+            }
+        );
+        it(
+            'Should get valid type',
+            () => {
+                let motorState = new MotorState({});
+                assert.equal(motorState.getIsValidType(7),  true);
+                assert.equal(motorState.getIsValidType(8),  true);
+                assert.equal(motorState.getIsValidType(-1), false);
+            }
+        );
+        it(
+            'Should set type',
+            () => {
+                let motorState = new MotorState({});
+                motorState.setType(7);
+                assert.equal(motorState.getRpm(), 101);
+                motorState.setType(8);
+                assert.equal(motorState.getRpm(), 272);
             }
         );
     }

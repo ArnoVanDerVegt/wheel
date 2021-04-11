@@ -9,7 +9,7 @@
 #include "lib/modules/screen.whl"
 #include "lib/modules/psp.whl"
 
-#display "EV3, PSP"
+#display "EV3"
 
 proc drawButtonOutline(number x, number y)
     drawRect(x, y, 22, 12)

@@ -5,13 +5,15 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const HintDialog = require('./HintDialog').HintDialog;
 
+const SHOW_SIGNAL = 'Dialog.Hint.OpenForm';
+
 exports.OpenFormDialog = class extends HintDialog {
     constructor(opts) {
         opts.height           = 248;
         opts.okButton         = 'Close';
         opts.dialogClassName  = 'open-file';
-        opts.signal           = 'Dialog.Hint.OpenForm';
-        opts.dispatchDontShow = 'Settings.Set.DontShowOpenForm';
+        opts.signal           = SHOW_SIGNAL;
+        opts.dispatchDontShow = 'Settings.Set.DontShow.OpenForm';
         opts.title            = 'Opening a form';
         opts.lines            = [
             'You\'re opening a form. The property panel is not visible.',
@@ -38,3 +40,5 @@ exports.OpenFormDialog = class extends HintDialog {
         this.hide();
     }
 };
+
+exports.OpenFormDialog.SHOW_SIGNAL = SHOW_SIGNAL;

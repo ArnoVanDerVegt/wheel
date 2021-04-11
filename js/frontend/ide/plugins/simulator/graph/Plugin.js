@@ -24,7 +24,6 @@ class Chart extends DOMNode {
         super(opts);
         this._parentNode          = opts.parentNode;
         this._plugin              = opts.plugin;
-        this._sensorPlugin        = opts.sensorPlugin;
         this._layer               = opts.layer;
         this._port                = opts.port;
         this._interval            = opts.interval;
@@ -96,68 +95,6 @@ class Chart extends DOMNode {
         this._chartDrawers   = [];
     }
 
-    initTypeAndMode(type, mode) {
-        let img   = this._refs.img;
-        let image = null;
-        switch (type) {
-            case sensorModuleConstants.SENSOR_TYPE_NXT_TOUCH:
-            case sensorModuleConstants.SENSOR_TYPE_TOUCH:
-                image = 'images/ev3/touch64.png';
-                this._gridDrawer   = this._binaryDrawer;
-                this._chartDrawers = [this._binaryDrawer];
-                this._maxValue     = 1;
-                break;
-            case sensorModuleConstants.SENSOR_TYPE_NXT_COLOR:
-            case sensorModuleConstants.SENSOR_TYPE_COLOR:
-                image = 'images/ev3/color64.png';
-                if (mode === sensorModuleConstants.COLOR_COLOR) {
-                    this._gridDrawer   = this._binaryDrawer;
-                    this._chartDrawers = [this._colorBarDrawer];
-                    this._maxValue     = 7;
-                } else {
-                    this._gridDrawer   = this._fillDrawer;
-                    this._chartDrawers = [this._fillDrawer, this._lineDrawer];
-                    this._maxValue     = 100;
-                }
-                break;
-            case sensorModuleConstants.SENSOR_TYPE_NXT_ULTRASONIC:
-            case sensorModuleConstants.SENSOR_TYPE_ULTRASONIC:
-                image = 'images/ev3/ultrasonic64.png';
-                this._gridDrawer   = this._fillDrawer;
-                this._chartDrawers = [this._fillDrawer, this._lineDrawer];
-                this._maxValue     = 255;
-                break;
-            case sensorModuleConstants.SENSOR_TYPE_GYRO:
-                image = 'images/ev3/gyro64.png';
-                this._gridDrawer   = this._lineDrawer;
-                this._chartDrawers = [this._lineDrawer];
-                this._maxValue     = 255;
-                break;
-            case sensorModuleConstants.SENSOR_TYPE_INFRARED:
-                image = 'images/ev3/infrared64.png';
-                this._gridDrawer   = this._lineDrawer;
-                this._chartDrawers = [this._lineDrawer];
-                this._maxValue     = 255;
-                break;
-            case sensorModuleConstants.SENSOR_TYPE_NXT_SOUND:
-                image = 'images/ev3/nxtSound64.png';
-                this._gridDrawer   = this._lineDrawer;
-                this._chartDrawers = [this._lineDrawer];
-                this._maxValue     = 100;
-                break;
-        }
-
-        if (image) {
-            img.src           = getImage(image);
-            img.style.display = 'block';
-        } else {
-            img.style.display = 'none';
-            this._gridDrawer  = null;
-        }
-        this._type = type;
-        this._mode = mode;
-    }
-
     getLayer() {
         return this._layer;
     }
@@ -179,14 +116,12 @@ class Chart extends DOMNode {
         let deltaTime = Date.now() - this._time;
         this._deltaTime += deltaTime;
         if (this._deltaTime > interval) {
-            let sensorContainer = this._sensorPlugin.getSensor(this._layer, this._port);
-            let currentSensor   = sensorContainer.getCurrentSensor();
-            if (currentSensor) {
-                let state  = currentSensor.getState();
-                if ((state.getType() !== this._type) || (state.getMode() !== this._mode)) {
-                    this.initTypeAndMode(state.getType(), state.getMode());
+            let typeAndMode = this._plugin.getSensorTypeAndMode(this._layer, this._port);
+            if (typeAndMode !== null) {
+                if ((typeAndMode.type !== this._type) || (typeAndMode.mode !== this._mode)) {
+                    this._plugin.initTypeAndMode.call(this, typeAndMode.type, typeAndMode.mode);
                 }
-                this._buffer.add(state.getValue());
+                this._buffer.add(this._plugin.getSensorValue(this._layer, this._port));
                 while (this._deltaTime > interval) {
                     this._deltaTime -= interval;
                 }
@@ -229,9 +164,6 @@ exports.Plugin = class extends SimulatorPlugin {
         this._baseClassName       = 'flt rel max-w graph';
         this._disconnectedTimeout = null;
         this.initDOM(opts.parentNode);
-        this._device
-            .addEventListener('EV3.Connected',    this, this.onEV3Connected)
-            .addEventListener('EV3.Disconnected', this, this.onEV3Disconnected);
         opts.settings.on('Settings.Plugin', this, this.onPluginSettings);
         let charts = this._plugin.charts;
         if (charts) {
@@ -246,21 +178,19 @@ exports.Plugin = class extends SimulatorPlugin {
         }
     }
 
-    initTitle() {
+    initAddButton() {
         return [
             {
-                className: 'title',
+                className: 'flt max-w direct-control',
                 children: [
                     {
-                        type:      'span',
-                        innerHTML: 'EV3 Graph'
-                    },
-                    {
-                        type:    Button,
-                        value:   'Add',
-                        color:   'gray',
-                        ui:      this._ui,
-                        onClick: this.onAddChart.bind(this)
+                        type:     Button,
+                        ref:      this.setRef('sensorTypeButton'),
+                        ui:       this._ui,
+                        uiId:     1,
+                        onClick:  this.onAddChart.bind(this),
+                        value:    'Add chart',
+                        color:    'blue'
                     }
                 ]
             }
@@ -274,6 +204,7 @@ exports.Plugin = class extends SimulatorPlugin {
                 ref:       this.setRef('graph'),
                 className: this.getClassName(),
                 children: [
+                    this.initTitle(this.getTitle()),
                     {
                         className: 'chart-container',
                         children: [
@@ -281,7 +212,7 @@ exports.Plugin = class extends SimulatorPlugin {
                                 ref:      this.setRef('charts'),
                                 children: []
                             }
-                        ].concat(this.initTitle())
+                        ].concat(this.initAddButton())
                     }
                 ]
             }
@@ -289,30 +220,23 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     initChart(opts) {
-        opts.plugin       = this;
-        opts.type         = Chart;
-        opts.ui           = this._ui;
-        opts.sensorPlugin = this._simulator.getPluginByUuid('b643ac7c-3886-11ea-a137-2e728ce88125'); // Sensor plugin...
+        opts.plugin = this;
+        opts.type   = Chart;
+        opts.ui     = this._ui;
         this.create(this._refs.charts, opts);
     }
 
     onAddChart() {
-        dispatcher.dispatch(
-            'Dialog.Graph.New.Show',
-            {
-                onApply: this.initChart.bind(this)
-            }
-        );
     }
 
-    onEV3Connected() {
+    onConnected() {
         if (this._disconnectedTimeout) {
             clearTimeout(this._disconnectedTimeout);
             this._disconnectedTimeout = null;
         }
     }
 
-    onEV3Disconnected() {
+    onDisconnected() {
     }
 
     onPluginSettings() {
@@ -325,7 +249,7 @@ exports.Plugin = class extends SimulatorPlugin {
         this._charts.forEach((chart) => {
             charts.push(chart.toJSON());
         });
-        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', this._plugin.uuid, 'charts', charts);
+        dispatcher.dispatch('Settings.Plugin.SetByUuid', this._plugin.uuid, 'charts', charts);
     }
 
     removeChart(chart) {
@@ -336,9 +260,13 @@ exports.Plugin = class extends SimulatorPlugin {
                 break;
             }
         }
-        dispatcher.dispatch('Settings.Set.PluginPropertyByUuid', this._plugin.uuid, 'charts', charts);
+        dispatcher.dispatch('Settings.Plugin.SetByUuid', this._plugin.uuid, 'charts', charts);
     }
 
     reset() {
+    }
+
+    getTitle() {
+        return '';
     }
 };

@@ -5,6 +5,8 @@
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const Dialog     = require('../../lib/components/Dialog').Dialog;
 
+const SHOW_SIGNAL = 'Dialog.YesNoCancel.Show';
+
 exports.YesNoCancelDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -12,7 +14,7 @@ exports.YesNoCancelDialog = class extends Dialog {
         this._onNo     = null;
         this._onCancel = null;
         this.initWindow({
-            showSignal: 'Dialog.YesNoCancel.Show',
+            showSignal: SHOW_SIGNAL,
             width:      600,
             height:     200,
             className:  'confirm-dialog',
@@ -63,14 +65,16 @@ exports.YesNoCancelDialog = class extends Dialog {
         this._dispatchCancel && dispatcher.dispatch(this._dispatchCancel);
     }
 
-    onShow(title, lines, dispatchYes, dispatchNo, dispatchCancel) {
+    onShow(opts) {
         let refs = this._refs;
-        this._dispatchYes    = dispatchYes;
-        this._dispatchNo     = dispatchNo;
-        this._dispatchCancel = dispatchCancel;
-        refs.title.innerHTML = title || 'Title';
-        refs.text.innerHTML  = (lines || ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.']).join('<br/>');
+        this._dispatchYes    = opts.dispatchYes;
+        this._dispatchNo     = opts.dispatchNo;
+        this._dispatchCancel = opts.dispatchCancel;
+        refs.title.innerHTML = opts.title || 'Title';
+        refs.text.innerHTML  = (opts.lines || ['Lorem ipsum dolor sit amet, consectetur adipiscing elit.']).join('<br/>');
         this.show();
         refs.yesButton.focus();
     }
 };
+
+exports.YesNoCancelDialog.SHOW_SIGNAL = SHOW_SIGNAL;

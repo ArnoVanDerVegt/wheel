@@ -1,0 +1,23 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "String number example"
+
+#include "lib/modules/standard.whl"
+#include "lib/modules/string.whl"
+
+#display "Console"
+
+proc main()
+    string s
+    number n = 2.79
+    numberToString(n, s)
+    printS("Number to string:")
+    printS(s)
+
+    s = "4.67"
+    n = stringToNumber(s)
+    printS("String to number:")
+    printN(n)
+
+    halt()
+end

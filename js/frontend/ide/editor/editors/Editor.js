@@ -2,16 +2,15 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../../shared/lib/path');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
 const DOMNode         = require('../../../lib/dom').DOMNode;
-const path            = require('../../../lib/path');
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
 
 exports.Editor = class extends DOMNode {
     constructor(opts) {
         super(opts);
-        this._ev3            = opts.ev3;
-        this._poweredUp      = opts.poweredUp;
+        this._devices        = opts.devices;
         this._ui             = opts.ui;
         this._settings       = opts.settings;
         this._editors        = opts.editors;
@@ -187,6 +186,7 @@ exports.Editor = class extends DOMNode {
                 if (typeof callback === 'function') {
                     callback();
                 }
+                dispatcher.dispatch('Editor.File.Saved');
             }
         );
     }

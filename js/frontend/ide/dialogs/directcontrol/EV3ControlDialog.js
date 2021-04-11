@@ -5,10 +5,15 @@
 const dispatcher          = require('../../../lib/dispatcher').dispatcher;
 const DirectControlDialog = require('./DirectControlDialog').DirectControlDialog;
 
+const SHOW_SIGNAL = 'Dialog.EV3Control.Show';
+
 exports.EV3ControlDialog = class extends DirectControlDialog {
     constructor(opts) {
         opts.layerCount     = 4;
+        opts.portsPerLayer  = 4;
         opts.hasSound       = true;
+        opts.hasVolume      = true;
+        opts.hasBrake       = true;
         opts.title          = 'EV3 Direct control';
         opts.motorValidator = {
             valid:       function(assigned) { return (assigned !== null) && ([7, 8].indexOf(assigned) !== -1); },
@@ -16,7 +21,7 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
             waiting:     function(assigned) { return ([0, -1].indexOf(assigned) !== -1); }
         };
         super(opts);
-        dispatcher.on('Dialog.EV3Control.Show', this, this.onShow);
+        dispatcher.on(SHOW_SIGNAL, this, this.onShow);
     }
 
     initEvents() {
@@ -25,7 +30,7 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
             for (let output = 0; output < 4; output++) {
                 (function(layer, output) {
                     device.on(
-                        'EV3.Layer' + layer + 'Motor' + output + 'Assigned',
+                        'EV3.Layer' + layer + '.Motor.Assigned' + output,
                         this,
                         function(assigned) {
                             /* eslint-disable no-invalid-this */
@@ -33,7 +38,7 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
                         }
                     );
                     device.on(
-                        'EV3.Layer' + layer + 'Motor' + output + 'Changed',
+                        'EV3.Layer' + layer + '.Motor.Changed' + output,
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */
@@ -45,3 +50,5 @@ exports.EV3ControlDialog = class extends DirectControlDialog {
         }
     }
 };
+
+exports.EV3ControlDialog.SHOW_SIGNAL = SHOW_SIGNAL;

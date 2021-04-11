@@ -16,5 +16,5 @@ input[type="button"].close-button {
     -webkit-user-select:            none;
 }
 input[type="button"].close-button.focus {
-    border:                         var(--focus-border-solid);
+    border:                         var(--focus-border-solid1);
 }

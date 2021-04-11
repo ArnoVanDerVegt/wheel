@@ -1,5 +1,5 @@
 ; @module Motor
-; @device E,P
+; @device E,P,S
 ; Wheel, copyright (c) 2017 - present by Arno van der Vegt
 ; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 
@@ -30,11 +30,13 @@
 #define MOTOR_MEDIUM          7
 #define MOTOR_LARGE           8
 
-; @const The motor outputs.
+; @const The motor outputs, `OUTPUT_E` and `OUTPUT_F` can only be used for Spike.
 #define OUTPUT_A              0
 #define OUTPUT_B              1
 #define OUTPUT_C              2
 #define OUTPUT_D              3
+#define OUTPUT_E              4
+#define OUTPUT_F              5
 
 ; @const Bits to identify the motor combinations for ready or to move multiple motors to a given position.
 #define MOTOR_BITS_A    0b0001
@@ -116,7 +118,7 @@ proc motorLayerMoveTo(number layer, number id, number target)
     mod  MODULE_MOTOR, MOTOR_MOVE_TO
 end
 
-; @proc             Move the motor to a given target angle.
+; @proc             Move the motors to a given target angle. This procedure is not implemented in the EV3 VM.
 ; @param layer      The layer, the daisy chained device. 0 is the primary brick.
 ; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
 ; @param target     The target angle.
@@ -231,17 +233,11 @@ proc motorMoveTo(number id, number target)
     motorLayerMoveTo(0, id, target)
 end
 
-; @proc             Move the motor to a given target angle.
+; @proc             Move the motor to a given target angle. This procedure is not implemented in the EV3 VM.
 ; @param bits       The motor bits, the first bit is motor A, the second motor B, etc. Checking motor A and C: 0b0101
 ; @param target     The target angle.
 proc motorMoveToBits(number bits, number target)
     motorLayerMoveToBits(0, bits, target)
-end
-
-; @proc             Turn the motor of the main device on.
-; @param id         The output, the first output is 0. Constants: `OUTPUT_A`, `OUTPUT_B`, `OUTPUT_C`, `OUTPUT_D`.
-proc motorOn(number id)
-    motorLayerOn(0, id)
 end
 
 ; @proc             Turn the motor of the main device on for a given time.

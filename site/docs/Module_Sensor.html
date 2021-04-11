@@ -25,7 +25,6 @@
                 <li><a href="index.html">Documentation</a></li>
                 <li><a href="../source.html">Source</a></li>
                 <li><a href="../screenshots.html">Screenshots</a></li>
-                <li><a href="../install.html">Install</a></li>
             </ul>
         </div>
     </div>
@@ -61,23 +60,26 @@
                 <div>The different sensor types.<br/></div>
                 <div class="source-location">Source: lib/modules/sensor.whl, line: 20<br/></div>
                 <table class="help-table image-constants">
-                    <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/nxtTouch64.png"/></td></div><td>SENSOR_TYPE_NXT_TOUCH</td><td>1</td></tr>
-                    <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/nxtLight64.png"/></td></div><td>SENSOR_TYPE_NXT_LIGHT</td><td>2</td></tr>
-                    <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/nxtSound64.png"/></td></div><td>SENSOR_TYPE_NXT_SOUND</td><td>3</td></tr>
-                    <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/nxtColor64.png"/></td></div><td>SENSOR_TYPE_NXT_COLOR</td><td>4</td></tr>
-                    <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/nxtUltrasonic64.png"/></td></div><td>SENSOR_TYPE_NXT_ULTRASONIC</td><td>5</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/nxt/touch64.png"/></td></div><td>SENSOR_TYPE_NXT_TOUCH</td><td>1</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/nxt/light64.png"/></td></div><td>SENSOR_TYPE_NXT_LIGHT</td><td>2</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/nxt/sound64.png"/></td></div><td>SENSOR_TYPE_NXT_SOUND</td><td>3</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/nxt/color64.png"/></td></div><td>SENSOR_TYPE_NXT_COLOR</td><td>4</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/nxt/ultrasonic64.png"/></td></div><td>SENSOR_TYPE_NXT_ULTRASONIC</td><td>5</td></tr>
+                    <tr><td>&nbsp;<td>SENSOR_TYPE_NXT_TEMPERATURE</td><td>6</td></tr>
                     <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/touch64.png"/></td></div><td>SENSOR_TYPE_TOUCH</td><td>16</td></tr>
                     <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/color64.png"/></td></div><td>SENSOR_TYPE_COLOR</td><td>29</td></tr>
                     <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/ultrasonic64.png"/></td></div><td>SENSOR_TYPE_ULTRASONIC</td><td>30</td></tr>
                     <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/gyro64.png"/></td></div><td>SENSOR_TYPE_GYRO</td><td>32</td></tr>
                     <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/infrared64.png"/></td></div><td>SENSOR_TYPE_INFRARED</td><td>33</td></tr>
-                    <tr><td>&nbsp;<td>SENSOR_TYPE_NXT_TEMPERATURE</td><td>6</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/spike/distance64.png"/></td></div><td>SENSOR_TYPE_SPIKE_DISTANCE</td><td>40</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/spike/color64.png"/></td></div><td>SENSOR_TYPE_SPIKE_COLOR</td><td>41</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/spike/force64.png"/></td></div><td>SENSOR_TYPE_SPIKE_FORCE</td><td>42</td></tr>
                 </table>
             </p>
             <p>
                 <a id="Thesensorreadvalueisinvalid."></a>
                 <div>The sensor read value is invalid.<br/></div>
-                <div class="source-location">Source: lib/modules/sensor.whl, line: 33<br/></div>
+                <div class="source-location">Source: lib/modules/sensor.whl, line: 36<br/></div>
                 <table class="help-table constants">
                     <tr><td>SENSOR_VALUE_INVALID</td><td>-1</td></tr>
                 </table>
@@ -85,7 +87,7 @@
             <p>
                 <a id="Sensorinputports."></a>
                 <div>Sensor input ports.<br/></div>
-                <div class="source-location">Source: lib/modules/sensor.whl, line: 36<br/></div>
+                <div class="source-location">Source: lib/modules/sensor.whl, line: 39<br/></div>
                 <table class="help-table constants">
                     <tr><td>INPUT_1</td><td>0</td></tr>
                     <tr><td>INPUT_2</td><td>1</td></tr>
@@ -96,7 +98,7 @@
             <p>
                 <a id="Colorsensormodes."></a>
                 <div>Color sensor modes.<br/></div>
-                <div class="source-location">Source: lib/modules/sensor.whl, line: 42<br/></div>
+                <div class="source-location">Source: lib/modules/sensor.whl, line: 45<br/></div>
                 <table class="help-table constants">
                     <tr><td>COLOR_REFLECTED</td><td>0</td></tr>
                     <tr><td>COLOR_AMBIENT</td><td>1</td></tr>
@@ -109,7 +111,7 @@
             <p>
                 <a id="Colorvalues."></a>
                 <div>Color values.<br/></div>
-                <div class="source-location">Source: lib/modules/sensor.whl, line: 50<br/></div>
+                <div class="source-location">Source: lib/modules/sensor.whl, line: 53<br/></div>
                 <table class="help-table constants">
                     <tr><td>COLOR_NONE</td><td>0</td></tr>
                     <tr><td>COLOR_BLACK</td><td>1</td></tr>
@@ -119,12 +121,14 @@
                     <tr><td>COLOR_RED</td><td>5</td></tr>
                     <tr><td>COLOR_WHITE</td><td>6</td></tr>
                     <tr><td>COLOR_BROWN</td><td>7</td></tr>
+                    <tr><td>COLOR_VIOLET</td><td>8</td></tr>
+                    <tr><td>COLOR_AZURE</td><td>9</td></tr>
                 </table>
             </p>
             <p>
                 <a id="Buttonvalues,usedfortheinfraredsensor."></a>
                 <div>Button values, used for the infrared sensor.<br/></div>
-                <div class="source-location">Source: lib/modules/sensor.whl, line: 60<br/></div>
+                <div class="source-location">Source: lib/modules/sensor.whl, line: 65<br/></div>
                 <table class="help-table constants">
                     <tr><td>BUTTON_0</td><td>0</td></tr>
                     <tr><td>BUTTON_1</td><td>1</td></tr>
@@ -143,7 +147,7 @@
             <p>
                 <a id="Infraredsensormodes."></a>
                 <div>Infrared sensor modes.<br/></div>
-                <div class="source-location">Source: lib/modules/sensor.whl, line: 74<br/></div>
+                <div class="source-location">Source: lib/modules/sensor.whl, line: 79<br/></div>
                 <table class="help-table constants">
                     <tr><td>ULTRASONIC_CM</td><td>0</td></tr>
                     <tr><td>ULTRASONIC_INCH</td><td>1</td></tr>
@@ -157,7 +161,7 @@
             <p>
                 <a id="Gyrosensormodes."></a>
                 <div>Gyro sensor modes.<br/></div>
-                <div class="source-location">Source: lib/modules/sensor.whl, line: 83<br/></div>
+                <div class="source-location">Source: lib/modules/sensor.whl, line: 88<br/></div>
                 <table class="help-table constants">
                     <tr><td>GYRO_ANGLE</td><td>0</td></tr>
                     <tr><td>GYRO_RATE</td><td>1</td></tr>
@@ -169,7 +173,7 @@
             <p>
                 <a id="Infraredsensormodes."></a>
                 <div>Infrared sensor modes.<br/></div>
-                <div class="source-location">Source: lib/modules/sensor.whl, line: 90<br/></div>
+                <div class="source-location">Source: lib/modules/sensor.whl, line: 95<br/></div>
                 <table class="help-table constants">
                     <tr><td>IR_PROXIMITY</td><td>0</td></tr>
                     <tr><td>IR_SEEKER</td><td>1</td></tr>
@@ -183,7 +187,7 @@
             <h4 class="">Procedures</h4>
             <a id="Setthesensortype."></a>
             <h5 class="title-with-source">sensorLayerSetType</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 98<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 103<br/></div>
             <div class="devices">
         <span class="e">E</span>
             </div>
@@ -201,7 +205,7 @@
             <hr/>
             <a id="getthesensortype."></a>
             <h5 class="title-with-source">sensorLayerGetType</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 109<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 114<br/></div>
             <div class="devices">
         <span class="e">E</span>
         <span class="p">P</span>
@@ -220,7 +224,7 @@
             <a id="Somesensorslikethecolororinfraredsensorcanhavedifferentmodes.Withthisfunction
 youcanselectthemode."></a>
             <h5 class="title-with-source">sensorLayerSetMode</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 119<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 124<br/></div>
             <div class="devices">
         <span class="e">E</span>
         <span class="p">P</span>
@@ -239,7 +243,7 @@ youcanselectthemode."></a>
             <hr/>
             <a id="Resetthesensor,thisfunctioncanonlybeusedfortheqyrosensor."></a>
             <h5 class="title-with-source">sensorLayerReset</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 130<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 135<br/></div>
             <div class="devices">
         <span class="e">E</span>
             </div>
@@ -255,7 +259,7 @@ youcanselectthemode."></a>
             <hr/>
             <a id="Readthesensorvalue."></a>
             <h5 class="title-with-source">sensorLayerRead</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 139<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 144<br/></div>
             <div class="devices">
         <span class="e">E</span>
         <span class="p">P</span>
@@ -273,7 +277,7 @@ youcanselectthemode."></a>
             <hr/>
             <a id="Setthesensortype."></a>
             <h5 class="title-with-source">sensorSetType</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 149<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 154<br/></div>
             <div class="devices">
         <span class="e">E</span>
             </div>
@@ -290,7 +294,7 @@ youcanselectthemode."></a>
             <hr/>
             <a id="Getthesensortypefromtheprimarydevice."></a>
             <h5 class="title-with-source">sensorGetType</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 158<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 163<br/></div>
             <div class="devices">
         <span class="e">E</span>
         <span class="p">P</span>
@@ -308,7 +312,7 @@ youcanselectthemode."></a>
             <a id="Somesensorslinethecolororinfraredsensorcanhavedifferentmodes.Withthisfunctionyou
 canselectthemode."></a>
             <h5 class="title-with-source">sensorSetMode</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 166<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 171<br/></div>
             <div class="devices">
         <span class="e">E</span>
         <span class="p">P</span>
@@ -326,7 +330,7 @@ canselectthemode."></a>
             <hr/>
             <a id="Resetthesensor,thisfunctioncanonlybeusedfortheqyrosensor."></a>
             <h5 class="title-with-source">sensorReset</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 175<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 180<br/></div>
             <div class="devices">
         <span class="e">E</span>
             </div>
@@ -341,7 +345,7 @@ canselectthemode."></a>
             <hr/>
             <a id="Readthesensorvalue."></a>
             <h5 class="title-with-source">sensorRead</h5>
-            <div class="source-location">Source: lib/modules/sensor.whl, line: 182<br/></div>
+            <div class="source-location">Source: lib/modules/sensor.whl, line: 187<br/></div>
             <div class="devices">
         <span class="e">E</span>
         <span class="p">P</span>

@@ -54,6 +54,7 @@ exports.List = class extends Component {
                 item:       item
             }));
         });
+        this._selected = null;
         return result;
     }
 
@@ -78,6 +79,16 @@ exports.List = class extends Component {
         }
     }
 
+    onGlobalUIId() {
+        super.onGlobalUIId();
+        let activeUIId = this._ui.getActiveUIId();
+        this._listItems.forEach((listItem) => {
+            if (listItem.setDisabled) {
+                listItem.setDisabled(this._uiId !== activeUIId);
+            }
+        });
+    }
+
     clear() {
         let list = this._refs.list;
         while (list.childNodes.length > 1) {
@@ -90,6 +101,10 @@ exports.List = class extends Component {
         if (this._listItems.length) {
             this._listItems[0].focus();
         }
+    }
+
+    setLoading(loading) {
+        this._refs.loadingDots.setVisible(loading);
     }
 
     setItems(items) {

@@ -160,8 +160,21 @@ exports.CompileCall = class CompileCall extends CompileScope {
             tokens.shift();
         }
         if (tokens.length === 1) {
-            if (tokens[0].cls === t.TOKEN_STRING) {
+            if (token.cls === t.TOKEN_STRING) {
                 program.addCommand($.CMD_SET, $.T_NUM_L, this.getParameterOffset(scope), $.T_NUM_C, program.addConstantString(tokens[0].lexeme));
+                this.addParameter(scope, 1);
+                return result;
+            } else if (token.cls === t.TOKEN_NUMBER) {
+                let procVar = this.getParameterVr(procVars);
+                if (procVar) {
+                    if (procVar.getArraySize() !== false) {
+                        throw errors.createError(err.ARRAY_TYPE_EXPECTED, token, 'Array type expected.');
+                    }
+                    if (procVar.getType().type !== t.LEXEME_NUMBER) {
+                        throw errors.createError(err.PARAM_TYPE_MISMATCH, token, 'Parameter type mismatch.');
+                    }
+                }
+                program.addCommand($.CMD_SET, $.T_NUM_L, this.getParameterOffset(scope), $.T_NUM_C, tokens[0].value);
                 this.addParameter(scope, 1);
                 return result;
             } else if (tokens[0].lexeme === t.LEXEME_SELF) {
@@ -369,6 +382,8 @@ exports.CompileCall = class CompileCall extends CompileScope {
                 $.CMD_CALL, $.T_NUM_C, scope.getSuper().getCodeOffset() - 1,    $.T_NUM_C, returnStackOffset + scope.getTotalSize() + 3
             );
         } else if (proc === t.LEXEME_PROC) {
+            let stackOffset = scope.getStackOffset();
+            scope.addStackOffset(callStackSize); // Don't overwrite the parameter values when calculating the object (self) pointer!
             if (!opts.callMethod) {
                 // When callMethod is true then this function is called from VarExpression and the address setup is already done!
                 let vrOrType = this._varExpression.compileExpressionToRegister({
@@ -378,6 +393,7 @@ exports.CompileCall = class CompileCall extends CompileScope {
                         selfPointerStackOffset: selfPointerStackOffset
                     }).type;
             }
+            scope.setStackOffset(stackOffset);
             program.addCommand($.CMD_CALL, $.T_NUM_P, 0, $.T_NUM_C, returnStackOffset + scope.getTotalSize() + callStackSize);
         } else {
             program.addCommand($.CMD_CALL, $.T_NUM_C, proc.getEntryPoint() - 1, $.T_NUM_C, returnStackOffset + scope.getTotalSize() + 2);

@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path                                   = require('../../../../../shared/lib/path');
 const dispatcher                             = require('../../../../lib/dispatcher').dispatcher;
-const path                                   = require('../../../../lib/path');
 const TabPanel                               = require('../../../../lib/components/TabPanel').TabPanel;
 const getDataProvider                        = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const SourceBuilder                          = require('../../../source/SourceBuilder').SourceBuilder;
@@ -342,9 +342,11 @@ exports.FormEditor = class extends Editor {
         let refs = this._refs;
         dispatcher.dispatch(
             'Dialog.SelectGridSize.Show',
-            this._settings.getFormGridSize(),
-            function(formGridSize) {
-                refs.grid.setClassName('resource with-shadow form grid' + formGridSize);
+            {
+                gridSize: this._settings.getFormGridSize(),
+                onApply:  (formGridSize) => {
+                    refs.grid.setClassName('resource with-shadow form grid' + formGridSize);
+                }
             }
         );
     }

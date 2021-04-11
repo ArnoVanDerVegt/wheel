@@ -135,23 +135,23 @@ exports.IncludeFilesSetting = class extends DOMNode {
     }
 
     onChangeFile(index, event) {
-        dispatcher.dispatch('Settings.Set.IncludeFile.File', {index: index, file: event.target.value});
+        dispatcher.dispatch('Settings.IncludeFile.SetFile', {index: index, file: event.target.value});
     }
 
     onChangeDescription(index, event) {
-        dispatcher.dispatch('Settings.Set.IncludeFile.Description', {index: index, description: event.target.value});
+        dispatcher.dispatch('Settings.IncludeFile.SetDescription', {index: index, description: event.target.value});
     }
 
     onAddInclude() {
-        dispatcher.dispatch('Settings.Add.IncludeFile');
+        dispatcher.dispatch('Settings.IncludeFile.Add');
     }
 
     onSortUp(index) {
-        dispatcher.dispatch('Settings.Set.IncludeFileUp', index);
+        dispatcher.dispatch('Settings.IncludeFile.SetUp', index);
     }
 
     onSortDown(index) {
-        dispatcher.dispatch('Settings.Set.IncludeFileDown', index);
+        dispatcher.dispatch('Settings.IncludeFile.SetDown', index);
     }
 
     onDelete(index) {
@@ -162,7 +162,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
                 title:         'Confirm delete include file',
                 lines:         ['Are you sure you want to delete the include file', '<i>' + includeFile.file + '</i> ?'],
                 applyCallback: () => {
-                    dispatcher.dispatch('Settings.Delete.IncludeFile', index);
+                    dispatcher.dispatch('Settings.IncludeFile.Delete', index);
                 }
             }
         );
@@ -174,7 +174,7 @@ exports.IncludeFilesSetting = class extends DOMNode {
             {
                 title:         'Confirm restore default includes',
                 lines:         ['Are you sure you want to restore the include list to the default list?'],
-                dispatchApply: 'Settings.Set.IncludeFileDefaults'
+                dispatchApply: 'Settings.IncludeFile.SetDefaults'
             }
         );
     }

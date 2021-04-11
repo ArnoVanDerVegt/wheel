@@ -16,7 +16,6 @@ const InfraredSensor        = require('./io/InfraredSensor').InfraredSensor;
 const SoundSensor           = require('./io/SoundSensor').SoundSensor;
 const TouchSensor           = require('./io/TouchSensor').TouchSensor;
 const UltrasonicSensor      = require('./io/UltrasonicSensor').UltrasonicSensor;
-const MultiplexerSensor     = require('./io/MultiplexerSensor').MultiplexerSensor;
 
 exports.SensorContainer = class extends DOMNode {
     constructor(opts) {
@@ -28,12 +27,7 @@ exports.SensorContainer = class extends DOMNode {
         this._currentSensor      = null;
         this._sensorConstructors = [];
         opts.addSensor(this);
-        opts.device
-           .addEventListener('EV3.Layer' + opts.layer + 'Sensor' + opts.id + 'Changed',  this, this.onValueChanged)
-           .addEventListener('EV3.Layer' + opts.layer + 'Sensor' + opts.id + 'Assigned', this, this.onAssigned)
-           .addEventListener('EV3.Connecting',                                           this, this.onConnecting)
-           .addEventListener('EV3.Connected',                                            this, this.onConnected)
-           .addEventListener('EV3.Disconnected',                                         this, this.onDisconnected);
+        opts.device.addEventListener('EV3.Layer' + opts.layer + '.Sensor.Assigned' + opts.id, this, this.onAssigned);
         this
             .initSensorConstructors()
             .initDOM(opts.parentNode);
@@ -49,7 +43,6 @@ exports.SensorContainer = class extends DOMNode {
         this._sensorConstructors[sensorModuleConstants.SENSOR_TYPE_GYRO          ] = GyroSensor;
         this._sensorConstructors[sensorModuleConstants.SENSOR_TYPE_INFRARED      ] = InfraredSensor;
         this._sensorConstructors[sensorModuleConstants.SENSOR_TYPE_NXT_SOUND     ] = SoundSensor;
-        this._sensorConstructors[sensorModuleConstants.SENSOR_TYPE_MULTIPLEXER   ] = MultiplexerSensor;
         return this;
     }
 
@@ -75,12 +68,8 @@ exports.SensorContainer = class extends DOMNode {
         );
     }
 
-    onValueChanged(value) {
-        this._currentSensor && this._currentSensor.getState().setValue(value);
-    }
-
-    onAssigned(assignment, mode) {
-        let currentConstructor = this._sensorConstructors[assignment] || UnknownSensor;
+    onAssigned(assigned, mode) {
+        let currentConstructor = this._sensorConstructors[assigned] || UnknownSensor;
         if (currentConstructor !== this._currentConstructor) {
             if (this._currentSensor) {
                 this._currentSensor.remove();
@@ -96,23 +85,11 @@ exports.SensorContainer = class extends DOMNode {
         }
         if (this._currentSensor) {
             let state = this._currentSensor.getState();
-            state.setType(assignment);
+            state.setType(assigned);
             if (mode !== null) {
                 state.setMode(parseInt(mode, 10));
             }
         }
-    }
-
-    onConnecting() {
-        this.onAssigned(-1, null);
-    }
-
-    onConnected() {
-        this._currentSensor && this._currentSensor.getState().setConnected(true);
-    }
-
-    onDisconnected() {
-        this._currentSensor && this._currentSensor.getState().setConnected(false);
     }
 
     getCurrentSensor() {

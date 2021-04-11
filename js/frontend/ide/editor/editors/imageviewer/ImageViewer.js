@@ -2,12 +2,12 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../../../shared/lib/path');
 const dispatcher      = require('../../../../lib/dispatcher').dispatcher;
-const path            = require('../../../../lib/path');
 const getDataProvider = require('../../../../lib/dataprovider/dataProvider').getDataProvider;
 const Editor          = require('../Editor').Editor;
-const ToolbarTop                          = require('./toolbar/ToolbarTop').ToolbarTop;
-const ToolbarBottom                       = require('./toolbar/ToolbarBottom').ToolbarBottom;
+const ToolbarTop      = require('./toolbar/ToolbarTop').ToolbarTop;
+const ToolbarBottom   = require('./toolbar/ToolbarBottom').ToolbarBottom;
 
 exports.ImageViewer = class extends Editor {
     constructor(opts) {

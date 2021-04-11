@@ -1,0 +1,45 @@
+; Wheel, copyright (c) 2021 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Spike acceleration example"
+
+#include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
+#include "lib/modules/spike.whl"
+
+#display "Console, Spike"
+
+proc main()
+    ; Select the Spike device in the IDE...
+    selectDevice(DEVICE_SPIKE)
+
+    ; Start updating the spike device status...
+    spikeLayerStart()
+
+    number x, lastX
+    number y, lastY
+    number z, lastZ
+
+    repeat
+        ; Get the values...
+        x = spikeDevices.layer1.accel.x
+        y = spikeDevices.layer1.accel.y
+        z = spikeDevices.layer1.accel.z
+
+        ; Check if one of the values is changed:
+        if (x != lastX) or (y != lastY) or (z != lastZ)
+            ; Display the last values:
+            clearConsole()
+            printS("=== Acceleration values ===")
+            printS("x:")
+            printN(x)
+            printS("y:")
+            printN(y)
+            printS("z:")
+            printN(z)
+
+            lastX = x
+            lastY = y
+            lastZ = z
+        end
+    end
+end

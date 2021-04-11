@@ -2,8 +2,9 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path                = require('../../../../shared/lib/path');
+const platform            = require('../../../../shared/lib/platform');
 const DOMNode             = require('../../../lib/dom').DOMNode;
-const platform            = require('../../../lib/platform');
 const dispatcher          = require('../../../lib/dispatcher').dispatcher;
 const Dialog              = require('../../../lib/components/Dialog').Dialog;
 const Button              = require('../../../lib/components/input/Button').Button;
@@ -11,7 +12,6 @@ const Tabs                = require('../../../lib/components/input/Tabs').Tabs;
 const Radio               = require('../../../lib/components/input/Radio').Radio;
 const Img                 = require('../../../lib/components/basic/Img').Img;
 const getDataProvider     = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const path                = require('../../../lib/path');
 const getImage            = require('../../data/images').getImage;
 const CheckboxSetting     = require('./components/CheckboxSetting').CheckboxSetting;
 const TextInputSetting    = require('./components/TextInputSetting').TextInputSetting;
@@ -24,6 +24,8 @@ const addViewTab          = require('./tabs/addViewTab');
 const addConsoleTab       = require('./tabs/addConsoleTab');
 const addSimulatorTab     = require('./tabs/addSimulatorTab');
 
+const SHOW_SIGNAL = 'Dialog.Settings.Show';
+
 exports.SettingsDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -32,7 +34,7 @@ exports.SettingsDialog = class extends Dialog {
             ui:         opts.ui,
             uiId:       opts.uiId,
             settings:   opts.settings,
-            showSignal: 'Dialog.Settings.Show',
+            showSignal: SHOW_SIGNAL,
             width:      580,
             height:     600,
             className:  'settings-dialog',
@@ -185,3 +187,5 @@ exports.SettingsDialog = class extends Dialog {
         return this._refs;
     }
 };
+
+exports.SettingsDialog.SHOW_SIGNAL = SHOW_SIGNAL;

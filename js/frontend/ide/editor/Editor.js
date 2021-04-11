@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../shared/lib/path');
 const dispatcher      = require('../../lib/dispatcher').dispatcher;
-const path            = require('../../lib/path');
 const DOMUtils        = require('../../lib/dom').DOMUtils;
 const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('../data/images').getImage;
@@ -21,8 +21,7 @@ exports.Editor = class {
             ui:           this._ui,
             editorsState: this._editorsState,
             settings:     opts.settings,
-            ev3:          opts.ev3,
-            poweredUp:    opts.poweredUp,
+            devices:      opts.devices,
             parentNode:   opts.parentNode
         });
         this._selectProjectCompileCallback = null; // Which project should be compiled?

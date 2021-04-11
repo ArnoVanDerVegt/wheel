@@ -1,5 +1,5 @@
+const path            = require('../../../../shared/lib/path');
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
-const path            = require('../../../lib/path');
 
 const MODE_READ  = 0;
 const MODE_WRITE = 1;

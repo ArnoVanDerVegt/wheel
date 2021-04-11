@@ -5,11 +5,13 @@
 const dispatcher  = require('../../../lib/dispatcher').dispatcher;
 const ImageDialog = require('./ImageDialog').ImageDialog;
 
+const SHOW_SIGNAL = 'Dialog.Image.Resize.Show';
+
 exports.ImageResizeDialog = class extends ImageDialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.Image.Resize.Show',
+            showSignal: SHOW_SIGNAL,
             width:      400,
             height:     216,
             className:  'image-dialog',
@@ -43,11 +45,11 @@ exports.ImageResizeDialog = class extends ImageDialog {
         ];
     }
 
-    onShow(width, height) {
+    onShow(opts) {
         super.show();
         let refs = this._refs;
-        refs.width.setValue(width);
-        refs.height.setValue(height);
+        refs.width.setValue(opts.width);
+        refs.height.setValue(opts.height);
         refs.width.focus();
     }
 
@@ -59,3 +61,5 @@ exports.ImageResizeDialog = class extends ImageDialog {
         this.hide();
     }
 };
+
+exports.ImageResizeDialog.SHOW_SIGNAL = SHOW_SIGNAL;

@@ -18,7 +18,7 @@
                     'static with object self extends public private protected super namespace'
                 );
             let types    = words('number string');
-            let meta     = words('#format #noformat #define #include #image #heap #datatype #optimizer #rangecheck #data #project #break #display #resource #text #line #stringlength #stringcount');
+            let meta     = words('#format #noformat #define #include #image #heap #datatype #optimizer #rangecheck #data #project #break #display #resource #text #line #stringlength #stringcount #alias #ifdef #else #end');
 
             function tokenBase(stream, state) {
                 let editor   = stream.lineOracle.doc.cm;

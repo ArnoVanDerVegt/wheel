@@ -3,12 +3,16 @@
 #project "Multi sensor demo"
 
 #include "lib/modules/standard.whl"
+#include "lib/modules/device.whl"
 #include "lib/modules/screen.whl"
 #include "lib/modules/sensorMulti.whl"
 
-#display "EV3 Sensors"
+#display "EV3 sensors"
 
 proc main()
+    ; Select the EV3 device in the IDE...
+    selectDevice(DEVICE_EV3)
+
     setSensorType(SENSOR_TYPE_MULTIPLEXER)
 
     setTextSize(2)

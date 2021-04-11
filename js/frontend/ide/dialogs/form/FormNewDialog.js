@@ -2,14 +2,16 @@
  * Wheel, copyright (c) 2020 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path               = require('../../../../shared/lib/path');
 const dispatcher         = require('../../../lib/dispatcher').dispatcher;
-const path               = require('../../../lib/path');
-const ImageNewDialog     = require('../image/ImageNewDialog').ImageNewDialog;
 const sourceBuilderUtils = require('../../source/sourceBuilderUtils');
+const ImageNewDialog     = require('../image/ImageNewDialog').ImageNewDialog;
+
+const SHOW_SIGNAL = 'Dialog.Form.New.Show';
 
 exports.FormNewDialog = class extends ImageNewDialog {
     constructor(opts) {
-        opts.showSignal = 'Dialog.Form.New.Show';
+        opts.showSignal = SHOW_SIGNAL;
         opts.minWidth   = 128;
         opts.maxWidth   = 800;
         opts.minHeight  =  64;
@@ -60,3 +62,5 @@ exports.FormNewDialog = class extends ImageNewDialog {
         this.hide();
     }
 };
+
+exports.FormNewDialog.SHOW_SIGNAL = SHOW_SIGNAL;

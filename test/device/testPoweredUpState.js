@@ -3,8 +3,8 @@
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
 const poweredUpModuleConstants = require('../../js/shared/vm/modules/poweredUpModuleConstants');
-const PoweredUpState           = require('../../js/frontend/vm/poweredup/PoweredUpState').PoweredUpState;
-const LayerState               = require('../../js/frontend/vm/poweredup/LayerState').LayerState;
+const PoweredUpState           = require('../../js/frontend/vm/device/poweredup/PoweredUpState').PoweredUpState;
+const LayerState               = require('../../js/frontend/vm/device/poweredup/LayerState').LayerState;
 const dispatcher               = require('../../js/frontend/lib/dispatcher').dispatcher;
 const assert                   = require('assert');
 
@@ -187,30 +187,14 @@ describe(
             }
         );
         it(
-            'Should set mode',
-            () => {
-                let mockDataProvider = new MockDataProvider({});
-                let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState._connecting = false; // Force correct state...
-                poweredUpState._connected  = true;  // Force correct state...
-                poweredUpState.setMode(112, 113, 114, () => {});
-                assert.equal(mockDataProvider.getLayer(), 112);
-                assert.equal(mockDataProvider.getPort(),  113);
-                assert.equal(mockDataProvider.getMode(),  114);
-            }
-        );
-        it(
             'Should stop all motors',
             () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState._connecting = false; // Force correct state...
-                poweredUpState._connected  = true;  // Force correct state...
+                poweredUpState.getLayerState(0).setConnected(true); // Force correct state...
                 assert.equal(mockDataProvider.getStopped(),    false);
-                assert.equal(mockDataProvider.getLayerCount(), 0);
                 poweredUpState.stopAllMotors(3);
                 assert.equal(mockDataProvider.getStopped(),    true);
-                assert.equal(mockDataProvider.getLayerCount(), 3);
             }
         );
         it(
@@ -218,8 +202,7 @@ describe(
             () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState._connecting = false; // Force correct state...
-                poweredUpState._connected  = true;  // Force correct state...
+                poweredUpState.getLayerState(0).setConnected(true); // Force correct state...
                 poweredUpState.module(13, 14, {layer: 1, id: 2, hello: 'World'});
                 assert.deepEqual(poweredUpState._queue, [{module: 13, command: 14, data: {layer: 1, id: 2, hello: 'World'}}]);
             }
@@ -229,8 +212,7 @@ describe(
             () => {
                 let mockDataProvider = new MockDataProvider({});
                 let poweredUpState   = new PoweredUpState({dataProvider: mockDataProvider, noTimeout: true});
-                poweredUpState._connecting = false; // Force correct state...
-                poweredUpState._connected  = true;  // Force correct state...
+                poweredUpState.getLayerState(0).setConnected(true); // Force correct state...
                 poweredUpState.module(13, 14, {layer: 1, id: 2, hello: 'Hello'});
                 poweredUpState.module(13, 14, {layer: 1, id: 2, hello: 'World'});
                 assert.deepEqual(poweredUpState._queue, [{module: 13, command: 14, data: {layer: 1, id: 2, hello: 'World'}}]);

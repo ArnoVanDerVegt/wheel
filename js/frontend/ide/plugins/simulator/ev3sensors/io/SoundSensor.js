@@ -10,7 +10,7 @@ exports.SoundSensor = class extends Sensor {
     initDOM(parentNode) {
         this.initMainDom(
             parentNode,
-            'images/ev3/nxtSound64.png',
+            'images/nxt/sound64.png',
             false, // With mode
             [
                 this.getNumberValueInput()
@@ -20,7 +20,7 @@ exports.SoundSensor = class extends Sensor {
     }
 
     onChangeValue(value) {
-        this._numberInputElement.value = value;
+        this._numberInputElement.value = value.toFixed(2);
     }
 
     onConnected() {

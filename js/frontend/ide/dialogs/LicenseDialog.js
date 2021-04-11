@@ -30,11 +30,13 @@ const license = [
         'OTHER DEALINGS IN THE SOFTWARE.'
     ];
 
+const SHOW_SIGNAL = 'Dialog.License.Show';
+
 exports.LicenseDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.License.Show',
+            showSignal: SHOW_SIGNAL,
             width:      600,
             height:     600,
             className:  'no-select license-dialog',
@@ -65,3 +67,5 @@ exports.LicenseDialog = class extends Dialog {
         this._refs.okButton.focus();
     }
 };
+
+exports.LicenseDialog.SHOW_SIGNAL = SHOW_SIGNAL;

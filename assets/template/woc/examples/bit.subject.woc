@@ -43,6 +43,6 @@ proc main()
 end
 @end
 
-@load Open bit example|examples/bit/bit.whlp
+@load Open bit example|examples/general/bit/bit.whlp
 
 @see bit,standard,Modules

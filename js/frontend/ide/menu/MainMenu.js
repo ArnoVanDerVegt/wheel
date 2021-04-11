@@ -2,48 +2,59 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const MainMenu    = require('../../lib/components/mainmenu/MainMenu').MainMenu;
-const ProgressBar = require('../../lib/components/status/ProgressBar').ProgressBar;
-const Button      = require('../../lib/components/input/Button').Button;
-const platform    = require('../../lib/platform');
-const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const tabIndex    = require('../tabIndex');
-const HelpOption  = require('./HelpOption').HelpOption;
+const nxtModuleConstants       = require('../../../shared/vm/modules/nxtModuleConstants');
+const poweredUpModuleConstants = require('../../../shared/vm/modules/poweredUpModuleConstants');
+const spikeModuleConstants     = require('../../../shared/vm/modules/spikeModuleConstants');
+const platform                 = require('../../../shared/lib/platform');
+const MainMenu                 = require('../../lib/components/mainmenu/MainMenu').MainMenu;
+const ProgressBar              = require('../../lib/components/status/ProgressBar').ProgressBar;
+const Button                   = require('../../lib/components/input/Button').Button;
+const dispatcher               = require('../../lib/dispatcher').dispatcher;
+const pluginUuid               = require('../plugins/pluginUuid');
+const tabIndex                 = require('../tabIndex');
+const HelpOption               = require('./HelpOption').HelpOption;
 
 exports.MainMenu = class extends MainMenu {
     constructor(opts) {
         super(opts);
-        let ev3       = opts.ev3;
-        let poweredUp = opts.poweredUp;
-        let settings  = opts.settings;
         this._ui        = opts.ui;
-        this._ev3       = ev3;
-        this._poweredUp = poweredUp;
-        this._settings  = settings;
+        this._devices   = opts.devices;
+        this._settings  = opts.settings;
         this
             .initMenu()
             .initQuickMenu()
             .initHelp()
             .initStorage();
-        // Settings events...
-        settings
+        this._settings
             .addEventListener('Settings.View',        this, this.onUpdateViewMenu)
+            .addEventListener('Settings.NXT',         this, this.onUpdateNXTMenu)
             .addEventListener('Settings.EV3',         this, this.onUpdateEV3Menu)
             .addEventListener('Settings.PoweredUp',   this, this.onUpdatePoweredUpMenu)
             .addEventListener('Settings.Compile',     this, this.onUpdateCompileMenu)
             .addEventListener('Settings.Run',         this, this.onUpdateRunMenu)
             .addEventListener('Settings.Plugin',      this, this.onUpdateSimulatorMenu)
             .addEventListener('Settings.Simulator',   this, this.onUpdateSimulatorMenu);
-        // EV3 events...
-        ev3
+        this._devices.nxt
+            .addEventListener('NXT.Connecting',       this, this.onNXTConnecting)
+            .addEventListener('NXT.StopConnecting',   this, this.onUpdateNXTMenu)
+            .addEventListener('NXT.Connected',        this, this.onUpdateNXTMenu)
+            .addEventListener('NXT.Disconnect',       this, this.onUpdateNXTMenu)
+            .addEventListener('NXT.Disconnected',     this, this.onUpdateNXTMenu);
+        this._devices.ev3
             .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
+            .addEventListener('EV3.StopConnecting',   this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Connected',        this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Disconnect',       this, this.onUpdateEV3Menu)
             .addEventListener('EV3.Disconnected',     this, this.onUpdateEV3Menu);
-        poweredUp
+        this._devices.poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onUpdatePoweredUpMenu)
             .addEventListener('PoweredUp.Disconnect', this, this.onUpdatePoweredUpMenu);
+        this._devices.spike
+            .addEventListener('Spike.Connecting',     this, this.onSpikeConnecting)
+            .addEventListener('Spike.StopConnecting', this, this.onUpdateSpikeMenu)
+            .addEventListener('Spike.Connected',      this, this.onUpdateSpikeMenu)
+            .addEventListener('Spike.Disconnect',     this, this.onUpdateSpikeMenu);
         dispatcher
             .on('VM',                         this, this.onVM)
             .on('VM.Run',                     this, this.onVM)
@@ -166,8 +177,10 @@ exports.MainMenu = class extends MainMenu {
             .initFileMenu()
             .initEditMenu()
             .initFindMenu()
+            .initNXTMenu()
             .initEV3Menu()
             .initPoweredUpMenu()
+            .initSpikeMenu()
             .initCompileMenu()
             .initRunMenu()
             .initViewMenu()
@@ -179,8 +192,10 @@ exports.MainMenu = class extends MainMenu {
             .onUpdateCompileMenu()
             .onUpdateRunMenu()
             .onVM()
+            .onUpdateNXTMenu()
             .onUpdateEV3Menu()
             .onUpdatePoweredUpMenu()
+            .onUpdateSpikeMenu()
             .onUpdateFileMenu();
     }
 
@@ -261,18 +276,42 @@ exports.MainMenu = class extends MainMenu {
         return this;
     }
 
+    initNXTMenu() {
+        let remarkConnect     = 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + this._settings.getNXTDeviceCount() + '/' + nxtModuleConstants.LAYER_COUNT + ')';
+        this._nxtMenu = this.addMenu({
+            title:     '^NXT',
+            width:     '272px',
+            className: 'nxt-menu',
+            withCheck: true,
+            items: [
+                {title: 'Connect',                      remark: remarkConnect,     dispatch: 'Menu.NXT.Connect'},
+                {title: 'Disconnect',                                              dispatch: 'Menu.NXT.Disconnect'},
+                {title: '-'},
+                {title: 'Sensor type',                                             dispatch: 'Menu.NXT.SensorType'},
+                {title: 'Device count',                 remark: remarkDeviceCount, dispatch: 'Menu.NXT.DeviceCount'},
+                {title: '-'},
+                {title: 'Direct control',                                          dispatch: 'Menu.NXT.DirectControl'},
+                {title: 'Stop all motors',                                         dispatch: 'Menu.NXT.StopAllMotors'}
+            ]
+        });
+        return this;
+    }
+
     initEV3Menu() {
+        let remarkConnect   = 'No device connected';
+        let remarDaisyChain = 'Set the daisy chain mode (' + this._settings.getDaisyChainMode() + '/4)';
         this._ev3Menu = this.addMenu({
             title:     'EV^3',
             width:     '256px',
             className: 'ev3-menu',
             withCheck: true,
             items: [
-                {title: 'Connect',                                                dispatch: 'Menu.EV3.Connect'},
+                {title: 'Connect',                      remark: remarkConnect,    dispatch: 'Menu.EV3.Connect'},
                 {title: 'Disconnect',                                             dispatch: 'Menu.EV3.Disconnect'},
                 {title: 'Autoconnect',                                            dispatch: 'Settings.Toggle.EV3AutoConnect'},
                 {title: '-'},
-                {title: 'Daisy chain mode',                                       dispatch: 'Menu.EV3.DaisyChainMode'},
+                {title: 'Daisy chain mode',             remark: remarDaisyChain,  dispatch: 'Menu.EV3.DaisyChainMode'},
                 {title: '-'},
                 {title: 'EV3 File viewer',              hotkey: ['command', 'L'], dispatch: 'Dialog.Explore.Show'},
                 {title: 'Direct control',                                         dispatch: 'Menu.EV3.DirectControl'},
@@ -283,28 +322,28 @@ exports.MainMenu = class extends MainMenu {
             ]
         });
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
-        menuOptions[0].setEnabled(platform.isElectron()); // Connect
         menuOptions[1].setEnabled(false);                 // Disconnect
-        menuOptions[2].setEnabled(platform.isElectron()); // Autoconnect
         menuOptions[7].setEnabled(false);                 // Install compiled files
         return this;
     }
 
     initPoweredUpMenu() {
+        let remarkConnect     = 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + this._settings.getPoweredUpDeviceCount() + '/' + poweredUpModuleConstants.LAYER_COUNT + ')';
         this._poweredUpMenu = this.addMenu({
             title:     '^PoweredUp',
-            width:     '256px',
-            className: 'ev3-menu',
+            width:     '288px',
+            className: 'powered-up-menu',
             withCheck: true,
             items: [
-                {title: 'Connect',                                                dispatch: 'Menu.PoweredUp.Connect'},
-                {title: 'Disconnect',                                             dispatch: 'Menu.PoweredUp.Disconnect'},
-                {title: 'Autoconnect',                                            dispatch: 'Menu.PoweredUp.AutoConnect'},
+                {title: 'Connect',                      remark: remarkConnect,     dispatch: 'Menu.PoweredUp.Connect'},
+                {title: 'Disconnect',                                              dispatch: 'Menu.PoweredUp.Disconnect'},
+                {title: 'Autoconnect',                                             dispatch: 'Menu.PoweredUp.AutoConnect'},
                 {title: '-'},
-                {title: 'Device count',                                           dispatch: 'Menu.PoweredUp.DeviceCount'},
+                {title: 'Device count',                 remark: remarkDeviceCount, dispatch: 'Menu.PoweredUp.DeviceCount'},
                 {title: '-'},
-                {title: 'Direct control',                                         dispatch: 'Menu.PoweredUp.DirectControl'},
-                {title: 'Stop all motors',                                        dispatch: 'Menu.PoweredUp.StopAllMotors'}
+                {title: 'Direct control',                                          dispatch: 'Menu.PoweredUp.DirectControl'},
+                {title: 'Stop all motors',                                         dispatch: 'Menu.PoweredUp.StopAllMotors'}
             ]
         });
         let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
@@ -313,6 +352,27 @@ exports.MainMenu = class extends MainMenu {
         menuOptions[1].setEnabled(false);                                       // Disconnect
         menuOptions[2].setEnabled(platform.isElectron() || platform.isNode());  // Autoconnect, not in browser!
         menuOptions[4].setEnabled(false);                                       // Direct control
+        return this;
+    }
+
+    initSpikeMenu() {
+        let remarkConnect     = 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + this._settings.getSpikeDeviceCount() + '/' + spikeModuleConstants.LAYER_COUNT + ')';
+        this._spikeMenu = this.addMenu({
+            title:     'Sp^ike',
+            width:     '272px',
+            className: 'spike-menu',
+            withCheck: true,
+            items: [
+                {title: 'Connect',                      remark: remarkConnect,     dispatch: 'Menu.Spike.Connect'},
+                {title: 'Disconnect',                                              dispatch: 'Menu.Spike.Disconnect'},
+                {title: '-'},
+                {title: 'Device count',                 remark: remarkDeviceCount, dispatch: 'Menu.Spike.DeviceCount'},
+                {title: '-'},
+                {title: 'Direct control',                                          dispatch: 'Menu.Spike.DirectControl'},
+                {title: 'Stop all motors',                                         dispatch: 'Menu.Spike.StopAllMotors'}
+            ]
+        });
         return this;
     }
 
@@ -327,6 +387,7 @@ exports.MainMenu = class extends MainMenu {
                 {title: 'Compile and install on EV3',                             dispatch: 'Menu.Compile.CompileAndInstall'},
                 {title: '-'},
                 {title: 'Linter',                                                 dispatch: 'Settings.Toggle.Linter'},
+                {title: 'Defines',                                                dispatch: 'Dialog.DefineList.Show'},
                 {title: '-'},
                 {title: 'Statistics',                                             dispatch: 'Menu.Compile.Statistics'},
                 {title: '-'},
@@ -381,30 +442,38 @@ exports.MainMenu = class extends MainMenu {
     }
 
     initSimulatorMenu() {
-        let lastGroup = null;
-        let items     = [
-                {title: 'Auto reset sensor value', dispatch: 'Settings.Toggle.SensorAutoReset'},
-                {title: '-'}
+        let lastGroup  = null;
+        let groupCount = 2;
+        let items      = [
+                {title: 'Auto reset sensor value', dispatch: 'Settings.Toggle.SensorAutoReset'}
             ];
         this._settings.getPlugins().getSortedPlugins().forEach((plugin) => {
-            if (lastGroup === null) {
-                lastGroup = plugin.group;
-            } else if (lastGroup !== plugin.group) {
-                lastGroup = plugin.group;
-                items.push({title: '-'});
+            if (pluginUuid.UUID_LIST.indexOf(plugin.uuid) === -1) {
+                return;
             }
+            if (lastGroup !== plugin.group) {
+                lastGroup  = plugin.group;
+                if (groupCount < 2) {
+                    items.push({title: ''});
+                }
+                groupCount = 0;
+                items.push({title: '-', className: 'simulator-' + lastGroup.toLowerCase()});
+            }
+            groupCount++;
             items.push({
                 title:   plugin.name,
                 onClick: function() {
-                    dispatcher.dispatch('Settings.Toggle.PluginByUuid', plugin.uuid);
+                    dispatcher.dispatch('Settings.Plugin.ToggleByUuid', plugin.uuid);
                 }
             });
         });
         this._simulatorMenu = this.addMenu({
-            title:     '^Simulator',
-            width:     '256px',
-            withCheck: true,
-            items:     items
+            title:        '^Simulator',
+            width:        '320px',
+            className:    'simulator-menu',
+            withCheck:    true,
+            withLeftSide: true,
+            items:        items
         });
         return this;
     }
@@ -457,14 +526,30 @@ exports.MainMenu = class extends MainMenu {
         return this;
     }
 
+    onUpdateNXTMenu() {
+        let connectionCount = this._devices.nxt.getConnectionCount();
+        let menuOptions     = this._nxtMenu.getMenu().getMenuOptions();
+        let settings        = this._settings;
+        let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + settings.getSpikeDeviceCount() + '/' + nxtModuleConstants.LAYER_COUNT + ')';
+        menuOptions[0].setRemark(remarkConnect).setChecked(connectionCount);
+        menuOptions[1].setEnabled(connectionCount);                          // Disconnect
+        menuOptions[2].setEnabled(connectionCount);                          // Sensor type
+        menuOptions[3].setRemark(remarkDeviceCount);                         // Device count
+        menuOptions[4].setEnabled(connectionCount);                          // NXT Direct control
+        menuOptions[5].setEnabled(connectionCount);                          // Stop all motors
+        return this;
+    }
+
     onUpdateEV3Menu() {
-        let connected   = this._ev3.getConnected();
+        let connected   = this._devices.ev3.getConnected();
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
         let settings    = this._settings;
-        menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
+        menuOptions[0].setRemark(connected ? 'Connected' : 'No device connected').setChecked(connected);
         menuOptions[1].setEnabled(connected);                               // Disconnect
         menuOptions[2].setChecked(settings.getEV3AutoConnect());
         menuOptions[3].setChecked(settings.getDaisyChainMode());
+        menuOptions[3].setRemark('Set the daisy chain mode (' + settings.getDaisyChainMode() + '/4)');
         menuOptions[4].setEnabled(connected);                               // EV3 File viewer
         menuOptions[5].setEnabled(connected);                               // EV3 Direct control
         menuOptions[6].setEnabled(connected);                               // Stop all motors
@@ -474,14 +559,31 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onUpdatePoweredUpMenu() {
-        let connected   = this._poweredUp.getConnected();
-        let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
-        let settings    = this._settings;
-        menuOptions[0].setTitle(connected ? 'Connected' : 'Connect').setChecked(connected);
-        menuOptions[1].setEnabled(connected);                               // Disconnect
-        menuOptions[2].setEnabled(connected);                               // Autoconnect
-        menuOptions[4].setEnabled(connected);                               // PoweredUp Direct control
-        menuOptions[5].setEnabled(connected);                               // Stop all motors
+        let connectionCount   = this._devices.poweredUp.getConnectionCount();
+        let menuOptions       = this._poweredUpMenu.getMenu().getMenuOptions();
+        let settings          = this._settings;
+        let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + settings.getPoweredUpDeviceCount() + '/' + poweredUpModuleConstants.LAYER_COUNT + ')';
+        menuOptions[0].setRemark(remarkConnect).setChecked(connectionCount); // Connect
+        menuOptions[1].setEnabled(connectionCount);                          // Disconnect
+        menuOptions[2].setEnabled(connectionCount);                          // Autoconnect
+        menuOptions[3].setRemark(remarkDeviceCount);                         // Device count
+        menuOptions[4].setEnabled(connectionCount);                          // PoweredUp Direct control
+        menuOptions[5].setEnabled(connectionCount);                          // Stop all motors
+        return this;
+    }
+
+    onUpdateSpikeMenu() {
+        let connectionCount = this._devices.spike.getConnectionCount();
+        let menuOptions     = this._spikeMenu.getMenu().getMenuOptions();
+        let settings        = this._settings;
+        let remarkConnect     = connectionCount ? (connectionCount + ' Device' + (connectionCount > 1 ? 's' : '') + ' connected') : 'No devices connected';
+        let remarkDeviceCount = 'Set the maximum connections (' + settings.getSpikeDeviceCount() + '/' + spikeModuleConstants.LAYER_COUNT + ')';
+        menuOptions[0].setRemark(remarkConnect).setChecked(connectionCount);
+        menuOptions[1].setEnabled(connectionCount);                          // Disconnect
+        menuOptions[2].setRemark(remarkDeviceCount);                         // Device count
+        menuOptions[3].setEnabled(connectionCount);                          // Spike Direct control
+        menuOptions[4].setEnabled(connectionCount);                          // Stop all motors
         return this;
     }
 
@@ -495,9 +597,9 @@ exports.MainMenu = class extends MainMenu {
             menuOptions[0].setEnabled(false);                               // Compile
             menuOptions[1].setEnabled(false);                               // Compile & run
         }
-        menuOptions[2].setEnabled(this._ev3.getConnected());                // Compile and install on EV3
+        menuOptions[2].setEnabled(this._devices.ev3.getConnected());        // Compile and install on EV3
         menuOptions[3].setChecked(settings.getLinter());                    // Linter
-        menuOptions[6].setChecked(settings.getCreateVMTextOutput());        // Create text output
+        menuOptions[7].setChecked(settings.getCreateVMTextOutput());        // Create text output
         return this;
     }
 
@@ -511,7 +613,7 @@ exports.MainMenu = class extends MainMenu {
     }
 
     onVM(vm) {
-        let connected   = this._ev3.getConnected();
+        let connected   = this._devices.ev3.getConnected();
         let menuOptions = this._runMenu.getMenu().getMenuOptions();
         menuOptions[0].setEnabled(vm && !vm.running());                     // Run
         menuOptions[1].setEnabled(vm && vm.getBreakpoint());                // Continue
@@ -537,20 +639,46 @@ exports.MainMenu = class extends MainMenu {
 
     onUpdateSimulatorMenu(info) {
         let menuOptions = this._simulatorMenu.getMenu().getMenuOptions();
+        let index       = 1;
+        let lastGroup   = null;
+        let groupCount  = 2;
         menuOptions[0].setChecked(this._settings.getSensorAutoReset());
-        this._settings.getPlugins().getSortedPlugins().forEach((plugin, index) => {
-            menuOptions[1 + index].setChecked(plugin.visible);
+        this._settings.getPlugins().getSortedPlugins().forEach((plugin) => {
+            if (pluginUuid.UUID_LIST.indexOf(plugin.uuid) === -1) {
+                return;
+            }
+            if (lastGroup !== plugin.group) {
+                lastGroup  = plugin.group;
+                if (groupCount < 2) {
+                    index++;
+                }
+                groupCount = 0;
+            }
+            groupCount++;
+            menuOptions[index].setChecked(plugin.visible);
+            index++;
         });
         return this;
     }
 
+    onNXTConnecting() {
+        let menuOptions = this._nxtMenu.getMenu().getMenuOptions();
+        menuOptions[0].setRemark('Connecting...');
+    }
+
     onEV3Connecting() {
         let menuOptions = this._ev3Menu.getMenu().getMenuOptions();
-        menuOptions[0].setTitle('Connecting...');
+        menuOptions[0].setRemark('Connecting...');
     }
 
     onPoweredUpConnecting() {
+        let menuOptions = this._poweredUpMenu.getMenu().getMenuOptions();
+        menuOptions[0].setRemark('Connecting...');
+    }
 
+    onSpikeConnecting() {
+        let menuOptions = this._spikeMenu.getMenu().getMenuOptions();
+        menuOptions[0].setRemark('Connecting...');
     }
 
     onUpdateCropDisable() {

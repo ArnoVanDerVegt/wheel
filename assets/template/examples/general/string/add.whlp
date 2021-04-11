@@ -1,0 +1,19 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "String add example"
+
+#include "lib/modules/standard.whl"
+
+#display "Console"
+
+proc main()
+    string s
+    s = "One"
+    printS(s)
+    s = s + " two"
+    printS(s)
+    s = s + " three"
+    printS(s)
+
+    halt()
+end

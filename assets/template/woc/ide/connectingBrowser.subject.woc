@@ -1,0 +1,18 @@
+@subject IDE:Connecting browser
+@device  E
+; Wheel, copyright (c) 2021 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+@section Connecting your EV3, Spike or NXT from a browser
+@keyword browser
+
+If you want to connect a serial device from your browser then you need a browser which supports a serial port connection.
+Chrome can connect to a serial device if you enable `Experimental Web Platform features` on the `chrome://flags/` page and
+enable the `Bluetooth Serial Port Profile in Serial API` on the same page.
+
+
+@section Connection issues
+Reloading the application a number of times when the browser has a serial connection can cause problems.
+If this happens then Wheel appears to connect to a device but no data is sent or received.
+Restarting the browser and Lego(r) brick solves the problem.
+
+@see simulator,browser

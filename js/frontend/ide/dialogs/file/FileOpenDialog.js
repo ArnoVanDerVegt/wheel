@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const platform        = require('../../../lib/platform');
+const path            = require('../../../../shared/lib/path');
+const platform        = require('../../../../shared/lib/platform');
 const dispatcher      = require('../../../lib/dispatcher').dispatcher;
-const path            = require('../../../lib/path');
 const Files           = require('../../../lib/components/files/Files').Files;
 const Dialog          = require('../../../lib/components/Dialog').Dialog;
 const ToolOptions     = require('../../../lib/components/input/ToolOptions').ToolOptions;
@@ -12,6 +12,8 @@ const TextInput       = require('../../../lib/components/input/TextInput').TextI
 const getDataProvider = require('../../../lib/dataprovider/dataProvider').getDataProvider;
 const getImage        = require('../../data/images').getImage;
 const FileDialog      = require('./FileDialog').FileDialog;
+
+const SHOW_SIGNAL = 'Dialog.File.Show';
 
 exports.FileOpenDialog = class extends FileDialog {
     constructor(opts) {
@@ -26,7 +28,7 @@ exports.FileOpenDialog = class extends FileDialog {
             help:      'Supportedfile'
         });
         dispatcher
-            .on('Dialog.File.Show',    this, this.onShow)
+            .on(SHOW_SIGNAL,           this, this.onShow)
             .on('Dialog.Confirm.Save', this, this.onSaveConfirmed);
     }
 
@@ -59,7 +61,7 @@ exports.FileOpenDialog = class extends FileDialog {
                 tabIndex:  2,
                 detail:    this._settings.getFilesDetail(),
                 className: 'dialog-l',
-                filter:    ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm'],
+                filter:    ['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm', '.py'],
                 getImage:  this._getImage,
                 getFiles:  this.getFiles.bind(this),
                 onFile:    this.onFile.bind(this),
@@ -113,7 +115,7 @@ exports.FileOpenDialog = class extends FileDialog {
                     .setDisabled(true);
                 refs.files
                     .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
+                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm', '.py']);
                 this.getFiles(
                     false,
                     false,
@@ -154,7 +156,7 @@ exports.FileOpenDialog = class extends FileDialog {
                     .setDisabled(filename.trim() === '');
                 refs.files
                     .setDocumentPath(this._settings.getDocumentPath())
-                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm']);
+                    .setFilter(['.whl', '.whlp', '.rgf', '.rtf', '.rsf', '.txt', '.mp3', '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.lms', '.wfrm', '.py']);
                 this.getFiles(
                     false,
                     opts.path || this._settings.getDocumentPath(),
@@ -316,3 +318,5 @@ exports.FileOpenDialog = class extends FileDialog {
         return null;
     }
 };
+
+exports.FileOpenDialog.SHOW_SIGNAL = SHOW_SIGNAL;

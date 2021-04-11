@@ -18,14 +18,18 @@ exports.DirectControlDialog = class extends Dialog {
         super(opts);
         this._device             = opts.device;
         this._layerCount         = opts.layerCount;
+        this._portsPerLayer      = opts.portsPerLayer;
         this._withAlias          = opts.withAlias;
         this._hasSound           = opts.hasSound;
+        this._hasVolume          = opts.hasVolume;
+        this._hasBrake           = opts.hasBrake;
+        this._speed              = opts.speed || 50;
         this._layer              = 0;
         this._motorElements      = [];
         this._motorAliasElements = [];
         this
             .initWindow({
-                width:          624,
+                width:          Math.max(64 + (128 + 16) * this._portsPerLayer - 16, 624),
                 height:         468,
                 className:      'direct-control-dialog',
                 title:          opts.title,
@@ -50,7 +54,9 @@ exports.DirectControlDialog = class extends Dialog {
                 type:           Motors,
                 motorValidator: opts.motorValidator,
                 withAlias:      this._withAlias,
+                portsPerLayer:  this._portsPerLayer,
                 settings:       this._settings,
+                speed:          this._speed,
                 ui:             this._ui,
                 uiId:           this._uiId,
                 device:         this._device,
@@ -65,25 +71,27 @@ exports.DirectControlDialog = class extends Dialog {
                     dialog:   this
                 } :
                 null,
-            {
-                ref:       this.setRef('brake'),
-                className: 'abs brake',
-                children: [
-                    {
-                        ref:      this.setRef('brakeCheckbox'),
-                        ui:       this._ui,
-                        uiId:     this._uiId,
-                        type:     Checkbox,
-                        tabIndex: 50,
-                        checked:  false
-                    },
-                    {
-                        className: 'no-select label',
-                        innerHTML: 'Brake motor'
-                    }
-                ]
-            },
-            this._hasSound ?
+            this._hasBrake ?
+                {
+                    ref:       this.setRef('brake'),
+                    className: 'abs brake',
+                    children: [
+                        {
+                            ref:      this.setRef('brakeCheckbox'),
+                            ui:       this._ui,
+                            uiId:     this._uiId,
+                            type:     Checkbox,
+                            tabIndex: 50,
+                            checked:  false
+                        },
+                        {
+                            className: 'no-select label',
+                            innerHTML: 'Brake motor'
+                        }
+                    ]
+                } :
+                null,
+            (this._hasSound && this._hasVolume) ?
                 {
                     ref:       this.setRef('volume'),
                     className: 'volume hidden',
@@ -97,7 +105,7 @@ exports.DirectControlDialog = class extends Dialog {
                             type:     Slider,
                             ui:       this._ui,
                             uiId:     this._uiId,
-                            value:    50,
+                            value:    10,
                             maxValue: 100,
                             tabIndex: 100
                         }
@@ -119,7 +127,7 @@ exports.DirectControlDialog = class extends Dialog {
         this._layerState = [];
         for (let layer = 0; layer < this._layerCount; layer++) {
             let layerOutputs = [];
-            for (let output = 0; output < 4; output++) {
+            for (let output = 0; output < this._portsPerLayer; output++) {
                 layerOutputs.push({
                     assigned: null,
                     speed:    50,
@@ -147,7 +155,11 @@ exports.DirectControlDialog = class extends Dialog {
     }
 
     getBrake() {
-        return this._refs.brakeCheckbox.getChecked() ? 1 : 0;
+        let refs = this._refs;
+        if (!refs.brakeCheckbox) {
+            return 0;
+        }
+        return refs.brakeCheckbox.getChecked() ? 1 : 0;
     }
 
     getLayer() {
@@ -175,12 +187,14 @@ exports.DirectControlDialog = class extends Dialog {
         let motorElements = this._motorElements;
         let layerState    = this._layerState[this._layer];
         let refs          = this._refs;
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this._portsPerLayer; i++) {
             layerState[i].speed = motorElements[i].getSpeed();
         }
         this._layer           = layer;
-        refs.brake.className  = 'abs brake dialog-r';
         refs.motors.className = 'abs dialog-l dialog-b dialog-r motors';
+        if (refs.brake) {
+            refs.brake.className = 'abs brake dialog-r';
+        }
         if (refs.piano) {
             refs.piano.className = 'piano hidden';
         }
@@ -188,7 +202,7 @@ exports.DirectControlDialog = class extends Dialog {
             refs.volume.className = 'volume hidden';
         }
         layerState = this._layerState[layer];
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this._portsPerLayer; i++) {
             let state = layerState[i];
             motorElements[i]
                 .clearAssignedTimeout()
@@ -203,10 +217,14 @@ exports.DirectControlDialog = class extends Dialog {
 
     onClickSound() {
         let refs = this._refs;
-        refs.brake.className  = 'brake hidden';
         refs.motors.className = 'motors hidden';
         refs.piano.className  = 'abs dialog-l dialog-b dialog-r piano';
-        refs.volume.className = 'abs dialog-r volume';
+        if (refs.brake) {
+            refs.brake.className = 'brake hidden';
+        }
+        if (refs.volume) {
+            refs.volume.className = 'abs dialog-r volume';
+        }
     }
 
     onShow(opts) {

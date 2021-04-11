@@ -2,16 +2,18 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path       = require('../../../../shared/lib/path');
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../../lib/dom').DOMNode;
-const path       = require('../../../lib/path');
 const FileDialog = require('./FileDialog').FileDialog;
+
+const SHOW_SIGNAL = 'Dialog.File.Rename.Show';
 
 exports.FileRenameDialog = class extends FileDialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.File.Rename.Show',
+            showSignal: SHOW_SIGNAL,
             width:      480,
             height:     208,
             className:  'file-rename-dialog',
@@ -57,14 +59,14 @@ exports.FileRenameDialog = class extends FileDialog {
         ];
     }
 
-    onShow(title, documentPath, filename, onApply) {
+    onShow(opts) {
         let refs = this._refs;
-        refs.name.innerHTML  = filename.substr(documentPath.length, filename.length - documentPath.length);
-        refs.title.innerHTML = title;
-        this._onApply        = onApply;
+        refs.name.innerHTML  = filename.substr(opts.documentPath.length, opts.filename.length - opts.documentPath.length);
+        refs.title.innerHTML = opts.title;
+        this._onApply        = opts.onApply;
         super.show();
         refs.filename
-            .setValue(path.getPathAndFilename(filename).filename)
+            .setValue(path.getPathAndFilename(opts.filename).filename)
             .setClassName('')
             .focus();
     }
@@ -94,3 +96,5 @@ exports.FileRenameDialog = class extends FileDialog {
         return result;
     }
 };
+
+exports.FileRenameDialog.SHOW_SIGNAL = SHOW_SIGNAL;

@@ -68,7 +68,7 @@ body {
     --home-background:              linear-gradient(0deg, rgba(52,152,219,1) 0%, rgba(41,128,185,1) 100%);
     --home-title-color:             #FFFFFF;
 
-    --focus-border-solid:           1px solid #383838;
+    --focus-border-solid1:          1px solid #383838;
     --focus-border-dotted:          1px dotted #383838;
 
     --color-green:                  #4CD137;
@@ -226,6 +226,9 @@ body {
     color:                          #FFFFFF;
     margin:                         0 16px 0 0;
 }
+.legend .legend-item .device.n {
+    background-color:               #E67E22;
+}
 .legend .legend-item .device.e {
     background-color:               #0984E3;
 }
@@ -237,6 +240,9 @@ body {
 }
 .legend .legend-item .device.i {
     background-color:               #4CD137;
+}
+.legend .legend-item .device.s {
+    background-color:               #1ABC9C;
 }
 div.third,
 div.quarter {
@@ -367,6 +373,11 @@ div.quarter li {
     font-size:                      13px;
     font-family:                    latolight;
 }
+.help-files .link .device.n,
+.help-file .devices .n {
+    background-color:               #E67E22;
+    color:                          #FFFFFF;
+}
 .help-files .link .device.e,
 .help-file .devices .e {
     background-color:               #0984E3;
@@ -387,9 +398,15 @@ div.quarter li {
     background-color:               #4CD137;
     color:                          #FFFFFF;
 }
+.help-files .link .device.s,
+.help-file .devices .s {
+    background-color:               #1ABC9C;
+    color:                          #FFFFFF;
+}
 .help-file .devices .e,
 .help-file .devices .p,
-.help-file .devices .m {
+.help-file .devices .m,
+.help-file .devices .s {
     float:                          left;
 }
 .help-file pre.wheel,

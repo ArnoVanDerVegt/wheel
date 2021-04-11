@@ -30,6 +30,6 @@ proc main()
 end
 @end
 
-@load Open file read example|examples/math/rounding.whlp
+@load Open file read example|examples/general/math/rounding.whlp
 
 @see math,abs,neg,Modules

@@ -1069,6 +1069,27 @@ describe(
                         3, 4
                     ]
                 );
+
+                testLogs(
+                    it,
+                    'Should call string array parameter',
+                    [
+                        'string s[2] = ["a", "b"]',
+                        'proc test(string s)',
+                        '    addr s',
+                        '    mod 0, 2',
+                        'end',
+                        'proc main()',
+                        '    number i, j',
+                        '    i = 0',
+                        '    j = 0',
+                        '    test(s[i * 2 + j])',
+                        'end'
+                    ],
+                    [
+                        'a'
+                    ]
+                );
             }
         );
     }

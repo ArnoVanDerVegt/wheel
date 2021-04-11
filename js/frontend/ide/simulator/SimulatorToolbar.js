@@ -17,15 +17,17 @@ exports.SimulatorToolbar = class extends DOMNode {
         this._settings  = opts.settings;
         this._simulator = opts.simulator;
         this.initDOM(opts.parentNode);
-        dispatcher
-            .on('Button.Device.EV3.Change',       this, this.onEV3Device)
-            .on('Button.Device.PoweredUp.Change', this, this.onPoweredUpDevice);
         this._settings
+            .addEventListener('Settings.NXT',       this, this.updateSettings)
             .addEventListener('Settings.EV3',       this, this.updateSettings)
-            .addEventListener('Settings.PoweredUp', this, this.updateSettings);
-        let activeDevice = this._settings.getActiveDevice();
-        dispatcher.dispatch('Button.Device.EV3.Change',       {className: activeDevice ? 'in-active' : 'active'});
-        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: activeDevice ? 'active' : 'in-active'});
+            .addEventListener('Settings.PoweredUp', this, this.updateSettings)
+            .addEventListener('Settings.Spike',     this, this.updateSettings);
+        dispatcher
+            .on('Button.Device.NXT',       this, this.updateSettings)
+            .on('Button.Device.EV3',       this, this.updateSettings)
+            .on('Button.Device.PoweredUp', this, this.updateSettings)
+            .on('Button.Device.Spike',     this, this.updateSettings);
+        this.updateSettings();
     }
 
     initDOM(parentNode) {
@@ -84,6 +86,13 @@ exports.SimulatorToolbar = class extends DOMNode {
                             {
                                 ui:       this._ui,
                                 uiId:     1,
+                                dispatch: 'Button.Device.NXT',
+                                event:    'Button.Device.NXT.Change',
+                                value:    'NXT'
+                            },
+                            {
+                                ui:       this._ui,
+                                uiId:     1,
                                 dispatch: 'Button.Device.EV3',
                                 event:    'Button.Device.EV3.Change',
                                 value:    'EV3'
@@ -94,6 +103,13 @@ exports.SimulatorToolbar = class extends DOMNode {
                                 dispatch: 'Button.Device.PoweredUp',
                                 event:    'Button.Device.PoweredUp.Change',
                                 value:    'Hub'
+                            },
+                            {
+                                ui:       this._ui,
+                                uiId:     1,
+                                dispatch: 'Button.Device.Spike',
+                                event:    'Button.Device.Spike.Change',
+                                value:    'Spike'
                             }
                         ]
                     }
@@ -105,12 +121,18 @@ exports.SimulatorToolbar = class extends DOMNode {
 
     getLayerCount() {
         let settings = this._settings;
-        return (settings.getActiveDevice() === 0) ? settings.getDaisyChainMode() : (settings.getDeviceCount() - 1);
+        switch (settings.getActiveDevice()) {
+            case 0: return settings.getNXTDeviceCount();
+            case 1: return settings.getDaisyChainMode();
+            case 2: return settings.getPoweredUpDeviceCount();
+            case 3: return settings.getSpikeDeviceCount();
+        }
+        return 4;
     }
 
     getLayerItems(layerCount) {
         let items = [];
-        for (let i = 0; i <= layerCount; i++) {
+        for (let i = 0; i < layerCount; i++) {
             items.push({
                 value: i,
                 title: (i + 1) + ''
@@ -120,16 +142,18 @@ exports.SimulatorToolbar = class extends DOMNode {
     }
 
     updateLayerButtons() {
-        let settings   = this._settings;
-        let layerCount = this.getLayerCount();
-        let layer      = this._simulator.getLayer();
-        if (layer >= layerCount) {
-            dispatcher.dispatch('Button.Layer' + layerCount);
-            layer = layerCount;
-        }
+        let activeDevice = this._settings.getActiveDevice();
+        dispatcher.dispatch('Button.Device.NXT.Change',       {className: (activeDevice === 0) ? 'active' : 'in-active'});
+        dispatcher.dispatch('Button.Device.EV3.Change',       {className: (activeDevice === 1) ? 'active' : 'in-active'});
+        dispatcher.dispatch('Button.Device.PoweredUp.Change', {className: (activeDevice === 2) ? 'active' : 'in-active'});
+        dispatcher.dispatch('Button.Device.Spike.Change',     {className: (activeDevice === 3) ? 'active' : 'in-active'});
+        this.updateLayerList();
+    }
+
+    updateLayerList() {
         this._refs.layerList
-            .setItems(this.getLayerItems(layerCount))
-            .setValue(layer);
+            .setItems(this.getLayerItems(this.getLayerCount()))
+            .setValue(this._simulator.getLayer());
     }
 
     updateSettings() {
@@ -143,14 +167,6 @@ exports.SimulatorToolbar = class extends DOMNode {
         this._simulator.setLayer(layer);
         this.updateLayerButtons();
         dispatcher.dispatch('Simulator.Layer.Change', layer);
-    }
-
-    onEV3Device() {
-        this.updateLayerButtons();
-    }
-
-    onPoweredUpDevice() {
-        this.updateLayerButtons();
     }
 
     onCloseSimulator() {

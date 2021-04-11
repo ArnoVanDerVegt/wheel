@@ -2,6 +2,7 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path        = require('../../../shared/lib/path');
 const A           = require('../../lib/components/basic/A').A;
 const H           = require('../../lib/components/basic/H').H;
 const P           = require('../../lib/components/basic/P').P;
@@ -14,7 +15,6 @@ const Span        = require('../../lib/components/basic/Span').Span;
 const Button      = require('../../lib/components/input/Button').Button;
 const DOMNode     = require('../../lib/dom').DOMNode;
 const dispatcher  = require('../../lib/dispatcher').dispatcher;
-const path        = require('../../lib/path');
 const getImage    = require('../data/images').getImage;
 const WheelSyntax = require('./woc/WheelSyntax').WheelSyntax;
 const IndexList   = require('./components/IndexList').IndexList;
@@ -821,9 +821,10 @@ class HelpBuilder {
             {
                 className: 'flt max-w legend',
                 children: [
+                    addLegendItem('n', 'NXT'),
                     addLegendItem('e', 'EV3'),
                     addLegendItem('p', 'Powered Up'),
-                    addLegendItem('m', 'Mindsensors'),
+                    addLegendItem('s', 'Spike'),
                     addLegendItem('i', 'IDE')
                 ]
             }

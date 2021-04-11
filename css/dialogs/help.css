@@ -21,6 +21,9 @@
     color:                          #FFFFFF;
     margin:                         0 16px 0 0;
 }
+.dialog-background.help-dialog .legend .legend-item .device.n {
+    background-color:               #E67E22;
+}
 .dialog-background.help-dialog .legend .legend-item .device.e {
     background-color:               #0984E3;
 }
@@ -32,6 +35,9 @@
 }
 .dialog-background.help-dialog .legend .legend-item .device.i {
     background-color:               #4CD137;
+}
+.dialog-background.help-dialog .legend .legend-item .device.s {
+    background-color:               #1ABC9C;
 }
 .dialog-background.help-dialog div.third {
     width:                          33%;
@@ -130,17 +136,22 @@
 }
 .dialog-background.help-dialog .help-files .link .device {
     float:                          right;
-    margin:                         2px 8px 0 0;
+    margin:                         2px 4px 0 0;
 }
 .dialog-background.help-dialog .help-files .link .device,
 .dialog-background.help-dialog .help-file .devices span {
-    width:                          20px;
-    height:                         20px;
-    border-radius:                  10px;
+    width:                          16px;
+    height:                         16px;
+    border-radius:                  8px;
     text-align:                     center;
-    line-height:                    21px;
-    font-size:                      13px;
+    line-height:                    17px;
+    font-size:                      10px;
     font-family:                    latolight;
+}
+.dialog-background.help-dialog .help-files .link .device.n,
+.dialog-background.help-dialog .help-file .devices .n {
+    background-color:               #E67E22;
+    color:                          #FFFFFF;
 }
 .dialog-background.help-dialog .help-files .link .device.e,
 .dialog-background.help-dialog .help-file .devices .e {
@@ -162,9 +173,16 @@
     background-color:               #4CD137;
     color:                          #FFFFFF;
 }
+.dialog-background.help-dialog .help-files .link .device.s,
+.dialog-background.help-dialog .help-file .devices .s {
+    background-color:               #1ABC9C;
+    color:                          #FFFFFF;
+}
+.dialog-background.help-dialog .help-file .devices .n,
 .dialog-background.help-dialog .help-file .devices .e,
 .dialog-background.help-dialog .help-file .devices .p,
-.dialog-background.help-dialog .help-file .devices .m {
+.dialog-background.help-dialog .help-file .devices .m,
+.dialog-background.help-dialog .help-file .devices .s {
     float:                          left;
 }
 .dialog-background.help-dialog .help-file pre.wheel,

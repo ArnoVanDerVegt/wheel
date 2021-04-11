@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path          = require('../../../shared/lib/path');
 const dispatcher    = require('../../lib/dispatcher').dispatcher;
-const path          = require('../../lib/path');
 const DOMNode       = require('../../lib/dom').DOMNode;
 const Tabs          = require('../../lib/components/input/Tabs').Tabs;
 const Button        = require('../../lib/components/input/Button').Button;
@@ -14,7 +14,7 @@ const HomeScreen    = require('./editors/home/HomeScreen').HomeScreen;
 const WheelEditor   = require('./editors/text/WheelEditor').WheelEditor;
 const VMViewer      = require('./editors/text/VMViewer').VMViewer;
 const TextEditor    = require('./editors/text/TextEditor').TextEditor;
-const LmsEditor     = require('./editors/text/LmsEditor').LmsEditor;
+const SourceEditor  = require('./editors/text/SourceEditor').SourceEditor;
 const SoundEditor   = require('./editors/sound/SoundEditor').SoundEditor;
 const SoundLoader   = require('./editors/sound/SoundLoader').SoundLoader;
 const ImageViewer   = require('./editors/imageviewer/ImageViewer').ImageViewer;
@@ -27,8 +27,7 @@ exports.Editors = class extends DOMNode {
         super(opts);
         this._ui           = opts.ui;
         this._settings     = opts.settings;
-        this._ev3          = opts.ev3;
-        this._poweredUp    = opts.poweredUp;
+        this._devices      = opts.devices;
         this._ideAssistant = opts.ideAssistant;
         this._editorsState = opts.editorsState;
         this._soundLoader  = new SoundLoader();
@@ -114,8 +113,7 @@ exports.Editors = class extends DOMNode {
                                         ref:       this.setRef('homeScreen'),
                                         ui:        this._ui,
                                         settings:  this._settings,
-                                        ev3:       this._ev3,
-                                        poweredUp: this._poweredUp
+                                        devices:   this._devices
                                     }
                                 ]
                             }
@@ -218,14 +216,16 @@ exports.Editors = class extends DOMNode {
                 function() {
                     dispatcher.dispatch(
                         'Dialog.YesNoCancel.Show',
-                        'Close file',
-                        [
-                            'The file "' + filename + '" has changed.',
-                            'Do you want to save this file?'
-                        ],
-                        'Dialog.YesNoCancel.SaveAndClose',  // Yes
-                        'Dialog.YesNoCancel.Close',         // No
-                        'Dialog.YesNoCancel.Cancel'         // Cancel
+                        {
+                            title:          'Close file',
+                            dispatchYes:    'Dialog.YesNoCancel.SaveAndClose',
+                            dispatchNo:     'Dialog.YesNoCancel.Close',
+                            dispatchCancel: 'Dialog.YesNoCancel.Cancel',
+                            lines:          [
+                                'The file "' + filename + '" has changed.',
+                                'Do you want to save this file?'
+                            ]
+                        }
                     );
                 },
                 250
@@ -393,7 +393,8 @@ exports.Editors = class extends DOMNode {
                 '.bmp', '.png', '.jpg', '.jpeg', '.gif', '.svg',
                 '.whl', '.whlp', '.vm',
                 '.txt', '.woc',
-                '.lms', '.wfrm'
+                '.lms', '.wfrm',
+                '.py'
             ].indexOf(extension) === -1) {
             return null;
         }
@@ -403,8 +404,7 @@ exports.Editors = class extends DOMNode {
             refs.homeScreen.hide();
             return editor;
         }
-        opts.ev3        = this._ev3;
-        opts.poweredUp  = this._poweredUp;
+        opts.devices    = this._devices;
         opts.ui         = this._ui;
         opts.settings   = this._settings;
         opts.editors    = this;
@@ -471,7 +471,13 @@ exports.Editors = class extends DOMNode {
                 opts.mode    = 'text/x-lms';
                 opts.gutters = [];
                 refs.homeScreen.hide();
-                this.addEditor(opts, new LmsEditor(opts));
+                this.addEditor(opts, new SourceEditor(opts));
+                break;
+            case '.py':
+                opts.mode    = 'text/x-python';
+                opts.gutters = [];
+                refs.homeScreen.hide();
+                this.addEditor(opts, new SourceEditor(opts));
                 break;
         }
         return null;

@@ -5,11 +5,13 @@
 const dispatcher = require('../../../lib/dispatcher').dispatcher;
 const FindDialog = require('./FindDialog').FindDialog;
 
+const SHOW_SIGNAL = 'Dialog.Replace.Show';
+
 exports.ReplaceDialog = class extends FindDialog {
     constructor(opts) {
         super(opts);
         this.initWindow({
-            showSignal: 'Dialog.Replace.Show',
+            showSignal: SHOW_SIGNAL,
             width:      544,
             height:     248,
             className:  'find-dialog',
@@ -97,3 +99,5 @@ exports.ReplaceDialog = class extends FindDialog {
         this.hide();
     }
 };
+
+exports.ReplaceDialog.SHOW_SIGNAL = SHOW_SIGNAL;

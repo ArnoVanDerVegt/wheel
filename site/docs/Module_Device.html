@@ -25,7 +25,6 @@
                 <li><a href="index.html">Documentation</a></li>
                 <li><a href="../source.html">Source</a></li>
                 <li><a href="../screenshots.html">Screenshots</a></li>
-                <li><a href="../install.html">Install</a></li>
             </ul>
         </div>
     </div>
@@ -66,14 +65,16 @@
                 <div>The avaialable types of devices.<br/></div>
                 <div class="source-location">Source: lib/modules/device.whl, line: 26<br/></div>
                 <table class="help-table image-constants">
-                    <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/ev364.png"/></td></div><td>DEVICE_EV3</td><td>0</td></tr>
-                    <tr><td><div class="image-wrapper"><img src="../../assets/images/poweredup/hub64.png"/></td></div><td>DEVICE_POWERED_UP</td><td>1</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/nxt/nxt64.png"/></td></div><td>DEVICE_NXT</td><td>0</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/ev3/ev364.png"/></td></div><td>DEVICE_EV3</td><td>1</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/poweredup/hub64.png"/></td></div><td>DEVICE_POWERED_UP</td><td>2</td></tr>
+                    <tr><td><div class="image-wrapper"><img src="../../assets/images/spike/spike64.png"/></td></div><td>DEVICE_SPIKE</td><td>3</td></tr>
                 </table>
             </p>
             <p>
                 <a id="Modulecallsfordevicefunctions."></a>
                 <div>Module calls for device functions.<br/></div>
-                <div class="source-location">Source: lib/modules/device.whl, line: 30<br/></div>
+                <div class="source-location">Source: lib/modules/device.whl, line: 32<br/></div>
                 <table class="help-table constants">
                     <tr><td>DEVICE_SELECT</td><td>0</td></tr>
                 </table>
@@ -82,7 +83,7 @@
             <h4 class="">Procedures</h4>
             <a id="Selectthedevice."></a>
             <h5 class="title-with-source">selectDevice</h5>
-            <div class="source-location">Source: lib/modules/device.whl, line: 33<br/></div>
+            <div class="source-location">Source: lib/modules/device.whl, line: 35<br/></div>
             <div class="devices">
         <span class="e">E</span>
         <span class="p">P</span>
@@ -93,7 +94,7 @@
             <div>Parameters:<br/></div>
             <table class="help-table">
                 <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-                <tr><td>device</td><td>number</td><td>The device, valid values are <i>DEVICE_EV3</i> or <i>DEVICE_POWERED_UP</i>.</td></tr>
+                <tr><td>device</td><td>number</td><td>The device, valid values are <i>DEVICE_EV3</i>, <i>DEVICE_POWERED_UP</i> or <i>DEVICE_SPIKE</i>.</td></tr>
             </table>
             <hr/>
         </div>

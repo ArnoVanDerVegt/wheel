@@ -25,7 +25,6 @@
                 <li><a href="index.html">Documentation</a></li>
                 <li><a href="../source.html">Source</a></li>
                 <li><a href="../screenshots.html">Screenshots</a></li>
-                <li><a href="../install.html">Install</a></li>
             </ul>
         </div>
     </div>
@@ -61,6 +60,47 @@
     <span class="proc">drawNumber</span><span class="operator">(</span><span class="number">10</span><span class="operator">,</span> <span class="number">5</span><span class="operator">,</span> <span class="define">MY_NUMBER</span><span class="operator">)</span>
 <span class="keyword">end</span>
 </pre>
+            <a id="#ifdef,#else,#end"></a>
+            <h4 class="">#ifdef, #else, #end</h4>
+            <p>
+                The <i>#ifdef</i> meta command allows you to conditionally compile a block of code.
+                The <i>#ifdef</i> command checks if a value is defined, if the value is defined then the code between the <i>#ifdef</i> and the <i>#end</i> line is compiled.
+                This command only checks if a value is defined, the actual value is irrelevant.
+                <br/>
+                <br/>
+                The following example shows how to log a number if a value is defined:
+            </p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
+
+<span class="meta">#define</span> <span class="define">LOG_NUMBER</span> <span class="string">"The number should be added to the console log..."</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">n</span>
+<span class="meta">#ifdef</span> <span class="define">LOG_NUMBER</span>
+    <span class="proc">printN</span><span class="operator">(</span><span class="variable">n</span><span class="operator">)</span>
+<span class="meta">#end</span>
+<span class="keyword">end</span>
+</pre>
+            <p>
+                With the <i>#else</i> command you can compile code if the <i>#ifdef</i> condition fails:
+            </p>
+            <pre class="wheel"><span class="meta">#include</span> <span class="string">"lib/modules/screen.whl"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+    <span class="type">number</span> <span class="variable">n</span>
+<span class="meta">#ifdef</span> <span class="define">LOG_NUMBER</span>
+    <span class="proc">printN</span><span class="operator">(</span><span class="variable">n</span><span class="operator">)</span>
+<span class="meta">#else</span>
+    <span class="proc">clearConsole</span><span class="operator">(</span><span class="operator">)</span>
+<span class="meta">#end</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="Globaldefines"></a>
+            <h4 class="">Global defines</h4>
+            <p>
+                It's also posible to define constants in the IDE from the <i>Defines</i> option in the <i>Compiler</i> menu.
+                Values configured here can be used in different programs and are stored in the settings.
+            </p>
             <a id="#project"></a>
             <h4 class="">#project</h4>
             <p>
@@ -79,6 +119,22 @@
                 The optimizer is turned on by default.
             </p>
             <pre class="wheel"><span class="meta">#optimizer</span> <span class="string">"off"</span> <span class="comment">; Turn the optimizer off...</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="#datatype"></a>
+            <h4 class="">#datatype</h4>
+            <p>
+                The <i>#datatype</i> meta command tells the VM what kind of heap memory to allocate.
+                There are three possible values:
+            </p>
+            <ul>
+                <li>"number" Use numbers, both floats and integers can be used</li>
+                <li>"float" Use 32 bit floating point values</li>
+                <li>"int" Use 32 bit integer values</li>
+            </ul>
+            <pre class="wheel"><span class="meta">#datatype</span> <span class="string">"int"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>
@@ -195,10 +251,38 @@
                 The <i>#display</i> command allows you to show the sensors and/or motors in the simulator,
                 it expects one parameter: a comma separated list of plugin names to be shown.
                 <br/>
-                The command is executed when the source file is loaded in the IDE, when the following file is loaded then the
-                simulator EV3 and EV3 Sensors plugins will be shown:
+                The command is executed when the source file is loaded in the IDE and when the program is compiled,
+                when the following file is loaded then the simulator EV3 and EV3 Sensors plugins will be shown:
             </p>
             <pre class="wheel"><span class="meta">#display</span> <span class="string">"EV3,EV3 Sensors"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <p>
+                To display the console the "Console" parameter can be used:
+            </p>
+            <pre class="wheel"><span class="meta">#display</span> <span class="string">"Console"</span>
+
+<span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
+<span class="keyword">end</span>
+</pre>
+            <a id="#noformat"></a>
+            <h4 class="">#noformat</h4>
+            <p>
+                The <i>#noformatter</i> prevents code after that meta command from being formatted.
+            </p>
+            <a id="#format"></a>
+            <h4 class="">#format</h4>
+            <p>
+                This command enables code formatting again and should only be used after the <i>#noformat</i> meta command.
+            </p>
+            <a id="#alias"></a>
+            <h4 class="">#alias</h4>
+            <p>
+                Set a device alias. This command expects two string parameters, a <i>uuid</i> string and the <i>alias</i> for the uuid.
+            </p>
+            <pre class="wheel"><span class="meta">#alias</span> <span class="string">"5107039b87e0459898e438d27b9e2c40"</span> <span class="string">"My Powered Up device"</span>
 
 <span class="keyword">proc</span> <span class="variable">main</span><span class="operator">(</span><span class="operator">)</span>
 <span class="keyword">end</span>

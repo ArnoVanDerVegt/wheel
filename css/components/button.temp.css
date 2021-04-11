@@ -1,6 +1,6 @@
 input[type="button"].button.green,
 input[type="button"].icon-button.green {
-    border:                         1px solid var(--color-green);
+    border:                         2px solid var(--color-green);
     color:                          var(--button-text-color);
     background-color:               var(--color-green);
 }
@@ -11,12 +11,12 @@ input[type="button"].icon-button.green:active {
 }
 input[type="button"].button.green.focus:active,
 input[type="button"].icon-button.green.focus:active {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-green-pressed);
 }
 input[type="button"].button.active.focus.green,
 input[type="button"].icon-button.active.focus.green {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-green-active);
 }
 input[type="button"].button.active.green,
@@ -32,7 +32,7 @@ input[type="button"].icon-button.in-active.green {
 
 input[type="button"].button.yellow,
 input[type="button"].icon-button.yellow {
-    border:                         1px solid var(--color-yellow);
+    border:                         2px solid var(--color-yellow);
     color:                          var(--button-text-color);
     background-color:               var(--color-yellow);
 }
@@ -43,12 +43,12 @@ input[type="button"].icon-button.yellow:active {
 }
 input[type="button"].button.yellow.focus:active,
 input[type="button"].icon-button.yellow.focus:active {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-yellow-pressed);
 }
 input[type="button"].button.active.focus.yellow,
 input[type="button"].icon-button.active.focus.yellow {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-yellow-active);
 }
 input[type="button"].button.active.yellow,
@@ -64,7 +64,7 @@ input[type="button"].icon-button.in-active.yellow {
 
 input[type="button"].button.red,
 input[type="button"].icon-button.red {
-    border:                         1px solid var(--color-red);
+    border:                         2px solid var(--color-red);
     color:                          var(--button-text-color);
     background-color:               var(--color-red);
 }
@@ -75,12 +75,12 @@ input[type="button"].icon-button.red:active {
 }
 input[type="button"].button.red.focus:active,
 input[type="button"].icon-button.red.focus:active {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-red-pressed);
 }
 input[type="button"].button.active.focus.red,
 input[type="button"].icon-button.active.focus.red {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-red-active);
 }
 input[type="button"].button.active.red,
@@ -96,7 +96,7 @@ input[type="button"].icon-button.in-active.red {
 
 input[type="button"].button.blue,
 input[type="button"].icon-button.blue {
-    border:                         1px solid var(--color-blue);
+    border:                         2px solid var(--color-blue);
     color:                          var(--button-text-color);
     background-color:               var(--color-blue);
 }
@@ -107,12 +107,12 @@ input[type="button"].icon-button.blue:active {
 }
 input[type="button"].button.blue.focus:active,
 input[type="button"].icon-button.blue.focus:active {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-blue-pressed);
 }
 input[type="button"].button.active.focus.blue,
 input[type="button"].icon-button.active.focus.blue {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-blue-active);
 }
 input[type="button"].button.active.blue,
@@ -136,11 +136,11 @@ input[type="button"].button.gray:active {
     transform:                      translate(1px, 1px);
 }
 input[type="button"].button.gray.focus:active, {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--ui-background4);
 }
 input[type="button"].button.active.focus.gray {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--ui-background4);
 }
 input[type="button"].button.active.gray {
@@ -162,11 +162,11 @@ input[type="button"].button.dark-green:active {
     transform:                      translate(1px, 1px);
 }
 input[type="button"].button.dark-green.focus:active {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-dark-green-pressed);
 }
 input[type="button"].button.active.focus.dark-green {
-    border-color:                   var(--focus-border-dotted);
+    border-color:                   var(--focus-border-solid2);
     background-color:               var(--color-dark-green-active);
 }
 input[type="button"].button.active.dark-green {
@@ -197,14 +197,14 @@ input[type="button"].button {
     font-size:                      15px;
     text-transform:                 none;
     height:                         24px;
-    line-height:                    22px;
+    line-height:                    20px;
     cursor:                         pointer;
     outline:                        none;
     border:                         0;
     -webkit-user-select:            none;
 }
 input[type="button"].button.focus {
-    border:                         var(--focus-border-dotted);
+    border:                         var(--focus-border-solid2);
 }
 
 /* Icon button */
@@ -223,7 +223,7 @@ input[type="button"].icon-button {
     transition:                     transform 0.1s, background-color 0.1s;
 }
 input[type="button"].icon-button.focus {
-    border:                         var(--focus-border-dotted);
+    border:                         var(--focus-border-solid2);
 }
 input[type="button"].icon-button.disabled {
     opacity:                        var(--button-disabled-opacity);

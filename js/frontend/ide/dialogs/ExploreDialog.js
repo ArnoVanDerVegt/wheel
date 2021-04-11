@@ -2,11 +2,13 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../shared/lib/path');
 const dispatcher      = require('../../lib/dispatcher').dispatcher;
-const path            = require('../../lib/path');
 const Files           = require('../../lib/components/files/Files').Files;
 const Dialog          = require('../../lib/components/Dialog').Dialog;
 const getDataProvider = require('../../lib/dataprovider/dataProvider').getDataProvider;
+
+const SHOW_SIGNAL = 'Dialog.Explore.Show';
 
 exports.ExploreDialog = class extends Dialog {
     constructor(opts) {
@@ -20,7 +22,7 @@ exports.ExploreDialog = class extends Dialog {
             title:     'EV3 File viewer'
         });
         dispatcher
-            .on('Dialog.Explore.Show',       this, this.onShow)
+            .on(SHOW_SIGNAL,                 this, this.onShow)
             .on('Dialog.CreateDir.Path',     this, this.onCreateDirecory)
             .on('Dialog.Confirm.DeleteItem', this, this.onDeleteItemConfirmed);
     }
@@ -149,11 +151,17 @@ exports.ExploreDialog = class extends Dialog {
             uri,
             params,
             (data) => {
-                try {
-                    let json = JSON.parse(data);
+                let json = data;
+                if (typeof data === 'string') {
+                    try {
+                        json = JSON.parse(data);
+                    } catch (error) {
+                        json = null;
+                    }
+                }
+                if (json) {
                     this.onLeftPath(json.path);
                     callback(json.path, json.files);
-                } catch (error) {
                 }
             }
         );
@@ -351,3 +359,5 @@ exports.ExploreDialog = class extends Dialog {
         super.hide();
     }
 };
+
+exports.ExploreDialog.SHOW_SIGNAL = SHOW_SIGNAL;

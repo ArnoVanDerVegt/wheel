@@ -14,7 +14,7 @@ exports.SimulatorPlugin = class extends DOMNode {
         this._plugin              = opts.plugin;
         this._ui                  = opts.ui;
         this._settings            = opts.settings;
-        this._device              = opts.ev3;
+        this._device              = opts.device;
         this._simulator           = opts.simulator;
         this._onStop              = opts.onStop;
         this._tabIndex            = opts.tabIndex;
@@ -23,6 +23,13 @@ exports.SimulatorPlugin = class extends DOMNode {
         this._contextMenus        = {};
         this._simulator.registerPlugin(this._plugin.uuid, this);
      }
+
+    initTitle(title) {
+        return {
+            className: 'no-select flt max-w plugin-title',
+            innerHTML: title
+        };
+    }
 
     initSensorModeMenu(menu, options) {
         for (let i = 0; i < options.length; i++) {
@@ -62,10 +69,14 @@ exports.SimulatorPlugin = class extends DOMNode {
         };
     }
 
-    getClassName() {
+    getVisible() {
         let settings = this._settings;
         let uuid     = this._plugin.uuid;
-        return this._baseClassName + ' ' + (settings.getPlugins().getPluginByUuid(uuid).visible ? ' visible' : '');
+        return settings.getPlugins().getPluginByUuid(uuid).visible;
+    }
+
+    getClassName() {
+        return this._baseClassName + ' ' + (this.getVisible() ? ' visible' : '');
     }
 
     getContextMenu(options) {

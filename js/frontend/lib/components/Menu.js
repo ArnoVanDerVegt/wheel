@@ -14,6 +14,7 @@ class MenuOption extends DOMNode {
         this._checked     = opts.checked;
         this._element     = null;
         this._title       = opts.title;
+        this._remark      = opts.remark || false;
         this._hotkey      = opts.hotkey;
         this._keyMetaDown = true;
         this._onClick     = opts.onClick;
@@ -54,7 +55,10 @@ class MenuOption extends DOMNode {
             parentNode,
             {
                 id:        this.setElement.bind(this),
-                className: 'menu-option' + (this._withCheck ? ' with-check' : '') + (this._checked ? ' checked' : ''),
+                className: 'menu-option' +
+                    (this._withCheck ? ' with-check'  : '') +
+                    (this._remark    ? ' with-remark' : '') +
+                    (this._checked   ? ' checked'     : ''),
                 children: [
                     {
                         ref:       this.setRef('title'),
@@ -62,7 +66,19 @@ class MenuOption extends DOMNode {
                         className: 'title',
                         innerHTML: this._title
                     },
-                    hotkey
+                    hotkey,
+                    {
+                        type:      'span',
+                        ref:       this.setRef('break'),
+                        innerHTML: this._remark ? '<br/>' : ''
+                    },
+                    this._remark ?
+                        {
+                            ref:       this.setRef('remark'),
+                            className: 'flt maw-w menu-option-remark',
+                            innerHTML: this._remark
+                        } :
+                        null
                 ]
             }
         );
@@ -77,14 +93,23 @@ class MenuOption extends DOMNode {
 
     updateClassName() {
         this._element.className = 'menu-option' +
-            (this._enabled   ? ''            : ' disabled') +
-            (this._withCheck ? ' with-check' : '') +
-            (this._checked   ? ' checked'    : '');
+            (this._enabled        ? ''             : ' disabled') +
+            (this._withCheck      ? ' with-check'  : '') +
+            (this._remark         ? ' with-remark' : '') +
+            (this._checked        ? ' checked'     : '') +
+            ((this._title === '') ? ' disabled'    : '');
     }
 
     setTitle(title) {
         this._title                = title;
         this._refs.title.innerHTML = title;
+        return this;
+    }
+
+    setRemark(remark) {
+        this._remark                = remark;
+        this._refs.break.innerHTML  = remark ? '<br/>' : '';
+        this._refs.remark.innerHTML = remark;
         return this;
     }
 
@@ -108,6 +133,9 @@ class MenuOption extends DOMNode {
 
     setElement(element) {
         this._element = element;
+        if (this._title === '') {
+            return;
+        }
         element.addEventListener(
             'mouseout',
             () => {
@@ -166,6 +194,7 @@ class MenuOption extends DOMNode {
 class MenuSeparator extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._className = opts.className || '';
         this.initDOM(opts.parentNode);
     }
 
@@ -173,7 +202,7 @@ class MenuSeparator extends DOMNode {
         this.create(
             parentNode,
             {
-                className: 'flt max-w menu-option-separator',
+                className: 'flt max-w menu-option-separator ' + this._className,
                 children: [
                     {
                         className: 'line'
@@ -190,25 +219,27 @@ exports.Menu = class extends DOMNode {
         if (opts.menuItem) {
             opts.menuItem.setMenu(this);
         }
-        this._ui          = opts.ui;
-        this._platform    = opts.platform;
-        this._element     = null;
-        this._className   = opts.className || false;
-        this._withCheck   = opts.withCheck;
-        this._title       = opts.title;
-        this._width       = opts.width;
-        this._menuOptions = [];
+        this._ui           = opts.ui;
+        this._platform     = opts.platform;
+        this._element      = null;
+        this._className    = opts.className || false;
+        this._withCheck    = opts.withCheck;
+        this._withLeftSide = opts.withLeftSide;
+        this._title        = opts.title;
+        this._width        = opts.width;
+        this._menuOptions  = [];
         this.initDOM(opts);
         (typeof opts.id === 'function') && opts.id(this);
     }
 
     initDOM(opts) {
-        let children = [];
+        let children = [{className: 'left-side'}];
         opts.items.forEach(
             function(item) {
                 if (item.title === '-') {
                     children.push({
-                        type:    MenuSeparator
+                        type:      MenuSeparator,
+                        className: item.className
                     });
                 } else {
                     children.push({
@@ -218,6 +249,7 @@ exports.Menu = class extends DOMNode {
                         platform:  this._platform,
                         withCheck: this._withCheck,
                         title:     item.title,
+                        remark:    item.remark,
                         hotkey:    item.hotkey,
                         dispatch:  item.dispatch,
                         onClick:   item.onClick

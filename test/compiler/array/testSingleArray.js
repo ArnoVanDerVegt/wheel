@@ -11,6 +11,27 @@ describe(
         describe(
             'Test number array',
             () => {
+                testLogs(
+                    it,
+                    'Should populate and log an array',
+                    [
+                        'number l[5]',
+                        'proc main()',
+                        '    number m, n',
+                        '    for n = 0 to 4',
+                        '        l[n] = n',
+                        '    end',
+                        '    for n = 0 to 4',
+                        '        m = l[n]',
+                        '        addr m',
+                        '        mod 0, 1',
+                        '    end',
+                        'end'
+                    ],
+                    [
+                        0, 1, 2, 3, 4
+                    ],
+                );
                 testCodeAndMemory(
                     it,
                     'Declares global array, assigns constant to first index',

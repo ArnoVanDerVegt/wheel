@@ -31,7 +31,6 @@ proc main()
 end
 @end
 
-@load Open indexOf example|examples/string/number.whlp
-@load Open indexOf example for EV3|examples/ev3/string/number.whlp
+@load Open indexOf example|examples/general/string/indexOf.whlp
 
 @see string,number,numberToString,stringToNumber,standard,Modules

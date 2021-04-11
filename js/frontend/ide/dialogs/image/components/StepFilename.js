@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const Step      = require('./Step').Step;
+const path      = require('../../../../../shared/lib/path');
 const TextInput = require('../../../../lib/components/input/TextInput').TextInput;
-const path      = require('../../../../lib/path');
+const Step      = require('./Step').Step;
 
 exports.StepFilename = class extends Step {
     constructor(opts) {

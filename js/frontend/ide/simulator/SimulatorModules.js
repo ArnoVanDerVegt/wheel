@@ -9,10 +9,9 @@ const buttonModuleConstants        = require('../../../shared/vm/modules/buttonM
 const soundModuleConstants         = require('../../../shared/vm/modules/soundModuleConstants');
 const motorModuleConstants         = require('../../../shared/vm/modules/motorModuleConstants');
 const sensorModuleConstants        = require('../../../shared/vm/modules/sensorModuleConstants');
-const pspModuleConstants           = require('../../../shared/vm/modules/pspModuleConstants');
-const multiplexerModuleConstants   = require('../../../shared/vm/modules/multiplexerModuleConstants');
 const deviceModuleConstants        = require('../../../shared/vm/modules/deviceModuleConstants');
 const poweredUpModuleConstants     = require('../../../shared/vm/modules/poweredUpModuleConstants');
+const spikeModuleConstants         = require('../../../shared/vm/modules/spikeModuleConstants');
 const componentFormModuleConstants = require('../../../shared/vm/modules/components/componentFormModuleConstants');
 const Sound                        = require('../../../shared/lib/Sound').Sound;
 const dispatcher                   = require('../../lib/dispatcher').dispatcher;
@@ -100,20 +99,35 @@ exports.SimulatorModules = class {
     }
 
     getActiveDevicePlugin() {
-        let uuid = (this._settings.getActiveDevice() === 0) ?
-                pluginUuid.SIMULATOR_EV3_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+        let uuid = pluginUuid.SIMULATOR_EV3_UUID;
+        switch (this._settings.getActiveDevice()) {
+            case 0: return null;
+            case 1: uuid = pluginUuid.SIMULATOR_EV3_UUID;        break;
+            case 2: uuid = pluginUuid.SIMULATOR_POWERED_UP_UUID; break;
+            case 3: uuid = pluginUuid.SIMULATOR_SPIKE_UUID;      break;
+        }
         return this._simulator.getPluginByUuid(uuid);
     }
 
     getActiveMotorsPlugin() {
-        let uuid = (this._settings.getActiveDevice() === 0) ?
-                pluginUuid.SIMULATOR_EV3_MOTORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+        let uuid = pluginUuid.SIMULATOR_EV3_MOTORS_UUID;
+        switch (this._settings.getActiveDevice()) {
+            case 0: uuid = pluginUuid.SIMULATOR_NXT_MOTORS_UUID;  break;
+            case 1: uuid = pluginUuid.SIMULATOR_EV3_MOTORS_UUID;  break;
+            case 2: uuid = pluginUuid.SIMULATOR_POWERED_UP_UUID;  break;
+            case 3: uuid = pluginUuid.SIMULATOR_SPIKE_PORTS_UUID; break;
+        }
         return this._simulator.getPluginByUuid(uuid);
     }
 
     getActiveSensorsPlugin() {
-        let uuid = (this._settings.getActiveDevice() === 0) ?
-                pluginUuid.SIMULATOR_EV3_SENSORS_UUID : pluginUuid.SIMULATOR_POWERED_UP_UUID;
+        let uuid = pluginUuid.SIMULATOR_EV3_SENSORS_UUID;
+        switch (this._settings.getActiveDevice()) {
+            case 0: uuid = pluginUuid.SIMULATOR_NXT_SENSORS_UUID; break;
+            case 1: uuid = pluginUuid.SIMULATOR_EV3_SENSORS_UUID; break;
+            case 2: uuid = pluginUuid.SIMULATOR_POWERED_UP_UUID;  break;
+            case 3: uuid = pluginUuid.SIMULATOR_SPIKE_PORTS_UUID; break;
+        }
         return this._simulator.getPluginByUuid(uuid);
     }
 
@@ -224,16 +238,16 @@ exports.SimulatorModules = class {
                 return this.getActiveMotorsPlugin();
             };
         this._events.push(
-            motorModule.addEventListener('Motor.SetType',   this, function(motor) { callOnObject(getMotors(), 'setType', motor);                   }),
-            motorModule.addEventListener('Motor.SetSpeed',  this, function(motor) { callOnObject(getMotors(), 'setSpeed', motor);                  }),
-            motorModule.addEventListener('Motor.GetType',   this, function(motor) { motor.callback(callOnObject(getMotors(), 'getType', motor));   }),
-            motorModule.addEventListener('Motor.Reset',     this, function(motor) { callOnObject(getMotors(), 'setPosition', motor);               }),
-            motorModule.addEventListener('Motor.MoveTo',    this, function(motor) { callOnObject(getMotors(), 'moveTo', motor);                    }),
-            motorModule.addEventListener('Motor.On',        this, function(motor) { callOnObject(getMotors(), 'on', motor);                        }),
-            motorModule.addEventListener('Motor.TimeOn',    this, function(motor) { callOnObject(getMotors(), 'timeOn', motor);                    }),
-            motorModule.addEventListener('Motor.Stop',      this, function(motor) { callOnObject(getMotors(), 'stop', motor);                      }),
-            motorModule.addEventListener('Motor.Read',      this, function(motor) { motor.callback(callOnObject(getMotors(), 'read', motor));      }),
-            motorModule.addEventListener('Motor.Ready',     this, function(motor) { motor.callback(callOnObject(getMotors(), 'ready', motor));     }),
+            motorModule.addEventListener('Motor.SetType',   this, function(motor) { callOnObject(getMotors(), 'setType',     motor);             }),
+            motorModule.addEventListener('Motor.SetSpeed',  this, function(motor) { callOnObject(getMotors(), 'setSpeed',    motor);             }),
+            motorModule.addEventListener('Motor.Reset',     this, function(motor) { callOnObject(getMotors(), 'setPosition', motor);             }),
+            motorModule.addEventListener('Motor.MoveTo',    this, function(motor) { callOnObject(getMotors(), 'moveTo',      motor);             }),
+            motorModule.addEventListener('Motor.On',        this, function(motor) { callOnObject(getMotors(), 'on',          motor);             }),
+            motorModule.addEventListener('Motor.TimeOn',    this, function(motor) { callOnObject(getMotors(), 'timeOn',      motor);             }),
+            motorModule.addEventListener('Motor.Stop',      this, function(motor) { callOnObject(getMotors(), 'stop',        motor);             }),
+            motorModule.addEventListener('Motor.GetType',   this, function(motor) { motor.callback(callOnObject(getMotors(), 'getType', motor)); }),
+            motorModule.addEventListener('Motor.Read',      this, function(motor) { motor.callback(callOnObject(getMotors(), 'read',    motor)); }),
+            motorModule.addEventListener('Motor.Ready',     this, function(motor) { motor.callback(callOnObject(getMotors(), 'ready',   motor)); }),
             motorModule.addEventListener('Motor.ReadyBits', this, function(motor) {
                 motor.callback(callOnObject(getMotors(), 'readyBits', motor));
             })
@@ -251,32 +265,10 @@ exports.SimulatorModules = class {
             };
         this._events.push(
             sensorModule.addEventListener('Sensor.SetType', this, function(sensor) { callOnObject(getSensors(), 'setType', sensor);                  }),
-            sensorModule.addEventListener('Sensor.GetType', this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'getType', sensor)); }),
             sensorModule.addEventListener('Sensor.SetMode', this, function(sensor) { callOnObject(getSensors(), 'setMode', sensor);                  }),
-            sensorModule.addEventListener('Sensor.Reset',   this, function(sensor) { callOnObject(getSensors(), 'reset', sensor);                    }),
-            sensorModule.addEventListener('Sensor.Read',    this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'read', sensor));    })
-        );
-        return this;
-    }
-
-    setupPspModule(vm) {
-        let pspModule = this._modules[pspModuleConstants.MODULE_PSP];
-        if (!pspModule) {
-            return this;
-        }
-        this._events.push(
-            dispatcher.on('Sensor.PSP.Changed', pspModule, pspModule.onValueChanged)
-        );
-        return this;
-    }
-
-    setupMultiplexerModule(vm) {
-        let multiplexerModule = this._modules[multiplexerModuleConstants.MODULE_MULTIPLEXER];
-        if (!multiplexerModule) {
-            return this;
-        }
-        this._events.push(
-            dispatcher.on('Sensor.Multiplexer.Changed', multiplexerModule, multiplexerModule.onValueChanged)
+            sensorModule.addEventListener('Sensor.Reset',   this, function(sensor) { callOnObject(getSensors(), 'reset',   sensor);                  }),
+            sensorModule.addEventListener('Sensor.GetType', this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'getType', sensor)); }),
+            sensorModule.addEventListener('Sensor.Read',    this, function(sensor) { sensor.callback(callOnObject(getSensors(), 'read',    sensor)); })
         );
         return this;
     }
@@ -291,7 +283,12 @@ exports.SimulatorModules = class {
                 'Device.Select',
                 this,
                 function(device) {
-                    let signals = ['Button.Device.EV3', 'Button.Device.PoweredUp'];
+                    let signals = [
+                            'Button.Device.NXT',
+                            'Button.Device.EV3',
+                            'Button.Device.PoweredUp',
+                            'Button.Device.Spike'
+                        ];
                     if (signals[device.device]) {
                         dispatcher.dispatch(signals[device.device]);
                     }
@@ -312,6 +309,23 @@ exports.SimulatorModules = class {
         this._events.push(
             poweredUpModule.addEventListener('PoweredUp.Start',     this, function(readAddress) {}),
             poweredUpModule.addEventListener('PoweredUp.SetDevice', this, function(device) { getPoweredUpDevice().setDeviceType(device.layer, device.type); })
+        );
+        return this;
+    }
+
+    setupSpikeModule(vm) {
+        let spikeModule = this._modules[spikeModuleConstants.MODULE_SPIKE];
+        if (!spikeModule) {
+            return this;
+        }
+        const getSpikeDevice = () => {
+                return this._simulator.getPluginByUuid(pluginUuid.SIMULATOR_SPIKE_UUID);
+            };
+        this._events.push(
+            spikeModule.addEventListener('Spike.Start',           this, function(readAddress) {}),
+            spikeModule.addEventListener('Spike.MatrixClearLeds', this, function(led) { getSpikeDevice().clearLeds(led); }),
+            spikeModule.addEventListener('Spike.MatrixSetLed',    this, function(led) { getSpikeDevice().setLed(led);    }),
+            spikeModule.addEventListener('Spike.MatrixSetText',   this, function(led) { getSpikeDevice().setText(led);   })
         );
         return this;
     }
@@ -337,10 +351,9 @@ exports.SimulatorModules = class {
             .setupSoundModule(vm)
             .setupMotorModule(vm)
             .setupSensorModule(vm)
-            .setupPspModule(vm)
-            .setupMultiplexerModule(vm)
             .setupDeviceModule(vm)
             .setupPoweredUpModule(vm)
+            .setupSpikeModule(vm)
             .setupComponentFormModule(vm);
     }
 };

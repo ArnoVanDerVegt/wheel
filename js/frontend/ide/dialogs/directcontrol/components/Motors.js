@@ -9,6 +9,7 @@ const MotorAlias = require('./MotorAlias').MotorAlias;
 exports.Motors = class extends DOMNode {
     constructor(opts) {
         super(opts);
+        this._portsPerLayer  = opts.portsPerLayer;
         this._withAlias      = opts.withAlias;
         this._settings       = opts.settings;
         this._ui             = opts.ui;
@@ -16,13 +17,14 @@ exports.Motors = class extends DOMNode {
         this._dialog         = opts.dialog;
         this._device         = opts.device;
         this._motorValidator = opts.motorValidator;
+        this._speed          = opts.speed;
         this.initDOM(opts.parentNode, opts.dialog);
     }
 
     initDOM(parentNode, dialog) {
         let children = [];
         if (this._withAlias) {
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < this._portsPerLayer; i++) {
                 children.push({
                     id:       dialog.addMotorAliasElement.bind(dialog),
                     settings: this._settings,
@@ -34,18 +36,19 @@ exports.Motors = class extends DOMNode {
                 });
             }
         }
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this._portsPerLayer; i++) {
             children.push({
                 id:             dialog.addMotorElement.bind(dialog),
                 type:           Motor,
                 ui:             this._ui,
                 uiId:           this._uiId,
                 device:         this._device,
+                speed:          this._speed,
                 dialog:         dialog,
                 motorId:        i,
                 motorValidator: this._motorValidator,
                 tabIndex:       10 + 10 * i,
-                className:      (i === 3) ? 'last' : ''
+                className:      (i === this._portsPerLayer - 1) ? 'last' : ''
             });
         }
         this.create(

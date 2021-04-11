@@ -15,7 +15,7 @@
 }
 .runner .runner-hcenter {
     margin:                         0 auto 0 auto;
-    width:                          480px;
+    width:                          520px;
     height:                         256px;
 }
 .runner .runner-hcenter img {
@@ -29,7 +29,7 @@
 .runner .runner-hcenter .program,
 .runner .runner-hcenter .target-platform {
     position:                       absolute;
-    width:                          480px;
+    width:                          520px;
     height:                         20px;
     line-height:                    20px;
     text-align:                     center;
@@ -45,7 +45,7 @@
 .runner .runner-hcenter .buttons {
     position:                       absolute;
     bottom:                         0px;
-    width:                          480px;
+    width:                          520px;
     height:                         40px;
 }
 .runner .runner-hcenter .buttons .button {
@@ -57,5 +57,6 @@
 .runner .runner-hcenter .buttons .button.connect {
     float:                          right;
     margin:                         0 0 0 10px;
-    width:                          170px;
+    width:                          90px;
+    font-size:                      13px;
 }

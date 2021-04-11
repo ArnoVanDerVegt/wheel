@@ -73,13 +73,15 @@ class Icon extends Component {
     }
 }
 
+const SHOW_SIGNAL = 'Dialog.Icon.Show';
+
 exports.IconDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
         this._onApply  = null;
         this._selected = null;
         this.initWindow({
-            showSignal: 'Dialog.Icon.Show',
+            showSignal: SHOW_SIGNAL,
             width:      568,
             height:     400,
             className:  'icon-dialog',
@@ -208,3 +210,5 @@ exports.IconDialog = class extends Dialog {
         this.show();
     }
 };
+
+exports.IconDialog.SHOW_SIGNAL = SHOW_SIGNAL;

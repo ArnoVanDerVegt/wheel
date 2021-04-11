@@ -7,6 +7,8 @@ const DOMNode    = require('../../../lib/dom').DOMNode;
 const Dialog     = require('../../../lib/components/Dialog').Dialog;
 const List       = require('../../../lib/components/list/List').List;
 
+const SHOW_SIGNAL = 'Dialog.List.Show';
+
 exports.ListDialog = class extends Dialog {
     constructor(opts) {
         super(opts);
@@ -16,7 +18,7 @@ exports.ListDialog = class extends Dialog {
         this.initWindow({
             ListItem:   opts.ListItem,
             help:       opts.help,
-            showSignal: opts.showSignal,
+            showSignal: opts.showSignal || SHOW_SIGNAL,
             width:      500,
             height:     400,
             className:  'list-dialog' + (opts.comment ? ' with-comment' : ''),
@@ -38,30 +40,35 @@ exports.ListDialog = class extends Dialog {
                 settings:  this._settings,
                 ref:       this.setRef('list'),
                 ui:        this._ui,
+                uiId:      this._uiId,
                 tabIndex:  1,
                 className: 'abs ui1-box vscroll dialog-cw dialog-lt item-list',
                 onChange:  this.onChangeItem.bind(this),
                 onSelect:  this.onSelectItem.bind(this)
             },
-            this.initButtons([
-                (opts.applyTitle === null) ?
-                    null :
-                    {
-                        ref:      this.setRef('buttonApply'),
-                        tabIndex: 256,
-                        value:    opts.applyTitle || 'Ok',
-                        disabled: true,
-                        onClick:  this.onApply.bind(this)
-                    },
-                {
-                    ref:      this.setRef('buttonCancel'),
-                    tabIndex: 257,
-                    value:    opts.cancelTitle || 'Cancel',
-                    color:    'dark-green',
-                    onClick:  this.hide.bind(this)
-                }
-            ].concat(this.getExtraButtons()))
+            this.initButtonRow(opts)
         ];
+    }
+
+    initButtonRow(opts) {
+        return this.initButtons([
+            (opts.applyTitle === null) ?
+                null :
+                {
+                    ref:      this.setRef('buttonApply'),
+                    tabIndex: 256,
+                    value:    opts.applyTitle || 'Ok',
+                    disabled: true,
+                    onClick:  this.onApply.bind(this)
+                },
+            {
+                ref:      this.setRef('buttonCancel'),
+                tabIndex: 257,
+                value:    opts.cancelTitle || 'Cancel',
+                color:    'dark-green',
+                onClick:  this.hide.bind(this)
+            }
+        ].concat(this.getExtraButtons()));
     }
 
     getExtraButtons() {
@@ -83,7 +90,9 @@ exports.ListDialog = class extends Dialog {
     }
 
     onChangeItem() {
-        this._refs.buttonApply.setDisabled(false);
+        if (this._refs.buttonApply) {
+            this._refs.buttonApply.setDisabled(false);
+        }
     }
 
     onSelectItem(index) {
@@ -127,3 +136,5 @@ exports.ListDialog = class extends Dialog {
         this._refs.list.setItems(list);
     }
 };
+
+exports.ListDialog.SHOW_SIGNAL = SHOW_SIGNAL;

@@ -13,9 +13,11 @@ exports.Plugin = class extends SimulatorPlugin {
             throw new Error('No state constructor');
         }
         this._ui                  = opts.ui;
+        this._title               = opts.title      || false;
         this._layerCount          = opts.layerCount || 4;
-        this._device              = opts.ev3;
-        this._baseClassName       = 'motors';
+        this._portCount           = opts.portCount  || 4;
+        this._device              = opts.device;
+        this._baseClassName       = ('baseClassName' in opts) ? opts.baseClassName : 'motors';
         this._motors              = [];
         this._interval            = null;
         this._disconnectedTimeout = null;
@@ -26,10 +28,14 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     initDOM(parentNode) {
-        let Motor    = this._motorConstructor;
-        let addMotor = this.addMotor.bind(this);
-        let children = [];
-        for (let i = 0; i < this._layerCount * 4; i++) {
+        let portCount = this._portCount;
+        let Motor     = this._motorConstructor;
+        let addMotor  = this.addMotor.bind(this);
+        let children  = [];
+        if (this._title) {
+            children.push(this.initTitle(this._title));
+        }
+        for (let i = 0; i < this._layerCount * portCount; i++) {
             children.push({
                 type:             Motor,
                 stateConstructor: this._stateConstructor,
@@ -38,13 +44,14 @@ exports.Plugin = class extends SimulatorPlugin {
                 sensors:          this,
                 device:           this._device,
                 ui:               this._ui,
-                layer:            ~~(i / 4),
-                id:               i & 3,
-                title:            String.fromCharCode(65 + (i & 3)),
+                layer:            ~~(i / portCount),
+                id:               i % portCount,
+                title:            String.fromCharCode(65 + (i % portCount)),
                 addMotor:         addMotor,
-                hidden:           (i >= 4)
+                hidden:           (i >= portCount)
             });
         }
+        children.push(this.initExtra());
         this.create(
             parentNode,
             {
@@ -54,6 +61,10 @@ exports.Plugin = class extends SimulatorPlugin {
             }
         );
         this._interval = setInterval(this.onInterval.bind(this), 10);
+    }
+
+    initExtra() {
+        return null;
     }
 
     onDeviceConnected() {
@@ -71,6 +82,9 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     onInterval() {
+        if (!this.getVisible()) {
+            return;
+        }
         let motors = this._motors;
         for (let i = 0; i < motors.length; i++) {
             motors[i].update();
@@ -80,7 +94,7 @@ exports.Plugin = class extends SimulatorPlugin {
     showLayer(layer) {
         let motors = this._motors;
         for (let i = 0; i < motors.length; i++) {
-            motors[i].setHidden(layer !== (i >> 2));
+            motors[i].setHidden(layer !== Math.floor(i / this._portCount));
         }
     }
 
@@ -90,7 +104,7 @@ exports.Plugin = class extends SimulatorPlugin {
         let motors     = this._motors;
         let foundCount = 0;
         for (let i = 0; i < motors.length; i++) {
-            if (layer === (i >> 2)) {
+            if (layer === Math.floor(i / this._portCount)) {
                 motors[i].setHidden(foundCount >= count);
                 foundCount++;
             } else {
@@ -127,7 +141,7 @@ exports.Plugin = class extends SimulatorPlugin {
     }
 
     getMotor(layer, id) {
-        return this._motors[layer * 4 + id] || null;
+        return this._motors[layer * this._portCount + id] || null;
     }
 
     getType(opts) {
@@ -172,13 +186,13 @@ exports.Plugin = class extends SimulatorPlugin {
 
     readyBits(opts) {
         let layer = opts.layer;
-        if ((layer < 0) || (layer > 3)) {
+        if ((layer < 0) || (layer > this._layerCount)) {
             return 0;
         }
         let bit    = 1;
         let bits   = opts.bits;
         let result = 1;
-        for (let id = 0; id < 4; id++) {
+        for (let id = 0; id < this._portCount; id++) {
             let motor = this.getMotor(layer, id);
             if ((bits & bit) === bit) {
                 if (!motor.ready()) {

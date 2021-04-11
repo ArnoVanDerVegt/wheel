@@ -8,7 +8,7 @@
 #include "lib/modules/screen.whl"
 #include "lib/modules/psp.whl"
 
-#display "EV3, PSP"
+#display "EV3"
 
 proc drawLeftPosition(number x, number y)
     drawCircle(46 + x / 5, 64 + y / 5, 10)

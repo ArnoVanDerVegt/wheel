@@ -4,6 +4,9 @@
     bottom:                         32px;
     height:                         32px;
 }
+.dialog-background.direct-control-dialog .brake {
+    right:                          32px;
+}
 .dialog-background.direct-control-dialog .brake.hidden,
 .dialog-background.direct-control-dialog .volume.hidden {
     display:                        none;

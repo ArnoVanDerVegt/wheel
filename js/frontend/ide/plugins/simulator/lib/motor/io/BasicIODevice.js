@@ -12,11 +12,9 @@ exports.BasicIODevice = class extends DOMNode {
         if (!opts.stateConstructor) {
             throw new Error('No state constructor');
         }
-        opts.onChangeConnected = this.onChangeConnected.bind(this);
-        opts.onChangeType      = this.onChangeType.bind(this);
-        opts.onChangeMode      = this.onChangeMode.bind(this);
-        opts.onChangeValue     = this.onChangeValue.bind(this);
         this._state              = new opts.stateConstructor(opts);
+        this._layer              = opts.layer;
+        this._id                 = opts.id;
         this._settings           = opts.settings;
         this._parentNode         = opts.parentNode;
         this._sensors            = opts.sensors;
@@ -30,20 +28,16 @@ exports.BasicIODevice = class extends DOMNode {
     }
 
     remove() {
+        this._state.remove();
+        if (this._events && this._events.pop) {
+            // Remove event listeners...
+            while (this._events.length) {
+                this._events.pop()();
+            }
+        }
         let parentNode = this._parentNode;
         while (parentNode.childNodes.length) {
             parentNode.removeChild(parentNode.childNodes[0]);
-        }
-    }
-
-    onChangeConnected(connected) {
-        let refs = this._refs;
-        if (connected) {
-            this._numberInputElement && (this._numberInputElement.disabled = 'disabled');
-            refs.specialValueInput   && refs.specialValueInput.setDisabled(true);
-        } else {
-            this._numberInputElement && (this._numberInputElement.disabled = '');
-            refs.specialValueInput   && refs.specialValueInput.setDisabled(false);
         }
     }
 

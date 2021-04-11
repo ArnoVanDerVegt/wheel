@@ -1,0 +1,40 @@
+; Wheel, copyright (c) 2021 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Object example"
+
+#include "lib/modules/standard.whl"
+
+#display "Console"
+
+; Declare a Point object with a x and y value:
+object Point
+    number x, y
+end
+
+; This is a method to set the x value, self refers to the object field:
+proc Point.setX(number x)
+    self.x = x
+end
+
+; This is a method to set the y value:
+proc Point.setY(number y)
+    self.y = y
+end
+
+; This method logs the x and y values of the object:
+proc Point.log()
+    clearConsole()
+    printS("Point:")
+    printN(x)
+    printN(y)
+end
+
+Point point
+
+proc main()
+    ; Set the x and y values:
+    point.setX(1345)
+    point.setY(9345)
+    ; Log the values:
+    point.log()
+end

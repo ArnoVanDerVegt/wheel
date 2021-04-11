@@ -2,7 +2,7 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const path   = require('../../lib/path');
+const path   = require('../../../shared/lib/path');
 const t      = require('../tokenizer/tokenizer');
 const errors = require('../errors');
 const err    = require('../errors').errors;
@@ -19,10 +19,11 @@ exports.checkRestTokens = function(iterator, after) {
     };
 
 exports.MetaCompiler = class {
-    constructor(defines, resources, linter) {
-        this._defines   = defines;
-        this._resources = resources;
-        this._linter    = linter;
+    constructor(opts) {
+        this._globalDefines = opts.globalDefines;
+        this._defines       = opts.defines;
+        this._resources     = opts.resources;
+        this._linter        = opts.linter;
     }
 
     compileDefine(iterator, token, tokenFilename) {
@@ -33,10 +34,11 @@ exports.MetaCompiler = class {
             throw errors.createError(err.IDENTIFIER_EXPECTED, token, 'Identifier expected.');
         }
         this._linter && this._linter.addDefine(token);
-        token.done      = true;
-        let defineKey   = token.lexeme;
-        token           = iterator.skipWhiteSpace().next();
-        token.done      = true;
+        let defineKey;
+        token.done = true;
+        defineKey  = token.lexeme;
+        token      = iterator.skipWhiteSpace().next();
+        token.done = true;
         if ([t.TOKEN_NUMBER, t.TOKEN_STRING].indexOf(token.cls) === -1) {
             token.filename = tokenFilename;
             throw errors.createError(err.NUMBER_OR_STRING_CONSTANT_EXPECTED, token, 'Number or string constant expected.');
@@ -153,5 +155,40 @@ exports.MetaCompiler = class {
             throw errors.createError(err.INVALID_RESOURCE, token, 'Invalid resource.');
         }
         this._resources.add(filename, null, token);
+    }
+
+    compileIfdef(iterator, token, defines) {
+        token.done = true;
+        token      = iterator.skipWhiteSpace().next();
+        token.done = true;
+        let defined  = (defines.get(token.lexeme) !== false);
+        let done     = false;
+        let doneElse = false;
+        exports.checkRestTokens(iterator, 'ifdef');
+        while (true) {
+            token = iterator.skipWhiteSpace().next();
+            if (token === null) {
+                break;
+            } else if (token.lexeme === t.LEXEME_META_IFDEF) {
+                this.compileIfdef(iterator, token, defines);
+            } else if (token.lexeme === t.LEXEME_META_ELSE) {
+                if (doneElse) {
+                    throw errors.createError(err.UNEXPECTED_META_ELSE, token, 'Duplicate #else.');
+                }
+                exports.checkRestTokens(iterator, 'else');
+                doneElse   = true;
+                token.done = true;
+                defined    = !defined;
+            } else {
+                if (!defined) {
+                    token.done = true;
+                }
+                if (token.lexeme === t.LEXEME_META_END) {
+                    token.done = true;
+                    exports.checkRestTokens(iterator, 'end');
+                    break;
+                }
+            }
+        }
     }
 };

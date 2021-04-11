@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path       = require('../../../shared/lib/path');
+const platform   = require('../../../shared/lib/platform');
 const tokenUtils = require('../../compiler/tokenizer/tokenUtils');
 const dispatcher = require('../../lib/dispatcher').dispatcher;
 const DOMNode    = require('../../lib/dom').DOMNode;
-const path       = require('../../lib/path');
-const platform   = require('../../lib/platform');
 
 class FindResult extends DOMNode {
     constructor(opts) {

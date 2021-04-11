@@ -2,8 +2,8 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path             = require('../../../shared/lib/path');
 const dispatcher       = require('../../lib/dispatcher').dispatcher;
-const path             = require('../../lib/path');
 const errors           = require('../errors');
 const err              = require('../errors').errors;
 const Iterator         = require('../tokenizer/TokenIterator').Iterator;
@@ -20,9 +20,9 @@ const removePadding = function(s) {
 
 exports.PreProcessor = class PreProcessor {
     constructor(opts) {
-        this._documentPath        = opts.documentPath || '';
-        this._projectFilename     = opts.projectFilename;
         this._projectPath         = path.getPathAndFilename(opts.projectFilename || '').path;
+        this._documentPath        = opts.documentPath  || '';
+        this._projectFilename     = opts.projectFilename;
         this._linter              = opts.linter;
         this._onGetFileData       = opts.onGetFileData;
         this._onGetFileDataError  = opts.onGetFileDataError;
@@ -33,7 +33,7 @@ exports.PreProcessor = class PreProcessor {
         this._fileCount           = 0;
         this._sortedFiles         = null;
         this._error               = false;
-        this._defines             = new Defines();
+        this._defines             = new Defines({globalDefines: opts.globalDefines || {}});
         this._lineCount           = 0;
         this._includeRoot         = {
             filename: ''
@@ -74,9 +74,13 @@ exports.PreProcessor = class PreProcessor {
         let tokenizer    = new Tokenizer();
         let tokens       = tokenizer.tokenize(data).getTokens();
         let includes     = [];
-        let iterator     = new Iterator({tokens: tokens, compiler: this});
-        let metaCompiler = new MetaCompiler.MetaCompiler(this._defines, this._resources, this._linter);
         let token        = true;
+        let iterator     = new Iterator({tokens: tokens, compiler: this});
+        let metaCompiler = new MetaCompiler.MetaCompiler({
+                defines:       this._defines,
+                resources:     this._resources,
+                linter:        this._linter
+            });
         this._tokens = tokens;
         this._lineCount += tokenizer.getLineNum();
         if (this._linter) {
@@ -90,11 +94,24 @@ exports.PreProcessor = class PreProcessor {
             switch (token.cls) {
                 case t.TOKEN_META:
                     switch (token.lexeme) {
-                        case t.LEXEME_META_INCLUDE:  this.compileInclude(iterator, token, fileItem.filename, includes); break;
-                        case t.LEXEME_META_DEFINE:   metaCompiler.compileDefine  (iterator, token, fileItem.filename);  break;
-                        case t.LEXEME_META_IMAGE:    metaCompiler.compileImage   (iterator, token, fileItem.filename);  break;
-                        case t.LEXEME_META_TEXT:     metaCompiler.compileText    (iterator, token, fileItem.filename);  break;
-                        case t.LEXEME_META_RESOURCE: metaCompiler.compileResource(iterator, token, fileItem.filename);  break;
+                        case t.LEXEME_META_INCLUDE:
+                            this.compileInclude(iterator, token, fileItem.filename, includes);
+                            break;
+                        case t.LEXEME_META_IFDEF:
+                            metaCompiler.compileIfdef(iterator, token, this._defines);
+                            break;
+                        case t.LEXEME_META_DEFINE:
+                            metaCompiler.compileDefine(iterator, token, fileItem.filename);
+                            break;
+                        case t.LEXEME_META_IMAGE:
+                            metaCompiler.compileImage(iterator, token, fileItem.filename);
+                            break;
+                        case t.LEXEME_META_TEXT:
+                            metaCompiler.compileText(iterator, token, fileItem.filename);
+                            break;
+                        case t.LEXEME_META_RESOURCE:
+                            metaCompiler.compileResource(iterator, token, fileItem.filename);
+                            break;
                     }
                     break;
             }

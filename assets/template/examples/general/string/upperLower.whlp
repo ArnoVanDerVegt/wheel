@@ -1,0 +1,22 @@
+; Wheel, copyright (c) 2017 - present by Arno van der Vegt
+; Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
+#project "Uppercase"
+
+#include "lib/modules/standard.whl"
+#include "lib/modules/string.whl"
+
+#display "Console"
+
+proc main()
+    string s = "Hello World"
+
+    printS(s)
+
+    toUpperCase(s)      ; Convert the string to upper case...
+    printS(s)
+
+    toLowerCase(s)      ; Convert the string to lower case...
+    printS(s)
+
+    halt()
+end

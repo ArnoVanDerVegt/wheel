@@ -2,9 +2,9 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path                   = require('../../shared/lib/path');
+const platform               = require('../../shared/lib/platform');
 const Downloader             = require('../program/Downloader');
-const platform               = require('../lib/platform');
-const path                   = require('../lib/path');
 const Http                   = require('../lib/Http').Http;
 const dispatcher             = require('../lib/dispatcher').dispatcher;
 const Button                 = require('../lib/components/input/Button').Button;
@@ -38,7 +38,7 @@ exports.IDE = class extends IDEDOM {
         this._title                  = 'No program selected.';
         this._linter                 = null;
         this._editorsState           = new EditorsState();
-        this._ideAssistant           = new IDEAssistant({settings: settings, poweredUp: this._poweredUp});
+        this._ideAssistant           = new IDEAssistant({settings: settings, devices: this._devices});
         this
             .initDOM()
             .initGlobalRequire()
@@ -81,14 +81,23 @@ exports.IDE = class extends IDEDOM {
             .on('Menu.Find.FindNext',                 this, this.onFindFindNext)
             .on('Menu.Find.Replace',                  this, this.onFindReplace)
             .on('Menu.Find.ReplaceNext',              this, this.onFindReplaceNext)
+            .on('Menu.NXT.Connect',                   this, this.onMenuNXTConnect)
+            .on('Menu.NXT.Disconnect',                this, this.onMenuNXTDisconnect)
+            .on('Menu.NXT.DeviceCount',               this, this.onMenuNXTDeviceCount)
+            .on('Menu.NXT.DirectControl',             this, this.onMenuNXTDirectControl)
+            .on('Menu.NXT.SensorType',                this, this.onMenuNXTSensorType)
             .on('Menu.EV3.Connect',                   this, this.onMenuEV3Connect)
             .on('Menu.EV3.DaisyChainMode',            this, this.onMenuEV3DaisyChain)
             .on('Menu.EV3.DirectControl',             this, this.onMenuEV3DirectControl)
             .on('Menu.EV3.StopAllMotors',             this, this.onMenuEV3StopAllMotors)
+            .on('Menu.Spike.Connect',                 this, this.onMenuSpikeConnect)
+            .on('Menu.Spike.Disconnect',              this, this.onMenuSpikeDisconnect)
+            .on('Menu.Spike.DeviceCount',             this, this.onMenuSpikeDeviceCount)
+            .on('Menu.Spike.DirectControl',           this, this.onMenuSpikeDirectControl)
             .on('Menu.PoweredUp.Connect',             this, this.onMenuPoweredUpConnect)
             .on('Menu.PoweredUp.Disconnect',          this, this.onMenuPoweredUpDisconnect)
             .on('Menu.PoweredUp.AutoConnect',         this, this.onMenuPoweredUpAutoConnect)
-            .on('Menu.PoweredUp.DeviceCount',         this, this.onMenuPoweredDeviceCount)
+            .on('Menu.PoweredUp.DeviceCount',         this, this.onMenuPoweredUpDeviceCount)
             .on('Menu.PoweredUp.DirectControl',       this, this.onMenuPoweredUpDirectControl)
             .on('Menu.Download.InstallCompiledFiles', this, this.onMenuDownloadInstallCompiledFiles)
             .on('Menu.Compile.Compile',               this, this.onMenuCompileCompile)
@@ -108,20 +117,27 @@ exports.IDE = class extends IDEDOM {
             .on('Compile.Silent',                     this, this.onCompileSilent)
             .on('Form.Show',                          this, this.onShowForm)
             .on('VM.Stop',                            this, this.onVMStop);
-        // EV3...
-        let ev3 = this._ev3;
-        ev3
-            .addEventListener('EV3.Connecting', this, this.onEV3Connecting)
-            .addEventListener('EV3.Connected',  this, this.onEV3Connected);
-        dispatcher.on('Menu.EV3.Disconnect', ev3, ev3.disconnect);
-        this._poweredUp
+        this._devices.nxt
+            .addEventListener('NXT.Connecting',       this, this.onNXTConnecting)
+            .addEventListener('NXT.Connected',        this, this.onNXTConnected)
+            .addEventListener('NXT.Disconnect',       this, this.onNXTDisconnect);
+        this._devices.ev3
+            .addEventListener('EV3.Connecting',       this, this.onEV3Connecting)
+            .addEventListener('EV3.Connected',        this, this.onEV3Connected)
+            .addEventListener('EV3.Disconnect',       this, this.onEV3Disconnect);
+        this._devices.poweredUp
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
-            .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
+            .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected)
+            .addEventListener('PoweredUp.Disconnect', this, this.onPoweredUpDisconnect);
+        this._devices.spike
+            .addEventListener('Spike.Connecting',     this, this.onSpikeConnecting)
+            .addEventListener('Spike.Connected',      this, this.onSpikeConnected);
         this._ideAssistant
             .addEventListener('PoweredUp.Connecting', this, this.onPoweredUpConnecting)
             .addEventListener('PoweredUp.Connected',  this, this.onPoweredUpConnected);
         this._settings
             .addEventListener('Settings.View',        this, this.onViewChanged);
+        dispatcher.on('Menu.EV3.Disconnect', this._devices.ev3, this._devices.ev3.disconnect);
         // Editor...
         let editor = this._editor;
         dispatcher
@@ -164,15 +180,15 @@ exports.IDE = class extends IDEDOM {
             getDataProvider().getData('post', 'powered-up/disconnect-all', {}, (data) => {});
         }
         let poweredUpAutoConnect = this._settings.getPoweredUpAutoConnect().toJSON();
-        getDataProvider().getData(
-            'post',
-            'powered-up/discover',
-            {
-                autoConnect: poweredUpAutoConnect
-            },
-            (data) => {}
-        );
         if (poweredUpAutoConnect.length) {
+            getDataProvider().getData(
+                'post',
+                'powered-up/discover',
+                {
+                    autoConnect: poweredUpAutoConnect
+                },
+                (data) => {}
+            );
             this._ideAssistant.autoConnectPoweredUp();
         }
         return this;
@@ -289,26 +305,7 @@ exports.IDE = class extends IDEDOM {
         if (!editor) {
             return false;
         }
-        setTimeout(
-            function() {
-                // Debug: Check for tabs...
-                let s = editor.getValue();
-                if (['.whlp', '.whl'].indexOf(path.getExtension(pathAndFilename.filename)) !== -1) {
-                    let lines = s.split('\n');
-                    s = '';
-                    for (let i = 0; i < lines.length; i++) {
-                        s += lines[i].trimRight() + '\n';
-                    }
-                    if (s.indexOf('\t') !== -1) {
-                        console.log('Tabs!!!!!');
-                        console.log(s.split('\t').join('@@@@'));
-                        s = s.split('\t').join('    ');
-                    }
-                }
-                callback(s);
-            },
-            1
-        );
+        setTimeout(() => { callback(editor.getValue()); }, 1);
         return true;
     }
 

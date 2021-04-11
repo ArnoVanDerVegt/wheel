@@ -6,6 +6,8 @@ const poweredUpModuleConstants = require('../../../../shared/vm/modules/poweredU
 const dispatcher               = require('../../../lib/dispatcher').dispatcher;
 const DirectControlDialog      = require('./DirectControlDialog').DirectControlDialog;
 
+const SHOW_SIGNAL = 'Dialog.PoweredUpControl.Show';
+
 exports.PoweredUpControlDialog = class extends DirectControlDialog {
     constructor(opts) {
         const validDevices = [
@@ -27,8 +29,11 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
                 poweredUpModuleConstants.POWERED_UP_DEVICE_TECHNIC_MEDIUM_ANGULAR_MOTOR
             ];
         opts.layerCount     = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
+        opts.portsPerLayer  = 4;
         opts.withAlias      = true;
         opts.hasSound       = false;
+        opts.hasVolume      = false;
+        opts.hasBrake       = true;
         opts.title          = 'Powered Up Direct control';
         opts.motorValidator = {
             valid:       function(assigned) { return (assigned !== null) && (validDevices.indexOf(assigned) !== -1); },
@@ -36,7 +41,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
             waiting:     function(assigned) { return false; }
         };
         super(opts);
-        dispatcher.on('Dialog.PoweredUpControl.Show', this, this.onShow);
+        dispatcher.on(SHOW_SIGNAL, this, this.onShow);
     }
 
     initEvents() {
@@ -45,7 +50,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
             for (let output = 0; output < 4; output++) {
                 (function(layer, output) {
                     device.on(
-                        'PoweredUp.Layer' + layer + 'Sensor' + output + 'Assigned',
+                        'PoweredUp.Layer' + layer + '.Assigned' + output,
                         this,
                         function(assigned) {
                             /* eslint-disable no-invalid-this */
@@ -53,7 +58,7 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
                         }
                     );
                     device.on(
-                        'PoweredUp.Layer' + layer + 'Sensor' + output + 'Changed',
+                        'PoweredUp.Layer' + layer + '.Changed' + output,
                         this,
                         function(value) {
                             /* eslint-disable no-invalid-this */
@@ -65,3 +70,5 @@ exports.PoweredUpControlDialog = class extends DirectControlDialog {
         }
     }
 };
+
+exports.PoweredUpControlDialog.SHOW_SIGNAL = SHOW_SIGNAL;

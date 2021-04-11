@@ -31,6 +31,6 @@ proc main()
 end
 @end
 
-@load Open file write example|examples/file/fileWrite.whlp
+@load Open file write example|examples/general/file/fileWrite.whlp
 
 @see file,fileExists,fileOpenWrite,standard,#text,#line,Modules

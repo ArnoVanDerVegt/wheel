@@ -1,0 +1,10 @@
+<svg version="1.1" baseProfile="full" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+    <rect x="8" y="0.5" width="32" height="47" style="fill:rgb(160,160,160);stroke:rgb(0,0,0);stroke-width:0.5;"/>
+    <rect x="6" y="3" rx="0.5" ry="0.5" width="36" height="42" style="fill:rgb(230,230,230);stroke:rgb(0,0,0);stroke-width:0.5;"/>
+    <rect rx="1" ry="1" x="11" y="8" width="26" height="16" style="fill:rgb(100,100,100);stroke:rgb(0,0,0);stroke-width:0.5;"/>
+    <rect rx="1" ry="1" x="21.5" y="27" width="5" height="5" style="fill:rgb(160,160,160);"/>
+    <rect rx="1" ry="1" x="21.5" y="33" width="5" height="3" style="fill:rgb(100,100,100);"/>
+    <polygon points="28,27.5 31,29.5 28,31.5" style="stroke:rgb(140,140,140);stroke-width:1;" stroke-linejoin="round" fill="rgb(140,140,140)" />
+    <polygon points="20,27.5 17,29.5 20,31.5" style="stroke:rgb(140,140,140);stroke-width:1;" stroke-linejoin="round" fill="rgb(140,140,140)" />
+    <rect x="10" y="40.5" width="6" height="3" style="fill:rgba(0,0,0,0.2);"/>
+</svg>

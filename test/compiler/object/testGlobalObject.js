@@ -530,6 +530,44 @@ describe(
                         4413
                     ]
                 );
+                testLogs(
+                    it,
+                    'Should declare an object with and array of object fields',
+                    [
+                        'object Point',
+                        '    number x, y',
+                        'end',
+                        'proc Point.setPos(number x, number y)',
+                        '    self.x = x',
+                        '    self.y = y',
+                        'end',
+                        'proc Point.log()',
+                        '    addr x',
+                        '    mod 0, 1',
+                        '    addr y',
+                        '    mod 0, 1',
+                        'end',
+                        'object Line',
+                        '    Point points[2]',
+                        'end',
+                        'proc Line.test()',
+                        '    points[0].setPos(1397, 5639)',
+                        '    points[1].setPos(4397, 5639)',
+                        'end',
+                        'Line l',
+                        'proc main()',
+                        '    l.test()',
+                        '    l.points[0].log()',
+                        '    l.points[1].log()',
+                        'end'
+                    ],
+                    [
+                        1397,
+                        5639,
+                        4397,
+                        5639
+                    ]
+                );
             }
         );
         describe(

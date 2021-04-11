@@ -26,16 +26,18 @@ exports.MotorModule = class extends VMModule {
     }
 
     getLayerAndIdValid(motor) {
-        let device     = this._device ? this._device() : null;
-        let layerCount = device ? device.getLayerCount() : 4;
-        return ((motor.layer >= 0) && (motor.layer < layerCount)) && ((motor.id >= 0) && (motor.id <= 3));
+        let device           = this._device ? this._device() : null;
+        let activeLayerCount = device.getActiveLayerCount();
+        let portsPerLayer    = device.getPortsPerLayer();
+        return ((motor.layer >= 0) && (motor.layer < activeLayerCount)) && ((motor.id >= 0) && (motor.id < portsPerLayer));
     }
 
     getMotorPort(motor) {
         if (this._device) {
             let device = this._device();
             if (device) {
-                return device.getLayerState(motor.layer).getMotorPort(motor.id);
+                let layerState = device.getLayerState(motor.layer);
+                return layerState ? layerState.getMotorPort(motor.id) : {};
             }
         }
         if (!this._layers[motor.layer]) {
@@ -49,9 +51,10 @@ exports.MotorModule = class extends VMModule {
 
     getMotorReady(motor) {
         let port = this.getMotorPort(motor);
-        if (port.ready) {
+        if (!port || port.ready) {
             return 1;
         }
+        // Todo: Use motor threshold...
         if (port.startDegrees < port.targetDegrees) {
             port.ready = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
         } else {
@@ -64,11 +67,14 @@ exports.MotorModule = class extends VMModule {
         let device = this._device();
         let vm     = this._vm;
         device.module(motorModuleConstants.MODULE_MOTOR, motorModuleConstants.MOTOR_RESET, motor);
+        // Wait until we receive the 0 value back from the backend to continue...
         let callback = () => {
                 vm.sleepForProcess(50);
                 if (!device.getQueueLength()) {
                     let port = this.getMotorPort(motor);
                     if (port.degrees === 0) {
+                        port.targetDegrees = 0;
+                        port.ready         = true;
                         return;
                     }
                 }
@@ -237,9 +243,10 @@ exports.MotorModule = class extends VMModule {
                 this.waitForQueue();
                 motor = vmData.getRecordFromSrcOffset(['layer', 'bits']);
                 value = 1;
-                if ((motor.layer >= 0) && (motor.layer < this._device().getLayerCount())) {
+                let device = this._device();
+                if ((motor.layer >= 0) && (motor.layer < device.getActiveLayerCount())) {
                     let bit = 1;
-                    for (let id = 0; id < 4; id++) {
+                    for (let id = 0; id < device.getPortsPerLayer(); id++) {
                         motor.id = id;
                         if ((motor.bits & bit) === bit) {
                             motorPort = this.getMotorPort(motor);

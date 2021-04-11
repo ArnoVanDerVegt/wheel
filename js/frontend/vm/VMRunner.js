@@ -9,8 +9,10 @@ const Button                     = require('../lib/components/input/Button').But
 const getDataProvider            = require('../lib/dataprovider/dataProvider').getDataProvider;
 const Program                    = require('../program/Program').Program;
 const getImage                   = require('../ide/data/images').getImage;
-const EV3ConnectListDialog       = require('../ide/dialogs/list/EV3ConnectListDialog').EV3ConnectListDialog;
-const PoweredUpConnectListDialog = require('../ide/dialogs/list/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
+const EV3ConnectListDialog       = require('../ide/dialogs/connection/EV3ConnectListDialog').EV3ConnectListDialog;
+const PoweredUpConnectListDialog = require('../ide/dialogs/connection/PoweredUpConnectListDialog').PoweredUpConnectListDialog;
+const SpikeConnectListDialog     = require('../ide/dialogs/connection/SpikeConnectListDialog').SpikeConnectListDialog;
+const NXTConnectListDialog       = require('../ide/dialogs/connection/NXTConnectListDialog').NXTConnectListDialog;
 const FormDialog                 = require('../ide/dialogs/form/FormDialog').FormDialog;
 const ComponentFormContainer     = require('../ide/dialogs/form/ComponentFormContainer').ComponentFormContainer;
 const VM                         = require('./VM').VM;
@@ -21,8 +23,7 @@ exports.VMRunner = class extends DOMNode {
         super(opts);
         this._hasMainWindow          = false;
         this._formDialogs            = [];
-        this._ev3                    = opts.ev3;
-        this._poweredUp              = opts.poweredUp;
+        this._devices                = opts.devices;
         this._projectFilename        = opts.projectFilename;
         this._settings               = opts.settings;
         this._ui                     = opts.ui;
@@ -64,7 +65,7 @@ exports.VMRunner = class extends DOMNode {
                                     {
                                         ref:       this.setRef('targetPlatform'),
                                         className: 'target-platform',
-                                        innerHTML: 'Not device selected'
+                                        innerHTML: 'No device selected'
                                     },
                                     this.initButtons()
                                 ]
@@ -94,7 +95,16 @@ exports.VMRunner = class extends DOMNode {
                     tabIndex:  1,
                     ui:        this._ui,
                     color:     'blue',
-                    value:     'Connect Powered Up',
+                    value:     'Spike',
+                    className: 'connect',
+                    onClick:   this.onClickConnectSpike.bind(this)
+                },
+                {
+                    type:      Button,
+                    tabIndex:  1,
+                    ui:        this._ui,
+                    color:     'blue',
+                    value:     'Powered Up',
                     className: 'connect',
                     onClick:   this.onClickConnectPoweredUp.bind(this)
                 },
@@ -103,17 +113,28 @@ exports.VMRunner = class extends DOMNode {
                     tabIndex:  1,
                     ui:        this._ui,
                     color:     'blue',
-                    value:     'Connect EV3',
+                    value:     'EV3',
                     className: 'connect',
                     onClick:   this.onClickConnectEV3.bind(this)
+                },
+                {
+                    type:      Button,
+                    tabIndex:  1,
+                    ui:        this._ui,
+                    color:     'blue',
+                    value:     'NXT',
+                    className: 'connect',
+                    onClick:   this.onClickConnectNXT.bind(this)
                 }
             ]
         };
     }
 
     initDialogs() {
-        new EV3ConnectListDialog      ({getImage: getImage, ui: this._ui});
+        new EV3ConnectListDialog      ({getImage: getImage, ui: this._ui, settings: this._settings});
         new PoweredUpConnectListDialog({getImage: getImage, ui: this._ui, settings: this._settings});
+        new NXTConnectListDialog      ({getImage: getImage, ui: this._ui, settings: this._settings});
+        new SpikeConnectListDialog    ({getImage: getImage, ui: this._ui, settings: this._settings});
         return this;
     }
 
@@ -142,7 +163,13 @@ exports.VMRunner = class extends DOMNode {
 
     getModules(vm) {
         let device = () => {
-                return (this._settings.getActiveDevice() === 0) ? this._ev3 : this._poweredUp;
+                switch (this._settings.getActiveDevice()) {
+                    case 0: return this._devices.nxt;
+                    case 1: return this._devices.ev3;
+                    case 2: return this._devices.poweredUp;
+                    case 3: return this._devices.spike;
+                }
+                return this._devices.ev3;
             };
         this._localModules = !device().getConnected();
         return vmModuleLoader.load(vm, this._localModules, device, this);
@@ -211,6 +238,16 @@ exports.VMRunner = class extends DOMNode {
     onClickConnectEV3() {
         this._refs.targetPlatform.innerHTML = 'Device: EV3';
         dispatcher.dispatch('Dialog.ConnectEV3.Show');
+    }
+
+    onClickConnectNXT() {
+        this._refs.targetPlatform.innerHTML = 'Device: NXT';
+        dispatcher.dispatch('Dialog.ConnectNXT.Show');
+    }
+
+    onClickConnectSpike() {
+        this._refs.targetPlatform.innerHTML = 'Device: Spike';
+        dispatcher.dispatch('Dialog.ConnectSpike.Show');
     }
 
     stop() {

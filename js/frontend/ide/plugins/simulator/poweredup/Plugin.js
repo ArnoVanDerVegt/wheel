@@ -26,14 +26,14 @@ exports.Plugin = class extends Plugin {
         opts.layerCount       = poweredUpModuleConstants.POWERED_UP_LAYER_COUNT;
         opts.motorConstructor = MotorOrSensor;
         opts.stateConstructor = MotorOrSensorState;
-        opts.ev3              = opts.poweredUp; // Todo: Hack device should be fixed!
+        opts.device           = opts.devices.poweredUp;
         opts.constants        = poweredUpModuleConstants;
+        opts.title            = 'Hub ports';
         super(opts);
         this.initEvents();
-        this._assignmentError  = false;
+        this._assignedError    = false;
         this._buttons          = null;
         this._settings         = opts.settings;
-        this._poweredUp        = opts.poweredUp;
         this._uuid             = '';
         this._simulatedDevices = new SimulatedDevices({});
     }
@@ -42,11 +42,11 @@ exports.Plugin = class extends Plugin {
         let device = this._device;
         for (let i = 0; i < poweredUpModuleConstants.POWERED_UP_LAYER_COUNT; i++) {
             device
-                .on('PoweredUp.Layer' + i + 'Uuid',   this, this.onUuid.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Type',   this, this.onType.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Tilt',   this, this.onTilt.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Button', this, this.onButton.bind(this, i))
-                .on('PoweredUp.Layer' + i + 'Accel',  this, this.onAccel.bind(this, i));
+                .on('PoweredUp.Layer' + i + '.Uuid',   this, this.onUuid.bind(this, i))
+                .on('PoweredUp.Layer' + i + '.Type',   this, this.onType.bind(this, i))
+                .on('PoweredUp.Layer' + i + '.Tilt',   this, this.onTilt.bind(this, i))
+                .on('PoweredUp.Layer' + i + '.Button', this, this.onButton.bind(this, i))
+                .on('PoweredUp.Layer' + i + '.Accel',  this, this.onAccel.bind(this, i));
         }
         this._settings.on('Settings.AliasChanged', this, this.onAliasChanged);
         dispatcher.on('Simulator.Layer.Change', this, this.onChangeLayer.bind(this));
@@ -95,7 +95,7 @@ exports.Plugin = class extends Plugin {
     }
 
     getDeviceStateByLayer(layer) {
-        let layerState = this._poweredUp.getLayerState(layer);
+        let layerState = this._device.getLayerState(layer);
         if (layerState && layerState.getConnected()) {
             return layerState;
         }
@@ -121,7 +121,6 @@ exports.Plugin = class extends Plugin {
     }
 
     getButtons() {
-        let poweredUp = this._poweredUp;
         if (!this._buttons) {
             this._buttons = {
                 readButton: (layer) => {
@@ -227,7 +226,7 @@ exports.Plugin = class extends Plugin {
         let motor  = this._motors[port.layer * 4 + port.id];
         let device = this.getDeviceStateByLayer(port.layer);
         if (device && (device.getType() === poweredUpModuleConstants.POWERED_UP_DEVICE_MOVE_HUB) && (port.id < 2)) {
-            if (!this._assignmentError) {
+            if (!this._assignedError) {
                 dispatcher.dispatch(
                     'Console.Log',
                     {
@@ -235,11 +234,11 @@ exports.Plugin = class extends Plugin {
                         message:   'Error: Can\'t assign motor type to <i>Move Hub</i> port "A" or "B".'
                     }
                 );
-                this._assignmentError = true;
+                this._assignedError = true;
             }
             return; // Can't assign built in motor!
         }
-        this._assignmentError = false;
+        this._assignedError = false;
         motor && motor.getState().setType(port.type);
     }
 

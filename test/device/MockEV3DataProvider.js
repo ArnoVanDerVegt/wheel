@@ -23,6 +23,7 @@ exports.MockEV3DataProvider = class {
         this._layerCount      = null;
         this._data            = null;
         this._polling         = true;
+        this._stoppedAll      = false;
     }
 
     setConnected(connected) {
@@ -59,6 +60,10 @@ exports.MockEV3DataProvider = class {
 
     getPolling() {
         return this._polling;
+    }
+
+    getStoppedAll() {
+        return this._stoppedAll;
     }
 
     getData(method, route, params, callback) {
@@ -109,7 +114,7 @@ exports.MockEV3DataProvider = class {
                 callback(JSON.stringify({}));
                 break;
             case 'post:ev3/stop-all-motors':
-                this._layerCount = params.layerCount;
+                this._stoppedAll = true;
                 break;
             case 'post:ev3/download-data':
                 this._data           = params.data;

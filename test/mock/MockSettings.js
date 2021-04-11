@@ -9,9 +9,13 @@ exports.MockSettings = class {
 
     save() {
         this._saved = true;
+        return this;
     }
 
     getSaved() {
         return this._saved;
+    }
+
+    emit(signal) {
     }
 };

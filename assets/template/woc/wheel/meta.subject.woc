@@ -31,6 +31,50 @@ proc main()
 end
 @end
 
+@section #ifdef, #else, #end
+@keyword ifdef,else,end
+The `#ifdef` meta command allows you to conditionally compile a block of code.
+The `#ifdef` command checks if a value is defined, if the value is defined then the code between the `#ifdef` and the `#end` line is compiled.
+This command only checks if a value is defined, the actual value is irrelevant.
+
+
+The following example shows how to log a number if a value is defined:
+@example
+#include "lib/modules/screen.whl"
+
+#define LOG_NUMBER "The number should be added to the console log..."
+
+proc main()
+    number n
+#ifdef LOG_NUMBER
+    printN(n)
+#end
+end
+@end
+
+
+With the `#else` command you can compile code if the `#ifdef` condition fails:
+
+@example
+#include "lib/modules/screen.whl"
+
+proc main()
+    number n
+#ifdef LOG_NUMBER
+    printN(n)
+#else
+    clearConsole()
+#end
+end
+@end
+
+
+@section Global defines
+
+It's also posible to define constants in the IDE from the `Defines` option in the `Compiler` menu.
+Values configured here can be used in different programs and are stored in the settings.
+
+
 @section #project
 @keyword project
 With the `#project` command you can set the name of the program.
@@ -50,6 +94,20 @@ The optimizer is turned on by default.
 
 @example
 #optimizer "off" ; Turn the optimizer off...
+
+proc main()
+end
+@end
+
+@section #datatype
+The `#datatype` meta command tells the VM what kind of heap memory to allocate.
+There are three possible values:
+* "number" Use numbers, both floats and integers can be used
+* "float" Use 32 bit floating point values
+* "int" Use 32 bit integer values
+
+@example
+#datatype "int"
 
 proc main()
 end
@@ -175,10 +233,35 @@ end
 The `#display` command allows you to show the sensors and/or motors in the simulator,
 it expects one parameter: a comma separated list of plugin names to be shown.
 
-The command is executed when the source file is loaded in the IDE, when the following file is loaded then the
-simulator EV3 and EV3 Sensors plugins will be shown:
+The command is executed when the source file is loaded in the IDE and when the program is compiled,
+when the following file is loaded then the simulator EV3 and EV3 Sensors plugins will be shown:
 @example
 #display "EV3,EV3 Sensors"
+
+proc main()
+end
+@end
+
+To display the console the "Console" parameter can be used:
+
+@example
+#display "Console"
+
+proc main()
+end
+@end
+
+@section #noformat
+The `#noformatter` prevents code after that meta command from being formatted.
+
+@section #format
+This command enables code formatting again and should only be used after the `#noformat` meta command.
+
+@section #alias
+Set a device alias. This command expects two string parameters, a `uuid` string and the `alias` for the uuid.
+
+@example
+#alias "5107039b87e0459898e438d27b9e2c40" "My Powered Up device"
 
 proc main()
 end

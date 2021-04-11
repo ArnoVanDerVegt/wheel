@@ -1,12 +1,21 @@
 const express         = require('express');
-const ideRoutes       = require('./js/backend/routes/ide').ideRoutes;
-const poweredUpRoutes = require('./js/backend/routes/poweredUp').poweredUpRoutes;
+const IDERoutes       = require('./js/backend/routes/IDERoutes').IDERoutes;
+const PoweredUpRoutes = require('./js/backend/routes/device/PoweredUpRoutes').PoweredUpRoutes;
+const PoweredUp       = require('./js/shared/device/poweredup/PoweredUp').PoweredUp;
 const app             = express();
 const bodyParser      = require('body-parser');
 const port            = 3001;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+let ideRoutes       = new IDERoutes({});
+let poweredUpRoutes = new PoweredUpRoutes({
+        poweredUp: new PoweredUp({
+            poweredUpConstructor: require('node-poweredup').PoweredUP,
+            poweredUpConstants:   require('node-poweredup').Consts
+        })
+    });
 
 ideRoutes.setNode(true);
 

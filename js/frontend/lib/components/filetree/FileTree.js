@@ -2,11 +2,11 @@
  * Wheel, copyright (c) 2019 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
+const path            = require('../../../../shared/lib/path');
+const platform        = require('../../../../shared/lib/platform');
 const getDataProvider = require('../../dataprovider/dataProvider').getDataProvider;
 const dispatcher      = require('../../dispatcher').dispatcher;
-const platform        = require('../../platform');
 const DOMNode         = require('../../dom').DOMNode;
-const path            = require('../../path');
 const CloseButton     = require('../input/CloseButton').CloseButton;
 const Button          = require('../input/Button').Button;
 const Resizer         = require('../Resizer').Resizer;
@@ -208,22 +208,24 @@ exports.FileTree = class extends DOMNode {
     onContextMenuRename(item) {
         dispatcher.dispatch(
             'Dialog.File.Rename.Show',
-            'Rename ' + (item.isDirectory() ? 'directory' : 'file'),
-            this._settings.getDocumentPath(),
-            item.getFullPath(),
-            function(filename) {
-                let oldName         = item.getFullPath();
-                let pathAndFilename = path.getPathAndFilename(oldName);
-                let newName         = path.join(pathAndFilename.path, filename);
-                getDataProvider().getData(
-                    'post',
-                    'ide/rename',
-                    {
-                        oldName: oldName,
-                        newName: newName
-                    },
-                    () => {}
-                );
+            {
+                title:        'Rename ' + (item.isDirectory() ? 'directory' : 'file'),
+                documentPath: this._settings.getDocumentPath(),
+                filename:     item.getFullPath(),
+                onApply: function(filename) {
+                    let oldName         = item.getFullPath();
+                    let pathAndFilename = path.getPathAndFilename(oldName);
+                    let newName         = path.join(pathAndFilename.path, filename);
+                    getDataProvider().getData(
+                        'post',
+                        'ide/rename',
+                        {
+                            oldName: oldName,
+                            newName: newName
+                        },
+                        () => {}
+                    );
+                }
             }
         );
     }
