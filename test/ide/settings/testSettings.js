@@ -618,7 +618,7 @@ describe(
                     () => {
                         let settings = new SettingsState.SettingsState({});
                         assert.equal(settings.getDontShowConnected(), false);
-                        dispatcher.dispatch('Settings.Set.DontShowConnected', true);
+                        dispatcher.dispatch('Settings.Set.DontShow.Connected', true);
                         assert.equal(settings.getDontShowConnected(), true);
                     }
                 );
@@ -627,7 +627,7 @@ describe(
                     () => {
                         let settings = new SettingsState.SettingsState({});
                         assert.equal(settings.getDontShowOpenForm(), false);
-                        dispatcher.dispatch('Settings.Set.DontShowOpenForm', true);
+                        dispatcher.dispatch('Settings.Set.DontShow.OpenForm', true);
                         assert.equal(settings.getDontShowOpenForm(), true);
                     }
                 );
@@ -636,7 +636,7 @@ describe(
                     () => {
                         let settings = new SettingsState.SettingsState({});
                         assert.equal(settings.getDontShowThemeTile(), false);
-                        dispatcher.dispatch('Settings.Set.DontShowThemeTile', true);
+                        dispatcher.dispatch('Settings.Set.DontShow.ThemeTile', true);
                         assert.equal(settings.getDontShowThemeTile(), true);
                     }
                 );
