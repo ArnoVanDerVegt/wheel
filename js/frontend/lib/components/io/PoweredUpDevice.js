@@ -33,7 +33,7 @@ exports.PoweredUpDevice = class extends BasicIODevice {
                 this._canSetReady = false;
                 break;
             case poweredUpModuleConstants.POWERED_UP_DEVICE_TRAIN_MOTOR:
-                image = 'images/poweredup/train64.png';
+                image             = 'images/poweredup/train64.png';
                 this._canSetValue = false;
                 this._canSetReady = false;
                 break;
