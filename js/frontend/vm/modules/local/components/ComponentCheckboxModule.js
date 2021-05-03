@@ -27,10 +27,7 @@ exports.ComponentCheckboxModule = class extends VMIDEModule {
                 opts      = vmData.getRecordFromSrcOffset(['window', 'component']);
                 component = this.getComponent(opts.window, opts.component);
                 if (component) {
-                    let n = parseInt(component.getValue(), 10);
-                    if (!isNaN(n)) {
-                        vmData.setNumberAtRet(n);
-                    }
+                    vmData.setNumberAtRet(component.getValue() ? 1 : 0);
                 }
                 break;
         }
