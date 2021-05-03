@@ -13,6 +13,132 @@ const sanitizeString = function(s) {
     };
 
 exports.StandardModule = class extends VMModule {
+    constructor(opts) {
+        super(opts);
+        this._format       = null;
+        this._formatValues = [];
+    }
+
+    setFormatString(formatString) {
+        this._format = {
+            parts:  [],
+            values: []
+        };
+        let format = {parts: [], values: []};
+        let part   = '';
+        let i      = 0;
+        while (i < formatString.length) {
+            let c = formatString[i++];
+            if (c === '%') {
+                if (part !== '') {
+                    format.parts.push(part);
+                    part = '';
+                }
+                c = formatString[i++];
+                let value = {type: '', align: false, value: ''};
+                switch (c) {
+                    case 'n':
+                        value.type = 'number';
+                        break;
+                    case 'N':
+                        value.type  = 'number';
+                        value.align = 'true';
+                        break;
+                    case 's':
+                        value.type = 'string';
+                        break;
+                    default:
+                        value.type = '?';
+                        break;
+                }
+                format.parts.push(value);
+                format.values.push(value);
+            } else {
+                part += c;
+            }
+        }
+        if (part !== '') {
+            format.parts.push(part);
+        }
+        this._formatValues.length = 0;
+        this._format              = format;
+    }
+
+    printFormattedString() {
+        this._formatValues.forEach((value, index) => {
+            this._format.values[index].value = value;
+        });
+        let s = '';
+        this._format.parts.forEach((part, index) => {
+            if (typeof part === 'string') {
+                s += part;
+            } else {
+                if (part.align) {
+                    let n = part.value + '';
+                    s += ('_______' + n).substr(-7);
+                } else {
+                    s += part.value;
+                }
+            }
+        });
+        this.emit(
+            'Console.Log',
+            {
+                type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
+                message: s, pos: {lineNumber: 0, filename: ''}
+            }
+        );
+    }
+
+    printN(n) {
+        let format       = this._format;
+        let formatValues = this._formatValues;
+        if (format) {
+            if (format.values[formatValues.length].type === 'number') {
+                formatValues.push(n);
+            } else {
+                formatValues.push('?');
+            }
+            if (formatValues.length === format.values.length) {
+                this.printFormattedString();
+                formatValues.length = 0;
+            }
+        } else {
+            this.emit(
+                'Console.Log',
+                {
+                    type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
+                    message: n, pos: {lineNumber: 0, filename: ''}
+                }
+            );
+        }
+    }
+
+    printS(s) {
+        let format       = this._format;
+        let formatValues = this._formatValues;
+        if (format) {
+            if (format.values[formatValues.length].type === 'string') {
+                formatValues.push(s);
+            } else {
+                formatValues.push('?');
+            }
+            if (formatValues.length === format.values.length) {
+                this.printFormattedString();
+                formatValues.length = 0;
+            }
+        } else {
+            this.emit(
+                'Console.Log',
+                {
+                    type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
+                    message: sanitizeString(s),
+                    pos:     {lineNumber: 0, filename: ''}
+                }
+            );
+        }
+    }
+
     run(commandId) {
         let vm     = this._vm;
         let vmData = this._vmData;
@@ -27,25 +153,16 @@ exports.StandardModule = class extends VMModule {
                 }
                 break;
             case standardModuleConstants.STANDARD_PRINT_NUMBER:
-                let printNumber = vmData.getRecordFromSrcOffset(['n']);
-                this.emit(
-                    'Console.Log',
-                    {
-                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                        message: printNumber.n, pos: {lineNumber: 0, filename: ''}
-                    }
-                );
+                this.printN(vmData.getRecordFromSrcOffset(['n']).n);
                 break;
             case standardModuleConstants.STANDARD_PRINT_STRING:
-                let printString = vmData.getRecordFromSrcOffset(['s']);
-                this.emit(
-                    'Console.Log',
-                    {
-                        type:    SettingsState.CONSOLE_MESSAGE_TYPE_INFO,
-                        message: sanitizeString(vmData.getStringList()[printString.s]),
-                        pos:     {lineNumber: 0, filename: ''}
-                    }
-                );
+                this.printS(vmData.getStringList()[vmData.getRecordFromSrcOffset(['s']).s]);
+                break;
+            case standardModuleConstants.STANDARD_PRINT_FORMAT:
+                this.setFormatString(vmData.getStringList()[vmData.getRecordFromSrcOffset(['format']).format]);
+                break;
+            case standardModuleConstants.STANDARD_END_FORMAT:
+                this._format = null;
                 break;
             case standardModuleConstants.STANDARD_CLEAR_CONSOLE:
                 this.emit('Console.Clear');
