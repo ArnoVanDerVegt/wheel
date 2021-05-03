@@ -208,8 +208,8 @@ exports.CommandQueue = class {
         // Only allow a message to be send when:
         //     - It's the first message: messageLastTime === null
         //     - The last received message has the same id as the last sent message: id === messageLastId
-        //     - There's a timeout: time > messageLastTime + 100
-        if ((messageLastTime === null) || (Date.now() > messageLastTime + 25) || (id === messageLastId)) {
+        //     - There's a timeout: time > messageLastTime + 50
+        if ((messageLastTime === null) || (Date.now() > messageLastTime + 50) || (id === messageLastId)) {
             this.sendMessage(queue.shift());
         }
     }

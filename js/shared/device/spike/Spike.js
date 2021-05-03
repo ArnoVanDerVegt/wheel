@@ -198,9 +198,6 @@ exports.Spike = class extends BasicDevice {
     }
 
     motorThreshold(layer, motor, threshold) {
-        if (!this.getHubConnected(layer)) {
-            return;
-        }
         this.getLayerPort(layer, motor).threshold = threshold;
     }
 
