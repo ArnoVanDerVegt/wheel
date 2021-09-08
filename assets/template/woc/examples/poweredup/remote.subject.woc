@@ -28,7 +28,7 @@ proc printButton(number button)
     if bitAnd(button, BUTTON_PU_LEFT_CENTER) == BUTTON_PU_LEFT_CENTER
         printS("Left center button")
     end
-    if bitAnd(button, BUTTON_PU_LEFT_RIGHT) == BUTTON_PU_LEFT_RIGHT
+    if bitAnd(button, BUTTON_PU_LEFT_PLUS) == BUTTON_PU_LEFT_PLUS
         printS("Left plus button")
     end
     if bitAnd(button, BUTTON_PU_RIGHT_MIN) == BUTTON_PU_RIGHT_MIN
@@ -37,7 +37,7 @@ proc printButton(number button)
     if bitAnd(button, BUTTON_PU_RIGHT_CENTER) == BUTTON_PU_RIGHT_CENTER
         printS("Right center button")
     end
-    if bitAnd(button, BUTTON_PU_RIGHT_RIGHT) == BUTTON_PU_RIGHT_RIGHT
+    if bitAnd(button, BUTTON_PU_RIGHT_PLUS) == BUTTON_PU_RIGHT_PLUS
         printS("Right plus button")
     end
 end
