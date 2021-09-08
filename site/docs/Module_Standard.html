@@ -50,17 +50,19 @@
                 <table class="help-table constants">
                     <tr><td>STANDARD_PRINT_NUMBER</td><td>1</td></tr>
                     <tr><td>STANDARD_PRINT_STRING</td><td>2</td></tr>
-                    <tr><td>STANDARD_CLEAR_CONSOLE</td><td>3</td></tr>
-                    <tr><td>STANDARD_SLEEP</td><td>4</td></tr>
-                    <tr><td>STANDARD_STOP_VM</td><td>5</td></tr>
-                    <tr><td>STANDARD_STOP_PROGRAM</td><td>6</td></tr>
-                    <tr><td>STANDARD_GET_TIME</td><td>7</td></tr>
+                    <tr><td>STANDARD_PRINT_FORMAT</td><td>3</td></tr>
+                    <tr><td>STANDARD_END_FORMAT</td><td>4</td></tr>
+                    <tr><td>STANDARD_CLEAR_CONSOLE</td><td>5</td></tr>
+                    <tr><td>STANDARD_SLEEP</td><td>6</td></tr>
+                    <tr><td>STANDARD_STOP_VM</td><td>7</td></tr>
+                    <tr><td>STANDARD_STOP_PROGRAM</td><td>8</td></tr>
+                    <tr><td>STANDARD_GET_TIME</td><td>9</td></tr>
                 </table>
             </p>
             <p>
                 <a id="Booleanconstants."></a>
                 <div>Boolean constants.<br/></div>
-                <div class="source-location">Source: lib/modules/standard.whl, line: 21<br/></div>
+                <div class="source-location">Source: lib/modules/standard.whl, line: 23<br/></div>
                 <table class="help-table constants">
                     <tr><td>TRUE</td><td>1</td></tr>
                     <tr><td>FALSE</td><td>0</td></tr>
@@ -70,7 +72,7 @@
             <h4 class="">Procedures</h4>
             <a id="Printanumberintheconsole."></a>
             <h5 class="title-with-source">printN</h5>
-            <div class="source-location">Source: lib/modules/standard.whl, line: 25<br/></div>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 27<br/></div>
             <p>Print a number in the console.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">printN</span><span class="operator">(</span><span class="type">number</span> <span class="variable">n</span><span class="operator">)</span>
 </pre>
@@ -82,7 +84,7 @@
             <hr/>
             <a id="Printastringintheconsole."></a>
             <h5 class="title-with-source">printS</h5>
-            <div class="source-location">Source: lib/modules/standard.whl, line: 32<br/></div>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 34<br/></div>
             <p>Print a string in the console.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">printS</span><span class="operator">(</span><span class="type">string</span> <span class="variable">s</span><span class="operator">)</span>
 </pre>
@@ -92,16 +94,35 @@
                 <tr><td>s</td><td>string</td><td></td></tr>
             </table>
             <hr/>
+            <a id="Setthestringformatting."></a>
+            <h5 class="title-with-source">printFormat</h5>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 41<br/></div>
+            <p>Set the string formatting.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">printFormat</span><span class="operator">(</span><span class="type">string</span> <span class="meta">format</span><span class="operator">)</span>
+</pre>
+            <div>Parameters:<br/></div>
+            <table class="help-table">
+                <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+                <tr><td>format</td><td>string</td><td>The format, for example: "The number: %n, the text: %s"</td></tr>
+            </table>
+            <hr/>
+            <a id="Endthestringformatting."></a>
+            <h5 class="title-with-source">endFormat</h5>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 48<br/></div>
+            <p>End the string formatting.</p>
+            <pre class="wheel"><span class="keyword">proc</span> <span class="variable">endFormat</span><span class="operator">(</span><span class="operator">)</span>
+</pre>
+            <hr/>
             <a id="CleartheconsoleintheIDE."></a>
             <h5 class="title-with-source">clearConsole</h5>
-            <div class="source-location">Source: lib/modules/standard.whl, line: 39<br/></div>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 53<br/></div>
             <p>Clear the console in the IDE.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">clearConsole</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
             <hr/>
             <a id="HalttheexecutionoftheVMforagivennumberofmilliseconds."></a>
             <h5 class="title-with-source">sleep</h5>
-            <div class="source-location">Source: lib/modules/standard.whl, line: 44<br/></div>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 58<br/></div>
             <p>Halt the execution of the VM for a given number of milliseconds.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">sleep</span><span class="operator">(</span><span class="type">number</span> <span class="variable">time</span><span class="operator">)</span>
 </pre>
@@ -113,21 +134,21 @@
             <hr/>
             <a id="StoptheVM,thiscommanddoesnotstoptheprogram."></a>
             <h5 class="title-with-source">stopVM</h5>
-            <div class="source-location">Source: lib/modules/standard.whl, line: 51<br/></div>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 65<br/></div>
             <p>Stop the VM, this command does not stop the program.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">stopVM</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
             <hr/>
             <a id="Stoptheprogram."></a>
             <h5 class="title-with-source">stopProgram</h5>
-            <div class="source-location">Source: lib/modules/standard.whl, line: 56<br/></div>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 70<br/></div>
             <p>Stop the program.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">stopProgram</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
             <hr/>
             <a id="Getthetimevalue."></a>
             <h5 class="title-with-source">getTime</h5>
-            <div class="source-location">Source: lib/modules/standard.whl, line: 61<br/></div>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 75<br/></div>
             <p>Get the time value.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">getTime</span><span class="operator">(</span><span class="operator">)</span>
 </pre>
@@ -135,7 +156,7 @@
             <hr/>
             <a id="Keeplooping,thistrapstheVMinanenlessloopwithoutstopping."></a>
             <h5 class="title-with-source">halt</h5>
-            <div class="source-location">Source: lib/modules/standard.whl, line: 67<br/></div>
+            <div class="source-location">Source: lib/modules/standard.whl, line: 81<br/></div>
             <p>Keep looping, this traps the VM in an enless loop without stopping.</p>
             <pre class="wheel"><span class="keyword">proc</span> <span class="proc">halt</span><span class="operator">(</span><span class="operator">)</span>
 </pre>

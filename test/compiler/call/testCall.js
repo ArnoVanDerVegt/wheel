@@ -1069,7 +1069,6 @@ describe(
                         3, 4
                     ]
                 );
-
                 testLogs(
                     it,
                     'Should call string array parameter',
@@ -1088,6 +1087,50 @@ describe(
                     ],
                     [
                         'a'
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should call record field multiplied parameter',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'proc test(number n)',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end',
+                        'proc main()',
+                        '    number i = 100',
+                        '    Point p',
+                        '    p.x = 5',
+                        '    test(p.x * i)',
+                        'end'
+                    ],
+                    [
+                        500
+                    ]
+                );
+                testLogs(
+                    it,
+                    'Should call record field multiplied parameter',
+                    [
+                        'record Point',
+                        '    number x, y',
+                        'end',
+                        'proc test(number n)',
+                        '    addr n',
+                        '    mod 0, 1',
+                        'end',
+                        'proc main()',
+                        '    number i = 100',
+                        '    Point p[2]',
+                        '    p[1].x = 5',
+                        '    test(p[1].x * i)',
+                        'end'
+                    ],
+                    [
+                        500
                     ]
                 );
             }

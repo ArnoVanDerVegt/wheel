@@ -79,7 +79,7 @@ exports.Plugin = class extends Plugin {
 
     callOnSensorState(layer, id, func, param) {
         let sensor = this.getSensor(layer, id);
-        if (!sensor) {
+        if (!sensor || !sensor.getCurrentSensor) {
             return 0;
         }
         let currentSensor = sensor.getCurrentSensor();

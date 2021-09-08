@@ -29,7 +29,10 @@ exports.CheckboxAndLabel = class extends Component {
                         ui:       this._ui,
                         ref:      this.setRef('checkbox'),
                         checked:  this._checked,
-                        onChange: this._onChange
+                        onChange: (value) => {
+                            this._checked = value;
+                            this._onChange && this._onChange(value);
+                        }
                     },
                     {
                         className: 'label',
@@ -44,6 +47,10 @@ exports.CheckboxAndLabel = class extends Component {
     setDisabled(disabled) {
         super.setDisabled(disabled);
         this._refs.checkbox.setDisabled(disabled);
+    }
+
+    getValue() {
+        return this._checked;
     }
 
     onEvent(opts) {

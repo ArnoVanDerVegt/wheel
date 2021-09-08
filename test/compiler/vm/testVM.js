@@ -2,10 +2,11 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher  = require('../../../js/frontend/lib/dispatcher').dispatcher;
-const testLogs    = require('../../utils').testLogs;
-const testCompile = require('../../utils').testCompile;
-const assert      = require('assert');
+const standardModuleConstants = require('../../../js/shared/vm/modules/standardModuleConstants');
+const dispatcher              = require('../../../js/frontend/lib/dispatcher').dispatcher;
+const testLogs                = require('../../utils').testLogs;
+const testCompile             = require('../../utils').testCompile;
+const assert                  = require('assert');
 
 describe(
     'Test VM',
@@ -122,7 +123,7 @@ describe(
                                 'proc main()',
                                 '    number time = 50',
                                 '    addr time',
-                                '    mod  0, 4',
+                                '    mod  0, ' + standardModuleConstants.STANDARD_SLEEP,
                                 '    repeat',
                                 '    end',
                                 'end'
@@ -221,13 +222,13 @@ describe(
                         let source = [
                                 'proc main()',
                                 '    repeat',
-                                '        mod 0, 7',
+                                '        mod 0, ' + standardModuleConstants.STANDARD_STOP_VM,
                                 '    end',
                                 'end'
                             ];
                         let info = testCompile(source);
                         info.vm.setCommands(info.commands).startRunInterval(() => {});
-                        assert.equal(info.vm.running(), true);
+                        assert.equal(info.vm.running(), false);
                         info.vm.stop();
                     }
                 );
@@ -237,13 +238,13 @@ describe(
                         let source = [
                                 'proc main()',
                                 '    repeat',
-                                '        mod 0, 8',
+                                '        mod 0, ' + standardModuleConstants.STANDARD_STOP_PROGRAM,
                                 '    end',
                                 'end'
                             ];
                         let info = testCompile(source);
                         info.vm.setCommands(info.commands).startRunInterval(() => {});
-                        assert.equal(info.vm.running(), true);
+                        assert.equal(info.vm.running(), false);
                         info.vm.stop();
                     }
                 );

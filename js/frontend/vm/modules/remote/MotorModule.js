@@ -14,6 +14,7 @@ exports.MotorModule = class extends VMModule {
     createMotor() {
         return {
             degrees:       0,
+            lastDegrees:   null,
             assigned:      0,
             startDegrees:  0,
             targetDegrees: 0,
@@ -21,7 +22,8 @@ exports.MotorModule = class extends VMModule {
             speed:         0,
             reverse:       1, // 1 is normal direction, -1 is reverse direction!
             time:          null,
-            messageSent:   false
+            messageSent:   false,
+            threshold:     15
         };
     }
 
@@ -32,14 +34,7 @@ exports.MotorModule = class extends VMModule {
         return ((motor.layer >= 0) && (motor.layer < activeLayerCount)) && ((motor.id >= 0) && (motor.id < portsPerLayer));
     }
 
-    getMotorPort(motor) {
-        if (this._device) {
-            let device = this._device();
-            if (device) {
-                let layerState = device.getLayerState(motor.layer);
-                return layerState ? layerState.getMotorPort(motor.id) : {};
-            }
-        }
+    getMotorLayerPort(motor) {
         if (!this._layers[motor.layer]) {
             this._layers[motor.layer] = [];
         }
@@ -49,16 +44,35 @@ exports.MotorModule = class extends VMModule {
         return this._layers[motor.layer][motor.id];
     }
 
+    getMotorPort(motor) {
+        if (this._device) {
+            let device = this._device();
+            if (device) {
+                let layerState = device.getLayerState(motor.layer);
+                return layerState ? layerState.getMotorPort(motor.id) : {};
+            }
+        }
+        return this.getMotorLayerPort(motor);
+    }
+
     getMotorReady(motor) {
         let port = this.getMotorPort(motor);
         if (!port || port.ready) {
             return 1;
         }
-        // Todo: Use motor threshold...
+        let motorPort = this.getMotorLayerPort(motor);
+        let threshold = motorPort && motorPort.threshold ? motorPort.threshold : 15;
         if (port.startDegrees < port.targetDegrees) {
-            port.ready = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
+            port.ready = (port.degrees >= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < threshold) ? 1 : 0;
         } else {
-            port.ready = (port.degrees <= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < 15) ? 1 : 0;
+            port.ready = (port.degrees <= port.targetDegrees) || (Math.abs(port.degrees - port.targetDegrees) < threshold) ? 1 : 0;
+        }
+        let time = Date.now();
+        if (port.lastDegrees !== port.degrees) {
+            port.lastDegrees    = port.degrees;
+            port.lastChangeTime = time;
+        } else if (time > port.lastChangeTime + 1000) { // If the motor stopped moving for more than a second then call it ready...
+            port.ready = true;
         }
         return port.ready;
     }
@@ -269,6 +283,8 @@ exports.MotorModule = class extends VMModule {
             case motorModuleConstants.MOTOR_THRESHOLD:
                 motor = vmData.getRecordFromSrcOffset(['layer', 'id', 'threshold']);
                 if (this.getLayerAndIdValid(motor)) {
+                    motorPort           = this.getMotorLayerPort(motor);
+                    motorPort.threshold = motor.threshold;
                     this.callModule(motorModuleConstants.MOTOR_THRESHOLD, 'Motor.Threshold', motor);
                 }
                 break;

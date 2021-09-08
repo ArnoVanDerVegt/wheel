@@ -11,11 +11,13 @@
 ; @const Standard module calls.
 #define STANDARD_PRINT_NUMBER   1
 #define STANDARD_PRINT_STRING   2
-#define STANDARD_CLEAR_CONSOLE  3
-#define STANDARD_SLEEP          4
-#define STANDARD_STOP_VM        5
-#define STANDARD_STOP_PROGRAM   6
-#define STANDARD_GET_TIME       7
+#define STANDARD_PRINT_FORMAT   3
+#define STANDARD_END_FORMAT     4
+#define STANDARD_CLEAR_CONSOLE  5
+#define STANDARD_SLEEP          6
+#define STANDARD_STOP_VM        7
+#define STANDARD_STOP_PROGRAM   8
+#define STANDARD_GET_TIME       9
 
 ; @const Boolean constants.
 #define TRUE                    1
@@ -33,6 +35,18 @@ end
 proc printS(string s)
     addr s
     mod  MODULE_STANDARD, STANDARD_PRINT_STRING
+end
+
+; @proc             Set the string formatting.
+; @param format     The format, for example: "The number: %n, the text: %s"
+proc printFormat(string format)
+    addr format
+    mod  MODULE_STANDARD, STANDARD_PRINT_FORMAT
+end
+
+; @proc             End the string formatting.
+proc endFormat()
+    mod  MODULE_STANDARD, STANDARD_END_FORMAT
 end
 
 ; @proc             Clear the console in the IDE.

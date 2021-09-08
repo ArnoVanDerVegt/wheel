@@ -2,11 +2,12 @@
  * Wheel, copyright (c) 2017 - present by Arno van der Vegt
  * Distributed under an MIT license: https://arnovandervegt.github.io/wheel/license.txt
 **/
-const dispatcher     = require('../../../js/frontend/lib/dispatcher').dispatcher;
-const testModuleCall = require('../../utils').testModuleCall;
-const testLogs       = require('../../utils').testLogs;
-const testCompile    = require('../../utils').testCompile;
-const assert         = require('assert');
+const standardModuleConstants = require('../../../js/shared/vm/modules/standardModuleConstants');
+const dispatcher              = require('../../../js/frontend/lib/dispatcher').dispatcher;
+const testModuleCall          = require('../../utils').testModuleCall;
+const testLogs                = require('../../utils').testLogs;
+const testCompile             = require('../../utils').testCompile;
+const assert                  = require('assert');
 
 describe(
     'Test Standard module',
@@ -16,7 +17,7 @@ describe(
             () => {
                 let source = [
                         'proc main()',
-                        '    mod 0, 3',
+                        '    mod 0, ' + standardModuleConstants.STANDARD_CLEAR_CONSOLE,
                         'end'
                     ];
                 let info    = testCompile(source);
