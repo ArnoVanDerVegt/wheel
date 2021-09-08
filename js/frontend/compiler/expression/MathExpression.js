@@ -181,6 +181,7 @@ exports.MathExpression = class {
             switch (token.cls) {
                 case t.TOKEN_BRACKET_OPEN:
                     let open = 1;
+                    index++;
                     while ((open > 0) && (index < endIndex)) {
                         token = tokens[index++];
                         switch (token.cls) {
