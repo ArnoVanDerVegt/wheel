@@ -50,7 +50,6 @@ exports.CheckboxAndLabel = class extends Component {
     }
 
     getValue() {
-        console.log('checked:', this._checked);
         return this._checked;
     }
 

@@ -134,7 +134,6 @@ exports.GraphDialog = class extends Dialog {
         if (opts.deviceCount <= 1) {
             this._layer = 0;
         }
-        console.log('opts:', opts);
         [4, 6].forEach((portCount) => {
             refs['ports' + portCount].style.display = (portCount === opts.portsPerLayer) ? 'block' : 'none';
         });
