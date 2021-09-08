@@ -23,10 +23,10 @@
 ; @const The Powered Up button bits.
 #define BUTTON_PU_LEFT_MIN       1
 #define BUTTON_PU_LEFT_CENTER    2
-#define BUTTON_PU_LEFT_RIGHT     4
+#define BUTTON_PU_LEFT_PLUS      4
 #define BUTTON_PU_RIGHT_MIN      8
 #define BUTTON_PU_RIGHT_CENTER  16
-#define BUTTON_PU_RIGHT_RIGHT   32
+#define BUTTON_PU_RIGHT_PLUS    32
 
 ; @const Spike connect button.
 #define BUTTON_SPIKE_CONNECT     6
@@ -36,8 +36,8 @@
 ; @return           In case of EV3 then button pressed value -if any-: `BUTTON_NONE`, `BUTTON_LEFT`, `BUTTON_CENTER`, `BUTTON_RIGHT`,
 ;                   `BUTTON_UP` or `BUTTON_DOWN`.
 ;                   In case of Powered Up then the value can contain one or more bits:
-;                   `BUTTON_PU_LEFT_MIN`, `BUTTON_PU_LEFT_CENTER`, `BUTTON_PU_LEFT_RIGHT`, `BUTTON_PU_LEFT_MIN`,
-;                   `BUTTON_PU_LEFT_CENTER` or `BUTTON_PU_LEFT_RIGHT`.
+;                   `BUTTON_PU_LEFT_MIN`, `BUTTON_PU_LEFT_CENTER`, `BUTTON_PU_LEFT_PLUS`, `BUTTON_PU_LEFT_MIN`,
+;                   `BUTTON_PU_LEFT_CENTER` or `BUTTON_PU_LEFT_PLUS`.
 ;                   For Spike the button value can be `BUTTON_LEFT`, `BUTTON_CENTER` `BUTTON_RIGHT` or `BUTTON_SPIKE_CONNECT`.
 proc buttonLayer(number layer)
     addr layer
@@ -48,8 +48,8 @@ end
 ; @return           In case of EV3 then button pressed value -if any-: `BUTTON_NONE`, `BUTTON_LEFT`, `BUTTON_CENTER`, `BUTTON_RIGHT`,
 ;                   `BUTTON_UP` or `BUTTON_DOWN`.
 ;                   In case of Powered Up then the value can contain one or more bits:
-;                   `BUTTON_PU_LEFT_MIN`, `BUTTON_PU_LEFT_CENTER`, `BUTTON_PU_LEFT_RIGHT`, `BUTTON_PU_LEFT_MIN`,
-;                   `BUTTON_PU_LEFT_CENTER` or `BUTTON_PU_LEFT_RIGHT`.
+;                   `BUTTON_PU_LEFT_MIN`, `BUTTON_PU_LEFT_CENTER`, `BUTTON_PU_LEFT_PLUS`, `BUTTON_PU_LEFT_MIN`,
+;                   `BUTTON_PU_LEFT_CENTER` or `BUTTON_PU_LEFT_PLUS`.
 ;                   For Spike the button value can be `BUTTON_LEFT`, `BUTTON_CENTER` `BUTTON_RIGHT` or `BUTTON_SPIKE_CONNECT`.
 proc button()
     ret buttonLayer(0)
