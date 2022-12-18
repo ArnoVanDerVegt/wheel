@@ -61,7 +61,7 @@ exports.FileRenameDialog = class extends FileDialog {
 
     onShow(opts) {
         let refs = this._refs;
-        refs.name.innerHTML  = filename.substr(opts.documentPath.length, opts.filename.length - opts.documentPath.length);
+        refs.name.innerHTML  = opts.filename.substr(opts.documentPath.length, opts.filename.length - opts.documentPath.length);
         refs.title.innerHTML = opts.title;
         this._onApply        = opts.onApply;
         super.show();
