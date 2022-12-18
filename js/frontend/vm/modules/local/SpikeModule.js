@@ -26,6 +26,9 @@ exports.SpikeModule = class extends VMModule {
             case spikeModuleConstants.SPIKE_LAYER_SET_LED:
                 this.emit('Spike.MatrixSetLed', vmData.getRecordFromSrcOffset(['layer', 'x', 'y', 'brightness']));
                 break;
+            case spikeModuleConstants.SPIKE_LAYER_SET_ULTRASONIC_LIGHT:
+                this.emit('Spike.SetUltraSonicLight', vmData.getRecordFromSrcOffset(['layer', 'port', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight']));
+                break;
         }
     }
 };

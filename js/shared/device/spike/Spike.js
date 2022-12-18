@@ -244,17 +244,31 @@ exports.Spike = class extends BasicDevice {
         return result;
     }
 
-    setLed(layer, color) {
+    setUltrasonicLight(layer, port, topLeft, topRight, bottomLeft, bottomRight) {
         layer = this._layers[layer];
         if (!layer) {
             return;
         }
         layer.commandQueue.addToCommandQueue({
-            m: constants.COMMAND_BUTTON_LIGHTS,
+            m: constants.COMMAND_ULTRASONIC_LIGHT_UP,
             p: {
-                color: color
+                port:   INDEX_TO_PORT[port],
+                lights: [topLeft, topRight, bottomLeft, bottomRight]
             }
         });
+    }
+
+    setLed(layer, color) {
+        layer = this._layers[layer];
+        if (!layer) {
+            return;
+        }
+        // layer.commandQueue.addToCommandQueue({
+        //     m: constants.COMMAND_BUTTON_LIGHTS,
+        //     p: {
+        //         color: color
+        //     }
+        // });
     }
 
     matrixClearLeds(layer) {
@@ -287,13 +301,16 @@ exports.Spike = class extends BasicDevice {
         if (!layer) {
             return;
         }
-        layer.commandQueue.addToCommandQueue({
-            m: constants.COMMAND_DISPLAY_TEXT,
-            p: {
-                text: text
-            }
-        });
+        // layer.commandQueue.addToCommandQueue({
+        //     m: constants.COMMAND_DISPLAY_TEXT,
+        //     p: {
+        //         text: text
+        //     }
+        // });
     }
+
+// {"i":"rZZN","m":"scratch.display_image_for","p":"duration":2000,"image":"99099:99099:00000:90009:09990"}}
+// {"i":"qiIx","m":"scratch.display_image","p":{"image":"99099:99099:00000:90009:09990"}}
 
     getPortsPerLayer() {
         return 6;

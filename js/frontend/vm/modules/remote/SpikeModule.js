@@ -71,6 +71,7 @@ exports.SpikeModule = class extends LocalSpikeModule {
         let vm     = this._vm;
         let device = this._device();
         let led;
+        let light;
         switch (commandId) {
             case spikeModuleConstants.SPIKE_LAYER_START:
                 this._writeOffset = vmData.getRegSrc();
@@ -93,6 +94,11 @@ exports.SpikeModule = class extends LocalSpikeModule {
                 led.text = vmData.getStringList()[led.text];
                 this._device().module(spikeModuleConstants.MODULE_SPIKE, commandId, led);
                 this.emit('Spike.MatrixSetText', led);
+                break;
+            case spikeModuleConstants.SPIKE_LAYER_SET_ULTRASONIC_LIGHT:
+                light = vmData.getRecordFromSrcOffset(['layer', 'port', 'topLeft', 'topRight', 'bottomLeft', 'bottomRight']);
+                this._device().module(spikeModuleConstants.MODULE_SPIKE, commandId, light);
+                this.emit('Spike.SetUltraSonicLight', light);
                 break;
         }
     }

@@ -17,6 +17,9 @@ exports.SpikeModule = class extends BasicDeviceModule {
             case spikeModuleConstants.SPIKE_LAYER_SET_TEXT:
                 this._device.matrixSetText(data.layer, data.text);
                 break;
+            case spikeModuleConstants.SPIKE_LAYER_SET_ULTRASONIC_LIGHT:
+                this._device.setUltrasonicLight(data.layer, data.port, data.topLeft, data.topRight, data.bottomLeft, data.bottomRight);
+                break;
         }
     }
 };

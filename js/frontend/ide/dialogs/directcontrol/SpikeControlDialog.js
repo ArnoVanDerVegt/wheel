@@ -18,7 +18,11 @@ exports.SpikeControlDialog = class extends DirectControlDialog {
         opts.title          = 'Spike Direct control';
         opts.motorValidator = {
             valid: function(assigned) {
-                return (assigned !== null) && ([spikeModuleConstants.SPIKE_DEVICE_MEDIUM_MOTOR, spikeModuleConstants.SPIKE_DEVICE_LARGE_MOTOR].indexOf(assigned) !== -1);
+                return (assigned !== null) && ([
+                    spikeModuleConstants.SPIKE_DEVICE_SMALL_MOTOR,
+                    spikeModuleConstants.SPIKE_DEVICE_MEDIUM_MOTOR,
+                    spikeModuleConstants.SPIKE_DEVICE_LARGE_MOTOR
+                ].indexOf(assigned) !== -1);
             },
             hasPosition: function(assigned) {
                 return true;

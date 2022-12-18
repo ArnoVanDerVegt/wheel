@@ -30,6 +30,7 @@
 #define SPIKE_LAYER_CLEAR_LEDS                  1
 #define SPIKE_LAYER_SET_LED                     2
 #define SPIKE_LAYER_SET_TEXT                    3
+#define SPIKE_LAYER_SET_ULTRASONIC_LIGHT        4
 
 ; @const Devive types.
 #define SPIKE_DEVICE_MEDIUM_MOTOR               1 ; `image:images/spike/motorMedium64.png`
@@ -98,4 +99,9 @@ end
 proc spikeLayerSetText(number layer, string text)
     addr layer
     mod  MODULE_SPIKE, SPIKE_LAYER_SET_TEXT
+end
+
+proc spikeLayerSetUltrasonicLight(number layer, number port, number topLeft, number topRight, number bottomLeft, number bottomRight)
+    addr layer
+    mod  MODULE_SPIKE, SPIKE_LAYER_SET_ULTRASONIC_LIGHT
 end

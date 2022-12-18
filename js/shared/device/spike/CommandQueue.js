@@ -136,9 +136,19 @@ exports.CommandQueue = class {
                 continue;
             }
             switch (portInfo[0] || 0) {
+                case constants.DEVICE_TYPE_SMALL_MOTOR:
+                    port.isMotor  = true;
+                    port.assigned = spikeModuleConstants.SPIKE_DEVICE_SMALL_MOTOR;
+                    port.value    = portInfo[1][1];
+                    break;
                 case constants.DEVICE_TYPE_MEDIUM_MOTOR:
                     port.isMotor  = true;
                     port.assigned = spikeModuleConstants.SPIKE_DEVICE_MEDIUM_MOTOR;
+                    port.value    = portInfo[1][1];
+                    break;
+                case constants.DEVICE_TYPE_LARGE_MOTOR:
+                    port.isMotor  = true;
+                    port.assigned = spikeModuleConstants.SPIKE_DEVICE_LARGE_MOTOR;
                     port.value    = portInfo[1][1];
                     break;
                 case constants.DEVICE_TYPE_COLOR_SENSOR:
@@ -155,6 +165,10 @@ exports.CommandQueue = class {
                 case constants.DEVICE_TYPE_FORCE_SENSOR:
                     port.isMotor  = false;
                     port.assigned = sensorModuleConstants.SENSOR_TYPE_SPIKE_FORCE;
+                    break;
+                case constants.DEVICE_TYPE_LIGHT:
+                    port.isMotor  = false;
+                    port.assigned = sensorModuleConstants.SENSOR_TYPE_SPIKE_LIGHT;
                     break;
                 default:
                     port.assigned = 0;

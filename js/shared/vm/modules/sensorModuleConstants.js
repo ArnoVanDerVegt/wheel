@@ -24,6 +24,7 @@ exports.SENSOR_TYPE_INFRARED        = 33;
 exports.SENSOR_TYPE_SPIKE_DISTANCE  = 40;
 exports.SENSOR_TYPE_SPIKE_COLOR     = 41;
 exports.SENSOR_TYPE_SPIKE_FORCE     = 42;
+exports.SENSOR_TYPE_SPIKE_LIGHT     = 43;
 
 exports.COLOR_REFLECTED             =  0;
 exports.COLOR_AMBIENT               =  1;

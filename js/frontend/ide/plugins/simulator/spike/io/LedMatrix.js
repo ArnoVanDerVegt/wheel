@@ -150,7 +150,8 @@ exports.LedMatrix = class extends DOMNode {
     }
 
     setText(text) {
-        if (!text.length) {
+/*
+        if ((typeof text !== 'string') || !text.length) {
             return;
         }
         if (this._textTimeout) {
@@ -184,6 +185,7 @@ exports.LedMatrix = class extends DOMNode {
                 i++;
             };
         callback();
+*/
     }
 
     clear() {
