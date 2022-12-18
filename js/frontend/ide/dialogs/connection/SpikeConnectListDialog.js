@@ -54,7 +54,11 @@ exports.SpikeConnectListDialog = class extends ListDialog {
         }
         if (data) {
             this._list = data.list;
-            this.showList(data.list);
+            this._list.forEach((item) => {
+                item.toString = (function() { return this.title; }).bind(item);
+            })
+            this._list.sort();
+            this.showList(this._list);
             if (this._listItems && this._listItems.length) {
                 this._listItems[0].focus();
             } else {
