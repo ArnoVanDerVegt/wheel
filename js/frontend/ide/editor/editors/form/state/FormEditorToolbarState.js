@@ -67,34 +67,42 @@ exports.FormEditorToolbarState = class extends Emitter {
     }
 
     setInputComponent(inputComponent) {
+        this._componentTypes = formEditorConstants.COMPONENT_TYPES_INPUT;
         this._inputComponent = inputComponent;
     }
 
     setTextComponent(textComponent) {
-        this._textComponent = textComponent;
+        this._componentTypes = formEditorConstants.COMPONENT_TYPES_TEXT;
+        this._textComponent  = textComponent;
     }
 
     setPanelComponent(panelComponent) {
+        this._componentTypes = formEditorConstants.COMPONENT_TYPES_PANEL;
         this._panelComponent = panelComponent;
     }
 
     setGraphicsComponent(graphicsComponent) {
+        this._componentTypes    = formEditorConstants.COMPONENT_TYPES_GRAPHICS;
         this._graphicsComponent = graphicsComponent;
     }
 
     setStatusComponent(statusComponent) {
+        this._componentTypes  = formEditorConstants.COMPONENT_TYPES_STATUS;
         this._statusComponent = statusComponent;
     }
 
     setIOComponent(ioComponent) {
-        this._ioComponent = ioComponent;
+        this._componentTypes = formEditorConstants.IO_DISPLAY_COMPONENTS;
+        this._ioComponent    = ioComponent;
     }
 
     setDialogComponent(dialogComponent) {
+        this._componentTypes  = formEditorConstants.DIALOG_COMPONENTS;
         this._dialogComponent = dialogComponent;
     }
 
     setNonVisualComponent(nonVisualComponent) {
+        this._componentTypes     = formEditorConstants.NON_VISUAL_COMPONENTS;
         this._nonVisualComponent = nonVisualComponent;
     }
 };
